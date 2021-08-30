@@ -1,0 +1,14 @@
+<!-- Add class for removing hashes in the URL -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const removeHash = () => {
+      const { title } = document;
+      const { origin, pathname, search } = window.location;
+
+      setTimeout(() => history.replaceState('', title, origin + pathname + search), 5);
+    };
+
+    const links = document.querySelectorAll('.no-anchor');
+    links.forEach((link) => link.addEventListener('click', removeHash));
+  });
+</script>
