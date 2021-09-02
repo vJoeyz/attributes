@@ -2,7 +2,9 @@
 import esbuild from 'esbuild';
 import dotenv from 'dotenv';
 
-dotenv.config();
+dotenv.config({ path: '../../.env' });
+
+const production = process.env.NODE_ENV === 'production';
 
 /**
  * Default Settings
@@ -19,5 +21,5 @@ const defaultSettings = {
 esbuild.build({
   ...defaultSettings,
   entryPoints: ['src/index.ts'],
-  outfile: `${process.env.CUSTOM_BUILD_DIRECTORY || ''}/components.js`,
+  outfile: `${production ? '' : process.env.CUSTOM_BUILD_DIRECTORY || ''}/components.js`,
 });

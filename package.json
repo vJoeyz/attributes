@@ -30,6 +30,7 @@
     "@finsweet/eslint-config": "^1.0.12",
     "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",
+    "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "esbuild": "^0.12.25",
     "eslint": "^7.32.0",
