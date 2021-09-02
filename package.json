@@ -1,18 +1,13 @@
 {
   "name": "@finsweet/attributes",
-  "version": "0.0.1",
-  "description": "Developer starter template for Finsweet projects.",
-  "main": "src/index.ts",
-  "module": "src/index.ts",
+  "description": "Finsweet's Attributes monorepo.",
   "type": "module",
+  "private": true,
   "workspaces": [
     "packages\\a11y",
     "packages\\components",
     "packages\\copyclip"
   ],
-  "scripts": {
-    "build": "node ./bin/build.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/finsweet/attributes.git"
@@ -20,13 +15,13 @@
   "keywords": [
     "webflow",
     "finsweet",
-    "no-code"
+    "no-code",
+    "attributes"
   ],
   "author": {
     "name": "Finsweet",
     "url": "https://www.finsweet.com/"
   },
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/finsweet/attributes/issues"
   },

@@ -1,8 +1,8 @@
 {
-  "name": "@finsweet/attributes-components",
+  "name": "@finsweet/attributes-scrolldisable",
   "version": "1.0.0",
-  "description": "Custom components for Webflow.",
-  "main": "components.js",
+  "description": "Disables scrolling on certain events.",
+  "main": "scrolldisable.js",
   "type": "module",
   "scripts": {
     "build": "node ./bin/build.js"
@@ -14,7 +14,8 @@
   "keywords": [
     "webflow",
     "copy",
-    "clipboard",
+    "scroll",
+    "disable scrolling",
     "attributes",
     "no code"
   ],
