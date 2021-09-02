@@ -1,0 +1,29 @@
+{
+  "name": "@finsweet/attributes-components",
+  "version": "0.0.1",
+  "description": "Custom components for Webflow.",
+  "main": "components.js",
+  "type": "module",
+  "scripts": {
+    "build": "node ./bin/build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/finsweet/attributes.git"
+  },
+  "keywords": [
+    "webflow",
+    "copy",
+    "clipboard",
+    "attributes",
+    "no code"
+  ],
+  "author": {
+    "name": "Finsweet",
+    "url": "https://www.finsweet.com/"
+  },
+  "bugs": {
+    "url": "https://sweetjs.finsweet.com/"
+  },
+  "homepage": "https://www.finsweet.com/attributes"
+}

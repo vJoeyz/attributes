@@ -1,9 +1,7 @@
 import { observeAriaControls } from './aria/aria-controls';
-import { initComboBoxes } from './components/combo-box';
-import { emitClickEvents } from './keyboard-navigation/clicks';
+import { emitClickEvents } from './keyboard/keyboard-clicks';
 
 document.addEventListener('DOMContentLoaded', () => {
   emitClickEvents();
   observeAriaControls();
-  // initComboBoxes();
 });

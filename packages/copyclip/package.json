@@ -1,0 +1,32 @@
+{
+  "name": "@finsweet/attributes-copyclip",
+  "version": "0.0.1",
+  "description": "Set any element to copy a string value to the clipboard when clicking on it.",
+  "main": "copyclip.js",
+  "type": "module",
+  "scripts": {
+    "build": "node ./bin/build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/finsweet/attributes.git"
+  },
+  "keywords": [
+    "webflow",
+    "copy",
+    "clipboard",
+    "attributes",
+    "no code"
+  ],
+  "author": {
+    "name": "Finsweet",
+    "url": "https://www.finsweet.com/"
+  },
+  "bugs": {
+    "url": "https://sweetjs.finsweet.com/"
+  },
+  "homepage": "https://www.finsweet.com/attributes",
+  "dependencies": {
+    "clipboard": "^2.0.8"
+  }
+}

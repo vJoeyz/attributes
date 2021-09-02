@@ -5,6 +5,11 @@
   "main": "src/index.ts",
   "module": "src/index.ts",
   "type": "module",
+  "workspaces": [
+    "packages\\a11y",
+    "packages\\components",
+    "packages\\copyclip"
+  ],
   "scripts": {
     "build": "node ./bin/build.js"
   },
@@ -27,22 +32,19 @@
   },
   "homepage": "https://github.com/finsweet/attributes#readme",
   "devDependencies": {
-    "@finsweet/eslint-config": "^1.0.9",
-    "@types/lodash-es": "^4.17.4",
-    "@types/uuid": "^8.3.1",
-    "@typescript-eslint/eslint-plugin": "^4.29.0",
-    "@typescript-eslint/parser": "^4.29.0",
-    "esbuild": "^0.12.18",
+    "@finsweet/eslint-config": "^1.0.12",
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
+    "@typescript-eslint/parser": "^4.30.0",
+    "dotenv": "^10.0.0",
+    "esbuild": "^0.12.25",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.3.2",
-    "typescript": "^4.3.5"
+    "typescript": "^4.4.2"
   },
   "dependencies": {
-    "@finsweet/ts-utils": "^0.9.1",
-    "just-debounce": "^1.1.0",
-    "lodash-es": "^4.17.21",
-    "uuid": "^8.3.2"
+    "@finsweet/ts-utils": "^0.10.0",
+    "just-debounce": "^1.1.0"
   }
 }

@@ -1,5 +1,8 @@
 // Import ESBuild
 import esbuild from 'esbuild';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 /**
  * Default Settings
@@ -9,14 +12,12 @@ const defaultSettings = {
   bundle: true,
   minify: true,
   sourcemap: false,
-  // watch: true,
-  outdir: 'dist',
-  // outdir: '../../../Users/alexi/OneDrive/Espai de Treball/Finsweet/USWDS',
   target: 'es6',
 };
 
 // Files building
-esbuild.buildSync({
+esbuild.build({
   ...defaultSettings,
-  entryPoints: ['src/a11y/index.ts', 'src/a11y/components/icons.ts', 'src/a11y/aria/aria-controls.ts'],
+  entryPoints: ['src/index.ts'],
+  outfile: `${process.env.CUSTOM_BUILD_DIRECTORY || ''}/copyclip.js`,
 });

@@ -1,0 +1,1 @@
+(()=>{window.fsAttributes||(window.fsAttributes={});var n="fs-attributes",o={preventLoad:`${n}-preventload`},e=t=>typeof(t==null?void 0:t.getAttribute(o.preventLoad))=="string";var{currentScript:i}=document;e(i)&&(window.fsAttributes.copyClip={init:"test"});})();
