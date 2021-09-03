@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Accessibility JS solutions for Webflow.",
   "main": "a11y.js",
+  "files": [
+    "a11y.js"
+  ],
   "type": "module",
   "scripts": {
     "dev": "cross-env NODE_ENV=development node ./bin/build.js",
