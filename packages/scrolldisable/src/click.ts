@@ -12,7 +12,7 @@ const {
  * @param preserveScrollTargets The targets where scrolling must be preserved.
  */
 export const initClickTriggers = (preserveScrollTargets: NodeListOf<Element>): void => {
-  document.addEventListener('click', ({ target }) => {
+  window.addEventListener('click', ({ target }) => {
     if (!(target instanceof HTMLElement)) return;
 
     // Get trigger

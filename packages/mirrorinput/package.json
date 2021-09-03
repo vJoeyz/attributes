@@ -1,0 +1,40 @@
+{
+  "name": "@finsweet/attributes-mirrorinput",
+  "version": "1.0.0",
+  "description": "Mirrors click events between two elements.",
+  "main": "mirrorinput.js",
+  "files": [
+    "mirrorinput.js"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development node ./bin/build.js",
+    "build": "cross-env NODE_ENV=production node ./bin/build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/finsweet/attributes.git"
+  },
+  "keywords": [
+    "webflow",
+    "copy",
+    "scroll",
+    "disable scrolling",
+    "attributes",
+    "no code"
+  ],
+  "author": {
+    "name": "Finsweet",
+    "url": "https://www.finsweet.com/"
+  },
+  "bugs": {
+    "url": "https://sweetjs.finsweet.com/"
+  },
+  "homepage": "https://www.finsweet.com/attributes",
+  "dependencies": {
+    "body-scroll-lock": "^4.0.0-beta.0"
+  },
+  "devDependencies": {
+    "@types/body-scroll-lock": "^3.1.0"
+  }
+}

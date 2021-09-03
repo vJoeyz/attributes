@@ -2,7 +2,7 @@ const ATTRIBUTES_PREFIX = 'fs-scrolldisable';
 
 export const ATTRIBUTES = {
   /**
-   * Defines an element that will act as trigger based on its value: {@link ATTRIBUTES_VALUES}.
+   * Defines an element that will act as trigger based on its value.
    */
   element: {
     key: `${ATTRIBUTES_PREFIX}-element`,
@@ -70,6 +70,9 @@ export const ATTRIBUTES = {
   gap: { key: `${ATTRIBUTES_PREFIX}-gap`, values: { true: 'true', false: 'false' } },
 } as const;
 
+/**
+ * Defines the `Navbar` component media breakpoints.
+ */
 export const NAV_MEDIAS = {
   medium: 'max-width: 991px',
   small: 'max-width: 767px',
