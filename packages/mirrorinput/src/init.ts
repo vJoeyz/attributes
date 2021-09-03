@@ -13,7 +13,7 @@ export const init = (): void => {
   window.addEventListener('input', ({ target }) => {
     if (!(target instanceof Element)) return;
 
-    const mirrorTrigger = target.closest(`[${elementKey}="${elementValues.trigger}"]`);
+    const mirrorTrigger = target.closest(`[${elementKey}^="${elementValues.trigger}"]`);
     if (!isFormField(mirrorTrigger)) return;
 
     // Get the instance index

@@ -1,10 +1,10 @@
 {
-  "name": "@finsweet/attributes-ATTRIBUTE_KEY",
+  "name": "@finsweet/attributes-linkblockedit",
   "version": "1.0.0",
-  "description": "Description.",
-  "main": "ATTRIBUTE_KEY.js",
+  "description": "Editor friendly link blocks.",
+  "main": "linkblockedit.js",
   "files": [
-    "ATTRIBUTE_KEY.js"
+    "linkblockedit.js"
   ],
   "type": "module",
   "scripts": {

@@ -13,7 +13,7 @@ export const init = (): void => {
   window.addEventListener('click', ({ target }) => {
     if (!(target instanceof Element)) return;
 
-    const mirrorTrigger = target.closest(`[${elementKey}="${elementValues.trigger}"]`);
+    const mirrorTrigger = target.closest(`[${elementKey}^="${elementValues.trigger}"]`);
     if (!mirrorTrigger) return;
 
     // Get the instance index
