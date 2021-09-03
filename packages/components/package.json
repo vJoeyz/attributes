@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Custom components for Webflow.",
   "main": "components.js",
+  "files": [
+    "components.js"
+  ],
   "type": "module",
   "scripts": {
     "dev": "cross-env NODE_ENV=development node ./bin/build.js",
