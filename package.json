@@ -6,18 +6,13 @@
   "workspaces": [
     "packages\\a11y",
     "packages\\components",
-    "packages\\copyclip"
+    "packages\\copyclip",
+    "packages\\scrolldisable"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/finsweet/attributes.git"
   },
-  "keywords": [
-    "webflow",
-    "finsweet",
-    "no-code",
-    "attributes"
-  ],
   "author": {
     "name": "Finsweet",
     "url": "https://www.finsweet.com/"
