@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Disables scrolling on certain events.",
   "main": "scrolldisable.js",
+  "files": [
+    "scrolldisable.js"
+  ],
   "type": "module",
   "scripts": {
     "dev": "cross-env NODE_ENV=development node ./bin/build.js",
@@ -27,5 +30,11 @@
   "bugs": {
     "url": "https://sweetjs.finsweet.com/"
   },
-  "homepage": "https://www.finsweet.com/attributes"
+  "homepage": "https://www.finsweet.com/attributes",
+  "dependencies": {
+    "body-scroll-lock": "^4.0.0-beta.0"
+  },
+  "devDependencies": {
+    "@types/body-scroll-lock": "^3.1.0"
+  }
 }
