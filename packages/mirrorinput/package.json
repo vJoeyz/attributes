@@ -1,7 +1,7 @@
 {
   "name": "@finsweet/attributes-mirrorinput",
   "version": "1.0.0",
-  "description": "Mirrors click events between two elements.",
+  "description": "Mirrors input events between two elements.",
   "main": "mirrorinput.js",
   "files": [
     "mirrorinput.js"
@@ -17,9 +17,8 @@
   },
   "keywords": [
     "webflow",
-    "copy",
-    "scroll",
-    "disable scrolling",
+    "mirror",
+    "click",
     "attributes",
     "no code"
   ],

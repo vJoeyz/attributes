@@ -15,7 +15,7 @@ export const initClickTriggers = (preserveScrollTargets: NodeListOf<Element>): v
   window.addEventListener('click', ({ target }) => {
     if (!(target instanceof HTMLElement)) return;
 
-    // Get trigger
+    // Get the trigger
     const toggleTrigger = target.closest(`[${elementKey}="${elementValues.toggle}"]`);
 
     const disableTrigger = toggleTrigger || target.closest(`[${elementKey}="${elementValues.disable}"]`);
