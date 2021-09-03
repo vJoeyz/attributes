@@ -1,10 +1,10 @@
 {
-  "name": "@finsweet/attributes-ATTRIBUTE_KEY",
+  "name": "@finsweet/attributes-sliderdots",
   "version": "1.0.0",
   "description": "Description.",
-  "main": "ATTRIBUTE_KEY.js",
+  "main": "sliderdots.js",
   "files": [
-    "ATTRIBUTE_KEY.js"
+    "sliderdots.js"
   ],
   "type": "module",
   "scripts": {
@@ -17,6 +17,8 @@
   },
   "keywords": [
     "webflow",
+    "slider",
+    "dots",
     "attributes",
     "no code"
   ],
