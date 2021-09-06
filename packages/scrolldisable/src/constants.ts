@@ -74,7 +74,7 @@ export const ATTRIBUTES = {
  * Defines the `Navbar` component media breakpoints.
  */
 export const NAV_MEDIAS = {
-  medium: 'max-width: 991px',
-  small: 'max-width: 767px',
-  tiny: 'max-width: 479px',
+  medium: '(max-width: 991px)',
+  small: '(max-width: 767px)',
+  tiny: '(max-width: 479px)',
 } as const;

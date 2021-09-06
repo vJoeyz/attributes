@@ -26,12 +26,15 @@ export const initClickTriggers = (preserveScrollTargets: NodeListOf<Element>): v
 
     // Make sure the media query is valid
     const mediaToMatch = trigger.getAttribute(matchMediaKey);
-    if (mediaToMatch && !window.matchMedia(`(${mediaToMatch})`).matches) return;
+    if (mediaToMatch && !window.matchMedia(mediaToMatch).matches) return;
 
     // Handle action
     if (isScrollingDisabled() && enableTrigger) enableScrolling();
     else if (!isScrollingDisabled() && disableTrigger instanceof HTMLElement) {
-      for (const target of [...preserveScrollTargets, findFirstScrollableElement(disableTrigger) || disableTrigger]) {
+      for (const target of new Set([
+        ...preserveScrollTargets,
+        findFirstScrollableElement(disableTrigger) || disableTrigger,
+      ])) {
         disableScrolling(target);
       }
     }

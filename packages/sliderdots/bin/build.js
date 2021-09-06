@@ -13,7 +13,7 @@ const production = process.env.NODE_ENV === 'production';
 const defaultSettings = {
   bundle: true,
   minify: production,
-  sourcemap: !production,
+  sourcemap: false,
   target: 'es6',
 };
 

@@ -12,7 +12,7 @@ const {
 // Store
 const displayTriggersStore: Map<
   HTMLElement,
-  { visible: boolean; firstScrollableElement?: HTMLElement; matchMedia?: string | null }
+  { visible: boolean; firstScrollableElement: HTMLElement; matchMedia?: string | null }
 > = new Map();
 
 /**
@@ -28,7 +28,7 @@ const handleStateChange = (trigger: HTMLElement, preserveScrollTargets: NodeList
   const { matchMedia, firstScrollableElement, visible: wasVisibleBefore } = triggerData;
 
   // Make sure the matchMedia requirement is valid
-  if (matchMedia && !window.matchMedia(`(${matchMedia})`).matches) return;
+  if (matchMedia && !window.matchMedia(matchMedia).matches) return;
 
   // Check visibility
   const visible = isVisible(trigger);
@@ -37,7 +37,7 @@ const handleStateChange = (trigger: HTMLElement, preserveScrollTargets: NodeList
   // Perform actions
   if (wasVisibleBefore) enableScrolling();
   else if (visible) {
-    for (const target of [...preserveScrollTargets, firstScrollableElement || trigger]) disableScrolling(target);
+    for (const target of new Set([...preserveScrollTargets, firstScrollableElement])) disableScrolling(target);
   }
 
   // Store new state
@@ -59,8 +59,10 @@ export const initDisplayTriggers = (preserveScrollTargets: NodeListOf<Element>):
     handleStateChange(trigger, preserveScrollTargets);
   };
 
+  const debouncedCallback = debounce(callback, 25);
+
   // Create MutationObserver
-  const observer = new MutationObserver(callback);
+  const observer = new MutationObserver(debouncedCallback);
 
   // Init
   for (const trigger of displayTriggers) {
@@ -96,7 +98,6 @@ export const initDisplayTriggers = (preserveScrollTargets: NodeListOf<Element>):
 
   // Handle window resize events
   const debouncedStateChangeHandler = debounce(() => {
-    enableScrolling();
     for (const trigger of displayTriggers) handleStateChange(trigger, preserveScrollTargets);
   }, 250);
 

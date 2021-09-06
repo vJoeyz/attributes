@@ -9,6 +9,7 @@ const {
 
 // State
 let untransformOn = false;
+let currentTimeoutID: number | undefined;
 
 /**
  * Inits untransform handler.
@@ -19,7 +20,7 @@ export const init = (): void => {
   // Insert the styles
   document.head.insertAdjacentHTML('beforeend', UNTRANSFORM_STYLES);
 
-  window.addEventListener('click', ({ target }) => {
+  window.addEventListener('click', async ({ target }) => {
     if (!(target instanceof Element)) return;
 
     // Get the trigger
@@ -31,6 +32,9 @@ export const init = (): void => {
     const trigger = onTrigger || offTrigger;
     if (!trigger) return;
 
+    // Clear current timeout, if existing
+    if (currentTimeoutID) window.clearTimeout(currentTimeoutID);
+
     // Get the instance index
     const elementValue = trigger.getAttribute(elementKey);
     const instanceIndex = elementValue ? extractNumberSuffix(elementValue) : undefined;
@@ -38,27 +42,28 @@ export const init = (): void => {
     // Get the fixed element
     const fixedElement = document.querySelector(`[${elementKey}="${elementValues.fixed(instanceIndex)}"]`);
 
+    // Get the timeout value
+    const timeoutValue = trigger.getAttribute(timeoutKey);
+    const timeout = timeoutValue ? parseInt(timeoutValue) : undefined;
+
     // Perform actions
-    if (!untransformOn && onTrigger) {
-      const parents = getAllParents(fixedElement || trigger);
+    window.setTimeout(() => {
+      if (!untransformOn && onTrigger) {
+        const parents = getAllParents(fixedElement || trigger);
 
-      for (const parent of parents) parent.classList.add(UNTRANSFORM_CLASS);
+        for (const parent of parents) parent.classList.add(UNTRANSFORM_CLASS);
 
-      untransformOn = true;
-      return;
-    }
+        untransformOn = true;
+        return;
+      }
 
-    if (untransformOn && offTrigger) {
-      const timeoutValue = trigger.getAttribute(timeoutKey);
-      const timeout = timeoutValue ? parseInt(timeoutValue) : undefined;
-
-      window.setTimeout(() => {
+      if (untransformOn && offTrigger) {
         const parents = getAllParents(fixedElement || trigger);
 
         for (const parent of parents) parent.classList.remove(UNTRANSFORM_CLASS);
 
         untransformOn = false;
-      }, timeout);
-    }
+      }
+    }, timeout);
   });
 };
