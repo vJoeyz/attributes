@@ -5,8 +5,10 @@
   "private": true,
   "workspaces": [
     "packages\\a11y",
+    "packages\\cmsitemcount",
     "packages\\components",
     "packages\\copyclip",
+    "packages\\favcustom",
     "packages\\linkblockedit",
     "packages\\mirrorclick",
     "packages\\mirrorinput",
