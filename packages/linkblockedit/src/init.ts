@@ -4,8 +4,10 @@ import { ATTRIBUTE_SELECTOR } from './constants';
  * Inits editor friendly link blocks.
  * @param querySelector An optional valid CSS selector for querying the elements.
  */
-export function init(querySelector = ''): void {
-  const elements = document.querySelectorAll<HTMLElement>(`${querySelector}, ${ATTRIBUTE_SELECTOR}`);
+export function init(querySelector?: string): void {
+  const elements = document.querySelectorAll<HTMLElement>(
+    `${querySelector ? `${querySelector}, ` : ''}${ATTRIBUTE_SELECTOR}`
+  );
 
   // Make the elements accessible
   for (const element of elements) {
