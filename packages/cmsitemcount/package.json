@@ -1,0 +1,34 @@
+{
+  "name": "@finsweet/attributes-cmsitemcount",
+  "version": "1.0.0",
+  "description": "Display the amount of CMS items of a Collection List.",
+  "main": "cmsitemcount.js",
+  "files": [
+    "cmsitemcount.js"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development node ./bin/build.js",
+    "build": "cross-env NODE_ENV=production node ./bin/build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/finsweet/attributes.git"
+  },
+  "keywords": [
+    "webflow",
+    "attributes",
+    "cms",
+    "count",
+    "cmsitemcount",
+    "no code"
+  ],
+  "author": {
+    "name": "Finsweet",
+    "url": "https://www.finsweet.com/"
+  },
+  "bugs": {
+    "url": "https://sweetjs.finsweet.com/"
+  },
+  "homepage": "https://www.finsweet.com/attributes"
+}
