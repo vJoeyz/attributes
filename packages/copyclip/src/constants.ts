@@ -41,6 +41,13 @@ export const ATTRIBUTES = {
   successDuration: { key: `${ATTRIBUTES_PREFIX}-duration` },
 
   /**
+   * Defines the CSS Class added to the trigger on the success state.
+   * Applicable both on elements and the `<script>` tag.
+   * If applied to the `<script>` tag, all elements will inherit this attribute.
+   */
+  successClass: { key: `${ATTRIBUTES_PREFIX}-active` },
+
+  /**
    * Defines a selector for instantiating all queried elements as triggers.
    * Only applicable to the `<script>` tag.
    */
@@ -48,4 +55,4 @@ export const ATTRIBUTES = {
 };
 
 export const DEFAULT_SUCCESS_DURATION = 1000;
-export const SUCCESS_CSS_CLASS = `${ATTRIBUTES_PREFIX}_success`;
+export const DEFAULT_SUCCESS_CSS_CLASS = `${ATTRIBUTES_PREFIX}_active`;

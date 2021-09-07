@@ -1,6 +1,6 @@
 import ClipboardJS from 'clipboard';
 import { findTextNode, extractNumberSuffix } from '@finsweet/ts-utils';
-import { ATTRIBUTES, DEFAULT_SUCCESS_DURATION, SUCCESS_CSS_CLASS } from './constants';
+import { ATTRIBUTES, DEFAULT_SUCCESS_DURATION, DEFAULT_SUCCESS_CSS_CLASS } from './constants';
 
 // Constants destructuring
 const {
@@ -9,6 +9,7 @@ const {
   globalSelector: { key: globalSelectorKey },
   successMessage: { key: successMessageKey },
   successDuration: { key: successDurationKey },
+  successClass: { key: successClassKey },
 } = ATTRIBUTES;
 
 // Types
@@ -18,6 +19,7 @@ interface Params {
   text?: string;
   successMessage?: string;
   successDuration?: string;
+  successClass?: string;
 }
 
 /**
@@ -45,15 +47,18 @@ export function init({
   let globalSelector: string | null | undefined = null;
   let globalSuccessMessage: string | null | undefined = null;
   let globalSuccessDuration: string | null | undefined = null;
+  let globalSuccessClass: string | null | undefined = null;
 
   if (currentScript) {
     globalSelector = currentScript.getAttribute(globalSelectorKey);
     globalSuccessMessage = currentScript.getAttribute(successMessageKey);
     globalSuccessDuration = currentScript.getAttribute(successDurationKey);
+    globalSuccessClass = currentScript.getAttribute(successClassKey);
   } else if (params) {
     globalSelector = params.selector;
     globalSuccessMessage = params.successMessage;
     globalSuccessDuration = params.successDuration;
+    globalSuccessClass = params.successClass;
   }
 
   const copyTriggers = document.querySelectorAll(
@@ -74,6 +79,7 @@ export function init({
       globalSuccessDuration ||
       DEFAULT_SUCCESS_DURATION
     );
+    const successClass = trigger.getAttribute(successClassKey) || globalSuccessClass || DEFAULT_SUCCESS_CSS_CLASS;
 
     // Get the instance index
     const instanceIndex = elementValue ? extractNumberSuffix(elementValue) : undefined;
@@ -97,6 +103,7 @@ export function init({
         textNode,
         successDuration,
         successMessage,
+        successClass,
       })
     );
   }
@@ -117,6 +124,7 @@ const createClipboardJsInstance = ({
   originalText,
   successMessage,
   successDuration,
+  successClass,
 }: {
   trigger: HTMLElement;
   textToCopy?: string;
@@ -125,6 +133,7 @@ const createClipboardJsInstance = ({
   originalText?: string | null;
   successMessage?: string | null;
   successDuration: number;
+  successClass: string;
 }) => {
   const options: ClipboardJS.Options = {};
 
@@ -145,14 +154,14 @@ const createClipboardJsInstance = ({
     successState = true;
 
     // Add the success CSS class
-    trigger.classList.add(SUCCESS_CSS_CLASS);
+    trigger.classList.add(successClass);
 
     // Add the success message
     if (textNode && successMessage) textNode.textContent = successMessage;
 
     // Reset after duration
     setTimeout(() => {
-      trigger.classList.remove(SUCCESS_CSS_CLASS);
+      trigger.classList.remove(successClass);
       if (textNode) textNode.textContent = originalText || '';
 
       successState = false;
