@@ -41,14 +41,12 @@ export function init({
 
   if (!linkHref) return;
 
-  // Set the new link href
-  let linkElement = document.querySelector<HTMLLinkElement>("link[rel~='icon']");
-
-  if (!linkElement) {
-    linkElement = document.createElement('link');
-    linkElement.rel = 'icon';
-    document.head.appendChild(linkElement);
-  }
-
+  //Build the link element
+  const linkElement = document.querySelector<HTMLLinkElement>("link[rel*='icon']") || document.createElement('link');
+  linkElement.type = 'image/x-icon';
+  linkElement.rel = 'shortcut icon';
   linkElement.href = linkHref;
+
+  // Append the new one
+  document.head.appendChild(linkElement);
 }
