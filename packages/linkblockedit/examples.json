@@ -1,0 +1,62 @@
+[
+  {
+    "title": "Simple Link Block",
+    "description": "Convert a Div into a Link Block to make it Editor friendly.",
+    "data": {
+      "type": "@webflow/XscpData",
+      "payload": {
+        "nodes": [
+          {
+            "_id": "be7f3f04-5934-99e7-eda5-980de1557087",
+            "tag": "div",
+            "classes": ["224b495c-8a81-7964-e277-dc63f302b31b"],
+            "children": ["be7f3f04-5934-99e7-eda5-980de1557088"],
+            "type": "Block",
+            "data": {
+              "tag": "div",
+              "text": false,
+              "attr": {},
+              "xattr": [{ "name": "fs-linkblockedit-element", "value": "parent" }]
+            }
+          },
+          {
+            "_id": "be7f3f04-5934-99e7-eda5-980de1557088",
+            "tag": "a",
+            "classes": [],
+            "children": ["be7f3f04-5934-99e7-eda5-980de1557089"],
+            "type": "Link",
+            "data": {
+              "link": { "mode": "external", "url": "https://www.finsweet.com", "target": "_blank" },
+              "attr": {}
+            }
+          },
+          { "_id": "be7f3f04-5934-99e7-eda5-980de1557089", "text": true, "v": "Text Link" }
+        ],
+        "styles": [
+          {
+            "_id": "224b495c-8a81-7964-e277-dc63f302b31b",
+            "fake": false,
+            "type": "class",
+            "name": "linkblockedit_parent",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "display: flex; width: 12rem; height: 12rem; flex-direction: column; justify-content: center; align-items: center; background-color: hsla(222, 82.57%, 57.25%, 1.00); color: hsla(0, 0.00%, 100.00%, 1.00); cursor: pointer;",
+            "variants": { "main_hover": { "styleLess": "background-color: hsla(222, 69.26%, 63.14%, 1.00);" } },
+            "children": [],
+            "selector": null
+          }
+        ],
+        "assets": [],
+        "ix1": [],
+        "ix2": { "interactions": [], "events": [], "actionLists": [] }
+      },
+      "meta": {
+        "unlinkedSymbolCount": 0,
+        "droppedLinks": 0,
+        "dynBindRemovedCount": 0,
+        "dynListBindRemovedCount": 0,
+        "paginationRemovedCount": 0
+      }
+    }
+  }
+]

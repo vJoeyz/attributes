@@ -1,0 +1,262 @@
+[
+  {
+    "title": "Custom Slider Arrows",
+    "description": "Mirror clicks of external buttons to a Slider's arrows.",
+    "data": {
+      "type": "@webflow/XscpData",
+      "payload": {
+        "nodes": [
+          {
+            "_id": "9bdfde2e-3fd8-a00e-e1c4-621e0929619f",
+            "tag": "div",
+            "classes": [],
+            "children": ["58f6af38-9a91-2948-95e6-7b631cbfa90b", "5ba19339-387c-d005-7e66-74e67f5cddfd"],
+            "type": "Block",
+            "data": { "tag": "div" }
+          },
+          {
+            "_id": "58f6af38-9a91-2948-95e6-7b631cbfa90b",
+            "tag": "div",
+            "classes": [
+              "47507b46-422f-1770-d594-fc73d8c2960c",
+              "c7f21e08-457e-8e10-6b81-adcf8b78441f",
+              "7e90eac2-0f17-2098-bfa5-ee23d49cbc2a"
+            ],
+            "children": ["1ca7c8ef-a187-8b67-2f7c-82d17a72012d", "a9793025-b182-50f3-ba26-9f9a3cf54914"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "1ca7c8ef-a187-8b67-2f7c-82d17a72012d",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1"],
+            "children": ["1ca7c8ef-a187-8b67-2f7c-82d17a72012e"],
+            "type": "Link",
+            "data": {
+              "button": true,
+              "link": { "mode": "external", "url": "#" },
+              "xattr": [{ "name": "fs-mirrorclick-element", "value": "trigger-1" }]
+            }
+          },
+          { "_id": "1ca7c8ef-a187-8b67-2f7c-82d17a72012e", "text": true, "v": "Click The Left Arrow" },
+          {
+            "_id": "a9793025-b182-50f3-ba26-9f9a3cf54914",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1"],
+            "children": ["a9793025-b182-50f3-ba26-9f9a3cf54915"],
+            "type": "Link",
+            "data": {
+              "button": true,
+              "link": { "mode": "external", "url": "#" },
+              "xattr": [{ "name": "fs-mirrorclick-element", "value": "trigger-2" }]
+            }
+          },
+          { "_id": "a9793025-b182-50f3-ba26-9f9a3cf54915", "text": true, "v": "Click The Right Arrow" },
+          {
+            "_id": "5ba19339-387c-d005-7e66-74e67f5cddfd",
+            "tag": "div",
+            "classes": [],
+            "children": [
+              "5ba19339-387c-d005-7e66-74e67f5cddfe",
+              "5ba19339-387c-d005-7e66-74e67f5cde01",
+              "5ba19339-387c-d005-7e66-74e67f5cde03",
+              "5ba19339-387c-d005-7e66-74e67f5cde05"
+            ],
+            "type": "SliderWrapper",
+            "data": {
+              "slider": {
+                "navSpacing": 3,
+                "autoplay": false,
+                "delay": 4000,
+                "iconArrows": true,
+                "animation": "slide",
+                "easing": "ease",
+                "navRound": true,
+                "disableSwipe": false,
+                "duration": 500,
+                "infinite": true,
+                "autoMax": 0,
+                "type": "wrapper"
+              },
+              "attr": { "data-animation": "slide", "data-duration": "500", "data-infinite": "1" }
+            }
+          },
+          {
+            "_id": "5ba19339-387c-d005-7e66-74e67f5cddfe",
+            "tag": "div",
+            "classes": [],
+            "children": [
+              "5ba19339-387c-d005-7e66-74e67f5cddff",
+              "831f77be-5c48-e438-4465-d0cb60739da1",
+              "0577902b-0f6c-cae1-a756-b6f7f3a55193"
+            ],
+            "type": "SliderMask",
+            "data": { "slider": { "type": "slides" } }
+          },
+          {
+            "_id": "5ba19339-387c-d005-7e66-74e67f5cddff",
+            "tag": "div",
+            "classes": [],
+            "children": ["01fda1a6-2b0b-db65-5e4c-48b2ead2a1c8"],
+            "type": "SliderSlide",
+            "data": { "tag": "div", "slider": { "type": "slide" } }
+          },
+          {
+            "_id": "01fda1a6-2b0b-db65-5e4c-48b2ead2a1c8",
+            "tag": "h4",
+            "classes": [],
+            "children": ["01fda1a6-2b0b-db65-5e4c-48b2ead2a1c9"],
+            "type": "Heading",
+            "data": { "tag": "h4" }
+          },
+          { "_id": "01fda1a6-2b0b-db65-5e4c-48b2ead2a1c9", "text": true, "v": "Slide 1" },
+          {
+            "_id": "831f77be-5c48-e438-4465-d0cb60739da1",
+            "tag": "div",
+            "classes": [],
+            "children": ["831f77be-5c48-e438-4465-d0cb60739da2"],
+            "type": "SliderSlide",
+            "data": { "tag": "div", "slider": { "type": "slide" } }
+          },
+          {
+            "_id": "831f77be-5c48-e438-4465-d0cb60739da2",
+            "tag": "h4",
+            "classes": [],
+            "children": ["831f77be-5c48-e438-4465-d0cb60739da3"],
+            "type": "Heading",
+            "data": { "tag": "h4" }
+          },
+          { "_id": "831f77be-5c48-e438-4465-d0cb60739da3", "text": true, "v": "Slide 2" },
+          {
+            "_id": "0577902b-0f6c-cae1-a756-b6f7f3a55193",
+            "tag": "div",
+            "classes": [],
+            "children": ["0577902b-0f6c-cae1-a756-b6f7f3a55194"],
+            "type": "SliderSlide",
+            "data": { "tag": "div", "slider": { "type": "slide" } }
+          },
+          {
+            "_id": "0577902b-0f6c-cae1-a756-b6f7f3a55194",
+            "tag": "h4",
+            "classes": [],
+            "children": ["0577902b-0f6c-cae1-a756-b6f7f3a55195"],
+            "type": "Heading",
+            "data": { "tag": "h4" }
+          },
+          { "_id": "0577902b-0f6c-cae1-a756-b6f7f3a55195", "text": true, "v": "Slide 3" },
+          {
+            "_id": "5ba19339-387c-d005-7e66-74e67f5cde01",
+            "tag": "div",
+            "classes": [],
+            "children": ["5ba19339-387c-d005-7e66-74e67f5cde02"],
+            "type": "SliderArrow",
+            "data": {
+              "slider": { "type": "arrow", "dir": "left" },
+              "xattr": [{ "name": "fs-mirrorclick-element", "value": "target-1" }]
+            }
+          },
+          {
+            "_id": "5ba19339-387c-d005-7e66-74e67f5cde02",
+            "tag": "div",
+            "classes": [],
+            "children": [],
+            "type": "Icon",
+            "data": { "widget": { "type": "icon", "icon": "slider-left" } }
+          },
+          {
+            "_id": "5ba19339-387c-d005-7e66-74e67f5cde03",
+            "tag": "div",
+            "classes": [],
+            "children": ["5ba19339-387c-d005-7e66-74e67f5cde04"],
+            "type": "SliderArrow",
+            "data": {
+              "slider": { "type": "arrow", "dir": "right" },
+              "xattr": [{ "name": "fs-mirrorclick-element", "value": "target-2" }]
+            }
+          },
+          {
+            "_id": "5ba19339-387c-d005-7e66-74e67f5cde04",
+            "tag": "div",
+            "classes": [],
+            "children": [],
+            "type": "Icon",
+            "data": { "widget": { "type": "icon", "icon": "slider-right" } }
+          },
+          {
+            "_id": "5ba19339-387c-d005-7e66-74e67f5cde05",
+            "tag": "div",
+            "classes": [],
+            "children": [],
+            "type": "SliderNav",
+            "data": { "slider": { "type": "nav" } }
+          }
+        ],
+        "styles": [
+          {
+            "_id": "47507b46-422f-1770-d594-fc73d8c2960c",
+            "fake": false,
+            "type": "class",
+            "name": "attributes_grid-2-col",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "display: grid; align-items: center; grid-auto-columns: 1fr; grid-column-gap: 4rem; grid-row-gap: 4rem; grid-template-columns: 1fr 1fr; grid-template-rows: auto;",
+            "variants": {},
+            "children": ["c7f21e08-457e-8e10-6b81-adcf8b78441f"],
+            "selector": null
+          },
+          {
+            "_id": "c7f21e08-457e-8e10-6b81-adcf8b78441f",
+            "fake": false,
+            "type": "class",
+            "name": "margin-bottom",
+            "namespace": "",
+            "comb": "&",
+            "styleLess": "",
+            "variants": {},
+            "children": ["7e90eac2-0f17-2098-bfa5-ee23d49cbc2a"],
+            "selector": null
+          },
+          {
+            "_id": "7e90eac2-0f17-2098-bfa5-ee23d49cbc2a",
+            "fake": false,
+            "type": "class",
+            "name": "margin-medium",
+            "namespace": "",
+            "comb": "&",
+            "styleLess": "",
+            "variants": {},
+            "children": [],
+            "selector": null
+          },
+          {
+            "_id": "b0934d9a-875a-bb42-0630-12090a77fbf1",
+            "fake": false,
+            "type": "class",
+            "name": "button",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "position: relative; z-index: 1; padding-top: 0.75rem; padding-right: 1.25rem; padding-bottom: 0.75rem; padding-left: 1.25rem; justify-content: center; align-items: center; background-color: hsla(222, 82.57%, 57.25%, 1.00); transition-property: background-color; transition-duration: 200ms; transition-timing-function: ease; color: hsla(0, 0.00%, 100.00%, 1.00); font-weight: 600; text-align: center;",
+            "variants": {},
+            "children": [
+              "b0934d9a-875a-bb42-0630-12090a77fcbf",
+              "96240114-c262-72b3-90fb-46b0b97ab2de",
+              "600a4817-ebbf-48df-ba87-e7e8b79eda1c",
+              "8ce78756-2774-1ab6-6248-02680539765a"
+            ],
+            "selector": null
+          }
+        ],
+        "assets": [],
+        "ix1": [],
+        "ix2": { "interactions": [], "events": [], "actionLists": [] }
+      },
+      "meta": {
+        "unlinkedSymbolCount": 0,
+        "droppedLinks": 0,
+        "dynBindRemovedCount": 0,
+        "dynListBindRemovedCount": 0,
+        "paginationRemovedCount": 0
+      }
+    }
+  }
+]

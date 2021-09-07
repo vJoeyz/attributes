@@ -52,7 +52,7 @@ export const ATTRIBUTES = {
    * Only applicable to the `<script>` tag.
    */
   globalSelector: { key: `${ATTRIBUTES_PREFIX}-selector` },
-};
+} as const;
 
-export const DEFAULT_SUCCESS_DURATION = 1000;
-export const DEFAULT_SUCCESS_CSS_CLASS = `${ATTRIBUTES_PREFIX}_active`;
+export const DEFAULT_SUCCESS_DURATION = 1000 as const;
+export const DEFAULT_SUCCESS_CSS_CLASS = `${ATTRIBUTES_PREFIX}_active` as const;

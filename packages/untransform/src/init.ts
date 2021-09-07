@@ -40,7 +40,11 @@ export const init = (): void => {
     const instanceIndex = elementValue ? extractNumberSuffix(elementValue) : undefined;
 
     // Get the fixed element
-    const fixedElement = document.querySelector(`[${elementKey}="${elementValues.fixed(instanceIndex)}"]`);
+    const { parentElement } = trigger;
+    const fixedElementSelector = `[${elementKey}="${elementValues.fixed(instanceIndex)}"]`;
+    const fixedElement = parentElement
+      ? parentElement.querySelector(fixedElementSelector) || parentElement.closest(fixedElementSelector)
+      : undefined;
 
     // Get the timeout value
     const timeoutValue = trigger.getAttribute(timeoutKey);

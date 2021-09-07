@@ -1,0 +1,66 @@
+[
+  {
+    "title": "Image as the source",
+    "description": "Use an existing image on the page as the source for the favicon.",
+    "data": {
+      "type": "@webflow/XscpData",
+      "payload": {
+        "nodes": [
+          {
+            "_id": "8df716a3-e4de-d993-1dec-906e46a51174",
+            "tag": "img",
+            "classes": [],
+            "children": [],
+            "type": "Image",
+            "data": {
+              "attr": {
+                "src": "https://uploads-ssl.webflow.com/6134fdee6048e49fb7ae266e/6135ee3793f27409ed6fc2e4_favicon-32x32.png",
+                "loading": "lazy",
+                "width": "auto",
+                "height": "auto"
+              },
+              "img": {
+                "id": "6135ee3793f27409ed6fc2e4",
+                "sizes": [
+                  { "max": 32, "size": "100vw" },
+                  { "max": 10000, "size": "32px" }
+                ]
+              },
+              "xattr": [{ "name": "fs-favcustom-element", "value": "src" }]
+            }
+          }
+        ],
+        "styles": [],
+        "assets": [
+          {
+            "cdnUrl": "https://uploads-ssl.webflow.com/6134fdee6048e49fb7ae266e/6135ee3793f27409ed6fc2e4_favicon-32x32.png",
+            "siteId": "6134fdee6048e49fb7ae266e",
+            "width": 32,
+            "isHD": false,
+            "height": 32,
+            "fileName": "6135ee3793f27409ed6fc2e4_favicon-32x32.png",
+            "createdOn": "2021-09-06T10:32:23.305Z",
+            "origFileName": "favicon-32x32.png",
+            "fileHash": "5cea92c304ea466155d79e44696849d4",
+            "variants": [],
+            "mimeType": "image/png",
+            "s3Url": "https://s3.amazonaws.com/webflow-prod-assets/6134fdee6048e49fb7ae266e/6135ee3793f27409ed6fc2e4_favicon-32x32.png",
+            "thumbUrl": "https://daks2k3a4ib2z.cloudfront.net/6134fdee6048e49fb7ae266e/6135ee3793f27409ed6fc2e4_favicon-32x32.png",
+            "_id": "6135ee3793f27409ed6fc2e4",
+            "updatedOn": "2021-09-06T11:14:36.288Z",
+            "fileSize": 966
+          }
+        ],
+        "ix1": [],
+        "ix2": { "interactions": [], "events": [], "actionLists": [] }
+      },
+      "meta": {
+        "unlinkedSymbolCount": 0,
+        "droppedLinks": 0,
+        "dynBindRemovedCount": 0,
+        "dynListBindRemovedCount": 0,
+        "paginationRemovedCount": 0
+      }
+    }
+  }
+]

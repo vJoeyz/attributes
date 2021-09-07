@@ -4,7 +4,8 @@
   "description": "Editor friendly link blocks.",
   "main": "linkblockedit.js",
   "files": [
-    "linkblockedit.js"
+    "linkblockedit.js",
+    "examples.json"
   ],
   "type": "module",
   "scripts": {

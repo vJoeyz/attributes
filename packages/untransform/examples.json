@@ -1,0 +1,1397 @@
+[
+  {
+    "title": "Single element",
+    "description": "Untransform all parents of an element to assure position: fixed works correctly.",
+    "data": {
+      "type": "@webflow/XscpData",
+      "payload": {
+        "nodes": [
+          {
+            "_id": "073698f7-2e4c-71d0-7b57-ac5e88156e15",
+            "tag": "div",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fc73"],
+            "children": ["073698f7-2e4c-71d0-7b57-ac5e88156e16"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "073698f7-2e4c-71d0-7b57-ac5e88156e16",
+            "tag": "div",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fc5b"],
+            "children": [
+              "073698f7-2e4c-71d0-7b57-ac5e88156e17",
+              "71dae103-36a6-ddb3-1dee-07f226eec912",
+              "1bb206c2-b583-5dc1-2912-6cef44d6d94b",
+              "073698f7-2e4c-71d0-7b57-ac5e88156e19",
+              "f0b5809a-871d-73b0-e8c6-635607e41b7d",
+              "603b9c00-2e14-5587-7697-72368347f476",
+              "64463f7b-1d2b-68d8-d66e-02f03b3261af",
+              "073698f7-2e4c-71d0-7b57-ac5e88156e7a"
+            ],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "073698f7-2e4c-71d0-7b57-ac5e88156e17",
+            "tag": "h2",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "539dd30b-2124-ed78-80df-c2b0fe1ad738"],
+            "children": ["073698f7-2e4c-71d0-7b57-ac5e88156e18"],
+            "type": "Heading",
+            "data": { "tag": "h2" }
+          },
+          { "_id": "073698f7-2e4c-71d0-7b57-ac5e88156e18", "text": true, "v": "Element attributes" },
+          {
+            "_id": "71dae103-36a6-ddb3-1dee-07f226eec912",
+            "tag": "div",
+            "classes": ["ec53635b-24c8-4c6f-03a3-ef1a0e637054", "e858cca3-8e3a-4f0a-c8b9-fc4d6aaca248"],
+            "children": ["71dae103-36a6-ddb3-1dee-07f226eec913", "3cdec02b-04a0-cec7-f814-cde357c19fc4"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "71dae103-36a6-ddb3-1dee-07f226eec913",
+            "tag": "h3",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "539dd30b-2124-ed78-80df-c2b0fe1ad738"],
+            "children": ["71dae103-36a6-ddb3-1dee-07f226eec914"],
+            "type": "Heading",
+            "data": { "tag": "h3" }
+          },
+          { "_id": "71dae103-36a6-ddb3-1dee-07f226eec914", "text": true, "v": "Example 1: Single element" },
+          {
+            "_id": "3cdec02b-04a0-cec7-f814-cde357c19fc4",
+            "tag": "div",
+            "classes": ["4db06bf0-04b5-3e54-b5ce-f702278ba79c"],
+            "children": ["9cede8fb-e426-017f-7718-2dd2ad6bc064"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "9cede8fb-e426-017f-7718-2dd2ad6bc064",
+            "tag": "div",
+            "classes": ["7bb1ef95-51df-3642-9a46-03c7790e3ad1"],
+            "children": ["643529dd-a9fe-6d45-735b-336a2004b789", "32852ffe-cf77-2bcd-1f17-d1344c04bf1a"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "643529dd-a9fe-6d45-735b-336a2004b789",
+            "tag": "div",
+            "classes": [
+              "18085d83-ef0a-f6ce-d368-e8f7bff826b4",
+              "39e2982a-4786-75db-2d64-4fd257a9a287",
+              "164b0c0d-ef06-758f-c7d1-b43679c46b41"
+            ],
+            "children": [
+              "643529dd-a9fe-6d45-735b-336a2004b78a",
+              "643529dd-a9fe-6d45-735b-336a2004b78c",
+              "c8684c16-4cc2-74ca-7f2d-86e8b4fca8c2"
+            ],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "643529dd-a9fe-6d45-735b-336a2004b78a",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1"],
+            "children": ["643529dd-a9fe-6d45-735b-336a2004b78b"],
+            "type": "Link",
+            "data": {
+              "button": true,
+              "link": { "mode": "external", "url": "#" },
+              "xattr": [{ "name": "fs-untransform-element", "value": "trigger-on" }]
+            }
+          },
+          { "_id": "643529dd-a9fe-6d45-735b-336a2004b78b", "text": true, "v": "Untransform ON" },
+          {
+            "_id": "643529dd-a9fe-6d45-735b-336a2004b78c",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1"],
+            "children": ["643529dd-a9fe-6d45-735b-336a2004b78d"],
+            "type": "Link",
+            "data": {
+              "button": true,
+              "link": { "mode": "external", "url": "#" },
+              "xattr": [
+                { "name": "fs-untransform-element", "value": "trigger-off" },
+                { "name": "fs-untransform-timeout", "value": "500" }
+              ]
+            }
+          },
+          {
+            "_id": "643529dd-a9fe-6d45-735b-336a2004b78d",
+            "text": true,
+            "v": "Untransform OFF (with a delay of 500ms)"
+          },
+          {
+            "_id": "c8684c16-4cc2-74ca-7f2d-86e8b4fca8c2",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1"],
+            "children": ["c8684c16-4cc2-74ca-7f2d-86e8b4fca8c3"],
+            "type": "Link",
+            "data": {
+              "button": true,
+              "link": { "mode": "external", "url": "#" },
+              "xattr": [{ "name": "fs-untransform-element", "value": "toggle" }]
+            }
+          },
+          { "_id": "c8684c16-4cc2-74ca-7f2d-86e8b4fca8c3", "text": true, "v": "Toggle Untransform" },
+          {
+            "_id": "32852ffe-cf77-2bcd-1f17-d1344c04bf1a",
+            "tag": "div",
+            "classes": ["a37b82fe-910c-b177-e2b3-37aea1fb8207"],
+            "children": [],
+            "type": "Block",
+            "data": { "tag": "div", "text": false, "xattr": [{ "name": "fs-untransform-element", "value": "fixed" }] }
+          },
+          {
+            "_id": "1bb206c2-b583-5dc1-2912-6cef44d6d94b",
+            "tag": "div",
+            "classes": ["ec53635b-24c8-4c6f-03a3-ef1a0e637054", "e858cca3-8e3a-4f0a-c8b9-fc4d6aaca248"],
+            "children": ["1bb206c2-b583-5dc1-2912-6cef44d6d94c", "1f909a32-3b93-a356-0b02-56e9f9c2f66b"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "1bb206c2-b583-5dc1-2912-6cef44d6d94c",
+            "tag": "h3",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "539dd30b-2124-ed78-80df-c2b0fe1ad738"],
+            "children": ["1bb206c2-b583-5dc1-2912-6cef44d6d94d"],
+            "type": "Heading",
+            "data": { "tag": "h3" }
+          },
+          { "_id": "1bb206c2-b583-5dc1-2912-6cef44d6d94d", "text": true, "v": "Example 2: Collection List" },
+          {
+            "_id": "1f909a32-3b93-a356-0b02-56e9f9c2f66b",
+            "tag": "div",
+            "classes": [],
+            "children": ["1f909a32-3b93-a356-0b02-56e9f9c2f66c", "1f909a32-3b93-a356-0b02-56e9f9c2f66e"],
+            "type": "DynamoWrapper",
+            "data": { "tag": "div", "dyn": { "type": "wrapper", "collection": null } }
+          },
+          {
+            "_id": "1f909a32-3b93-a356-0b02-56e9f9c2f66c",
+            "tag": "div",
+            "classes": ["d02b27b0-7c18-decb-b9d7-4ae10f635faf"],
+            "children": ["1f909a32-3b93-a356-0b02-56e9f9c2f66d"],
+            "type": "DynamoList",
+            "data": { "tag": "div", "dyn": { "type": "list" } }
+          },
+          {
+            "_id": "1f909a32-3b93-a356-0b02-56e9f9c2f66d",
+            "tag": "div",
+            "classes": [],
+            "children": [],
+            "type": "DynamoItem",
+            "data": { "dyn": { "type": "item", "grid": 12 } }
+          },
+          {
+            "_id": "1f909a32-3b93-a356-0b02-56e9f9c2f66e",
+            "tag": "div",
+            "classes": [],
+            "children": ["1f909a32-3b93-a356-0b02-56e9f9c2f66f"],
+            "type": "DynamoEmpty",
+            "data": { "tag": "div", "dyn": { "type": "empty" } }
+          },
+          {
+            "_id": "1f909a32-3b93-a356-0b02-56e9f9c2f66f",
+            "tag": "div",
+            "classes": [],
+            "children": ["1f909a32-3b93-a356-0b02-56e9f9c2f670"],
+            "type": "Block",
+            "data": { "tag": "div", "text": true }
+          },
+          { "_id": "1f909a32-3b93-a356-0b02-56e9f9c2f670", "text": true, "v": "No items found." },
+          {
+            "_id": "073698f7-2e4c-71d0-7b57-ac5e88156e19",
+            "tag": "div",
+            "classes": ["ec53635b-24c8-4c6f-03a3-ef1a0e637054", "e858cca3-8e3a-4f0a-c8b9-fc4d6aaca248"],
+            "children": ["073698f7-2e4c-71d0-7b57-ac5e88156e1a", "073698f7-2e4c-71d0-7b57-ac5e88156e1c"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "073698f7-2e4c-71d0-7b57-ac5e88156e1a",
+            "tag": "h3",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "539dd30b-2124-ed78-80df-c2b0fe1ad738"],
+            "children": ["073698f7-2e4c-71d0-7b57-ac5e88156e1b"],
+            "type": "Heading",
+            "data": { "tag": "h3" }
+          },
+          { "_id": "073698f7-2e4c-71d0-7b57-ac5e88156e1b", "text": true, "v": "fs-untransform-element = \"fixed\"" },
+          {
+            "_id": "073698f7-2e4c-71d0-7b57-ac5e88156e1c",
+            "tag": "p",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "7ebeeefc-d916-6442-5318-9181db0a596b"],
+            "children": ["073698f7-2e4c-71d0-7b57-ac5e88156e1d"],
+            "type": "Paragraph"
+          },
+          {
+            "_id": "073698f7-2e4c-71d0-7b57-ac5e88156e1d",
+            "text": true,
+            "v": "Defines the fixed element. It should be a sibling or a parent of the on/off/toggle triggers."
+          },
+          {
+            "_id": "f0b5809a-871d-73b0-e8c6-635607e41b7d",
+            "tag": "div",
+            "classes": ["ec53635b-24c8-4c6f-03a3-ef1a0e637054", "e858cca3-8e3a-4f0a-c8b9-fc4d6aaca248"],
+            "children": ["f0b5809a-871d-73b0-e8c6-635607e41b7e", "f0b5809a-871d-73b0-e8c6-635607e41b80"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "f0b5809a-871d-73b0-e8c6-635607e41b7e",
+            "tag": "h3",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "539dd30b-2124-ed78-80df-c2b0fe1ad738"],
+            "children": ["f0b5809a-871d-73b0-e8c6-635607e41b7f"],
+            "type": "Heading",
+            "data": { "tag": "h3" }
+          },
+          {
+            "_id": "f0b5809a-871d-73b0-e8c6-635607e41b7f",
+            "text": true,
+            "v": "fs-untransform-element = \"trigger-on\""
+          },
+          {
+            "_id": "f0b5809a-871d-73b0-e8c6-635607e41b80",
+            "tag": "p",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "7ebeeefc-d916-6442-5318-9181db0a596b"],
+            "children": [
+              "e45e174d-3e21-36a2-404f-cf0b6331bd8a",
+              "ef942505-ac0a-1e4c-99aa-28e88f8c6735",
+              "2c163b81-02f7-23f5-e75a-fbc83d86ecf1"
+            ],
+            "type": "Paragraph"
+          },
+          {
+            "_id": "e45e174d-3e21-36a2-404f-cf0b6331bd8a",
+            "text": true,
+            "v": "When clicked, all parent elements of the "
+          },
+          {
+            "_id": "ef942505-ac0a-1e4c-99aa-28e88f8c6735",
+            "tag": "strong",
+            "classes": [],
+            "children": ["ef075983-f003-aa0f-61b5-dfdcc47c0c5c"],
+            "type": "Strong"
+          },
+          { "_id": "ef075983-f003-aa0f-61b5-dfdcc47c0c5c", "text": true, "v": "\"fixed\"" },
+          {
+            "_id": "2c163b81-02f7-23f5-e75a-fbc83d86ecf1",
+            "text": true,
+            "v": " element will be stripped of their transform state."
+          },
+          {
+            "_id": "603b9c00-2e14-5587-7697-72368347f476",
+            "tag": "div",
+            "classes": ["ec53635b-24c8-4c6f-03a3-ef1a0e637054", "e858cca3-8e3a-4f0a-c8b9-fc4d6aaca248"],
+            "children": ["603b9c00-2e14-5587-7697-72368347f477", "603b9c00-2e14-5587-7697-72368347f479"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "603b9c00-2e14-5587-7697-72368347f477",
+            "tag": "h3",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "539dd30b-2124-ed78-80df-c2b0fe1ad738"],
+            "children": ["603b9c00-2e14-5587-7697-72368347f478"],
+            "type": "Heading",
+            "data": { "tag": "h3" }
+          },
+          {
+            "_id": "603b9c00-2e14-5587-7697-72368347f478",
+            "text": true,
+            "v": "fs-untransform-element = \"trigger-off\""
+          },
+          {
+            "_id": "603b9c00-2e14-5587-7697-72368347f479",
+            "tag": "p",
+            "classes": [],
+            "children": [
+              "603b9c00-2e14-5587-7697-72368347f47a",
+              "1553af68-7f1f-d798-2dc6-c162a42dddee",
+              "3e3fe373-2d54-b779-1b8e-ac5f29b83123",
+              "603b9c00-2e14-5587-7697-72368347f480"
+            ],
+            "type": "Paragraph"
+          },
+          {
+            "_id": "603b9c00-2e14-5587-7697-72368347f47a",
+            "text": true,
+            "v": "When clicked, all parent elements of the "
+          },
+          {
+            "_id": "1553af68-7f1f-d798-2dc6-c162a42dddee",
+            "tag": "strong",
+            "classes": [],
+            "children": ["bb5aa892-ab68-f9d7-dab6-add814d2732a"],
+            "type": "Strong"
+          },
+          { "_id": "bb5aa892-ab68-f9d7-dab6-add814d2732a", "text": true, "v": "\"fixed\"" },
+          { "_id": "3e3fe373-2d54-b779-1b8e-ac5f29b83123", "text": true, "v": " element " },
+          {
+            "_id": "603b9c00-2e14-5587-7697-72368347f480",
+            "text": true,
+            "v": "will be returned to their original transform state."
+          },
+          {
+            "_id": "64463f7b-1d2b-68d8-d66e-02f03b3261af",
+            "tag": "div",
+            "classes": ["ec53635b-24c8-4c6f-03a3-ef1a0e637054", "e858cca3-8e3a-4f0a-c8b9-fc4d6aaca248"],
+            "children": ["64463f7b-1d2b-68d8-d66e-02f03b3261b0", "64463f7b-1d2b-68d8-d66e-02f03b3261b2"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "64463f7b-1d2b-68d8-d66e-02f03b3261b0",
+            "tag": "h3",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "539dd30b-2124-ed78-80df-c2b0fe1ad738"],
+            "children": ["64463f7b-1d2b-68d8-d66e-02f03b3261b1"],
+            "type": "Heading",
+            "data": { "tag": "h3" }
+          },
+          { "_id": "64463f7b-1d2b-68d8-d66e-02f03b3261b1", "text": true, "v": "fs-untransform-element = \"toggle\"" },
+          {
+            "_id": "64463f7b-1d2b-68d8-d66e-02f03b3261b2",
+            "tag": "p",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "7ebeeefc-d916-6442-5318-9181db0a596b"],
+            "children": ["64463f7b-1d2b-68d8-d66e-02f03b3261b3"],
+            "type": "Paragraph"
+          },
+          {
+            "_id": "64463f7b-1d2b-68d8-d66e-02f03b3261b3",
+            "text": true,
+            "v": "When clicked, the untransform action will be toggled on/off."
+          },
+          {
+            "_id": "073698f7-2e4c-71d0-7b57-ac5e88156e7a",
+            "tag": "div",
+            "classes": ["ec53635b-24c8-4c6f-03a3-ef1a0e637054", "e858cca3-8e3a-4f0a-c8b9-fc4d6aaca248"],
+            "children": ["073698f7-2e4c-71d0-7b57-ac5e88156e7b", "073698f7-2e4c-71d0-7b57-ac5e88156e7d"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "073698f7-2e4c-71d0-7b57-ac5e88156e7b",
+            "tag": "h3",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "539dd30b-2124-ed78-80df-c2b0fe1ad738"],
+            "children": ["073698f7-2e4c-71d0-7b57-ac5e88156e7c"],
+            "type": "Heading",
+            "data": { "tag": "h3" }
+          },
+          {
+            "_id": "073698f7-2e4c-71d0-7b57-ac5e88156e7c",
+            "text": true,
+            "v": "fs-untransform-timeout= \"TIME_IN_MS\""
+          },
+          {
+            "_id": "073698f7-2e4c-71d0-7b57-ac5e88156e7d",
+            "tag": "p",
+            "classes": [],
+            "children": [
+              "8454a867-7bc9-d97f-c746-22913d7dae34",
+              "47ba1198-a007-fa80-450a-11d261257a23",
+              "73eb7f20-e223-1fc9-33c4-b24437f7c6ea",
+              "c63947bf-1d8e-b3de-7651-2d73c087057f",
+              "eb2abeaf-c3ff-0771-0ddf-5eb9561682f3",
+              "0a10c74f-a10b-f3d7-782a-1459f92a2958",
+              "db035f9a-2e30-3cb1-305b-cc115958563e"
+            ],
+            "type": "Paragraph"
+          },
+          { "_id": "8454a867-7bc9-d97f-c746-22913d7dae34", "text": true, "v": "If added to a " },
+          {
+            "_id": "47ba1198-a007-fa80-450a-11d261257a23",
+            "tag": "strong",
+            "classes": [],
+            "children": ["4725eb43-a3e2-d292-d963-940bc5ada20e"],
+            "type": "Strong"
+          },
+          { "_id": "4725eb43-a3e2-d292-d963-940bc5ada20e", "text": true, "v": "\"trigger-on\"" },
+          { "_id": "73eb7f20-e223-1fc9-33c4-b24437f7c6ea", "text": true, "v": ", " },
+          {
+            "_id": "c63947bf-1d8e-b3de-7651-2d73c087057f",
+            "tag": "strong",
+            "classes": [],
+            "children": ["f7b2b48f-0530-5199-6584-3ac446cc7c83"],
+            "type": "Strong"
+          },
+          { "_id": "f7b2b48f-0530-5199-6584-3ac446cc7c83", "text": true, "v": "\"trigger-off\"" },
+          { "_id": "eb2abeaf-c3ff-0771-0ddf-5eb9561682f3", "text": true, "v": " or " },
+          {
+            "_id": "0a10c74f-a10b-f3d7-782a-1459f92a2958",
+            "tag": "strong",
+            "classes": [],
+            "children": ["a901b2da-45f4-c335-d3f1-54da23137570"],
+            "type": "Strong"
+          },
+          { "_id": "a901b2da-45f4-c335-d3f1-54da23137570", "text": true, "v": "\"toggle\"" },
+          {
+            "_id": "db035f9a-2e30-3cb1-305b-cc115958563e",
+            "text": true,
+            "v": " element, the action will be delayed the specified milliseconds. Useful for waiting until an interaction has finished."
+          }
+        ],
+        "styles": [
+          {
+            "_id": "d02b27b0-7c18-decb-b9d7-4ae10f635faf",
+            "fake": false,
+            "type": "class",
+            "name": "untransform_list",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "display: grid; grid-auto-columns: 1fr; grid-column-gap: 2rem; grid-row-gap: 2rem; grid-template-columns: 1fr 1fr 1fr 1fr; grid-template-rows: auto auto;",
+            "variants": {},
+            "children": [],
+            "selector": null
+          },
+          {
+            "_id": "539dd30b-2124-ed78-80df-c2b0fe1ad738",
+            "fake": false,
+            "type": "class",
+            "name": "margin-medium",
+            "namespace": "",
+            "comb": "&",
+            "styleLess": "",
+            "variants": {},
+            "children": [],
+            "selector": null
+          },
+          {
+            "_id": "e858cca3-8e3a-4f0a-c8b9-fc4d6aaca248",
+            "fake": false,
+            "type": "class",
+            "name": "padding-xhuge",
+            "namespace": "",
+            "comb": "&",
+            "styleLess": "",
+            "variants": {},
+            "children": [],
+            "selector": null
+          },
+          {
+            "_id": "b0934d9a-875a-bb42-0630-12090a77fbf1",
+            "fake": false,
+            "type": "class",
+            "name": "button",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "position: relative; z-index: 1; padding-top: 0.75rem; padding-right: 1.25rem; padding-bottom: 0.75rem; padding-left: 1.25rem; justify-content: center; align-items: center; background-color: hsla(222, 82.57%, 57.25%, 1.00); transition-property: background-color; transition-duration: 200ms; transition-timing-function: ease; color: hsla(0, 0.00%, 100.00%, 1.00); font-weight: 600; text-align: center;",
+            "variants": {},
+            "children": [
+              "b0934d9a-875a-bb42-0630-12090a77fcbf",
+              "96240114-c262-72b3-90fb-46b0b97ab2de",
+              "600a4817-ebbf-48df-ba87-e7e8b79eda1c",
+              "8ce78756-2774-1ab6-6248-02680539765a"
+            ],
+            "selector": null
+          },
+          {
+            "_id": "7bb1ef95-51df-3642-9a46-03c7790e3ad1",
+            "fake": false,
+            "type": "class",
+            "name": "untransform_parent-1",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "position: relative; width: 100%; height: 50vh; transform: skew(13deg, 0deg);",
+            "variants": {},
+            "children": [],
+            "selector": null
+          },
+          {
+            "_id": "4db06bf0-04b5-3e54-b5ce-f702278ba79c",
+            "fake": false,
+            "type": "class",
+            "name": "untransform_parent-2",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "transform: rotate(-3deg);",
+            "variants": {},
+            "children": [],
+            "selector": null
+          },
+          {
+            "_id": "2b7ce42a-68c2-b493-7ffe-3975868fa804",
+            "fake": false,
+            "type": "class",
+            "name": "margin-bottom",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "margin-top: 0rem; margin-right: 0rem; margin-left: 0rem;",
+            "variants": {
+              "medium": { "styleLess": "margin-top: 0rem; margin-right: 0rem; margin-left: 0rem;" },
+              "small": { "styleLess": "margin-top: 0rem; margin-right: 0rem; margin-left: 0rem;" },
+              "tiny": { "styleLess": "margin-top: 0rem; margin-right: 0rem; margin-left: 0rem;" }
+            },
+            "children": [
+              "7ebeeefc-d916-6442-5318-9181db0a596b",
+              "d49f1cf6-c082-f38c-fc8a-ee71c512df2b",
+              "539dd30b-2124-ed78-80df-c2b0fe1ad738",
+              "710d0dd3-fa82-2818-ef2c-4b52c19dad26"
+            ],
+            "selector": null
+          },
+          {
+            "_id": "164b0c0d-ef06-758f-c7d1-b43679c46b41",
+            "fake": false,
+            "type": "class",
+            "name": "margin-huge",
+            "namespace": "",
+            "comb": "&",
+            "styleLess": "",
+            "variants": {},
+            "children": [],
+            "selector": null
+          },
+          {
+            "_id": "ec53635b-24c8-4c6f-03a3-ef1a0e637054",
+            "fake": false,
+            "type": "class",
+            "name": "padding-vertical",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "padding-right: 0rem; padding-left: 0rem;",
+            "variants": {
+              "medium": { "styleLess": "padding-right: 0rem; padding-left: 0rem;" },
+              "small": { "styleLess": "padding-right: 0rem; padding-left: 0rem;" },
+              "tiny": { "styleLess": "padding-right: 0rem; padding-left: 0rem;" }
+            },
+            "children": ["5ade7871-f4ec-b2dc-19dc-d655676dd789", "e858cca3-8e3a-4f0a-c8b9-fc4d6aaca248"],
+            "selector": null
+          },
+          {
+            "_id": "39e2982a-4786-75db-2d64-4fd257a9a287",
+            "fake": false,
+            "type": "class",
+            "name": "margin-bottom",
+            "namespace": "",
+            "comb": "&",
+            "styleLess": "",
+            "variants": {},
+            "children": ["164b0c0d-ef06-758f-c7d1-b43679c46b41"],
+            "selector": null
+          },
+          {
+            "_id": "18085d83-ef0a-f6ce-d368-e8f7bff826b4",
+            "fake": false,
+            "type": "class",
+            "name": "attributes_grid-3-col",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "display: grid; grid-auto-columns: 1fr; grid-column-gap: 2rem; grid-row-gap: 2rem; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: auto;",
+            "variants": {},
+            "children": ["39e2982a-4786-75db-2d64-4fd257a9a287"],
+            "selector": null
+          },
+          {
+            "_id": "a37b82fe-910c-b177-e2b3-37aea1fb8207",
+            "fake": false,
+            "type": "class",
+            "name": "untransform_fixed",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "position: fixed; left: 0%; top: 0%; right: 0%; bottom: 0%; background-color: hsla(222, 0.00%, 84.00%, 1.00);",
+            "variants": {},
+            "children": [],
+            "selector": null
+          },
+          {
+            "_id": "b0934d9a-875a-bb42-0630-12090a77fc73",
+            "fake": false,
+            "type": "class",
+            "name": "page-padding",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "padding-right: 2.5rem; padding-left: 2.5rem;",
+            "variants": { "small": { "styleLess": "padding-right: 1.25rem; padding-left: 1.25rem;" } },
+            "children": [],
+            "selector": null
+          },
+          {
+            "_id": "b0934d9a-875a-bb42-0630-12090a77fc5b",
+            "fake": false,
+            "type": "class",
+            "name": "container-large",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "width: 100%; max-width: 80rem; margin-right: auto; margin-left: auto;",
+            "variants": {},
+            "children": [],
+            "selector": null
+          },
+          {
+            "_id": "7ebeeefc-d916-6442-5318-9181db0a596b",
+            "fake": false,
+            "type": "class",
+            "name": "margin-small",
+            "namespace": "",
+            "comb": "&",
+            "styleLess": "",
+            "variants": {},
+            "children": [],
+            "selector": null
+          }
+        ],
+        "assets": [],
+        "ix1": [],
+        "ix2": {
+          "interactions": [
+            {
+              "id": "i-6",
+              "interactionTypeId": "SCROLL_INTO_VIEW_INTERACTION",
+              "eventIds": ["e-11", "e-12"],
+              "target": "613540547832492389d61535|1f909a32-3b93-a356-0b02-56e9f9c2f66b",
+              "createdOn": 1631021202212
+            }
+          ],
+          "events": [
+            {
+              "id": "e-11",
+              "name": "",
+              "animationType": "preset",
+              "eventTypeId": "SCROLL_INTO_VIEW",
+              "action": {
+                "id": "",
+                "actionTypeId": "SLIDE_EFFECT",
+                "config": { "actionListId": "SLIDE_EFFECT", "autoStopEventId": "e-12" },
+                "instant": false
+              },
+              "mediaQueries": ["main", "medium", "small", "tiny"],
+              "target": {
+                "appliesTo": "ELEMENT",
+                "styleBlockIds": [],
+                "id": "613540547832492389d61535|1f909a32-3b93-a356-0b02-56e9f9c2f66b"
+              },
+              "targets": [],
+              "config": {
+                "loop": false,
+                "playInReverse": false,
+                "scrollOffsetValue": 0,
+                "scrollOffsetUnit": "%",
+                "delay": 0,
+                "direction": "LEFT",
+                "effectIn": true
+              },
+              "createdOn": 1631021202213
+            },
+            {
+              "id": "e-12",
+              "name": "",
+              "animationType": "preset",
+              "eventTypeId": "SCROLL_OUT_OF_VIEW",
+              "action": null,
+              "mediaQueries": ["main", "medium", "small", "tiny"],
+              "target": {
+                "appliesTo": "ELEMENT",
+                "styleBlockIds": [],
+                "id": "613540547832492389d61535|1f909a32-3b93-a356-0b02-56e9f9c2f66b"
+              },
+              "targets": [],
+              "config": {
+                "loop": false,
+                "playInReverse": false,
+                "scrollOffsetValue": 0,
+                "scrollOffsetUnit": "%",
+                "delay": null,
+                "direction": null,
+                "effectIn": null
+              },
+              "createdOn": 1631021202213
+            }
+          ],
+          "actionLists": []
+        }
+      },
+      "meta": {
+        "unlinkedSymbolCount": 0,
+        "droppedLinks": 0,
+        "dynBindRemovedCount": 0,
+        "dynListBindRemovedCount": 1,
+        "paginationRemovedCount": 1
+      }
+    }
+  },
+  {
+    "title": "Items List",
+    "description": "Untransform all parents of a specific item to assure a child modal can be position: fixed.",
+    "data": {
+      "type": "@webflow/XscpData",
+      "payload": {
+        "nodes": [
+          {
+            "_id": "96eacf49-0437-0eb9-b377-39528a67a2f7",
+            "tag": "div",
+            "classes": ["d02b27b0-7c18-decb-b9d7-4ae10f635faf"],
+            "children": [
+              "cb7fddde-1168-796e-d3ea-1ccfb5d84211",
+              "5f1cfaff-5df5-599e-c63e-08b7fe9b573f",
+              "903c1a55-5e87-e903-f903-fe12cb852630",
+              "5cae8745-e8bc-da3f-df95-9bf966635720"
+            ],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "cb7fddde-1168-796e-d3ea-1ccfb5d84211",
+            "tag": "div",
+            "classes": [],
+            "children": [
+              "06623969-69eb-bb07-55bb-7df89762ab1e",
+              "7234f07e-d2c0-c195-e454-0e070d455912",
+              "5bb5103f-b371-dc56-26d6-22fae8e0525f"
+            ],
+            "type": "Block",
+            "data": { "tag": "div" }
+          },
+          {
+            "_id": "06623969-69eb-bb07-55bb-7df89762ab1e",
+            "tag": "h4",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "7ebeeefc-d916-6442-5318-9181db0a596b"],
+            "children": ["06623969-69eb-bb07-55bb-7df89762ab1f"],
+            "type": "Heading",
+            "data": { "tag": "h4" }
+          },
+          { "_id": "06623969-69eb-bb07-55bb-7df89762ab1f", "text": true, "v": "Heading" },
+          {
+            "_id": "7234f07e-d2c0-c195-e454-0e070d455912",
+            "tag": "div",
+            "classes": ["83aaec90-bb7b-5ef3-a0bd-149895aae2f6"],
+            "children": ["7234f07e-d2c0-c195-e454-0e070d455913"],
+            "type": "Block",
+            "data": { "tag": "div", "xattr": [{ "name": "fs-untransform-element", "value": "fixed" }], "text": false }
+          },
+          {
+            "_id": "7234f07e-d2c0-c195-e454-0e070d455913",
+            "tag": "div",
+            "classes": ["daf52ca4-f6ef-56b2-4dc4-9c2cac14f2dd"],
+            "children": ["7234f07e-d2c0-c195-e454-0e070d455914"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "7234f07e-d2c0-c195-e454-0e070d455914",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1", "8ce78756-2774-1ab6-6248-02680539765a"],
+            "children": ["7234f07e-d2c0-c195-e454-0e070d455915"],
+            "type": "Link",
+            "data": {
+              "button": true,
+              "link": { "mode": "external", "url": "#" },
+              "xattr": [{ "name": "fs-untransform-element", "value": "trigger-off" }]
+            }
+          },
+          { "_id": "7234f07e-d2c0-c195-e454-0e070d455915", "text": true, "v": "Close Modal" },
+          {
+            "_id": "5bb5103f-b371-dc56-26d6-22fae8e0525f",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1", "600a4817-ebbf-48df-ba87-e7e8b79eda1c"],
+            "children": ["5bb5103f-b371-dc56-26d6-22fae8e05260"],
+            "type": "Link",
+            "data": {
+              "button": true,
+              "link": { "mode": "external", "url": "#" },
+              "xattr": [{ "name": "fs-untransform-element", "value": "trigger-on" }]
+            }
+          },
+          { "_id": "5bb5103f-b371-dc56-26d6-22fae8e05260", "text": true, "v": "Open Modal" },
+          {
+            "_id": "5f1cfaff-5df5-599e-c63e-08b7fe9b573f",
+            "tag": "div",
+            "classes": [],
+            "children": [
+              "5f1cfaff-5df5-599e-c63e-08b7fe9b5740",
+              "5f1cfaff-5df5-599e-c63e-08b7fe9b5742",
+              "5f1cfaff-5df5-599e-c63e-08b7fe9b5746"
+            ],
+            "type": "Block",
+            "data": { "tag": "div" }
+          },
+          {
+            "_id": "5f1cfaff-5df5-599e-c63e-08b7fe9b5740",
+            "tag": "h4",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "7ebeeefc-d916-6442-5318-9181db0a596b"],
+            "children": ["5f1cfaff-5df5-599e-c63e-08b7fe9b5741"],
+            "type": "Heading",
+            "data": { "tag": "h4" }
+          },
+          { "_id": "5f1cfaff-5df5-599e-c63e-08b7fe9b5741", "text": true, "v": "Heading" },
+          {
+            "_id": "5f1cfaff-5df5-599e-c63e-08b7fe9b5742",
+            "tag": "div",
+            "classes": ["83aaec90-bb7b-5ef3-a0bd-149895aae2f6"],
+            "children": ["5f1cfaff-5df5-599e-c63e-08b7fe9b5743"],
+            "type": "Block",
+            "data": { "tag": "div", "xattr": [{ "name": "fs-untransform-element", "value": "fixed" }], "text": false }
+          },
+          {
+            "_id": "5f1cfaff-5df5-599e-c63e-08b7fe9b5743",
+            "tag": "div",
+            "classes": ["daf52ca4-f6ef-56b2-4dc4-9c2cac14f2dd"],
+            "children": ["5f1cfaff-5df5-599e-c63e-08b7fe9b5744"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "5f1cfaff-5df5-599e-c63e-08b7fe9b5744",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1", "8ce78756-2774-1ab6-6248-02680539765a"],
+            "children": ["5f1cfaff-5df5-599e-c63e-08b7fe9b5745"],
+            "type": "Link",
+            "data": {
+              "button": true,
+              "link": { "mode": "external", "url": "#" },
+              "xattr": [{ "name": "fs-untransform-element", "value": "trigger-off" }]
+            }
+          },
+          { "_id": "5f1cfaff-5df5-599e-c63e-08b7fe9b5745", "text": true, "v": "Close Modal" },
+          {
+            "_id": "5f1cfaff-5df5-599e-c63e-08b7fe9b5746",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1", "600a4817-ebbf-48df-ba87-e7e8b79eda1c"],
+            "children": ["5f1cfaff-5df5-599e-c63e-08b7fe9b5747"],
+            "type": "Link",
+            "data": {
+              "button": true,
+              "link": { "mode": "external", "url": "#" },
+              "xattr": [{ "name": "fs-untransform-element", "value": "trigger-on" }]
+            }
+          },
+          { "_id": "5f1cfaff-5df5-599e-c63e-08b7fe9b5747", "text": true, "v": "Open Modal" },
+          {
+            "_id": "903c1a55-5e87-e903-f903-fe12cb852630",
+            "tag": "div",
+            "classes": [],
+            "children": [
+              "903c1a55-5e87-e903-f903-fe12cb852631",
+              "903c1a55-5e87-e903-f903-fe12cb852633",
+              "903c1a55-5e87-e903-f903-fe12cb852637"
+            ],
+            "type": "Block",
+            "data": { "tag": "div" }
+          },
+          {
+            "_id": "903c1a55-5e87-e903-f903-fe12cb852631",
+            "tag": "h4",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "7ebeeefc-d916-6442-5318-9181db0a596b"],
+            "children": ["903c1a55-5e87-e903-f903-fe12cb852632"],
+            "type": "Heading",
+            "data": { "tag": "h4" }
+          },
+          { "_id": "903c1a55-5e87-e903-f903-fe12cb852632", "text": true, "v": "Heading" },
+          {
+            "_id": "903c1a55-5e87-e903-f903-fe12cb852633",
+            "tag": "div",
+            "classes": ["83aaec90-bb7b-5ef3-a0bd-149895aae2f6"],
+            "children": ["903c1a55-5e87-e903-f903-fe12cb852634"],
+            "type": "Block",
+            "data": { "tag": "div", "xattr": [{ "name": "fs-untransform-element", "value": "fixed" }], "text": false }
+          },
+          {
+            "_id": "903c1a55-5e87-e903-f903-fe12cb852634",
+            "tag": "div",
+            "classes": ["daf52ca4-f6ef-56b2-4dc4-9c2cac14f2dd"],
+            "children": ["903c1a55-5e87-e903-f903-fe12cb852635"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "903c1a55-5e87-e903-f903-fe12cb852635",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1", "8ce78756-2774-1ab6-6248-02680539765a"],
+            "children": ["903c1a55-5e87-e903-f903-fe12cb852636"],
+            "type": "Link",
+            "data": {
+              "button": true,
+              "link": { "mode": "external", "url": "#" },
+              "xattr": [{ "name": "fs-untransform-element", "value": "trigger-off" }]
+            }
+          },
+          { "_id": "903c1a55-5e87-e903-f903-fe12cb852636", "text": true, "v": "Close Modal" },
+          {
+            "_id": "903c1a55-5e87-e903-f903-fe12cb852637",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1", "600a4817-ebbf-48df-ba87-e7e8b79eda1c"],
+            "children": ["903c1a55-5e87-e903-f903-fe12cb852638"],
+            "type": "Link",
+            "data": {
+              "button": true,
+              "link": { "mode": "external", "url": "#" },
+              "xattr": [{ "name": "fs-untransform-element", "value": "trigger-on" }]
+            }
+          },
+          { "_id": "903c1a55-5e87-e903-f903-fe12cb852638", "text": true, "v": "Open Modal" },
+          {
+            "_id": "5cae8745-e8bc-da3f-df95-9bf966635720",
+            "tag": "div",
+            "classes": [],
+            "children": [
+              "5cae8745-e8bc-da3f-df95-9bf966635721",
+              "5cae8745-e8bc-da3f-df95-9bf966635723",
+              "5cae8745-e8bc-da3f-df95-9bf966635727"
+            ],
+            "type": "Block",
+            "data": { "tag": "div" }
+          },
+          {
+            "_id": "5cae8745-e8bc-da3f-df95-9bf966635721",
+            "tag": "h4",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "7ebeeefc-d916-6442-5318-9181db0a596b"],
+            "children": ["5cae8745-e8bc-da3f-df95-9bf966635722"],
+            "type": "Heading",
+            "data": { "tag": "h4" }
+          },
+          { "_id": "5cae8745-e8bc-da3f-df95-9bf966635722", "text": true, "v": "Heading" },
+          {
+            "_id": "5cae8745-e8bc-da3f-df95-9bf966635723",
+            "tag": "div",
+            "classes": ["83aaec90-bb7b-5ef3-a0bd-149895aae2f6"],
+            "children": ["5cae8745-e8bc-da3f-df95-9bf966635724"],
+            "type": "Block",
+            "data": { "tag": "div", "xattr": [{ "name": "fs-untransform-element", "value": "fixed" }], "text": false }
+          },
+          {
+            "_id": "5cae8745-e8bc-da3f-df95-9bf966635724",
+            "tag": "div",
+            "classes": ["daf52ca4-f6ef-56b2-4dc4-9c2cac14f2dd"],
+            "children": ["5cae8745-e8bc-da3f-df95-9bf966635725"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "5cae8745-e8bc-da3f-df95-9bf966635725",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1", "8ce78756-2774-1ab6-6248-02680539765a"],
+            "children": ["5cae8745-e8bc-da3f-df95-9bf966635726"],
+            "type": "Link",
+            "data": {
+              "button": true,
+              "link": { "mode": "external", "url": "#" },
+              "xattr": [{ "name": "fs-untransform-element", "value": "trigger-off" }]
+            }
+          },
+          { "_id": "5cae8745-e8bc-da3f-df95-9bf966635726", "text": true, "v": "Close Modal" },
+          {
+            "_id": "5cae8745-e8bc-da3f-df95-9bf966635727",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1", "600a4817-ebbf-48df-ba87-e7e8b79eda1c"],
+            "children": ["5cae8745-e8bc-da3f-df95-9bf966635728"],
+            "type": "Link",
+            "data": {
+              "button": true,
+              "link": { "mode": "external", "url": "#" },
+              "xattr": [{ "name": "fs-untransform-element", "value": "trigger-on" }]
+            }
+          },
+          { "_id": "5cae8745-e8bc-da3f-df95-9bf966635728", "text": true, "v": "Open Modal" }
+        ],
+        "styles": [
+          {
+            "_id": "d02b27b0-7c18-decb-b9d7-4ae10f635faf",
+            "fake": false,
+            "type": "class",
+            "name": "untransform_list",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "display: grid; grid-auto-columns: 1fr; grid-column-gap: 2rem; grid-row-gap: 2rem; grid-template-columns: 1fr 1fr 1fr 1fr; grid-template-rows: auto;",
+            "variants": {},
+            "children": [],
+            "selector": null
+          },
+          {
+            "_id": "2b7ce42a-68c2-b493-7ffe-3975868fa804",
+            "fake": false,
+            "type": "class",
+            "name": "margin-bottom",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "margin-top: 0rem; margin-right: 0rem; margin-left: 0rem;",
+            "variants": {
+              "medium": { "styleLess": "margin-top: 0rem; margin-right: 0rem; margin-left: 0rem;" },
+              "small": { "styleLess": "margin-top: 0rem; margin-right: 0rem; margin-left: 0rem;" },
+              "tiny": { "styleLess": "margin-top: 0rem; margin-right: 0rem; margin-left: 0rem;" }
+            },
+            "children": [
+              "7ebeeefc-d916-6442-5318-9181db0a596b",
+              "d49f1cf6-c082-f38c-fc8a-ee71c512df2b",
+              "539dd30b-2124-ed78-80df-c2b0fe1ad738",
+              "710d0dd3-fa82-2818-ef2c-4b52c19dad26"
+            ],
+            "selector": null
+          },
+          {
+            "_id": "7ebeeefc-d916-6442-5318-9181db0a596b",
+            "fake": false,
+            "type": "class",
+            "name": "margin-small",
+            "namespace": "",
+            "comb": "&",
+            "styleLess": "",
+            "variants": {},
+            "children": [],
+            "selector": null
+          },
+          {
+            "_id": "83aaec90-bb7b-5ef3-a0bd-149895aae2f6",
+            "fake": false,
+            "type": "class",
+            "name": "untransform_modal",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "position: fixed; left: 0%; top: 0%; right: 0%; bottom: 0%; z-index: 999; display: none; flex-direction: column; justify-content: center; align-items: center;",
+            "variants": {},
+            "children": [],
+            "selector": null
+          },
+          {
+            "_id": "daf52ca4-f6ef-56b2-4dc4-9c2cac14f2dd",
+            "fake": false,
+            "type": "class",
+            "name": "untransform_modal-content",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "width: 50vw; height: 50vh; border-top-style: solid; border-top-width: 0.125rem; border-top-color: hsla(222, 82.57%, 57.25%, 1.00); border-right-style: solid; border-right-width: 0.125rem; border-right-color: hsla(222, 82.57%, 57.25%, 1.00); border-bottom-style: solid; border-bottom-width: 0.125rem; border-bottom-color: hsla(222, 82.57%, 57.25%, 1.00); border-left-style: solid; border-left-width: 0.125rem; border-left-color: hsla(222, 82.57%, 57.25%, 1.00); background-color: hsla(0, 0.00%, 100.00%, 1.00);",
+            "variants": {},
+            "children": [],
+            "selector": null
+          },
+          {
+            "_id": "b0934d9a-875a-bb42-0630-12090a77fbf1",
+            "fake": false,
+            "type": "class",
+            "name": "button",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "position: relative; z-index: 1; padding-top: 0.75rem; padding-right: 1.25rem; padding-bottom: 0.75rem; padding-left: 1.25rem; justify-content: center; align-items: center; background-color: hsla(222, 82.57%, 57.25%, 1.00); transition-property: background-color; transition-duration: 200ms; transition-timing-function: ease; color: hsla(0, 0.00%, 100.00%, 1.00); font-weight: 600; text-align: center;",
+            "variants": {},
+            "children": [
+              "b0934d9a-875a-bb42-0630-12090a77fcbf",
+              "96240114-c262-72b3-90fb-46b0b97ab2de",
+              "600a4817-ebbf-48df-ba87-e7e8b79eda1c",
+              "8ce78756-2774-1ab6-6248-02680539765a"
+            ],
+            "selector": null
+          },
+          {
+            "_id": "8ce78756-2774-1ab6-6248-02680539765a",
+            "fake": false,
+            "type": "class",
+            "name": "close-modal",
+            "namespace": "",
+            "comb": "&",
+            "styleLess": "",
+            "variants": {},
+            "children": [],
+            "selector": null
+          },
+          {
+            "_id": "600a4817-ebbf-48df-ba87-e7e8b79eda1c",
+            "fake": false,
+            "type": "class",
+            "name": "open-modal",
+            "namespace": "",
+            "comb": "&",
+            "styleLess": "",
+            "variants": {},
+            "children": [],
+            "selector": null
+          }
+        ],
+        "assets": [],
+        "ix1": [],
+        "ix2": {
+          "interactions": [
+            {
+              "id": "i-7",
+              "interactionTypeId": "SCROLL_INTO_VIEW_INTERACTION",
+              "eventIds": ["e-13", "e-14"],
+              "target": "613540547832492389d61535|96eacf49-0437-0eb9-b377-39528a67a2f7",
+              "createdOn": 1631022466187
+            },
+            {
+              "id": "i-5",
+              "interactionTypeId": "MOUSE_CLICK_INTERACTION",
+              "eventIds": ["e-9", "e-10"],
+              "target": "613540547832492389d61535|2cf4ab3c-6012-b5c5-e33d-f83c6f091e30",
+              "createdOn": 1631021014286
+            },
+            {
+              "id": "i-4",
+              "interactionTypeId": "MOUSE_CLICK_INTERACTION",
+              "eventIds": ["e-7", "e-8"],
+              "target": "613540547832492389d61535|52a1549e-75a0-e1aa-eefd-5ac43c3076e1",
+              "createdOn": 1631020973130
+            }
+          ],
+          "events": [
+            {
+              "id": "e-13",
+              "name": "",
+              "animationType": "preset",
+              "eventTypeId": "SCROLL_INTO_VIEW",
+              "action": {
+                "id": "",
+                "actionTypeId": "SLIDE_EFFECT",
+                "config": { "actionListId": "SLIDE_EFFECT", "autoStopEventId": "e-14" },
+                "instant": false
+              },
+              "mediaQueries": ["main", "medium", "small", "tiny"],
+              "target": {
+                "appliesTo": "CLASS",
+                "styleBlockIds": ["d02b27b0-7c18-decb-b9d7-4ae10f635faf"],
+                "id": "613540547832492389d61535|96eacf49-0437-0eb9-b377-39528a67a2f7"
+              },
+              "targets": [],
+              "config": {
+                "loop": false,
+                "playInReverse": false,
+                "scrollOffsetValue": 25,
+                "scrollOffsetUnit": "%",
+                "delay": 0,
+                "direction": "LEFT",
+                "effectIn": true
+              },
+              "createdOn": 1631022466188
+            },
+            {
+              "id": "e-14",
+              "name": "",
+              "animationType": "preset",
+              "eventTypeId": "SCROLL_OUT_OF_VIEW",
+              "action": null,
+              "mediaQueries": ["main", "medium", "small", "tiny"],
+              "target": {
+                "appliesTo": "CLASS",
+                "styleBlockIds": ["d02b27b0-7c18-decb-b9d7-4ae10f635faf"],
+                "id": "613540547832492389d61535|96eacf49-0437-0eb9-b377-39528a67a2f7"
+              },
+              "targets": [],
+              "config": {
+                "loop": false,
+                "playInReverse": false,
+                "scrollOffsetValue": 0,
+                "scrollOffsetUnit": "%",
+                "delay": null,
+                "direction": null,
+                "effectIn": null
+              },
+              "createdOn": 1631022466188
+            },
+            {
+              "id": "e-9",
+              "name": "",
+              "animationType": "custom",
+              "eventTypeId": "MOUSE_CLICK",
+              "action": {
+                "id": "",
+                "actionTypeId": "GENERAL_START_ACTION",
+                "instant": true,
+                "config": {
+                  "delay": 0,
+                  "easing": "",
+                  "duration": 0,
+                  "actionListId": "a-4",
+                  "affectedElements": {},
+                  "playInReverse": false,
+                  "autoStopEventId": "e-10"
+                }
+              },
+              "mediaQueries": ["main", "medium", "small", "tiny"],
+              "target": {
+                "id": "613540547832492389d61535|2cf4ab3c-6012-b5c5-e33d-f83c6f091e30",
+                "appliesTo": "CLASS",
+                "styleBlockIds": ["b0934d9a-875a-bb42-0630-12090a77fbf1", "8ce78756-2774-1ab6-6248-02680539765a"]
+              },
+              "targets": [
+                {
+                  "id": "613540547832492389d61535|2cf4ab3c-6012-b5c5-e33d-f83c6f091e30",
+                  "appliesTo": "CLASS",
+                  "styleBlockIds": ["b0934d9a-875a-bb42-0630-12090a77fbf1", "8ce78756-2774-1ab6-6248-02680539765a"]
+                }
+              ],
+              "config": {
+                "loop": false,
+                "playInReverse": false,
+                "scrollOffsetValue": null,
+                "scrollOffsetUnit": null,
+                "delay": null,
+                "direction": null,
+                "effectIn": null
+              },
+              "createdOn": 1631021014287
+            },
+            {
+              "id": "e-10",
+              "name": "",
+              "animationType": "preset",
+              "eventTypeId": "MOUSE_SECOND_CLICK",
+              "action": null,
+              "mediaQueries": ["main", "medium", "small", "tiny"],
+              "target": {
+                "id": "613540547832492389d61535|2cf4ab3c-6012-b5c5-e33d-f83c6f091e30",
+                "appliesTo": "CLASS",
+                "styleBlockIds": ["b0934d9a-875a-bb42-0630-12090a77fbf1", "8ce78756-2774-1ab6-6248-02680539765a"]
+              },
+              "targets": [
+                {
+                  "id": "613540547832492389d61535|2cf4ab3c-6012-b5c5-e33d-f83c6f091e30",
+                  "appliesTo": "CLASS",
+                  "styleBlockIds": ["b0934d9a-875a-bb42-0630-12090a77fbf1", "8ce78756-2774-1ab6-6248-02680539765a"]
+                }
+              ],
+              "config": {
+                "loop": false,
+                "playInReverse": false,
+                "scrollOffsetValue": null,
+                "scrollOffsetUnit": null,
+                "delay": null,
+                "direction": null,
+                "effectIn": null
+              },
+              "createdOn": 1631021014287
+            },
+            {
+              "id": "e-7",
+              "name": "",
+              "animationType": "custom",
+              "eventTypeId": "MOUSE_CLICK",
+              "action": {
+                "id": "",
+                "actionTypeId": "GENERAL_START_ACTION",
+                "instant": true,
+                "config": {
+                  "delay": 0,
+                  "easing": "",
+                  "duration": 0,
+                  "actionListId": "a-3",
+                  "affectedElements": {},
+                  "playInReverse": false,
+                  "autoStopEventId": "e-8"
+                }
+              },
+              "mediaQueries": ["main", "medium", "small", "tiny"],
+              "target": {
+                "id": "613540547832492389d61535|52a1549e-75a0-e1aa-eefd-5ac43c3076e1",
+                "appliesTo": "CLASS",
+                "styleBlockIds": ["b0934d9a-875a-bb42-0630-12090a77fbf1", "600a4817-ebbf-48df-ba87-e7e8b79eda1c"]
+              },
+              "targets": [
+                {
+                  "id": "613540547832492389d61535|52a1549e-75a0-e1aa-eefd-5ac43c3076e1",
+                  "appliesTo": "CLASS",
+                  "styleBlockIds": ["b0934d9a-875a-bb42-0630-12090a77fbf1", "600a4817-ebbf-48df-ba87-e7e8b79eda1c"]
+                }
+              ],
+              "config": {
+                "loop": false,
+                "playInReverse": false,
+                "scrollOffsetValue": null,
+                "scrollOffsetUnit": null,
+                "delay": null,
+                "direction": null,
+                "effectIn": null
+              },
+              "createdOn": 1631020973131
+            },
+            {
+              "id": "e-8",
+              "name": "",
+              "animationType": "preset",
+              "eventTypeId": "MOUSE_SECOND_CLICK",
+              "action": null,
+              "mediaQueries": ["main", "medium", "small", "tiny"],
+              "target": {
+                "id": "613540547832492389d61535|52a1549e-75a0-e1aa-eefd-5ac43c3076e1",
+                "appliesTo": "CLASS",
+                "styleBlockIds": ["b0934d9a-875a-bb42-0630-12090a77fbf1", "600a4817-ebbf-48df-ba87-e7e8b79eda1c"]
+              },
+              "targets": [
+                {
+                  "id": "613540547832492389d61535|52a1549e-75a0-e1aa-eefd-5ac43c3076e1",
+                  "appliesTo": "CLASS",
+                  "styleBlockIds": ["b0934d9a-875a-bb42-0630-12090a77fbf1", "600a4817-ebbf-48df-ba87-e7e8b79eda1c"]
+                }
+              ],
+              "config": {
+                "loop": false,
+                "playInReverse": false,
+                "scrollOffsetValue": null,
+                "scrollOffsetUnit": null,
+                "delay": null,
+                "direction": null,
+                "effectIn": null
+              },
+              "createdOn": 1631020973131
+            }
+          ],
+          "actionLists": [
+            {
+              "id": "a-4",
+              "title": "[untransform] CLOSE Modal",
+              "actionItemGroups": [
+                {
+                  "actionItems": [
+                    {
+                      "id": "a-4-n",
+                      "actionTypeId": "GENERAL_DISPLAY",
+                      "config": {
+                        "delay": 0,
+                        "easing": "",
+                        "duration": 0,
+                        "target": {
+                          "nodeId": "613540547832492389d61535|0f97feb0-9a56-af9b-3a90-123c92eca8bf",
+                          "appliesTo": "ELEMENT_CLASS",
+                          "styleBlockIds": ["83aaec90-bb7b-5ef3-a0bd-149895aae2f6"],
+                          "useEventTarget": "PARENT",
+                          "boundaryMode": true
+                        },
+                        "value": "none"
+                      },
+                      "instant": true
+                    }
+                  ]
+                }
+              ],
+              "useFirstGroupAsInitialState": false,
+              "createdOn": 1631020977326
+            },
+            {
+              "id": "a-3",
+              "title": "[untransform] OPEN Modal",
+              "actionItemGroups": [
+                {
+                  "actionItems": [
+                    {
+                      "id": "a-3-n",
+                      "actionTypeId": "GENERAL_DISPLAY",
+                      "config": {
+                        "delay": 0,
+                        "easing": "",
+                        "duration": 0,
+                        "target": {
+                          "nodeId": "613540547832492389d61535|0f97feb0-9a56-af9b-3a90-123c92eca8bf",
+                          "appliesTo": "ELEMENT_CLASS",
+                          "styleBlockIds": ["83aaec90-bb7b-5ef3-a0bd-149895aae2f6"],
+                          "useEventTarget": "SIBLINGS",
+                          "boundaryMode": true
+                        },
+                        "value": "flex"
+                      },
+                      "instant": true
+                    }
+                  ]
+                }
+              ],
+              "useFirstGroupAsInitialState": false,
+              "createdOn": 1631020977326
+            }
+          ]
+        }
+      },
+      "meta": {
+        "unlinkedSymbolCount": 0,
+        "droppedLinks": 0,
+        "dynBindRemovedCount": 0,
+        "dynListBindRemovedCount": 0,
+        "paginationRemovedCount": 0
+      }
+    }
+  }
+]

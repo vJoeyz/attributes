@@ -1,0 +1,651 @@
+[
+  {
+    "title": "Keep original content",
+    "description": "Custom content is placed into the slider dots, and the originals are preserved.",
+    "data": {
+      "type": "@webflow/XscpData",
+      "payload": {
+        "nodes": [
+          {
+            "_id": "61253b32-10a2-9326-31b8-a44defbf6898",
+            "tag": "div",
+            "classes": [],
+            "children": [
+              "61253b32-10a2-9326-31b8-a44defbf6899",
+              "61253b32-10a2-9326-31b8-a44defbf689c",
+              "61253b32-10a2-9326-31b8-a44defbf689e",
+              "61253b32-10a2-9326-31b8-a44defbf68a0"
+            ],
+            "type": "SliderWrapper",
+            "data": {
+              "slider": {
+                "navSpacing": 3,
+                "autoplay": false,
+                "delay": 4000,
+                "iconArrows": true,
+                "animation": "slide",
+                "easing": "ease",
+                "navRound": true,
+                "disableSwipe": false,
+                "duration": 500,
+                "infinite": true,
+                "autoMax": 0,
+                "type": "wrapper"
+              },
+              "attr": { "data-animation": "slide", "data-duration": "500", "data-infinite": "1" }
+            }
+          },
+          {
+            "_id": "61253b32-10a2-9326-31b8-a44defbf6899",
+            "tag": "div",
+            "classes": [],
+            "children": [
+              "61253b32-10a2-9326-31b8-a44defbf689a",
+              "61253b32-10a2-9326-31b8-a44defbf689b",
+              "9413f9a6-0c35-59b7-6090-abf04db51307"
+            ],
+            "type": "SliderMask",
+            "data": { "slider": { "type": "slides" } }
+          },
+          {
+            "_id": "61253b32-10a2-9326-31b8-a44defbf689a",
+            "tag": "div",
+            "classes": [],
+            "children": ["a66f61dc-59d3-dc94-aa48-64b7b8290cd3"],
+            "type": "SliderSlide",
+            "data": { "tag": "div", "slider": { "type": "slide" } }
+          },
+          {
+            "_id": "a66f61dc-59d3-dc94-aa48-64b7b8290cd3",
+            "tag": "div",
+            "classes": ["44078771-9258-0580-5c6b-e98fe9c09bbc"],
+            "children": [
+              "f7d79c34-e272-55f0-bb5a-31e173ca5bc9",
+              "afe6e9b9-cca5-f9d1-5ef7-84ccb2c27ff4",
+              "7fcfdd73-71a5-301e-464b-4d5006484d3e"
+            ],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "f7d79c34-e272-55f0-bb5a-31e173ca5bc9",
+            "tag": "h3",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "7ebeeefc-d916-6442-5318-9181db0a596b"],
+            "children": ["f7d79c34-e272-55f0-bb5a-31e173ca5bca"],
+            "type": "Heading",
+            "data": { "tag": "h3" }
+          },
+          { "_id": "f7d79c34-e272-55f0-bb5a-31e173ca5bca", "text": true, "v": "Some slide content" },
+          {
+            "_id": "afe6e9b9-cca5-f9d1-5ef7-84ccb2c27ff4",
+            "tag": "div",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "7ebeeefc-d916-6442-5318-9181db0a596b"],
+            "children": ["afe6e9b9-cca5-f9d1-5ef7-84ccb2c27ff5"],
+            "type": "Block",
+            "data": { "text": true, "tag": "div" }
+          },
+          {
+            "_id": "afe6e9b9-cca5-f9d1-5ef7-84ccb2c27ff5",
+            "text": true,
+            "v": "The following element will be copied inside the correspondent slide dot:"
+          },
+          {
+            "_id": "7fcfdd73-71a5-301e-464b-4d5006484d3e",
+            "tag": "div",
+            "classes": ["77ca38ea-bf88-6551-ae06-88a7ac07eda9"],
+            "children": ["7fcfdd73-71a5-301e-464b-4d5006484d3f"],
+            "type": "Block",
+            "data": { "text": true, "tag": "div", "xattr": [{ "name": "fs-sliderdots-element", "value": "content" }] }
+          },
+          { "_id": "7fcfdd73-71a5-301e-464b-4d5006484d3f", "text": true, "v": "X" },
+          {
+            "_id": "61253b32-10a2-9326-31b8-a44defbf689b",
+            "tag": "div",
+            "classes": [],
+            "children": ["49aa1915-af27-fc0b-7fd0-f85e407f6e1d"],
+            "type": "SliderSlide",
+            "data": { "tag": "div", "slider": { "type": "slide" } }
+          },
+          {
+            "_id": "49aa1915-af27-fc0b-7fd0-f85e407f6e1d",
+            "tag": "div",
+            "classes": ["44078771-9258-0580-5c6b-e98fe9c09bbc"],
+            "children": [
+              "49aa1915-af27-fc0b-7fd0-f85e407f6e1e",
+              "49aa1915-af27-fc0b-7fd0-f85e407f6e20",
+              "49aa1915-af27-fc0b-7fd0-f85e407f6e22"
+            ],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "49aa1915-af27-fc0b-7fd0-f85e407f6e1e",
+            "tag": "h3",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "7ebeeefc-d916-6442-5318-9181db0a596b"],
+            "children": ["49aa1915-af27-fc0b-7fd0-f85e407f6e1f"],
+            "type": "Heading",
+            "data": { "tag": "h3" }
+          },
+          { "_id": "49aa1915-af27-fc0b-7fd0-f85e407f6e1f", "text": true, "v": "Some slide content" },
+          {
+            "_id": "49aa1915-af27-fc0b-7fd0-f85e407f6e20",
+            "tag": "div",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "7ebeeefc-d916-6442-5318-9181db0a596b"],
+            "children": ["49aa1915-af27-fc0b-7fd0-f85e407f6e21"],
+            "type": "Block",
+            "data": { "text": true, "tag": "div" }
+          },
+          {
+            "_id": "49aa1915-af27-fc0b-7fd0-f85e407f6e21",
+            "text": true,
+            "v": "The following element will be copied inside the correspondent slide dot:"
+          },
+          {
+            "_id": "49aa1915-af27-fc0b-7fd0-f85e407f6e22",
+            "tag": "div",
+            "classes": ["77ca38ea-bf88-6551-ae06-88a7ac07eda9"],
+            "children": ["49aa1915-af27-fc0b-7fd0-f85e407f6e23"],
+            "type": "Block",
+            "data": { "text": true, "tag": "div", "xattr": [{ "name": "fs-sliderdots-element", "value": "content" }] }
+          },
+          { "_id": "49aa1915-af27-fc0b-7fd0-f85e407f6e23", "text": true, "v": "Y" },
+          {
+            "_id": "9413f9a6-0c35-59b7-6090-abf04db51307",
+            "tag": "div",
+            "classes": [],
+            "children": ["8789c87d-58f9-d57f-04c8-e64a2b16e301"],
+            "type": "SliderSlide",
+            "data": { "tag": "div", "slider": { "type": "slide" } }
+          },
+          {
+            "_id": "8789c87d-58f9-d57f-04c8-e64a2b16e301",
+            "tag": "div",
+            "classes": ["44078771-9258-0580-5c6b-e98fe9c09bbc"],
+            "children": [
+              "8789c87d-58f9-d57f-04c8-e64a2b16e302",
+              "8789c87d-58f9-d57f-04c8-e64a2b16e304",
+              "8789c87d-58f9-d57f-04c8-e64a2b16e306"
+            ],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "8789c87d-58f9-d57f-04c8-e64a2b16e302",
+            "tag": "h3",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "7ebeeefc-d916-6442-5318-9181db0a596b"],
+            "children": ["8789c87d-58f9-d57f-04c8-e64a2b16e303"],
+            "type": "Heading",
+            "data": { "tag": "h3" }
+          },
+          { "_id": "8789c87d-58f9-d57f-04c8-e64a2b16e303", "text": true, "v": "Some slide content" },
+          {
+            "_id": "8789c87d-58f9-d57f-04c8-e64a2b16e304",
+            "tag": "div",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "7ebeeefc-d916-6442-5318-9181db0a596b"],
+            "children": ["8789c87d-58f9-d57f-04c8-e64a2b16e305"],
+            "type": "Block",
+            "data": { "text": true, "tag": "div" }
+          },
+          {
+            "_id": "8789c87d-58f9-d57f-04c8-e64a2b16e305",
+            "text": true,
+            "v": "The following element will be copied inside the correspondent slide dot:"
+          },
+          {
+            "_id": "8789c87d-58f9-d57f-04c8-e64a2b16e306",
+            "tag": "div",
+            "classes": ["77ca38ea-bf88-6551-ae06-88a7ac07eda9"],
+            "children": ["8789c87d-58f9-d57f-04c8-e64a2b16e307"],
+            "type": "Block",
+            "data": { "text": true, "tag": "div", "xattr": [{ "name": "fs-sliderdots-element", "value": "content" }] }
+          },
+          { "_id": "8789c87d-58f9-d57f-04c8-e64a2b16e307", "text": true, "v": "Z" },
+          {
+            "_id": "61253b32-10a2-9326-31b8-a44defbf689c",
+            "tag": "div",
+            "classes": [],
+            "children": ["61253b32-10a2-9326-31b8-a44defbf689d"],
+            "type": "SliderArrow",
+            "data": { "slider": { "type": "arrow", "dir": "left" } }
+          },
+          {
+            "_id": "61253b32-10a2-9326-31b8-a44defbf689d",
+            "tag": "div",
+            "classes": [],
+            "children": [],
+            "type": "Icon",
+            "data": { "widget": { "type": "icon", "icon": "slider-left" } }
+          },
+          {
+            "_id": "61253b32-10a2-9326-31b8-a44defbf689e",
+            "tag": "div",
+            "classes": [],
+            "children": ["61253b32-10a2-9326-31b8-a44defbf689f"],
+            "type": "SliderArrow",
+            "data": { "slider": { "type": "arrow", "dir": "right" } }
+          },
+          {
+            "_id": "61253b32-10a2-9326-31b8-a44defbf689f",
+            "tag": "div",
+            "classes": [],
+            "children": [],
+            "type": "Icon",
+            "data": { "widget": { "type": "icon", "icon": "slider-right" } }
+          },
+          {
+            "_id": "61253b32-10a2-9326-31b8-a44defbf68a0",
+            "tag": "div",
+            "classes": [],
+            "children": [],
+            "type": "SliderNav",
+            "data": { "slider": { "type": "nav" } }
+          }
+        ],
+        "styles": [
+          {
+            "_id": "44078771-9258-0580-5c6b-e98fe9c09bbc",
+            "fake": false,
+            "type": "class",
+            "name": "sliderdots_slide",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "padding-top: 2rem; padding-right: 2rem; padding-bottom: 2rem; padding-left: 2rem;",
+            "variants": {},
+            "children": [],
+            "selector": null
+          },
+          {
+            "_id": "2b7ce42a-68c2-b493-7ffe-3975868fa804",
+            "fake": false,
+            "type": "class",
+            "name": "margin-bottom",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "margin-top: 0rem; margin-right: 0rem; margin-left: 0rem;",
+            "variants": {
+              "medium": { "styleLess": "margin-top: 0rem; margin-right: 0rem; margin-left: 0rem;" },
+              "small": { "styleLess": "margin-top: 0rem; margin-right: 0rem; margin-left: 0rem;" },
+              "tiny": { "styleLess": "margin-top: 0rem; margin-right: 0rem; margin-left: 0rem;" }
+            },
+            "children": [
+              "7ebeeefc-d916-6442-5318-9181db0a596b",
+              "d49f1cf6-c082-f38c-fc8a-ee71c512df2b",
+              "539dd30b-2124-ed78-80df-c2b0fe1ad738",
+              "710d0dd3-fa82-2818-ef2c-4b52c19dad26"
+            ],
+            "selector": null
+          },
+          {
+            "_id": "7ebeeefc-d916-6442-5318-9181db0a596b",
+            "fake": false,
+            "type": "class",
+            "name": "margin-small",
+            "namespace": "",
+            "comb": "&",
+            "styleLess": "",
+            "variants": {},
+            "children": [],
+            "selector": null
+          },
+          {
+            "_id": "77ca38ea-bf88-6551-ae06-88a7ac07eda9",
+            "fake": false,
+            "type": "class",
+            "name": "sliderdots_content",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "font-size: 1rem; line-height: 1; font-weight: 700; text-align: center;",
+            "variants": {},
+            "children": [],
+            "selector": null
+          }
+        ],
+        "assets": [],
+        "ix1": [],
+        "ix2": { "interactions": [], "events": [], "actionLists": [] }
+      },
+      "meta": {
+        "unlinkedSymbolCount": 0,
+        "droppedLinks": 0,
+        "dynBindRemovedCount": 0,
+        "dynListBindRemovedCount": 0,
+        "paginationRemovedCount": 0
+      }
+    }
+  },
+  {
+    "title": "Remove original content",
+    "description": "Custom content is placed into the slider dots, and the originals are removed.",
+    "data": {
+      "type": "@webflow/XscpData",
+      "payload": {
+        "nodes": [
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff210855816c",
+            "tag": "div",
+            "classes": [],
+            "children": [
+              "a9086efa-d9c0-db4b-e051-ff210855816d",
+              "a9086efa-d9c0-db4b-e051-ff2108558186",
+              "a9086efa-d9c0-db4b-e051-ff2108558188",
+              "a9086efa-d9c0-db4b-e051-ff210855818a"
+            ],
+            "type": "SliderWrapper",
+            "data": {
+              "slider": {
+                "navSpacing": 3,
+                "autoplay": false,
+                "delay": 4000,
+                "iconArrows": true,
+                "animation": "slide",
+                "easing": "ease",
+                "navRound": true,
+                "disableSwipe": false,
+                "duration": 500,
+                "infinite": true,
+                "autoMax": 0,
+                "type": "wrapper"
+              },
+              "attr": { "data-animation": "slide", "data-duration": "500", "data-infinite": "1" }
+            }
+          },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff210855816d",
+            "tag": "div",
+            "classes": [],
+            "children": [
+              "a9086efa-d9c0-db4b-e051-ff210855816e",
+              "a9086efa-d9c0-db4b-e051-ff2108558176",
+              "a9086efa-d9c0-db4b-e051-ff210855817e"
+            ],
+            "type": "SliderMask",
+            "data": { "slider": { "type": "slides" } }
+          },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff210855816e",
+            "tag": "div",
+            "classes": [],
+            "children": ["a9086efa-d9c0-db4b-e051-ff210855816f"],
+            "type": "SliderSlide",
+            "data": { "tag": "div", "slider": { "type": "slide" } }
+          },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff210855816f",
+            "tag": "div",
+            "classes": ["44078771-9258-0580-5c6b-e98fe9c09bbc"],
+            "children": [
+              "a9086efa-d9c0-db4b-e051-ff2108558170",
+              "a9086efa-d9c0-db4b-e051-ff2108558172",
+              "a9086efa-d9c0-db4b-e051-ff2108558174"
+            ],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff2108558170",
+            "tag": "h3",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "7ebeeefc-d916-6442-5318-9181db0a596b"],
+            "children": ["a9086efa-d9c0-db4b-e051-ff2108558171"],
+            "type": "Heading",
+            "data": { "tag": "h3" }
+          },
+          { "_id": "a9086efa-d9c0-db4b-e051-ff2108558171", "text": true, "v": "Some slide content" },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff2108558172",
+            "tag": "div",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "7ebeeefc-d916-6442-5318-9181db0a596b"],
+            "children": ["a9086efa-d9c0-db4b-e051-ff2108558173"],
+            "type": "Block",
+            "data": { "text": true, "tag": "div" }
+          },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff2108558173",
+            "text": true,
+            "v": "The following element will be copied inside the correspondent slide dot:"
+          },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff2108558174",
+            "tag": "div",
+            "classes": ["77ca38ea-bf88-6551-ae06-88a7ac07eda9"],
+            "children": ["a9086efa-d9c0-db4b-e051-ff2108558175"],
+            "type": "Block",
+            "data": {
+              "text": true,
+              "tag": "div",
+              "xattr": [
+                { "name": "fs-sliderdots-element", "value": "content" },
+                { "name": "fs-sliderdots-remove", "value": "true" }
+              ]
+            }
+          },
+          { "_id": "a9086efa-d9c0-db4b-e051-ff2108558175", "text": true, "v": "X" },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff2108558176",
+            "tag": "div",
+            "classes": [],
+            "children": ["a9086efa-d9c0-db4b-e051-ff2108558177"],
+            "type": "SliderSlide",
+            "data": { "tag": "div", "slider": { "type": "slide" } }
+          },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff2108558177",
+            "tag": "div",
+            "classes": ["44078771-9258-0580-5c6b-e98fe9c09bbc"],
+            "children": [
+              "a9086efa-d9c0-db4b-e051-ff2108558178",
+              "a9086efa-d9c0-db4b-e051-ff210855817a",
+              "a9086efa-d9c0-db4b-e051-ff210855817c"
+            ],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff2108558178",
+            "tag": "h3",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "7ebeeefc-d916-6442-5318-9181db0a596b"],
+            "children": ["a9086efa-d9c0-db4b-e051-ff2108558179"],
+            "type": "Heading",
+            "data": { "tag": "h3" }
+          },
+          { "_id": "a9086efa-d9c0-db4b-e051-ff2108558179", "text": true, "v": "Some slide content" },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff210855817a",
+            "tag": "div",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "7ebeeefc-d916-6442-5318-9181db0a596b"],
+            "children": ["a9086efa-d9c0-db4b-e051-ff210855817b"],
+            "type": "Block",
+            "data": { "text": true, "tag": "div" }
+          },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff210855817b",
+            "text": true,
+            "v": "The following element will be copied inside the correspondent slide dot:"
+          },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff210855817c",
+            "tag": "div",
+            "classes": ["77ca38ea-bf88-6551-ae06-88a7ac07eda9"],
+            "children": ["a9086efa-d9c0-db4b-e051-ff210855817d"],
+            "type": "Block",
+            "data": {
+              "text": true,
+              "tag": "div",
+              "xattr": [
+                { "name": "fs-sliderdots-element", "value": "content" },
+                { "name": "fs-sliderdots-remove", "value": "true" }
+              ]
+            }
+          },
+          { "_id": "a9086efa-d9c0-db4b-e051-ff210855817d", "text": true, "v": "Y" },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff210855817e",
+            "tag": "div",
+            "classes": [],
+            "children": ["a9086efa-d9c0-db4b-e051-ff210855817f"],
+            "type": "SliderSlide",
+            "data": { "tag": "div", "slider": { "type": "slide" } }
+          },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff210855817f",
+            "tag": "div",
+            "classes": ["44078771-9258-0580-5c6b-e98fe9c09bbc"],
+            "children": [
+              "a9086efa-d9c0-db4b-e051-ff2108558180",
+              "a9086efa-d9c0-db4b-e051-ff2108558182",
+              "a9086efa-d9c0-db4b-e051-ff2108558184"
+            ],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff2108558180",
+            "tag": "h3",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "7ebeeefc-d916-6442-5318-9181db0a596b"],
+            "children": ["a9086efa-d9c0-db4b-e051-ff2108558181"],
+            "type": "Heading",
+            "data": { "tag": "h3" }
+          },
+          { "_id": "a9086efa-d9c0-db4b-e051-ff2108558181", "text": true, "v": "Some slide content" },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff2108558182",
+            "tag": "div",
+            "classes": ["2b7ce42a-68c2-b493-7ffe-3975868fa804", "7ebeeefc-d916-6442-5318-9181db0a596b"],
+            "children": ["a9086efa-d9c0-db4b-e051-ff2108558183"],
+            "type": "Block",
+            "data": { "text": true, "tag": "div" }
+          },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff2108558183",
+            "text": true,
+            "v": "The following element will be copied inside the correspondent slide dot:"
+          },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff2108558184",
+            "tag": "div",
+            "classes": ["77ca38ea-bf88-6551-ae06-88a7ac07eda9"],
+            "children": ["a9086efa-d9c0-db4b-e051-ff2108558185"],
+            "type": "Block",
+            "data": {
+              "text": true,
+              "tag": "div",
+              "xattr": [
+                { "name": "fs-sliderdots-element", "value": "content" },
+                { "name": "fs-sliderdots-remove", "value": "true" }
+              ]
+            }
+          },
+          { "_id": "a9086efa-d9c0-db4b-e051-ff2108558185", "text": true, "v": "Z" },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff2108558186",
+            "tag": "div",
+            "classes": [],
+            "children": ["a9086efa-d9c0-db4b-e051-ff2108558187"],
+            "type": "SliderArrow",
+            "data": { "slider": { "type": "arrow", "dir": "left" } }
+          },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff2108558187",
+            "tag": "div",
+            "classes": [],
+            "children": [],
+            "type": "Icon",
+            "data": { "widget": { "type": "icon", "icon": "slider-left" } }
+          },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff2108558188",
+            "tag": "div",
+            "classes": [],
+            "children": ["a9086efa-d9c0-db4b-e051-ff2108558189"],
+            "type": "SliderArrow",
+            "data": { "slider": { "type": "arrow", "dir": "right" } }
+          },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff2108558189",
+            "tag": "div",
+            "classes": [],
+            "children": [],
+            "type": "Icon",
+            "data": { "widget": { "type": "icon", "icon": "slider-right" } }
+          },
+          {
+            "_id": "a9086efa-d9c0-db4b-e051-ff210855818a",
+            "tag": "div",
+            "classes": [],
+            "children": [],
+            "type": "SliderNav",
+            "data": { "slider": { "type": "nav" } }
+          }
+        ],
+        "styles": [
+          {
+            "_id": "44078771-9258-0580-5c6b-e98fe9c09bbc",
+            "fake": false,
+            "type": "class",
+            "name": "sliderdots_slide",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "padding-top: 2rem; padding-right: 2rem; padding-bottom: 2rem; padding-left: 2rem;",
+            "variants": {},
+            "children": [],
+            "selector": null
+          },
+          {
+            "_id": "2b7ce42a-68c2-b493-7ffe-3975868fa804",
+            "fake": false,
+            "type": "class",
+            "name": "margin-bottom",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "margin-top: 0rem; margin-right: 0rem; margin-left: 0rem;",
+            "variants": {
+              "medium": { "styleLess": "margin-top: 0rem; margin-right: 0rem; margin-left: 0rem;" },
+              "small": { "styleLess": "margin-top: 0rem; margin-right: 0rem; margin-left: 0rem;" },
+              "tiny": { "styleLess": "margin-top: 0rem; margin-right: 0rem; margin-left: 0rem;" }
+            },
+            "children": [
+              "7ebeeefc-d916-6442-5318-9181db0a596b",
+              "d49f1cf6-c082-f38c-fc8a-ee71c512df2b",
+              "539dd30b-2124-ed78-80df-c2b0fe1ad738",
+              "710d0dd3-fa82-2818-ef2c-4b52c19dad26"
+            ],
+            "selector": null
+          },
+          {
+            "_id": "7ebeeefc-d916-6442-5318-9181db0a596b",
+            "fake": false,
+            "type": "class",
+            "name": "margin-small",
+            "namespace": "",
+            "comb": "&",
+            "styleLess": "",
+            "variants": {},
+            "children": [],
+            "selector": null
+          },
+          {
+            "_id": "77ca38ea-bf88-6551-ae06-88a7ac07eda9",
+            "fake": false,
+            "type": "class",
+            "name": "sliderdots_content",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "font-size: 1rem; line-height: 1; font-weight: 700; text-align: center;",
+            "variants": {},
+            "children": [],
+            "selector": null
+          }
+        ],
+        "assets": [],
+        "ix1": [],
+        "ix2": { "interactions": [], "events": [], "actionLists": [] }
+      },
+      "meta": {
+        "unlinkedSymbolCount": 0,
+        "droppedLinks": 0,
+        "dynBindRemovedCount": 0,
+        "dynListBindRemovedCount": 0,
+        "paginationRemovedCount": 0
+      }
+    }
+  }
+]

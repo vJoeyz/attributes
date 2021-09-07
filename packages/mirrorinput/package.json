@@ -4,7 +4,8 @@
   "description": "Mirrors input events between two elements.",
   "main": "mirrorinput.js",
   "files": [
-    "mirrorinput.js"
+    "mirrorinput.js",
+    "examples.json"
   ],
   "type": "module",
   "scripts": {

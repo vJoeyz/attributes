@@ -1,0 +1,593 @@
+[
+  {
+    "title": "Disable scrolling",
+    "description": "Disable scrolling when clicking on the element.",
+    "data": {
+      "type": "@webflow/XscpData",
+      "payload": {
+        "nodes": [
+          {
+            "_id": "cb218f34-f1ca-67c6-ffee-5fa836e1e084",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1"],
+            "children": ["796167e0-6599-fda8-9c2a-ddb434a7f533"],
+            "type": "Link",
+            "data": {
+              "button": true,
+              "link": { "mode": "external", "url": "#" },
+              "xattr": [{ "name": "fs-scrolldisable-element", "value": "disable" }]
+            }
+          },
+          { "_id": "796167e0-6599-fda8-9c2a-ddb434a7f533", "text": true, "v": "Disable scrolling" }
+        ],
+        "styles": [
+          {
+            "_id": "b0934d9a-875a-bb42-0630-12090a77fbf1",
+            "fake": false,
+            "type": "class",
+            "name": "button",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "position: relative; z-index: 1; padding-top: 0.75rem; padding-right: 1.25rem; padding-bottom: 0.75rem; padding-left: 1.25rem; justify-content: center; align-items: center; background-color: hsla(222, 82.57%, 57.25%, 1.00); transition-property: background-color; transition-duration: 200ms; transition-timing-function: ease; color: hsla(0, 0.00%, 100.00%, 1.00); font-weight: 600; text-align: center;",
+            "variants": {},
+            "children": ["b0934d9a-875a-bb42-0630-12090a77fcbf", "96240114-c262-72b3-90fb-46b0b97ab2de"],
+            "selector": null
+          }
+        ],
+        "assets": [],
+        "ix1": [],
+        "ix2": { "interactions": [], "events": [], "actionLists": [] }
+      },
+      "meta": {
+        "unlinkedSymbolCount": 0,
+        "droppedLinks": 0,
+        "dynBindRemovedCount": 0,
+        "dynListBindRemovedCount": 0,
+        "paginationRemovedCount": 0
+      }
+    }
+  },
+  {
+    "title": "Enable scrolling",
+    "description": "Enable scrolling when clicking on the element.",
+    "data": {
+      "type": "@webflow/XscpData",
+      "payload": {
+        "nodes": [
+          {
+            "_id": "d8fcfca5-d3d4-72bd-bfc6-57ef388cff8b",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1"],
+            "children": ["d8fcfca5-d3d4-72bd-bfc6-57ef388cff8c"],
+            "type": "Link",
+            "data": {
+              "button": true,
+              "link": { "mode": "external", "url": "#" },
+              "xattr": [{ "name": "fs-scrolldisable-element", "value": "enable" }]
+            }
+          },
+          { "_id": "d8fcfca5-d3d4-72bd-bfc6-57ef388cff8c", "text": true, "v": "Enable scrolling" }
+        ],
+        "styles": [
+          {
+            "_id": "b0934d9a-875a-bb42-0630-12090a77fbf1",
+            "fake": false,
+            "type": "class",
+            "name": "button",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "position: relative; z-index: 1; padding-top: 0.75rem; padding-right: 1.25rem; padding-bottom: 0.75rem; padding-left: 1.25rem; justify-content: center; align-items: center; background-color: hsla(222, 82.57%, 57.25%, 1.00); transition-property: background-color; transition-duration: 200ms; transition-timing-function: ease; color: hsla(0, 0.00%, 100.00%, 1.00); font-weight: 600; text-align: center;",
+            "variants": {},
+            "children": ["b0934d9a-875a-bb42-0630-12090a77fcbf", "96240114-c262-72b3-90fb-46b0b97ab2de"],
+            "selector": null
+          }
+        ],
+        "assets": [],
+        "ix1": [],
+        "ix2": { "interactions": [], "events": [], "actionLists": [] }
+      },
+      "meta": {
+        "unlinkedSymbolCount": 0,
+        "droppedLinks": 0,
+        "dynBindRemovedCount": 0,
+        "dynListBindRemovedCount": 0,
+        "paginationRemovedCount": 0
+      }
+    }
+  },
+  {
+    "title": "Toggle scrolling",
+    "description": "Toggle scrolling when clicking on the element.",
+    "data": {
+      "type": "@webflow/XscpData",
+      "payload": {
+        "nodes": [
+          {
+            "_id": "83839b0a-0917-d4f3-13c5-e67e21e39a42",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1"],
+            "children": ["83839b0a-0917-d4f3-13c5-e67e21e39a43"],
+            "type": "Link",
+            "data": {
+              "button": true,
+              "link": { "mode": "external", "url": "#" },
+              "xattr": [{ "name": "fs-scrolldisable-element", "value": "toggle" }]
+            }
+          },
+          { "_id": "83839b0a-0917-d4f3-13c5-e67e21e39a43", "text": true, "v": "Toggle scrolling" }
+        ],
+        "styles": [
+          {
+            "_id": "b0934d9a-875a-bb42-0630-12090a77fbf1",
+            "fake": false,
+            "type": "class",
+            "name": "button",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "position: relative; z-index: 1; padding-top: 0.75rem; padding-right: 1.25rem; padding-bottom: 0.75rem; padding-left: 1.25rem; justify-content: center; align-items: center; background-color: hsla(222, 82.57%, 57.25%, 1.00); transition-property: background-color; transition-duration: 200ms; transition-timing-function: ease; color: hsla(0, 0.00%, 100.00%, 1.00); font-weight: 600; text-align: center;",
+            "variants": {},
+            "children": ["b0934d9a-875a-bb42-0630-12090a77fcbf", "96240114-c262-72b3-90fb-46b0b97ab2de"],
+            "selector": null
+          }
+        ],
+        "assets": [],
+        "ix1": [],
+        "ix2": { "interactions": [], "events": [], "actionLists": [] }
+      },
+      "meta": {
+        "unlinkedSymbolCount": 0,
+        "droppedLinks": 0,
+        "dynBindRemovedCount": 0,
+        "dynListBindRemovedCount": 0,
+        "paginationRemovedCount": 0
+      }
+    }
+  },
+  {
+    "title": "When Visible",
+    "description": "Disable scrolling whenever this element is visible.",
+    "data": {
+      "type": "@webflow/XscpData",
+      "payload": {
+        "nodes": [
+          {
+            "_id": "5ef018d5-8258-8db9-706d-f8f98c1f4fec",
+            "tag": "div",
+            "classes": ["47507b46-422f-1770-d594-fc73d8c2960c"],
+            "children": ["5ef018d5-8258-8db9-706d-f8f98c1f4fed", "bd31c5d6-032b-a8bd-ec38-6afb2951c928"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "5ef018d5-8258-8db9-706d-f8f98c1f4fed",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1"],
+            "children": ["b06d54be-3924-2d09-94f5-cb63e8b60ffe"],
+            "type": "Link",
+            "data": { "button": true, "link": { "mode": "external", "url": "#" } }
+          },
+          { "_id": "b06d54be-3924-2d09-94f5-cb63e8b60ffe", "text": true, "v": "Show element -->" },
+          {
+            "_id": "bd31c5d6-032b-a8bd-ec38-6afb2951c928",
+            "tag": "div",
+            "classes": ["8f08c598-c996-3055-6c43-624620811e76"],
+            "children": ["bd31c5d6-032b-a8bd-ec38-6afb2951c929"],
+            "type": "Block",
+            "data": {
+              "text": true,
+              "tag": "div",
+              "xattr": [{ "name": "fs-scrolldisable-element", "value": "when-visible" }]
+            }
+          },
+          {
+            "_id": "bd31c5d6-032b-a8bd-ec38-6afb2951c929",
+            "text": true,
+            "v": "Scrolling will be disabled when I'm visible and enabled when not!"
+          }
+        ],
+        "styles": [
+          {
+            "_id": "47507b46-422f-1770-d594-fc73d8c2960c",
+            "fake": false,
+            "type": "class",
+            "name": "attributes_grid-2-col",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "display: grid; align-items: center; grid-auto-columns: 1fr; grid-column-gap: 4rem; grid-row-gap: 4rem; grid-template-columns: 1fr 1fr; grid-template-rows: auto;",
+            "variants": {},
+            "children": ["c7f21e08-457e-8e10-6b81-adcf8b78441f"],
+            "selector": null
+          },
+          {
+            "_id": "b0934d9a-875a-bb42-0630-12090a77fbf1",
+            "fake": false,
+            "type": "class",
+            "name": "button",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "position: relative; z-index: 1; padding-top: 0.75rem; padding-right: 1.25rem; padding-bottom: 0.75rem; padding-left: 1.25rem; justify-content: center; align-items: center; background-color: hsla(222, 82.57%, 57.25%, 1.00); transition-property: background-color; transition-duration: 200ms; transition-timing-function: ease; color: hsla(0, 0.00%, 100.00%, 1.00); font-weight: 600; text-align: center;",
+            "variants": {},
+            "children": ["b0934d9a-875a-bb42-0630-12090a77fcbf", "96240114-c262-72b3-90fb-46b0b97ab2de"],
+            "selector": null
+          },
+          {
+            "_id": "8f08c598-c996-3055-6c43-624620811e76",
+            "fake": false,
+            "type": "class",
+            "name": "scrolldisable_when-visible",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "",
+            "variants": {},
+            "children": [],
+            "selector": null
+          }
+        ],
+        "assets": [],
+        "ix1": [],
+        "ix2": {
+          "interactions": [
+            {
+              "id": "i",
+              "interactionTypeId": "MOUSE_CLICK_INTERACTION",
+              "eventIds": ["e", "e-2"],
+              "target": "61350c7258103f7cec3dc6e4|5ef018d5-8258-8db9-706d-f8f98c1f4fed",
+              "createdOn": 1630867146170
+            }
+          ],
+          "events": [
+            {
+              "id": "e",
+              "name": "",
+              "animationType": "custom",
+              "eventTypeId": "MOUSE_CLICK",
+              "action": {
+                "id": "",
+                "actionTypeId": "GENERAL_START_ACTION",
+                "instant": true,
+                "config": {
+                  "delay": 0,
+                  "easing": "",
+                  "duration": 0,
+                  "actionListId": "a",
+                  "affectedElements": {},
+                  "playInReverse": false,
+                  "autoStopEventId": "e-2"
+                }
+              },
+              "mediaQueries": ["main", "medium", "small", "tiny"],
+              "target": {
+                "id": "61350c7258103f7cec3dc6e4|5ef018d5-8258-8db9-706d-f8f98c1f4fed",
+                "appliesTo": "ELEMENT",
+                "styleBlockIds": []
+              },
+              "targets": [
+                {
+                  "id": "61350c7258103f7cec3dc6e4|5ef018d5-8258-8db9-706d-f8f98c1f4fed",
+                  "appliesTo": "ELEMENT",
+                  "styleBlockIds": []
+                }
+              ],
+              "config": {
+                "loop": false,
+                "playInReverse": false,
+                "scrollOffsetValue": null,
+                "scrollOffsetUnit": null,
+                "delay": null,
+                "direction": null,
+                "effectIn": null
+              },
+              "createdOn": 1630867146170
+            },
+            {
+              "id": "e-2",
+              "name": "",
+              "animationType": "custom",
+              "eventTypeId": "MOUSE_SECOND_CLICK",
+              "action": {
+                "id": "",
+                "actionTypeId": "GENERAL_START_ACTION",
+                "instant": true,
+                "config": {
+                  "delay": 0,
+                  "easing": "",
+                  "duration": 0,
+                  "actionListId": "a-2",
+                  "affectedElements": {},
+                  "playInReverse": false,
+                  "autoStopEventId": "e"
+                }
+              },
+              "mediaQueries": ["main", "medium", "small", "tiny"],
+              "target": {
+                "id": "61350c7258103f7cec3dc6e4|5ef018d5-8258-8db9-706d-f8f98c1f4fed",
+                "appliesTo": "ELEMENT",
+                "styleBlockIds": []
+              },
+              "targets": [
+                {
+                  "id": "61350c7258103f7cec3dc6e4|5ef018d5-8258-8db9-706d-f8f98c1f4fed",
+                  "appliesTo": "ELEMENT",
+                  "styleBlockIds": []
+                }
+              ],
+              "config": {
+                "loop": false,
+                "playInReverse": false,
+                "scrollOffsetValue": null,
+                "scrollOffsetUnit": null,
+                "delay": null,
+                "direction": null,
+                "effectIn": null
+              },
+              "createdOn": 1630867146171
+            }
+          ],
+          "actionLists": [
+            {
+              "id": "a",
+              "title": "[scrolldisable] when-visible OPEN",
+              "actionItemGroups": [
+                {
+                  "actionItems": [
+                    {
+                      "id": "a-n",
+                      "actionTypeId": "GENERAL_DISPLAY",
+                      "config": {
+                        "delay": 0,
+                        "easing": "",
+                        "duration": 0,
+                        "target": {
+                          "nodeId": "61350c7258103f7cec3dc6e4|ab0782e4-612a-b62a-09fc-64801cdb364f",
+                          "appliesTo": "ELEMENT_CLASS",
+                          "styleBlockIds": ["8f08c598-c996-3055-6c43-624620811e76"],
+                          "useEventTarget": "SIBLINGS",
+                          "boundaryMode": false
+                        },
+                        "value": "none"
+                      },
+                      "instant": true
+                    },
+                    {
+                      "id": "a-n-2",
+                      "actionTypeId": "STYLE_OPACITY",
+                      "config": {
+                        "delay": 0,
+                        "easing": "",
+                        "duration": 500,
+                        "target": {
+                          "nodeId": "61350c7258103f7cec3dc6e4|ab0782e4-612a-b62a-09fc-64801cdb364f",
+                          "appliesTo": "ELEMENT_CLASS",
+                          "styleBlockIds": ["8f08c598-c996-3055-6c43-624620811e76"],
+                          "useEventTarget": "SIBLINGS",
+                          "boundaryMode": false
+                        },
+                        "value": 0,
+                        "unit": "%"
+                      },
+                      "instant": false
+                    }
+                  ]
+                },
+                {
+                  "actionItems": [
+                    {
+                      "id": "a-n-3",
+                      "actionTypeId": "GENERAL_DISPLAY",
+                      "config": {
+                        "delay": 0,
+                        "easing": "",
+                        "duration": 0,
+                        "target": {
+                          "nodeId": "61350c7258103f7cec3dc6e4|ab0782e4-612a-b62a-09fc-64801cdb364f",
+                          "appliesTo": "ELEMENT_CLASS",
+                          "styleBlockIds": ["8f08c598-c996-3055-6c43-624620811e76"],
+                          "useEventTarget": "SIBLINGS",
+                          "boundaryMode": false
+                        },
+                        "value": "block"
+                      },
+                      "instant": true
+                    }
+                  ]
+                },
+                {
+                  "actionItems": [
+                    {
+                      "id": "a-n-4",
+                      "actionTypeId": "STYLE_OPACITY",
+                      "config": {
+                        "delay": 0,
+                        "easing": "ease",
+                        "duration": 500,
+                        "target": {
+                          "nodeId": "61350c7258103f7cec3dc6e4|ab0782e4-612a-b62a-09fc-64801cdb364f",
+                          "appliesTo": "ELEMENT_CLASS",
+                          "styleBlockIds": ["8f08c598-c996-3055-6c43-624620811e76"],
+                          "useEventTarget": "SIBLINGS",
+                          "boundaryMode": false
+                        },
+                        "value": 100,
+                        "unit": "%"
+                      },
+                      "instant": false
+                    }
+                  ]
+                }
+              ],
+              "useFirstGroupAsInitialState": true,
+              "createdOn": 1630867149485
+            },
+            {
+              "id": "a-2",
+              "title": "[scrolldisable] when-visible CLOSE",
+              "actionItemGroups": [
+                {
+                  "actionItems": [
+                    {
+                      "id": "a-2-n-4",
+                      "actionTypeId": "STYLE_OPACITY",
+                      "config": {
+                        "delay": 0,
+                        "easing": "ease",
+                        "duration": 500,
+                        "target": {
+                          "nodeId": "61350c7258103f7cec3dc6e4|ab0782e4-612a-b62a-09fc-64801cdb364f",
+                          "appliesTo": "ELEMENT_CLASS",
+                          "styleBlockIds": ["8f08c598-c996-3055-6c43-624620811e76"],
+                          "useEventTarget": "SIBLINGS",
+                          "boundaryMode": false
+                        },
+                        "value": 0,
+                        "unit": "%"
+                      },
+                      "instant": false
+                    }
+                  ]
+                },
+                {
+                  "actionItems": [
+                    {
+                      "id": "a-2-n-3",
+                      "actionTypeId": "GENERAL_DISPLAY",
+                      "config": {
+                        "delay": 0,
+                        "easing": "",
+                        "duration": 0,
+                        "target": {
+                          "nodeId": "61350c7258103f7cec3dc6e4|ab0782e4-612a-b62a-09fc-64801cdb364f",
+                          "appliesTo": "ELEMENT_CLASS",
+                          "styleBlockIds": ["8f08c598-c996-3055-6c43-624620811e76"],
+                          "useEventTarget": "SIBLINGS",
+                          "boundaryMode": false
+                        },
+                        "value": "none"
+                      },
+                      "instant": true
+                    }
+                  ]
+                }
+              ],
+              "useFirstGroupAsInitialState": false,
+              "createdOn": 1630867149485
+            }
+          ]
+        }
+      },
+      "meta": {
+        "unlinkedSymbolCount": 0,
+        "droppedLinks": 0,
+        "dynBindRemovedCount": 0,
+        "dynListBindRemovedCount": 0,
+        "paginationRemovedCount": 0
+      }
+    }
+  },
+  {
+    "title": "Smart Nav",
+    "description": "Disable scrolling whenever the Nav Menu is open.",
+    "data": {
+      "type": "@webflow/XscpData",
+      "payload": {
+        "nodes": [
+          {
+            "_id": "f2c844ef-8563-5600-c6d2-ab299159bd2f",
+            "tag": "div",
+            "classes": [],
+            "children": ["f2c844ef-8563-5600-c6d2-ab299159bd30"],
+            "type": "NavbarWrapper",
+            "data": {
+              "tag": "div",
+              "navbar": {
+                "animation": "default",
+                "easing": "ease",
+                "easing2": "ease",
+                "duration": 400,
+                "docHeight": false,
+                "collapse": "medium",
+                "noScroll": false,
+                "type": "wrapper"
+              },
+              "attr": { "data-collapse": "medium", "data-animation": "default", "data-duration": "400" },
+              "xattr": [{ "name": "fs-scrolldisable-element", "value": "smart-nav" }]
+            }
+          },
+          {
+            "_id": "f2c844ef-8563-5600-c6d2-ab299159bd30",
+            "tag": "div",
+            "classes": [],
+            "children": ["f2c844ef-8563-5600-c6d2-ab299159bd32", "f2c844ef-8563-5600-c6d2-ab299159bd39"],
+            "type": "NavbarContainer",
+            "data": { "tag": "div", "navbar": { "type": "container" } }
+          },
+          {
+            "_id": "f2c844ef-8563-5600-c6d2-ab299159bd32",
+            "tag": "nav",
+            "classes": [],
+            "children": [
+              "f2c844ef-8563-5600-c6d2-ab299159bd33",
+              "f2c844ef-8563-5600-c6d2-ab299159bd35",
+              "f2c844ef-8563-5600-c6d2-ab299159bd37"
+            ],
+            "type": "NavbarMenu",
+            "data": { "tag": "nav", "navbar": { "type": "menu" }, "attr": { "role": "navigation" } }
+          },
+          {
+            "_id": "f2c844ef-8563-5600-c6d2-ab299159bd33",
+            "tag": "a",
+            "classes": [],
+            "children": ["f2c844ef-8563-5600-c6d2-ab299159bd34"],
+            "type": "NavbarLink",
+            "data": { "navbar": { "type": "link" }, "attr": { "href": "#" }, "link": { "mode": "external" } }
+          },
+          { "_id": "f2c844ef-8563-5600-c6d2-ab299159bd34", "text": true, "v": "Home" },
+          {
+            "_id": "f2c844ef-8563-5600-c6d2-ab299159bd35",
+            "tag": "a",
+            "classes": [],
+            "children": ["f2c844ef-8563-5600-c6d2-ab299159bd36"],
+            "type": "NavbarLink",
+            "data": { "navbar": { "type": "link" }, "attr": { "href": "#" }, "link": { "mode": "external" } }
+          },
+          { "_id": "f2c844ef-8563-5600-c6d2-ab299159bd36", "text": true, "v": "About" },
+          {
+            "_id": "f2c844ef-8563-5600-c6d2-ab299159bd37",
+            "tag": "a",
+            "classes": [],
+            "children": ["f2c844ef-8563-5600-c6d2-ab299159bd38"],
+            "type": "NavbarLink",
+            "data": { "navbar": { "type": "link" }, "attr": { "href": "#" }, "link": { "mode": "external" } }
+          },
+          { "_id": "f2c844ef-8563-5600-c6d2-ab299159bd38", "text": true, "v": "Contact" },
+          {
+            "_id": "f2c844ef-8563-5600-c6d2-ab299159bd39",
+            "tag": "div",
+            "classes": [],
+            "children": ["f2c844ef-8563-5600-c6d2-ab299159bd3a"],
+            "type": "NavbarButton",
+            "data": { "tag": "div", "navbar": { "type": "button" } }
+          },
+          {
+            "_id": "f2c844ef-8563-5600-c6d2-ab299159bd3a",
+            "tag": "div",
+            "classes": [],
+            "children": [],
+            "type": "Icon",
+            "data": { "widget": { "type": "icon", "icon": "nav-menu" } }
+          }
+        ],
+        "styles": [],
+        "assets": [],
+        "ix1": [],
+        "ix2": { "interactions": [], "events": [], "actionLists": [] }
+      },
+      "meta": {
+        "unlinkedSymbolCount": 0,
+        "droppedLinks": 0,
+        "dynBindRemovedCount": 0,
+        "dynListBindRemovedCount": 0,
+        "paginationRemovedCount": 0
+      }
+    }
+  }
+]

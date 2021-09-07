@@ -4,7 +4,8 @@
   "description": "Display the amount of CMS items of a Collection List.",
   "main": "countitems.js",
   "files": [
-    "countitems.js"
+    "countitems.js",
+    "examples.json"
   ],
   "type": "module",
   "scripts": {

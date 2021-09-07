@@ -4,7 +4,8 @@
   "description": "Mirrors click events between two elements.",
   "main": "mirrorclick.js",
   "files": [
-    "mirrorclick.js"
+    "mirrorclick.js",
+    "examples.json"
   ],
   "type": "module",
   "scripts": {

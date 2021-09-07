@@ -1,10 +1,11 @@
 {
   "name": "@finsweet/attributes-scrolldisable",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Disables scrolling on certain events.",
   "main": "scrolldisable.js",
   "files": [
-    "scrolldisable.js"
+    "scrolldisable.js",
+    "examples.json"
   ],
   "type": "module",
   "scripts": {

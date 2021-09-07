@@ -1,0 +1,611 @@
+[
+  {
+    "title": "All Form Fields demo",
+    "description": "Demo where all available Form Fields in Webflow are mirrored.",
+    "data": {
+      "type": "@webflow/XscpData",
+      "payload": {
+        "nodes": [
+          {
+            "_id": "0400e469-41d2-056c-e5e8-0df463deeaed",
+            "tag": "div",
+            "classes": [],
+            "children": [
+              "0400e469-41d2-056c-e5e8-0df463deeaee",
+              "0400e469-41d2-056c-e5e8-0df463deeaf6",
+              "0400e469-41d2-056c-e5e8-0df463deeaf9"
+            ],
+            "type": "FormWrapper",
+            "data": { "form": { "type": "wrapper" } }
+          },
+          {
+            "_id": "0400e469-41d2-056c-e5e8-0df463deeaee",
+            "tag": "form",
+            "classes": ["47507b46-422f-1770-d594-fc73d8c2960c"],
+            "children": [
+              "2d5d51ff-31a2-417b-9991-3957ee1be96e",
+              "b5ee1acd-55db-46f9-6dd1-6c794cf83b30",
+              "1dfbdb66-3dab-c273-62d7-422297485d1c",
+              "7cab129a-5064-a994-b6f4-baade195db8f",
+              "513ae4c9-a355-0676-0d03-051da58becaf",
+              "1da1ea09-8e93-10c0-3c5b-d5c7cdad466d",
+              "d3dd0557-d6c7-60f8-6c23-8888baf61e26",
+              "169647dd-bf79-bc5c-b40f-63e913fb4b65",
+              "90628825-3edb-7526-9a14-3e4982cc9f0d",
+              "0ccc5f1c-dc22-1d81-7922-842ef4e5f5d3"
+            ],
+            "type": "FormForm",
+            "data": {
+              "attr": { "id": "email-form", "name": "email-form", "data-name": "Email Form" },
+              "form": { "type": "form", "name": "Email Form" }
+            }
+          },
+          {
+            "_id": "2d5d51ff-31a2-417b-9991-3957ee1be96e",
+            "tag": "div",
+            "classes": [],
+            "children": ["0400e469-41d2-056c-e5e8-0df463deeaef", "0400e469-41d2-056c-e5e8-0df463deeaf1"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "0400e469-41d2-056c-e5e8-0df463deeaef",
+            "tag": "label",
+            "classes": [],
+            "children": ["0400e469-41d2-056c-e5e8-0df463deeaf0"],
+            "type": "FormBlockLabel",
+            "data": { "form": { "type": "label" }, "attr": { "for": "name" } }
+          },
+          { "_id": "0400e469-41d2-056c-e5e8-0df463deeaf0", "text": true, "v": "[Trigger] Input Field" },
+          {
+            "_id": "0400e469-41d2-056c-e5e8-0df463deeaf1",
+            "tag": "input",
+            "classes": [],
+            "children": [],
+            "type": "FormTextInput",
+            "data": {
+              "attr": {
+                "autofocus": false,
+                "maxlength": 256,
+                "name": "name",
+                "data-name": "Name",
+                "placeholder": "",
+                "type": "text",
+                "id": "name",
+                "disabled": false,
+                "required": false
+              },
+              "form": { "type": "input", "name": "Name" },
+              "xattr": [{ "name": "fs-mirrorinput-element", "value": "trigger-1" }]
+            }
+          },
+          {
+            "_id": "b5ee1acd-55db-46f9-6dd1-6c794cf83b30",
+            "tag": "div",
+            "classes": [],
+            "children": ["b5ee1acd-55db-46f9-6dd1-6c794cf83b31", "b5ee1acd-55db-46f9-6dd1-6c794cf83b33"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "b5ee1acd-55db-46f9-6dd1-6c794cf83b31",
+            "tag": "label",
+            "classes": [],
+            "children": ["b5ee1acd-55db-46f9-6dd1-6c794cf83b32"],
+            "type": "FormBlockLabel",
+            "data": { "form": { "type": "label" }, "attr": { "for": "name-2" } }
+          },
+          { "_id": "b5ee1acd-55db-46f9-6dd1-6c794cf83b32", "text": true, "v": "[Target] Input Field" },
+          {
+            "_id": "b5ee1acd-55db-46f9-6dd1-6c794cf83b33",
+            "tag": "input",
+            "classes": [],
+            "children": [],
+            "type": "FormTextInput",
+            "data": {
+              "attr": {
+                "autofocus": false,
+                "maxlength": 256,
+                "name": "name-2",
+                "data-name": "Name 2",
+                "placeholder": "",
+                "type": "text",
+                "id": "name-2",
+                "disabled": false,
+                "required": false
+              },
+              "form": { "type": "input", "name": "Name 2" },
+              "xattr": [{ "name": "fs-mirrorinput-element", "value": "target-1" }]
+            }
+          },
+          {
+            "_id": "1dfbdb66-3dab-c273-62d7-422297485d1c",
+            "tag": "div",
+            "classes": [],
+            "children": ["d781e899-a7b7-3f27-0694-0161533750ee", "82ffe292-50a4-86b4-6c82-4432e4aaea74"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "d781e899-a7b7-3f27-0694-0161533750ee",
+            "tag": "label",
+            "classes": [],
+            "children": ["d781e899-a7b7-3f27-0694-0161533750ef"],
+            "type": "FormBlockLabel",
+            "data": { "form": { "type": "label" } }
+          },
+          { "_id": "d781e899-a7b7-3f27-0694-0161533750ef", "text": true, "v": "[Trigger] Textarea Field" },
+          {
+            "_id": "82ffe292-50a4-86b4-6c82-4432e4aaea74",
+            "tag": "textarea",
+            "classes": [],
+            "children": [],
+            "type": "FormTextarea",
+            "data": {
+              "attr": { "placeholder": "Example Text", "maxlength": 5000, "id": "field", "name": "field" },
+              "form": { "type": "textarea", "name": "Field" },
+              "xattr": [{ "name": "fs-mirrorinput-element", "value": "trigger-2" }]
+            }
+          },
+          {
+            "_id": "7cab129a-5064-a994-b6f4-baade195db8f",
+            "tag": "div",
+            "classes": [],
+            "children": ["7cab129a-5064-a994-b6f4-baade195db90", "7cab129a-5064-a994-b6f4-baade195db92"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "7cab129a-5064-a994-b6f4-baade195db90",
+            "tag": "label",
+            "classes": [],
+            "children": ["7cab129a-5064-a994-b6f4-baade195db91"],
+            "type": "FormBlockLabel",
+            "data": { "form": { "type": "label" } }
+          },
+          { "_id": "7cab129a-5064-a994-b6f4-baade195db91", "text": true, "v": "[Target] Textarea Field" },
+          {
+            "_id": "7cab129a-5064-a994-b6f4-baade195db92",
+            "tag": "textarea",
+            "classes": [],
+            "children": [],
+            "type": "FormTextarea",
+            "data": {
+              "attr": {
+                "placeholder": "Example Text",
+                "maxlength": 5000,
+                "id": "field-2",
+                "name": "field-2",
+                "data-name": "Field 2"
+              },
+              "form": { "type": "textarea", "name": "Field 2" },
+              "xattr": [{ "name": "fs-mirrorinput-element", "value": "target-2" }]
+            }
+          },
+          {
+            "_id": "513ae4c9-a355-0676-0d03-051da58becaf",
+            "tag": "div",
+            "classes": [],
+            "children": ["513ae4c9-a355-0676-0d03-051da58becb0", "edc54289-b77d-da88-3d81-b72a9da3f817"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "513ae4c9-a355-0676-0d03-051da58becb0",
+            "tag": "label",
+            "classes": [],
+            "children": ["513ae4c9-a355-0676-0d03-051da58becb1"],
+            "type": "FormBlockLabel",
+            "data": { "form": { "type": "label" } }
+          },
+          { "_id": "513ae4c9-a355-0676-0d03-051da58becb1", "text": true, "v": "[Trigger] Select Field" },
+          {
+            "_id": "edc54289-b77d-da88-3d81-b72a9da3f817",
+            "tag": "select",
+            "classes": [],
+            "children": [],
+            "type": "FormSelect",
+            "data": {
+              "attr": { "id": "field-4", "name": "field-4" },
+              "form": {
+                "type": "select",
+                "opts": [
+                  { "v": "", "t": "Select one..." },
+                  { "v": "First", "t": "First Choice" },
+                  { "v": "Second", "t": "Second Choice" },
+                  { "v": "Third", "t": "Third Choice" }
+                ],
+                "name": "Field 4"
+              },
+              "xattr": [{ "name": "fs-mirrorinput-element", "value": "trigger-3" }]
+            }
+          },
+          {
+            "_id": "1da1ea09-8e93-10c0-3c5b-d5c7cdad466d",
+            "tag": "div",
+            "classes": [],
+            "children": ["1da1ea09-8e93-10c0-3c5b-d5c7cdad466e", "1da1ea09-8e93-10c0-3c5b-d5c7cdad4670"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "1da1ea09-8e93-10c0-3c5b-d5c7cdad466e",
+            "tag": "label",
+            "classes": [],
+            "children": ["1da1ea09-8e93-10c0-3c5b-d5c7cdad466f"],
+            "type": "FormBlockLabel",
+            "data": { "form": { "type": "label" } }
+          },
+          { "_id": "1da1ea09-8e93-10c0-3c5b-d5c7cdad466f", "text": true, "v": "[Target] Select Field" },
+          {
+            "_id": "1da1ea09-8e93-10c0-3c5b-d5c7cdad4670",
+            "tag": "select",
+            "classes": [],
+            "children": [],
+            "type": "FormSelect",
+            "data": {
+              "attr": { "id": "field-4", "name": "field-4" },
+              "form": {
+                "type": "select",
+                "opts": [
+                  { "v": "", "t": "Select one..." },
+                  { "v": "First", "t": "First Choice" },
+                  { "v": "Second", "t": "Second Choice" },
+                  { "v": "Third", "t": "Third Choice" }
+                ],
+                "name": "Field 4"
+              },
+              "xattr": [{ "name": "fs-mirrorinput-element", "value": "target-3" }]
+            }
+          },
+          {
+            "_id": "d3dd0557-d6c7-60f8-6c23-8888baf61e26",
+            "tag": "div",
+            "classes": [],
+            "children": ["d3dd0557-d6c7-60f8-6c23-8888baf61e27", "3ad5b347-c909-396f-f16e-a0b5c5b28766"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "d3dd0557-d6c7-60f8-6c23-8888baf61e27",
+            "tag": "label",
+            "classes": [],
+            "children": ["d3dd0557-d6c7-60f8-6c23-8888baf61e28"],
+            "type": "FormBlockLabel",
+            "data": { "form": { "type": "label" } }
+          },
+          { "_id": "d3dd0557-d6c7-60f8-6c23-8888baf61e28", "text": true, "v": "[Trigger] Checkbox Field" },
+          {
+            "_id": "3ad5b347-c909-396f-f16e-a0b5c5b28766",
+            "tag": "div",
+            "classes": [],
+            "children": ["3ad5b347-c909-396f-f16e-a0b5c5b28767", "3ad5b347-c909-396f-f16e-a0b5c5b28768"],
+            "type": "FormCheckboxWrapper",
+            "data": { "form": { "type": "checkbox" } }
+          },
+          {
+            "_id": "3ad5b347-c909-396f-f16e-a0b5c5b28767",
+            "tag": "input",
+            "classes": [],
+            "children": [],
+            "type": "FormCheckboxInput",
+            "data": {
+              "attr": { "type": "checkbox", "id": "checkbox", "name": "checkbox", "data-name": "Checkbox" },
+              "form": { "type": "checkbox-input", "name": "Checkbox" },
+              "xattr": [{ "name": "fs-mirrorinput-element", "value": "trigger-4" }],
+              "inputType": "custom"
+            }
+          },
+          {
+            "_id": "3ad5b347-c909-396f-f16e-a0b5c5b28768",
+            "tag": "label",
+            "classes": [],
+            "children": ["3ad5b347-c909-396f-f16e-a0b5c5b28769"],
+            "type": "FormInlineLabel",
+            "data": { "form": { "type": "checkbox-label" } }
+          },
+          { "_id": "3ad5b347-c909-396f-f16e-a0b5c5b28769", "text": true, "v": "Checkbox" },
+          {
+            "_id": "169647dd-bf79-bc5c-b40f-63e913fb4b65",
+            "tag": "div",
+            "classes": [],
+            "children": ["169647dd-bf79-bc5c-b40f-63e913fb4b66", "169647dd-bf79-bc5c-b40f-63e913fb4b68"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "169647dd-bf79-bc5c-b40f-63e913fb4b66",
+            "tag": "label",
+            "classes": [],
+            "children": ["169647dd-bf79-bc5c-b40f-63e913fb4b67"],
+            "type": "FormBlockLabel",
+            "data": { "form": { "type": "label" } }
+          },
+          { "_id": "169647dd-bf79-bc5c-b40f-63e913fb4b67", "text": true, "v": "[Target] Checkbox Field" },
+          {
+            "_id": "169647dd-bf79-bc5c-b40f-63e913fb4b68",
+            "tag": "div",
+            "classes": [],
+            "children": ["169647dd-bf79-bc5c-b40f-63e913fb4b69", "169647dd-bf79-bc5c-b40f-63e913fb4b6a"],
+            "type": "FormCheckboxWrapper",
+            "data": { "form": { "type": "checkbox" } }
+          },
+          {
+            "_id": "169647dd-bf79-bc5c-b40f-63e913fb4b69",
+            "tag": "input",
+            "classes": [],
+            "children": [],
+            "type": "FormCheckboxInput",
+            "data": {
+              "attr": { "type": "checkbox", "id": "checkbox-2", "name": "checkbox-2", "data-name": "Checkbox 2" },
+              "form": { "type": "checkbox-input", "name": "Checkbox 2" },
+              "xattr": [{ "name": "fs-mirrorinput-element", "value": "target-4" }],
+              "inputType": "custom"
+            }
+          },
+          {
+            "_id": "169647dd-bf79-bc5c-b40f-63e913fb4b6a",
+            "tag": "label",
+            "classes": [],
+            "children": ["169647dd-bf79-bc5c-b40f-63e913fb4b6b"],
+            "type": "FormInlineLabel",
+            "data": { "form": { "type": "checkbox-label" } }
+          },
+          { "_id": "169647dd-bf79-bc5c-b40f-63e913fb4b6b", "text": true, "v": "Checkbox" },
+          {
+            "_id": "90628825-3edb-7526-9a14-3e4982cc9f0d",
+            "tag": "div",
+            "classes": [],
+            "children": [
+              "90628825-3edb-7526-9a14-3e4982cc9f0e",
+              "383115fb-5e48-087a-cdb0-9fd4c28f60d3",
+              "55f7f458-8240-07d7-5d5b-2019a4e002b2"
+            ],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "90628825-3edb-7526-9a14-3e4982cc9f0e",
+            "tag": "label",
+            "classes": [],
+            "children": ["90628825-3edb-7526-9a14-3e4982cc9f0f"],
+            "type": "FormBlockLabel",
+            "data": { "form": { "type": "label" } }
+          },
+          { "_id": "90628825-3edb-7526-9a14-3e4982cc9f0f", "text": true, "v": "[Trigger] Radio Field" },
+          {
+            "_id": "383115fb-5e48-087a-cdb0-9fd4c28f60d3",
+            "tag": "div",
+            "classes": [],
+            "children": ["383115fb-5e48-087a-cdb0-9fd4c28f60d4", "383115fb-5e48-087a-cdb0-9fd4c28f60d5"],
+            "type": "FormRadioWrapper",
+            "data": { "form": { "type": "radio" } }
+          },
+          {
+            "_id": "383115fb-5e48-087a-cdb0-9fd4c28f60d4",
+            "tag": "input",
+            "classes": [],
+            "children": [],
+            "type": "FormRadioInput",
+            "data": {
+              "attr": {
+                "type": "radio",
+                "data-name": "Radio Trigger",
+                "id": "radio",
+                "name": "Radio-Trigger",
+                "value": "Radio"
+              },
+              "form": { "type": "radio-input", "name": "Radio Trigger" },
+              "xattr": [{ "name": "fs-mirrorinput-element", "value": "trigger-5" }],
+              "inputType": "custom"
+            }
+          },
+          {
+            "_id": "383115fb-5e48-087a-cdb0-9fd4c28f60d5",
+            "tag": "label",
+            "classes": [],
+            "children": ["383115fb-5e48-087a-cdb0-9fd4c28f60d6"],
+            "type": "FormInlineLabel",
+            "data": { "form": { "type": "radio-label" } }
+          },
+          { "_id": "383115fb-5e48-087a-cdb0-9fd4c28f60d6", "text": true, "v": "Radio 1" },
+          {
+            "_id": "55f7f458-8240-07d7-5d5b-2019a4e002b2",
+            "tag": "div",
+            "classes": [],
+            "children": ["55f7f458-8240-07d7-5d5b-2019a4e002b3", "55f7f458-8240-07d7-5d5b-2019a4e002b4"],
+            "type": "FormRadioWrapper",
+            "data": { "form": { "type": "radio" } }
+          },
+          {
+            "_id": "55f7f458-8240-07d7-5d5b-2019a4e002b3",
+            "tag": "input",
+            "classes": [],
+            "children": [],
+            "type": "FormRadioInput",
+            "data": {
+              "attr": {
+                "type": "radio",
+                "data-name": "Radio Trigger",
+                "id": "Radio-3",
+                "name": "Radio-Trigger",
+                "value": "Radio-2"
+              },
+              "form": { "type": "radio-input", "name": "Radio Trigger" },
+              "xattr": [{ "name": "fs-mirrorinput-element", "value": "trigger-6" }],
+              "inputType": "custom"
+            }
+          },
+          {
+            "_id": "55f7f458-8240-07d7-5d5b-2019a4e002b4",
+            "tag": "label",
+            "classes": [],
+            "children": ["55f7f458-8240-07d7-5d5b-2019a4e002b5"],
+            "type": "FormInlineLabel",
+            "data": { "form": { "type": "radio-label" }, "attr": { "for": "Radio-3" } }
+          },
+          { "_id": "55f7f458-8240-07d7-5d5b-2019a4e002b5", "text": true, "v": "Radio 2" },
+          {
+            "_id": "0ccc5f1c-dc22-1d81-7922-842ef4e5f5d3",
+            "tag": "div",
+            "classes": [],
+            "children": [
+              "0ccc5f1c-dc22-1d81-7922-842ef4e5f5d4",
+              "0ccc5f1c-dc22-1d81-7922-842ef4e5f5d6",
+              "0ccc5f1c-dc22-1d81-7922-842ef4e5f5da"
+            ],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "0ccc5f1c-dc22-1d81-7922-842ef4e5f5d4",
+            "tag": "label",
+            "classes": [],
+            "children": ["0ccc5f1c-dc22-1d81-7922-842ef4e5f5d5"],
+            "type": "FormBlockLabel",
+            "data": { "form": { "type": "label" } }
+          },
+          { "_id": "0ccc5f1c-dc22-1d81-7922-842ef4e5f5d5", "text": true, "v": "[Target] Radio Field" },
+          {
+            "_id": "0ccc5f1c-dc22-1d81-7922-842ef4e5f5d6",
+            "tag": "div",
+            "classes": [],
+            "children": ["0ccc5f1c-dc22-1d81-7922-842ef4e5f5d7", "0ccc5f1c-dc22-1d81-7922-842ef4e5f5d8"],
+            "type": "FormRadioWrapper",
+            "data": { "form": { "type": "radio" } }
+          },
+          {
+            "_id": "0ccc5f1c-dc22-1d81-7922-842ef4e5f5d7",
+            "tag": "input",
+            "classes": [],
+            "children": [],
+            "type": "FormRadioInput",
+            "data": {
+              "attr": {
+                "type": "radio",
+                "data-name": "Radio Target",
+                "id": "radio-4",
+                "name": "Radio-Target",
+                "value": "Radio"
+              },
+              "form": { "type": "radio-input", "name": "Radio Target" },
+              "xattr": [{ "name": "fs-mirrorinput-element", "value": "target-5" }],
+              "inputType": "custom"
+            }
+          },
+          {
+            "_id": "0ccc5f1c-dc22-1d81-7922-842ef4e5f5d8",
+            "tag": "label",
+            "classes": [],
+            "children": ["0ccc5f1c-dc22-1d81-7922-842ef4e5f5d9"],
+            "type": "FormInlineLabel",
+            "data": { "form": { "type": "radio-label" } }
+          },
+          { "_id": "0ccc5f1c-dc22-1d81-7922-842ef4e5f5d9", "text": true, "v": "Radio 1" },
+          {
+            "_id": "0ccc5f1c-dc22-1d81-7922-842ef4e5f5da",
+            "tag": "div",
+            "classes": [],
+            "children": ["0ccc5f1c-dc22-1d81-7922-842ef4e5f5db", "0ccc5f1c-dc22-1d81-7922-842ef4e5f5dc"],
+            "type": "FormRadioWrapper",
+            "data": { "form": { "type": "radio" } }
+          },
+          {
+            "_id": "0ccc5f1c-dc22-1d81-7922-842ef4e5f5db",
+            "tag": "input",
+            "classes": [],
+            "children": [],
+            "type": "FormRadioInput",
+            "data": {
+              "attr": {
+                "type": "radio",
+                "data-name": "Radio Target",
+                "id": "Radio-5",
+                "name": "Radio-Target",
+                "value": "Radio-2"
+              },
+              "form": { "type": "radio-input", "name": "Radio Target" },
+              "xattr": [{ "name": "fs-mirrorinput-element", "value": "target-6" }],
+              "inputType": "custom"
+            }
+          },
+          {
+            "_id": "0ccc5f1c-dc22-1d81-7922-842ef4e5f5dc",
+            "tag": "label",
+            "classes": [],
+            "children": ["0ccc5f1c-dc22-1d81-7922-842ef4e5f5dd"],
+            "type": "FormInlineLabel",
+            "data": { "form": { "type": "radio-label" }, "attr": { "for": "Radio-5" } }
+          },
+          { "_id": "0ccc5f1c-dc22-1d81-7922-842ef4e5f5dd", "text": true, "v": "Radio 2" },
+          {
+            "_id": "0400e469-41d2-056c-e5e8-0df463deeaf6",
+            "tag": "div",
+            "classes": [],
+            "children": ["0400e469-41d2-056c-e5e8-0df463deeaf7"],
+            "type": "FormSuccessMessage",
+            "data": { "form": { "type": "msg-done" } }
+          },
+          {
+            "_id": "0400e469-41d2-056c-e5e8-0df463deeaf7",
+            "tag": "div",
+            "classes": [],
+            "children": ["0400e469-41d2-056c-e5e8-0df463deeaf8"],
+            "type": "Block",
+            "data": { "tag": "div", "text": true }
+          },
+          {
+            "_id": "0400e469-41d2-056c-e5e8-0df463deeaf8",
+            "text": true,
+            "v": "Thank you! Your submission has been received!"
+          },
+          {
+            "_id": "0400e469-41d2-056c-e5e8-0df463deeaf9",
+            "tag": "div",
+            "classes": [],
+            "children": ["0400e469-41d2-056c-e5e8-0df463deeafa"],
+            "type": "FormErrorMessage",
+            "data": { "form": { "type": "msg-fail" } }
+          },
+          {
+            "_id": "0400e469-41d2-056c-e5e8-0df463deeafa",
+            "tag": "div",
+            "classes": [],
+            "children": ["0400e469-41d2-056c-e5e8-0df463deeafb"],
+            "type": "Block",
+            "data": { "tag": "div", "text": true }
+          },
+          {
+            "_id": "0400e469-41d2-056c-e5e8-0df463deeafb",
+            "text": true,
+            "v": "Oops! Something went wrong while submitting the form."
+          }
+        ],
+        "styles": [
+          {
+            "_id": "47507b46-422f-1770-d594-fc73d8c2960c",
+            "fake": false,
+            "type": "class",
+            "name": "attributes_grid-2-col",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "display: grid; align-items: center; grid-auto-columns: 1fr; grid-column-gap: 4rem; grid-row-gap: 4rem; grid-template-columns: 1fr 1fr; grid-template-rows: auto;",
+            "variants": {},
+            "children": ["c7f21e08-457e-8e10-6b81-adcf8b78441f"],
+            "selector": null
+          }
+        ],
+        "assets": [],
+        "ix1": [],
+        "ix2": { "interactions": [], "events": [], "actionLists": [] }
+      },
+      "meta": {
+        "unlinkedSymbolCount": 0,
+        "droppedLinks": 0,
+        "dynBindRemovedCount": 0,
+        "dynListBindRemovedCount": 0,
+        "paginationRemovedCount": 0
+      }
+    }
+  }
+]
