@@ -21,5 +21,5 @@ const defaultSettings = {
 esbuild.build({
   ...defaultSettings,
   entryPoints: ['src/index.ts'],
-  outfile: `${production ? '' : process.env.CUSTOM_BUILD_DIRECTORY || ''}/cmsitemcount.js`,
+  outfile: `${production ? '' : process.env.CUSTOM_BUILD_DIRECTORY || ''}/countitems.js`,
 });

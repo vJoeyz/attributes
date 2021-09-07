@@ -1,6 +1,6 @@
 import { createDynamicAttibuteValue } from '$utils/attributes';
 
-const ATTRIBUTES_PREFIX = 'fs-cmsitemcount';
+const ATTRIBUTES_PREFIX = 'fs-countitems';
 
 export const ATTRIBUTES = {
   element: {

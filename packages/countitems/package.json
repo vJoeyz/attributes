@@ -1,10 +1,10 @@
 {
-  "name": "@finsweet/attributes-cmsitemcount",
+  "name": "@finsweet/attributes-countitems",
   "version": "1.0.0",
   "description": "Display the amount of CMS items of a Collection List.",
-  "main": "cmsitemcount.js",
+  "main": "countitems.js",
   "files": [
-    "cmsitemcount.js"
+    "countitems.js"
   ],
   "type": "module",
   "scripts": {
@@ -20,7 +20,7 @@
     "attributes",
     "cms",
     "count",
-    "cmsitemcount",
+    "countitems",
     "no code"
   ],
   "author": {
