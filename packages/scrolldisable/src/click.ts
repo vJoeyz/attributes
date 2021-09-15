@@ -13,7 +13,7 @@ const {
  */
 export const initClickTriggers = (preserveScrollTargets: NodeListOf<Element>): void => {
   window.addEventListener('click', ({ target }) => {
-    if (!(target instanceof HTMLElement)) return;
+    if (!(target instanceof Element)) return;
 
     // Get the trigger
     const toggleTrigger = target.closest(`[${elementKey}="${elementValues.toggle}"]`);

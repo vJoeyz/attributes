@@ -32,6 +32,11 @@ export const ATTRIBUTES = {
        * Scrolling will be disabled/enabled when the `Nav Menu` is open/closed.
        */
       nav: 'smart-nav',
+
+      /**
+       * Applied on elements that must preserve scrolling when the page's scrolling is disabled.
+       */
+      preserve: 'preserve',
     },
   },
 
@@ -57,11 +62,6 @@ export const ATTRIBUTES = {
    * Used to define a media query that restricts when an element acts as a trigger.
    */
   matchMedia: { key: `${ATTRIBUTES_PREFIX}-media`, values: {} },
-
-  /**
-   * Applied on elements that must preserve scrolling when the page's scrolling is disabled.
-   */
-  preserveScroll: { key: `${ATTRIBUTES_PREFIX}-preserve`, values: { true: 'true', false: 'false' } },
 
   /**
    * Defines if the scrollbar gap must be reserved when disabling scrolling.

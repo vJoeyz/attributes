@@ -1,0 +1,24 @@
+{
+  "name": "@finsweet/attributes-docs",
+  "version": "1.0.0",
+  "description": "Attributes documentation custom code.",
+  "main": "docs.js",
+  "files": [
+    "docs.js",
+    "attributes.json"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development node ./bin/build.js",
+    "build": "cross-env NODE_ENV=production node ./bin/build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/finsweet/attributes.git"
+  },
+  "author": {
+    "name": "Finsweet",
+    "url": "https://www.finsweet.com/"
+  },
+  "homepage": "https://www.finsweet.com/attributes"
+}

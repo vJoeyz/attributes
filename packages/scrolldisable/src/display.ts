@@ -49,8 +49,10 @@ const handleStateChange = (trigger: HTMLElement, preserveScrollTargets: NodeList
  */
 export const initDisplayTriggers = (preserveScrollTargets: NodeListOf<Element>): void => {
   // DOM Elements
+  const smartNavSelector = `[${elementKey}="${elementValues.nav}"]`;
+
   const displayTriggers = document.querySelectorAll<HTMLElement>(
-    `[${elementKey}="${elementValues.whenVisible}"], [${elementKey}="${elementValues.nav}"] .w-nav-menu`
+    `[${elementKey}="${elementValues.whenVisible}"], ${smartNavSelector}.w-nav-menu, ${smartNavSelector} .w-nav-menu`
   );
 
   // Define MutationObserver's callback
@@ -69,10 +71,10 @@ export const initDisplayTriggers = (preserveScrollTargets: NodeListOf<Element>):
     // Get the trigger's matchMedia requisite
     let matchMedia = trigger.getAttribute(matchMediaKey);
 
-    if (trigger.classList.contains('w-nav-menu')) {
-      const navbar = trigger.closest<HTMLDivElement>('.w-nav');
-      const collapsesAt = navbar?.dataset.collapse as keyof typeof NAV_MEDIAS | undefined;
-
+    // Navbar special
+    const navbar = trigger.closest<HTMLDivElement>('.w-nav');
+    if (navbar) {
+      const collapsesAt = navbar.dataset.collapse as keyof typeof NAV_MEDIAS | undefined;
       if (collapsesAt) matchMedia = NAV_MEDIAS[collapsesAt];
     }
 

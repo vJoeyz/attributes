@@ -5,7 +5,7 @@ import { setReserveScrollBarGap } from './scroll';
 
 // Constants  destructuring
 const {
-  preserveScroll: { key: preserveScrollKey },
+  element: { key: elementKey, values: elementValues },
   gap: { key: gapKey, values: gapValues },
 } = ATTRIBUTES;
 
@@ -22,7 +22,7 @@ export function init({
   currentScript?: HTMLOrSVGScriptElement | null;
   params?: Params;
 }): void {
-  const preserveScrollTargets = document.querySelectorAll(preserveScrollKey);
+  const preserveScrollTargets = document.querySelectorAll(`[${elementKey}="${elementValues.preserve}"]`);
 
   let reserveScrollbarGap = true;
 
