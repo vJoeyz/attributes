@@ -11,7 +11,17 @@ export const ATTRIBUTES = {
       copyButtonText: 'copy-button-text',
       exampleDisplay: 'example-display',
       copyScript: 'copy-script',
+      title: 'title',
+      titleTarget: 'title-target',
     },
+  },
+
+  /**
+   * Defines an example to copy.
+   */
+  example: {
+    key: `${ATTRIBUTES_PREFIX}-example`,
+    values: {},
   },
 
   /**

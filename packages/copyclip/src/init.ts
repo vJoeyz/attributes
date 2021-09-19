@@ -14,7 +14,7 @@ const {
 
 // Types
 interface Params {
-  selector: string;
+  selector?: string;
   targetSelector?: string;
   text?: string;
   successMessage?: string;
@@ -35,27 +35,21 @@ interface Params {
  * @param params.successMessage The message that will be displayed on success.
  * @param params.successDuration The duration of the success state.
  */
-export function init({ params }: { params: Params }): ClipboardJS['destroy'][];
-export function init({ currentScript }: { currentScript: HTMLOrSVGScriptElement | null }): ClipboardJS['destroy'][];
-export function init({
-  currentScript,
-  params,
-}: {
-  currentScript?: HTMLOrSVGScriptElement | null;
-  params?: Params;
-}): ClipboardJS['destroy'][] {
+export function init(params?: HTMLScriptElement | Params | null): ClipboardJS['destroy'][] {
   let globalSelector: string | null | undefined = null;
+  let globalTargetSelector: string | null | undefined = null;
   let globalSuccessMessage: string | null | undefined = null;
   let globalSuccessDuration: string | null | undefined = null;
   let globalSuccessClass: string | null | undefined = null;
 
-  if (currentScript) {
-    globalSelector = currentScript.getAttribute(globalSelectorKey);
-    globalSuccessMessage = currentScript.getAttribute(successMessageKey);
-    globalSuccessDuration = currentScript.getAttribute(successDurationKey);
-    globalSuccessClass = currentScript.getAttribute(successClassKey);
+  if (params instanceof HTMLScriptElement) {
+    globalSelector = params.getAttribute(globalSelectorKey);
+    globalSuccessMessage = params.getAttribute(successMessageKey);
+    globalSuccessDuration = params.getAttribute(successDurationKey);
+    globalSuccessClass = params.getAttribute(successClassKey);
   } else if (params) {
     globalSelector = params.selector;
+    globalTargetSelector = params.targetSelector;
     globalSuccessMessage = params.successMessage;
     globalSuccessDuration = params.successDuration;
     globalSuccessClass = params.successClass;
@@ -84,10 +78,12 @@ export function init({
     // Get the instance index
     const instanceIndex = elementValue ? extractNumberSuffix(elementValue) : undefined;
 
-    // Get the target to be success, if existing
-    const target = document.querySelector(
-      params?.targetSelector || `[${elementKey}="${elementValues.target(instanceIndex)}"]`
-    );
+    // Get the target to be copied, if existing
+    const siblingTarget = trigger.parentElement?.querySelector(`[${elementKey}^="${elementValues.sibling}"]`);
+
+    const target =
+      siblingTarget ||
+      document.querySelector(globalTargetSelector || `[${elementKey}="${elementValues.target(instanceIndex)}"]`);
 
     // Store the text node and the original text
     const textNode = findTextNode(trigger);

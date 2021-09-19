@@ -12,4 +12,5 @@ export interface AttributeData {
   baseSrc: string;
   scriptSrc: string;
   examplesSrc: string;
+  loadMode: string;
 }

@@ -15,7 +15,10 @@
             "data": {
               "button": true,
               "link": { "mode": "external", "url": "#" },
-              "xattr": [{ "name": "fs-copyclip-element", "value": "click" }]
+              "xattr": [
+                { "name": "fs-copyclip-element", "value": "click" },
+                { "name": "fs-copyclip-message", "value": "Copied!" }
+              ]
             }
           },
           { "_id": "cb218f34-f1ca-67c6-ffee-5fa836e1e085", "text": true, "v": "Copy me" }
@@ -30,7 +33,12 @@
             "comb": "",
             "styleLess": "position: relative; z-index: 1; padding-top: 0.75rem; padding-right: 1.25rem; padding-bottom: 0.75rem; padding-left: 1.25rem; justify-content: center; align-items: center; background-color: hsla(222, 82.57%, 57.25%, 1.00); transition-property: background-color; transition-duration: 200ms; transition-timing-function: ease; color: hsla(0, 0.00%, 100.00%, 1.00); font-weight: 600; text-align: center;",
             "variants": {},
-            "children": ["b0934d9a-875a-bb42-0630-12090a77fcbf", "96240114-c262-72b3-90fb-46b0b97ab2de"],
+            "children": [
+              "b0934d9a-875a-bb42-0630-12090a77fcbf",
+              "96240114-c262-72b3-90fb-46b0b97ab2de",
+              "600a4817-ebbf-48df-ba87-e7e8b79eda1c",
+              "8ce78756-2774-1ab6-6248-02680539765a"
+            ],
             "selector": null
           }
         ],
@@ -48,7 +56,7 @@
     }
   },
   {
-    "title": "Copy him",
+    "title": "Copy this",
     "description": "Copy the content of a target element when clicking on the trigger.",
     "data": {
       "type": "@webflow/XscpData",
@@ -78,7 +86,10 @@
             "data": {
               "button": true,
               "link": { "mode": "external", "url": "#" },
-              "xattr": [{ "name": "fs-copyclip-element", "value": "click-1" }]
+              "xattr": [
+                { "name": "fs-copyclip-element", "value": "click-1" },
+                { "name": "fs-copyclip-message", "value": "Copied!" }
+              ]
             }
           },
           { "_id": "1ca7c8ef-a187-8b67-2f7c-82d17a72012e", "text": true, "v": "Copy him -->" },
@@ -104,7 +115,10 @@
             "data": {
               "button": true,
               "link": { "mode": "external", "url": "#" },
-              "xattr": [{ "name": "fs-copyclip-element", "value": "click-2" }]
+              "xattr": [
+                { "name": "fs-copyclip-element", "value": "click-2" },
+                { "name": "fs-copyclip-message", "value": "Copied!" }
+              ]
             }
           },
           { "_id": "a9793025-b182-50f3-ba26-9f9a3cf54915", "text": true, "v": "Copy him -->" },
@@ -130,7 +144,10 @@
             "data": {
               "button": true,
               "link": { "mode": "external", "url": "#" },
-              "xattr": [{ "name": "fs-copyclip-element", "value": "click-3" }]
+              "xattr": [
+                { "name": "fs-copyclip-element", "value": "click-3" },
+                { "name": "fs-copyclip-message", "value": "Copied!" }
+              ]
             }
           },
           { "_id": "97ba43d5-d739-4cc3-64b7-642ab3558a0a", "text": true, "v": "Copy him -->" },
@@ -170,7 +187,12 @@
             "comb": "",
             "styleLess": "position: relative; z-index: 1; padding-top: 0.75rem; padding-right: 1.25rem; padding-bottom: 0.75rem; padding-left: 1.25rem; justify-content: center; align-items: center; background-color: hsla(222, 82.57%, 57.25%, 1.00); transition-property: background-color; transition-duration: 200ms; transition-timing-function: ease; color: hsla(0, 0.00%, 100.00%, 1.00); font-weight: 600; text-align: center;",
             "variants": {},
-            "children": ["b0934d9a-875a-bb42-0630-12090a77fcbf", "96240114-c262-72b3-90fb-46b0b97ab2de"],
+            "children": [
+              "b0934d9a-875a-bb42-0630-12090a77fcbf",
+              "96240114-c262-72b3-90fb-46b0b97ab2de",
+              "600a4817-ebbf-48df-ba87-e7e8b79eda1c",
+              "8ce78756-2774-1ab6-6248-02680539765a"
+            ],
             "selector": null
           }
         ],
@@ -188,7 +210,232 @@
     }
   },
   {
-    "title": "Copy this",
+    "title": "Copy sibling",
+    "description": "Copy the content of a sibling element when clicking on the trigger.",
+    "data": {
+      "type": "@webflow/XscpData",
+      "payload": {
+        "nodes": [
+          {
+            "_id": "7167a074-37bf-7a6d-53b3-df76678ee001",
+            "tag": "div",
+            "classes": ["47507b46-422f-1770-d594-fc73d8c2960c"],
+            "children": [
+              "b803f442-cb22-7c32-c743-ab31a56790c0",
+              "8268ad39-b4f2-e22d-16fd-ecba581cc869",
+              "70aaceba-b60b-f974-1ef5-e03e8eae3795",
+              "c9ea9c6b-e788-11a2-743b-0a08344ad85f"
+            ],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "b803f442-cb22-7c32-c743-ab31a56790c0",
+            "tag": "div",
+            "classes": ["0293a7f5-43fc-0c63-721b-86866438235b"],
+            "children": ["39cd3644-deb8-539f-c19f-0c67b93a3db7", "b7876df3-bf73-9ac6-f413-2b77d0084070"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "39cd3644-deb8-539f-c19f-0c67b93a3db7",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1"],
+            "children": ["39cd3644-deb8-539f-c19f-0c67b93a3db8"],
+            "type": "Link",
+            "data": {
+              "button": true,
+              "link": { "mode": "external", "url": "#" },
+              "xattr": [
+                { "name": "fs-copyclip-element", "value": "click" },
+                { "name": "fs-copyclip-message", "value": "Copied!" }
+              ]
+            }
+          },
+          { "_id": "39cd3644-deb8-539f-c19f-0c67b93a3db8", "text": true, "v": "Copy sibling -->" },
+          {
+            "_id": "b7876df3-bf73-9ac6-f413-2b77d0084070",
+            "tag": "div",
+            "classes": [],
+            "children": ["b7876df3-bf73-9ac6-f413-2b77d0084071"],
+            "type": "Block",
+            "data": {
+              "text": true,
+              "tag": "div",
+              "xattr": [{ "name": "fs-copyclip-element", "value": "copy-sibling" }]
+            }
+          },
+          { "_id": "b7876df3-bf73-9ac6-f413-2b77d0084071", "text": true, "v": "I'm the good sibling." },
+          {
+            "_id": "8268ad39-b4f2-e22d-16fd-ecba581cc869",
+            "tag": "div",
+            "classes": ["0293a7f5-43fc-0c63-721b-86866438235b"],
+            "children": ["2e3100a6-b5c2-86cd-cb86-d4224bc25d72", "8268ad39-b4f2-e22d-16fd-ecba581cc86c"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "2e3100a6-b5c2-86cd-cb86-d4224bc25d72",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1"],
+            "children": ["2e3100a6-b5c2-86cd-cb86-d4224bc25d73"],
+            "type": "Link",
+            "data": {
+              "button": true,
+              "link": { "mode": "external", "url": "#" },
+              "xattr": [
+                { "name": "fs-copyclip-element", "value": "click" },
+                { "name": "fs-copyclip-message", "value": "Copied!" }
+              ]
+            }
+          },
+          { "_id": "2e3100a6-b5c2-86cd-cb86-d4224bc25d73", "text": true, "v": "Copy sibling -->" },
+          {
+            "_id": "8268ad39-b4f2-e22d-16fd-ecba581cc86c",
+            "tag": "div",
+            "classes": [],
+            "children": ["8268ad39-b4f2-e22d-16fd-ecba581cc86d"],
+            "type": "Block",
+            "data": {
+              "text": true,
+              "tag": "div",
+              "xattr": [{ "name": "fs-copyclip-element", "value": "copy-sibling" }]
+            }
+          },
+          { "_id": "8268ad39-b4f2-e22d-16fd-ecba581cc86d", "text": true, "v": "I'm the bad sibling." },
+          {
+            "_id": "70aaceba-b60b-f974-1ef5-e03e8eae3795",
+            "tag": "div",
+            "classes": ["0293a7f5-43fc-0c63-721b-86866438235b"],
+            "children": ["574da3ba-73cf-f5a2-e917-5cb721afa48f", "70aaceba-b60b-f974-1ef5-e03e8eae3798"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "574da3ba-73cf-f5a2-e917-5cb721afa48f",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1"],
+            "children": ["574da3ba-73cf-f5a2-e917-5cb721afa490"],
+            "type": "Link",
+            "data": {
+              "button": true,
+              "link": { "mode": "external", "url": "#" },
+              "xattr": [
+                { "name": "fs-copyclip-element", "value": "click" },
+                { "name": "fs-copyclip-message", "value": "Copied!" }
+              ]
+            }
+          },
+          { "_id": "574da3ba-73cf-f5a2-e917-5cb721afa490", "text": true, "v": "Copy sibling -->" },
+          {
+            "_id": "70aaceba-b60b-f974-1ef5-e03e8eae3798",
+            "tag": "div",
+            "classes": [],
+            "children": ["70aaceba-b60b-f974-1ef5-e03e8eae3799"],
+            "type": "Block",
+            "data": {
+              "text": true,
+              "tag": "div",
+              "xattr": [{ "name": "fs-copyclip-element", "value": "copy-sibling" }]
+            }
+          },
+          { "_id": "70aaceba-b60b-f974-1ef5-e03e8eae3799", "text": true, "v": "I'm the ugly sibling." },
+          {
+            "_id": "c9ea9c6b-e788-11a2-743b-0a08344ad85f",
+            "tag": "div",
+            "classes": ["0293a7f5-43fc-0c63-721b-86866438235b"],
+            "children": ["aa43b8d8-7673-e961-2fcf-19ffb4d53c25", "c9ea9c6b-e788-11a2-743b-0a08344ad862"],
+            "type": "Block",
+            "data": { "tag": "div", "text": false }
+          },
+          {
+            "_id": "aa43b8d8-7673-e961-2fcf-19ffb4d53c25",
+            "tag": "a",
+            "classes": ["b0934d9a-875a-bb42-0630-12090a77fbf1"],
+            "children": ["aa43b8d8-7673-e961-2fcf-19ffb4d53c26"],
+            "type": "Link",
+            "data": {
+              "button": true,
+              "link": { "mode": "external", "url": "#" },
+              "xattr": [
+                { "name": "fs-copyclip-element", "value": "click" },
+                { "name": "fs-copyclip-message", "value": "Copied!" }
+              ]
+            }
+          },
+          { "_id": "aa43b8d8-7673-e961-2fcf-19ffb4d53c26", "text": true, "v": "Copy sibling -->" },
+          {
+            "_id": "c9ea9c6b-e788-11a2-743b-0a08344ad862",
+            "tag": "div",
+            "classes": [],
+            "children": ["c9ea9c6b-e788-11a2-743b-0a08344ad863"],
+            "type": "Block",
+            "data": {
+              "text": true,
+              "tag": "div",
+              "xattr": [{ "name": "fs-copyclip-element", "value": "copy-sibling" }]
+            }
+          },
+          { "_id": "c9ea9c6b-e788-11a2-743b-0a08344ad863", "text": true, "v": "I'm the sweet sibling." }
+        ],
+        "styles": [
+          {
+            "_id": "47507b46-422f-1770-d594-fc73d8c2960c",
+            "fake": false,
+            "type": "class",
+            "name": "attributes_grid-2-col",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "display: grid; align-items: center; grid-auto-columns: 1fr; grid-column-gap: 4rem; grid-row-gap: 4rem; grid-template-columns: 1fr 1fr; grid-template-rows: auto;",
+            "variants": {},
+            "children": ["c7f21e08-457e-8e10-6b81-adcf8b78441f"],
+            "selector": null
+          },
+          {
+            "_id": "0293a7f5-43fc-0c63-721b-86866438235b",
+            "fake": false,
+            "type": "class",
+            "name": "copyclip_siblings-parent",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "display: grid; padding-top: 1rem; padding-right: 1rem; padding-bottom: 1rem; padding-left: 1rem; grid-auto-columns: 1fr; grid-column-gap: 1rem; grid-row-gap: 1rem; grid-template-columns: 1fr 1fr; grid-template-rows: auto; border-top-style: solid; border-top-width: 0.125rem; border-top-color: hsla(222, 82.57%, 57.25%, 1.00); border-right-style: solid; border-right-width: 0.125rem; border-right-color: hsla(222, 82.57%, 57.25%, 1.00); border-bottom-style: solid; border-bottom-width: 0.125rem; border-bottom-color: hsla(222, 82.57%, 57.25%, 1.00); border-left-style: solid; border-left-width: 0.125rem; border-left-color: hsla(222, 82.57%, 57.25%, 1.00);",
+            "variants": {},
+            "children": [],
+            "selector": null
+          },
+          {
+            "_id": "b0934d9a-875a-bb42-0630-12090a77fbf1",
+            "fake": false,
+            "type": "class",
+            "name": "button",
+            "namespace": "",
+            "comb": "",
+            "styleLess": "position: relative; z-index: 1; padding-top: 0.75rem; padding-right: 1.25rem; padding-bottom: 0.75rem; padding-left: 1.25rem; justify-content: center; align-items: center; background-color: hsla(222, 82.57%, 57.25%, 1.00); transition-property: background-color; transition-duration: 200ms; transition-timing-function: ease; color: hsla(0, 0.00%, 100.00%, 1.00); font-weight: 600; text-align: center;",
+            "variants": {},
+            "children": [
+              "b0934d9a-875a-bb42-0630-12090a77fcbf",
+              "96240114-c262-72b3-90fb-46b0b97ab2de",
+              "600a4817-ebbf-48df-ba87-e7e8b79eda1c",
+              "8ce78756-2774-1ab6-6248-02680539765a"
+            ],
+            "selector": null
+          }
+        ],
+        "assets": [],
+        "ix1": [],
+        "ix2": { "interactions": [], "events": [], "actionLists": [] }
+      },
+      "meta": {
+        "unlinkedSymbolCount": 0,
+        "droppedLinks": 0,
+        "dynBindRemovedCount": 0,
+        "dynListBindRemovedCount": 0,
+        "paginationRemovedCount": 0
+      }
+    }
+  },
+  {
+    "title": "Copy string",
     "description": "Copy a specific string of text when clicking on the trigger.",
     "data": {
       "type": "@webflow/XscpData",
@@ -205,7 +452,7 @@
               "link": { "mode": "external", "url": "#" },
               "xattr": [
                 { "name": "fs-copyclip-element", "value": "click" },
-                { "name": "fs-copyclip-text", "value": "Copy this text!" }
+                { "name": "fs-copyclip-text", "value": "That's F'in Sweet!" }
               ]
             }
           },
@@ -221,7 +468,12 @@
             "comb": "",
             "styleLess": "position: relative; z-index: 1; padding-top: 0.75rem; padding-right: 1.25rem; padding-bottom: 0.75rem; padding-left: 1.25rem; justify-content: center; align-items: center; background-color: hsla(222, 82.57%, 57.25%, 1.00); transition-property: background-color; transition-duration: 200ms; transition-timing-function: ease; color: hsla(0, 0.00%, 100.00%, 1.00); font-weight: 600; text-align: center;",
             "variants": {},
-            "children": ["b0934d9a-875a-bb42-0630-12090a77fcbf", "96240114-c262-72b3-90fb-46b0b97ab2de"],
+            "children": [
+              "b0934d9a-875a-bb42-0630-12090a77fcbf",
+              "96240114-c262-72b3-90fb-46b0b97ab2de",
+              "600a4817-ebbf-48df-ba87-e7e8b79eda1c",
+              "8ce78756-2774-1ab6-6248-02680539765a"
+            ],
             "selector": null
           }
         ],

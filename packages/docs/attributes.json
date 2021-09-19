@@ -3,81 +3,90 @@
     "key": "copyclip",
     "title": "Copy to clipboard",
     "description": "Set any element to copy a string value to the clipboard when clicking on it.",
-    "href": "https://attributes-finsweet.webflow.io/docs/copy-to-clipboard",
-    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-copyclip@1.0.1",
+    "href": "https://www.finsweet.com/attributes/copy-to-clipboard",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-copyclip@1",
     "scriptSrc": "copyclip.js",
-    "examplesSrc": "examples.json"
+    "examplesSrc": "examples.json",
+    "loadMode": "defer"
   },
   {
     "key": "scrolldisable",
     "title": "Disable scrolling",
     "description": "Prevent the page from scrolling when a element is clicked or visible.",
-    "href": "https://attributes-finsweet.webflow.io/docs/disable-scrolling",
-    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-scrolldisable@1.1.2",
+    "href": "https://www.finsweet.com/attributes/disable-scrolling",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-scrolldisable@1",
     "scriptSrc": "scrolldisable.js",
-    "examplesSrc": "examples.json"
+    "examplesSrc": "examples.json",
+    "loadMode": "defer"
   },
   {
     "key": "sliderdots",
     "title": "Custom slider dots",
     "description": "Populate the native slider dots with any content.",
-    "href": "https://attributes-finsweet.webflow.io/directory#",
-    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-sliderdots@1.0.0",
+    "href": "https://www.finsweet.com/attributes/custom-slider-dots",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-sliderdots@1",
     "scriptSrc": "sliderdots.js",
-    "examplesSrc": "examples.json"
+    "examplesSrc": "examples.json",
+    "loadMode": "defer"
   },
   {
     "key": "linkblockedit",
     "title": "Link blocks in editor",
     "description": "Convert Div Blocks to accessible Link Blocks that can be edited in the Editor.",
-    "href": "https://attributes-finsweet.webflow.io/docs/link-block-in-editor",
-    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-linkblockedit@1.0.0",
+    "href": "https://www.finsweet.com/attributes/edit-link-blocks-in-editor",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-linkblockedit@1",
     "scriptSrc": "linkblockedit.js",
-    "examplesSrc": "examples.json"
+    "examplesSrc": "examples.json",
+    "loadMode": "defer"
   },
   {
     "key": "mirrorclick",
     "title": "Mirror click events",
     "description": "Mirror click events between a trigger and a target.",
-    "href": "https://attributes-finsweet.webflow.io/directory#",
-    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-mirrorclick@1.0.0",
+    "href": "https://www.finsweet.com/attributes/mirror-click-events",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-mirrorclick@1",
     "scriptSrc": "mirrorclick.js",
-    "examplesSrc": "examples.json"
+    "examplesSrc": "examples.json",
+    "loadMode": "defer"
   },
   {
     "key": "mirrorinput",
     "title": "Mirror input values",
     "description": "Mirror input events between a trigger and a target.",
-    "href": "https://attributes-finsweet.webflow.io/directory#",
-    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-mirrorinput@1.0.0",
+    "href": "https://www.finsweet.com/attributes/mirror-input-values",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-mirrorinput@1",
     "scriptSrc": "mirrorinput.js",
-    "examplesSrc": "examples.json"
+    "examplesSrc": "examples.json",
+    "loadMode": "defer"
   },
   {
     "key": "untransform",
     "title": "Fixed position untransform",
     "description": "Disable transform properties of all parents of an item to assure \"position: fixed;\" works correctly.",
-    "href": "https://attributes-finsweet.webflow.io/directory#",
-    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-untransform@1.0.2",
+    "href": "https://www.finsweet.com/attributes/fixed-position-untransform",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-untransform@1",
     "scriptSrc": "untransform.js",
-    "examplesSrc": "examples.json"
+    "examplesSrc": "examples.json",
+    "loadMode": "defer"
   },
   {
     "key": "countitems",
     "title": "List item counter",
     "description": "Display the amount of children from an element.",
-    "href": "https://attributes-finsweet.webflow.io/docs/collection-item-counter",
-    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-countitems@1.0.0",
+    "href": "https://www.finsweet.com/attributes/count-list-items",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-countitems@1",
     "scriptSrc": "countitems.js",
-    "examplesSrc": "examples.json"
+    "examplesSrc": "examples.json",
+    "loadMode": "defer"
   },
   {
     "key": "favcustom",
     "title": "Custom favicon by page",
     "description": "Customize the Favicon for a specific page.",
-    "href": "https://attributes-finsweet.webflow.io/directory#",
-    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-favcustom@1.0.0",
+    "href": "https://www.finsweet.com/attributes/custom-fav-icon-by-page",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-favcustom@1",
     "scriptSrc": "favcustom.js",
-    "examplesSrc": "examples.json"
+    "examplesSrc": "examples.json",
+    "loadMode": "defer"
   }
 ]

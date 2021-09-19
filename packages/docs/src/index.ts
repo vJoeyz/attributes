@@ -1,8 +1,10 @@
 import ATTRIBUTES_DATA from '../attributes.json';
 import { ATTRIBUTES } from './constants';
-import { initCopyExampleButton } from './copy-examples';
+import { initCopyExampleButtons } from './copy-examples';
 import { initCopyScriptButton } from './copy-script';
 import { initExampleDropdowns } from './example-dropdowns';
+import { initTitles } from './titles';
+
 import type { AttributeExample } from './types';
 
 // Constants destructuring
@@ -15,6 +17,7 @@ const {
  */
 window.Webflow ||= [];
 window.Webflow.push(async () => {
+  initTitles();
   initExampleDropdowns();
 
   const currentAttributeKey = document.body.getAttribute(attributeKey);
@@ -29,6 +32,6 @@ window.Webflow.push(async () => {
 
   const examples: AttributeExample[] = await response.json();
 
-  initCopyExampleButton(examples);
+  initCopyExampleButtons(examples);
   initCopyScriptButton(attributeData);
 });

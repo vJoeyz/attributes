@@ -1,40 +1,28 @@
 import { ATTRIBUTES } from './constants';
 import { CopyJSONButton } from '@finsweet/ts-utils';
-import { selectedExample } from './stores';
 
 import type { AttributeExample } from './types';
 
 // Constants destructuring
 const {
-  element: { key: elementKey, values: elementValues },
+  example: { key: exampleKey },
 } = ATTRIBUTES;
 
 /**
  * Inits the `Copy Example` functionality.
  * @param attributeData The current attribute data.
  */
-export const initCopyExampleButton = (examples: AttributeExample[]): void => {
-  const element = document.querySelector<HTMLAnchorElement>(`[${elementKey}="${elementValues.copyButton}"]`);
-  if (!element) return;
+export const initCopyExampleButtons = (examples: AttributeExample[]): void => {
+  const elements = document.querySelectorAll<HTMLAnchorElement>(`[${exampleKey}]`);
+  if (!elements) return;
 
-  const exampleDisplayElement = document.querySelector<HTMLSpanElement>(
-    `[${elementKey}="${elementValues.exampleDisplay}"]`
-  );
+  for (const element of elements) {
+    const exampleId = element.getAttribute(exampleKey);
+    if (!exampleId) continue;
 
-  const instance = new CopyJSONButton({
-    element,
-    copyData: examples[selectedExample.get() || 0].data,
-  });
-
-  selectedExample.subscribe((exampleId) => {
-    instance.updateCopyData(examples[exampleId ? exampleId - 1 : 0].data);
-
-    if (!exampleId) {
-      instance.updateTextContent('Please select an example');
-      return;
-    }
-
-    instance.updateTextContent(`Copy Example ${exampleId}`);
-    if (exampleDisplayElement) exampleDisplayElement.textContent = `example ${exampleId}`;
-  });
+    new CopyJSONButton({
+      element,
+      copyData: examples[parseInt(exampleId) - 1 || 0]?.data,
+    });
+  }
 };

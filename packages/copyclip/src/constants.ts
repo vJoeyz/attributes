@@ -18,6 +18,11 @@ export const ATTRIBUTES = {
        * Defines an element to act as the copy target.
        */
       target: createDynamicAttibuteValue('copy-this'),
+
+      /**
+       * Defines a sibling element to act as the copy target.
+       */
+      sibling: 'copy-sibling',
     },
   },
 
