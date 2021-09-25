@@ -35,14 +35,15 @@ interface Params {
  * @param params.successMessage The message that will be displayed on success.
  * @param params.successDuration The duration of the success state.
  */
-export function init(params?: HTMLScriptElement | Params | null): ClipboardJS['destroy'][] {
+export function init(params?: HTMLOrSVGScriptElement | Params | null): ClipboardJS['destroy'][] {
   let globalSelector: string | null | undefined = null;
   let globalTargetSelector: string | null | undefined = null;
+  let globalText: string | null | undefined = null;
   let globalSuccessMessage: string | null | undefined = null;
   let globalSuccessDuration: string | null | undefined = null;
   let globalSuccessClass: string | null | undefined = null;
 
-  if (params instanceof HTMLScriptElement) {
+  if (params instanceof HTMLScriptElement || params instanceof SVGScriptElement) {
     globalSelector = params.getAttribute(globalSelectorKey);
     globalSuccessMessage = params.getAttribute(successMessageKey);
     globalSuccessDuration = params.getAttribute(successDurationKey);
@@ -50,6 +51,7 @@ export function init(params?: HTMLScriptElement | Params | null): ClipboardJS['d
   } else if (params) {
     globalSelector = params.selector;
     globalTargetSelector = params.targetSelector;
+    globalText = params.text;
     globalSuccessMessage = params.successMessage;
     globalSuccessDuration = params.successDuration;
     globalSuccessClass = params.successClass;
@@ -66,7 +68,7 @@ export function init(params?: HTMLScriptElement | Params | null): ClipboardJS['d
 
     // Get attributes
     const elementValue = trigger.getAttribute(elementKey);
-    const textToCopy = trigger.getAttribute(textKey) || params?.text;
+    const textToCopy = trigger.getAttribute(textKey) || globalText;
     const successMessage = trigger.getAttribute(successMessageKey) || globalSuccessMessage;
     const successDuration = +(
       trigger.getAttribute(successDurationKey) ||
@@ -123,7 +125,7 @@ const createClipboardJsInstance = ({
   successClass,
 }: {
   trigger: HTMLElement;
-  textToCopy?: string;
+  textToCopy?: string | null;
   target?: Element | null;
   textNode?: ChildNode;
   originalText?: string | null;
