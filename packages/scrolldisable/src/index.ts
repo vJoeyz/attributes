@@ -9,5 +9,5 @@ const { currentScript } = document;
 if (preventsLoad(currentScript)) window.fsAttributes['scrollDisable'] = { init };
 else {
   window.Webflow ||= [];
-  window.Webflow.push(() => init({ currentScript }));
+  window.Webflow.push(() => init(currentScript));
 }

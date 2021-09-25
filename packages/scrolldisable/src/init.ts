@@ -13,21 +13,21 @@ interface Params {
   reserveScrollbarGap?: boolean;
 }
 
-export function init({ params }: { params: Params }): void;
-export function init({ currentScript }: { currentScript: HTMLOrSVGScriptElement | null }): void;
-export function init({
-  currentScript,
-  params,
-}: {
-  currentScript?: HTMLOrSVGScriptElement | null;
-  params?: Params;
-}): void {
+/**
+ * Inits the scrolldisable functionalities.
+ * Auto init:
+ * @param params The current `<script>` element.
+ *
+ * Programatic init:
+ * @param params.reserveScrollbarGap Defines if the scrollbar gap should be preserved when disabling scrolling. `true` by default.
+ */
+export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
   const preserveScrollTargets = document.querySelectorAll(`[${elementKey}="${elementValues.preserve}"]`);
 
   let reserveScrollbarGap = true;
 
-  if (currentScript) {
-    const reserveGapAttribute = currentScript.getAttribute(gapKey);
+  if (params instanceof HTMLScriptElement || params instanceof SVGScriptElement) {
+    const reserveGapAttribute = params.getAttribute(gapKey);
     if (reserveGapAttribute === gapValues.false) reserveScrollbarGap = false;
   } else if (params) {
     if (typeof params.reserveScrollbarGap === 'boolean') reserveScrollbarGap = params.reserveScrollbarGap;
@@ -37,4 +37,4 @@ export function init({
 
   initClickTriggers(preserveScrollTargets);
   initDisplayTriggers(preserveScrollTargets);
-}
+};
