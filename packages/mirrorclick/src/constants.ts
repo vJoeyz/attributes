@@ -20,4 +20,12 @@ export const ATTRIBUTES = {
       target: createDynamicAttibuteValue('target'),
     },
   },
+
+  /**
+   * Defines a delay to wait until the click event is replicated on the target.
+   */
+  delay: {
+    key: `${ATTRIBUTES_PREFIX}-delay`,
+    values: {},
+  },
 } as const;

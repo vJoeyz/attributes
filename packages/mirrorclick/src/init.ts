@@ -4,6 +4,7 @@ import { ATTRIBUTES } from './constants';
 // Constants  destructuring
 const {
   element: { key: elementKey, values: elementValues },
+  delay: { key: delayKey },
 } = ATTRIBUTES;
 
 /**
@@ -20,8 +21,16 @@ export const init = (): void => {
     const elementValue = mirrorTrigger.getAttribute(elementKey);
     const instanceIndex = elementValue ? extractNumberSuffix(elementValue) : undefined;
 
-    const mirrorTarget = document.querySelector(`[${elementKey}="${elementValues.target(instanceIndex)}"]`);
+    const mirrorTargets = document.querySelectorAll(`[${elementKey}="${elementValues.target(instanceIndex)}"]`);
 
-    if (mirrorTarget instanceof HTMLElement) mirrorTarget.click();
+    for (const mirrorTarget of mirrorTargets) {
+      if (!(mirrorTarget instanceof HTMLElement)) continue;
+
+      const rawDelay = mirrorTarget.getAttribute(delayKey) || mirrorTrigger.getAttribute(delayKey);
+      const delay = rawDelay ? parseInt(rawDelay) : undefined;
+
+      if (delay) window.setTimeout(() => mirrorTarget.click(), delay);
+      else mirrorTarget.click();
+    }
   });
 };
