@@ -1,38 +1,34 @@
 import { ATTRIBUTES } from './constants';
 
+// Types
+interface Params {
+  linkHref: string;
+}
+
 // Constants  destructuring
 const {
   element: { key: elementKey, values: elementValues },
   src: { key: srcKey },
 } = ATTRIBUTES;
 
-// Types
-interface Params {
-  linkHref: string;
-}
-
 /**
  * Inits setting a custom favicon to the current page.
+ *
  * Auto init:
- * @param params.currentScript The current `<script>` element.
+ * @param params The current `<script>` element.
  *
  * Programatic init:
  * @param params.linkHref Defines the URL source of the image to be set as the favicon.
  */
-export function init({ params }: { params: Params }): void;
-export function init({ currentScript }: { currentScript: HTMLOrSVGScriptElement | null }): void;
-export function init({
-  currentScript,
-  params,
-}: {
-  currentScript?: HTMLOrSVGScriptElement | null;
-  params?: Params;
-}): void {
+export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
   let linkHref: string | null | undefined;
 
   // Get the params
-  if (currentScript) linkHref = currentScript.getAttribute(srcKey);
-  else if (params) linkHref = params.linkHref;
+  if (params instanceof HTMLScriptElement || params instanceof SVGScriptElement) {
+    linkHref = params.getAttribute(srcKey);
+  } else if (params) {
+    linkHref = params.linkHref;
+  }
 
   // Get the element's src, if existing.
   const srcElement = document.querySelector(`[${elementKey}="${elementValues.src}"]`);
@@ -49,4 +45,4 @@ export function init({
 
   // Append the new one
   document.head.appendChild(linkElement);
-}
+};

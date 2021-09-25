@@ -12,7 +12,12 @@ const {
 
 /**
  * Inits editor friendly link blocks.
- * @param querySelector An optional valid CSS selector for querying the elements.
+ *
+ * Auto init:
+ * @param params The current `<script>` element.
+ *
+ * Programatic init:
+ * @param params.selector An optional valid CSS selector for querying the elements.
  */
 export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
   let globalSelector: string | null | undefined;
