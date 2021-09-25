@@ -9,5 +9,5 @@ const { currentScript } = document;
 if (preventsLoad(currentScript)) window.fsAttributes['ATTRIBUTE_KEY'] = { init };
 else {
   window.Webflow ||= [];
-  window.Webflow.push(() => init({ currentScript }));
+  window.Webflow.push(() => init(currentScript));
 }

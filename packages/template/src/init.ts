@@ -2,14 +2,10 @@ interface Params {
   param?: unknown;
 }
 
-export function init({ params }: { params: Params }): void;
-export function init({ currentScript }: { currentScript: HTMLOrSVGScriptElement | null }): void;
-export function init({
-  currentScript,
-  params,
-}: {
-  currentScript?: HTMLOrSVGScriptElement | null;
-  params?: Params;
-}): void {
-  console.log(currentScript, params);
-}
+export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
+  if (params instanceof HTMLScriptElement || params instanceof SVGScriptElement) {
+    console.log(params);
+  } else if (params) {
+    console.log(params);
+  }
+};
