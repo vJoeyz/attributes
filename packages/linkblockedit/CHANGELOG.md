@@ -1,4 +1,4 @@
-# Scrolldisable Changelog
+# `linkblockedit` Changelog
 
 ## [v1.0.1] 25th September 2021
 

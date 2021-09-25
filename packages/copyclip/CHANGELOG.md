@@ -1,4 +1,4 @@
-# Copyclip Changelog
+# `copyclip` Changelog
 
 ## [v1.1.5] 25th September 2021
 

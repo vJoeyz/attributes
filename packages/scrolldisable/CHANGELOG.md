@@ -1,4 +1,4 @@
-# Scrolldisable Changelog
+# `scrolldisable` Changelog
 
 ## [v1.1.5] 25th September 2021
 
