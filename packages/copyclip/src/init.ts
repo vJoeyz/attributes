@@ -26,7 +26,7 @@ interface Params {
  * Inits the copy to clipboard functionality.
  *
  * Auto init:
- * @param params.currentScript The current `<script>` element.
+ * @param params The current `<script>` element.
  *
  * Programatic init:
  * @param params.selector A valid CSS selector to query all the triggers.
@@ -35,7 +35,7 @@ interface Params {
  * @param params.successMessage The message that will be displayed on success.
  * @param params.successDuration The duration of the success state.
  */
-export function init(params?: HTMLOrSVGScriptElement | Params | null): ClipboardJS['destroy'][] {
+export const init = (params?: HTMLOrSVGScriptElement | Params | null): ClipboardJS['destroy'][] => {
   let globalSelector: string | null | undefined = null;
   let globalTargetSelector: string | null | undefined = null;
   let globalText: string | null | undefined = null;
@@ -107,7 +107,7 @@ export function init(params?: HTMLOrSVGScriptElement | Params | null): Clipboard
   }
 
   return destroyCallbacks;
-}
+};
 
 /**
  * Creates a new `ClipboardJS` instance.
