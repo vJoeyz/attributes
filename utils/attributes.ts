@@ -19,6 +19,78 @@ export const preventsLoad = (script: HTMLOrSVGScriptElement | null): boolean => 
  * @param value The static attribute value.
  * @returns A callback for generating new attribute values by index.
  */
-export const createDynamicAttibuteValue = (value: string) => {
+export const generateDynamicAttibuteValue = (value: string) => {
   return (index?: number): string => `${value}${index ? `-${index}` : ''}`;
+};
+
+/**
+ * Specific types for `generateSelectors`.
+ */
+type AttributeStaticValue = string;
+type AttributeDynamicValue = ReturnType<typeof generateDynamicAttibuteValue>;
+type AttributeValue = AttributeStaticValue | AttributeDynamicValue;
+type AttributeOperator = 'prefixed' | 'suffixed' | 'contains';
+
+/**
+ * @returns A `getSelector` callback for the passed `attributes` object.
+ * @param attributes An object containing all attribute keys and values.
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const generateSelectors = <
+  Attributes extends {
+    [name: string]: {
+      key: string;
+      values?: {
+        [valueKey: string]: AttributeValue;
+      };
+    };
+  }
+>(
+  attributes: Attributes
+) => {
+  /**
+   * Generates a query selector based on the preferences.
+   * @param name The name of the attribute.
+   * @param valueKey The value of the attribute.
+   * @param params.index Only accepted when the value is dynamic.
+   * @param params.operator Optional operator for the selector.
+   * @returns The query selector based on the preferences.
+   */
+  const getSelector = <Name extends keyof Attributes, ValueKey extends keyof Attributes[Name]['values']>(
+    name: Name,
+    valueKey?: ValueKey,
+    params?: Attributes[Name]['values'][ValueKey] extends AttributeStaticValue
+      ? {
+          operator?: AttributeOperator;
+        }
+      : {
+          instanceIndex?: number;
+          operator?: AttributeOperator;
+        }
+  ): string => {
+    const attribute = attributes[name];
+
+    const { key: attributeKey, values } = attribute;
+    let attributeValue: string;
+
+    if (!valueKey) return `[${attributeKey}]`;
+
+    const value = values?.[valueKey] as AttributeValue;
+
+    if (typeof value === 'string') attributeValue = value;
+    else attributeValue = value(params && 'instanceIndex' in params ? params.instanceIndex : undefined);
+
+    if (!params?.operator) return `[${attributeKey}="${attributeValue}"]`;
+
+    switch (params.operator) {
+      case 'prefixed':
+        return `[${attributeKey}^="${attributeValue}"]`;
+      case 'suffixed':
+        return `[${attributeKey}$="${attributeValue}"]`;
+      case 'contains':
+        return `[${attributeKey}*="${attributeValue}"]`;
+    }
+  };
+
+  return getSelector;
 };

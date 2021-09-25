@@ -1,11 +1,5 @@
 import { disableScrolling, enableScrolling, findFirstScrollableElement, isScrollingDisabled } from './scroll';
-import { ATTRIBUTES } from './constants';
-
-// Constants destructuring
-const {
-  element: { key: elementKey, values: elementValues },
-  matchMedia: { key: matchMediaKey },
-} = ATTRIBUTES;
+import { ATTRIBUTES, getSelector } from './constants';
 
 /**
  * Inits listening for click triggers.
@@ -16,16 +10,16 @@ export const initClickTriggers = (preserveScrollTargets: NodeListOf<Element>): v
     if (!(target instanceof Element)) return;
 
     // Get the trigger
-    const toggleTrigger = target.closest(`[${elementKey}="${elementValues.toggle}"]`);
+    const toggleTrigger = target.closest(getSelector('element', 'toggle'));
 
-    const disableTrigger = toggleTrigger || target.closest(`[${elementKey}="${elementValues.disable}"]`);
-    const enableTrigger = toggleTrigger || target.closest(`[${elementKey}="${elementValues.enable}"]`);
+    const disableTrigger = toggleTrigger || target.closest(getSelector('element', 'disable'));
+    const enableTrigger = toggleTrigger || target.closest(getSelector('element', 'enable'));
 
     const trigger = disableTrigger || enableTrigger;
     if (!trigger) return;
 
     // Make sure the media query is valid
-    const mediaToMatch = trigger.getAttribute(matchMediaKey);
+    const mediaToMatch = trigger.getAttribute(ATTRIBUTES.matchMedia.key);
     if (mediaToMatch && !window.matchMedia(mediaToMatch).matches) return;
 
     // Handle action

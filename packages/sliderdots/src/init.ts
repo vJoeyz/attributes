@@ -1,10 +1,9 @@
 import { WEBFLOW_CSS_CLASSES } from '$utils/webflow';
 import { cloneNode } from '@finsweet/ts-utils';
-import { ATTRIBUTES } from './constants';
+import { ATTRIBUTES, getSelector } from './constants';
 
-// Constants  destructuring
+// Constants destructuring
 const {
-  element: { key: elementKey, values: elementValues },
   remove: { key: removeKey, values: removeValues },
 } = ATTRIBUTES;
 
@@ -19,7 +18,7 @@ export function init(): void {
     const dots = slider.querySelectorAll<HTMLDivElement>(`.${WEBFLOW_CSS_CLASSES.sliderDot}`);
 
     slides.forEach((slide, index) => {
-      const dotContentElements = slide.querySelectorAll(`[${elementKey}="${elementValues.content}"]`);
+      const dotContentElements = slide.querySelectorAll(getSelector('element', 'content'));
 
       dotContentElements.forEach((element) => {
         const mustRemove = element.getAttribute(removeKey) === removeValues.true;

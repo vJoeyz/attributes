@@ -1,11 +1,10 @@
 import { initClickTriggers } from './click';
-import { ATTRIBUTES } from './constants';
+import { ATTRIBUTES, getSelector } from './constants';
 import { initDisplayTriggers } from './display';
 import { setReserveScrollBarGap } from './scroll';
 
-// Constants  destructuring
+// Constants destructuring
 const {
-  element: { key: elementKey, values: elementValues },
   gap: { key: gapKey, values: gapValues },
 } = ATTRIBUTES;
 
@@ -22,7 +21,7 @@ interface Params {
  * @param params.reserveScrollbarGap Defines if the scrollbar gap should be preserved when disabling scrolling. `true` by default.
  */
 export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
-  const preserveScrollTargets = document.querySelectorAll(`[${elementKey}="${elementValues.preserve}"]`);
+  const preserveScrollTargets = document.querySelectorAll(getSelector('element', 'preserve'));
 
   let reserveScrollbarGap = true;
 

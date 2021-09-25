@@ -1,6 +1,6 @@
-const ATTRIBUTES_PREFIX = 'fs-linkblockedit';
+import { generateSelectors } from '$utils/attributes';
 
-export const ATTRIBUTE_SELECTOR = `[${ATTRIBUTES_PREFIX}-element="parent"]`;
+const ATTRIBUTES_PREFIX = 'fs-linkblockedit';
 
 export const ATTRIBUTES = {
   element: {
@@ -16,8 +16,7 @@ export const ATTRIBUTES = {
   /**
    * Defines a global selector to query multiple `parent` elements.
    */
-  selector: {
-    key: `${ATTRIBUTES_PREFIX}-selector`,
-    values: {},
-  },
+  selector: { key: `${ATTRIBUTES_PREFIX}-selector` },
 } as const;
+
+export const getSelector = generateSelectors(ATTRIBUTES);

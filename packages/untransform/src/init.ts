@@ -1,9 +1,9 @@
 import { extractNumberSuffix, getAllParents } from '@finsweet/ts-utils';
-import { ATTRIBUTES, UNTRANSFORM_CLASS, UNTRANSFORM_STYLES } from './constants';
+import { ATTRIBUTES, getSelector, UNTRANSFORM_CLASS, UNTRANSFORM_STYLES } from './constants';
 
-// Constants  destructuring
+// Constants destructuring
 const {
-  element: { key: elementKey, values: elementValues },
+  element: { key: elementKey },
   timeout: { key: timeoutKey },
 } = ATTRIBUTES;
 
@@ -24,10 +24,10 @@ export const init = (): void => {
     if (!(target instanceof Element)) return;
 
     // Get the trigger
-    const toggleTrigger = target.closest(`[${elementKey}^="${elementValues.toggle}"]`);
+    const toggleTrigger = target.closest(getSelector('element', 'toggle', { operator: 'prefixed' }));
 
-    const onTrigger = toggleTrigger || target.closest(`[${elementKey}^="${elementValues.on}"]`);
-    const offTrigger = toggleTrigger || target.closest(`[${elementKey}^="${elementValues.off}"]`);
+    const onTrigger = toggleTrigger || target.closest(getSelector('element', 'on', { operator: 'prefixed' }));
+    const offTrigger = toggleTrigger || target.closest(getSelector('element', 'off', { operator: 'prefixed' }));
 
     const trigger = onTrigger || offTrigger;
     if (!trigger) return;
@@ -41,7 +41,7 @@ export const init = (): void => {
 
     // Get the fixed element
     const { parentElement } = trigger;
-    const fixedElementSelector = `[${elementKey}="${elementValues.fixed(instanceIndex)}"]`;
+    const fixedElementSelector = getSelector('element', 'fixed', { instanceIndex });
     const fixedElement = parentElement
       ? parentElement.querySelector(fixedElementSelector) || parentElement.closest(fixedElementSelector)
       : undefined;

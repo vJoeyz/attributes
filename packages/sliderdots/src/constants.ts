@@ -1,3 +1,5 @@
+import { generateSelectors } from '$utils/attributes';
+
 const ATTRIBUTES_PREFIX = 'fs-sliderdots';
 
 export const ATTRIBUTES = {
@@ -19,3 +21,5 @@ export const ATTRIBUTES = {
     values: { true: 'true' },
   },
 } as const;
+
+export const getSelector = generateSelectors(ATTRIBUTES);

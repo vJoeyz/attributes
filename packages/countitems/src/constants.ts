@@ -1,4 +1,4 @@
-import { createDynamicAttibuteValue } from '$utils/attributes';
+import { generateDynamicAttibuteValue, generateSelectors } from '$utils/attributes';
 
 const ATTRIBUTES_PREFIX = 'fs-countitems';
 
@@ -14,7 +14,9 @@ export const ATTRIBUTES = {
       /**
        * Defines the element that will display the amount of CMS items.
        */
-      value: createDynamicAttibuteValue('value'),
+      value: generateDynamicAttibuteValue('value'),
     },
   },
 } as const;
+
+export const getSelector = generateSelectors(ATTRIBUTES);

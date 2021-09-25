@@ -1,4 +1,4 @@
-import { createDynamicAttibuteValue } from '$utils/attributes';
+import { generateDynamicAttibuteValue, generateSelectors } from '$utils/attributes';
 
 const ATTRIBUTES_PREFIX = 'fs-untransform';
 
@@ -25,7 +25,7 @@ export const ATTRIBUTES = {
        * Defines the element that has `position: fixed`.
        * If not defined, the `triggerOn` element is used {@link ATTRIBUTES.element.values.on}
        */
-      fixed: createDynamicAttibuteValue('fixed'),
+      fixed: generateDynamicAttibuteValue('fixed'),
     },
   },
 
@@ -34,6 +34,8 @@ export const ATTRIBUTES = {
    */
   timeout: { key: `${ATTRIBUTES_PREFIX}-timeout`, values: {} },
 } as const;
+
+export const getSelector = generateSelectors(ATTRIBUTES);
 
 /**
  * The CSS class for untransforming the parents.

@@ -1,15 +1,9 @@
-import { ATTRIBUTES } from './constants';
+import { ATTRIBUTES, getSelector } from './constants';
 
 // Types
 interface Params {
   linkHref: string;
 }
-
-// Constants  destructuring
-const {
-  element: { key: elementKey, values: elementValues },
-  src: { key: srcKey },
-} = ATTRIBUTES;
 
 /**
  * Inits setting a custom favicon to the current page.
@@ -25,13 +19,13 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
 
   // Get the params
   if (params instanceof HTMLScriptElement || params instanceof SVGScriptElement) {
-    linkHref = params.getAttribute(srcKey);
+    linkHref = params.getAttribute(ATTRIBUTES.src.key);
   } else if (params) {
     linkHref = params.linkHref;
   }
 
   // Get the element's src, if existing.
-  const srcElement = document.querySelector(`[${elementKey}="${elementValues.src}"]`);
+  const srcElement = document.querySelector(getSelector('element', 'src'));
   const elementSrc = srcElement instanceof HTMLImageElement ? srcElement.src : undefined;
   if (elementSrc) linkHref = elementSrc;
 

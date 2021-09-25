@@ -1,3 +1,5 @@
+import { generateSelectors } from '$utils/attributes';
+
 const ATTRIBUTES_PREFIX = 'fs-scrolldisable';
 
 export const ATTRIBUTES = {
@@ -61,7 +63,7 @@ export const ATTRIBUTES = {
   /**
    * Used to define a media query that restricts when an element acts as a trigger.
    */
-  matchMedia: { key: `${ATTRIBUTES_PREFIX}-media`, values: {} },
+  matchMedia: { key: `${ATTRIBUTES_PREFIX}-media` },
 
   /**
    * Defines if the scrollbar gap must be reserved when disabling scrolling.
@@ -69,6 +71,8 @@ export const ATTRIBUTES = {
    */
   gap: { key: `${ATTRIBUTES_PREFIX}-gap`, values: { true: 'true', false: 'false' } },
 } as const;
+
+export const getSelector = generateSelectors(ATTRIBUTES);
 
 /**
  * Defines the `Navbar` component media breakpoints.

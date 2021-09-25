@@ -1,4 +1,4 @@
-import { createDynamicAttibuteValue } from '$utils/attributes';
+import { generateDynamicAttibuteValue, generateSelectors } from '$utils/attributes';
 
 const ATTRIBUTES_PREFIX = 'fs-copyclip';
 
@@ -17,7 +17,7 @@ export const ATTRIBUTES = {
       /**
        * Defines an element to act as the copy target.
        */
-      target: createDynamicAttibuteValue('copy-this'),
+      target: generateDynamicAttibuteValue('copy-this'),
 
       /**
        * Defines a sibling element to act as the copy target.
@@ -58,6 +58,8 @@ export const ATTRIBUTES = {
    */
   globalSelector: { key: `${ATTRIBUTES_PREFIX}-selector` },
 } as const;
+
+export const getSelector = generateSelectors(ATTRIBUTES);
 
 export const DEFAULT_SUCCESS_DURATION = 1000 as const;
 export const DEFAULT_SUCCESS_CSS_CLASS = `${ATTRIBUTES_PREFIX}_active` as const;

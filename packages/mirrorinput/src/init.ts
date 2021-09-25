@@ -1,10 +1,5 @@
 import { extractNumberSuffix, isFormField, simulateEvent } from '@finsweet/ts-utils';
-import { ATTRIBUTES } from './constants';
-
-// Constants  destructuring
-const {
-  element: { key: elementKey, values: elementValues },
-} = ATTRIBUTES;
+import { ATTRIBUTES, getSelector } from './constants';
 
 /**
  * Inits click events mirroring.
@@ -13,14 +8,14 @@ export const init = (): void => {
   window.addEventListener('input', ({ target }) => {
     if (!(target instanceof Element)) return;
 
-    const mirrorTrigger = target.closest(`[${elementKey}^="${elementValues.trigger}"]`);
+    const mirrorTrigger = target.closest(getSelector('element', 'trigger', { operator: 'prefixed' }));
     if (!isFormField(mirrorTrigger)) return;
 
     // Get the instance index
-    const elementValue = mirrorTrigger.getAttribute(elementKey);
+    const elementValue = mirrorTrigger.getAttribute(ATTRIBUTES.element.key);
     const instanceIndex = elementValue ? extractNumberSuffix(elementValue) : undefined;
 
-    const mirrorTarget = document.querySelector(`[${elementKey}="${elementValues.target(instanceIndex)}"]`);
+    const mirrorTarget = document.querySelector(getSelector('element', 'target', { instanceIndex }));
     if (!isFormField(mirrorTarget) || mirrorTrigger.type !== mirrorTarget.type) return;
 
     // If must update the `checked` property

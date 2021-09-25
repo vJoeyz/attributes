@@ -1,9 +1,9 @@
 import { extractNumberSuffix } from '@finsweet/ts-utils';
-import { ATTRIBUTES } from './constants';
+import { ATTRIBUTES, getSelector } from './constants';
 
 // Constants  destructuring
 const {
-  element: { key: elementKey, values: elementValues },
+  element: { key: elementKey },
   delay: { key: delayKey },
 } = ATTRIBUTES;
 
@@ -14,14 +14,14 @@ export const init = (): void => {
   window.addEventListener('click', ({ target }) => {
     if (!(target instanceof Element)) return;
 
-    const mirrorTrigger = target.closest(`[${elementKey}^="${elementValues.trigger}"]`);
+    const mirrorTrigger = target.closest(getSelector('element', 'trigger', { operator: 'prefixed' }));
     if (!mirrorTrigger) return;
 
     // Get the instance index
     const elementValue = mirrorTrigger.getAttribute(elementKey);
     const instanceIndex = elementValue ? extractNumberSuffix(elementValue) : undefined;
 
-    const mirrorTargets = document.querySelectorAll(`[${elementKey}="${elementValues.target(instanceIndex)}"]`);
+    const mirrorTargets = document.querySelectorAll(getSelector('element', 'target', { instanceIndex }));
 
     for (const mirrorTarget of mirrorTargets) {
       if (!(mirrorTarget instanceof HTMLElement)) continue;

@@ -1,4 +1,4 @@
-import { createDynamicAttibuteValue } from '$utils/attributes';
+import { generateDynamicAttibuteValue, generateSelectors } from '$utils/attributes';
 
 const ATTRIBUTES_PREFIX = 'fs-mirrorclick';
 
@@ -17,15 +17,14 @@ export const ATTRIBUTES = {
       /**
        * Defines the element as the target to mirror the fired event.
        */
-      target: createDynamicAttibuteValue('target'),
+      target: generateDynamicAttibuteValue('target'),
     },
   },
 
   /**
    * Defines a delay to wait until the click event is replicated on the target.
    */
-  delay: {
-    key: `${ATTRIBUTES_PREFIX}-delay`,
-    values: {},
-  },
+  delay: { key: `${ATTRIBUTES_PREFIX}-delay` },
 } as const;
+
+export const getSelector = generateSelectors(ATTRIBUTES);

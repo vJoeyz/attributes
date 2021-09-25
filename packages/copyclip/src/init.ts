@@ -1,10 +1,10 @@
 import ClipboardJS from 'clipboard';
 import { findTextNode, extractNumberSuffix } from '@finsweet/ts-utils';
-import { ATTRIBUTES, DEFAULT_SUCCESS_DURATION, DEFAULT_SUCCESS_CSS_CLASS } from './constants';
+import { ATTRIBUTES, DEFAULT_SUCCESS_DURATION, DEFAULT_SUCCESS_CSS_CLASS, getSelector } from './constants';
 
 // Constants destructuring
 const {
-  element: { key: elementKey, values: elementValues },
+  element: { key: elementKey },
   text: { key: textKey },
   globalSelector: { key: globalSelectorKey },
   successMessage: { key: successMessageKey },
@@ -58,7 +58,7 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): Clipboard
   }
 
   const copyTriggers = document.querySelectorAll(
-    `[${elementKey}^="${elementValues.trigger}"]${globalSelector ? `, ${globalSelector}` : ''}`
+    `${getSelector('element', 'trigger', { operator: 'prefixed' })}${globalSelector ? `, ${globalSelector}` : ''}`
   );
 
   const destroyCallbacks: ClipboardJS['destroy'][] = [];
@@ -81,11 +81,13 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): Clipboard
     const instanceIndex = elementValue ? extractNumberSuffix(elementValue) : undefined;
 
     // Get the target to be copied, if existing
-    const siblingTarget = trigger.parentElement?.querySelector(`[${elementKey}^="${elementValues.sibling}"]`);
+    const siblingTarget = trigger.parentElement?.querySelector(
+      getSelector('element', 'sibling', { operator: 'prefixed' })
+    );
 
     const target =
       siblingTarget ||
-      document.querySelector(globalTargetSelector || `[${elementKey}="${elementValues.target(instanceIndex)}"]`);
+      document.querySelector(globalTargetSelector || getSelector('element', 'target', { instanceIndex }));
 
     // Store the text node and the original text
     const textNode = findTextNode(trigger);

@@ -1,13 +1,11 @@
 import debounce from 'just-debounce';
 import { isVisible } from '@finsweet/ts-utils';
-import { ATTRIBUTES, NAV_MEDIAS } from './constants';
+import { ATTRIBUTES, getSelector, NAV_MEDIAS } from './constants';
 import { disableScrolling, enableScrolling, findFirstScrollableElement } from './scroll';
+import { WEBFLOW_CSS_CLASSES } from '$utils/webflow';
 
-// Contants
-const {
-  element: { key: elementKey, values: elementValues },
-  matchMedia: { key: matchMediaKey },
-} = ATTRIBUTES;
+// Contants destructuring
+const { navMenu: navMenuClass } = WEBFLOW_CSS_CLASSES;
 
 // Store
 const displayTriggersStore: Map<
@@ -49,10 +47,13 @@ const handleStateChange = (trigger: HTMLElement, preserveScrollTargets: NodeList
  */
 export const initDisplayTriggers = (preserveScrollTargets: NodeListOf<Element>): void => {
   // DOM Elements
-  const smartNavSelector = `[${elementKey}="${elementValues.nav}"]`;
+  const smartNavSelector = getSelector('element', 'nav');
 
   const displayTriggers = document.querySelectorAll<HTMLElement>(
-    `[${elementKey}="${elementValues.whenVisible}"], ${smartNavSelector}.w-nav-menu, ${smartNavSelector} .w-nav-menu`
+    `${getSelector(
+      'element',
+      'whenVisible'
+    )}, ${smartNavSelector}.${navMenuClass}, ${smartNavSelector} .${navMenuClass}`
   );
 
   // Define MutationObserver's callback
@@ -69,7 +70,7 @@ export const initDisplayTriggers = (preserveScrollTargets: NodeListOf<Element>):
   // Init
   for (const trigger of displayTriggers) {
     // Get the trigger's matchMedia requisite
-    let matchMedia = trigger.getAttribute(matchMediaKey);
+    let matchMedia = trigger.getAttribute(ATTRIBUTES.matchMedia.key);
 
     // Navbar special
     const navbar = trigger.closest<HTMLDivElement>('.w-nav');

@@ -1,3 +1,5 @@
+import { generateSelectors } from '$utils/attributes';
+
 const ATTRIBUTES_PREFIX = 'fs-favcustom';
 
 export const ATTRIBUTES = {
@@ -14,5 +16,7 @@ export const ATTRIBUTES = {
   /**
    * Defines the URL source of the image to be set as the favicon.
    */
-  src: { key: `${ATTRIBUTES_PREFIX}-src`, values: {} },
+  src: { key: `${ATTRIBUTES_PREFIX}-src` },
 } as const;
+
+export const getSelector = generateSelectors(ATTRIBUTES);

@@ -1,14 +1,8 @@
-import { ATTRIBUTES } from './constants';
+import { ATTRIBUTES, getSelector } from './constants';
 
 interface Params {
   selector?: string;
 }
-
-// Constants  destructuring
-const {
-  element: { key: elementKey, values: elementValues },
-  selector: { key: selectorKey },
-} = ATTRIBUTES;
 
 /**
  * Inits editor friendly link blocks.
@@ -23,13 +17,13 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
   let globalSelector: string | null | undefined;
 
   if (params instanceof HTMLScriptElement || params instanceof SVGScriptElement) {
-    globalSelector = params.getAttribute(selectorKey);
+    globalSelector = params.getAttribute(ATTRIBUTES.selector.key);
   } else if (params) {
     globalSelector = params.selector;
   }
 
   const elements = document.querySelectorAll<HTMLElement>(
-    `[${elementKey}="${elementValues.parent}"]${globalSelector ? `, ${globalSelector}` : ''}`
+    `${getSelector('element', 'parent')}${globalSelector ? `, ${globalSelector}` : ''}`
   );
 
   // Make the elements accessible
@@ -48,14 +42,16 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
 
   // Listen events
   window.addEventListener('click', (e) => {
-    if (!(e.target instanceof HTMLElement) || e.target instanceof HTMLAnchorElement) return;
+    const { target } = e;
 
-    const target = e.target.closest(`[${elementKey}="${elementValues.parent}"]`);
-    if (!target) return;
+    if (!(target instanceof HTMLElement) || target instanceof HTMLAnchorElement) return;
+
+    const parentElement = target.closest(getSelector('element', 'parent'));
+    if (!parentElement) return;
 
     e.preventDefault();
 
-    const anchorElement = target.querySelector<HTMLAnchorElement>('a');
+    const anchorElement = parentElement.querySelector<HTMLAnchorElement>('a');
     if (anchorElement) anchorElement.click();
 
     return false;
