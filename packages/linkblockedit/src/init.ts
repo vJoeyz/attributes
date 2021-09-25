@@ -1,12 +1,30 @@
-import { ATTRIBUTE_SELECTOR } from './constants';
+import { ATTRIBUTES } from './constants';
+
+interface Params {
+  selector?: string;
+}
+
+// Constants  destructuring
+const {
+  element: { key: elementKey, values: elementValues },
+  selector: { key: selectorKey },
+} = ATTRIBUTES;
 
 /**
  * Inits editor friendly link blocks.
  * @param querySelector An optional valid CSS selector for querying the elements.
  */
-export function init(querySelector?: string): void {
+export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
+  let globalSelector: string | null | undefined;
+
+  if (params instanceof HTMLScriptElement || params instanceof SVGScriptElement) {
+    globalSelector = params.getAttribute(selectorKey);
+  } else if (params) {
+    globalSelector = params.selector;
+  }
+
   const elements = document.querySelectorAll<HTMLElement>(
-    `${querySelector ? `${querySelector}, ` : ''}${ATTRIBUTE_SELECTOR}`
+    `[${elementKey}="${elementValues.parent}"]${globalSelector ? `, ${globalSelector}` : ''}`
   );
 
   // Make the elements accessible
@@ -27,7 +45,7 @@ export function init(querySelector?: string): void {
   window.addEventListener('click', (e) => {
     if (!(e.target instanceof HTMLElement) || e.target instanceof HTMLAnchorElement) return;
 
-    const target = e.target.closest(ATTRIBUTE_SELECTOR);
+    const target = e.target.closest(`[${elementKey}="${elementValues.parent}"]`);
     if (!target) return;
 
     e.preventDefault();
@@ -37,4 +55,4 @@ export function init(querySelector?: string): void {
 
     return false;
   });
-}
+};

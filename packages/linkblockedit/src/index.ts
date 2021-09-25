@@ -9,5 +9,5 @@ const { currentScript } = document;
 if (preventsLoad(currentScript)) window.fsAttributes['linkBlockEdit'] = { init };
 else {
   window.Webflow ||= [];
-  window.Webflow.push(init);
+  window.Webflow.push(() => init(currentScript));
 }
