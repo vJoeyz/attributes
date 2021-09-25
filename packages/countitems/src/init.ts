@@ -8,7 +8,7 @@ const {
 } = ATTRIBUTES;
 
 /**
- * Inits CMS Items count.
+ * Inits list items count.
  */
 export const init = (): void => {
   const listReferences = document.querySelectorAll(`[${elementKey}^="${elementValues.list}"]`);
