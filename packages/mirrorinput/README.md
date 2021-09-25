@@ -1,3 +1,3 @@
-# Mirror Click
+# `mirrorinput` Attribute
 
 Attribute description.

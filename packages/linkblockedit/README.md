@@ -1,3 +1,3 @@
-# ATTRIBUTE_KEY
+# `linkblockedit` Attribute
 
 Attribute description.

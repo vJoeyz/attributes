@@ -1,3 +1,3 @@
-# ATTRIBUTE_KEY
+# `sliderdots` Attribute
 
 Attribute description.

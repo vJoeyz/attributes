@@ -1,3 +1,3 @@
-# ATTRIBUTE_KEY
+# `countitems` Attribute
 
 Attribute description.

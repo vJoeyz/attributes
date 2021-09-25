@@ -1,4 +1,4 @@
-# Disable Scrolling
+# `scrolldisable` Attribute
 
 Users can prevent the page from scrolling when:
 
