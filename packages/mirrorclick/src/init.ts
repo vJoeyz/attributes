@@ -1,4 +1,4 @@
-import { extractNumberSuffix } from '@finsweet/ts-utils';
+import { getInstanceIndex } from '$utils/attributes';
 import { ATTRIBUTES, getSelector } from './constants';
 
 // Constants  destructuring
@@ -18,8 +18,7 @@ export const init = (): void => {
     if (!mirrorTrigger) return;
 
     // Get the instance index
-    const elementValue = mirrorTrigger.getAttribute(elementKey);
-    const instanceIndex = elementValue ? extractNumberSuffix(elementValue) : undefined;
+    const instanceIndex = getInstanceIndex(mirrorTrigger, elementKey);
 
     const mirrorTargets = document.querySelectorAll(getSelector('element', 'target', { instanceIndex }));
 

@@ -1,4 +1,5 @@
-import { extractNumberSuffix, isFormField, simulateEvent } from '@finsweet/ts-utils';
+import { getInstanceIndex } from '$utils/attributes';
+import { isFormField, simulateEvent } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 
 /**
@@ -12,8 +13,7 @@ export const init = (): void => {
     if (!isFormField(mirrorTrigger)) return;
 
     // Get the instance index
-    const elementValue = mirrorTrigger.getAttribute(ATTRIBUTES.element.key);
-    const instanceIndex = elementValue ? extractNumberSuffix(elementValue) : undefined;
+    const instanceIndex = getInstanceIndex(mirrorTrigger, ATTRIBUTES.element.key);
 
     const mirrorTarget = document.querySelector(getSelector('element', 'target', { instanceIndex }));
     if (!isFormField(mirrorTarget) || mirrorTrigger.type !== mirrorTarget.type) return;

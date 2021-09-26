@@ -1,6 +1,7 @@
 import ClipboardJS from 'clipboard';
-import { findTextNode, extractNumberSuffix } from '@finsweet/ts-utils';
+import { findTextNode } from '@finsweet/ts-utils';
 import { ATTRIBUTES, DEFAULT_SUCCESS_DURATION, DEFAULT_SUCCESS_CSS_CLASS, getSelector } from './constants';
+import { getInstanceIndex } from '$utils/attributes';
 
 // Constants destructuring
 const {
@@ -67,7 +68,6 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): Clipboard
     if (!(trigger instanceof HTMLElement)) continue;
 
     // Get attributes
-    const elementValue = trigger.getAttribute(elementKey);
     const textToCopy = trigger.getAttribute(textKey) || globalText;
     const successMessage = trigger.getAttribute(successMessageKey) || globalSuccessMessage;
     const successDuration = +(
@@ -78,7 +78,7 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): Clipboard
     const successClass = trigger.getAttribute(successClassKey) || globalSuccessClass || DEFAULT_SUCCESS_CSS_CLASS;
 
     // Get the instance index
-    const instanceIndex = elementValue ? extractNumberSuffix(elementValue) : undefined;
+    const instanceIndex = getInstanceIndex(trigger, elementKey);
 
     // Get the target to be copied, if existing
     const siblingTarget = trigger.parentElement?.querySelector(

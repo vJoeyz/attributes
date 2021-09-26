@@ -1,4 +1,5 @@
-import { extractNumberSuffix, getAllParents } from '@finsweet/ts-utils';
+import { getInstanceIndex } from '$utils/attributes';
+import { getAllParents } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector, UNTRANSFORM_CLASS, UNTRANSFORM_STYLES } from './constants';
 
 // Constants destructuring
@@ -36,8 +37,7 @@ export const init = (): void => {
     if (currentTimeoutID) window.clearTimeout(currentTimeoutID);
 
     // Get the instance index
-    const elementValue = trigger.getAttribute(elementKey);
-    const instanceIndex = elementValue ? extractNumberSuffix(elementValue) : undefined;
+    const instanceIndex = getInstanceIndex(trigger, elementKey);
 
     // Get the fixed element
     const { parentElement } = trigger;

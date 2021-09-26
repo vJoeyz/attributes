@@ -1,5 +1,5 @@
+import { getInstanceIndex } from '$utils/attributes';
 import { getCollectionElement } from '$utils/cms';
-import { extractNumberSuffix } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 
 /**
@@ -11,8 +11,7 @@ export const init = (): void => {
   for (const listReference of listReferences) {
     const listElement = getCollectionElement(listReference, 'list') || listReference;
 
-    const elementValue = listReference.getAttribute(ATTRIBUTES.element.key);
-    const instanceIndex = elementValue ? extractNumberSuffix(elementValue) : undefined;
+    const instanceIndex = getInstanceIndex(listReference, ATTRIBUTES.element.key);
 
     const valueTarget = document.querySelector(getSelector('element', 'value', { instanceIndex }));
     if (!valueTarget) continue;
