@@ -1,0 +1,3 @@
+# `cmscombine` Attribute
+
+Attribute description.
