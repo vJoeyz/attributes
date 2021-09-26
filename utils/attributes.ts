@@ -98,8 +98,7 @@ export const generateSelectors = <
 
 /**
  * Gets the instance index of an element attribute.
- * @example
- * An element with the `fs-copyclip-element="trigger-1"` attribute will return `1` as the instance index.
+ * @example An element with the `fs-copyclip-element="trigger-1"` attribute will return `1` as the instance index.
  * @param element The element to extract the instance index.
  * @param attributeKey The attribute key that holds the instance index.
  */
