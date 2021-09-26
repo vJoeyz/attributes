@@ -1,4 +1,4 @@
-import { ATTRIBUTES_KEYS } from './constants';
+import { ATTRIBUTES } from './constants';
 
 /**
  * Make sure the window object is defined.
@@ -12,7 +12,7 @@ window.fsAttributes ||= {};
  * @returns `true` if the library should not automatically load.
  */
 // prettier-ignore
-export const preventsLoad = (script: HTMLOrSVGScriptElement | null): boolean => typeof script?.getAttribute(ATTRIBUTES_KEYS.preventLoad) === 'string';
+export const preventsLoad = (script: HTMLOrSVGScriptElement | null): boolean => typeof script?.getAttribute(ATTRIBUTES.preventLoad.key) === 'string';
 
 /**
  * Creates a dynamic attribute value.
