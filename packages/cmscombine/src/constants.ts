@@ -22,7 +22,7 @@ export const ATTRIBUTES = {
   /**
    * Defines a global selector to query lists to combine.
    */
-  selector: { key: `${ATTRIBUTES_PREFIX}-selector` },
+  lists: { key: `${ATTRIBUTES_PREFIX}-lists` },
 
   /**
    * Defines a global target to query the target list where to combine.

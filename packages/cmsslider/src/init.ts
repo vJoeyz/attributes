@@ -51,7 +51,7 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
   );
 
   // Collect the combine data
-  let populateData: Array<PopulateData> = [];
+  let populateData: PopulateData[] = [];
 
   for (const list of lists) {
     const collectionListElement = getCollectionElements(list, 'list');
@@ -68,14 +68,14 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
 
     if (!slider) continue;
 
-    // Make sure the combine data exists
-    populateData[instanceIndex || 0] ||= { listElements: [], slider };
+    // Make sure the populate data exists
+    const data = (populateData[instanceIndex || 0] ||= { listElements: [], slider });
 
     // Collect the list
-    populateData[instanceIndex || 0].listElements.push(collectionListElement);
+    data.listElements.push(collectionListElement);
   }
 
-  // Filter out invalid lists
+  // Filter out invalid instances
   populateData = populateData.filter((data) => data && data.listElements.length);
 
   // Populate the sliders
@@ -103,13 +103,16 @@ const populateSliderFromLists = ({ listElements, slider }: PopulateData) => {
   const existingSlides = slider.querySelectorAll<HTMLDivElement>(`.${slideCSSClass}`);
   if (!sliderMask || !existingSlides.length) return;
 
+  // Store the template CSS classes
   const slideCSS = existingSlides[0].classList.value;
 
+  // Remove existing slides
   existingSlides.forEach((slide) => slide.remove());
 
   for (const listElement of listElements) {
     const collectionItems = getCollectionElements(listElement, 'items');
 
+    // Add a new Slide for each Collection Item
     for (const collectionItem of collectionItems) {
       const newSlide = document.createElement('div');
       newSlide.setAttribute('class', slideCSS);
@@ -118,6 +121,7 @@ const populateSliderFromLists = ({ listElements, slider }: PopulateData) => {
       sliderMask.appendChild(newSlide);
     }
 
+    // Remove the Collection List Wrapper
     const collectionWrapper = getCollectionElements(listElement, 'wrapper');
     collectionWrapper?.remove();
   }

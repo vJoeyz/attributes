@@ -4,14 +4,19 @@ import { ATTRIBUTES, getSelector } from './constants';
 
 // Types
 interface Params {
-  selector?: string;
-  target?: string;
+  listsSelector?: string;
+  targetSelector?: string;
+}
+
+interface PopulateData {
+  listElements: HTMLDivElement[];
+  target: HTMLDivElement;
 }
 
 // Constants destructuring
 const {
   element: { key: elementKey },
-  selector: { key: selectorKey },
+  lists: { key: selectorKey },
   target: { key: targetKey },
 } = ATTRIBUTES;
 
@@ -32,8 +37,8 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
     globalListsSelector = params.getAttribute(selectorKey);
     globalTargetSelector = params.getAttribute(targetKey);
   } else if (params) {
-    globalListsSelector = params.selector;
-    globalTargetSelector = params.target;
+    globalListsSelector = params.listsSelector;
+    globalTargetSelector = params.targetSelector;
   }
 
   const lists = document.querySelectorAll(
@@ -43,7 +48,7 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
   );
 
   // Collect the combine data
-  const combineData: Array<{ listElements: Element[]; target: Element }> = [];
+  let populateData: PopulateData[] = [];
 
   for (const list of lists) {
     const collectionListElement = getCollectionElements(list, 'list');
@@ -60,17 +65,17 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
         'list'
       ) || collectionListElement;
 
-    // Make sure the combine data exists
-    combineData[instanceIndex || 0] ||= { listElements: [], target };
-
-    // Collect the list
-    const data = combineData[instanceIndex || 0];
+    // Make sure the populate data exists
+    const data = (populateData[instanceIndex || 0] ||= { listElements: [], target });
 
     if (collectionListElement !== data.target) data.listElements.push(collectionListElement);
   }
 
-  // Combine the valid lists
-  for (const { listElements, target } of combineData.filter((data) => data && data.listElements.length)) {
+  // Filter out invalid instances
+  populateData = populateData.filter((data) => data && data.listElements.length);
+
+  // Combine the lists
+  for (const { listElements, target } of populateData) {
     for (const listElement of listElements) {
       const collectionItems = getCollectionElements(listElement, 'items');
 
