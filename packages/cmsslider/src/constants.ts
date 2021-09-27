@@ -14,7 +14,7 @@ export const ATTRIBUTES = {
       /**
        * Defines the target slider where all lists will be included into.
        */
-      slider: generateDynamicAttibuteValue('slider'),
+      target: generateDynamicAttibuteValue('target'),
     },
   },
 

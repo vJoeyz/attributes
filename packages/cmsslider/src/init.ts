@@ -6,7 +6,7 @@ import { ATTRIBUTES, getSelector } from './constants';
 // Types
 interface Params {
   listsSelector?: string;
-  sliderSelector?: string;
+  targetSelector?: string;
 }
 
 interface PopulateData {
@@ -41,7 +41,7 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
     globalTargetSelector = params.getAttribute(sliderKey);
   } else if (params) {
     globalListsSelector = params.listsSelector;
-    globalTargetSelector = params.sliderSelector;
+    globalTargetSelector = params.targetSelector;
   }
 
   const lists = document.querySelectorAll(
@@ -61,7 +61,7 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
 
     // Get the slider target
     const slider = document.querySelector<HTMLDivElement>(
-      `.${sliderCSSClass}${getSelector('element', 'slider', { instanceIndex })}${
+      `.${sliderCSSClass}${getSelector('element', 'target', { instanceIndex })}${
         globalTargetSelector ? `, .${sliderCSSClass}${globalTargetSelector}` : ''
       }`
     );
