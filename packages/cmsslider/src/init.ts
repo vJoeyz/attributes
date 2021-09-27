@@ -83,7 +83,7 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
     populateSliderFromLists(data);
 
     // Modify the mask width.
-    //This little trick is made on purpose to trigger the `maskChanged` callback in `webflow.js`, which automatically rebuilds all the Slides + Dots logic.
+    // This little trick is made on purpose to trigger the `maskChanged` callback in `webflow.js`, which automatically rebuilds all the Slides + Dots logic.
     const { slider } = data;
     slider.style.width = `${slider.offsetWidth - 1}px`;
   }
