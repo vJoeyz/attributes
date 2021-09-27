@@ -6,7 +6,7 @@ const { currentScript } = document;
 /**
  * Init
  */
-if (preventsLoad(currentScript)) window.fsAttributes['scrollDisable'] = { init };
+if (preventsLoad(currentScript)) window.fsAttributes['scrolldisable'] = { init };
 else {
   window.Webflow ||= [];
   window.Webflow.push(() => init(currentScript));

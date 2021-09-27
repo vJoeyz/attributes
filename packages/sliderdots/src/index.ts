@@ -6,7 +6,7 @@ const { currentScript } = document;
 /**
  * Init
  */
-if (preventsLoad(currentScript)) window.fsAttributes['sliderDots'] = { init };
+if (preventsLoad(currentScript)) window.fsAttributes['sliderdots'] = { init };
 else {
   window.Webflow ||= [];
   window.Webflow.push(init);

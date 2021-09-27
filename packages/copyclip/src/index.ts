@@ -6,7 +6,7 @@ const { currentScript } = document;
 /**
  * Init
  */
-if (preventsLoad(currentScript)) window.fsAttributes['copyClip'] = { init };
+if (preventsLoad(currentScript)) window.fsAttributes['copyclip'] = { init };
 else {
   window.Webflow ||= [];
   window.Webflow.push(() => init(currentScript));

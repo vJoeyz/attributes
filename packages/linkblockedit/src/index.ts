@@ -6,7 +6,7 @@ const { currentScript } = document;
 /**
  * Init
  */
-if (preventsLoad(currentScript)) window.fsAttributes['linkBlockEdit'] = { init };
+if (preventsLoad(currentScript)) window.fsAttributes['linkblockedit'] = { init };
 else {
   window.Webflow ||= [];
   window.Webflow.push(() => init(currentScript));

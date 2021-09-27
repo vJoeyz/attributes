@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-favcustom",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Customize the Favicon for a specific page.",
   "main": "favcustom.js",
   "files": [

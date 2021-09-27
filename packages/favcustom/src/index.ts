@@ -6,7 +6,7 @@ const { currentScript } = document;
 /**
  * Init
  */
-if (preventsLoad(currentScript)) window.fsAttributes['favCustom'] = { init };
+if (preventsLoad(currentScript)) window.fsAttributes['favcustom'] = { init };
 else {
   window.Webflow ||= [];
   window.Webflow.push(() => init(currentScript));
