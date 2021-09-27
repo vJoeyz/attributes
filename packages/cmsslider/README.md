@@ -1,0 +1,3 @@
+# `cmsslider` Attribute
+
+Attribute description.

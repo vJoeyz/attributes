@@ -13,7 +13,7 @@ export const ATTRIBUTES = {
 
       /**
        * Defines the target list where all lists will be combined into.
-       * If not defines, the first queried list will act as the target.
+       * If not defined, the first queried list will act as the target.
        */
       target: generateDynamicAttibuteValue('target'),
     },
