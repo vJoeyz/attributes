@@ -61,7 +61,7 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
 
     // Get the slider target
     const slider = document.querySelector<HTMLDivElement>(
-      `.${sliderCSSClass}${getSelector('element', 'target', { instanceIndex })}${
+      `.${sliderCSSClass}${getSelector('element', 'slider', { instanceIndex })}${
         globalTargetSelector ? `, .${sliderCSSClass}${globalTargetSelector}` : ''
       }`
     );
@@ -107,8 +107,9 @@ const populateSliderFromLists = ({ listElements, slider }: PopulateData) => {
   const slideCSS = existingSlides[0].classList.value;
 
   // Remove existing slides
-  existingSlides.forEach((slide) => slide.remove());
+  for (const slide of existingSlides) slide.remove();
 
+  // Populate the items
   for (const listElement of listElements) {
     const collectionItems = getCollectionElements(listElement, 'items');
 
