@@ -1,5 +1,5 @@
 import { getInstanceIndex } from '$utils/attributes';
-import { WEBFLOW_CSS_CLASSES } from '$utils/webflow';
+import { SLIDER_COMPONENT_CSS_CLASSES } from '$utils/webflow';
 import { getCollectionElements, restartWebflow } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 
@@ -18,10 +18,10 @@ interface PopulateData {
 const {
   element: { key: elementKey },
   lists: { key: selectorKey },
-  slider: { key: sliderKey },
+  target: { key: targetKey },
 } = ATTRIBUTES;
 
-const { slider: sliderCSSClass, slide: slideCSSClass, sliderMask: sliderMaskCSSClass } = WEBFLOW_CSS_CLASSES;
+const { slider: sliderCSSClass, slide: slideCSSClass, sliderMask: sliderMaskCSSClass } = SLIDER_COMPONENT_CSS_CLASSES;
 
 /**
  * Inits the attribute.
@@ -38,7 +38,7 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
 
   if (params instanceof HTMLScriptElement || params instanceof SVGScriptElement) {
     globalListsSelector = params.getAttribute(selectorKey);
-    globalTargetSelector = params.getAttribute(sliderKey);
+    globalTargetSelector = params.getAttribute(targetKey);
   } else if (params) {
     globalListsSelector = params.listsSelector;
     globalTargetSelector = params.targetSelector;

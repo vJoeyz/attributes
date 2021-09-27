@@ -6,6 +6,9 @@
   "workspaces": [
     "packages\\a11y",
     "packages\\cmscombine",
+    "packages\\cmsslider",
+    "packages\\cmstabs",
+    "packages\\cmscombine",
     "packages\\components",
     "packages\\copyclip",
     "packages\\countitems",

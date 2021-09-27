@@ -24,9 +24,9 @@ export const ATTRIBUTES = {
   lists: { key: `${ATTRIBUTES_PREFIX}-lists` },
 
   /**
-   * Defines a global slider where to include the lists.
+   * Defines a global target where to include the lists.
    */
-  slider: { key: `${ATTRIBUTES_PREFIX}-slider` },
+  target: { key: `${ATTRIBUTES_PREFIX}-target` },
 } as const;
 
 export const getSelector = generateSelectors(ATTRIBUTES);
