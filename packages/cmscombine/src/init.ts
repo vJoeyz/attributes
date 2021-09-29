@@ -16,7 +16,7 @@ interface PopulateData {
 // Constants destructuring
 const {
   element: { key: elementKey },
-  lists: { key: selectorKey },
+  lists: { key: listsKey },
   target: { key: targetKey },
 } = ATTRIBUTES;
 
@@ -34,7 +34,7 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
   let globalTargetSelector: string | null | undefined;
 
   if (params instanceof HTMLScriptElement || params instanceof SVGScriptElement) {
-    globalListsSelector = params.getAttribute(selectorKey);
+    globalListsSelector = params.getAttribute(listsKey);
     globalTargetSelector = params.getAttribute(targetKey);
   } else if (params) {
     globalListsSelector = params.listsSelector;
