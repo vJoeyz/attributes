@@ -1,7 +1,14 @@
+import { assessScript } from '$utils/attributes';
 import { init } from './init';
 
 /**
  * Init
  */
-window.Webflow ||= [];
-window.Webflow.push(init);
+const { currentScript } = document;
+const { preventsLoad } = assessScript(currentScript);
+
+if (preventsLoad) window.fsAttributes['countitems'] = { init };
+else {
+  window.Webflow ||= [];
+  window.Webflow.push(init);
+}

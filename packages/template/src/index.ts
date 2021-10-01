@@ -1,12 +1,13 @@
-import { preventsLoad } from '$utils/attributes';
+import { assessScript } from '$utils/attributes';
 import { init } from './init';
-
-const { currentScript } = document;
 
 /**
  * Init
  */
-if (preventsLoad(currentScript)) window.fsAttributes['ATTRIBUTE_KEY'] = { init };
+const { currentScript } = document;
+const { preventsLoad } = assessScript(currentScript);
+
+if (preventsLoad) window.fsAttributes['ATTRIBUTE_KEY'] = { init };
 else {
   window.Webflow ||= [];
   window.Webflow.push(() => init(currentScript));

@@ -1,4 +1,4 @@
-import { extractNumberSuffix } from '@finsweet/ts-utils';
+import { Debug, extractNumberSuffix } from '@finsweet/ts-utils';
 import { ATTRIBUTES } from './constants';
 
 /**
@@ -6,14 +6,30 @@ import { ATTRIBUTES } from './constants';
  */
 window.fsAttributes ||= {};
 
+interface GlobalAttributeParams {
+  /**
+   * Defines if the `<script>` should prevent automatically loading the library.
+   * Useful for cases where a JS developer whants to programatically init the library.
+   */
+  preventsLoad: boolean;
+}
+
 /**
- * Checks if an Attributes' `<script>` should prevent automatically loading the library.
- * Useful for cases where a JS developer whants to programatically init the library.
+ * Checks the global params of the Attribute `<script>`.
  * @param script The `<script>` element.
- * @returns `true` if the library should not automatically load.
+ * @returns {GlobalAttributeParams} The global attribute params.
  */
-// prettier-ignore
-export const preventsLoad = (script: HTMLOrSVGScriptElement | null): boolean => typeof script?.getAttribute(ATTRIBUTES.preventLoad.key) === 'string';
+export const assessScript = (script: HTMLOrSVGScriptElement | null): GlobalAttributeParams => {
+  const { preventLoad, debugMode } = ATTRIBUTES;
+
+  // Check if the Attribute should not be automatically loaded
+  const preventsLoad = typeof script?.getAttribute(preventLoad.key) === 'string';
+
+  // Check if Debug Mode is activated
+  if (typeof script?.getAttribute(debugMode.key) === 'string') Debug.activateAlerts();
+
+  return { preventsLoad };
+};
 
 /**
  * Creates a dynamic attribute value.
