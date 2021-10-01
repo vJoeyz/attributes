@@ -1,11 +1,10 @@
 import debounce from 'just-debounce';
-import { isVisible } from '@finsweet/ts-utils';
+import { isVisible, NAVBAR_CSS_CLASSES } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector, NAV_MEDIAS } from './constants';
 import { disableScrolling, enableScrolling, findFirstScrollableElement } from './scroll';
-import { NAVBAR_COMPONENT_CSS_CLASSES } from '$utils/webflow';
 
 // Contants destructuring
-const { navMenu: navMenuCSSClass } = NAVBAR_COMPONENT_CSS_CLASSES;
+const { navMenu: navMenuCSSClass } = NAVBAR_CSS_CLASSES;
 
 // Store
 const displayTriggersStore: Map<

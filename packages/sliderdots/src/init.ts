@@ -1,5 +1,4 @@
-import { SLIDER_COMPONENT_CSS_CLASSES } from '$utils/webflow';
-import { cloneNode } from '@finsweet/ts-utils';
+import { cloneNode, SLIDER_CSS_CLASSES } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 
 // Constants destructuring
@@ -7,7 +6,7 @@ const {
   remove: { key: removeKey, values: removeValues },
 } = ATTRIBUTES;
 
-const { slider: sliderCSSClass, slide: slideCSSClass, sliderDot: sliderDotCSSClass } = SLIDER_COMPONENT_CSS_CLASSES;
+const { slider: sliderCSSClass, slide: slideCSSClass, sliderDot: sliderDotCSSClass } = SLIDER_CSS_CLASSES;
 
 /**
  * Inits the custom slider dots.

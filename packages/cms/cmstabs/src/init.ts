@@ -1,6 +1,5 @@
 import { getInstanceIndex } from '$utils/attributes';
-import { TABS_COMPONENT_CSS_CLASSES, WEBFLOW_CURRENT_CSS_CLASS } from '$utils/webflow';
-import { getCollectionElements, restartWebflow } from '@finsweet/ts-utils';
+import { getCollectionElements, restartWebflow, TABS_CSS_CLASSES, CURRENT_CSS_CLASS } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 
 // Types
@@ -28,7 +27,7 @@ const {
   tabsMenu: tabsMenuCSSClass,
   tabLink: tabLinkCSSClass,
   activeTab: activeTabCSSClass,
-} = TABS_COMPONENT_CSS_CLASSES;
+} = TABS_CSS_CLASSES;
 
 /**
  * Inits the attribute.
@@ -125,7 +124,7 @@ const populateTabsFromLists = ({ listElements, tabsElement }: PopulateData) => {
       for (const element of [newTabLink, newTabPane]) element.dataset.wTab = `Tab ${itemIndex}`;
 
       if (itemIndex === 0) {
-        newTabLink.classList.add(WEBFLOW_CURRENT_CSS_CLASS);
+        newTabLink.classList.add(CURRENT_CSS_CLASS);
         newTabPane.classList.add(activeTabCSSClass);
       }
 

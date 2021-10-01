@@ -1,6 +1,5 @@
 import { getInstanceIndex } from '$utils/attributes';
-import { SLIDER_COMPONENT_CSS_CLASSES } from '$utils/webflow';
-import { getCollectionElements, restartWebflow } from '@finsweet/ts-utils';
+import { getCollectionElements, restartWebflow, SLIDER_CSS_CLASSES } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 
 // Types
@@ -21,7 +20,7 @@ const {
   target: { key: targetKey },
 } = ATTRIBUTES;
 
-const { slider: sliderCSSClass, slide: slideCSSClass, sliderMask: sliderMaskCSSClass } = SLIDER_COMPONENT_CSS_CLASSES;
+const { slider: sliderCSSClass, slide: slideCSSClass, sliderMask: sliderMaskCSSClass } = SLIDER_CSS_CLASSES;
 
 /**
  * Inits the attribute.

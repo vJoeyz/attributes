@@ -1,5 +1,4 @@
-import { WEBFLOW_CURRENT_CSS_CLASS } from '$utils/webflow';
-import { cloneNode, getCollectionElements } from '@finsweet/ts-utils';
+import { cloneNode, getCollectionElements, CURRENT_CSS_CLASS } from '@finsweet/ts-utils';
 import { getSelector } from './constants';
 import type { ListData } from './init';
 
@@ -77,7 +76,7 @@ export const populatePaginationButtons = (
     if (index === currentPageIndex) {
       newButton.removeAttribute('href');
       newButton.setAttribute('aria-current', 'page');
-      newButton.classList.add(WEBFLOW_CURRENT_CSS_CLASS);
+      newButton.classList.add(CURRENT_CSS_CLASS);
     }
 
     if (lastAppendedButton) wrapper.insertBefore(newButton, lastAppendedButton);
