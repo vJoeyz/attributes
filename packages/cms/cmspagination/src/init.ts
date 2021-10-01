@@ -6,6 +6,7 @@ import { getStoredPageLinks, setStoredPageLinks } from './storage';
 // Types
 interface Params {
   buttonsSelector?: string;
+  buttonsLimit?: number;
 }
 
 export type PageLinks = string[];
@@ -23,15 +24,21 @@ export interface ListData extends Elements {
  * @param params.param A global parameter.
  */
 export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Promise<void> => {
-  let globalButtonsSelector: string | null | undefined;
+  let globalListsSelector: string | null | undefined;
+  let buttonsLimit: number | undefined;
 
   if (params instanceof HTMLScriptElement || params instanceof SVGScriptElement) {
-    globalButtonsSelector = params.getAttribute(ATTRIBUTES.buttons.key);
+    globalListsSelector = params.getAttribute(ATTRIBUTES.buttons.key);
+
+    const rawButtonsLimit = params.getAttribute(ATTRIBUTES.limit.key);
+    if (rawButtonsLimit) buttonsLimit = parseInt(rawButtonsLimit);
+    if (Number.isNaN(buttonsLimit)) buttonsLimit = 0;
   } else if (params) {
-    globalButtonsSelector = params.buttonsSelector;
+    globalListsSelector = params.buttonsSelector;
+    ({ buttonsLimit } = params);
   }
 
-  const elements = getElements(document, globalButtonsSelector);
+  const elements = getElements(document, globalListsSelector);
 
   const listsData = await Promise.all(
     elements.map(async (data, index) => {
@@ -49,7 +56,7 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
       const [pageQueryKey] = [...searchParams.keys()];
       if (!pageQueryKey) return;
 
-      pageLinks = await collectPageLinks(`${origin}${pathname}?${pageQueryKey}=1`, index, globalButtonsSelector);
+      pageLinks = await collectPageLinks(`${origin}${pathname}?${pageQueryKey}=1`, index, globalListsSelector);
 
       setStoredPageLinks(index, pageLinks);
 
@@ -57,5 +64,5 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
     })
   );
 
-  for (const data of listsData) if (data) populatePaginationButtons(data);
+  for (const data of listsData) if (data) populatePaginationButtons(data, buttonsLimit);
 };

@@ -14,6 +14,11 @@ export const ATTRIBUTES = {
   },
 
   /**
+   * Defines the maximum number of buttons to display.
+   */
+  limit: { key: `${ATTRIBUTES_PREFIX}-limit` },
+
+  /**
    * Defines a global selector to query pagination buttons to instantiate.
    */
   buttons: { key: `${ATTRIBUTES_PREFIX}-buttons` },

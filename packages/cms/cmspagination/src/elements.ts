@@ -45,12 +45,10 @@ export const getElements = (page: Document = document, globalButtonsSelector?: s
   return elements;
 };
 
-export const populatePaginationButtons = ({
-  buttonTemplate,
-  nextButton,
-  previousButton,
-  pageLinks,
-}: ListData): void => {
+export const populatePaginationButtons = (
+  { buttonTemplate, nextButton, previousButton, pageLinks }: ListData,
+  buttonsLimit?: number
+): void => {
   const wrapper = buttonTemplate.parentElement;
   if (!wrapper) return;
 
@@ -60,6 +58,14 @@ export const populatePaginationButtons = ({
 
   let lastAppendedButton: HTMLAnchorElement | undefined;
 
+  // Get the current page index
+  let currentPageIndex = !window.location.search.includes('_page')
+    ? 0
+    : pageLinks.findIndex((pageLink) => pageLink === window.location.href);
+
+  if (currentPageIndex === -1) currentPageIndex = 0;
+
+  // Populate the buttons
   for (let index = pageLinks.length - 1; index >= 0; index--) {
     const pageLink = pageLinks[index];
 
@@ -68,7 +74,7 @@ export const populatePaginationButtons = ({
 
     newButton.textContent = `${index + 1}`;
 
-    if (pageLink === window.location.href || (index === 0 && !window.location.search.includes('_page'))) {
+    if (index === currentPageIndex) {
       newButton.removeAttribute('href');
       newButton.setAttribute('aria-current', 'page');
       newButton.classList.add(WEBFLOW_CURRENT_CSS_CLASS);
