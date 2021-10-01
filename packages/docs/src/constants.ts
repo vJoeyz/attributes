@@ -1,3 +1,5 @@
+import { generateSelectors } from '$utils/attributes';
+
 export const ATTRIBUTES_PREFIX = 'fs-docs';
 
 export const ATTRIBUTES = {
@@ -32,3 +34,5 @@ export const ATTRIBUTES = {
     values: {},
   },
 } as const;
+
+export const getSelector = generateSelectors(ATTRIBUTES);
