@@ -2,7 +2,7 @@
 import esbuild from 'esbuild';
 import dotenv from 'dotenv';
 
-dotenv.config({ path: '../../.env' });
+dotenv.config({ path: '../../../.env' });
 
 const production = process.env.NODE_ENV === 'production';
 
