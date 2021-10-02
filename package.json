@@ -3,6 +3,7 @@
   "description": "Finsweet's Attributes monorepo.",
   "type": "module",
   "private": true,
+  "sideEffects": false,
   "workspaces": [
     "packages\\a11y",
     "packages\\cms\\cmscombine",
