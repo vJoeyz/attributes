@@ -1,0 +1,31 @@
+{
+  "name": "@finsweet/attributes-cmsload",
+  "version": "1.0.1",
+  "description": "Description.",
+  "main": "cmsload.js",
+  "files": [
+    "cmsload.js"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development node ./bin/build.js",
+    "build": "cross-env NODE_ENV=production node ./bin/build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/finsweet/attributes.git"
+  },
+  "keywords": [
+    "webflow",
+    "attributes",
+    "no code"
+  ],
+  "author": {
+    "name": "Finsweet",
+    "url": "https://www.finsweet.com/"
+  },
+  "bugs": {
+    "url": "https://sweetjs.finsweet.com/"
+  },
+  "homepage": "https://www.finsweet.com/attributes"
+}
