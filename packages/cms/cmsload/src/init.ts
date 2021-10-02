@@ -63,8 +63,6 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
     collectionListWrappers.map(async (collectionListWrapper) => {
       const listInstance = new CMSList(collectionListWrapper, ANIMATIONS.fade);
 
-      const mode = listInstance.getAttribute(modeKey);
-
       const animationName = listInstance.getAttribute(animationKey);
       const animation = animationName ? ANIMATIONS[animationName] : undefined;
 
@@ -80,6 +78,8 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
           },
         });
       }
+
+      const mode = listInstance.getAttribute(modeKey);
 
       if (mode === modeValues.loadAll) initLoadAllMode(listInstance);
       else if (mode === modeValues.infinite) initInfiniteMode(listInstance);
