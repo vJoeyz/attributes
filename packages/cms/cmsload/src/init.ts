@@ -1,6 +1,7 @@
-import { getCollectionElements, isKeyOf } from '@finsweet/ts-utils';
+import { isKeyOf } from '@finsweet/ts-utils';
 import { ANIMATIONS, EASINGS } from 'packages/cms/animations';
 import { CMSList } from 'packages/cms/CMSList';
+import { getCollectionListWrappers } from 'packages/cms/helpers';
 import { ATTRIBUTES, getSelector } from './constants';
 import { initDefaultMode, initInfiniteMode, initLoadAllMode } from './modes';
 
@@ -37,26 +38,11 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
     globalListsSelector = params.listsSelector;
   }
 
-  // Get the Collection Lists
-  const lists = [
-    ...document.querySelectorAll<HTMLElement>(
-      `${getSelector('element', 'list', { operator: 'prefixed' })}${
-        globalListsSelector ? `, ${globalListsSelector}` : ''
-      }`
-    ),
-  ];
-
   // Get the Wrappers and make sure that non are duplicated
-  const collectionListWrappers = lists.reduce<HTMLElement[]>((wrappers, referenceElement) => {
-    if (!referenceElement) return wrappers;
-
-    const collectionListWrapper = getCollectionElements(referenceElement, 'wrapper');
-    if (!collectionListWrapper || wrappers.includes(collectionListWrapper)) return wrappers;
-
-    wrappers.push(collectionListWrapper);
-
-    return wrappers;
-  }, []);
+  const collectionListWrappers = getCollectionListWrappers([
+    getSelector('element', 'list', { operator: 'prefixed' }),
+    globalListsSelector,
+  ]);
 
   // Create the list instances and init the modes
   const listInstances = await Promise.all(
