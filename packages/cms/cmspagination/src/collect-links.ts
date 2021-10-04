@@ -1,5 +1,7 @@
 import { getElements } from './elements';
+
 import type { PageLinks } from './init';
+import type { PaginationButtonElement } from '@finsweet/ts-utils';
 
 /**
  * DOM Parser to parse html strings.
@@ -24,7 +26,7 @@ export const collectPageLinks = async (
    * Loads the items from the specified URL.
    * @param nextButton
    */
-  const loadPage = async ({ href }: HTMLAnchorElement | { href: string }) => {
+  const loadPage = async ({ href }: PaginationButtonElement | { href: string }) => {
     const response = await fetch(href);
     const rawPage = await response.text();
 

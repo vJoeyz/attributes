@@ -50,10 +50,10 @@
     "typescript": "^4.4.3"
   },
   "dependencies": {
-    "@finsweet/ts-utils": "^0.14.1",
+    "@finsweet/ts-utils": "^0.15.1",
     "just-debounce": "^1.1.0",
     "just-throttle": "^2.3.1",
-    "motion": "^10.1.1",
+    "motion": "^10.1.4",
     "nanostores": "^0.4.8"
   }
 }

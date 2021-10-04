@@ -3,6 +3,12 @@ import { createDerived, createStore, getValue, update } from 'nanostores';
 
 import type { WritableStore, ReadableStore } from 'nanostores';
 import type { Animation, AnimationOptions } from './animations';
+import type {
+  CollectionListWrapperElement,
+  CollectionListElement,
+  CollectionItemElement,
+  PaginationButtonElement,
+} from '@finsweet/ts-utils';
 
 // Types
 interface ItemAnimation extends Animation {
@@ -14,10 +20,10 @@ interface ItemAnimation extends Animation {
  */
 export class CMSList {
   public readonly index: number;
-  public readonly wrapper: HTMLElement;
-  public readonly list: HTMLElement;
-  public readonly paginationNext?: HTMLAnchorElement | null;
-  public readonly paginationPrevious?: HTMLAnchorElement | null;
+  public readonly wrapper: CollectionListWrapperElement;
+  public readonly list: CollectionListElement;
+  public readonly paginationNext?: PaginationButtonElement | null;
+  public readonly paginationPrevious?: PaginationButtonElement | null;
   public readonly itemsPerPage: number;
   public readonly itemsStore: WritableStore<CMSItem[]>;
 
@@ -33,7 +39,7 @@ export class CMSList {
     this.wrapper =
       getCollectionElements(referenceElement, 'wrapper') ||
       Debug.alert('The element is not a Collection List.', 'error');
-    this.list = getCollectionElements(this.wrapper, 'list') as HTMLElement;
+    this.list = getCollectionElements(this.wrapper, 'list') as CollectionListElement;
     this.paginationNext = getCollectionElements(this.wrapper, 'next');
     this.paginationPrevious = getCollectionElements(this.wrapper, 'previous');
 
@@ -91,7 +97,7 @@ export class CMSList {
    * @param mount If set to `true`, the new items will be automatically appended to the list. Defaults to `true`.
    * @param callback Provides the newly created item instances.
    */
-  public addItems(newItems: HTMLElement[], mount = true, callback?: (items: CMSItem[]) => void): void {
+  public addItems(newItems: CollectionItemElement[], mount = true, callback?: (items: CMSItem[]) => void): void {
     const { itemsStore, list, animation } = this;
 
     update(itemsStore, (existingItems) => {
@@ -153,8 +159,8 @@ class CMSItem {
    * @param animation An `ItemAnimation` interface to use when showing/hiding the item.
    */
   constructor(
-    private readonly element: HTMLElement,
-    private readonly list: HTMLElement,
+    private readonly element: CollectionItemElement,
+    private readonly list: CollectionListElement,
     private animation?: ItemAnimation
   ) {
     this.mounted = document.body.contains(element);

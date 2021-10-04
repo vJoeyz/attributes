@@ -1,13 +1,15 @@
 import { cloneNode, getCollectionElements, CURRENT_CSS_CLASS } from '@finsweet/ts-utils';
 import { getSelector } from './constants';
+
 import type { ListData } from './init';
+import type { CollectionListWrapperElement, PaginationButtonElement } from '@finsweet/ts-utils';
 
 // Types
 export interface Elements {
   buttonTemplate: HTMLAnchorElement;
-  collectionListWrapper: HTMLDivElement;
-  nextButton?: HTMLAnchorElement | null;
-  previousButton?: HTMLAnchorElement | null;
+  collectionListWrapper: CollectionListWrapperElement;
+  nextButton?: PaginationButtonElement | null;
+  previousButton?: PaginationButtonElement | null;
 }
 
 /**

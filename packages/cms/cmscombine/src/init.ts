@@ -2,6 +2,8 @@ import { getInstanceIndex } from '$utils/attributes';
 import { getCollectionElements } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 
+import type { CollectionListElement } from '@finsweet/ts-utils';
+
 // Types
 interface Params {
   listsSelector?: string;
@@ -9,8 +11,8 @@ interface Params {
 }
 
 interface PopulateData {
-  listElements: HTMLDivElement[];
-  target: HTMLDivElement;
+  listElements: CollectionListElement[];
+  target: CollectionListElement;
 }
 
 // Constants destructuring

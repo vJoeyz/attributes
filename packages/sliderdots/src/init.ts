@@ -1,6 +1,8 @@
 import { cloneNode, SLIDER_CSS_CLASSES } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 
+import type { SliderElement, SlideElement, SliderDotElement } from '@finsweet/ts-utils';
+
 // Constants destructuring
 const {
   remove: { key: removeKey, values: removeValues },
@@ -12,14 +14,16 @@ const { slider: sliderCSSClass, slide: slideCSSClass, sliderDot: sliderDotCSSCla
  * Inits the custom slider dots.
  */
 export function init(): void {
-  const sliders = document.querySelectorAll<HTMLDivElement>(`.${sliderCSSClass}`);
+  const sliders = document.querySelectorAll<SliderElement>(`.${sliderCSSClass}`);
+  if (!sliders.length) return;
 
-  for (const slider of sliders) {
-    const slides = slider.querySelectorAll<HTMLDivElement>(`.${slideCSSClass}`);
-    const dots = slider.querySelectorAll<HTMLDivElement>(`.${sliderDotCSSClass}`);
+  sliders.forEach((slider) => {
+    const slides = slider.querySelectorAll<SlideElement>(`.${slideCSSClass}`);
+    const dots = slider.querySelectorAll<SliderDotElement>(`.${sliderDotCSSClass}`);
 
     slides.forEach((slide, index) => {
       const dotContentElements = slide.querySelectorAll(getSelector('element', 'content'));
+      const dot = dots[index];
 
       dotContentElements.forEach((element) => {
         const mustRemove = element.getAttribute(removeKey) === removeValues.true;
@@ -27,8 +31,8 @@ export function init(): void {
         const elementToAppend = mustRemove ? element : cloneNode(element);
         if (elementToAppend instanceof HTMLElement) elementToAppend.style.pointerEvents = 'none';
 
-        dots[index].appendChild(elementToAppend);
+        dot.appendChild(elementToAppend);
       });
     });
-  }
+  });
 }

@@ -2,6 +2,15 @@ import { getInstanceIndex } from '$utils/attributes';
 import { getCollectionElements, restartWebflow, TABS_CSS_CLASSES, CURRENT_CSS_CLASS } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 
+import type {
+  TabsElement,
+  TabsMenuElement,
+  TabsContentElement,
+  TabLinkElement,
+  TabPaneElement,
+  CollectionListElement,
+} from '@finsweet/ts-utils';
+
 // Types
 interface Params {
   listsSelector?: string;
@@ -9,8 +18,8 @@ interface Params {
 }
 
 interface PopulateData {
-  listElements: HTMLDivElement[];
-  tabsElement: HTMLDivElement;
+  listElements: CollectionListElement[];
+  tabsElement: TabsElement;
 }
 
 // Constants destructuring
@@ -66,7 +75,7 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
     const instanceIndex = getInstanceIndex(list, elementKey);
 
     // Get the slider target
-    const tabsElement = document.querySelector<HTMLDivElement>(
+    const tabsElement = document.querySelector<TabsElement>(
       `.${tabsCSSClass}${getSelector('element', 'tabs', { instanceIndex })}${
         globalTargetSelector ? `, .${tabsCSSClass}${globalTargetSelector}` : ''
       }`
@@ -95,10 +104,10 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
  * @param populateData
  */
 const populateTabsFromLists = ({ listElements, tabsElement }: PopulateData) => {
-  const tabsMenu = tabsElement.querySelector<HTMLDivElement>(`.${tabsMenuCSSClass}`);
-  const tabsContent = tabsElement.querySelector<HTMLDivElement>(`.${tabsContentCSSClass}`);
-  const existingTabLinks = tabsElement.querySelectorAll<HTMLDivElement>(`.${tabLinkCSSClass}`);
-  const existingTabPanes = tabsElement.querySelectorAll<HTMLDivElement>(`.${tabPaneCSSClass}`);
+  const tabsMenu = tabsElement.querySelector<TabsMenuElement>(`.${tabsMenuCSSClass}`);
+  const tabsContent = tabsElement.querySelector<TabsContentElement>(`.${tabsContentCSSClass}`);
+  const existingTabLinks = tabsElement.querySelectorAll<TabLinkElement>(`.${tabLinkCSSClass}`);
+  const existingTabPanes = tabsElement.querySelectorAll<TabPaneElement>(`.${tabPaneCSSClass}`);
   if (!tabsMenu || !tabsContent || !existingTabLinks.length || !existingTabPanes.length) return;
 
   // Store the template CSS classes

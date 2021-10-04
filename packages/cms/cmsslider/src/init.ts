@@ -2,6 +2,8 @@ import { getInstanceIndex } from '$utils/attributes';
 import { getCollectionElements, restartWebflow, SLIDER_CSS_CLASSES } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 
+import type { CollectionListElement, SliderElement, SlideElement, SliderMaskElement } from '@finsweet/ts-utils';
+
 // Types
 interface Params {
   listsSelector?: string;
@@ -9,8 +11,8 @@ interface Params {
 }
 
 interface PopulateData {
-  listElements: HTMLDivElement[];
-  slider: HTMLDivElement;
+  listElements: CollectionListElement[];
+  slider: SliderElement;
 }
 
 // Constants destructuring
@@ -59,7 +61,7 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
     const instanceIndex = getInstanceIndex(list, elementKey);
 
     // Get the slider target
-    const slider = document.querySelector<HTMLDivElement>(
+    const slider = document.querySelector<SliderElement>(
       `.${sliderCSSClass}${getSelector('element', 'slider', { instanceIndex })}${
         globalTargetSelector ? `, .${sliderCSSClass}${globalTargetSelector}` : ''
       }`
@@ -98,8 +100,8 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
  * @param populateData
  */
 const populateSliderFromLists = ({ listElements, slider }: PopulateData) => {
-  const sliderMask = slider.querySelector<HTMLDivElement>(`.${sliderMaskCSSClass}`);
-  const existingSlides = slider.querySelectorAll<HTMLDivElement>(`.${slideCSSClass}`);
+  const sliderMask = slider.querySelector<SliderMaskElement>(`.${sliderMaskCSSClass}`);
+  const existingSlides = slider.querySelectorAll<SlideElement>(`.${slideCSSClass}`);
   if (!sliderMask || !existingSlides.length) return;
 
   // Store the template CSS classes

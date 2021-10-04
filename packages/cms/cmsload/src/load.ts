@@ -1,6 +1,7 @@
 import { CMS_CSS_CLASSES, getCollectionElements } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 
+import type { PaginationButtonElement, CollectionListWrapperElement } from '@finsweet/ts-utils';
 import type { CMSList } from 'packages/cms/CMSList';
 
 // Constants
@@ -30,7 +31,7 @@ export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all
    * Loads the items from the specified URL.
    * @param nextButton
    */
-  const loadPage = async ({ href }: HTMLAnchorElement | { href: string }) => {
+  const loadPage = async ({ href }: PaginationButtonElement | { href: string }) => {
     // Make sure the limit hasn't reached
     let nextPageURL: string | undefined;
 
@@ -42,7 +43,9 @@ export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all
       const page = domParser.parseFromString(rawPage, 'text/html');
 
       // Get DOM Elements
-      const collectionListWrapper = page.querySelectorAll<HTMLElement>(`.${CMS_CSS_CLASSES.wrapper}`)[index];
+      const collectionListWrapper = page.querySelectorAll<CollectionListWrapperElement>(`.${CMS_CSS_CLASSES.wrapper}`)[
+        index
+      ];
       if (!collectionListWrapper) return;
 
       const collectionItems = getCollectionElements(collectionListWrapper, 'items');
@@ -78,8 +81,8 @@ export const preparePagination = (
   listInstance: CMSList
 ):
   | {
-      paginationNext: HTMLAnchorElement;
-      textNode: Element | null;
+      paginationNext: PaginationButtonElement;
+      textNode: Node | null;
       originalText?: string | null;
       loadingText?: string | null;
     }
