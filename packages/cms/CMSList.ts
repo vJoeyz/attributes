@@ -34,7 +34,7 @@ export class CMSList {
    * @param referenceElement Either a `Collection List` or a `Collection List Wrapper` element.
    * @param animation An `ItemAnimation` interface to use when showing/hiding items in the list.
    */
-  constructor(public readonly referenceElement: HTMLElement, private animation?: ItemAnimation) {
+  constructor(referenceElement: HTMLElement, private animation?: ItemAnimation) {
     // DOM Elements
     this.wrapper =
       getCollectionElements(referenceElement, 'wrapper') ||
