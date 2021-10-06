@@ -27,7 +27,7 @@ export const createCMSListInstance = (referenceElement: HTMLElement): CMSList | 
   }
 
   const existingLists = [...document.querySelectorAll<HTMLElement>(`.${CMS_CSS_CLASSES.wrapper}`)];
-  const index = existingLists.findIndex((list) => list === wrapper);
+  const index = existingLists.indexOf(wrapper);
   if (index === -1) return;
 
   const { fsAttributes } = window;
@@ -36,7 +36,7 @@ export const createCMSListInstance = (referenceElement: HTMLElement): CMSList | 
   fsAttributes.cms.lists ||= [];
   fsAttributes.cms.lists[index] ||= new CMSList(wrapper, index);
 
-  return window.fsAttributes.cms?.lists?.[index];
+  return fsAttributes.cms.lists[index];
 };
 
 /**
@@ -144,8 +144,8 @@ export class CMSList {
   }
 
   /**
-   * Hides
-   * @param items
+   * Hides a set of CMSItems.
+   * @param items The items to hide.
    */
   public async hideItems(items: CMSItem | CMSItem[]): Promise<void> {
     this.showItems(items, false);
@@ -169,7 +169,7 @@ interface CMSItemProps {
 }
 
 /**
- * An instance of a Collection List Item.
+ * An instance of a `Collection List Item`.
  */
 class CMSItem {
   public readonly props: CMSItemProps = {};

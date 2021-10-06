@@ -15,10 +15,9 @@ const {
 const domParser = new DOMParser();
 
 /**
- * Collects all page links and Collection Items from a Collection List.
+ * Collects Collection Items from a Collection List's pagination.
  * @param listInstance The CMSList instance.
- * @param index The action to perform.
- * @param limit The limit of items to be loaded, if existing.
+ * @param action The action to perform:`next` just loads the next page's items, `all` loads all of them.
  * @returns The URL of the next page to be loaded.
  */
 export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all'): Promise<string | undefined> => {

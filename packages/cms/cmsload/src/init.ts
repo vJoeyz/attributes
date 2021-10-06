@@ -1,4 +1,4 @@
-import { isKeyOf } from '@finsweet/ts-utils';
+import { isKeyOf, isNotEmpty } from '@finsweet/ts-utils';
 import { ANIMATIONS, EASINGS } from 'packages/cms/animations';
 import { CMSList, createCMSListInstance } from 'packages/cms/CMSList';
 import { getCollectionListWrappers } from 'packages/cms/helpers';
@@ -76,13 +76,15 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
       const mode = listInstance.getAttribute(modeKey);
 
       // Init mode
-      if (mode === modeValues.loadAll) initLoadAllMode(listInstance);
-      else if (mode === modeValues.infinite) initInfiniteMode(listInstance);
-      else initDefaultMode(listInstance);
+      if (mode === modeValues.loadAll) await initLoadAllMode(listInstance);
+      else if (mode === modeValues.infinite) await initInfiniteMode(listInstance);
+      else await initDefaultMode(listInstance);
 
       return listInstance;
     })
   );
 
-  return listInstances;
+  const validListInstances = listInstances.filter(isNotEmpty);
+
+  return validListInstances;
 };
