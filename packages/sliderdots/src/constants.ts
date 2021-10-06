@@ -1,4 +1,4 @@
-import { generateSelectors } from '$utils/attributes';
+import { generateDynamicAttibuteValue, generateSelectors } from '$utils/attributes';
 
 const ATTRIBUTES_PREFIX = 'fs-sliderdots';
 
@@ -7,11 +7,26 @@ export const ATTRIBUTES = {
     key: `${ATTRIBUTES_PREFIX}-element`,
     values: {
       /**
+       * Defines a slider to instantiate.
+       */
+      slider: generateDynamicAttibuteValue('slider'),
+
+      /**
        * Defines the content to be added to the slider dot.
        */
-      content: 'content',
+      content: generateDynamicAttibuteValue('content'),
+
+      /**
+       * Defines a custom Slide Nav.
+       */
+      sliderNav: generateDynamicAttibuteValue('slider-nav'),
     },
   },
+
+  /**
+   * Defines the `active` CSS class. Defaults to {@link DEFAULT_ACTIVE_CSS_CLASS}.
+   */
+  active: { key: `${ATTRIBUTES_PREFIX}-active` },
 
   /**
    * Defines if the content should be removed or just duplicated.
@@ -23,3 +38,5 @@ export const ATTRIBUTES = {
 } as const;
 
 export const getSelector = generateSelectors(ATTRIBUTES);
+
+export const DEFAULT_ACTIVE_CSS_CLASS = `${ATTRIBUTES_PREFIX}_active`;
