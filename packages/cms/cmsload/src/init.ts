@@ -40,18 +40,17 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
     globalListsSelector = params.listsSelector;
   }
 
-  // Get the Wrappers and make sure that non are duplicated
+  // Create the list instances
   const collectionListWrappers = getCollectionListWrappers([
     getSelector('element', 'list', { operator: 'prefixed' }),
     globalListsSelector,
   ]);
 
-  // Create the list instances and init the modes
-  const listInstances = await Promise.all(
-    collectionListWrappers.map(async (collectionListWrapper) => {
-      const listInstance = createCMSListInstance(collectionListWrapper);
-      if (!listInstance) return;
+  const listInstances = collectionListWrappers.map(createCMSListInstance).filter(isNotEmpty);
 
+  // Init the modes
+  await Promise.all(
+    listInstances.map(async (listInstance) => {
       // Get animation config
       const animationName = listInstance.getAttribute(animationKey);
       const animation = animationName ? ANIMATIONS[animationName] : ANIMATIONS.fade;
@@ -84,7 +83,5 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
     })
   );
 
-  const validListInstances = listInstances.filter(isNotEmpty);
-
-  return validListInstances;
+  return listInstances;
 };
