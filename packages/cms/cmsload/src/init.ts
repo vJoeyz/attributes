@@ -1,6 +1,6 @@
 import { isKeyOf } from '@finsweet/ts-utils';
 import { ANIMATIONS, EASINGS } from 'packages/cms/animations';
-import { CMSList } from 'packages/cms/CMSList';
+import { CMSList, createCMSListInstance } from 'packages/cms/CMSList';
 import { getCollectionListWrappers } from 'packages/cms/helpers';
 import { ATTRIBUTES, getSelector } from './constants';
 import { initDefaultMode, initInfiniteMode, initLoadAllMode } from './modes';
@@ -18,6 +18,8 @@ const {
   animation: { key: animationKey },
   duration: { key: durationKey },
   easing: { key: easingKey },
+  stagger: { key: staggerKey },
+  resetIx: { key: resetIxKey, values: resetIxValues },
 } = ATTRIBUTES;
 
 /**
@@ -47,26 +49,33 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
   // Create the list instances and init the modes
   const listInstances = await Promise.all(
     collectionListWrappers.map(async (collectionListWrapper) => {
-      const listInstance = new CMSList(collectionListWrapper, ANIMATIONS.fade);
+      const listInstance = createCMSListInstance(collectionListWrapper);
+      if (!listInstance) return;
 
+      // Get animation config
       const animationName = listInstance.getAttribute(animationKey);
-      const animation = animationName ? ANIMATIONS[animationName] : undefined;
+      const animation = animationName ? ANIMATIONS[animationName] : ANIMATIONS.fade;
 
-      if (animation) {
-        const animationDuration = listInstance.getAttribute(durationKey);
-        const animationEasing = listInstance.getAttribute(easingKey);
+      const animationDuration = listInstance.getAttribute(durationKey);
+      const animationEasing = listInstance.getAttribute(easingKey);
+      const animationStagger = listInstance.getAttribute(staggerKey);
 
-        listInstance.addAnimation({
-          ...animation,
-          options: {
-            duration: animationDuration ? parseInt(animationDuration) : undefined,
-            easing: isKeyOf(animationEasing, EASINGS) ? animationEasing : undefined,
-          },
-        });
-      }
+      const resetIx = listInstance.getAttribute(resetIxKey) === resetIxValues.true;
 
+      listInstance.addAnimation({
+        ...animation,
+        options: {
+          easing: isKeyOf(animationEasing, EASINGS) ? animationEasing : undefined,
+          duration: animationDuration ? parseFloat(animationDuration) : undefined,
+          stagger: animationStagger ? parseFloat(animationStagger) : undefined,
+        },
+        resetIx,
+      });
+
+      // Get mode config
       const mode = listInstance.getAttribute(modeKey);
 
+      // Init mode
       if (mode === modeValues.loadAll) initLoadAllMode(listInstance);
       else if (mode === modeValues.infinite) initInfiniteMode(listInstance);
       else initDefaultMode(listInstance);

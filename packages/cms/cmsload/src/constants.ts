@@ -66,6 +66,16 @@ export const ATTRIBUTES = {
   duration: { key: `${ATTRIBUTES_PREFIX}-duration` },
 
   /**
+   * Defines if animations should be staggered.
+   */
+  stagger: { key: `${ATTRIBUTES_PREFIX}-stagger` },
+
+  /**
+   * Defines if Webflow should be restarted after loading new items.
+   */
+  resetIx: { key: `${ATTRIBUTES_PREFIX}-resetix`, values: { true: 'true' } },
+
+  /**
    * Defines a global selector to query lists to instantiate.
    */
   lists: { key: `${ATTRIBUTES_PREFIX}-lists` },
