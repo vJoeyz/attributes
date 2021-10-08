@@ -1,5 +1,9 @@
 # `scrolldisable` Changelog
 
+## [v1.1.8] 8th October 2021
+
+- Updated `examples.json`.
+
 ## [v1.1.7] 27th September 2021
 
 - Renamed the property in `window.fsAttributes` to the original Attribute key name.
