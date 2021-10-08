@@ -1,4 +1,6 @@
+import Emittery from 'emittery';
 import { CMS_CSS_CLASSES, Debug, getCollectionElements, isVisible, restartWebflow } from '@finsweet/ts-utils';
+import { getInstanceIndex } from '$utils/attributes';
 
 import type { Animation, AnimationOptions } from './animations';
 import type {
@@ -12,6 +14,10 @@ import type {
 interface ItemsAnimation extends Animation {
   options?: AnimationOptions;
   resetIx: boolean;
+}
+
+interface CMSListEvents {
+  additems: CMSItem[];
 }
 
 /**
@@ -42,7 +48,7 @@ export const createCMSListInstance = (referenceElement: HTMLElement): CMSList | 
 /**
  * Instance of a Collection List.
  */
-export class CMSList {
+export class CMSList extends Emittery<CMSListEvents> {
   public readonly list: CollectionListElement;
   public readonly paginationNext?: PaginationButtonElement | null;
   public readonly paginationPrevious?: PaginationButtonElement | null;
@@ -53,9 +59,11 @@ export class CMSList {
 
   /**
    * @param wrapper A `Collection List Wrapper` element.
-   * @param index The index of the list on the page.
+   * @param pageIndex The index of the list on the page. Used when querying/storing this instance.
    */
-  constructor(public readonly wrapper: CollectionListWrapperElement, public readonly index: number) {
+  constructor(public readonly wrapper: CollectionListWrapperElement, public readonly pageIndex: number) {
+    super();
+
     // DOM Elements
     this.list = getCollectionElements(this.wrapper, 'list') as CollectionListElement;
     this.paginationNext = getCollectionElements(this.wrapper, 'next');
@@ -69,7 +77,7 @@ export class CMSList {
 
     // List Index
     const existingLists = [...document.querySelectorAll<HTMLElement>(`.${CMS_CSS_CLASSES.wrapper}`)];
-    this.index = existingLists.findIndex((list) => list === this.wrapper);
+    this.pageIndex = existingLists.findIndex((list) => list === this.wrapper);
   }
 
   /**
@@ -100,6 +108,8 @@ export class CMSList {
     if (show) this.showItems(newItems);
 
     callback?.(newItems);
+
+    this.emit('additems', newItems);
   }
 
   /**
@@ -112,16 +122,18 @@ export class CMSList {
 
     if (!Array.isArray(items)) items = [items];
 
-    const validItems = items.filter(({ visible, isShowing, isHiding }) => {
-      const validShow = !visible && !isShowing;
-      const validHide = visible && !isHiding;
+    // const validItems = items.filter(({ visible, isShowing, isHiding }) => {
+    //   const validShow = !visible && !isShowing;
+    //   const validHide = visible && !isHiding;
 
-      return show ? validShow : validHide;
-    });
+    //   return show ? validShow : validHide;
+    // });
 
-    const elements = validItems.map(({ element }) => element);
+    // const elements = validItems.map(({ element }) => element);
+    const elements = items.map(({ element }) => element);
 
-    for (const item of validItems) item[show ? 'isShowing' : 'isHiding'] = true;
+    // for (const item of validItems) item[show ? 'isShowing' : 'isHiding'] = true;
+    for (const item of items) item[show ? 'isShowing' : 'isHiding'] = true;
 
     if (animation) {
       const { options, resetIx } = animation;
@@ -137,7 +149,8 @@ export class CMSList {
       }
     }
 
-    for (const item of validItems) {
+    // for (const item of validItems) {
+    for (const item of items) {
       item[show ? 'isShowing' : 'isHiding'] = false;
       item.visible = show;
     }
@@ -160,18 +173,27 @@ export class CMSList {
 
     return wrapper.getAttribute(attributeKey) || list.getAttribute(attributeKey);
   }
+
+  /**
+   * Gets the instance of the list for a specific attribute key.
+   * @param key The attribute key.
+   */
+  public getInstanceIndex(key: string): number | undefined {
+    const { wrapper, list } = this;
+    return getInstanceIndex(wrapper, key) || getInstanceIndex(list, key);
+  }
 }
 
 // `CMSItem` Types
-type CMSItemPropValue = string | string[];
-interface CMSItemProps {
+type CMSItemPropValue = string[];
+export interface CMSItemProps {
   [key: string]: CMSItemPropValue;
 }
 
 /**
  * An instance of a `Collection List Item`.
  */
-class CMSItem {
+export class CMSItem {
   public readonly props: CMSItemProps = {};
   public visible: boolean;
   public isShowing = false;
@@ -190,7 +212,7 @@ class CMSItem {
    * @param key The key of the property.
    * @param value The value of the property.
    */
-  public addProp(key: string, value: CMSItemPropValue) {
+  public addProp(key: string, value: CMSItemPropValue): void {
     this.props[key] = value;
   }
 }

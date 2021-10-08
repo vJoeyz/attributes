@@ -21,7 +21,7 @@ const domParser = new DOMParser();
  * @returns The URL of the next page to be loaded.
  */
 export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all'): Promise<string | undefined> => {
-  const { index, paginationNext } = listInstance;
+  const { pageIndex, paginationNext } = listInstance;
   const pageLinks: string[] = [];
 
   if (!paginationNext) return;
@@ -43,7 +43,7 @@ export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all
 
       // Get DOM Elements
       const collectionListWrapper = page.querySelectorAll<CollectionListWrapperElement>(`.${CMS_CSS_CLASSES.wrapper}`)[
-        index
+        pageIndex
       ];
       if (!collectionListWrapper) return;
 
