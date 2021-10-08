@@ -1,5 +1,9 @@
 # `copyclip` Changelog
 
+## [v1.1.9] 8th October 2021
+
+- Published production files.
+
 ## [v1.1.8] 8th October 2021
 
 - Updated `examples.json`.
