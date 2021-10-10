@@ -7,11 +7,12 @@
   "workspaces": [
     "packages\\a11y",
     "packages\\cms\\cmscombine",
+    "packages\\cms\\cmsfilter",
     "packages\\cms\\cmsload",
+    "packages\\cms\\cmsnest",
     "packages\\cms\\cmspagination",
     "packages\\cms\\cmsslider",
     "packages\\cms\\cmstabs",
-    "packages\\cms\\cmscombine",
     "packages\\components",
     "packages\\copyclip",
     "packages\\countitems",
@@ -37,7 +38,7 @@
   },
   "homepage": "https://github.com/finsweet/attributes#readme",
   "devDependencies": {
-    "@finsweet/eslint-config": "^1.0.12",
+    "@finsweet/eslint-config": "^1.0.13",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "cross-env": "^7.0.3",
@@ -50,7 +51,7 @@
     "typescript": "^4.4.3"
   },
   "dependencies": {
-    "@finsweet/ts-utils": "^0.17.2",
+    "@finsweet/ts-utils": "^0.18.3",
     "emittery": "^0.10.0",
     "just-debounce": "^1.1.0",
     "just-throttle": "^2.3.1",
