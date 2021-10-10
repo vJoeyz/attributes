@@ -22,27 +22,33 @@ interface CMSListEvents {
 
 /**
  * Creates a new `CMSList` instance, making sure there are no already existing instances on the page.
- * @param referenceElement The Collection List reference element.
+ * @param referenceElement The `Collection List` reference element.
  * @returns A new `CMSList` instance, if instantiation was valid.
  */
 export const createCMSListInstance = (referenceElement: HTMLElement): CMSList | undefined => {
   const wrapper = getCollectionElements(referenceElement, 'wrapper');
+
   if (!wrapper) {
     Debug.alert('The element is not a Collection List.', 'error');
     return;
   }
 
-  const existingLists = [...document.querySelectorAll<HTMLElement>(`.${CMS_CSS_CLASSES.wrapper}`)];
-  const index = existingLists.indexOf(wrapper);
-  if (index === -1) return;
-
   const { fsAttributes } = window;
 
   fsAttributes.cms ||= {};
   fsAttributes.cms.lists ||= [];
-  fsAttributes.cms.lists[index] ||= new CMSList(wrapper, index);
+  fsAttributes.cms.listElements ||= [
+    ...document.querySelectorAll<CollectionListWrapperElement>(`.${CMS_CSS_CLASSES.wrapper}`),
+  ];
 
-  return fsAttributes.cms.lists[index];
+  const { lists, listElements } = fsAttributes.cms;
+
+  const pageIndex = listElements.indexOf(wrapper);
+  if (pageIndex === -1) return;
+
+  lists[pageIndex] ||= new CMSList(wrapper, { pageIndex });
+
+  return lists[pageIndex];
 };
 
 /**
@@ -54,6 +60,9 @@ export class CMSList extends Emittery<CMSListEvents> {
   public readonly paginationPrevious?: PaginationButtonElement | null;
   public readonly itemsPerPage: number;
   public readonly items: CMSItem[];
+  public readonly pageIndex?: number;
+
+  public autoShowNewItems = true;
 
   private animation?: ItemsAnimation;
 
@@ -61,8 +70,10 @@ export class CMSList extends Emittery<CMSListEvents> {
    * @param wrapper A `Collection List Wrapper` element.
    * @param pageIndex The index of the list on the page. Used when querying/storing this instance.
    */
-  constructor(public readonly wrapper: CollectionListWrapperElement, public readonly pageIndex: number) {
+  constructor(public readonly wrapper: CollectionListWrapperElement, { pageIndex }: { pageIndex?: number } = {}) {
     super();
+
+    this.pageIndex = pageIndex;
 
     // DOM Elements
     this.list = getCollectionElements(this.wrapper, 'list') as CollectionListElement;
@@ -74,10 +85,6 @@ export class CMSList extends Emittery<CMSListEvents> {
 
     // Stores
     this.items = collectionItems.map((element) => new CMSItem(element, this.list));
-
-    // List Index
-    const existingLists = [...document.querySelectorAll<HTMLElement>(`.${CMS_CSS_CLASSES.wrapper}`)];
-    this.pageIndex = existingLists.findIndex((list) => list === this.wrapper);
   }
 
   /**
@@ -94,8 +101,9 @@ export class CMSList extends Emittery<CMSListEvents> {
    * @param show If set to `true`, the new items will be automatically appended to the list. Defaults to `true`.
    * @param callback Provides the newly created item instances.
    */
-  public addItems(itemElements: CollectionItemElement[], show = true, callback?: (items: CMSItem[]) => void): void {
-    const { items, list } = this;
+  public async addItems(itemElements: CollectionItemElement[], callback?: (items: CMSItem[]) => void): Promise<void> {
+    console.log('adding items');
+    const { items, list, autoShowNewItems } = this;
 
     const newItems = itemElements.map((item) => {
       const instance = new CMSItem(item, list);
@@ -105,11 +113,11 @@ export class CMSList extends Emittery<CMSListEvents> {
 
     items.push(...newItems);
 
-    if (show) this.showItems(newItems);
-
     callback?.(newItems);
 
-    this.emit('additems', newItems);
+    await this.emit('additems', newItems);
+
+    if (autoShowNewItems) this.showItems(newItems);
   }
 
   /**
@@ -195,6 +203,7 @@ export interface CMSItemProps {
  */
 export class CMSItem {
   public readonly props: CMSItemProps = {};
+  public readonly href?: string;
   public visible: boolean;
   public isShowing = false;
   public isHiding = false;
@@ -205,6 +214,7 @@ export class CMSItem {
    */
   constructor(public readonly element: CollectionItemElement, public readonly list: CollectionListElement) {
     this.visible = isVisible(element);
+    this.href = element.querySelector('a')?.href;
   }
 
   /**
