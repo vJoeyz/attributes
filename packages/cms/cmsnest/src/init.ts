@@ -42,6 +42,8 @@ const initListNesting = async (listInstance: CMSList): Promise<void> => {
   const collectionsToNest = getCollectionsToNest();
   if (!collectionsToNest.size) return;
 
+  // TODO: Make sure this is compatible with cmsfilter
+
   listInstance.on('additems', async (newItems) => {
     await Promise.all(newItems.map((newItem) => populateNestedCollections(newItem, collectionsToNest)));
   });
