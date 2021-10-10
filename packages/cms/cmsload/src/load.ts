@@ -1,7 +1,8 @@
-import { CMS_CSS_CLASSES, getCollectionElements } from '@finsweet/ts-utils';
+import { getCollectionElements } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
+import { getCollectionListWrappers } from 'packages/cms/helpers';
 
-import type { PaginationButtonElement, CollectionListWrapperElement } from '@finsweet/ts-utils';
+import type { PaginationButtonElement } from '@finsweet/ts-utils';
 import type { CMSList } from 'packages/cms/CMSList';
 
 // Constants
@@ -21,10 +22,10 @@ const domParser = new DOMParser();
  * @returns The URL of the next page to be loaded.
  */
 export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all'): Promise<string | undefined> => {
-  const { pageIndex, paginationNext } = listInstance;
   const pageLinks: string[] = [];
 
-  if (!paginationNext) return;
+  const { pageIndex, paginationNext } = listInstance;
+  if (!paginationNext || !pageIndex) return;
 
   /**
    * Loads the items from the specified URL.
@@ -38,13 +39,10 @@ export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all
       // Fetch the page
       const response = await fetch(href);
       const rawPage = await response.text();
-
       const page = domParser.parseFromString(rawPage, 'text/html');
 
       // Get DOM Elements
-      const collectionListWrapper = page.querySelectorAll<CollectionListWrapperElement>(`.${CMS_CSS_CLASSES.wrapper}`)[
-        pageIndex
-      ];
+      const collectionListWrapper = getCollectionListWrappers([], page)[pageIndex];
       if (!collectionListWrapper) return;
 
       const collectionItems = getCollectionElements(collectionListWrapper, 'items');
