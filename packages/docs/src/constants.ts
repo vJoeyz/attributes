@@ -21,18 +21,13 @@ export const ATTRIBUTES = {
   /**
    * Defines an example to copy.
    */
-  example: {
-    key: `${ATTRIBUTES_PREFIX}-example`,
-    values: {},
-  },
+  example: { key: `${ATTRIBUTES_PREFIX}-example` },
 
   /**
    * Defines the current attribute.
+   * Set to the document body.
    */
-  attribute: {
-    key: `${ATTRIBUTES_PREFIX}-attribute`,
-    values: {},
-  },
+  attribute: { key: `${ATTRIBUTES_PREFIX}-attribute` },
 } as const;
 
 export const getSelector = generateSelectors(ATTRIBUTES);

@@ -20,9 +20,12 @@ export const initCopyExampleButtons = (examples: AttributeExample[]): void => {
     const exampleId = element.getAttribute(exampleKey);
     if (!exampleId) continue;
 
+    const exampleData = examples[parseInt(exampleId) - 1 || 0]?.data;
+    if (!exampleData) continue;
+
     new CopyJSONButton({
       element,
-      copyData: examples[parseInt(exampleId) - 1 || 0]?.data,
+      copyData: exampleData,
     });
   }
 };
