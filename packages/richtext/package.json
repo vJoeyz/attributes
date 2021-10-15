@@ -1,0 +1,34 @@
+{
+  "name": "@finsweet/attributes-richtext",
+  "version": "1.0.1",
+  "description": "Advanced Rich Text Blocks for Webflow.",
+  "main": "richtext.js",
+  "files": [
+    "richtext.js"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development node ./bin/build.js",
+    "build": "cross-env NODE_ENV=production node ./bin/build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/finsweet/attributes.git"
+  },
+  "keywords": [
+    "webflow",
+    "attributes",
+    "no code",
+    "rich text block",
+    "rtb"
+  ],
+  "author": {
+    "name": "Finsweet",
+    "url": "https://www.finsweet.com/"
+  },
+  "bugs": {
+    "url": "https://sweetjs.finsweet.com/"
+  },
+  "homepage": "https://www.finsweet.com/attributes"
+}

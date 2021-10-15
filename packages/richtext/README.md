@@ -1,0 +1,3 @@
+# `richtext` Attribute
+
+Attribute description.
