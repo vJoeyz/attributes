@@ -19,14 +19,19 @@ export const ATTRIBUTES = {
   component: { key: `${ATTRIBUTES_PREFIX}-component` },
 
   /**
-   * Defines a global selector for RTB elements.
+   * Defines if the HTML should be sanitized before rendering it.
    */
-  globalSelector: { key: `${ATTRIBUTES_PREFIX}-selector` },
+  sanitize: { key: `${ATTRIBUTES_PREFIX}-sanitize`, values: { true: 'true' } },
 
   /**
    * Defines if Webflow should be restarted after loading new items.
    */
   resetIx: { key: `${ATTRIBUTES_PREFIX}-resetix`, values: { true: 'true' } },
+
+  /**
+   * Defines a global selector for RTB elements.
+   */
+  globalSelector: { key: `${ATTRIBUTES_PREFIX}-selector` },
 } as const;
 
 export const getSelector = generateSelectors(ATTRIBUTES);

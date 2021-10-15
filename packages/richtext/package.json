@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-richtext",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Advanced Rich Text Blocks for Webflow.",
   "main": "richtext.js",
   "files": [
@@ -30,5 +30,8 @@
   "bugs": {
     "url": "https://sweetjs.finsweet.com/"
   },
-  "homepage": "https://www.finsweet.com/attributes"
+  "homepage": "https://www.finsweet.com/attributes",
+  "devDependencies": {
+    "@types/dompurify": "^2.3.1"
+  }
 }

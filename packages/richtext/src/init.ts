@@ -1,8 +1,9 @@
 import { HTML_EMBED_CSS_CLASS, restartWebflow, RICH_TEXT_BLOCK_CSS_CLASS } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector, IGNORE_LINE_PREFIX } from './constants';
 import { getChildrenlessElements, unescapeHTML } from './helpers';
-import { getComponentHTML } from './components';
 import { COMPONENT_TEMPLATE_REGEX } from './regex';
+import { getComponentHTML } from './components';
+import { sanitizeHTML } from './sanitize';
 
 import type { RichTextBlockElement } from '@finsweet/ts-utils';
 
@@ -13,6 +14,7 @@ interface Params {
 
 // Constants
 const {
+  sanitize: { key: sanitizeKey, values: sanitizeValues },
   resetIx: { key: resetIxKey, values: resetIxValues },
   globalSelector: { key: globalSelectorKey },
 } = ATTRIBUTES;
@@ -51,6 +53,7 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
 const initRtbElement = async (element: RichTextBlockElement) => {
   const childNodes = getChildrenlessElements(element);
 
+  const sanitize = element.getAttribute(sanitizeKey) === sanitizeValues.true;
   const resetIx = element.getAttribute(resetIxKey) === resetIxValues.true;
 
   await Promise.all(
@@ -69,7 +72,10 @@ const initRtbElement = async (element: RichTextBlockElement) => {
       if (isComponent) {
         const componentHTML = await getComponentHTML(innerHTML);
         if (componentHTML) childNode.outerHTML = componentHTML;
-      } else childNode.innerHTML = unescapeHTML(innerHTML);
+      } else {
+        const unescapedHTML = unescapeHTML(innerHTML);
+        childNode.innerHTML = sanitize ? await sanitizeHTML(unescapedHTML) : unescapedHTML;
+      }
     })
   );
 
