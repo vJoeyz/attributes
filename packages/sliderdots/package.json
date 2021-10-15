@@ -1,7 +1,7 @@
 {
   "name": "@finsweet/attributes-sliderdots",
   "version": "1.1.0",
-  "description": "Description.",
+  "description": "Populate the Webflow slider dots with content. Add images, text, or any type of element inside native Webflow slider navigation.",
   "main": "sliderdots.js",
   "files": [
     "sliderdots.js",
