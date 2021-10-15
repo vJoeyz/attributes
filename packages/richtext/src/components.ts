@@ -1,6 +1,6 @@
 import { Debug } from '@finsweet/ts-utils';
 import { ATTRIBUTES } from './constants';
-import { COMPONENT_TEMPLATE_REGEX, EXTERNAL_COMPONENT_REGEX, TRAILING_SLASH_REGEX } from './regex';
+import { HAS_COMPONENT_TEMPLATE_REGEX, IS_EXTERNAL_COMPONENT_REGEX, TRAILING_SLASH_REGEX } from './regex';
 
 /**
  *
@@ -14,17 +14,17 @@ import { COMPONENT_TEMPLATE_REGEX, EXTERNAL_COMPONENT_REGEX, TRAILING_SLASH_REGE
 export const getComponentHTML = async (rawHTML: string): Promise<string | undefined> => {
   let component: HTMLElement | null | undefined;
 
-  const [componentDefinition] = rawHTML.match(COMPONENT_TEMPLATE_REGEX) || [];
+  const [componentDefinition] = rawHTML.match(HAS_COMPONENT_TEMPLATE_REGEX) || [];
   if (!componentDefinition) return;
 
   const rawComponentKey = componentDefinition.replace('{{', '').replace('}}', '').trim();
 
-  const isExternal = EXTERNAL_COMPONENT_REGEX.test(rawComponentKey);
+  const isExternal = IS_EXTERNAL_COMPONENT_REGEX.test(rawComponentKey);
 
   if (!isExternal) component = await queryComponent(rawComponentKey);
   else {
     const [componentKey] = rawComponentKey.split('="');
-    const [rawSource] = rawComponentKey.match(EXTERNAL_COMPONENT_REGEX) || [];
+    const [rawSource] = rawComponentKey.match(IS_EXTERNAL_COMPONENT_REGEX) || [];
 
     if (!componentKey || !rawSource) return;
 

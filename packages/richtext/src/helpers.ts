@@ -1,3 +1,7 @@
+import { HTML_EMBED_CSS_CLASS } from '@finsweet/ts-utils';
+import { IGNORE_LINE_PREFIX } from './constants';
+import { HAS_COMPONENT_TEMPLATE_REGEX, HAS_HTML_OPENING_TAG_REGEX } from './regex';
+
 /**
  * Replaces escaped HTML symbols with their original value.
  * @param rawHTML The raw HTML to unescape.
@@ -14,21 +18,30 @@ export const unescapeHTML = (rawHTML: string): string => {
 };
 
 /**
- *
- * @param element
- * @returns All the child nodes of the element that don't have any more children under them.
+ * Queries all the valid paragraphs.
+ * Removes the {@link IGNORE_LINE_PREFIX} from the matched paragraphs.
+ * @returns All the valid paragraphs.
+ * @param element The Rich Text Block element.
  */
-export const getChildrenlessElements = ({ children }: Element): Element[] => {
-  const childNodes: Element[] = [];
+export const getValidParagraphs = (element: Element): HTMLParagraphElement[] => {
+  const paragraphs = [...element.querySelectorAll('p')];
 
-  const getElements = (element: Element) => {
-    const { children } = element;
+  const filteredParagraphs = paragraphs.filter((paragraph) => {
+    const { innerHTML } = paragraph;
+    if (!innerHTML) return false;
 
-    if (!children.length) childNodes.push(element);
-    else for (const child of children) getElements(child);
-  };
+    const mustIgnore = innerHTML.includes(IGNORE_LINE_PREFIX);
+    const hasComponent = HAS_COMPONENT_TEMPLATE_REGEX.test(innerHTML);
+    const hasTag = HAS_HTML_OPENING_TAG_REGEX.test(innerHTML);
+    const isEmbed = paragraph.closest(`.${HTML_EMBED_CSS_CLASS}`);
 
-  for (const child of children) getElements(child);
+    if (mustIgnore) {
+      paragraph.innerHTML = innerHTML.replace(IGNORE_LINE_PREFIX, '');
+      return false;
+    }
 
-  return childNodes;
+    return (hasTag || hasComponent) && !isEmbed;
+  });
+
+  return filteredParagraphs;
 };

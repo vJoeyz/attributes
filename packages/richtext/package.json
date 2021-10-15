@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-richtext",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Advanced Rich Text Blocks for Webflow.",
   "main": "richtext.js",
   "files": [

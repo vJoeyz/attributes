@@ -1,7 +1,7 @@
-import { HTML_EMBED_CSS_CLASS, restartWebflow, RICH_TEXT_BLOCK_CSS_CLASS } from '@finsweet/ts-utils';
-import { ATTRIBUTES, getSelector, IGNORE_LINE_PREFIX } from './constants';
-import { getChildrenlessElements, unescapeHTML } from './helpers';
-import { COMPONENT_TEMPLATE_REGEX } from './regex';
+import { restartWebflow, RICH_TEXT_BLOCK_CSS_CLASS } from '@finsweet/ts-utils';
+import { ATTRIBUTES, getSelector } from './constants';
+import { getValidParagraphs, unescapeHTML } from './helpers';
+import { HAS_COMPONENT_TEMPLATE_REGEX, IS_HTML_OPENING_TAG_REGEX } from './regex';
 import { getComponentHTML } from './components';
 import { sanitizeHTML } from './sanitize';
 
@@ -51,30 +51,24 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
  * @param element
  */
 const initRtbElement = async (element: RichTextBlockElement) => {
-  const childNodes = getChildrenlessElements(element);
+  const paragraphs = getValidParagraphs(element);
 
   const sanitize = element.getAttribute(sanitizeKey) === sanitizeValues.true;
   const resetIx = element.getAttribute(resetIxKey) === resetIxValues.true;
 
   await Promise.all(
-    childNodes.map(async (childNode) => {
-      const { innerHTML } = childNode;
+    paragraphs.map(async (paragraph) => {
+      const { innerHTML } = paragraph;
 
-      if (
-        !innerHTML ||
-        innerHTML.trim().startsWith(IGNORE_LINE_PREFIX) ||
-        childNode.closest(`.${HTML_EMBED_CSS_CLASS}`)
-      )
-        return;
-
-      const isComponent = COMPONENT_TEMPLATE_REGEX.test(innerHTML);
+      const isComponent = HAS_COMPONENT_TEMPLATE_REGEX.test(innerHTML);
+      const isTag = IS_HTML_OPENING_TAG_REGEX.test(innerHTML.trim());
 
       if (isComponent) {
         const componentHTML = await getComponentHTML(innerHTML);
-        if (componentHTML) childNode.outerHTML = componentHTML;
+        if (componentHTML) paragraph.outerHTML = componentHTML;
       } else {
         const unescapedHTML = unescapeHTML(innerHTML);
-        childNode.innerHTML = sanitize ? await sanitizeHTML(unescapedHTML) : unescapedHTML;
+        paragraph[isTag ? 'outerHTML' : 'innerHTML'] = sanitize ? await sanitizeHTML(unescapedHTML) : unescapedHTML;
       }
     })
   );
