@@ -1,5 +1,9 @@
 # `sliderdots` Changelog
 
+## [v1.1.1] 16th October 2021
+
+- Updated `examples.json`.
+
 ## [v1.1.0] 6th October 2021
 
 - Added `fs-sliderdots-element="slider-nav"` functionality. Now all dots will become custom dots that are synced with the original dots.
