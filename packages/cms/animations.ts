@@ -45,6 +45,7 @@ const createAnimation = (props: AnimationProps) => {
     if (!Array.isArray(elements)) elements = [elements];
 
     for (const element of elements) {
+      element.style.display = '';
       Object.assign(element.style, initialStyles);
 
       if (target && anchor) anchor.insertBefore(element, anchor);
@@ -80,7 +81,10 @@ const createAnimation = (props: AnimationProps) => {
 
     await finished;
 
-    if (remove) for (const element of elements) element.remove();
+    for (const element of elements) {
+      if (remove) element.remove();
+      else element.style.display = 'none';
+    }
   };
 
   return [animationIn, animationOut];
