@@ -193,8 +193,6 @@ export class CMSFilters {
   public async applyFilters(items?: CMSItem[], animate = true): Promise<void> {
     const { listInstance, activeFilters } = this;
 
-    console.log(activeFilters);
-
     const filters = [...activeFilters.entries()];
     const filtersAreEmpty = filters.every(([, { values }]) => !values.size);
 
@@ -203,11 +201,18 @@ export class CMSFilters {
 
     if (animate) await fade.out(list);
 
+    const itemsToShow: CMSItem[] = [];
+    const itemsToHide: CMSItem[] = [];
+
     for (const item of items || listInstance.items) {
       const show = filtersAreEmpty || assessFilter(item, filters);
 
-      listInstance.showItems(item, show, !animate);
+      (show ? itemsToShow : itemsToHide).push(item);
     }
+
+    if (!items && itemsToHide.length) await listInstance.showItems(itemsToHide, false, !animate);
+
+    if (itemsToShow.length) await listInstance.showItems(itemsToShow, true, !animate);
 
     if (animate) await fade.in(list);
   }
