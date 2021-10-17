@@ -38,8 +38,6 @@ export class CMSFilters {
   public readonly filtersData: FiltersData;
   public readonly activeFilters: ActiveFilters = new Map();
 
-  private resettingFilters = false;
-
   constructor(public readonly formBlock: FormBlockElement, private readonly listInstance: CMSList) {
     const { form, submitButton, resetButtonsData } = collectFiltersElements(formBlock);
     this.form = form;
@@ -82,9 +80,9 @@ export class CMSFilters {
    * @param e The `InputEvent`.
    */
   private async handleInputEvents({ target }: Event) {
-    const { filtersData, activeFilters, submitButton, resettingFilters } = this;
+    const { filtersData, activeFilters, submitButton } = this;
 
-    if (resettingFilters || !isFormField(target)) return;
+    if (!isFormField(target)) return;
 
     const filterData = filtersData.get(target);
     if (!filterData) return;
@@ -106,8 +104,10 @@ export class CMSFilters {
         const { checked } = <HTMLInputElement>target;
 
         if (existingFilter) {
-          if (fixedValue) existingFilter.values[checked ? 'add' : 'delete'](fixedValue);
-          else if (checked) existingFilter.values = new Set([`${checked}`]);
+          if (fixedValue) {
+            existingFilter.values[checked ? 'add' : 'delete'](fixedValue);
+            if (!existingFilter.values.size) activeFilters.delete(filterKey);
+          } else if (checked) existingFilter.values = new Set([`${checked}`]);
           else activeFilters.delete(filterKey);
 
           break;
@@ -147,6 +147,11 @@ export class CMSFilters {
       }
 
       default: {
+        if (!value && match !== 'range') {
+          activeFilters.delete(filterKey);
+          break;
+        }
+
         if (existingFilter) {
           if (match === 'range') {
             const newValues = [...existingFilter.values];
@@ -188,6 +193,8 @@ export class CMSFilters {
   public async applyFilters(items?: CMSItem[], animate = true): Promise<void> {
     const { listInstance, activeFilters } = this;
 
+    console.log(activeFilters);
+
     const filters = [...activeFilters.entries()];
     const filtersAreEmpty = filters.every(([, { values }]) => !values.size);
 
@@ -212,22 +219,18 @@ export class CMSFilters {
   public resetFilters(filterKey?: string | null): void {
     const { filtersData, activeFilters } = this;
 
-    this.resettingFilters = true;
-
     if (filterKey) {
       const formFieldsToClear = [...filtersData.entries()]
         .filter(([, data]) => filterKey === data.filterKey)
         .map(([formField]) => formField);
 
-      for (const formField of formFieldsToClear) clearFormField(formField);
+      for (const formField of formFieldsToClear) clearFormField(formField, ['input']);
 
       activeFilters.delete(filterKey);
     } else {
-      for (const formField of filtersData.keys()) clearFormField(formField);
+      for (const formField of filtersData.keys()) clearFormField(formField, ['input']);
       activeFilters.clear();
     }
-
-    this.resettingFilters = false;
 
     this.applyFilters();
   }
