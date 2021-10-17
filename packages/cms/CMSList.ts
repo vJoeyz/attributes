@@ -13,7 +13,6 @@ import type {
 // Types
 interface ItemsAnimation extends Animation {
   options?: AnimationOptions;
-  resetIx: boolean;
 }
 
 interface CMSListEvents {
@@ -63,8 +62,8 @@ export class CMSList extends Emittery<CMSListEvents> {
   public readonly pageIndex?: number;
 
   public autoShowNewItems = true;
-
-  private animation?: ItemsAnimation;
+  public resetIx = false;
+  public animation?: ItemsAnimation;
 
   /**
    * @param wrapper A `Collection List Wrapper` element.
@@ -88,36 +87,28 @@ export class CMSList extends Emittery<CMSListEvents> {
   }
 
   /**
-   * Adds a new animation to the items.
-   * @param animation A `ItemsAnimation` object.
-   */
-  public addAnimation(animation: ItemsAnimation): void {
-    this.animation = animation;
-  }
-
-  /**
    * Stores new Collection Items.
    * @param itemElements The new Collection Items to store.
    * @param show If set to `true`, the new items will be automatically appended to the list. Defaults to `true`.
    * @param callback Provides the newly created item instances.
    */
-  public async addItems(itemElements: CollectionItemElement[], callback?: (items: CMSItem[]) => void): Promise<void> {
-    console.log('adding items');
-    const { items, list, autoShowNewItems } = this;
+  public async addItems(
+    itemElements: CollectionItemElement[],
+    callback?: (items: CMSItem[]) => void | Promise<void>
+  ): Promise<void> {
+    const { items, list, autoShowNewItems, resetIx } = this;
 
-    const newItems = itemElements.map((item) => {
-      const instance = new CMSItem(item, list);
-
-      return instance;
-    });
+    const newItems = itemElements.map((item) => new CMSItem(item, list));
 
     items.push(...newItems);
 
-    callback?.(newItems);
+    await callback?.(newItems);
 
     await this.emit('additems', newItems);
 
-    if (autoShowNewItems) this.showItems(newItems);
+    if (autoShowNewItems) await this.showItems(newItems);
+
+    if (resetIx) await restartWebflow();
   }
 
   /**
@@ -125,31 +116,20 @@ export class CMSList extends Emittery<CMSListEvents> {
    * @param items The items to show/hide.
    * @param show `true` to show, `false` to hide. `true` by default.
    */
-  public async showItems(items: CMSItem | CMSItem[], show = true): Promise<void> {
+  public async showItems(items: CMSItem | CMSItem[], show = true, animate = true): Promise<void> {
     const { animation, list } = this;
 
     if (!Array.isArray(items)) items = [items];
 
-    // const validItems = items.filter(({ visible, isShowing, isHiding }) => {
-    //   const validShow = !visible && !isShowing;
-    //   const validHide = visible && !isHiding;
-
-    //   return show ? validShow : validHide;
-    // });
-
-    // const elements = validItems.map(({ element }) => element);
     const elements = items.map(({ element }) => element);
 
-    // for (const item of validItems) item[show ? 'isShowing' : 'isHiding'] = true;
     for (const item of items) item[show ? 'isShowing' : 'isHiding'] = true;
 
-    if (animation) {
-      const { options, resetIx } = animation;
+    if (animate && animation) {
+      const { options } = animation;
 
       if (show) await animation.in(elements, { target: list, ...options });
       else await animation.out(elements, { remove: true, ...options });
-
-      if (resetIx) await restartWebflow();
     } else {
       for (const element of elements) {
         if (show) list.appendChild(element);
@@ -157,19 +137,10 @@ export class CMSList extends Emittery<CMSListEvents> {
       }
     }
 
-    // for (const item of validItems) {
     for (const item of items) {
       item[show ? 'isShowing' : 'isHiding'] = false;
       item.visible = show;
     }
-  }
-
-  /**
-   * Hides a set of CMSItems.
-   * @param items The items to hide.
-   */
-  public async hideItems(items: CMSItem | CMSItem[]): Promise<void> {
-    this.showItems(items, false);
   }
 
   /**
