@@ -59,17 +59,18 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
       const animationEasing = listInstance.getAttribute(easingKey);
       const animationStagger = listInstance.getAttribute(staggerKey);
 
-      const resetIx = listInstance.getAttribute(resetIxKey) === resetIxValues.true;
-
-      listInstance.addAnimation({
+      listInstance.animation = {
         ...animation,
         options: {
           easing: isKeyOf(animationEasing, EASINGS) ? animationEasing : undefined,
           duration: animationDuration ? parseFloat(animationDuration) : undefined,
           stagger: animationStagger ? parseFloat(animationStagger) : undefined,
         },
-        resetIx,
-      });
+      };
+
+      // Get reset IX config
+      const resetIx = listInstance.getAttribute(resetIxKey) === resetIxValues.true;
+      listInstance.resetIx = resetIx;
 
       // Get mode config
       const mode = listInstance.getAttribute(modeKey);

@@ -18,7 +18,7 @@ export const initDefaultMode = async (listInstance: CMSList): Promise<void> => {
   const paginationData = preparePagination(listInstance);
   if (!paginationData) return;
 
-  const { paginationNext, textNode, originalText, loadingText } = paginationData;
+  const { paginationNext, textNode, originalText, loadingText, loader } = paginationData;
 
   /**
    * Handles click events on the `Pagination Next` button.
@@ -32,6 +32,7 @@ export const initDefaultMode = async (listInstance: CMSList): Promise<void> => {
       listInstance,
       loadingText,
       paginationNext,
+      loader,
     });
 
     if (!nextPageURL) paginationNext.removeEventListener('click', handleClicks);
@@ -49,11 +50,11 @@ export const initInfiniteMode = async (listInstance: CMSList): Promise<void> => 
   const paginationData = preparePagination(listInstance);
   if (!paginationData) return;
 
-  const { paginationNext, textNode, originalText, loadingText } = paginationData;
+  const { paginationNext, textNode, originalText, loadingText, loader } = paginationData;
   const { list } = listInstance;
 
   paginationNext.addEventListener('click', (e) => {
-    handleLoadPage({ e, textNode, originalText, listInstance, loadingText, paginationNext });
+    handleLoadPage({ e, textNode, originalText, listInstance, loadingText, paginationNext, loader });
   });
 
   const threshold = parseInt(listInstance.getAttribute(thresholdKey) || DEFAULT_INFINITE_THRESHOLD);
@@ -88,6 +89,7 @@ export const initInfiniteMode = async (listInstance: CMSList): Promise<void> => 
         listInstance,
         loadingText,
         paginationNext,
+        loader,
       });
 
       if (!nextPageURL) {
@@ -107,13 +109,23 @@ export const initLoadAllMode = async (listInstance: CMSList): Promise<void> => {
   const paginationData = preparePagination(listInstance);
   if (!paginationData) return;
 
-  const { paginationNext, textNode, loadingText } = paginationData;
+  const { paginationNext, textNode, loadingText, loader } = paginationData;
 
-  paginationNext.addEventListener('click', (e) => e.preventDefault());
+  const handleClicks = (e: MouseEvent) => {
+    e.preventDefault();
+    return false;
+  };
+
+  paginationNext.addEventListener('click', handleClicks);
+
+  if (loader) loader.style.display = '';
 
   if (textNode && loadingText) textNode.textContent = loadingText;
 
   await loadListItems(listInstance, 'all');
 
+  paginationNext.removeEventListener('click', handleClicks);
   paginationNext.remove();
+
+  if (loader) loader.style.display = 'none';
 };

@@ -7,6 +7,7 @@ import type { CMSList } from 'packages/cms/CMSList';
 
 // Constants
 const {
+  element: { key: elementKey },
   loading: { key: loadingKey },
 } = ATTRIBUTES;
 
@@ -78,10 +79,12 @@ export const preparePagination = (
   listInstance: CMSList
 ):
   | {
+      listInstance: CMSList;
       paginationNext: PaginationButtonElement;
       textNode: Node | null;
       originalText?: string | null;
       loadingText?: string | null;
+      loader: HTMLElement | null;
     }
   | undefined => {
   const { paginationNext, paginationPrevious } = listInstance;
@@ -95,7 +98,12 @@ export const preparePagination = (
 
   const loadingText = textNode?.getAttribute(loadingKey);
 
-  return { paginationNext, textNode, originalText, loadingText };
+  const instanceIndex = listInstance.getInstanceIndex(elementKey);
+
+  const loader = document.querySelector<HTMLElement>(getSelector('element', 'loader', { instanceIndex }));
+  if (loader) loader.style.display = 'none';
+
+  return { listInstance, paginationNext, textNode, originalText, loadingText, loader };
 };
 
 /**
@@ -110,13 +118,15 @@ export const handleLoadPage = async ({
   textNode,
   originalText,
   loadingText,
+  loader,
 }: {
   e?: MouseEvent;
-  listInstance: CMSList;
 } & ReturnType<typeof preparePagination>): ReturnType<typeof loadListItems> => {
   e?.preventDefault();
 
   if (!document.body.contains(paginationNext)) return;
+
+  if (loader) loader.style.display = '';
 
   if (textNode && loadingText) textNode.textContent = loadingText;
 
@@ -126,6 +136,8 @@ export const handleLoadPage = async ({
 
   if (nextPageURL) paginationNext.href = nextPageURL;
   else paginationNext.remove();
+
+  if (loader) loader.style.display = 'none';
 
   return nextPageURL;
 };

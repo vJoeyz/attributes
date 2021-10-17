@@ -1,4 +1,4 @@
-import { generateSelectors } from '$utils/attributes';
+import { generateDynamicAttibuteValue, generateSelectors } from '$utils/attributes';
 
 const ATTRIBUTES_PREFIX = 'fs-cmsload';
 
@@ -9,12 +9,12 @@ export const ATTRIBUTES = {
       /**
        * Defines a list to be instantiated.
        */
-      list: 'list',
+      list: generateDynamicAttibuteValue('list'),
 
       /**
-       * Defines the node where the loading text will be added.
+       * Defines a node that will be displayed when loading new items.
        */
-      loading: 'loading',
+      loader: generateDynamicAttibuteValue('loader'),
     },
   },
 
