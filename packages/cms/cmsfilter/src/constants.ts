@@ -17,6 +17,11 @@ export const ATTRIBUTES = {
       filters: generateDynamicAttibuteValue('filters'),
 
       /**
+       * Defines the Empty State element for when there are no filetered elements to show.
+       */
+      empty: generateDynamicAttibuteValue('empty'),
+
+      /**
        * Defines a button that resets all filters when clicked.
        */
       reset: 'reset',

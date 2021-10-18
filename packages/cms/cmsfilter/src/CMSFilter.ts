@@ -39,8 +39,13 @@ export class CMSFilters {
   public readonly filtersValues: FiltersValues = new Map();
 
   private filtersActive = false;
+  private emptyState = false;
 
-  constructor(public readonly formBlock: FormBlockElement, private readonly listInstance: CMSList) {
+  constructor(
+    public readonly formBlock: FormBlockElement,
+    private readonly emptyElement: HTMLElement | null,
+    private readonly listInstance: CMSList
+  ) {
     const { form, submitButton, resetButtonsData } = collectFiltersElements(formBlock);
     this.form = form;
     this.submitButton = submitButton;
@@ -206,7 +211,7 @@ export class CMSFilters {
    * @param animateList When set to `true`, the list will fade out and fade in during the filtering process.
    */
   public async applyFilters(items?: CMSItem[], animateList = true): Promise<void> {
-    const { listInstance, filtersValues, filtersActive } = this;
+    const { listInstance, filtersValues, filtersActive, emptyElement, emptyState } = this;
 
     const filtersExist = !!filtersValues.size;
 
@@ -218,9 +223,9 @@ export class CMSFilters {
     const filtersAreEmpty = filters.every(([, { values }]) => !values.size);
 
     const { fade } = ANIMATIONS;
-    const { list } = listInstance;
+    const { wrapper, list } = listInstance;
 
-    if (animateList) await fade.out(list);
+    if (animateList) await fade.out(wrapper);
 
     const itemsToShow: CMSItem[] = [];
     const itemsToHide: CMSItem[] = [];
@@ -234,7 +239,21 @@ export class CMSFilters {
     await listInstance.renderItems(itemsToHide, false, !animateList);
     await listInstance.renderItems(itemsToShow, true, !animateList);
 
-    if (animateList) await fade.in(list);
+    if (!items && emptyElement) {
+      const { length } = itemsToShow;
+
+      if (length && emptyState) {
+        emptyElement.remove();
+        wrapper.prepend(list);
+        this.emptyState = false;
+      } else if (!length && !emptyState) {
+        list.remove();
+        wrapper.prepend(emptyElement);
+        this.emptyState = true;
+      }
+    }
+
+    if (animateList) await fade.in(wrapper);
   }
 
   /**

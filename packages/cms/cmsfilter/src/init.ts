@@ -51,7 +51,10 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
     const formBlock = filters.closest<FormBlockElement>(`.${FORM_CSS_CLASSES.formBlock}`);
     if (!formBlock) continue;
 
-    const filtersInstance = new CMSFilters(formBlock, listInstance);
+    const emptyElement = document.querySelector<HTMLElement>(getSelector('element', 'empty', { instanceIndex }));
+    emptyElement?.remove();
+
+    const filtersInstance = new CMSFilters(formBlock, emptyElement, listInstance);
     console.log(filtersInstance);
   }
 };
