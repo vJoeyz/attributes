@@ -68,25 +68,28 @@ export const populateNestedCollections = async (
     const pageListInstance = new CMSList(pageCollectionListWrapper);
 
     const collectionKey = pageListInstance.getAttribute(listKey);
-    if (!collectionKey) return;
+    if (!collectionKey) continue;
 
     const collectionToNest = collectionsToNest.get(collectionKey);
     const nestingTarget = nestingTargets.get(collectionKey);
-    if (!collectionToNest || !nestingTarget) return;
+    if (!collectionToNest || !nestingTarget) continue;
+
+    const nestingTargetParent = nestingTarget.parentElement;
+    if (!nestingTargetParent) continue;
 
     const collectionEmptyElement = getCollectionElements(pageCollectionListWrapper, 'empty');
 
-    const itemsToNest = collectionToNest.items.reduce<CollectionItemElement[]>((items, { href }) => {
+    const itemsToNest = pageListInstance.items.reduce<CollectionItemElement[]>((items, { href }) => {
       if (!href) return items;
 
-      const matchingItem = pageListInstance.items.find((item) => item.href && href === item.href);
+      const matchingItem = collectionToNest.items.find((item) => item.href && href === item.href);
       if (!matchingItem) return items;
 
       items.push(matchingItem.element);
       return items;
     }, []);
 
-    if (!itemsToNest.length && !collectionEmptyElement) return;
+    if (!itemsToNest.length && !collectionEmptyElement) continue;
 
     const newCollectionWrapper = cloneNode(collectionToNest.wrapper);
     const newCollectionItems = getCollectionElements(newCollectionWrapper, 'items');
@@ -104,7 +107,7 @@ export const populateNestedCollections = async (
       newCollectionWrapper.appendChild(collectionEmptyElement);
     }
 
-    element.insertBefore(newCollectionWrapper, nestingTarget);
+    nestingTargetParent.insertBefore(newCollectionWrapper, nestingTarget);
     nestingTarget.remove();
   }
 };

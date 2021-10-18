@@ -10,15 +10,6 @@ import type {
   PaginationButtonElement,
 } from '@finsweet/ts-utils';
 
-// Types
-interface ItemsAnimation extends Animation {
-  options?: AnimationOptions;
-}
-
-interface CMSListEvents {
-  additems: CMSItem[];
-}
-
 /**
  * Creates a new `CMSList` instance, making sure there are no already existing instances on the page.
  * @param referenceElement The `Collection List` reference element.
@@ -49,6 +40,16 @@ export const createCMSListInstance = (referenceElement: HTMLElement): CMSList | 
 
   return lists[pageIndex];
 };
+
+// Types
+interface ItemsAnimation extends Animation {
+  options?: AnimationOptions;
+}
+
+interface CMSListEvents {
+  additems: CMSItem[];
+  nestitems: CMSItem[];
+}
 
 /**
  * Instance of a Collection List.
@@ -104,7 +105,7 @@ export class CMSList extends Emittery<CMSListEvents> {
 
     await callback?.(newItems);
 
-    await this.emit('additems', newItems);
+    await this.emitSerial('additems', newItems);
 
     if (showNewItems) await this.renderItems(newItems);
 

@@ -20,7 +20,7 @@ export type FiltersData = Map<
 >;
 
 type FilterMatch = 'any' | 'all' | 'range';
-export type ActiveFilters = Map<
+export type FiltersValues = Map<
   string,
   {
     values: Set<string | undefined>;
@@ -36,7 +36,9 @@ export class CMSFilters {
   public readonly resetButtonsData: ResetButtonsData;
   public readonly submitButton: HTMLInputElement | null;
   public readonly filtersData: FiltersData;
-  public readonly activeFilters: ActiveFilters = new Map();
+  public readonly filtersValues: FiltersValues = new Map();
+
+  private filtersActive = false;
 
   constructor(public readonly formBlock: FormBlockElement, private readonly listInstance: CMSList) {
     const { form, submitButton, resetButtonsData } = collectFiltersElements(formBlock);
@@ -45,8 +47,6 @@ export class CMSFilters {
     this.resetButtonsData = resetButtonsData;
 
     this.filtersData = collectFiltersData(form);
-
-    listInstance.showNewItems = false;
 
     collectItemsProps(listInstance.items);
 
@@ -69,10 +69,13 @@ export class CMSFilters {
       resetButton?.addEventListener('click', () => this.resetFilters(filterKey));
     }
 
-    listInstance.on('additems', (newItems) => {
-      collectItemsProps(newItems);
-      this.applyFilters(newItems, false);
-    });
+    const handleItems = (items: CMSItem[]) => {
+      collectItemsProps(items);
+      this.applyFilters(items, false);
+    };
+
+    listInstance.on('additems', handleItems);
+    listInstance.on('nestitems', handleItems);
   }
 
   /**
@@ -80,7 +83,7 @@ export class CMSFilters {
    * @param e The `InputEvent`.
    */
   private async handleInputEvents({ target }: Event) {
-    const { filtersData, activeFilters, submitButton } = this;
+    const { filtersData, filtersValues, submitButton } = this;
 
     if (!isFormField(target)) return;
 
@@ -92,7 +95,7 @@ export class CMSFilters {
 
     const match: FilterMatch | undefined = mode === 'from' || mode === 'to' ? 'range' : mode;
 
-    const existingFilter = activeFilters.get(filterKey);
+    const existingFilter = filtersValues.get(filterKey);
 
     if (existingFilter) {
       existingFilter.match = match;
@@ -106,14 +109,14 @@ export class CMSFilters {
         if (existingFilter) {
           if (fixedValue) {
             existingFilter.values[checked ? 'add' : 'delete'](fixedValue);
-            if (!existingFilter.values.size) activeFilters.delete(filterKey);
+            if (!existingFilter.values.size) filtersValues.delete(filterKey);
           } else if (checked) existingFilter.values = new Set([`${checked}`]);
-          else activeFilters.delete(filterKey);
+          else filtersValues.delete(filterKey);
 
           break;
         }
 
-        activeFilters.set(filterKey, {
+        filtersValues.set(filterKey, {
           match,
           type,
           values: new Set([checked && fixedValue ? fixedValue : `${checked}`]),
@@ -132,7 +135,7 @@ export class CMSFilters {
             break;
           }
 
-          activeFilters.set(filterKey, {
+          filtersValues.set(filterKey, {
             match,
             type,
             values: new Set([fixedValue]),
@@ -141,14 +144,14 @@ export class CMSFilters {
           break;
         }
 
-        activeFilters.delete(filterKey);
+        filtersValues.delete(filterKey);
 
         break;
       }
 
       default: {
         if (!value && match !== 'range') {
-          activeFilters.delete(filterKey);
+          filtersValues.delete(filterKey);
           break;
         }
 
@@ -163,7 +166,7 @@ export class CMSFilters {
           break;
         }
 
-        activeFilters.set(filterKey, {
+        filtersValues.set(filterKey, {
           match,
           type,
           values: match === 'range' ? new Set(mode === 'from' ? [value] : [, value]) : new Set([value]),
@@ -188,18 +191,36 @@ export class CMSFilters {
   }
 
   /**
-   * Applies the active filters to the list.
+   * Sets if the filters are currently active, and inversely enables/disables {@link CMSList.showNewItems}.
+   * When there are active filters, we want to disable `showNewItems` because the {@link CMSFilters.applyFilters} should handle it.
+   * @param value
    */
-  public async applyFilters(items?: CMSItem[], animate = true): Promise<void> {
-    const { listInstance, activeFilters } = this;
+  private setFiltersActive(value: boolean) {
+    this.filtersActive = value;
+    this.listInstance.showNewItems = !value;
+  }
 
-    const filters = [...activeFilters.entries()];
+  /**
+   * Applies the active filters to the list.
+   * @param items Optional list of `CMSItem` instances. If passed, only those instances will be filtered.
+   * @param animateList When set to `true`, the list will fade out and fade in during the filtering process.
+   */
+  public async applyFilters(items?: CMSItem[], animateList = true): Promise<void> {
+    const { listInstance, filtersValues, filtersActive } = this;
+
+    const filtersExist = !!filtersValues.size;
+
+    if (!filtersExist && !filtersActive) return;
+
+    this.setFiltersActive(filtersExist);
+
+    const filters = [...filtersValues.entries()];
     const filtersAreEmpty = filters.every(([, { values }]) => !values.size);
 
     const { fade } = ANIMATIONS;
     const { list } = listInstance;
 
-    if (animate) await fade.out(list);
+    if (animateList) await fade.out(list);
 
     const itemsToShow: CMSItem[] = [];
     const itemsToHide: CMSItem[] = [];
@@ -210,12 +231,10 @@ export class CMSFilters {
       (show ? itemsToShow : itemsToHide).push(item);
     }
 
-    await Promise.all([
-      await listInstance.renderItems(itemsToHide, false, !animate),
-      await listInstance.renderItems(itemsToShow, true, !animate),
-    ]);
+    await listInstance.renderItems(itemsToHide, false, !animateList);
+    await listInstance.renderItems(itemsToShow, true, !animateList);
 
-    if (animate) await fade.in(list);
+    if (animateList) await fade.in(list);
   }
 
   /**
@@ -223,7 +242,7 @@ export class CMSFilters {
    * @param filterKey If passed, only this filter key will be resetted.
    */
   public resetFilters(filterKey?: string | null): void {
-    const { filtersData, activeFilters } = this;
+    const { filtersData, filtersValues } = this;
 
     if (filterKey) {
       const formFieldsToClear = [...filtersData.entries()]
@@ -232,10 +251,10 @@ export class CMSFilters {
 
       for (const formField of formFieldsToClear) clearFormField(formField, ['input']);
 
-      activeFilters.delete(filterKey);
+      filtersValues.delete(filterKey);
     } else {
       for (const formField of filtersData.keys()) clearFormField(formField, ['input']);
-      activeFilters.clear();
+      filtersValues.clear();
     }
 
     this.applyFilters();

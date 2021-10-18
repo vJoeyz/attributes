@@ -73,6 +73,8 @@ const createAnimation = (props: AnimationProps) => {
 
     if (!Array.isArray(elements)) elements = [elements];
 
+    elements = elements.filter((element) => document.body.contains(element));
+
     const { finished } = animate(elements, keyframes, {
       ...animationOptions,
       delay: stagger ? staggerDelay(stagger) : undefined,
