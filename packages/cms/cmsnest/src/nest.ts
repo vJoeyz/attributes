@@ -7,12 +7,13 @@ import { cloneNode, getCollectionElements } from '@finsweet/ts-utils';
 import type { CollectionItemElement } from '@finsweet/ts-utils';
 
 // Types
-type CollectionsToNest = Map<string, CMSList>;
+type CollectionsToNest = Map<string, { listInstance: CMSList; emptyElement: HTMLElement | null }>;
 type NestingTargets = Map<string, HTMLElement>;
 
 // Constants
 const {
   list: { key: listKey },
+  empty: { key: emptyKey },
 } = ATTRIBUTES;
 
 const domParser = new DOMParser();
@@ -32,9 +33,12 @@ export const getCollectionsToNest = (): CollectionsToNest => {
     const collectionKey = listInstance.getAttribute(listKey);
     if (!collectionKey) continue;
 
+    const emptyElement = document.querySelector<HTMLElement>(`[${emptyKey}^="${collectionKey}"]`);
+    if (emptyElement) emptyElement.remove();
+
     collectionListWrapper.remove();
 
-    collectionsToNest.set(collectionKey, listInstance);
+    collectionsToNest.set(collectionKey, { listInstance, emptyElement });
   }
 
   return collectionsToNest;
@@ -77,21 +81,21 @@ export const populateNestedCollections = async (
     const nestingTargetParent = nestingTarget.parentElement;
     if (!nestingTargetParent) continue;
 
-    const collectionEmptyElement = getCollectionElements(pageCollectionListWrapper, 'empty');
+    const { listInstance, emptyElement } = collectionToNest;
 
     const itemsToNest = pageListInstance.items.reduce<CollectionItemElement[]>((items, { href }) => {
       if (!href) return items;
 
-      const matchingItem = collectionToNest.items.find((item) => item.href && href === item.href);
+      const matchingItem = listInstance.items.find((item) => item.href && href === item.href);
       if (!matchingItem) return items;
 
       items.push(matchingItem.element);
       return items;
     }, []);
 
-    if (!itemsToNest.length && !collectionEmptyElement) continue;
+    if (!itemsToNest.length && !emptyElement) continue;
 
-    const newCollectionWrapper = cloneNode(collectionToNest.wrapper);
+    const newCollectionWrapper = cloneNode(listInstance.wrapper);
     const newCollectionItems = getCollectionElements(newCollectionWrapper, 'items');
 
     if (itemsToNest.length) {
@@ -100,11 +104,11 @@ export const populateNestedCollections = async (
 
         if (!shouldBeNested) newCollectionItem.remove();
       }
-    } else if (collectionEmptyElement) {
+    } else if (emptyElement) {
       const newCollectionList = getCollectionElements(newCollectionWrapper, 'list');
       newCollectionList?.remove();
 
-      newCollectionWrapper.appendChild(collectionEmptyElement);
+      newCollectionWrapper.appendChild(cloneNode(emptyElement));
     }
 
     nestingTargetParent.insertBefore(newCollectionWrapper, nestingTarget);

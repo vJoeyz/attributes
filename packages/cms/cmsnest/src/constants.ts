@@ -19,6 +19,11 @@ export const ATTRIBUTES = {
   list: { key: `${ATTRIBUTES_PREFIX}-list` },
 
   /**
+   * Defines an `Empty State` element.
+   */
+  empty: { key: `${ATTRIBUTES_PREFIX}-empty` },
+
+  /**
    * Defines a global selector to query lists to combine.
    */
   lists: { key: `${ATTRIBUTES_PREFIX}-lists` },
