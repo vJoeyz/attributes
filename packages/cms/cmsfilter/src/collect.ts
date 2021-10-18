@@ -29,7 +29,9 @@ export const collectFiltersElements = (
   const form = formBlock.querySelector('form') as HTMLFormElement;
   const submitButton = formBlock.querySelector<HTMLInputElement>('input[type="submit"]');
 
-  const resetButtonElements = formBlock.querySelectorAll<HTMLElement>(getSelector('element', 'reset'));
+  const resetButtonElements = formBlock.querySelectorAll<HTMLElement>(
+    getSelector('element', 'reset', { operator: 'prefixed' })
+  );
   const resetButtonsData: ResetButtonsData = new Map();
 
   for (const resetButton of resetButtonElements) {
