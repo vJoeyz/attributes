@@ -4,6 +4,7 @@ import { getCollectionListWrappers } from 'packages/cms/helpers';
 import { CMSFilters } from './CMSFilter';
 import { ATTRIBUTES, getSelector } from './constants';
 
+import type { CMSList } from 'packages/cms/CMSList';
 import type { FormBlockElement } from '@finsweet/ts-utils';
 
 // Types
@@ -42,19 +43,28 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
 
   const listInstances = collectionListWrappers.map(createCMSListInstance).filter(isNotEmpty);
 
-  for (const listInstance of listInstances) {
-    const instanceIndex = listInstance.getInstanceIndex(elementKey);
+  const filtersInstances = listInstances.map(initFilters);
 
-    const filters = document.querySelector(getSelector('element', 'filters', { instanceIndex }));
-    if (!filters) continue;
+  console.log({ filtersInstances });
+};
 
-    const formBlock = filters.closest<FormBlockElement>(`.${FORM_CSS_CLASSES.formBlock}`);
-    if (!formBlock) continue;
+/**
+ * Creates a new {@link CMSFilters} instance for each {@link CMSList}.
+ * @param listInstance The `CMSList` instance.
+ */
+const initFilters = (listInstance: CMSList) => {
+  const instanceIndex = listInstance.getInstanceIndex(elementKey);
 
-    const emptyElement = document.querySelector<HTMLElement>(getSelector('element', 'empty', { instanceIndex }));
-    emptyElement?.remove();
+  const filters = document.querySelector(getSelector('element', 'filters', { instanceIndex }));
+  if (!filters) return;
 
-    const filtersInstance = new CMSFilters(formBlock, emptyElement, listInstance);
-    console.log(filtersInstance);
-  }
+  const formBlock = filters.closest<FormBlockElement>(`.${FORM_CSS_CLASSES.formBlock}`);
+  if (!formBlock) return;
+
+  const emptyElement = document.querySelector<HTMLElement>(getSelector('element', 'empty', { instanceIndex }));
+  emptyElement?.remove();
+
+  const filtersInstance = new CMSFilters(formBlock, emptyElement, listInstance);
+
+  return filtersInstance;
 };
