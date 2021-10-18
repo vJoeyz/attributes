@@ -46,7 +46,7 @@ export class CMSFilters {
 
     this.filtersData = collectFiltersData(form);
 
-    listInstance.autoShowNewItems = false;
+    listInstance.showNewItems = false;
 
     collectItemsProps(listInstance.items);
 
@@ -210,9 +210,10 @@ export class CMSFilters {
       (show ? itemsToShow : itemsToHide).push(item);
     }
 
-    if (!items && itemsToHide.length) await listInstance.showItems(itemsToHide, false, !animate);
-
-    if (itemsToShow.length) await listInstance.showItems(itemsToShow, true, !animate);
+    await Promise.all([
+      await listInstance.renderItems(itemsToHide, false, !animate),
+      await listInstance.renderItems(itemsToShow, true, !animate),
+    ]);
 
     if (animate) await fade.in(list);
   }

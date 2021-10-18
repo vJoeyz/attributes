@@ -61,7 +61,7 @@ export class CMSList extends Emittery<CMSListEvents> {
   public readonly items: CMSItem[];
   public readonly pageIndex?: number;
 
-  public autoShowNewItems = true;
+  public showNewItems = true;
   public resetIx = false;
   public animation?: ItemsAnimation;
 
@@ -96,7 +96,7 @@ export class CMSList extends Emittery<CMSListEvents> {
     itemElements: CollectionItemElement[],
     callback?: (items: CMSItem[]) => void | Promise<void>
   ): Promise<void> {
-    const { items, list, autoShowNewItems, resetIx } = this;
+    const { items, list, showNewItems, resetIx } = this;
 
     const newItems = itemElements.map((item) => new CMSItem(item, list));
 
@@ -106,7 +106,7 @@ export class CMSList extends Emittery<CMSListEvents> {
 
     await this.emit('additems', newItems);
 
-    if (autoShowNewItems) await this.showItems(newItems);
+    if (showNewItems) await this.renderItems(newItems);
 
     if (resetIx) await restartWebflow();
   }
@@ -116,10 +116,12 @@ export class CMSList extends Emittery<CMSListEvents> {
    * @param items The items to show/hide.
    * @param show `true` to show, `false` to hide. `true` by default.
    */
-  public async showItems(items: CMSItem | CMSItem[], show = true, animate = true): Promise<void> {
+  public async renderItems(items: CMSItem | CMSItem[], show = true, animate = true): Promise<void> {
     const { animation, list } = this;
 
     if (!Array.isArray(items)) items = [items];
+
+    if (!items.length) return;
 
     const elements = items.map(({ element }) => element);
 
