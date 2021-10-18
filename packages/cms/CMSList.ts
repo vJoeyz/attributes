@@ -176,8 +176,9 @@ export interface CMSItemProps {
  * An instance of a `Collection List Item`.
  */
 export class CMSItem {
-  public readonly props: CMSItemProps = {};
   public readonly href?: string;
+
+  public props: CMSItemProps = {};
   public visible: boolean;
   public isShowing = false;
   public isHiding = false;
@@ -189,14 +190,5 @@ export class CMSItem {
   constructor(public readonly element: CollectionItemElement, public readonly list: CollectionListElement) {
     this.visible = isVisible(element);
     this.href = element.querySelector('a')?.href;
-  }
-
-  /**
-   * Adds a property to the item.
-   * @param key The key of the property.
-   * @param value The value of the property.
-   */
-  public addProp(key: string, value: CMSItemPropValue): void {
-    this.props[key] = value;
   }
 }

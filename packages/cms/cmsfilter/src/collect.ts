@@ -15,6 +15,10 @@ const {
 
 const { checkboxField: checkboxFieldCSSClass, radioField: radioFieldCSSClass } = FORM_CSS_CLASSES;
 
+/**
+ * Collects the base elements of the Filters system: the form, submit button and reset buttons.
+ * @param formBlock The Filters Form Block.
+ */
 export const collectFiltersElements = (
   formBlock: FormBlockElement
 ): {
@@ -95,6 +99,6 @@ export const collectItemsProps = (items: CMSItem[]): void => {
       return props;
     }, {});
 
-    for (const filterKey in itemProps) item.addProp(filterKey, itemProps[filterKey]);
+    item.props = itemProps;
   }
 };
