@@ -56,7 +56,6 @@
     "emittery": "^0.10.0",
     "just-debounce": "^1.1.0",
     "just-throttle": "^2.3.1",
-    "motion": "^10.3.1",
-    "nanostores": "^0.4.9"
+    "motion": "^10.3.1"
   }
 }
