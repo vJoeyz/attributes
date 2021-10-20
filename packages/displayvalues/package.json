@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-displayvalues",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Display the value of a Form Element.",
   "main": "displayvalues.js",
   "files": [
