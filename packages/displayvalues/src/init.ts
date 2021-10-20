@@ -31,7 +31,7 @@ const collectTargets = (sourceElement: FormField) => {
   const instanceIndex = getInstanceIndex(sourceElement, elementKey);
 
   const displayTargets = document.querySelectorAll<HTMLElement>(getSelector('element', 'target', { instanceIndex }));
-  if (!displayTargets) return;
+  if (!displayTargets.length) return;
 
   relationshipsMap.set(sourceElement, displayTargets);
 };
