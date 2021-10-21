@@ -1,9 +1,9 @@
-import { ATTRIBUTES, getSelector, MODES } from './constants';
-import { FORM_CSS_CLASSES, isFormField, isKeyOf } from '@finsweet/ts-utils';
+import { ATTRIBUTES, getSelector, MATCHES, MODES } from './constants';
+import { extractCommaSeparatedValues, FORM_CSS_CLASSES, isFormField, isKeyOf } from '@finsweet/ts-utils';
 
 import type { CMSItem, CMSItemProps } from 'packages/cms/CMSList';
 import type { FormBlockElement } from '@finsweet/ts-utils';
-import type { FiltersData, ResetButtonsData } from './CMSFilter';
+import type { FiltersData, GrouppedFilterKeys, ResetButtonsData } from './CMSFilter';
 
 // Constants
 const {
@@ -51,8 +51,9 @@ export const collectFiltersElements = (
  * @param form The form that contains the filter fields.
  * @returns A `FiltersData` map.
  */
-export const collectFiltersData = (form: HTMLFormElement): FiltersData => {
+export const collectFiltersData = (form: HTMLFormElement): [FiltersData, GrouppedFilterKeys] => {
   const filtersData: FiltersData = new Map();
+  const grouppedFilterKeys: GrouppedFilterKeys = [];
 
   const elements = form.querySelectorAll<HTMLElement>(getSelector('field'));
 
@@ -60,7 +61,14 @@ export const collectFiltersData = (form: HTMLFormElement): FiltersData => {
     const filterKey = element.getAttribute(fieldKey);
     if (!filterKey) continue;
 
-    const rawMode = element.getAttribute(matchKey) || element.getAttribute(rangeKey);
+    const filterKeys = extractCommaSeparatedValues(filterKey);
+
+    if (filterKeys.length > 1) grouppedFilterKeys.push(filterKeys);
+
+    const rawMatch = element.getAttribute(matchKey);
+    const rawMode = element.getAttribute(rangeKey);
+
+    const match = isKeyOf(rawMatch, MATCHES) ? rawMatch : undefined;
     const mode = isKeyOf(rawMode, MODES) ? rawMode : undefined;
 
     const checkboxOrRadioField = element.closest<HTMLLabelElement>(`.${checkboxFieldCSSClass}, .${radioFieldCSSClass}`);
@@ -69,15 +77,20 @@ export const collectFiltersData = (form: HTMLFormElement): FiltersData => {
       const isCheckbox = element instanceof HTMLInputElement;
       const fieldElement = isCheckbox ? element : (checkboxOrRadioField.querySelector('input') as HTMLInputElement);
 
-      filtersData.set(fieldElement, { filterKey, mode, fixedValue: isCheckbox ? undefined : element.textContent });
+      filtersData.set(fieldElement, {
+        filterKeys,
+        match,
+        mode,
+        fixedValue: isCheckbox ? undefined : element.textContent,
+      });
 
       continue;
     }
 
-    if (isFormField(element) && element.type !== 'submit') filtersData.set(element, { filterKey, mode });
+    if (isFormField(element) && element.type !== 'submit') filtersData.set(element, { filterKeys, mode });
   }
 
-  return filtersData;
+  return [filtersData, grouppedFilterKeys];
 };
 
 /**

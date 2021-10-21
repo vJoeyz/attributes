@@ -69,4 +69,6 @@ export const ATTRIBUTES = {
 
 export const getSelector = generateSelectors(ATTRIBUTES);
 
-export const MODES = ['any', 'all', 'from', 'to'] as const;
+export const MATCHES = ['any', 'all'] as const;
+export const RANGE_MODES = ['from', 'to'] as const;
+export const MODES = [...RANGE_MODES] as const;

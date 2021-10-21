@@ -1,30 +1,34 @@
 import debounce from 'just-debounce';
 import { ANIMATIONS } from 'packages/cms/animations';
-import { MODES } from './constants';
+import { MATCHES, MODES, RANGE_MODES } from './constants';
 import { assessFilter } from './filter';
-import { clearFormField, isFormField } from '@finsweet/ts-utils';
+import { clearFormField, isFormField, isKeyOf } from '@finsweet/ts-utils';
 import { collectFiltersData, collectFiltersElements, collectItemsProps } from './collect';
 
 import type { FormBlockElement, FormField } from '@finsweet/ts-utils';
 import type { CMSItem, CMSList } from 'packages/cms/CMSList';
 
 // Types
+type FilterMatch = typeof MATCHES[number];
 type FilterMode = typeof MODES[number];
 export type FiltersData = Map<
   FormField,
   {
-    filterKey: string;
+    filterKeys: string[];
+    match?: FilterMatch;
     mode?: FilterMode;
     fixedValue?: string | null;
   }
 >;
 
-type FilterMatch = 'any' | 'all' | 'range';
+export type GrouppedFilterKeys = string[][];
+
 export type FiltersValues = Map<
   string,
   {
     values: Set<string | undefined>;
     match?: FilterMatch;
+    mode?: FilterMode;
     type?: string;
   }
 >;
@@ -36,6 +40,7 @@ export class CMSFilters {
   public readonly resetButtonsData: ResetButtonsData;
   public readonly submitButton: HTMLInputElement | null;
   public readonly filtersData: FiltersData;
+  public readonly grouppedFilterKeys: GrouppedFilterKeys;
   public readonly filtersValues: FiltersValues = new Map();
 
   private filtersActive = false;
@@ -51,7 +56,9 @@ export class CMSFilters {
     this.submitButton = submitButton;
     this.resetButtonsData = resetButtonsData;
 
-    this.filtersData = collectFiltersData(form);
+    const [filtersData, grouppedFilterKeys] = collectFiltersData(form);
+    this.filtersData = filtersData;
+    this.grouppedFilterKeys = grouppedFilterKeys;
 
     collectItemsProps(listInstance.items);
 
@@ -95,91 +102,93 @@ export class CMSFilters {
     const filterData = filtersData.get(target);
     if (!filterData) return;
 
-    const { filterKey, fixedValue, mode } = filterData;
+    const { filterKeys, fixedValue, mode, match } = filterData;
     const { type, value } = target;
 
-    const match: FilterMatch | undefined = mode === 'from' || mode === 'to' ? 'range' : mode;
+    const properties = {
+      mode,
+      match,
+      type,
+    } as const;
 
-    const existingFilter = filtersValues.get(filterKey);
+    for (const filterKey of filterKeys) {
+      const existingFilter = filtersValues.get(filterKey);
 
-    if (existingFilter) {
-      existingFilter.match = match;
-      existingFilter.type = type;
-    }
+      if (existingFilter) Object.assign(existingFilter, properties);
 
-    switch (type) {
-      case 'checkbox': {
-        const { checked } = <HTMLInputElement>target;
+      switch (type) {
+        case 'checkbox': {
+          const { checked } = <HTMLInputElement>target;
 
-        if (existingFilter) {
-          if (fixedValue) {
-            existingFilter.values[checked ? 'add' : 'delete'](fixedValue);
-            if (!existingFilter.values.size) filtersValues.delete(filterKey);
-          } else if (checked) existingFilter.values = new Set([`${checked}`]);
-          else filtersValues.delete(filterKey);
-
-          break;
-        }
-
-        filtersValues.set(filterKey, {
-          match,
-          type,
-          values: new Set([checked && fixedValue ? fixedValue : `${checked}`]),
-        });
-
-        break;
-      }
-
-      case 'radio': {
-        const { checked } = <HTMLInputElement>target;
-
-        if (checked && fixedValue) {
           if (existingFilter) {
-            existingFilter.values = new Set([fixedValue]);
+            if (fixedValue) {
+              existingFilter.values[checked ? 'add' : 'delete'](fixedValue);
+              if (!existingFilter.values.size) filtersValues.delete(filterKey);
+            } else if (checked) existingFilter.values = new Set([`${checked}`]);
+            else filtersValues.delete(filterKey);
 
             break;
           }
 
           filtersValues.set(filterKey, {
-            match,
-            type,
-            values: new Set([fixedValue]),
+            ...properties,
+            values: new Set([checked && fixedValue ? fixedValue : `${checked}`]),
           });
 
           break;
         }
 
-        filtersValues.delete(filterKey);
+        case 'radio': {
+          const { checked } = <HTMLInputElement>target;
 
-        break;
-      }
+          if (checked && fixedValue) {
+            if (existingFilter) {
+              existingFilter.values = new Set([fixedValue]);
 
-      default: {
-        if (!value && match !== 'range') {
+              break;
+            }
+
+            filtersValues.set(filterKey, {
+              ...properties,
+              values: new Set([fixedValue]),
+            });
+
+            break;
+          }
+
           filtersValues.delete(filterKey);
-          break;
-        }
-
-        if (existingFilter) {
-          if (match === 'range') {
-            const newValues = [...existingFilter.values];
-            newValues[mode === 'from' ? 0 : 1] = value;
-
-            existingFilter.values = new Set(newValues);
-          } else existingFilter.values = new Set([value]);
 
           break;
         }
 
-        filtersValues.set(filterKey, {
-          match,
-          type,
-          values: match === 'range' ? new Set(mode === 'from' ? [value] : [, value]) : new Set([value]),
-        });
+        default: {
+          if (!value && !isKeyOf(mode, RANGE_MODES)) {
+            filtersValues.delete(filterKey);
+            break;
+          }
 
-        break;
+          if (existingFilter) {
+            if (isKeyOf(mode, RANGE_MODES)) {
+              const newValues = [...existingFilter.values];
+              newValues[mode === 'from' ? 0 : 1] = value;
+
+              existingFilter.values = new Set(newValues);
+            } else existingFilter.values = new Set([value]);
+
+            break;
+          }
+
+          filtersValues.set(filterKey, {
+            ...properties,
+            values: mode === 'to' ? new Set([, value]) : new Set([value]),
+          });
+
+          break;
+        }
       }
     }
+
+    console.log({ filtersValues });
 
     if (!submitButton) await this.applyFilters();
   }
@@ -211,7 +220,7 @@ export class CMSFilters {
    * @param animateList When set to `true`, the list will fade out and fade in during the filtering process.
    */
   public async applyFilters(items?: CMSItem[], animateList = true): Promise<void> {
-    const { listInstance, filtersValues, filtersActive, emptyElement, emptyState } = this;
+    const { listInstance, filtersValues, grouppedFilterKeys, filtersActive, emptyElement, emptyState } = this;
 
     const filtersExist = !!filtersValues.size;
 
@@ -231,7 +240,7 @@ export class CMSFilters {
     const itemsToHide: CMSItem[] = [];
 
     for (const item of items || listInstance.items) {
-      const show = filtersAreEmpty || assessFilter(item, filters);
+      const show = filtersAreEmpty || assessFilter(item, filters, grouppedFilterKeys);
 
       (show ? itemsToShow : itemsToHide).push(item);
     }
@@ -265,7 +274,7 @@ export class CMSFilters {
 
     if (filterKey) {
       const formFieldsToClear = [...filtersData.entries()]
-        .filter(([, data]) => filterKey === data.filterKey)
+        .filter(([, data]) => data.filterKeys.includes(filterKey))
         .map(([formField]) => formField);
 
       for (const formField of formFieldsToClear) clearFormField(formField, ['input']);

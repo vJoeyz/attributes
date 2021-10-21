@@ -1,8 +1,12 @@
-import { isNotEmpty } from '@finsweet/ts-utils';
+import { isKeyOf, isNotEmpty } from '@finsweet/ts-utils';
+import { RANGE_MODES } from './constants';
 
 import type { MapEntries } from '@finsweet/ts-utils';
-import type { FiltersValues } from './CMSFilter';
+import type { FiltersValues, GrouppedFilterKeys } from './CMSFilter';
 import type { CMSItem } from 'packages/cms/CMSList';
+
+// Constants
+const dateFormatter = Intl.DateTimeFormat();
 
 /**
  * Assesses if an item should be displayed/hidden based on the filters.
@@ -10,57 +14,80 @@ import type { CMSItem } from 'packages/cms/CMSList';
  * @param filters The active filters to apply.
  * @returns `true` to show, `false` to hide the item.
  */
-export const assessFilter = (item: CMSItem, filters: MapEntries<FiltersValues>): boolean => {
-  return filters.every(([filterKey, { values, match, type }]) => {
-    const dateFormatter = Intl.DateTimeFormat();
+export const assessFilter = (
+  item: CMSItem,
+  filters: MapEntries<FiltersValues>,
+  grouppedFilterKeys: GrouppedFilterKeys
+): boolean => {
+  const filtersValidity = filters.map((filter) => [filter[0], checkFilterValidity(item, filter)] as const);
 
-    const filterValues = [...values]
-      .filter(isNotEmpty)
-      .map((value) => (type === 'date' ? dateFormatter.format(new Date(value)) : value));
+  const grouppedFiltersValid = grouppedFilterKeys.every((grouppedKeys) =>
+    grouppedKeys.some((grouppedKey) => filtersValidity.find(([filterKey, valid]) => grouppedKey === filterKey && valid))
+  );
 
-    if (!filterValues.length) return true;
+  const nonGrouppedFiltersValid = filtersValidity
+    .filter(([filterKey]) => grouppedFilterKeys.every((filterKeys) => !filterKeys.includes(filterKey)))
+    .every(([, valid]) => valid);
 
-    if (match === 'range') {
-      const [from, to] = filterValues;
+  return grouppedFiltersValid && nonGrouppedFiltersValid;
+};
 
-      const [propValue] = item.props[filterKey] || [];
+/**
+ * Checks if a CMSItem's props match the filter values.
+ * @param item The `CMSItem` instance.
+ * @param filter The data of a specific filter key.
+ * @returns `true` when the `CMSItem` matches the conditions.
+ */
+const checkFilterValidity = (
+  item: CMSItem,
+  [filterKey, { values, match, mode, type }]: MapEntries<FiltersValues>[number]
+) => {
+  const filterValues = [...values]
+    .filter(isNotEmpty)
+    .map((value) => (type === 'date' ? dateFormatter.format(new Date(value)) : value));
 
-      if (!propValue) return false;
+  if (!filterValues.length) return true;
 
-      const numberValue = parseFloat(propValue);
-      const dateValue = new Date(dateFormatter.format(new Date(propValue)));
+  if (isKeyOf(mode, RANGE_MODES)) {
+    const [from, to] = filterValues;
 
-      if (!from && !to) return true;
+    const [propValue] = item.props[filterKey] || [];
 
-      if (!from) {
-        if (type === 'date') return dateValue <= new Date(to);
+    if (!propValue) return false;
 
-        return numberValue <= parseFloat(to);
-      }
+    const numberValue = parseFloat(propValue);
+    const dateValue = new Date(dateFormatter.format(new Date(propValue)));
 
-      if (!to) {
-        if (type === 'date') return dateValue >= new Date(from);
+    if (!from && !to) return true;
 
-        return numberValue >= parseFloat(from);
-      }
+    if (!from) {
+      if (type === 'date') return dateValue <= new Date(to);
 
-      if (type === 'date') return dateValue >= new Date(from) && dateValue <= new Date(to);
-
-      return numberValue >= parseFloat(from) && numberValue <= parseFloat(to);
+      return numberValue <= parseFloat(to);
     }
 
-    return filterValues[match === 'all' ? 'every' : 'some']((filterValue) => {
-      const hasValue = item.props[filterKey]?.some((propValue) => {
-        if (type === 'date') return filterValue === dateFormatter.format(new Date(propValue));
+    if (!to) {
+      if (type === 'date') return dateValue >= new Date(from);
 
-        if (type && ['text', 'number', 'email', 'password', 'tel', 'textarea'].includes(type)) {
-          return propValue.toLowerCase().includes(filterValue.toLowerCase());
-        }
+      return numberValue >= parseFloat(from);
+    }
 
-        return filterValue === propValue;
-      });
+    if (type === 'date') return dateValue >= new Date(from) && dateValue <= new Date(to);
 
-      return hasValue;
+    return numberValue >= parseFloat(from) && numberValue <= parseFloat(to);
+  }
+
+  return filterValues[match === 'all' ? 'every' : 'some']((filterValue) => {
+    const hasValue = item.props[filterKey]?.some((propValue) => {
+      if (type === 'date') return filterValue === dateFormatter.format(new Date(propValue));
+
+      if (type && ['text', 'number', 'email', 'password', 'tel', 'textarea'].includes(type)) {
+        return propValue.toLowerCase().includes(filterValue.toLowerCase());
+      }
+
+      return filterValue === propValue;
     });
+
+    return hasValue;
   });
 };
