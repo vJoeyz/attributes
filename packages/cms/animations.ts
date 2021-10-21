@@ -95,13 +95,13 @@ const createAnimation = (props: AnimationProps) => {
 /**
  * Fade
  */
-const [fadeIn, fadeOut] = createAnimation({ keyframes: { opacity: 1 }, initialStyles: { opacity: '0' } });
+const [fadeIn, fadeOut] = createAnimation({ keyframes: { opacity: [0, 1] }, initialStyles: { opacity: '0' } });
 
 /**
  * Slide Up
  */
 const [slideUpIn, slideUpOut] = createAnimation({
-  keyframes: { y: [100, 0], opacity: 1 },
+  keyframes: { y: [100, 0], opacity: [0, 1] },
   initialStyles: { transform: 'translateY(100px)', opacity: '0' },
 });
 
@@ -109,7 +109,7 @@ const [slideUpIn, slideUpOut] = createAnimation({
  * Slide Down
  */
 const [slideDownIn, slideDownOut] = createAnimation({
-  keyframes: { y: [-100, 0], opacity: 1 },
+  keyframes: { y: [-100, 0], opacity: [0, 1] },
   initialStyles: { transform: 'translateY(-100px)', opacity: '0' },
 });
 

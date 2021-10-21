@@ -1,14 +1,14 @@
 import debounce from 'just-debounce';
-import { ANIMATIONS } from 'packages/cms/animations';
-import { MATCHES, MODES } from './constants';
 import { assessFilter } from './filter';
+import { setQueryParams } from './query';
 import { handleFilterInput } from './input';
+import { MATCHES, MODES } from './constants';
+import { ANIMATIONS } from 'packages/cms/animations';
 import { clearFormField, isFormField } from '@finsweet/ts-utils';
 import { collectFiltersData, collectFiltersElements, collectItemsProps } from './collect';
 
 import type { FormBlockElement, FormField } from '@finsweet/ts-utils';
 import type { CMSItem, CMSList } from 'packages/cms/CMSList';
-import { setQueryParams } from './query';
 
 // Types
 type FilterMatch = typeof MATCHES[number];
@@ -76,7 +76,6 @@ export class CMSFilters {
     this.showQueryParams = showQueryParams;
 
     this.resultsCount = listInstance.items.filter(({ visible }) => visible).length;
-    console.log(this.resultsCount);
     this.updateResults();
 
     const [filtersData, grouppedFilterKeys] = collectFiltersData(form);
@@ -94,16 +93,19 @@ export class CMSFilters {
   private listenEvents() {
     const { form, resetButtonsData: resetButtons, listInstance } = this;
 
+    // Form
     form.addEventListener('submit', (e) => this.handleSubmit(e));
     form.addEventListener(
       'input',
       debounce((e: Event) => this.handleInputEvents(e), 50)
     );
 
+    // Reset buttons
     for (const [resetButton, filterKey] of resetButtons) {
       resetButton?.addEventListener('click', () => this.resetFilters(filterKey));
     }
 
+    // Items mutations
     const handleItems = (items: CMSItem[]) => {
       collectItemsProps(items);
       this.applyFilters(items, false);
@@ -143,8 +145,6 @@ export class CMSFilters {
     handleFilterInput(target, filtersValues, filterData);
 
     if (showQueryParams) setQueryParams(filtersValues);
-
-    console.log({ filtersValues });
 
     if (!submitButton) await this.applyFilters();
   }
