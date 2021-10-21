@@ -72,6 +72,17 @@ export const ATTRIBUTES = {
   showQuery: { key: `${ATTRIBUTES_PREFIX}-showquery`, values: { true: 'true' } },
 
   /**
+   * Defines the easing function of the list animation.
+   * Allowed values are defined in {@link "packages/cms/animations/EASINGS"}.
+   */
+  easing: { key: `${ATTRIBUTES_PREFIX}-easing` },
+
+  /**
+   * Defines the duration of the list animation.
+   */
+  duration: { key: `${ATTRIBUTES_PREFIX}-duration` },
+
+  /**
    * Defines a global selector to query lists to instantiate.
    */
   lists: { key: `${ATTRIBUTES_PREFIX}-lists` },
@@ -82,3 +93,5 @@ export const getSelector = generateSelectors(ATTRIBUTES);
 export const MATCHES = ['any', 'all'] as const;
 export const RANGE_MODES = ['from', 'to'] as const;
 export const MODES = [...RANGE_MODES] as const;
+
+export const DEFAULT_ANIMATION_DURATION = 0.1;

@@ -7,8 +7,9 @@ import { ANIMATIONS } from 'packages/cms/animations';
 import { clearFormField, isFormField } from '@finsweet/ts-utils';
 import { collectFiltersData, collectFiltersElements, collectItemsProps } from './collect';
 
-import type { FormBlockElement, FormField } from '@finsweet/ts-utils';
 import type { CMSItem, CMSList } from 'packages/cms/CMSList';
+import type { AnimationOptions } from 'packages/cms/animations';
+import type { FormBlockElement, FormField } from '@finsweet/ts-utils';
 
 // Types
 type FilterMatch = typeof MATCHES[number];
@@ -50,7 +51,8 @@ export class CMSFilters {
   public readonly grouppedFilterKeys;
   public readonly filtersValues: FiltersValues = new Map();
 
-  public readonly showQueryParams;
+  private readonly showQueryParams;
+  private readonly animationOptions;
 
   private emptyState = false;
   private filtersActive = false;
@@ -63,7 +65,13 @@ export class CMSFilters {
       emptyElement,
       resultsElement,
       showQueryParams,
-    }: { emptyElement: HTMLElement | null; resultsElement: HTMLElement | null; showQueryParams: boolean }
+      animationOptions,
+    }: {
+      emptyElement: HTMLElement | null;
+      resultsElement: HTMLElement | null;
+      showQueryParams: boolean;
+      animationOptions?: AnimationOptions;
+    }
   ) {
     const { form, submitButton, resetButtonsData } = collectFiltersElements(formBlock);
     this.form = form;
@@ -74,6 +82,7 @@ export class CMSFilters {
     this.resultsElement = resultsElement;
 
     this.showQueryParams = showQueryParams;
+    this.animationOptions = animationOptions;
 
     this.resultsCount = listInstance.items.filter(({ visible }) => visible).length;
     this.updateResults();
@@ -144,6 +153,8 @@ export class CMSFilters {
 
     handleFilterInput(target, filtersValues, filterData);
 
+    console.log(filtersValues);
+
     if (showQueryParams) setQueryParams(filtersValues);
 
     if (!submitButton) await this.applyFilters();
@@ -179,7 +190,15 @@ export class CMSFilters {
    * @param animateList When set to `true`, the list will fade out and fade in during the filtering process.
    */
   public async applyFilters(newItems?: CMSItem[], animateList = true): Promise<void> {
-    const { listInstance, filtersValues, grouppedFilterKeys, filtersActive, emptyElement, emptyState } = this;
+    const {
+      listInstance,
+      filtersValues,
+      grouppedFilterKeys,
+      filtersActive,
+      emptyElement,
+      emptyState,
+      animationOptions,
+    } = this;
 
     const filtersExist = !!filtersValues.size;
 
@@ -193,7 +212,7 @@ export class CMSFilters {
     const { fade } = ANIMATIONS;
     const { wrapper, list } = listInstance;
 
-    if (animateList) await fade.out(wrapper);
+    if (animateList) await fade.out(wrapper, animationOptions);
 
     // Show / hide the items based on their match
     const itemsToShow: CMSItem[] = [];
@@ -227,7 +246,7 @@ export class CMSFilters {
     if (!newItems) this.resultsCount = itemsToShow.length;
     this.updateResults();
 
-    if (animateList) await fade.in(wrapper);
+    if (animateList) await fade.in(wrapper, animationOptions);
   }
 
   /**

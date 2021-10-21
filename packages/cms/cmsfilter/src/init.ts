@@ -1,11 +1,13 @@
-import { FORM_CSS_CLASSES, isNotEmpty } from '@finsweet/ts-utils';
-import { createCMSListInstance } from 'packages/cms/CMSList';
+import { ATTRIBUTES, DEFAULT_ANIMATION_DURATION, getSelector } from './constants';
+import { FORM_CSS_CLASSES, isKeyOf, isNotEmpty } from '@finsweet/ts-utils';
 import { getCollectionListWrappers } from 'packages/cms/helpers';
+import { createCMSListInstance } from 'packages/cms/CMSList';
+import { EASINGS } from 'packages/cms/animations';
 import { CMSFilters } from './CMSFilter';
-import { ATTRIBUTES, getSelector } from './constants';
 
 import type { CMSList } from 'packages/cms/CMSList';
 import type { FormBlockElement } from '@finsweet/ts-utils';
+import type { AnimationOptions } from 'packages/cms/animations';
 
 // Types
 interface Params {
@@ -16,6 +18,8 @@ interface Params {
 const {
   element: { key: elementKey },
   showQuery: { key: showQueryKey, values: showQueryValues },
+  duration: { key: durationKey },
+  easing: { key: easingKey },
   lists: { key: listsKey },
 } = ATTRIBUTES;
 
@@ -69,7 +73,20 @@ const initFilters = (listInstance: CMSList) => {
 
   const showQueryParams = filters.getAttribute(showQueryKey) === showQueryValues.true;
 
-  const filtersInstance = new CMSFilters(formBlock, listInstance, { emptyElement, resultsElement, showQueryParams });
+  const animationDuration = listInstance.getAttribute(durationKey);
+  const animationEasing = listInstance.getAttribute(easingKey);
+
+  const animationOptions: AnimationOptions = {
+    easing: isKeyOf(animationEasing, EASINGS) ? animationEasing : undefined,
+    duration: animationDuration ? parseFloat(animationDuration) / 200 : DEFAULT_ANIMATION_DURATION,
+  };
+
+  const filtersInstance = new CMSFilters(formBlock, listInstance, {
+    emptyElement,
+    resultsElement,
+    showQueryParams,
+    animationOptions,
+  });
 
   return filtersInstance;
 };
