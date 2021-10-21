@@ -1,60 +1,83 @@
 import debounce from 'just-debounce';
 import { ANIMATIONS } from 'packages/cms/animations';
-import { MATCHES, MODES, RANGE_MODES } from './constants';
+import { MATCHES, MODES } from './constants';
 import { assessFilter } from './filter';
-import { clearFormField, isFormField, isKeyOf } from '@finsweet/ts-utils';
+import { handleFilterInput } from './input';
+import { clearFormField, isFormField } from '@finsweet/ts-utils';
 import { collectFiltersData, collectFiltersElements, collectItemsProps } from './collect';
 
 import type { FormBlockElement, FormField } from '@finsweet/ts-utils';
 import type { CMSItem, CMSList } from 'packages/cms/CMSList';
+import { setQueryParams } from './query';
 
 // Types
 type FilterMatch = typeof MATCHES[number];
 type FilterMode = typeof MODES[number];
-export type FiltersData = Map<
-  FormField,
-  {
-    filterKeys: string[];
-    match?: FilterMatch;
-    mode?: FilterMode;
-    fixedValue?: string | null;
-  }
->;
+
+export interface FilterData {
+  filterKeys: string[];
+  match?: FilterMatch;
+  mode?: FilterMode;
+  fixedValue?: string | null;
+}
+
+export type FiltersData = Map<FormField, FilterData>;
 
 export type GrouppedFilterKeys = string[][];
 
-export type FiltersValues = Map<
-  string,
-  {
-    values: Set<string | undefined>;
-    match?: FilterMatch;
-    mode?: FilterMode;
-    type?: string;
-  }
->;
+export interface FilterProperties {
+  match?: FilterMatch;
+  mode?: FilterMode;
+  type?: string;
+}
+
+export type FilterValue = {
+  values: Set<string | undefined>;
+} & FilterProperties;
+
+export type FiltersValues = Map<string, FilterValue>;
 
 export type ResetButtonsData = Map<HTMLElement, string | null>;
 
 export class CMSFilters {
-  public readonly form: HTMLFormElement;
-  public readonly resetButtonsData: ResetButtonsData;
-  public readonly submitButton: HTMLInputElement | null;
-  public readonly filtersData: FiltersData;
-  public readonly grouppedFilterKeys: GrouppedFilterKeys;
+  public readonly form;
+  public readonly emptyElement;
+  public readonly resultsElement;
+  public readonly resetButtonsData;
+  public readonly submitButton;
+
+  public readonly filtersData;
+  public readonly grouppedFilterKeys;
   public readonly filtersValues: FiltersValues = new Map();
 
-  private filtersActive = false;
+  public readonly showQueryParams;
+
   private emptyState = false;
+  private filtersActive = false;
+  private resultsCount = 0;
 
   constructor(
     public readonly formBlock: FormBlockElement,
-    private readonly emptyElement: HTMLElement | null,
-    private readonly listInstance: CMSList
+    public readonly listInstance: CMSList,
+    {
+      emptyElement,
+      resultsElement,
+      showQueryParams,
+    }: { emptyElement: HTMLElement | null; resultsElement: HTMLElement | null; showQueryParams: boolean }
   ) {
     const { form, submitButton, resetButtonsData } = collectFiltersElements(formBlock);
     this.form = form;
     this.submitButton = submitButton;
     this.resetButtonsData = resetButtonsData;
+
+    this.emptyElement = emptyElement;
+    this.resultsElement = resultsElement;
+
+    this.showQueryParams = showQueryParams;
+
+    this.resultsCount = listInstance.items.filter(({ visible }) => visible).length;
+    console.log(this.resultsCount);
+    this.updateResults();
 
     const [filtersData, grouppedFilterKeys] = collectFiltersData(form);
     this.filtersData = filtersData;
@@ -77,7 +100,7 @@ export class CMSFilters {
       debounce((e: Event) => this.handleInputEvents(e), 50)
     );
 
-    for (const [resetButton, filterKey] of resetButtons.entries()) {
+    for (const [resetButton, filterKey] of resetButtons) {
       resetButton?.addEventListener('click', () => this.resetFilters(filterKey));
     }
 
@@ -86,8 +109,23 @@ export class CMSFilters {
       this.applyFilters(items, false);
     };
 
-    listInstance.on('additems', handleItems);
+    listInstance.on('additems', (newItems) => {
+      handleItems(newItems);
+
+      this.resultsCount += newItems.length;
+      this.updateResults();
+    });
+
     listInstance.on('nestitems', handleItems);
+  }
+
+  /**
+   * Updates the displayed results on the `resultsElement`.
+   */
+  private updateResults() {
+    const { resultsElement, resultsCount } = this;
+
+    if (resultsElement) resultsElement.textContent = `${resultsCount}`;
   }
 
   /**
@@ -95,98 +133,16 @@ export class CMSFilters {
    * @param e The `InputEvent`.
    */
   private async handleInputEvents({ target }: Event) {
-    const { filtersData, filtersValues, submitButton } = this;
+    const { filtersData, filtersValues, submitButton, showQueryParams } = this;
 
     if (!isFormField(target)) return;
 
     const filterData = filtersData.get(target);
     if (!filterData) return;
 
-    const { filterKeys, fixedValue, mode, match } = filterData;
-    const { type, value } = target;
+    handleFilterInput(target, filtersValues, filterData);
 
-    const properties = {
-      mode,
-      match,
-      type,
-    } as const;
-
-    for (const filterKey of filterKeys) {
-      const existingFilter = filtersValues.get(filterKey);
-
-      if (existingFilter) Object.assign(existingFilter, properties);
-
-      switch (type) {
-        case 'checkbox': {
-          const { checked } = <HTMLInputElement>target;
-
-          if (existingFilter) {
-            if (fixedValue) {
-              existingFilter.values[checked ? 'add' : 'delete'](fixedValue);
-              if (!existingFilter.values.size) filtersValues.delete(filterKey);
-            } else if (checked) existingFilter.values = new Set([`${checked}`]);
-            else filtersValues.delete(filterKey);
-
-            break;
-          }
-
-          filtersValues.set(filterKey, {
-            ...properties,
-            values: new Set([checked && fixedValue ? fixedValue : `${checked}`]),
-          });
-
-          break;
-        }
-
-        case 'radio': {
-          const { checked } = <HTMLInputElement>target;
-
-          if (checked && fixedValue) {
-            if (existingFilter) {
-              existingFilter.values = new Set([fixedValue]);
-
-              break;
-            }
-
-            filtersValues.set(filterKey, {
-              ...properties,
-              values: new Set([fixedValue]),
-            });
-
-            break;
-          }
-
-          filtersValues.delete(filterKey);
-
-          break;
-        }
-
-        default: {
-          if (!value && !isKeyOf(mode, RANGE_MODES)) {
-            filtersValues.delete(filterKey);
-            break;
-          }
-
-          if (existingFilter) {
-            if (isKeyOf(mode, RANGE_MODES)) {
-              const newValues = [...existingFilter.values];
-              newValues[mode === 'from' ? 0 : 1] = value;
-
-              existingFilter.values = new Set(newValues);
-            } else existingFilter.values = new Set([value]);
-
-            break;
-          }
-
-          filtersValues.set(filterKey, {
-            ...properties,
-            values: mode === 'to' ? new Set([, value]) : new Set([value]),
-          });
-
-          break;
-        }
-      }
-    }
+    if (showQueryParams) setQueryParams(filtersValues);
 
     console.log({ filtersValues });
 
@@ -216,10 +172,13 @@ export class CMSFilters {
 
   /**
    * Applies the active filters to the list.
-   * @param items Optional list of `CMSItem` instances. If passed, only those instances will be filtered.
+   *
+   * @param newItems Optional list of `CMSItem` instances. If passed, only those instances will be filtered.
+   * Used when new items have been added with `cmsload`.
+   *
    * @param animateList When set to `true`, the list will fade out and fade in during the filtering process.
    */
-  public async applyFilters(items?: CMSItem[], animateList = true): Promise<void> {
+  public async applyFilters(newItems?: CMSItem[], animateList = true): Promise<void> {
     const { listInstance, filtersValues, grouppedFilterKeys, filtersActive, emptyElement, emptyState } = this;
 
     const filtersExist = !!filtersValues.size;
@@ -236,10 +195,11 @@ export class CMSFilters {
 
     if (animateList) await fade.out(wrapper);
 
+    // Show / hide the items based on their match
     const itemsToShow: CMSItem[] = [];
     const itemsToHide: CMSItem[] = [];
 
-    for (const item of items || listInstance.items) {
+    for (const item of newItems || listInstance.items) {
       const show = filtersAreEmpty || assessFilter(item, filters, grouppedFilterKeys);
 
       (show ? itemsToShow : itemsToHide).push(item);
@@ -248,7 +208,8 @@ export class CMSFilters {
     await listInstance.renderItems(itemsToHide, false, !animateList);
     await listInstance.renderItems(itemsToShow, true, !animateList);
 
-    if (!items && emptyElement) {
+    // Show / hide the `Empty State` element, if existing
+    if (!newItems && emptyElement) {
       const { length } = itemsToShow;
 
       if (length && emptyState) {
@@ -262,6 +223,10 @@ export class CMSFilters {
       }
     }
 
+    // Update the results
+    if (!newItems) this.resultsCount = itemsToShow.length;
+    this.updateResults();
+
     if (animateList) await fade.in(wrapper);
   }
 
@@ -270,7 +235,7 @@ export class CMSFilters {
    * @param filterKey If passed, only this filter key will be resetted.
    */
   public resetFilters(filterKey?: string | null): void {
-    const { filtersData, filtersValues } = this;
+    const { filtersData, filtersValues, showQueryParams } = this;
 
     if (filterKey) {
       const formFieldsToClear = [...filtersData.entries()]
@@ -285,6 +250,7 @@ export class CMSFilters {
       filtersValues.clear();
     }
 
+    if (showQueryParams) setQueryParams(filtersValues);
     this.applyFilters();
   }
 }

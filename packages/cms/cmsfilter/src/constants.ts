@@ -22,6 +22,11 @@ export const ATTRIBUTES = {
       empty: generateDynamicAttibuteValue('empty'),
 
       /**
+       * Defines an element that will display all existing results.
+       */
+      results: generateDynamicAttibuteValue('results'),
+
+      /**
        * Defines a button that resets all filters when clicked.
        */
       reset: 'reset',
@@ -60,6 +65,11 @@ export const ATTRIBUTES = {
       to: 'to',
     },
   },
+
+  /**
+   * Defines if the filter query params should be displayed on the URL.
+   */
+  showQuery: { key: `${ATTRIBUTES_PREFIX}-showquery`, values: { true: 'true' } },
 
   /**
    * Defines a global selector to query lists to instantiate.

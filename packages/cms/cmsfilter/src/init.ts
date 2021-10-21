@@ -15,6 +15,7 @@ interface Params {
 // Constants destructuring
 const {
   element: { key: elementKey },
+  showQuery: { key: showQueryKey, values: showQueryValues },
   lists: { key: listsKey },
 } = ATTRIBUTES;
 
@@ -64,7 +65,11 @@ const initFilters = (listInstance: CMSList) => {
   const emptyElement = document.querySelector<HTMLElement>(getSelector('element', 'empty', { instanceIndex }));
   emptyElement?.remove();
 
-  const filtersInstance = new CMSFilters(formBlock, emptyElement, listInstance);
+  const resultsElement = document.querySelector<HTMLElement>(getSelector('element', 'results', { instanceIndex }));
+
+  const showQueryParams = filters.getAttribute(showQueryKey) === showQueryValues.true;
+
+  const filtersInstance = new CMSFilters(formBlock, listInstance, { emptyElement, resultsElement, showQueryParams });
 
   return filtersInstance;
 };
