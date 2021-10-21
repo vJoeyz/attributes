@@ -24,7 +24,7 @@ export const ATTRIBUTES = {
       /**
        * Defines an element that will display all existing results.
        */
-      results: generateDynamicAttibuteValue('results'),
+      results: generateDynamicAttibuteValue('results-count'),
 
       /**
        * Defines a button that resets all filters when clicked.
