@@ -20,6 +20,7 @@ const {
   showQuery: { key: showQueryKey, values: showQueryValues },
   duration: { key: durationKey },
   easing: { key: easingKey },
+  scrollTop: { key: scrollTopKey, values: scrollTopValues },
   lists: { key: listsKey },
 } = ATTRIBUTES;
 
@@ -60,31 +61,40 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
 const initFilters = (listInstance: CMSList) => {
   const instanceIndex = listInstance.getInstanceIndex(elementKey);
 
+  // Base elements
   const filters = document.querySelector(getSelector('element', 'filters', { instanceIndex }));
   if (!filters) return;
 
   const formBlock = filters.closest<FormBlockElement>(`.${FORM_CSS_CLASSES.formBlock}`);
   if (!formBlock) return;
 
+  // Empty State Element
   const emptyElement = document.querySelector<HTMLElement>(getSelector('element', 'empty', { instanceIndex }));
   emptyElement?.remove();
 
+  // Results Count
   const resultsElement = document.querySelector<HTMLElement>(getSelector('element', 'results', { instanceIndex }));
 
-  const showQueryParams = filters.getAttribute(showQueryKey) === showQueryValues.true;
+  // Query Params
+  const showQueryParams = listInstance.getAttribute(showQueryKey) === showQueryValues.true;
 
+  // Animation
   const animationDuration = listInstance.getAttribute(durationKey);
   const animationEasing = listInstance.getAttribute(easingKey);
-
   const animationOptions: AnimationOptions = {
     easing: isKeyOf(animationEasing, EASINGS) ? animationEasing : undefined,
     duration: animationDuration ? parseFloat(animationDuration) / 200 : DEFAULT_ANIMATION_DURATION,
   };
 
+  // Scroll Top
+  const scrollTop = listInstance.getAttribute(scrollTopKey) === scrollTopValues.true;
+
+  // Init instances
   const filtersInstance = new CMSFilters(formBlock, listInstance, {
     emptyElement,
     resultsElement,
     showQueryParams,
+    scrollTop,
     animationOptions,
   });
 

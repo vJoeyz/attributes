@@ -83,6 +83,11 @@ export const ATTRIBUTES = {
   duration: { key: `${ATTRIBUTES_PREFIX}-duration` },
 
   /**
+   * Defines if the window should scroll to the top of the list after applying filters.
+   */
+  scrollTop: { key: `${ATTRIBUTES_PREFIX}-scrolltop`, values: { true: 'true' } },
+
+  /**
    * Defines a global selector to query lists to instantiate.
    */
   lists: { key: `${ATTRIBUTES_PREFIX}-lists` },

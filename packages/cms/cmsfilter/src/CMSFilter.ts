@@ -52,6 +52,7 @@ export class CMSFilters {
   public readonly filtersValues: FiltersValues = new Map();
 
   private readonly showQueryParams;
+  private readonly scrollTop;
   private readonly animationOptions;
 
   private emptyState = false;
@@ -65,11 +66,13 @@ export class CMSFilters {
       emptyElement,
       resultsElement,
       showQueryParams,
+      scrollTop,
       animationOptions,
     }: {
       emptyElement: HTMLElement | null;
       resultsElement: HTMLElement | null;
       showQueryParams: boolean;
+      scrollTop: boolean;
       animationOptions?: AnimationOptions;
     }
   ) {
@@ -82,6 +85,7 @@ export class CMSFilters {
     this.resultsElement = resultsElement;
 
     this.showQueryParams = showQueryParams;
+    this.scrollTop = scrollTop;
     this.animationOptions = animationOptions;
 
     this.resultsCount = listInstance.items.filter(({ visible }) => visible).length;
@@ -197,6 +201,7 @@ export class CMSFilters {
       filtersActive,
       emptyElement,
       emptyState,
+      scrollTop,
       animationOptions,
     } = this;
 
@@ -212,6 +217,10 @@ export class CMSFilters {
     const { fade } = ANIMATIONS;
     const { wrapper, list } = listInstance;
 
+    // Scroll Top
+    if (scrollTop) this.scrollToTop();
+
+    // Start populating
     if (animateList) await fade.out(wrapper, animationOptions);
 
     // Show / hide the items based on their match
@@ -234,10 +243,12 @@ export class CMSFilters {
       if (length && emptyState) {
         emptyElement.remove();
         wrapper.prepend(list);
+
         this.emptyState = false;
       } else if (!length && !emptyState) {
         list.remove();
         wrapper.prepend(emptyElement);
+
         this.emptyState = true;
       }
     }
@@ -247,6 +258,9 @@ export class CMSFilters {
     this.updateResults();
 
     if (animateList) await fade.in(wrapper, animationOptions);
+
+    // Scroll Top
+    if (scrollTop) this.scrollToTop();
   }
 
   /**
@@ -270,6 +284,14 @@ export class CMSFilters {
     }
 
     if (showQueryParams) setQueryParams(filtersValues);
+
     this.applyFilters();
+  }
+
+  /**
+   * Scrolls to the top of the list.
+   */
+  public scrollToTop() {
+    this.listInstance.wrapper.parentElement?.scrollIntoView({ behavior: 'smooth' });
   }
 }
