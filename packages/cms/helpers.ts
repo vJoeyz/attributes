@@ -1,6 +1,8 @@
 import { CMS_CSS_CLASSES, getCollectionElements } from '@finsweet/ts-utils';
+import { CMSItem } from './CMSList';
 
-import type { CollectionListWrapperElement } from '@finsweet/ts-utils';
+import type { CollectionItemElement, CollectionListWrapperElement } from '@finsweet/ts-utils';
+import type { CMSList } from './CMSList';
 
 /**
  * Queries `Collection List Wrapper` elements and makes sure they are unique.
@@ -34,4 +36,24 @@ export const getCollectionListWrappers = (
   );
 
   return collectionListWrappers;
+};
+
+/**
+ * Stores new Collection Items in a `CMSList` instance.
+ * @param listInstance The CMSList instance.
+ * @param newItemElements The new Collection Items to store.
+ */
+export const addItemsToList = async (
+  listInstance: CMSList,
+  newItemElements: CollectionItemElement[]
+): Promise<void> => {
+  const { items, list, showNewItems } = listInstance;
+
+  const newItems = newItemElements.map((item) => new CMSItem(item, list));
+
+  items.push(...newItems);
+
+  await listInstance.emitSerial('additems', newItems);
+
+  if (showNewItems) await listInstance.renderItems(newItems);
 };

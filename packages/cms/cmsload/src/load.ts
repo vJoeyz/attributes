@@ -1,9 +1,8 @@
 import { getCollectionElements, restartWebflow } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
-import { getCollectionListWrappers } from 'packages/cms/helpers';
-import { CMSItem } from 'packages/cms/CMSList';
+import { addItemsToList, getCollectionListWrappers } from 'packages/cms/helpers';
 
-import type { PaginationButtonElement, CollectionItemElement } from '@finsweet/ts-utils';
+import type { PaginationButtonElement } from '@finsweet/ts-utils';
 import type { CMSList } from 'packages/cms/CMSList';
 
 // Constants
@@ -17,23 +16,6 @@ const {
  * DOM Parser to parse html strings.
  */
 const domParser = new DOMParser();
-
-/**
- * Stores new Collection Items in a `CMSList` instance.
- * @param listInstance The CMSList instance.
- * @param newItemElements The new Collection Items to store.
- */
-const addItemsToList = async (listInstance: CMSList, newItemElements: CollectionItemElement[]): Promise<void> => {
-  const { items, list, showNewItems } = listInstance;
-
-  const newItems = newItemElements.map((item) => new CMSItem(item, list));
-
-  items.push(...newItems);
-
-  await listInstance.emitSerial('additems', newItems);
-
-  if (showNewItems) await listInstance.renderItems(newItems);
-};
 
 /**
  * Collects Collection Items from a Collection List's pagination.
