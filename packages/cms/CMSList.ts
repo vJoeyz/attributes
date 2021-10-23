@@ -42,7 +42,9 @@ export const createCMSListInstance = (referenceElement: HTMLElement): CMSList | 
 };
 
 // Types
-interface ItemsAnimation extends Animation {
+interface ItemsAnimation {
+  animateIn: Animation[0];
+  animateOut: Animation[1];
   options?: AnimationOptions;
 }
 
@@ -129,10 +131,10 @@ export class CMSList extends Emittery<CMSListEvents> {
     for (const item of items) item[show ? 'isShowing' : 'isHiding'] = true;
 
     if (animate && animation) {
-      const { options } = animation;
+      const { animateIn, animateOut, options } = animation;
 
-      if (show) await animation.in(elements, { target: list, ...options });
-      else await animation.out(elements, { remove: true, ...options });
+      if (show) await animateIn(elements, { target: list, ...options });
+      else await animateOut(elements, { remove: true, ...options });
     } else {
       for (const element of elements) {
         if (show) list.appendChild(element);

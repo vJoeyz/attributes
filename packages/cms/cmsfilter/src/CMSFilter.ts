@@ -104,7 +104,7 @@ export class CMSFilters {
    * Listens for internal events.
    */
   private listenEvents() {
-    const { form, resetButtonsData: resetButtons, listInstance } = this;
+    const { form, resetButtonsData: resetButtons, listInstance, filtersActive } = this;
 
     // Form
     form.addEventListener('submit', (e) => this.handleSubmit(e));
@@ -127,8 +127,10 @@ export class CMSFilters {
     listInstance.on('additems', (newItems) => {
       handleItems(newItems);
 
-      this.resultsCount += newItems.length;
-      this.updateResults();
+      if (!filtersActive) {
+        this.resultsCount += newItems.length;
+        this.updateResults();
+      }
     });
 
     listInstance.on('nestitems', handleItems);
@@ -214,14 +216,16 @@ export class CMSFilters {
     const filters = [...filtersValues.entries()];
     const filtersAreEmpty = filters.every(([, { values }]) => !values.size);
 
-    const { fade } = ANIMATIONS;
     const { wrapper, list } = listInstance;
+    const {
+      fade: [fadeIn, fadeOut],
+    } = ANIMATIONS;
 
     // Scroll Top
     if (scrollTop) this.scrollToTop();
 
     // Start populating
-    if (animateList) await fade.out(wrapper, animationOptions);
+    if (animateList) await fadeOut(wrapper, animationOptions);
 
     // Show / hide the items based on their match
     const itemsToShow: CMSItem[] = [];
@@ -257,7 +261,7 @@ export class CMSFilters {
     if (!newItems) this.resultsCount = itemsToShow.length;
     this.updateResults();
 
-    if (animateList) await fade.in(wrapper, animationOptions);
+    if (animateList) await fadeIn(wrapper, animationOptions);
 
     // Scroll Top
     if (scrollTop) this.scrollToTop();

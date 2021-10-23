@@ -53,14 +53,15 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
     listInstances.map(async (listInstance) => {
       // Get animation config
       const animationName = listInstance.getAttribute(animationKey);
-      const animation = animationName ? ANIMATIONS[animationName] : ANIMATIONS.fade;
+      const [animateIn, animateOut] = animationName ? ANIMATIONS[animationName] : ANIMATIONS.fade;
 
       const animationDuration = listInstance.getAttribute(durationKey);
       const animationEasing = listInstance.getAttribute(easingKey);
       const animationStagger = listInstance.getAttribute(staggerKey);
 
       listInstance.animation = {
-        ...animation,
+        animateIn,
+        animateOut,
         options: {
           easing: isKeyOf(animationEasing, EASINGS) ? animationEasing : undefined,
           duration: animationDuration ? parseFloat(animationDuration) : undefined,

@@ -9,10 +9,7 @@ type AnimationBase<T> = (element: HTMLElement | HTMLElement[], options?: T & Ani
 type AnimationIn = AnimationBase<{ target?: Element; anchor?: Element }>;
 type AnimationOut = AnimationBase<{ remove?: boolean }>;
 
-export interface Animation {
-  in: AnimationIn;
-  out: AnimationOut;
-}
+export type Animation = [AnimationIn, AnimationOut];
 
 interface AnimationProps {
   keyframes: MotionKeyframesDefinition;
@@ -29,7 +26,7 @@ export const EASINGS = ['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out'] 
  * @param props The animaiton props.
  * @returns A new `in` and `out` Animation functions.
  */
-const createAnimation = (props: AnimationProps) => {
+const createAnimation = (props: AnimationProps): Animation => {
   /**
    * In animation.
    * @param elements The element to animate.
@@ -93,42 +90,69 @@ const createAnimation = (props: AnimationProps) => {
 };
 
 /**
- * Fade
- */
-const [fadeIn, fadeOut] = createAnimation({ keyframes: { opacity: [0, 1] }, initialStyles: { opacity: '0' } });
-
-/**
- * Slide Up
- */
-const [slideUpIn, slideUpOut] = createAnimation({
-  keyframes: { y: [100, 0], opacity: [0, 1] },
-  initialStyles: { transform: 'translateY(100px)', opacity: '0' },
-});
-
-/**
- * Slide Down
- */
-const [slideDownIn, slideDownOut] = createAnimation({
-  keyframes: { y: [-100, 0], opacity: [0, 1] },
-  initialStyles: { transform: 'translateY(-100px)', opacity: '0' },
-});
-
-/**
  * Contains all animation functions.
  */
 export const ANIMATIONS: {
-  [key: string]: Animation;
+  readonly [key: string]: Animation;
 } = {
-  fade: {
-    in: fadeIn,
-    out: fadeOut,
-  },
-  'slide-up': {
-    in: slideUpIn,
-    out: slideUpOut,
-  },
-  'slide-down': {
-    in: slideDownIn,
-    out: slideDownOut,
-  },
+  /**
+   * Fade
+   */
+  fade: createAnimation({ keyframes: { opacity: [0, 1] }, initialStyles: { opacity: '0' } }),
+
+  /**
+   * Slide Up
+   */
+  'slide-up': createAnimation({
+    keyframes: { y: [100, 0], opacity: [0, 1] },
+    initialStyles: { transform: 'translateY(100px)', opacity: '0' },
+  }),
+
+  /**
+   * Slide Down
+   */
+  'slide-down': createAnimation({
+    keyframes: { y: [-100, 0], opacity: [0, 1] },
+    initialStyles: { transform: 'translateY(-100px)', opacity: '0' },
+  }),
+
+  /**
+   * Slide Right
+   */
+  'slide-right': createAnimation({
+    keyframes: { x: [-100, 0], opacity: [0, 1] },
+    initialStyles: { transform: 'translateX(-100px)', opacity: '0' },
+  }),
+
+  /**
+   * Slide Left
+   */
+  'slide-left': createAnimation({
+    keyframes: { x: [100, 0], opacity: [0, 1] },
+    initialStyles: { transform: 'translateX(100px)', opacity: '0' },
+  }),
+
+  /**
+   * Grow
+   */
+  grow: createAnimation({
+    keyframes: { scale: [0, 1], opacity: [0, 1] },
+    initialStyles: { transform: 'scale(0)', opacity: '0' },
+  }),
+
+  /**
+   * Shrink
+   */
+  shrink: createAnimation({
+    keyframes: { scale: [1.25, 1], opacity: [0, 1] },
+    initialStyles: { transform: 'scale(1.25)', opacity: '0' },
+  }),
+
+  /**
+   * Spin
+   */
+  spin: createAnimation({
+    keyframes: { rotate: [900, 0], opacity: [0, 1] },
+    initialStyles: { transform: 'rotate(900deg)', opacity: '0' },
+  }),
 } as const;
