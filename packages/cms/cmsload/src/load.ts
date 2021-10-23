@@ -26,7 +26,7 @@ export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all
   const pageLinks: string[] = [];
 
   const { pageIndex, paginationNext } = listInstance;
-  if (!paginationNext || !pageIndex) return;
+  if (!paginationNext || typeof pageIndex !== 'number') return;
 
   /**
    * Loads the items from the specified URL.
