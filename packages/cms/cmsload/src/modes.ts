@@ -14,7 +14,7 @@ const {
  * @param listInstance The `CMSList` instance.
  * @param loadingText The text to display while loading.
  */
-export const initDefaultMode = async (listInstance: CMSList): Promise<void> => {
+export const initDefaultMode = (listInstance: CMSList): void => {
   const paginationData = preparePagination(listInstance);
   if (!paginationData) return;
 
@@ -38,7 +38,7 @@ export const initDefaultMode = async (listInstance: CMSList): Promise<void> => {
  * @param listInstance The `CMSList` instance.
  * @param loadingText The text to display while loading.
  */
-export const initInfiniteMode = async (listInstance: CMSList): Promise<void> => {
+export const initInfiniteMode = (listInstance: CMSList): void => {
   const paginationData = preparePagination(listInstance);
   if (!paginationData) return;
 

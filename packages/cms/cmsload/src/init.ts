@@ -73,8 +73,8 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
 
       // Init mode
       if (mode === modeValues.loadAll) await initLoadAllMode(listInstance);
-      else if (mode === modeValues.infinite) await initInfiniteMode(listInstance);
-      else await initDefaultMode(listInstance);
+      else if (mode === modeValues.infinite) initInfiniteMode(listInstance);
+      else initDefaultMode(listInstance);
 
       return listInstance;
     })
