@@ -1,90 +1,60 @@
-import { getInstanceIndex } from '$utils/attributes';
-import { getCollectionElements } from '@finsweet/ts-utils';
+import { getCollectionElements, isNotEmpty } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
+import { addItemsToList, getCollectionListWrappers } from 'packages/cms/helpers';
+import { createCMSListInstance } from 'packages/cms/CMSList';
 
-import type { CollectionListElement } from '@finsweet/ts-utils';
+import type { CMSList } from 'packages/cms/CMSList';
 
 // Types
-interface Params {
-  listsSelector?: string;
-  targetSelector?: string;
-}
-
 interface PopulateData {
-  listElements: CollectionListElement[];
-  target: CollectionListElement;
+  lists: CMSList[];
+  target: CMSList;
 }
-
-// Constants destructuring
-const {
-  element: { key: elementKey },
-  lists: { key: listsKey },
-  target: { key: targetKey },
-} = ATTRIBUTES;
 
 /**
  * Inits the attribute.
- *
- * Auto init:
- * @param params The current `<script>` element.
- *
- * Programatic init:
- * @param params.param A global parameter.
  */
-export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
-  let globalListsSelector: string | null | undefined;
-  let globalTargetSelector: string | null | undefined;
-
-  if (params instanceof HTMLScriptElement || params instanceof SVGScriptElement) {
-    globalListsSelector = params.getAttribute(listsKey);
-    globalTargetSelector = params.getAttribute(targetKey);
-  } else if (params) {
-    globalListsSelector = params.listsSelector;
-    globalTargetSelector = params.targetSelector;
-  }
-
-  const lists = document.querySelectorAll(
-    `${getSelector('element', 'list', { operator: 'prefixed' })}${
-      globalListsSelector ? `, ${globalListsSelector}` : ''
-    }`
-  );
-
-  // Collect the combine data
+export const init = async (): Promise<CMSList[]> => {
   let populateData: PopulateData[] = [];
 
-  for (const list of lists) {
-    const collectionListElement = getCollectionElements(list, 'list');
-    if (!collectionListElement) continue;
+  const collectionListWrappers = getCollectionListWrappers([
+    getSelector('element', 'list', { operator: 'prefixed' }),
+    getSelector('element', 'target', { operator: 'prefixed' }),
+  ]);
 
-    const instanceIndex = getInstanceIndex(list, elementKey);
+  // Collect the combine data
+  const listInstances = collectionListWrappers.map(createCMSListInstance).filter(isNotEmpty);
+
+  for (const listInstance of listInstances) {
+    const instanceIndex = listInstance.getInstanceIndex(ATTRIBUTES.element.key);
 
     // Get the target, default to the first list when non-existing
-    const target =
-      getCollectionElements(
-        `${getSelector('element', 'target', { instanceIndex })}${
-          globalTargetSelector ? `, ${globalTargetSelector}` : ''
-        }`,
-        'list'
-      ) || collectionListElement;
+    const targetElement = getCollectionElements(getSelector('element', 'target', { instanceIndex }), 'wrapper');
+    const target = listInstances.find(({ wrapper }) => wrapper === targetElement) || listInstance;
 
     // Make sure the populate data exists
-    const data = (populateData[instanceIndex || 0] ||= { listElements: [], target });
+    const data = (populateData[instanceIndex || 0] ||= { lists: [], target });
 
-    if (collectionListElement !== data.target) data.listElements.push(collectionListElement);
+    if (listInstance !== data.target) data.lists.push(listInstance);
   }
 
   // Filter out invalid instances
-  populateData = populateData.filter((data) => data && data.listElements.length);
+  populateData = populateData.filter((data) => data && data.lists.length);
 
   // Combine the lists
-  for (const { listElements, target } of populateData) {
-    for (const listElement of listElements) {
-      const collectionItems = getCollectionElements(listElement, 'items');
+  const combineLists = await Promise.all(
+    populateData.map(async ({ lists, target }) => {
+      for (const { wrapper, items } of lists) {
+        const elementsToAdd = items.map(({ element }) => element);
 
-      for (const item of collectionItems) target.appendChild(item);
+        await addItemsToList(target, elementsToAdd);
 
-      const collectionWrapper = getCollectionElements(listElement, 'wrapper');
-      collectionWrapper?.remove();
-    }
-  }
+        wrapper?.remove();
+      }
+
+      return target;
+    })
+  );
+
+  return combineLists;
 };

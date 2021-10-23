@@ -18,16 +18,6 @@ export const ATTRIBUTES = {
       target: generateDynamicAttibuteValue('target'),
     },
   },
-
-  /**
-   * Defines a global selector to query lists to combine.
-   */
-  lists: { key: `${ATTRIBUTES_PREFIX}-lists` },
-
-  /**
-   * Defines a global target to query the target list where to combine.
-   */
-  target: { key: `${ATTRIBUTES_PREFIX}-target` },
 } as const;
 
 export const getSelector = generateSelectors(ATTRIBUTES);
