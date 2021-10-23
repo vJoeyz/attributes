@@ -1,14 +1,16 @@
-import { getCollectionElements } from '@finsweet/ts-utils';
+import { getCollectionElements, restartWebflow } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 import { getCollectionListWrappers } from 'packages/cms/helpers';
+import { CMSItem } from 'packages/cms/CMSList';
 
-import type { PaginationButtonElement } from '@finsweet/ts-utils';
+import type { PaginationButtonElement, CollectionItemElement } from '@finsweet/ts-utils';
 import type { CMSList } from 'packages/cms/CMSList';
 
 // Constants
 const {
   element: { key: elementKey },
   loading: { key: loadingKey },
+  resetIx: { key: resetIxKey, values: resetIxValues },
 } = ATTRIBUTES;
 
 /**
@@ -17,12 +19,34 @@ const {
 const domParser = new DOMParser();
 
 /**
+ * Stores new Collection Items in a `CMSList` instance.
+ * @param listInstance The CMSList instance.
+ * @param newItemElements The new Collection Items to store.
+ */
+const addItemsToList = async (listInstance: CMSList, newItemElements: CollectionItemElement[]): Promise<void> => {
+  const { items, list, showNewItems } = listInstance;
+
+  const newItems = newItemElements.map((item) => new CMSItem(item, list));
+
+  items.push(...newItems);
+
+  await listInstance.emitSerial('additems', newItems);
+
+  if (showNewItems) await listInstance.renderItems(newItems);
+};
+
+/**
  * Collects Collection Items from a Collection List's pagination.
  * @param listInstance The CMSList instance.
  * @param action The action to perform:`next` just loads the next page's items, `all` loads all of them.
+ * @param resetIx Defines if Webflow Interactions should be restarted after finishing loading.
  * @returns The URL of the next page to be loaded.
  */
-export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all'): Promise<string | undefined> => {
+export const loadListItems = async (
+  listInstance: CMSList,
+  action: 'next' | 'all',
+  resetIx: boolean
+): Promise<string | undefined> => {
   const pageLinks: string[] = [];
 
   const { pageIndex, paginationNext } = listInstance;
@@ -35,6 +59,7 @@ export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all
   const loadPage = async ({ href }: PaginationButtonElement | { href: string }) => {
     // Make sure the limit hasn't reached
     let nextPageURL: string | undefined;
+    let finishedLoading = false;
 
     try {
       // Fetch the page
@@ -46,10 +71,12 @@ export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all
       const collectionListWrapper = getCollectionListWrappers([], page)[pageIndex];
       if (!collectionListWrapper) return;
 
+      // Store and mount the new items
       const collectionItems = getCollectionElements(collectionListWrapper, 'items');
 
-      // Store and mount the new items
-      listInstance.addItems(collectionItems);
+      addItemsToList(listInstance, collectionItems).then(async () => {
+        if (resetIx && finishedLoading) await restartWebflow();
+      });
 
       // Check for recursion (Mode: "Load All")
       nextPageURL = getCollectionElements(collectionListWrapper, 'next')?.href;
@@ -57,7 +84,11 @@ export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all
       if (nextPageURL && !pageLinks.includes(nextPageURL) && action === 'all') {
         pageLinks.push(nextPageURL);
         await loadPage({ href: nextPageURL });
+
+        return;
       }
+
+      finishedLoading = true;
     } catch (error) {
       return;
     }
@@ -72,7 +103,7 @@ export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all
 /**
  * Prepares the pagination of a `CMSList` instance:
  * - Gets the pagination buttons.
- * - Gets the loading text node, the loading text and the original text, if existing.
+ * - Gets the user's settings.
  * @param listInstance The `CMSList` instance.
  */
 export const preparePagination = (
@@ -85,6 +116,7 @@ export const preparePagination = (
       originalText?: string | null;
       loadingText?: string | null;
       loader: HTMLElement | null;
+      resetIx: boolean;
     }
   | undefined => {
   const { paginationNext, paginationPrevious } = listInstance;
@@ -103,7 +135,9 @@ export const preparePagination = (
   const loader = document.querySelector<HTMLElement>(getSelector('element', 'loader', { instanceIndex }));
   if (loader) loader.style.display = 'none';
 
-  return { listInstance, paginationNext, textNode, originalText, loadingText, loader };
+  const resetIx = listInstance.getAttribute(resetIxKey) === resetIxValues.true;
+
+  return { listInstance, paginationNext, textNode, originalText, loadingText, loader, resetIx };
 };
 
 /**
@@ -119,6 +153,7 @@ export const handleLoadPage = async ({
   originalText,
   loadingText,
   loader,
+  resetIx,
 }: {
   e?: MouseEvent;
 } & ReturnType<typeof preparePagination>): ReturnType<typeof loadListItems> => {
@@ -130,7 +165,7 @@ export const handleLoadPage = async ({
 
   if (textNode && loadingText) textNode.textContent = loadingText;
 
-  const nextPageURL = await loadListItems(listInstance, 'next');
+  const nextPageURL = await loadListItems(listInstance, 'next', resetIx);
 
   if (textNode && originalText) textNode.textContent = originalText || '';
 

@@ -19,7 +19,6 @@ const {
   duration: { key: durationKey },
   easing: { key: easingKey },
   stagger: { key: staggerKey },
-  resetIx: { key: resetIxKey, values: resetIxValues },
 } = ATTRIBUTES;
 
 /**
@@ -68,10 +67,6 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
           stagger: animationStagger ? parseFloat(animationStagger) : undefined,
         },
       };
-
-      // Get reset IX config
-      const resetIx = listInstance.getAttribute(resetIxKey) === resetIxValues.true;
-      listInstance.resetIx = resetIx;
 
       // Get mode config
       const mode = listInstance.getAttribute(modeKey);

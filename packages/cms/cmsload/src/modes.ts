@@ -18,22 +18,14 @@ export const initDefaultMode = async (listInstance: CMSList): Promise<void> => {
   const paginationData = preparePagination(listInstance);
   if (!paginationData) return;
 
-  const { paginationNext, textNode, originalText, loadingText, loader } = paginationData;
+  const { paginationNext } = paginationData;
 
   /**
    * Handles click events on the `Pagination Next` button.
    * @param e The mouse event.
    */
   const handleClicks = async (e: MouseEvent) => {
-    const nextPageURL = await handleLoadPage({
-      e,
-      textNode,
-      originalText,
-      listInstance,
-      loadingText,
-      paginationNext,
-      loader,
-    });
+    const nextPageURL = await handleLoadPage({ e, ...paginationData });
 
     if (!nextPageURL) paginationNext.removeEventListener('click', handleClicks);
   };
@@ -50,11 +42,11 @@ export const initInfiniteMode = async (listInstance: CMSList): Promise<void> => 
   const paginationData = preparePagination(listInstance);
   if (!paginationData) return;
 
-  const { paginationNext, textNode, originalText, loadingText, loader } = paginationData;
+  const { paginationNext } = paginationData;
   const { list } = listInstance;
 
   paginationNext.addEventListener('click', (e) => {
-    handleLoadPage({ e, textNode, originalText, listInstance, loadingText, paginationNext, loader });
+    handleLoadPage({ e, ...paginationData });
   });
 
   const threshold = parseInt(listInstance.getAttribute(thresholdKey) || DEFAULT_INFINITE_THRESHOLD);
@@ -83,14 +75,7 @@ export const initInfiniteMode = async (listInstance: CMSList): Promise<void> => 
       (Math.sign(threshold) < 1 && percentage > threshold && percentage < 0);
 
     if (shouldLoad) {
-      const nextPageURL = await handleLoadPage({
-        textNode,
-        originalText,
-        listInstance,
-        loadingText,
-        paginationNext,
-        loader,
-      });
+      const nextPageURL = await handleLoadPage(paginationData);
 
       if (!nextPageURL) {
         window.removeEventListener('scroll', handleScroll);
@@ -109,7 +94,7 @@ export const initLoadAllMode = async (listInstance: CMSList): Promise<void> => {
   const paginationData = preparePagination(listInstance);
   if (!paginationData) return;
 
-  const { paginationNext, textNode, loadingText, loader } = paginationData;
+  const { paginationNext, textNode, loadingText, loader, resetIx } = paginationData;
 
   const handleClicks = (e: MouseEvent) => {
     e.preventDefault();
@@ -122,7 +107,7 @@ export const initLoadAllMode = async (listInstance: CMSList): Promise<void> => {
 
   if (textNode && loadingText) textNode.textContent = loadingText;
 
-  await loadListItems(listInstance, 'all');
+  await loadListItems(listInstance, 'all', resetIx);
 
   paginationNext.removeEventListener('click', handleClicks);
   paginationNext.remove();

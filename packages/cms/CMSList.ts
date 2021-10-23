@@ -1,5 +1,5 @@
 import Emittery from 'emittery';
-import { CMS_CSS_CLASSES, Debug, getCollectionElements, isVisible, restartWebflow } from '@finsweet/ts-utils';
+import { CMS_CSS_CLASSES, Debug, getCollectionElements, isVisible } from '@finsweet/ts-utils';
 import { getInstanceIndex } from '$utils/attributes';
 
 import type { Animation, AnimationOptions } from './animations';
@@ -65,7 +65,6 @@ export class CMSList extends Emittery<CMSListEvents> {
   public readonly pageIndex?: number;
 
   public showNewItems = true;
-  public resetIx = false;
   public animation?: ItemsAnimation;
 
   /**
@@ -87,31 +86,6 @@ export class CMSList extends Emittery<CMSListEvents> {
 
     // Stores
     this.items = collectionItems.map((element) => new CMSItem(element, this.list));
-  }
-
-  /**
-   * Stores new Collection Items.
-   * @param itemElements The new Collection Items to store.
-   * @param show If set to `true`, the new items will be automatically appended to the list. Defaults to `true`.
-   * @param callback Provides the newly created item instances.
-   */
-  public async addItems(
-    itemElements: CollectionItemElement[],
-    callback?: (items: CMSItem[]) => void | Promise<void>
-  ): Promise<void> {
-    const { items, list, showNewItems, resetIx } = this;
-
-    const newItems = itemElements.map((item) => new CMSItem(item, list));
-
-    items.push(...newItems);
-
-    await callback?.(newItems);
-
-    await this.emitSerial('additems', newItems);
-
-    if (showNewItems) await this.renderItems(newItems);
-
-    if (resetIx) await restartWebflow();
   }
 
   /**
@@ -168,7 +142,9 @@ export class CMSList extends Emittery<CMSListEvents> {
   }
 }
 
-// `CMSItem` Types
+/**
+ * `CMSItem` Types
+ */
 type CMSItemPropValue = string[];
 export interface CMSItemProps {
   [key: string]: CMSItemPropValue;
