@@ -1,4 +1,4 @@
-import { getCollectionElements, restartWebflow } from '@finsweet/ts-utils';
+import { getCollectionElements } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 import { addItemsToList, getCollectionListWrappers } from 'packages/cms/helpers';
 
@@ -9,7 +9,6 @@ import type { CMSList } from 'packages/cms/CMSList';
 const {
   element: { key: elementKey },
   loading: { key: loadingKey },
-  resetIx: { key: resetIxKey, values: resetIxValues },
 } = ATTRIBUTES;
 
 /**
@@ -24,11 +23,7 @@ const domParser = new DOMParser();
  * @param resetIx Defines if Webflow Interactions should be restarted after finishing loading.
  * @returns The URL of the next page to be loaded.
  */
-export const loadListItems = async (
-  listInstance: CMSList,
-  action: 'next' | 'all',
-  resetIx: boolean
-): Promise<string | undefined> => {
+export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all'): Promise<string | undefined> => {
   const pageLinks: string[] = [];
 
   const { pageIndex, paginationNext } = listInstance;
@@ -57,7 +52,7 @@ export const loadListItems = async (
       const collectionItems = getCollectionElements(collectionListWrapper, 'items');
 
       addItemsToList(listInstance, collectionItems).then(async () => {
-        if (resetIx && finishedLoading) await restartWebflow();
+        if (finishedLoading) await listInstance.emit('finishload');
       });
 
       // Check for recursion (Mode: "Load All")
@@ -98,7 +93,6 @@ export const preparePagination = (
       originalText?: string | null;
       loadingText?: string | null;
       loader: HTMLElement | null;
-      resetIx: boolean;
     }
   | undefined => {
   const { paginationNext, paginationPrevious } = listInstance;
@@ -117,9 +111,7 @@ export const preparePagination = (
   const loader = document.querySelector<HTMLElement>(getSelector('element', 'loader', { instanceIndex }));
   if (loader) loader.style.display = 'none';
 
-  const resetIx = listInstance.getAttribute(resetIxKey) === resetIxValues.true;
-
-  return { listInstance, paginationNext, textNode, originalText, loadingText, loader, resetIx };
+  return { listInstance, paginationNext, textNode, originalText, loadingText, loader };
 };
 
 /**
@@ -135,7 +127,6 @@ export const handleLoadPage = async ({
   originalText,
   loadingText,
   loader,
-  resetIx,
 }: {
   e?: MouseEvent;
 } & ReturnType<typeof preparePagination>): ReturnType<typeof loadListItems> => {
@@ -147,7 +138,7 @@ export const handleLoadPage = async ({
 
   if (textNode && loadingText) textNode.textContent = loadingText;
 
-  const nextPageURL = await loadListItems(listInstance, 'next', resetIx);
+  const nextPageURL = await loadListItems(listInstance, 'next');
 
   if (textNode && originalText) textNode.textContent = originalText || '';
 

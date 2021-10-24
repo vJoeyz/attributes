@@ -25,6 +25,8 @@ export const assessFilter = (
     grouppedKeys.some((grouppedKey) => filtersValidity.find(([filterKey, valid]) => grouppedKey === filterKey && valid))
   );
 
+  console.log({ item, filtersValidity, grouppedFiltersValid });
+
   const nonGrouppedFiltersValid = filtersValidity
     .filter(([filterKey]) => grouppedFilterKeys.every((filterKeys) => !filterKeys.includes(filterKey)))
     .every(([, valid]) => valid);

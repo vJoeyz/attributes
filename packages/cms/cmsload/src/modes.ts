@@ -94,7 +94,7 @@ export const initLoadAllMode = async (listInstance: CMSList): Promise<void> => {
   const paginationData = preparePagination(listInstance);
   if (!paginationData) return;
 
-  const { paginationNext, textNode, loadingText, loader, resetIx } = paginationData;
+  const { paginationNext, textNode, loadingText, loader } = paginationData;
 
   const handleClicks = (e: MouseEvent) => {
     e.preventDefault();
@@ -107,7 +107,7 @@ export const initLoadAllMode = async (listInstance: CMSList): Promise<void> => {
 
   if (textNode && loadingText) textNode.textContent = loadingText;
 
-  await loadListItems(listInstance, 'all', resetIx);
+  await loadListItems(listInstance, 'all');
 
   paginationNext.removeEventListener('click', handleClicks);
   paginationNext.remove();

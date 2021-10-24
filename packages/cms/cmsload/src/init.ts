@@ -1,4 +1,4 @@
-import { isKeyOf, isNotEmpty } from '@finsweet/ts-utils';
+import { isKeyOf, isNotEmpty, restartWebflow } from '@finsweet/ts-utils';
 import { ANIMATIONS, EASINGS } from 'packages/cms/animations';
 import { CMSList, createCMSListInstance } from 'packages/cms/CMSList';
 import { getCollectionListWrappers } from 'packages/cms/helpers';
@@ -19,6 +19,7 @@ const {
   duration: { key: durationKey },
   easing: { key: easingKey },
   stagger: { key: staggerKey },
+  resetIx: { key: resetIxKey, values: resetIxValues },
 } = ATTRIBUTES;
 
 /**
@@ -67,6 +68,15 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
           stagger: animationStagger ? parseFloat(animationStagger) : undefined,
         },
       };
+
+      // Get resetIx config
+      const resetIx = listInstance.getAttribute(resetIxKey) === resetIxValues.true;
+
+      if (resetIx) {
+        listInstance.on('finishload', async () => {
+          await restartWebflow();
+        });
+      }
 
       // Get mode config
       const mode = listInstance.getAttribute(modeKey);

@@ -22,9 +22,9 @@ export const init = async (): Promise<CMSList[]> => {
     getSelector('element', 'target', { operator: 'prefixed' }),
   ]);
 
-  // Collect the combine data
   const listInstances = collectionListWrappers.map(createCMSListInstance).filter(isNotEmpty);
 
+  // Collect the combine data
   for (const listInstance of listInstances) {
     const instanceIndex = listInstance.getInstanceIndex(ATTRIBUTES.element.key);
 
@@ -49,7 +49,7 @@ export const init = async (): Promise<CMSList[]> => {
 
         await addItemsToList(target, elementsToAdd);
 
-        wrapper?.remove();
+        wrapper.remove();
       }
 
       return target;

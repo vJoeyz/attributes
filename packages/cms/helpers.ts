@@ -53,7 +53,9 @@ export const addItemsToList = async (
 
   items.push(...newItems);
 
-  await listInstance.emitSerial('additems', newItems);
+  await listInstance.emitSerial('beforeadditems', newItems);
 
   if (showNewItems) await listInstance.renderItems(newItems);
+
+  await listInstance.emitSerial('afteradditems', newItems);
 };

@@ -49,8 +49,11 @@ interface ItemsAnimation {
 }
 
 interface CMSListEvents {
-  additems: CMSItem[];
-  nestitems: CMSItem[];
+  beforeadditems: CMSItem[];
+  afteradditems: CMSItem[];
+  nestexistingitems: CMSItem[];
+  nestnewitems: CMSItem[];
+  finishload: undefined;
 }
 
 /**

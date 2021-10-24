@@ -124,7 +124,9 @@ export class CMSFilters {
       this.applyFilters(items, false);
     };
 
-    listInstance.on('additems', (newItems) => {
+    listInstance.on('nestexistingitems', handleItems);
+
+    listInstance.on('afteradditems', (newItems) => {
       handleItems(newItems);
 
       if (!filtersActive) {
@@ -132,8 +134,6 @@ export class CMSFilters {
         this.updateResults();
       }
     });
-
-    listInstance.on('nestitems', handleItems);
   }
 
   /**
