@@ -46,8 +46,8 @@ export const populateSliderFromLists = ({
     // Create slides
     createSlidesFromItems(items);
 
-    // Remove the Collection List Wrapper
-    wrapper.remove();
+    // Hide the Collection List Wrapper
+    wrapper.style.display = 'none';
   }
 
   return createSlidesFromItems;
