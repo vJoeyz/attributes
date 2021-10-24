@@ -10,5 +10,5 @@ const { preventsLoad } = assessScript(currentScript);
 if (preventsLoad) window.fsAttributes['cmstabs'] = { init };
 else {
   window.Webflow ||= [];
-  window.Webflow.push(() => init(currentScript));
+  window.Webflow.push(init);
 }

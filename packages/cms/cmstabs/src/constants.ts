@@ -22,16 +22,6 @@ export const ATTRIBUTES = {
       tabLink: 'tab-link',
     },
   },
-
-  /**
-   * Defines a global selector to query lists to include in the tabs.
-   */
-  lists: { key: `${ATTRIBUTES_PREFIX}-lists` },
-
-  /**
-   * Defines a global target where to include the lists.
-   */
-  target: { key: `${ATTRIBUTES_PREFIX}-target` },
 } as const;
 
 export const getSelector = generateSelectors(ATTRIBUTES);
