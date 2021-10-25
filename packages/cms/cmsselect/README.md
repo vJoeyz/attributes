@@ -1,3 +1,3 @@
-# `populate` Attribute
+# `cmsselect` Attribute
 
 Populate elements based on a source.

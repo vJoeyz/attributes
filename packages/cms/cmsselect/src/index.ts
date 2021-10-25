@@ -9,7 +9,7 @@ initAttributes();
 const { currentScript } = document;
 const { preventsLoad } = assessScript(currentScript);
 
-if (preventsLoad) window.fsAttributes['populate'] = { init };
+if (preventsLoad) window.fsAttributes['cmsselect'] = { init };
 else {
   window.Webflow ||= [];
   window.Webflow.push(init);

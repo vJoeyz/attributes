@@ -2,7 +2,7 @@
 import esbuild from 'esbuild';
 import dotenv from 'dotenv';
 
-dotenv.config({ path: '../../.env' });
+dotenv.config({ path: '../../../.env' });
 
 const production = process.env.NODE_ENV === 'production';
 
@@ -21,5 +21,5 @@ const defaultSettings = {
 esbuild.build({
   ...defaultSettings,
   entryPoints: ['src/index.ts'],
-  outfile: `${production ? '' : process.env.CUSTOM_BUILD_DIRECTORY || ''}/populate.js`,
+  outfile: `${production ? '' : process.env.CUSTOM_BUILD_DIRECTORY || ''}/cmsselect.js`,
 });

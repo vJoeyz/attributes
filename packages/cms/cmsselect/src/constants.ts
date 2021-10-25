@@ -1,6 +1,6 @@
 import { generateDynamicAttibuteValue, generateSelectors } from '$utils/attributes';
 
-const ATTRIBUTES_PREFIX = 'fs-populate';
+const ATTRIBUTES_PREFIX = 'fs-cmsselect';
 
 export const ATTRIBUTES = {
   element: {
