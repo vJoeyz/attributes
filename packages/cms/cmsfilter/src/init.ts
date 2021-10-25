@@ -1,6 +1,5 @@
 import { ATTRIBUTES, DEFAULT_ANIMATION_DURATION, getSelector } from './constants';
-import { FORM_CSS_CLASSES, isKeyOf, isNotEmpty } from '@finsweet/ts-utils';
-import { getCollectionListWrappers } from 'packages/cms/helpers';
+import { FORM_CSS_CLASSES, isKeyOf, isNotEmpty, getCollectionListWrappers } from '@finsweet/ts-utils';
 import { importAnimations, importCMSCore } from '$utils/import';
 import { CMSFilters } from './CMSFilter';
 

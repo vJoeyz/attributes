@@ -1,6 +1,5 @@
-import { isNotEmpty, restartWebflow, SLIDER_CSS_CLASSES } from '@finsweet/ts-utils';
+import { isNotEmpty, restartWebflow, SLIDER_CSS_CLASSES, getCollectionListWrappers } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
-import { getCollectionListWrappers } from 'packages/cms/helpers';
 import { populateSliderFromLists } from './populate';
 import { mutateSliderMask } from './helpers';
 import { importCMSCore } from '$utils/import';

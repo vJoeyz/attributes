@@ -1,6 +1,5 @@
 import { ATTRIBUTES, getSelector } from './constants';
-import { getCollectionListWrappers } from 'packages/cms/helpers';
-import { restartWebflow, TABS_CSS_CLASSES, isNotEmpty } from '@finsweet/ts-utils';
+import { restartWebflow, TABS_CSS_CLASSES, isNotEmpty, getCollectionListWrappers } from '@finsweet/ts-utils';
 import { populateTabsFromLists } from './populate';
 import { importCMSCore } from '$utils/import';
 

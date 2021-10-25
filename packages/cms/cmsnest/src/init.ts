@@ -1,6 +1,5 @@
 import { importCMSCore } from '$utils/import';
-import { isNotEmpty } from '@finsweet/ts-utils';
-import { getCollectionListWrappers } from 'packages/cms/helpers';
+import { isNotEmpty, getCollectionListWrappers } from '@finsweet/ts-utils';
 import { getSelector } from './constants';
 import { getCollectionsToNest, populateNestedCollections } from './nest';
 

@@ -1,6 +1,5 @@
-import { getCollectionListWrappers } from 'packages/cms/helpers';
 import { ATTRIBUTES, getSelector } from './constants';
-import { cloneNode, getCollectionElements } from '@finsweet/ts-utils';
+import { cloneNode, getCollectionElements, getCollectionListWrappers } from '@finsweet/ts-utils';
 
 import type { CollectionItemElement } from '@finsweet/ts-utils';
 import type { CMSItem, CMSList } from 'packages/cms/cmscore/src';

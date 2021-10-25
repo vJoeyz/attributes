@@ -42,21 +42,21 @@
   "homepage": "https://github.com/finsweet/attributes#readme",
   "devDependencies": {
     "@finsweet/eslint-config": "^1.1.0",
-    "@typescript-eslint/eslint-plugin": "^5.0.0",
-    "@typescript-eslint/parser": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.1.0",
+    "@typescript-eslint/parser": "^5.1.0",
     "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
-    "esbuild": "^0.13.8",
-    "eslint": "^8.0.1",
+    "esbuild": "^0.13.9",
+    "eslint": "^8.1.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.4.1",
     "typescript": "^4.4.4"
   },
   "dependencies": {
-    "@finsweet/ts-utils": "^0.18.7",
+    "@finsweet/ts-utils": "^0.19.0",
     "emittery": "^0.10.0",
     "just-debounce": "^1.1.0",
-    "just-throttle": "^2.3.1"
+    "just-throttle": "^3.0.0"
   }
 }

@@ -1,6 +1,5 @@
-import { getObjectKeys, isKeyOf, isNotEmpty, restartWebflow } from '@finsweet/ts-utils';
+import { getObjectKeys, isKeyOf, isNotEmpty, restartWebflow, getCollectionListWrappers } from '@finsweet/ts-utils';
 import { initDefaultMode, initInfiniteMode, initLoadAllMode } from './modes';
-import { getCollectionListWrappers } from 'packages/cms/helpers';
 import { ATTRIBUTES, getSelector } from './constants';
 import { importAnimations, importCMSCore } from '$utils/import';
 

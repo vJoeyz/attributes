@@ -1,6 +1,5 @@
-import { getCollectionElements } from '@finsweet/ts-utils';
+import { getCollectionElements, getCollectionListWrappers } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
-import { getCollectionListWrappers } from 'packages/cms/helpers';
 import { importCMSCore } from '$utils/import';
 
 import type { PaginationButtonElement } from '@finsweet/ts-utils';
