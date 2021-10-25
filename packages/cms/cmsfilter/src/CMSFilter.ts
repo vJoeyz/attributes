@@ -2,14 +2,19 @@ import debounce from 'just-debounce';
 import { assessFilter } from './filter';
 import { setQueryParams } from './query';
 import { handleFilterInput } from './input';
-import { MATCHES, MODES } from './constants';
-import { ANIMATIONS } from 'packages/cms/animations';
+import { ATTRIBUTES, MATCHES, MODES } from './constants';
+import { collectItemsProps } from 'packages/cms/helpers';
 import { clearFormField, isFormField } from '@finsweet/ts-utils';
-import { collectFiltersData, collectFiltersElements, collectItemsProps } from './collect';
+import { collectFiltersData, collectFiltersElements } from './collect';
 
 import type { CMSItem, CMSList } from 'packages/cms/CMSList';
 import type { AnimationOptions } from 'packages/cms/animations';
 import type { FormBlockElement, FormField } from '@finsweet/ts-utils';
+
+// Constants
+const {
+  field: { key: fieldKey },
+} = ATTRIBUTES;
 
 // Types
 type FilterMatch = typeof MATCHES[number];
@@ -53,7 +58,6 @@ export class CMSFilters {
 
   private readonly showQueryParams;
   private readonly scrollTop;
-  private readonly animationOptions;
 
   private emptyState = false;
   private filtersActive = false;
@@ -86,7 +90,6 @@ export class CMSFilters {
 
     this.showQueryParams = showQueryParams;
     this.scrollTop = scrollTop;
-    this.animationOptions = animationOptions;
 
     this.resultsCount = listInstance.items.filter(({ visible }) => visible).length;
     this.updateResults();
@@ -95,7 +98,7 @@ export class CMSFilters {
     this.filtersData = filtersData;
     this.grouppedFilterKeys = grouppedFilterKeys;
 
-    collectItemsProps(listInstance.items);
+    collectItemsProps(listInstance.items, fieldKey);
 
     this.listenEvents();
   }
@@ -120,7 +123,7 @@ export class CMSFilters {
 
     // Items mutations
     const handleItems = (items: CMSItem[]) => {
-      collectItemsProps(items);
+      collectItemsProps(items, fieldKey);
       this.applyFilters(items, false);
     };
 
@@ -196,16 +199,8 @@ export class CMSFilters {
    * @param animateList When set to `true`, the list will fade out and fade in during the filtering process.
    */
   public async applyFilters(newItems?: CMSItem[], animateList = true): Promise<void> {
-    const {
-      listInstance,
-      filtersValues,
-      grouppedFilterKeys,
-      filtersActive,
-      emptyElement,
-      emptyState,
-      scrollTop,
-      animationOptions,
-    } = this;
+    const { listInstance, filtersValues, grouppedFilterKeys, filtersActive, emptyElement, emptyState, scrollTop } =
+      this;
 
     const filtersExist = !!filtersValues.size;
 
@@ -217,15 +212,12 @@ export class CMSFilters {
     const filtersAreEmpty = filters.every(([, { values }]) => !values.size);
 
     const { wrapper, list } = listInstance;
-    const {
-      fade: [fadeIn, fadeOut],
-    } = ANIMATIONS;
 
     // Scroll Top
     if (scrollTop) this.scrollToTop();
 
     // Start populating
-    if (animateList) await fadeOut(wrapper, animationOptions);
+    if (animateList) await listInstance.displayList(false);
 
     // Show / hide the items based on their match
     const itemsToShow: CMSItem[] = [];
@@ -261,7 +253,7 @@ export class CMSFilters {
     if (!newItems) this.resultsCount = itemsToShow.length;
     this.updateResults();
 
-    if (animateList) await fadeIn(wrapper, animationOptions);
+    if (animateList) await listInstance.displayList();
 
     // Scroll Top
     if (scrollTop) this.scrollToTop();

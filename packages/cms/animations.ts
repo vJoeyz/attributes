@@ -9,7 +9,8 @@ type AnimationBase<T> = (element: HTMLElement | HTMLElement[], options?: T & Ani
 type AnimationIn = AnimationBase<{ target?: Element; anchor?: Element }>;
 type AnimationOut = AnimationBase<{ remove?: boolean }>;
 
-export type Animation = [AnimationIn, AnimationOut];
+type AnimationFunctions = { animateIn: AnimationIn; animateOut: AnimationOut };
+export type Animation = AnimationFunctions & { options?: AnimationOptions };
 
 interface AnimationProps {
   keyframes: MotionKeyframesDefinition;
@@ -26,7 +27,7 @@ export const EASINGS = ['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out'] 
  * @param props The animaiton props.
  * @returns A new `in` and `out` Animation functions.
  */
-const createAnimation = (props: AnimationProps): Animation => {
+const createAnimation = (props: AnimationProps): AnimationFunctions => {
   /**
    * In animation.
    * @param elements The element to animate.
@@ -35,7 +36,7 @@ const createAnimation = (props: AnimationProps): Animation => {
    * @param options.animationOptions The main options of the animation. Reference: {@link [Motion One](https://motion.dev/dom/animate#options)}.
    * @returns An awaitable promise.
    */
-  const animationIn: AnimationIn = async (elements, options = {}) => {
+  const animateIn: AnimationIn = async (elements, options = {}) => {
     const { target, anchor, stagger, ...animationOptions } = options;
     const { keyframes, initialStyles } = props;
 
@@ -64,7 +65,7 @@ const createAnimation = (props: AnimationProps): Animation => {
    * @param options.animationOptions The main options of the animation. Reference: {@link [Motion One](https://motion.dev/dom/animate#options)}.
    * @returns An awaitable promise.
    */
-  const animationOut: AnimationOut = async (elements, options = {}) => {
+  const animateOut: AnimationOut = async (elements, options = {}) => {
     const { remove, stagger, ...animationOptions } = options;
     const { keyframes } = props;
 
@@ -86,14 +87,14 @@ const createAnimation = (props: AnimationProps): Animation => {
     }
   };
 
-  return [animationIn, animationOut];
+  return { animateIn, animateOut };
 };
 
 /**
  * Contains all animation functions.
  */
 export const ANIMATIONS: {
-  readonly [key: string]: Animation;
+  readonly [key: string]: AnimationFunctions;
 } = {
   /**
    * Fade

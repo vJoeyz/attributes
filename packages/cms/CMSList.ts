@@ -2,7 +2,7 @@ import Emittery from 'emittery';
 import { CMS_CSS_CLASSES, Debug, getCollectionElements, isVisible } from '@finsweet/ts-utils';
 import { getInstanceIndex } from '$utils/attributes';
 
-import type { Animation, AnimationOptions } from './animations';
+import type { Animation } from './animations';
 import type {
   CollectionListWrapperElement,
   CollectionListElement,
@@ -42,12 +42,6 @@ export const createCMSListInstance = (referenceElement: HTMLElement): CMSList | 
 };
 
 // Types
-interface ItemsAnimation {
-  animateIn: Animation[0];
-  animateOut: Animation[1];
-  options?: AnimationOptions;
-}
-
 interface CMSListEvents {
   beforeadditems: CMSItem[];
   afteradditems: CMSItem[];
@@ -64,11 +58,12 @@ export class CMSList extends Emittery<CMSListEvents> {
   public readonly paginationNext?: PaginationButtonElement | null;
   public readonly paginationPrevious?: PaginationButtonElement | null;
   public readonly itemsPerPage: number;
-  public readonly items: CMSItem[];
   public readonly pageIndex?: number;
 
+  public items: CMSItem[];
   public showNewItems = true;
-  public animation?: ItemsAnimation;
+  public listAnimation?: Animation;
+  public itemsAnimation?: Animation;
 
   /**
    * @param wrapper A `Collection List Wrapper` element.
@@ -93,11 +88,13 @@ export class CMSList extends Emittery<CMSListEvents> {
 
   /**
    * Shows/hides an item or array of items.
+   *
    * @param items The items to show/hide.
    * @param show `true` to show, `false` to hide. `true` by default.
+   * @param animate Defines if the items should be animated when rendering them.
    */
   public async renderItems(items: CMSItem | CMSItem[], show = true, animate = true): Promise<void> {
-    const { animation, list } = this;
+    const { itemsAnimation: animation, list } = this;
 
     if (!Array.isArray(items)) items = [items];
 
@@ -126,6 +123,25 @@ export class CMSList extends Emittery<CMSListEvents> {
   }
 
   /**
+   * Shows / hides the list.
+   * If the `listAnimation` exists, it uses that animation.
+   *
+   * @param show Defaults to `true`.
+   *
+   * @param animate Defines if the list should be animated (`fadeOut` + `fadeIn`) during the action.
+   * Defaults to `true`.
+   */
+  public async displayList(show = true, animate = true): Promise<void> {
+    const { wrapper, listAnimation } = this;
+
+    if (animate && listAnimation) {
+      const { animateIn, animateOut, options } = listAnimation;
+
+      await (show ? animateIn : animateOut)(wrapper, options);
+    } else wrapper.style.display = show ? '' : 'none';
+  }
+
+  /**
    * @returns An attribute value, if exists on the `Collection List Wrapper` or the `Collection List`.
    * @param attributeKey The key of the attribute
    */
@@ -148,7 +164,10 @@ export class CMSList extends Emittery<CMSListEvents> {
 /**
  * `CMSItem` Types
  */
-type CMSItemPropValue = string[];
+interface CMSItemPropValue {
+  values: string[];
+  type?: string | null;
+}
 export interface CMSItemProps {
   [key: string]: CMSItemPropValue;
 }

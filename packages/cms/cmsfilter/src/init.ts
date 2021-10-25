@@ -2,7 +2,7 @@ import { ATTRIBUTES, DEFAULT_ANIMATION_DURATION, getSelector } from './constants
 import { FORM_CSS_CLASSES, isKeyOf, isNotEmpty } from '@finsweet/ts-utils';
 import { getCollectionListWrappers } from 'packages/cms/helpers';
 import { createCMSListInstance } from 'packages/cms/CMSList';
-import { EASINGS } from 'packages/cms/animations';
+import { ANIMATIONS, EASINGS } from 'packages/cms/animations';
 import { CMSFilters } from './CMSFilter';
 
 import type { CMSList } from 'packages/cms/CMSList';
@@ -79,12 +79,18 @@ const initFilters = (listInstance: CMSList) => {
   const showQueryParams = listInstance.getAttribute(showQueryKey) === showQueryValues.true;
 
   // Animation
-  const animationDuration = listInstance.getAttribute(durationKey);
-  const animationEasing = listInstance.getAttribute(easingKey);
-  const animationOptions: AnimationOptions = {
-    easing: isKeyOf(animationEasing, EASINGS) ? animationEasing : undefined,
-    duration: animationDuration ? parseFloat(animationDuration) / 200 : DEFAULT_ANIMATION_DURATION,
-  };
+  if (!listInstance.listAnimation) {
+    const animationFunctions = ANIMATIONS.fade;
+
+    const animationDuration = listInstance.getAttribute(durationKey);
+    const animationEasing = listInstance.getAttribute(easingKey);
+    const options: AnimationOptions = {
+      easing: isKeyOf(animationEasing, EASINGS) ? animationEasing : undefined,
+      duration: animationDuration ? parseFloat(animationDuration) / 200 : DEFAULT_ANIMATION_DURATION,
+    };
+
+    listInstance.listAnimation = { ...animationFunctions, options };
+  }
 
   // Scroll Top
   const scrollTop = listInstance.getAttribute(scrollTopKey) === scrollTopValues.true;
@@ -95,7 +101,6 @@ const initFilters = (listInstance: CMSList) => {
     resultsElement,
     showQueryParams,
     scrollTop,
-    animationOptions,
   });
 
   return filtersInstance;
