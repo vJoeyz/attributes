@@ -1,7 +1,6 @@
 import { ATTRIBUTES, getSelector, MATCHES, MODES } from './constants';
 import { extractCommaSeparatedValues, FORM_CSS_CLASSES, isFormField, isKeyOf } from '@finsweet/ts-utils';
 
-import type { CMSItem, CMSItemProps } from 'packages/cms/CMSList';
 import type { FormBlockElement } from '@finsweet/ts-utils';
 import type { FiltersData, GrouppedFilterKeys, ResetButtonsData } from './CMSFilter';
 
@@ -91,29 +90,4 @@ export const collectFiltersData = (form: HTMLFormElement): [FiltersData, Grouppe
   }
 
   return [filtersData, grouppedFilterKeys];
-};
-
-/**
- * Collects the props of `CMSItems` and stores them in their instance.
- * @param items The `CMSItems` to collect.
- * @returns Nothing, it mutates the passed `CMSItem` instances.
- */
-export const collectItemsProps = (items: CMSItem[]): void => {
-  for (const item of items) {
-    const elements = [...item.element.querySelectorAll<HTMLElement>(getSelector('field'))];
-
-    const itemProps = elements.reduce<CMSItemProps>((props, element) => {
-      const filterKey = element.getAttribute(fieldKey);
-      const { textContent } = element;
-
-      if (!filterKey || !textContent) return props;
-
-      props[filterKey] ||= [];
-      props[filterKey].push(textContent);
-
-      return props;
-    }, {});
-
-    item.props = itemProps;
-  }
 };
