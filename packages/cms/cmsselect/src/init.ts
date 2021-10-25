@@ -1,5 +1,5 @@
 import { getSelector } from './constants';
-import { populateSelectElement } from './select';
+import { populateSelectElement } from './populate';
 
 /**
  * Inits the attribute.
