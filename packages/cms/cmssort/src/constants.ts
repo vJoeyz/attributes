@@ -1,0 +1,63 @@
+import { generateDynamicAttibuteValue, generateSelectors } from '$utils/attributes';
+
+const ATTRIBUTES_PREFIX = 'fs-cmssort';
+
+export const ATTRIBUTES = {
+  element: {
+    key: `${ATTRIBUTES_PREFIX}-element`,
+    values: {
+      /**
+       * Defines a list to be combined into the target.
+       */
+      list: generateDynamicAttibuteValue('list'),
+
+      /**
+       * Defines the `Previous` placeholder target.
+       */
+      trigger: generateDynamicAttibuteValue('trigger'),
+    },
+  },
+
+  /**
+   * Defines a field key to sort items.
+   */
+  field: { key: `${ATTRIBUTES_PREFIX}-field` },
+
+  /**
+   * Defines the type of the values to sort.
+   */
+  type: {
+    key: `${ATTRIBUTES_PREFIX}-type`,
+    values: {
+      date: 'date',
+    },
+  },
+
+  /**
+   * Defines the easing function of the list animation.
+   * Allowed values are defined in {@link "packages/animations"}.
+   */
+  easing: { key: `${ATTRIBUTES_PREFIX}-easing` },
+
+  /**
+   * Defines the duration of the list animation.
+   */
+  duration: { key: `${ATTRIBUTES_PREFIX}-duration` },
+
+  /**
+   * Defines the CSS Class for the `asc` state.
+   */
+  ascClass: { key: `${ATTRIBUTES_PREFIX}-asc` },
+
+  /**
+   * Defines the CSS Class for the `desc` state.
+   */
+  descClass: { key: `${ATTRIBUTES_PREFIX}-desc` },
+} as const;
+
+export const getSelector = generateSelectors(ATTRIBUTES);
+
+export const DEFAULT_ANIMATION_DURATION = 0.1;
+
+export const DEFAULT_ASC_CLASS = `${ATTRIBUTES_PREFIX}_asc`;
+export const DEFAULT_DESC_CLASS = `${ATTRIBUTES_PREFIX}_desc`;
