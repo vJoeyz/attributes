@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-untransform",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Untransforms elements.",
   "main": "untransform.js",
   "files": [

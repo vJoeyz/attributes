@@ -1,5 +1,9 @@
 # `animation` Changelog
 
+## [v1.0.2] 25th October 2021
+
+- Added `initAttributes` call to make sure `window.fsAttributes` exists.
+
 ## [v1.0.1] 25th October 2021
 
 - Added `functions.js` in the `package.json`'s `files`.

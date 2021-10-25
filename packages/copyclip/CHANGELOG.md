@@ -1,5 +1,9 @@
 # `copyclip` Changelog
 
+## [v1.1.10] 25th October 2021
+
+- Added `initAttributes` call to make sure `window.fsAttributes` exists.
+
 ## [v1.1.9] 8th October 2021
 
 - Published production files.

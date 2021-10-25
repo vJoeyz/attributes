@@ -3,10 +3,12 @@ import { ATTRIBUTES } from './constants';
 import { GlobalAttributeParams } from './types';
 
 /**
- * Make sure the window object is defined.
+ * Makes sure the window object is defined.
  */
-window.fsAttributes ||= {
-  cms: {},
+export const initAttributes = () => {
+  window.fsAttributes ||= {
+    cms: {},
+  };
 };
 
 /**

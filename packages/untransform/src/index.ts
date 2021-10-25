@@ -1,9 +1,11 @@
-import { assessScript } from '$utils/attributes';
+import { assessScript, initAttributes } from '$utils/attributes';
 import { init } from './init';
 
 /**
  * Init
  */
+initAttributes();
+
 const { currentScript } = document;
 const { preventsLoad } = assessScript(currentScript);
 

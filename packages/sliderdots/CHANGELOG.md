@@ -1,5 +1,9 @@
 # `sliderdots` Changelog
 
+## [v1.1.2] 25th October 2021
+
+- Added `initAttributes` call to make sure `window.fsAttributes` exists.
+
 ## [v1.1.1] 16th October 2021
 
 - Updated `examples.json`.

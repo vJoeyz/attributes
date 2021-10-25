@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-linkblockedit",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Editor friendly link blocks.",
   "main": "linkblockedit.js",
   "files": [

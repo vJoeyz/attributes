@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-populate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Populate elements based on a source.",
   "main": "populate.js",
   "files": [

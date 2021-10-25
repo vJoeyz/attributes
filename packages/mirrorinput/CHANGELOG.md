@@ -1,5 +1,9 @@
 # `mirrorinput` Changelog
 
+## [v1.0.3] 25th October 2021
+
+- Added `initAttributes` call to make sure `window.fsAttributes` exists.
+
 ## [v1.0.2] 8th October 2021
 
 - Updated `examples.json`.

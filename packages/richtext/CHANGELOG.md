@@ -1,5 +1,9 @@
 # `richtext` Changelog
 
+## [v1.1.2] 25th October 2021
+
+- Added `initAttributes` call to make sure `window.fsAttributes` exists.
+
 ## [v1.1.0] 15th October 2021
 
 - Added support for situations like `<div class="rich-text-tip">**Pro Tip:** Test.</div>`, where `Pro Tip:` is set in bold, thus becoming the following rendered HTML: `<div class="rich-text-tip"><strong>Pro Tip:</strong> Test.</div>`.
