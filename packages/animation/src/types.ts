@@ -25,3 +25,11 @@ export type AnimationsObject = Readonly<
 >;
 
 export type Easings = typeof easings;
+
+export type AnimationImport = Promise<
+  | {
+      animations: AnimationsObject;
+      easings: Easings;
+    }
+  | undefined
+>;
