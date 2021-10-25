@@ -1,4 +1,4 @@
-import { cloneNode, isNotEmpty } from '@finsweet/ts-utils';
+import { isNotEmpty } from '@finsweet/ts-utils';
 import { getSelector } from './constants';
 import { getCollectionListWrappers } from 'packages/cms/helpers';
 import { createCMSListInstance } from 'packages/cms/CMSList';
@@ -44,6 +44,8 @@ export const init = async (): Promise<void> => {
     const handleItems = (items: CMSItem[]) => {
       if (hasCompleted()) {
         listInstance.off('afteradditems', handleItems);
+        listInstance.wrapper.remove();
+
         return;
       }
 
@@ -55,7 +57,7 @@ export const init = async (): Promise<void> => {
 
         if (previousItem && !previousPlaceholderFilled) {
           previousEmptyElement?.remove();
-          previousPlaceholder.appendChild(cloneNode(previousItem.element));
+          previousPlaceholder.appendChild(previousItem.element);
           previousPlaceholderFilled = true;
         } else if (previousEmptyElement) previousPlaceholder.appendChild(previousEmptyElement);
       }
@@ -65,7 +67,7 @@ export const init = async (): Promise<void> => {
 
         if (nextItem && !nextPlaceholderFilled) {
           nextEmptyElement?.remove();
-          nextPlaceholder.appendChild(cloneNode(nextItem.element));
+          nextPlaceholder.appendChild(nextItem.element);
           nextPlaceholderFilled = true;
         } else if (nextEmptyElement) nextPlaceholder.appendChild(nextEmptyElement);
       }
@@ -74,5 +76,7 @@ export const init = async (): Promise<void> => {
     listInstance.on('afteradditems', handleItems);
 
     handleItems(listInstance.items);
+
+    listInstance.wrapper.style.display = 'none';
   }
 };
