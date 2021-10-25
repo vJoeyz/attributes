@@ -53,8 +53,10 @@ const checkFilterValidity = (
   if (isKeyOf(mode, RANGE_MODES)) {
     const [from, to] = filterValues;
 
-    const [propValue] = item.props[filterKey] || [];
+    const { values } = item.props[filterKey] || {};
+    if (!values) return false;
 
+    const [propValue] = values;
     if (!propValue) return false;
 
     const numberValue = parseFloat(propValue);
@@ -80,7 +82,7 @@ const checkFilterValidity = (
   }
 
   return filterValues[match === 'all' ? 'every' : 'some']((filterValue) => {
-    const hasValue = item.props[filterKey]?.some((propValue) => {
+    const hasValue = item.props[filterKey]?.values.some((propValue) => {
       if (type === 'date') return filterValue === dateFormatter.format(new Date(propValue));
 
       if (type && ['text', 'number', 'email', 'password', 'tel', 'textarea'].includes(type)) {
