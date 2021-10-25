@@ -1,19 +1,15 @@
 import { getObjectKeys, isKeyOf, isNotEmpty, restartWebflow } from '@finsweet/ts-utils';
 import { initDefaultMode, initInfiniteMode, initLoadAllMode } from './modes';
-import { CMSList, createCMSListInstance } from 'packages/cms/CMSList';
 import { getCollectionListWrappers } from 'packages/cms/helpers';
 import { ATTRIBUTES, getSelector } from './constants';
-import { importAnimations } from '$utils/import';
+import { importAnimations, importCMSCore } from '$utils/import';
+
+import type { CMSList } from 'packages/cms/cmscore/src';
 
 // Types
-interface Params {
-  listsSelector?: string;
-  loadAll?: boolean;
-}
 
 // Constants
 const {
-  lists: { key: listsKey },
   mode: { key: modeKey, values: modeValues },
   animation: { key: animationKey },
   duration: { key: durationKey },
@@ -24,29 +20,15 @@ const {
 
 /**
  * Inits the attribute.
- *
- * Auto init:
- * @param params The current `<script>` element.
- *
- * Programatic init:
- * @param params.param A global parameter.
  */
-export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Promise<CMSList[]> => {
-  let globalListsSelector: string | null | undefined;
-
-  if (params instanceof HTMLScriptElement || params instanceof SVGScriptElement) {
-    globalListsSelector = params.getAttribute(listsKey);
-  } else if (params) {
-    globalListsSelector = params.listsSelector;
-  }
+export const init = async (): Promise<CMSList[]> => {
+  const cmsCore = await importCMSCore();
+  if (!cmsCore) return [];
 
   // Create the list instances
-  const collectionListWrappers = getCollectionListWrappers([
-    getSelector('element', 'list', { operator: 'prefixed' }),
-    globalListsSelector,
-  ]);
+  const collectionListWrappers = getCollectionListWrappers([getSelector('element', 'list', { operator: 'prefixed' })]);
 
-  const listInstances = collectionListWrappers.map(createCMSListInstance).filter(isNotEmpty);
+  const listInstances = collectionListWrappers.map(cmsCore.createCMSListInstance).filter(isNotEmpty);
 
   // Init the modes
   await Promise.all(

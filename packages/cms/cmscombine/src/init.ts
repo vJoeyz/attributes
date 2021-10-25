@@ -1,9 +1,9 @@
 import { getCollectionElements, isNotEmpty } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
-import { addItemsToList, getCollectionListWrappers } from 'packages/cms/helpers';
-import { createCMSListInstance } from 'packages/cms/CMSList';
+import { getCollectionListWrappers } from 'packages/cms/helpers';
+import { importCMSCore } from '$utils/import';
 
-import type { CMSList } from 'packages/cms/CMSList';
+import type { CMSList } from 'packages/cms/cmscore/src';
 
 // Types
 interface PopulateData {
@@ -15,6 +15,11 @@ interface PopulateData {
  * Inits the attribute.
  */
 export const init = async (): Promise<CMSList[]> => {
+  const cmsCore = await importCMSCore();
+  if (!cmsCore) return [];
+
+  const { createCMSListInstance, addItemsToList } = cmsCore;
+
   let populateData: PopulateData[] = [];
 
   const collectionListWrappers = getCollectionListWrappers([

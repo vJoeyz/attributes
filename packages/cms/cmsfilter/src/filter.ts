@@ -3,7 +3,7 @@ import { RANGE_MODES } from './constants';
 
 import type { MapEntries } from '@finsweet/ts-utils';
 import type { FiltersValues, GrouppedFilterKeys } from './CMSFilter';
-import type { CMSItem } from 'packages/cms/CMSList';
+import type { CMSItem } from 'packages/cms/cmscore/src';
 
 // Constants
 const dateFormatter = Intl.DateTimeFormat();

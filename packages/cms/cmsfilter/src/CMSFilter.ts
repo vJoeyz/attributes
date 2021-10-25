@@ -3,12 +3,13 @@ import { assessFilter } from './filter';
 import { setQueryParams } from './query';
 import { handleFilterInput } from './input';
 import { ATTRIBUTES, MATCHES, MODES } from './constants';
-import { collectItemsProps } from 'packages/cms/helpers';
 import { clearFormField, isFormField } from '@finsweet/ts-utils';
 import { collectFiltersData, collectFiltersElements } from './collect';
+import { importCMSCore } from '$utils/import';
 
-import type { CMSItem, CMSList } from 'packages/cms/CMSList';
 import type { FormBlockElement, FormField } from '@finsweet/ts-utils';
+import type { CMSItem, CMSList } from 'packages/cms/cmscore/src';
+import type { CMSCore } from 'packages/cms/cmscore/src/types';
 
 // Constants
 const {
@@ -95,15 +96,25 @@ export class CMSFilters {
     this.filtersData = filtersData;
     this.grouppedFilterKeys = grouppedFilterKeys;
 
-    collectItemsProps(listInstance.items, fieldKey);
+    this.init();
+  }
 
-    this.listenEvents();
+  /**
+   * Inits the instance.
+   */
+  private async init() {
+    const cmsCore = await importCMSCore();
+    if (!cmsCore) return;
+
+    cmsCore.collectItemsProps(this.listInstance.items, fieldKey);
+
+    this.listenEvents(cmsCore);
   }
 
   /**
    * Listens for internal events.
    */
-  private listenEvents() {
+  private listenEvents({ collectItemsProps }: CMSCore) {
     const { form, resetButtonsData: resetButtons, listInstance, filtersActive } = this;
 
     // Form

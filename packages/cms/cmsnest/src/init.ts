@@ -1,54 +1,43 @@
+import { importCMSCore } from '$utils/import';
 import { isNotEmpty } from '@finsweet/ts-utils';
-import { createCMSListInstance } from 'packages/cms/CMSList';
 import { getCollectionListWrappers } from 'packages/cms/helpers';
-import { ATTRIBUTES, getSelector } from './constants';
+import { getSelector } from './constants';
 import { getCollectionsToNest, populateNestedCollections } from './nest';
 
-import type { CMSList } from 'packages/cms/CMSList';
-
-// Types
-interface Params {
-  listsSelector?: string;
-}
+import type { CMSList } from 'packages/cms/cmscore/src';
+import type { CMSCore } from 'packages/cms/cmscore/src/types';
 
 /**
  * Inits the attribute.
- *
- * Auto init:
- * @param params The current `<script>` element.
- *
- * Programatic init:
- * @param params.param A global parameter.
  */
-export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
-  let globalListsSelector: string | null | undefined;
-
-  if (params instanceof HTMLScriptElement || params instanceof SVGScriptElement) {
-    globalListsSelector = params.getAttribute(ATTRIBUTES.lists.key);
-  } else if (params) globalListsSelector = params.listsSelector;
+export const init = async (): Promise<void> => {
+  const cmsCore = await importCMSCore();
+  if (!cmsCore) return;
 
   // Create the list instances
-  const collectionListWrappers = getCollectionListWrappers([
-    getSelector('element', 'list', { operator: 'prefixed' }),
-    globalListsSelector,
-  ]);
+  const collectionListWrappers = getCollectionListWrappers([getSelector('element', 'list', { operator: 'prefixed' })]);
 
-  const listInstances = collectionListWrappers.map(createCMSListInstance).filter(isNotEmpty);
+  const listInstances = collectionListWrappers.map(cmsCore.createCMSListInstance).filter(isNotEmpty);
 
-  for (const listInstance of listInstances) initListNesting(listInstance);
+  for (const listInstance of listInstances) initListNesting(listInstance, cmsCore);
 };
 
-const initListNesting = async (listInstance: CMSList): Promise<void> => {
-  const collectionsToNest = getCollectionsToNest();
+/**
+ * Inits the nesting.
+ * @param listInstance
+ * @param cmsCore
+ */
+const initListNesting = async (listInstance: CMSList, cmsCore: CMSCore): Promise<void> => {
+  const collectionsToNest = getCollectionsToNest(cmsCore);
   if (!collectionsToNest.size) return;
 
   listInstance.on('beforeadditems', async (newItems) => {
-    await Promise.all(newItems.map((newItem) => populateNestedCollections(newItem, collectionsToNest)));
+    await Promise.all(newItems.map((newItem) => populateNestedCollections(newItem, collectionsToNest, cmsCore)));
     await listInstance.emit('nestnewitems', newItems);
   });
 
   const { items } = listInstance;
 
-  await Promise.all(items.map((item) => populateNestedCollections(item, collectionsToNest)));
+  await Promise.all(items.map((item) => populateNestedCollections(item, collectionsToNest, cmsCore)));
   await listInstance.emit('nestexistingitems', items);
 };

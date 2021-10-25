@@ -1,23 +1,18 @@
 import { Debug, extractNumberSuffix } from '@finsweet/ts-utils';
 import { ATTRIBUTES } from './constants';
+import { GlobalAttributeParams } from './types';
 
 /**
  * Make sure the window object is defined.
  */
-window.fsAttributes ||= {};
-
-interface GlobalAttributeParams {
-  /**
-   * Defines if the `<script>` should prevent automatically loading the library.
-   * Useful for cases where a JS developer whants to programatically init the library.
-   */
-  preventsLoad: boolean;
-}
+window.fsAttributes ||= {
+  cms: {},
+};
 
 /**
  * Checks the global params of the Attribute `<script>`.
  * @param script The `<script>` element.
- * @returns {GlobalAttributeParams} The global attribute params.
+ * @returns The {@link GlobalAttributeParams}.
  */
 export const assessScript = (script: HTMLOrSVGScriptElement | null): GlobalAttributeParams => {
   const { preventLoad, debugMode } = ATTRIBUTES;

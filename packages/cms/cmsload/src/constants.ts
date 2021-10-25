@@ -74,11 +74,6 @@ export const ATTRIBUTES = {
    * Defines if Webflow should be restarted after loading new items.
    */
   resetIx: { key: `${ATTRIBUTES_PREFIX}-resetix`, values: { true: 'true' } },
-
-  /**
-   * Defines a global selector to query lists to instantiate.
-   */
-  lists: { key: `${ATTRIBUTES_PREFIX}-lists` },
 } as const;
 
 export const getSelector = generateSelectors(ATTRIBUTES);

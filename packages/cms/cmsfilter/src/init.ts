@@ -1,17 +1,11 @@
 import { ATTRIBUTES, DEFAULT_ANIMATION_DURATION, getSelector } from './constants';
 import { FORM_CSS_CLASSES, isKeyOf, isNotEmpty } from '@finsweet/ts-utils';
 import { getCollectionListWrappers } from 'packages/cms/helpers';
-import { createCMSListInstance } from 'packages/cms/CMSList';
-import { importAnimations } from '$utils/import';
+import { importAnimations, importCMSCore } from '$utils/import';
 import { CMSFilters } from './CMSFilter';
 
-import type { CMSList } from 'packages/cms/CMSList';
 import type { FormBlockElement } from '@finsweet/ts-utils';
-
-// Types
-interface Params {
-  listsSelector?: string;
-}
+import type { CMSList } from 'packages/cms/cmscore/src';
 
 // Constants destructuring
 const {
@@ -20,37 +14,24 @@ const {
   duration: { key: durationKey },
   easing: { key: easingKey },
   scrollTop: { key: scrollTopKey, values: scrollTopValues },
-  lists: { key: listsKey },
 } = ATTRIBUTES;
 
 /**
  * Inits the attribute.
- *
- * Auto init:
- * @param params The current `<script>` element.
- *
- * Programatic init:
- * @param params.param A global parameter.
  */
-export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
-  let globalListsSelector: string | null | undefined;
+export const init = async (): Promise<CMSFilters[]> => {
+  const cmsCore = await importCMSCore();
+  if (!cmsCore) return [];
 
-  if (params instanceof HTMLScriptElement || params instanceof SVGScriptElement) {
-    globalListsSelector = params.getAttribute(listsKey);
-  } else if (params) {
-    globalListsSelector = params.listsSelector;
-  }
+  const collectionListWrappers = getCollectionListWrappers([getSelector('element', 'list', { operator: 'prefixed' })]);
 
-  const collectionListWrappers = getCollectionListWrappers([
-    getSelector('element', 'list', { operator: 'prefixed' }),
-    globalListsSelector,
-  ]);
+  const listInstances = collectionListWrappers.map(cmsCore.createCMSListInstance).filter(isNotEmpty);
 
-  const listInstances = collectionListWrappers.map(createCMSListInstance).filter(isNotEmpty);
-
-  const filtersInstances = listInstances.map(initFilters);
+  const filtersInstances = (await Promise.all(listInstances.map(initFilters))).filter(isNotEmpty);
 
   console.log({ filtersInstances });
+
+  return filtersInstances;
 };
 
 /**

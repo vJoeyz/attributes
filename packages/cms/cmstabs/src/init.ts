@@ -1,11 +1,11 @@
 import { ATTRIBUTES, getSelector } from './constants';
 import { getCollectionListWrappers } from 'packages/cms/helpers';
-import { createCMSListInstance } from 'packages/cms/CMSList';
 import { restartWebflow, TABS_CSS_CLASSES, isNotEmpty } from '@finsweet/ts-utils';
 import { populateTabsFromLists } from './populate';
+import { importCMSCore } from '$utils/import';
 
-import type { CMSList } from 'packages/cms/CMSList';
 import type { TabsElement } from '@finsweet/ts-utils';
+import type { CMSList } from 'packages/cms/cmscore/src';
 
 // Types
 interface PopulateData {
@@ -23,9 +23,12 @@ interface PopulateData {
  * @param params.param A global parameter.
  */
 export const init = async (): Promise<void> => {
+  const cmsCore = await importCMSCore();
+  if (!cmsCore) return;
+
   const collectionListWrappers = getCollectionListWrappers([getSelector('element', 'list', { operator: 'prefixed' })]);
 
-  const listInstances = collectionListWrappers.map(createCMSListInstance).filter(isNotEmpty);
+  const listInstances = collectionListWrappers.map(cmsCore.createCMSListInstance).filter(isNotEmpty);
 
   // Collect the combine data
   let populateData: PopulateData[] = [];

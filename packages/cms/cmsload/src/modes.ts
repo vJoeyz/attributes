@@ -2,7 +2,7 @@ import throttle from 'just-throttle';
 import { ATTRIBUTES, DEFAULT_INFINITE_THRESHOLD } from './constants';
 import { handleLoadPage, loadListItems, preparePagination } from './load';
 
-import type { CMSList } from 'packages/cms/CMSList';
+import type { CMSList } from 'packages/cms/cmscore/src';
 
 // Constants
 const {

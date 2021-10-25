@@ -1,12 +1,12 @@
 import { isNotEmpty, restartWebflow, SLIDER_CSS_CLASSES } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 import { getCollectionListWrappers } from 'packages/cms/helpers';
-import { createCMSListInstance } from 'packages/cms/CMSList';
 import { populateSliderFromLists } from './populate';
 import { mutateSliderMask } from './helpers';
+import { importCMSCore } from '$utils/import';
 
-import type { CMSList } from 'packages/cms/CMSList';
 import type { SliderElement } from '@finsweet/ts-utils';
+import type { CMSList } from 'packages/cms/cmscore/src';
 
 // Types
 export interface PopulateData {
@@ -24,9 +24,12 @@ export interface PopulateData {
  * @param params.param A global parameter.
  */
 export const init = async (): Promise<void> => {
+  const cmsCore = await importCMSCore();
+  if (!cmsCore) return;
+
   const collectionListWrappers = getCollectionListWrappers([getSelector('element', 'list', { operator: 'prefixed' })]);
 
-  const listInstances = collectionListWrappers.map(createCMSListInstance).filter(isNotEmpty);
+  const listInstances = collectionListWrappers.map(cmsCore.createCMSListInstance).filter(isNotEmpty);
 
   // Collect the combine data
   let populateData: PopulateData[] = [];

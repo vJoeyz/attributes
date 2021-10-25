@@ -1,13 +1,17 @@
 import { getCollectionListWrappers } from 'packages/cms/helpers';
 import { ATTRIBUTES, getSelector } from './constants';
-import { CMSItem, createCMSListInstance } from 'packages/cms/CMSList';
-import { CMSList } from 'packages/cms/CMSList';
 import { cloneNode, getCollectionElements } from '@finsweet/ts-utils';
 
 import type { CollectionItemElement } from '@finsweet/ts-utils';
+import type { CMSItem, CMSList } from 'packages/cms/cmscore/src';
+import type { CMSCore } from 'packages/cms/cmscore/src/types';
 
 // Types
-type CollectionsToNest = Map<string, { listInstance: CMSList; emptyElement: HTMLElement | null }>;
+interface CollectionToNest {
+  listInstance: CMSList;
+  emptyElement: HTMLElement | null;
+}
+type CollectionsToNest = Map<string, CollectionToNest>;
 type NestingTargets = Map<string, HTMLElement>;
 
 // Constants
@@ -22,7 +26,7 @@ const domParser = new DOMParser();
  * Queries the existing CMS Collections on the page that will be nested inside the main list instance.
  * @returns A `Map` with the `collectionKey` as the keys and `CMSList` instances as the values.
  */
-export const getCollectionsToNest = (): CollectionsToNest => {
+export const getCollectionsToNest = ({ createCMSListInstance }: CMSCore): CollectionsToNest => {
   const collectionsToNest: CollectionsToNest = new Map();
   const collectionListWrappers = getCollectionListWrappers([getSelector('list')]);
 
@@ -51,7 +55,8 @@ export const getCollectionsToNest = (): CollectionsToNest => {
  */
 export const populateNestedCollections = async (
   { element, href }: CMSItem,
-  collectionsToNest: CollectionsToNest
+  collectionsToNest: CollectionsToNest,
+  { CMSList }: CMSCore
 ): Promise<void> => {
   if (!href) return;
 

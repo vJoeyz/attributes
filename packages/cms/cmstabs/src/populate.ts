@@ -1,7 +1,7 @@
 import { getSelector } from './constants';
 import { TABS_CSS_CLASSES, CURRENT_CSS_CLASS } from '@finsweet/ts-utils';
 
-import type { CMSList, CMSItem } from 'packages/cms/CMSList';
+import type { CMSList, CMSItem } from 'packages/cms/cmscore/src';
 import type {
   TabsElement,
   TabsMenuElement,
