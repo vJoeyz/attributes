@@ -8,7 +8,6 @@ import { clearFormField, isFormField } from '@finsweet/ts-utils';
 import { collectFiltersData, collectFiltersElements } from './collect';
 
 import type { CMSItem, CMSList } from 'packages/cms/CMSList';
-import type { AnimationOptions } from 'packages/cms/animations';
 import type { FormBlockElement, FormField } from '@finsweet/ts-utils';
 
 // Constants
@@ -71,13 +70,11 @@ export class CMSFilters {
       resultsElement,
       showQueryParams,
       scrollTop,
-      animationOptions,
     }: {
       emptyElement: HTMLElement | null;
       resultsElement: HTMLElement | null;
       showQueryParams: boolean;
       scrollTop: boolean;
-      animationOptions?: AnimationOptions;
     }
   ) {
     const { form, submitButton, resetButtonsData } = collectFiltersElements(formBlock);

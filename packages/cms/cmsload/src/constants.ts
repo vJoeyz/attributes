@@ -50,13 +50,13 @@ export const ATTRIBUTES = {
 
   /**
    * Defines the animation to use when appending elements to the list.
-   * Allowed values are defined in {@link "packages/cms/animations/ANIMATIONS"}.
+   * Allowed values are defined in {@link "packages/animations"}.
    */
   animation: { key: `${ATTRIBUTES_PREFIX}-animation` },
 
   /**
    * Defines the easing function of the animation.
-   * Allowed values are defined in {@link "packages/cms/animations/EASINGS"}.
+   * Allowed values are defined in {@link "packages/animations"}.
    */
   easing: { key: `${ATTRIBUTES_PREFIX}-easing` },
 

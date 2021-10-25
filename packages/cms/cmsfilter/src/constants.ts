@@ -73,7 +73,7 @@ export const ATTRIBUTES = {
 
   /**
    * Defines the easing function of the list animation.
-   * Allowed values are defined in {@link "packages/cms/animations/EASINGS"}.
+   * Allowed values are defined in {@link "packages/animations"}.
    */
   easing: { key: `${ATTRIBUTES_PREFIX}-easing` },
 

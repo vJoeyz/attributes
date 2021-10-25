@@ -1,9 +1,9 @@
-import { isKeyOf, isNotEmpty, restartWebflow } from '@finsweet/ts-utils';
-import { ANIMATIONS, EASINGS } from 'packages/cms/animations';
+import { getObjectKeys, isKeyOf, isNotEmpty, restartWebflow } from '@finsweet/ts-utils';
+import { initDefaultMode, initInfiniteMode, initLoadAllMode } from './modes';
 import { CMSList, createCMSListInstance } from 'packages/cms/CMSList';
 import { getCollectionListWrappers } from 'packages/cms/helpers';
 import { ATTRIBUTES, getSelector } from './constants';
-import { initDefaultMode, initInfiniteMode, initLoadAllMode } from './modes';
+import { importAnimations } from '$utils/import';
 
 // Types
 interface Params {
@@ -52,21 +52,29 @@ export const init = async (params?: HTMLOrSVGScriptElement | Params | null): Pro
   await Promise.all(
     listInstances.map(async (listInstance) => {
       // Get animation config
-      const animationName = listInstance.getAttribute(animationKey);
-      const animationFunctions = animationName ? ANIMATIONS[animationName] : ANIMATIONS.fade;
+      importAnimations().then((animationsImport) => {
+        if (!animationsImport) return;
 
-      const animationDuration = listInstance.getAttribute(durationKey);
-      const animationEasing = listInstance.getAttribute(easingKey);
-      const animationStagger = listInstance.getAttribute(staggerKey);
+        const { animations, easings } = animationsImport;
 
-      listInstance.itemsAnimation = {
-        ...animationFunctions,
-        options: {
-          easing: isKeyOf(animationEasing, EASINGS) ? animationEasing : undefined,
-          duration: animationDuration ? parseFloat(animationDuration) : undefined,
-          stagger: animationStagger ? parseFloat(animationStagger) : undefined,
-        },
-      };
+        const animationName = listInstance.getAttribute(animationKey);
+        const animationFunctions = isKeyOf(animationName, getObjectKeys(animations))
+          ? animations[animationName]
+          : animations.fade;
+
+        const animationDuration = listInstance.getAttribute(durationKey);
+        const animationEasing = listInstance.getAttribute(easingKey);
+        const animationStagger = listInstance.getAttribute(staggerKey);
+
+        listInstance.itemsAnimation = {
+          ...animationFunctions,
+          options: {
+            easing: isKeyOf(animationEasing, easings) ? animationEasing : undefined,
+            duration: animationDuration ? parseFloat(animationDuration) : undefined,
+            stagger: animationStagger ? parseFloat(animationStagger) : undefined,
+          },
+        };
+      });
 
       // Get resetIx config
       const resetIx = listInstance.getAttribute(resetIxKey) === resetIxValues.true;

@@ -2,12 +2,11 @@ import { ATTRIBUTES, DEFAULT_ANIMATION_DURATION, getSelector } from './constants
 import { FORM_CSS_CLASSES, isKeyOf, isNotEmpty } from '@finsweet/ts-utils';
 import { getCollectionListWrappers } from 'packages/cms/helpers';
 import { createCMSListInstance } from 'packages/cms/CMSList';
-import { ANIMATIONS, EASINGS } from 'packages/cms/animations';
+import { importAnimations } from '$utils/import';
 import { CMSFilters } from './CMSFilter';
 
 import type { CMSList } from 'packages/cms/CMSList';
 import type { FormBlockElement } from '@finsweet/ts-utils';
-import type { AnimationOptions } from 'packages/cms/animations';
 
 // Types
 interface Params {
@@ -58,7 +57,7 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
  * Creates a new {@link CMSFilters} instance for each {@link CMSList}.
  * @param listInstance The `CMSList` instance.
  */
-const initFilters = (listInstance: CMSList) => {
+const initFilters = async (listInstance: CMSList) => {
   const instanceIndex = listInstance.getInstanceIndex(elementKey);
 
   // Base elements
@@ -80,16 +79,25 @@ const initFilters = (listInstance: CMSList) => {
 
   // Animation
   if (!listInstance.listAnimation) {
-    const animationFunctions = ANIMATIONS.fade;
+    importAnimations().then((animationsImport) => {
+      if (!animationsImport) return;
 
-    const animationDuration = listInstance.getAttribute(durationKey);
-    const animationEasing = listInstance.getAttribute(easingKey);
-    const options: AnimationOptions = {
-      easing: isKeyOf(animationEasing, EASINGS) ? animationEasing : undefined,
-      duration: animationDuration ? parseFloat(animationDuration) / 200 : DEFAULT_ANIMATION_DURATION,
-    };
+      const {
+        animations: { fade },
+        easings,
+      } = animationsImport;
 
-    listInstance.listAnimation = { ...animationFunctions, options };
+      const animationDuration = listInstance.getAttribute(durationKey);
+      const animationEasing = listInstance.getAttribute(easingKey);
+
+      listInstance.listAnimation = {
+        ...fade,
+        options: {
+          easing: isKeyOf(animationEasing, easings) ? animationEasing : undefined,
+          duration: animationDuration ? parseFloat(animationDuration) / 200 : DEFAULT_ANIMATION_DURATION,
+        },
+      };
+    });
   }
 
   // Scroll Top
