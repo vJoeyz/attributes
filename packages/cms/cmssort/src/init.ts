@@ -48,7 +48,7 @@ const initList = async (listInstance: CMSList, { collectItemsProps }: CMSCore) =
   const { items, listAnimation } = listInstance;
 
   // Store item props
-  collectItemsProps(items, fieldKey, typeKey);
+  collectItemsProps(items, { fieldKey, typeKey });
 
   // Animation
   if (!listAnimation) {
