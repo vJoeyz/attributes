@@ -1,8 +1,14 @@
 import { ATTRIBUTES, getSelector, MATCHES, MODES } from './constants';
-import { extractCommaSeparatedValues, FORM_CSS_CLASSES, isFormField, isKeyOf } from '@finsweet/ts-utils';
+import {
+  extractCommaSeparatedValues,
+  FORM_CSS_CLASSES,
+  getObjectEntries,
+  isFormField,
+  isKeyOf,
+} from '@finsweet/ts-utils';
 
 import type { FormBlockElement } from '@finsweet/ts-utils';
-import type { FiltersData, GrouppedFilterKeys, ResetButtonsData } from './CMSFilter';
+import type { ElementMode, FilterData, FilterMode, FiltersData, ResetButtonsData } from './types';
 
 // Constants
 const {
@@ -44,31 +50,56 @@ export const collectFiltersElements = (
 
 /**
  * Collects the data of each filter input:
- * - The filter key.
+ * - The filter elements.
+ * - The filter keys.
  * - The filter mode.
  * - The fixed value, if existing.
  * @param form The form that contains the filter fields.
  * @returns A `FiltersData` map.
  */
-export const collectFiltersData = (form: HTMLFormElement): [FiltersData, GrouppedFilterKeys] => {
-  const filtersData: FiltersData = new Map();
-  const grouppedFilterKeys: GrouppedFilterKeys = [];
+export const collectFiltersData = (form: HTMLFormElement): FiltersData => {
+  const filtersData: FiltersData = [];
 
   const elements = form.querySelectorAll<HTMLElement>(getSelector('field'));
 
   for (const element of elements) {
-    const filterKey = element.getAttribute(fieldKey);
-    if (!filterKey) continue;
+    const rawFilterKeys = element.getAttribute(fieldKey);
+    if (!rawFilterKeys) continue;
 
-    const filterKeys = extractCommaSeparatedValues(filterKey);
+    const filterKeys = new Set(extractCommaSeparatedValues(rawFilterKeys));
+    if (!filterKeys.size) continue;
 
-    if (filterKeys.length > 1) grouppedFilterKeys.push(filterKeys);
+    const existingData = filtersData.find((data) => {
+      const elementKeys = [...filterKeys];
+      const existingKeys = [...data.filterKeys];
+
+      return (
+        elementKeys.every((key) => existingKeys.includes(key)) && existingKeys.every((key) => elementKeys.includes(key))
+      );
+    });
 
     const rawMatch = element.getAttribute(matchKey);
     const rawMode = element.getAttribute(rangeKey);
 
     const match = isKeyOf(rawMatch, MATCHES) ? rawMatch : undefined;
-    const mode = isKeyOf(rawMode, MODES) ? rawMode : undefined;
+
+    let filterMode: FilterMode | undefined;
+    let elementMode: ElementMode | undefined;
+
+    for (const [key, value] of getObjectEntries(MODES)) {
+      if (isKeyOf(rawMode, value)) {
+        filterMode = key;
+        elementMode = rawMode;
+        break;
+      }
+    }
+
+    const filterData: Omit<FilterData, 'elements'> = {
+      match,
+      filterKeys,
+      mode: filterMode,
+      values: new Set(),
+    };
 
     const checkboxOrRadioField = element.closest<HTMLLabelElement>(`.${checkboxFieldCSSClass}, .${radioFieldCSSClass}`);
 
@@ -76,18 +107,36 @@ export const collectFiltersData = (form: HTMLFormElement): [FiltersData, Grouppe
       const isCheckbox = element instanceof HTMLInputElement;
       const fieldElement = isCheckbox ? element : (checkboxOrRadioField.querySelector('input') as HTMLInputElement);
 
-      filtersData.set(fieldElement, {
-        filterKeys,
-        match,
-        mode,
+      const elementData = {
+        mode: elementMode,
+        element: fieldElement,
+        type: fieldElement.type,
         fixedValue: isCheckbox ? undefined : element.textContent,
-      });
+      };
+
+      if (existingData) existingData.elements.push(elementData);
+      else {
+        filtersData.push({
+          ...filterData,
+          elements: [elementData],
+        });
+      }
 
       continue;
     }
 
-    if (isFormField(element) && element.type !== 'submit') filtersData.set(element, { filterKeys, mode });
+    if (isFormField(element) && element.type !== 'submit') {
+      const elementData = { mode: elementMode, element, type: element.type };
+
+      if (existingData) existingData.elements.push(elementData);
+      else {
+        filtersData.push({
+          ...filterData,
+          elements: [elementData],
+        });
+      }
+    }
   }
 
-  return [filtersData, grouppedFilterKeys];
+  return filtersData;
 };

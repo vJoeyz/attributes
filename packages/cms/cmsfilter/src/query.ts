@@ -1,32 +1,32 @@
 import { extractCommaSeparatedValues } from '@finsweet/ts-utils';
-import type { FiltersData, FiltersValues } from './CMSFilter';
+import { FiltersData } from './types';
 
 const { location, history } = window;
 
-export const getQueryParams = (filtersData: FiltersData, filtersValues: FiltersValues) => {
-  const url = new URL(location.href);
-  const { searchParams } = url;
+// export const getQueryParams = (filtersData: FiltersData) => {
+//   const url = new URL(location.href);
+//   const { searchParams } = url;
 
-  const filterData = [...filtersData.values()];
+//   const filterData = [...filtersData.values()];
 
-  for (const [queryKey, queryValue] of searchParams) {
-    const keyIsValid = !!filterData.find(({ filterKeys }) => filterKeys.includes(queryKey));
-    if (!keyIsValid) continue;
+//   for (const [queryKey, queryValue] of searchParams) {
+//     const keyIsValid = !!filterData.find(({ filterKeys }) => filterKeys.includes(queryKey));
+//     if (!keyIsValid) continue;
 
-    const values = extractCommaSeparatedValues(queryValue);
-  }
-};
+//     const values = extractCommaSeparatedValues(queryValue);
+//   }
+// };
 
-export const setQueryParams = (filtersValues: FiltersValues) => {
+export const setQueryParams = (filtersData: FiltersData) => {
   const url = new URL(location.href);
   const { searchParams } = url;
 
   for (const [key] of searchParams) searchParams.delete(key);
 
-  for (const [filterKey, { values }] of filtersValues) {
+  for (const { filterKeys, values } of filtersData) {
     const value = [...values].join(',');
 
-    url.searchParams.set(filterKey, value);
+    for (const filterKey of filterKeys) url.searchParams.set(filterKey, value);
   }
 
   history.replaceState(null, '', url.toString());

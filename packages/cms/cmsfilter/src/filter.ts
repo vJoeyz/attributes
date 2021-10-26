@@ -1,12 +1,8 @@
-import { isKeyOf, isNotEmpty } from '@finsweet/ts-utils';
-import { RANGE_MODES } from './constants';
+import { clearFormField, isNotEmpty } from '@finsweet/ts-utils';
+import { normalizeDate } from './dates';
 
-import type { MapEntries } from '@finsweet/ts-utils';
-import type { FiltersValues, GrouppedFilterKeys } from './CMSFilter';
 import type { CMSItem } from 'packages/cms/cmscore/src';
-
-// Constants
-const dateFormatter = Intl.DateTimeFormat();
+import type { FiltersData } from './types';
 
 /**
  * Assesses if an item should be displayed/hidden based on the filters.
@@ -14,24 +10,8 @@ const dateFormatter = Intl.DateTimeFormat();
  * @param filters The active filters to apply.
  * @returns `true` to show, `false` to hide the item.
  */
-export const assessFilter = (
-  item: CMSItem,
-  filters: MapEntries<FiltersValues>,
-  grouppedFilterKeys: GrouppedFilterKeys
-): boolean => {
-  const filtersValidity = filters.map((filter) => [filter[0], checkFilterValidity(item, filter)] as const);
-
-  const grouppedFiltersValid = grouppedFilterKeys.every((grouppedKeys) =>
-    grouppedKeys.some((grouppedKey) => filtersValidity.find(([filterKey, valid]) => grouppedKey === filterKey && valid))
-  );
-
-  console.log({ item, filtersValidity, grouppedFiltersValid });
-
-  const nonGrouppedFiltersValid = filtersValidity
-    .filter(([filterKey]) => grouppedFilterKeys.every((filterKeys) => !filterKeys.includes(filterKey)))
-    .every(([, valid]) => valid);
-
-  return grouppedFiltersValid && nonGrouppedFiltersValid;
+export const assessFilter = (item: CMSItem, filtersData: FiltersData): boolean => {
+  return filtersData.every((filterData) => checkFilterValidity(item, filterData));
 };
 
 /**
@@ -40,58 +20,102 @@ export const assessFilter = (
  * @param filter The data of a specific filter key.
  * @returns `true` when the `CMSItem` matches the conditions.
  */
-const checkFilterValidity = (
-  item: CMSItem,
-  [filterKey, { values, match, mode, type }]: MapEntries<FiltersValues>[number]
-) => {
-  const filterValues = [...values]
-    .filter(isNotEmpty)
-    .map((value) => (type === 'date' ? dateFormatter.format(new Date(value)) : value));
-
+const checkFilterValidity = (item: CMSItem, { filterKeys, values, match, mode: filterMode }: FiltersData[number]) => {
+  const filterValues = [...values].filter(isNotEmpty);
   if (!filterValues.length) return true;
 
-  if (isKeyOf(mode, RANGE_MODES)) {
-    const [from, to] = filterValues;
+  return [...filterKeys][match === 'all' ? 'every' : 'some']((filterKey) => {
+    // Range Filter Modes
+    if (filterMode === 'range') {
+      const prop = item.props[filterKey];
+      if (!prop) return false;
 
-    const { values } = item.props[filterKey] || {};
-    if (!values) return false;
+      const { type: propType, values: propValues } = prop;
+      if (!propValues.size) return false;
 
-    const [propValue] = values;
-    if (!propValue) return false;
+      const [propValue] = propValues;
+      const [filterFrom, filterTo] = filterValues;
 
-    const numberValue = parseFloat(propValue);
-    const dateValue = new Date(dateFormatter.format(new Date(propValue)));
-
-    if (!from && !to) return true;
-
-    if (!from) {
-      if (type === 'date') return dateValue <= new Date(to);
-
-      return numberValue <= parseFloat(to);
+      return checkRangeValidity(propValue, filterFrom, filterTo, propType);
     }
 
-    if (!to) {
-      if (type === 'date') return dateValue >= new Date(from);
+    // Regular Filter Modes
+    return filterValues[match === 'all' ? 'every' : 'some']((filterValue) => {
+      const prop = item.props[filterKey];
+      if (!prop) return false;
 
-      return numberValue >= parseFloat(from);
-    }
+      const { values, type: propType, range: propRange } = prop;
 
-    if (type === 'date') return dateValue >= new Date(from) && dateValue <= new Date(to);
+      const propValues = [...values];
+      if (!propValues.length) return false;
 
-    return numberValue >= parseFloat(from) && numberValue <= parseFloat(to);
-  }
+      // Range Prop Values
+      if (propRange === 'from' || propRange === 'to') {
+        const [propFrom, propTo] = propValues;
 
-  return filterValues[match === 'all' ? 'every' : 'some']((filterValue) => {
-    const hasValue = item.props[filterKey]?.values.some((propValue) => {
-      if (type === 'date') return filterValue === dateFormatter.format(new Date(propValue));
-
-      if (type && ['text', 'number', 'email', 'password', 'tel', 'textarea'].includes(type)) {
-        return propValue.toLowerCase().includes(filterValue.toLowerCase());
+        return checkRangeValidity(filterValue, propFrom, propTo, propType);
       }
 
-      return filterValue === propValue;
-    });
+      // Regular Prop Values
+      const hasValue = propValues.some((propValue) => {
+        if (propType === 'date') {
+          const [filterDateTime, propDateTime] = [filterValue, propValue].map((value) =>
+            normalizeDate(value).getTime()
+          );
 
-    return hasValue;
+          return filterDateTime === propDateTime;
+        }
+
+        if (propValues.length === 1 || filterKeys.size > 1) {
+          return propValue.toLowerCase().includes(filterValue.toLowerCase());
+        }
+
+        return filterValue.toLowerCase() === propValue.toLowerCase();
+      });
+
+      return hasValue;
+    });
   });
+};
+
+/**
+ * Checks if a value matches the specified `from` and `to` range.
+ * @param value The value to assess.
+ * @param from The range start.
+ * @param to The range end.
+ * @param type The type of the values.
+ * @returns `true` if it's valid.
+ */
+const checkRangeValidity = (value: string, from: string, to: string, type?: string | null) => {
+  // Date Value
+  if (type === 'date') {
+    const [filterDateValue, propDateFrom, propDateTo] = [value, from, to].map(normalizeDate);
+
+    if (!from) return filterDateValue <= propDateTo;
+
+    if (!to) return filterDateValue >= propDateFrom;
+
+    return filterDateValue >= propDateFrom && filterDateValue <= propDateTo;
+  }
+
+  // Regular Value
+  const [filterNumberValue, propNumberFrom, propNumberTo] = [value, from, to].map(parseFloat);
+
+  if (!from) return filterNumberValue <= propNumberTo;
+
+  if (!to) return filterNumberValue >= propNumberFrom;
+
+  return filterNumberValue >= propNumberFrom && filterNumberValue <= propNumberTo;
+};
+
+/**
+ * Clears a set of `FiltersData`, including the input values.
+ * @param filtersData
+ */
+export const clearFiltersData = (filtersData: FiltersData) => {
+  for (const { elements, values } of filtersData) {
+    for (const { element } of elements) clearFormField(element, ['input']);
+
+    values.clear();
+  }
 };

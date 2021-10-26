@@ -1,48 +1,21 @@
 import debounce from 'just-debounce';
-import { assessFilter } from './filter';
+import { assessFilter, clearFiltersData } from './filter';
 import { setQueryParams } from './query';
 import { handleFilterInput } from './input';
-import { ATTRIBUTES, MATCHES, MODES } from './constants';
-import { clearFormField, isFormField } from '@finsweet/ts-utils';
+import { ATTRIBUTES } from './constants';
+import { isFormField } from '@finsweet/ts-utils';
 import { collectFiltersData, collectFiltersElements } from './collect';
 
-import type { FormBlockElement, FormField } from '@finsweet/ts-utils';
+import type { FormBlockElement } from '@finsweet/ts-utils';
 import type { CMSItem, CMSList } from 'packages/cms/cmscore/src';
 import type { CMSCore } from 'packages/cms/cmscore/src/types';
 
 // Constants
 const {
   field: { key: fieldKey },
+  range: { key: rangeKey },
+  type: { key: typeKey },
 } = ATTRIBUTES;
-
-// Types
-type FilterMatch = typeof MATCHES[number];
-type FilterMode = typeof MODES[number];
-
-export interface FilterData {
-  filterKeys: string[];
-  match?: FilterMatch;
-  mode?: FilterMode;
-  fixedValue?: string | null;
-}
-
-export type FiltersData = Map<FormField, FilterData>;
-
-export type GrouppedFilterKeys = string[][];
-
-export interface FilterProperties {
-  match?: FilterMatch;
-  mode?: FilterMode;
-  type?: string;
-}
-
-export type FilterValue = {
-  values: Set<string | undefined>;
-} & FilterProperties;
-
-export type FiltersValues = Map<string, FilterValue>;
-
-export type ResetButtonsData = Map<HTMLElement, string | null>;
 
 export class CMSFilters {
   public readonly form;
@@ -52,8 +25,6 @@ export class CMSFilters {
   public readonly submitButton;
 
   public readonly filtersData;
-  public readonly grouppedFilterKeys;
-  public readonly filtersValues: FiltersValues = new Map();
 
   private readonly showQueryParams;
   private readonly scrollTop;
@@ -92,9 +63,7 @@ export class CMSFilters {
     this.resultsCount = listInstance.items.filter(({ visible }) => visible).length;
     this.updateResults();
 
-    const [filtersData, grouppedFilterKeys] = collectFiltersData(form);
-    this.filtersData = filtersData;
-    this.grouppedFilterKeys = grouppedFilterKeys;
+    this.filtersData = collectFiltersData(form);
 
     this.init();
   }
@@ -108,7 +77,7 @@ export class CMSFilters {
       listInstance: { items },
     } = this;
 
-    collectItemsProps(items, fieldKey);
+    collectItemsProps(items, { fieldKey, rangeKey, typeKey });
 
     this.listenEvents();
   }
@@ -139,7 +108,7 @@ export class CMSFilters {
 
     // Items mutations
     const handleItems = (items: CMSItem[]) => {
-      collectItemsProps(items, fieldKey);
+      collectItemsProps(items, { fieldKey, rangeKey, typeKey });
       this.applyFilters(items, false);
     };
 
@@ -169,18 +138,15 @@ export class CMSFilters {
    * @param e The `InputEvent`.
    */
   private async handleInputEvents({ target }: Event) {
-    const { filtersData, filtersValues, submitButton, showQueryParams } = this;
+    const { filtersData, submitButton, showQueryParams } = this;
 
     if (!isFormField(target)) return;
 
-    const filterData = filtersData.get(target);
-    if (!filterData) return;
+    handleFilterInput(target, filtersData);
 
-    handleFilterInput(target, filtersValues, filterData);
+    console.log(filtersData);
 
-    console.log(filtersValues);
-
-    if (showQueryParams) setQueryParams(filtersValues);
+    if (showQueryParams) setQueryParams(filtersData);
 
     if (!submitButton) await this.applyFilters();
   }
@@ -215,17 +181,13 @@ export class CMSFilters {
    * @param animateList When set to `true`, the list will fade out and fade in during the filtering process.
    */
   public async applyFilters(newItems?: CMSItem[], animateList = true): Promise<void> {
-    const { listInstance, filtersValues, grouppedFilterKeys, filtersActive, emptyElement, emptyState, scrollTop } =
-      this;
+    const { listInstance, filtersData, filtersActive, emptyElement, emptyState, scrollTop } = this;
 
-    const filtersExist = !!filtersValues.size;
+    const filtersAreEmpty = filtersData.every(({ values }) => !values.size);
 
-    if (!filtersExist && !filtersActive) return;
+    if (filtersAreEmpty && !filtersActive) return;
 
-    this.setFiltersActive(filtersExist);
-
-    const filters = [...filtersValues.entries()];
-    const filtersAreEmpty = filters.every(([, { values }]) => !values.size);
+    this.setFiltersActive(!filtersAreEmpty);
 
     const { wrapper, list } = listInstance;
 
@@ -240,7 +202,7 @@ export class CMSFilters {
     const itemsToHide: CMSItem[] = [];
 
     for (const item of newItems || listInstance.items) {
-      const show = filtersAreEmpty || assessFilter(item, filters, grouppedFilterKeys);
+      const show = filtersAreEmpty || assessFilter(item, filtersData);
 
       (show ? itemsToShow : itemsToHide).push(item);
     }
@@ -280,22 +242,16 @@ export class CMSFilters {
    * @param filterKey If passed, only this filter key will be resetted.
    */
   public resetFilters(filterKey?: string | null): void {
-    const { filtersData, filtersValues, showQueryParams } = this;
+    const { filtersData, showQueryParams } = this;
 
-    if (filterKey) {
-      const formFieldsToClear = [...filtersData.entries()]
-        .filter(([, data]) => data.filterKeys.includes(filterKey))
-        .map(([formField]) => formField);
+    if (!filterKey) clearFiltersData(filtersData);
+    else {
+      const filtersToReset = filtersData.filter(({ filterKeys }) => filterKeys.has(filterKey));
 
-      for (const formField of formFieldsToClear) clearFormField(formField, ['input']);
-
-      filtersValues.delete(filterKey);
-    } else {
-      for (const formField of filtersData.keys()) clearFormField(formField, ['input']);
-      filtersValues.clear();
+      clearFiltersData(filtersToReset);
     }
 
-    if (showQueryParams) setQueryParams(filtersValues);
+    if (showQueryParams) setQueryParams(filtersData);
 
     this.applyFilters();
   }

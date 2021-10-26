@@ -1,8 +1,5 @@
-import { isKeyOf } from '@finsweet/ts-utils';
-import { RANGE_MODES } from './constants';
-
 import type { FormField } from '@finsweet/ts-utils';
-import type { FilterData, FilterProperties, FiltersValues } from './CMSFilter';
+import type { FiltersData } from './types';
 
 /**
  * Updates the {@link FiltersValues} of the `CMSFilter` instance.
@@ -10,93 +7,54 @@ import type { FilterData, FilterProperties, FiltersValues } from './CMSFilter';
  * @param filtersValues The `FiltersValues` object.
  * @param filterData The {@link FilterData} of the input element.
  */
-export const handleFilterInput = (
-  element: FormField,
-  filtersValues: FiltersValues,
-  { filterKeys, fixedValue, mode, match }: FilterData
-) => {
-  const { type, value } = element;
+export const handleFilterInput = (element: FormField, filtersData: FiltersData) => {
+  const { value } = element;
 
-  const properties: FilterProperties = {
-    mode,
-    match,
-    type,
-  } as const;
+  const relatedData = filtersData.filter(({ elements }) => elements.some((data) => data.element === element));
 
-  for (const filterKey of filterKeys) {
-    const existingFilter = filtersValues.get(filterKey);
+  if (!relatedData.length) return;
 
-    if (existingFilter) Object.assign(existingFilter, properties);
+  for (const data of relatedData) {
+    const { elements, values: filterValues, mode: filterMode } = data;
+
+    const elementData = elements.find((data) => data.element === element);
+    if (!elementData) continue;
+
+    const { fixedValue, mode: elementMode, type } = elementData;
 
     switch (type) {
       case 'checkbox': {
         const { checked } = <HTMLInputElement>element;
 
-        if (existingFilter) {
-          if (fixedValue) {
-            existingFilter.values[checked ? 'add' : 'delete'](fixedValue);
-
-            if (!existingFilter.values.size) filtersValues.delete(filterKey);
-          } else if (checked) existingFilter.values = new Set([`${checked}`]);
-          else filtersValues.delete(filterKey);
-
-          break;
-        }
-
-        filtersValues.set(filterKey, {
-          ...properties,
-          values: new Set([checked && fixedValue ? fixedValue : `${checked}`]),
-        });
-
+        filterValues[checked ? 'add' : 'delete'](fixedValue ? fixedValue : 'true');
         break;
       }
 
       case 'radio': {
         const { checked } = <HTMLInputElement>element;
 
-        if (checked && fixedValue) {
-          if (existingFilter) {
-            existingFilter.values = new Set([fixedValue]);
+        if (!checked || !fixedValue) break;
 
-            break;
-          }
-
-          filtersValues.set(filterKey, {
-            ...properties,
-            values: new Set([fixedValue]),
-          });
-
-          break;
-        }
-
-        filtersValues.delete(filterKey);
+        filterValues.clear();
+        filterValues.add(fixedValue);
 
         break;
       }
 
       default: {
-        const isRange = isKeyOf(mode, RANGE_MODES);
+        if (filterMode === 'range') {
+          const newValues = [...filterValues];
+          newValues[elementMode === 'from' ? 0 : 1] = value;
 
-        if (!value && !isRange) {
-          filtersValues.delete(filterKey);
-          break;
-        }
-
-        if (existingFilter) {
-          if (isRange) {
-            const newValues = [...existingFilter.values];
-            newValues[mode === 'from' ? 0 : 1] = value;
-
-            existingFilter.values = new Set(newValues);
-          } else existingFilter.values = new Set([value]);
+          if (newValues.some((value) => !!value)) data.values = new Set(newValues);
+          else filterValues.clear();
 
           break;
-        }
+        } else {
+          filterValues.clear();
 
-        filtersValues.set(filterKey, {
-          ...properties,
-          values: mode === 'to' ? new Set([, value]) : new Set([value]),
-        });
+          if (value) filterValues.add(value);
+        }
 
         break;
       }

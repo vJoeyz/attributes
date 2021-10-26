@@ -67,6 +67,11 @@ export const ATTRIBUTES = {
   },
 
   /**
+   * Defines a specific field type.
+   */
+  type: { key: `${ATTRIBUTES_PREFIX}-type`, values: { date: 'date' } },
+
+  /**
    * Defines if the filter query params should be displayed on the URL.
    */
   showQuery: { key: `${ATTRIBUTES_PREFIX}-showquery`, values: { true: 'true' } },
@@ -91,7 +96,8 @@ export const ATTRIBUTES = {
 export const getSelector = generateSelectors(ATTRIBUTES);
 
 export const MATCHES = ['any', 'all'] as const;
-export const RANGE_MODES = ['from', 'to'] as const;
-export const MODES = [...RANGE_MODES] as const;
+export const MODES = {
+  range: ['from', 'to'],
+} as const;
 
 export const DEFAULT_ANIMATION_DURATION = 0.1;
