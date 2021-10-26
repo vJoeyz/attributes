@@ -23,8 +23,19 @@ export const collectItemsProps = (
 
       if (!filterKey || !textContent) return props;
 
-      props[filterKey] ||= { type, mode, values: [] };
-      props[filterKey].values.push(textContent);
+      props[filterKey] ||= { type, mode, values: new Set() };
+
+      const prop = props[filterKey];
+      const { values } = prop;
+
+      if (mode === 'from' || mode === 'to') {
+        const newValues = [...values];
+        newValues[mode === 'from' ? 0 : 1] = textContent;
+
+        prop.values = new Set(newValues);
+      }
+
+      values.add(textContent);
 
       return props;
     }, {});

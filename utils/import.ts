@@ -4,7 +4,7 @@ import type { AnimationImport } from 'packages/animation/src/types';
 import type { CMSCoreImport } from 'packages/cms/cmscore/src/types';
 
 const ANIMATIONS_SOURCE = 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-animation@1.0.1/functions.js';
-const CMS_CORE_SOURCE = 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmscore@1.0.1/cmscore.js';
+const CMS_CORE_SOURCE = 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmscore@1.0.2/cmscore.js';
 
 /**
  * Dynamically imports the `animation` package.
