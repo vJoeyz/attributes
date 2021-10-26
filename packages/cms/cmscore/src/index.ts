@@ -1,5 +1,5 @@
 export { CMSList } from './CMSList';
 export { CMSItem } from './CMSItem';
 
-export { createCMSListInstance } from './factory';
-export { collectItemsProps, addItemsToList } from './helpers';
+export { createCMSListInstance, addItemsToList } from './factory';
+export { collectItemsProps } from './helpers';

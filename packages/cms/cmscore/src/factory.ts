@@ -1,7 +1,7 @@
 import { CMS_CSS_CLASSES, Debug, getCollectionElements } from '@finsweet/ts-utils';
-import { CMSList } from './CMSList';
+import { CMSItem, CMSList } from '.';
 
-import type { CollectionListWrapperElement } from '@finsweet/ts-utils';
+import type { CollectionListWrapperElement, CollectionItemElement } from '@finsweet/ts-utils';
 
 /**
  * Creates a new `CMSList` instance, making sure there are no already existing instances on the page.
@@ -31,4 +31,27 @@ export const createCMSListInstance = (referenceElement: HTMLElement): CMSList | 
   lists[pageIndex] ||= new CMSList(wrapper, { pageIndex });
 
   return lists[pageIndex];
+};
+
+/**
+ * Stores new Collection Items in a `CMSList` instance.
+ * **Important:** It mutates the {@link CMSList.items} object.
+ * @param listInstance The `CMSList` instance.
+ * @param newItemElements The new Collection Items to store.
+ */
+export const addItemsToList = async (
+  listInstance: CMSList,
+  newItemElements: CollectionItemElement[]
+): Promise<void> => {
+  const { items, list, showNewItems } = listInstance;
+
+  const newItems = newItemElements.map((item) => new CMSItem(item, list));
+
+  items.push(...newItems);
+
+  await listInstance.emitSerial('beforeadditems', newItems);
+
+  if (showNewItems) await listInstance.renderItems(newItems);
+
+  await listInstance.emitSerial('afteradditems', newItems);
 };
