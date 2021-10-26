@@ -5,7 +5,6 @@ import { handleFilterInput } from './input';
 import { ATTRIBUTES, MATCHES, MODES } from './constants';
 import { clearFormField, isFormField } from '@finsweet/ts-utils';
 import { collectFiltersData, collectFiltersElements } from './collect';
-import { importCMSCore } from '$utils/import';
 
 import type { FormBlockElement, FormField } from '@finsweet/ts-utils';
 import type { CMSItem, CMSList } from 'packages/cms/cmscore/src';
@@ -66,6 +65,7 @@ export class CMSFilters {
   constructor(
     public readonly formBlock: FormBlockElement,
     public readonly listInstance: CMSList,
+    private readonly cmsCore: CMSCore,
     {
       emptyElement,
       resultsElement,
@@ -103,19 +103,27 @@ export class CMSFilters {
    * Inits the instance.
    */
   private async init() {
-    const cmsCore = await importCMSCore();
-    if (!cmsCore) return;
+    const {
+      cmsCore: { collectItemsProps },
+      listInstance: { items },
+    } = this;
 
-    cmsCore.collectItemsProps(this.listInstance.items, fieldKey);
+    collectItemsProps(items, fieldKey);
 
-    this.listenEvents(cmsCore);
+    this.listenEvents();
   }
 
   /**
    * Listens for internal events.
    */
-  private listenEvents({ collectItemsProps }: CMSCore) {
-    const { form, resetButtonsData: resetButtons, listInstance, filtersActive } = this;
+  private listenEvents() {
+    const {
+      form,
+      resetButtonsData: resetButtons,
+      listInstance,
+      filtersActive,
+      cmsCore: { collectItemsProps },
+    } = this;
 
     // Form
     form.addEventListener('submit', (e) => this.handleSubmit(e));
