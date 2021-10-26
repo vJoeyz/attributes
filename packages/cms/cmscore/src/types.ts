@@ -16,8 +16,19 @@ export interface CMSListEvents {
  */
 export interface CMSItemProps {
   [key: string]: {
-    values: string[];
+    values: Set<string>;
+
+    /**
+     * Defines the type of the value.
+     * @example `date`
+     */
     type?: string | null;
+
+    /**
+     * Defines the mode of the prop.
+     * @example `from` | `to`.
+     */
+    range?: string | null;
   };
 }
 

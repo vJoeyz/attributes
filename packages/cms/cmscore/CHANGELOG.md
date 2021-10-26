@@ -1,5 +1,9 @@
 # `cmscore` Changelog
 
+## [v1.0.3] 26th October 2021
+
+- Changed `CMSItemProps.mode` to `CMSItemProps.range`.
+
 ## [v1.0.2] 26th October 2021
 
 - Modified `CMSItem.props` value type to a `Set` instead of `Array`.

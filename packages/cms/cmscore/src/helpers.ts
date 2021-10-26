@@ -9,7 +9,7 @@ import type { CMSItemProps } from './types';
  */
 export const collectItemsProps = (
   items: CMSItem[],
-  { fieldKey, typeKey, modeKey }: { fieldKey: string; typeKey?: string; modeKey?: string }
+  { fieldKey, typeKey, rangeKey }: { fieldKey: string; typeKey?: string; rangeKey?: string }
 ): void => {
   for (const item of items) {
     const elements = [...item.element.querySelectorAll<HTMLElement>(`[${fieldKey}]`)];
@@ -17,20 +17,20 @@ export const collectItemsProps = (
     const itemProps = elements.reduce<CMSItemProps>((props, element) => {
       const filterKey = element.getAttribute(fieldKey);
       const type = typeKey ? element.getAttribute(typeKey) : undefined;
-      const mode = modeKey ? element.getAttribute(modeKey) : undefined;
+      const range = rangeKey ? element.getAttribute(rangeKey) : undefined;
 
       const { textContent } = element;
 
       if (!filterKey || !textContent) return props;
 
-      props[filterKey] ||= { type, mode, values: new Set() };
+      props[filterKey] ||= { type, range, values: new Set() };
 
       const prop = props[filterKey];
       const { values } = prop;
 
-      if (mode === 'from' || mode === 'to') {
+      if (range === 'from' || range === 'to') {
         const newValues = [...values];
-        newValues[mode === 'from' ? 0 : 1] = textContent;
+        newValues[range === 'from' ? 0 : 1] = textContent;
 
         prop.values = new Set(newValues);
       }
