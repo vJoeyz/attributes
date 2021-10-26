@@ -6,16 +6,16 @@ import type { FilterData, FilterProperties, FiltersValues } from './CMSFilter';
 
 /**
  * Updates the {@link FiltersValues} of the `CMSFilter` instance.
- * @param target The input target.
+ * @param element The input element.
  * @param filtersValues The `FiltersValues` object.
- * @param filterData The {@link FilterData} of the input target.
+ * @param filterData The {@link FilterData} of the input element.
  */
 export const handleFilterInput = (
-  target: FormField,
+  element: FormField,
   filtersValues: FiltersValues,
   { filterKeys, fixedValue, mode, match }: FilterData
 ) => {
-  const { type, value } = target;
+  const { type, value } = element;
 
   const properties: FilterProperties = {
     mode,
@@ -30,7 +30,7 @@ export const handleFilterInput = (
 
     switch (type) {
       case 'checkbox': {
-        const { checked } = <HTMLInputElement>target;
+        const { checked } = <HTMLInputElement>element;
 
         if (existingFilter) {
           if (fixedValue) {
@@ -52,7 +52,7 @@ export const handleFilterInput = (
       }
 
       case 'radio': {
-        const { checked } = <HTMLInputElement>target;
+        const { checked } = <HTMLInputElement>element;
 
         if (checked && fixedValue) {
           if (existingFilter) {
