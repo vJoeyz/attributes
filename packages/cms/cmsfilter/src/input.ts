@@ -26,7 +26,9 @@ export const handleFilterInput = (element: FormField, filtersData: FiltersData) 
       case 'checkbox': {
         const { checked } = <HTMLInputElement>element;
 
-        filterValues[checked ? 'add' : 'delete'](fixedValue ? fixedValue : 'true');
+        if (!fixedValue) break;
+
+        filterValues[checked ? 'add' : 'delete'](fixedValue);
         break;
       }
 

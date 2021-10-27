@@ -1,32 +1,97 @@
-import { extractCommaSeparatedValues } from '@finsweet/ts-utils';
-import { FiltersData } from './types';
+import { extractCommaSeparatedValues, setFormFieldValue } from '@finsweet/ts-utils';
+
+import type { CMSFilters } from './CMSFilter';
+import type { FiltersData } from './types';
 
 const { location, history } = window;
 
-// export const getQueryParams = (filtersData: FiltersData) => {
-//   const url = new URL(location.href);
-//   const { searchParams } = url;
+/**
+ * Retrieves the existing query parameters of the `window.location` and applies the values to the filters.
+ * @param cmsFilters The {@link CMSFilters} instance to update.
+ */
+export const getQueryParams = (cmsFilters: CMSFilters) => {
+  const { filtersData, submitButton } = cmsFilters;
 
-//   const filterData = [...filtersData.values()];
+  const url = new URL(location.href);
+  const { searchParams } = url;
 
-//   for (const [queryKey, queryValue] of searchParams) {
-//     const keyIsValid = !!filterData.find(({ filterKeys }) => filterKeys.includes(queryKey));
-//     if (!keyIsValid) continue;
+  for (const [queryKey, queryValue] of searchParams) {
+    const filterData = filtersData.find(({ filterKeys }) => filterKeys.size === 1 && filterKeys.has(queryKey));
+    if (!filterData) continue;
 
-//     const values = extractCommaSeparatedValues(queryValue);
-//   }
-// };
+    const queryValues = extractCommaSeparatedValues(queryValue);
+    if (!queryValues.length) continue;
 
+    const { elements, mode, values: filterValues } = filterData;
+
+    // Range Values
+    if (mode === 'range') {
+      const [fromValue, toValue] = queryValues;
+
+      const fromElement = elements.find(
+        ({ mode, fixedValue }) => mode === 'from' && (!fixedValue || fixedValue === fromValue)
+      );
+      const toElement = elements.find(
+        ({ mode, fixedValue }) => mode === 'to' && (!fixedValue || fixedValue === toValue)
+      );
+
+      const newValues: string[] = [];
+
+      if (fromValue && fromElement) {
+        const { element, type } = fromElement;
+        if (type === 'checkbox' || type === 'radio') setFormFieldValue(element, true);
+        else setFormFieldValue(element, fromValue);
+
+        newValues[0] = fromValue;
+      }
+
+      if (toValue && toElement) {
+        const { element, type } = toElement;
+        if (type === 'checkbox' || type === 'radio') setFormFieldValue(element, true);
+        else setFormFieldValue(element, fromValue);
+
+        newValues[1] = toValue;
+      }
+
+      if (newValues.length) filterData.values = new Set(newValues);
+
+      continue;
+    }
+
+    // Regular Values
+    for (const queryValue of queryValues) {
+      for (const { element, fixedValue, type } of elements) {
+        if (fixedValue === queryValue && (type === 'checkbox' || type === 'radio')) setFormFieldValue(element, true);
+        else if (!fixedValue && type !== 'checkbox' && type !== 'radio') setFormFieldValue(element, queryValue);
+        else continue;
+
+        filterValues.add(queryValue);
+      }
+    }
+  }
+
+  if (!submitButton) cmsFilters.applyFilters();
+};
+
+/**
+ * Adds the filter values as query params in the current `window.location`.
+ * @param filtersData
+ */
 export const setQueryParams = (filtersData: FiltersData) => {
   const url = new URL(location.href);
   const { searchParams } = url;
 
   for (const [key] of searchParams) searchParams.delete(key);
 
-  for (const { filterKeys, values } of filtersData) {
+  for (const {
+    filterKeys: [filterKey],
+    values,
+  } of filtersData) {
+    if (!values.size) continue;
+
     const value = [...values].join(',');
 
-    for (const filterKey of filterKeys) url.searchParams.set(filterKey, value);
+    url.searchParams.set(filterKey, value);
   }
 
   history.replaceState(null, '', url.toString());

@@ -111,7 +111,7 @@ export const collectFiltersData = (form: HTMLFormElement): FiltersData => {
         mode: elementMode,
         element: fieldElement,
         type: fieldElement.type,
-        fixedValue: isCheckbox ? undefined : element.textContent,
+        fixedValue: isCheckbox ? 'true' : element.textContent,
       };
 
       if (existingData) existingData.elements.push(elementData);

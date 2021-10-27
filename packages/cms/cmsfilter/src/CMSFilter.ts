@@ -1,6 +1,6 @@
 import debounce from 'just-debounce';
 import { assessFilter, clearFiltersData } from './filter';
-import { setQueryParams } from './query';
+import { getQueryParams, setQueryParams } from './query';
 import { handleFilterInput } from './input';
 import { ATTRIBUTES } from './constants';
 import { isFormField } from '@finsweet/ts-utils';
@@ -60,9 +60,6 @@ export class CMSFilters {
     this.showQueryParams = showQueryParams;
     this.scrollTop = scrollTop;
 
-    this.resultsCount = listInstance.items.filter(({ visible }) => visible).length;
-    this.updateResults();
-
     this.filtersData = collectFiltersData(form);
 
     this.init();
@@ -78,6 +75,11 @@ export class CMSFilters {
     } = this;
 
     collectItemsProps(items, { fieldKey, rangeKey, typeKey });
+
+    this.resultsCount = items.filter(({ visible }) => visible).length;
+    this.updateResults();
+
+    getQueryParams(this);
 
     this.listenEvents();
   }
