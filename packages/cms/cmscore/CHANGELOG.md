@@ -1,5 +1,9 @@
 # `cmscore` Changelog
 
+## [v1.0.5] 27th October 2021
+
+- `cmscore`: Removed `CMSList.initialItems` prop.
+
 ## [v1.0.4] 27th October 2021
 
 - `cmscore`: Added `CMSList.initialItems` prop.

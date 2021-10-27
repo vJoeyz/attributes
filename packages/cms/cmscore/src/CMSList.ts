@@ -14,33 +14,29 @@ export class CMSList extends Emittery<CMSListEvents> {
   public readonly list: CollectionListElement;
   public readonly paginationNext?: PaginationButtonElement | null;
   public readonly paginationPrevious?: PaginationButtonElement | null;
+  public readonly itemsPerPage: number;
   public readonly pageIndex?: number;
-  public readonly initialItems: CMSItem[];
-
   public items: CMSItem[];
   public showNewItems = true;
   public listAnimation?: Animation;
   public itemsAnimation?: Animation;
-
   /**
    * @param wrapper A `Collection List Wrapper` element.
    * @param pageIndex The index of the list on the page. Used when querying/storing this instance.
    */
   constructor(public readonly wrapper: CollectionListWrapperElement, { pageIndex }: { pageIndex?: number } = {}) {
     super();
-
     this.pageIndex = pageIndex;
-
     // DOM Elements
     this.list = getCollectionElements(this.wrapper, 'list') as CollectionListElement;
     this.paginationNext = getCollectionElements(this.wrapper, 'next');
     this.paginationPrevious = getCollectionElements(this.wrapper, 'previous');
 
     const collectionItems = getCollectionElements(this.wrapper, 'items');
+    this.itemsPerPage = collectionItems.length;
 
     // Stores
-    this.initialItems = collectionItems.map((element) => new CMSItem(element, this.list));
-    this.items = [...this.initialItems];
+    this.items = collectionItems.map((element) => new CMSItem(element, this.list));
   }
 
   /**
