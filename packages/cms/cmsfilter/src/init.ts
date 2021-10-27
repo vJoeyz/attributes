@@ -4,7 +4,7 @@ import { importAnimations, importCMSCore } from '$utils/import';
 import { CMSFilters } from './CMSFilter';
 
 import type { FormBlockElement } from '@finsweet/ts-utils';
-import type { CMSList } from 'packages/cms/cmscore/src';
+import type { CMSItem, CMSList } from 'packages/cms/cmscore/src';
 import type { CMSCore } from 'packages/cms/cmscore/src/types';
 
 // Constants destructuring
@@ -14,6 +14,9 @@ const {
   duration: { key: durationKey },
   easing: { key: easingKey },
   scrollTop: { key: scrollTopKey, values: scrollTopValues },
+  field: { key: fieldKey },
+  range: { key: rangeKey },
+  type: { key: typeKey },
 } = ATTRIBUTES;
 
 /**
@@ -92,6 +95,23 @@ const initFilters = async (listInstance: CMSList, cmsCore: CMSCore) => {
     resultsElement,
     showQueryParams,
     scrollTop,
+  });
+
+  // Listen Events
+  const handleItems = async (items: CMSItem[]) => {
+    cmsCore.collectItemsProps(items, { fieldKey, rangeKey, typeKey });
+    await filtersInstance.applyFilters(items, false);
+  };
+
+  listInstance.on('nestinitialitems', handleItems);
+
+  listInstance.on('afteradditems', async (newItems) => {
+    await handleItems(newItems);
+
+    if (!filtersInstance.filtersActive) {
+      filtersInstance.resultsCount += newItems.length;
+      filtersInstance.updateResults();
+    }
   });
 
   return filtersInstance;

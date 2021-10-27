@@ -23,15 +23,15 @@ export class CMSFilters {
   public readonly resultsElement;
   public readonly resetButtonsData;
   public readonly submitButton;
-
   public readonly filtersData;
+
+  public filtersActive = false;
+  public resultsCount = 0;
 
   private readonly showQueryParams;
   private readonly scrollTop;
 
   private emptyState = false;
-  private filtersActive = false;
-  private resultsCount = 0;
 
   constructor(
     public readonly formBlock: FormBlockElement,
@@ -79,7 +79,9 @@ export class CMSFilters {
     this.resultsCount = items.filter(({ visible }) => visible).length;
     this.updateResults();
 
-    getQueryParams(this);
+    const queryParamsValid = getQueryParams(this);
+
+    if (queryParamsValid) this.applyFilters();
 
     this.listenEvents();
   }
@@ -87,14 +89,8 @@ export class CMSFilters {
   /**
    * Listens for internal events.
    */
-  private listenEvents() {
-    const {
-      form,
-      resetButtonsData: resetButtons,
-      listInstance,
-      filtersActive,
-      cmsCore: { collectItemsProps },
-    } = this;
+  private async listenEvents() {
+    const { form, resetButtonsData } = this;
 
     // Form
     form.addEventListener('submit', (e) => this.handleSubmit(e));
@@ -104,32 +100,15 @@ export class CMSFilters {
     );
 
     // Reset buttons
-    for (const [resetButton, filterKey] of resetButtons) {
+    for (const [resetButton, filterKey] of resetButtonsData) {
       resetButton?.addEventListener('click', () => this.resetFilters(filterKey));
     }
-
-    // Items mutations
-    const handleItems = (items: CMSItem[]) => {
-      collectItemsProps(items, { fieldKey, rangeKey, typeKey });
-      this.applyFilters(items, false);
-    };
-
-    listInstance.on('nestexistingitems', handleItems);
-
-    listInstance.on('afteradditems', (newItems) => {
-      handleItems(newItems);
-
-      if (!filtersActive) {
-        this.resultsCount += newItems.length;
-        this.updateResults();
-      }
-    });
   }
 
   /**
    * Updates the displayed results on the `resultsElement`.
    */
-  private updateResults() {
+  public updateResults() {
     const { resultsElement, resultsCount } = this;
 
     if (resultsElement) resultsElement.textContent = `${resultsCount}`;
@@ -146,8 +125,6 @@ export class CMSFilters {
 
     handleFilterInput(target, filtersData);
 
-    console.log(filtersData);
-
     if (showQueryParams) setQueryParams(filtersData);
 
     if (!submitButton) await this.applyFilters();
@@ -157,11 +134,11 @@ export class CMSFilters {
    * Handles form submit events.
    * @param e The `Submit` event.
    */
-  private handleSubmit(e: Event) {
+  private async handleSubmit(e: Event) {
     e.preventDefault();
     e.stopImmediatePropagation();
 
-    this.applyFilters();
+    await this.applyFilters();
   }
 
   /**
@@ -209,19 +186,19 @@ export class CMSFilters {
       (show ? itemsToShow : itemsToHide).push(item);
     }
 
-    await listInstance.renderItems(itemsToHide, false, !animateList);
-    await listInstance.renderItems(itemsToShow, true, !animateList);
-
-    // Show / hide the `Empty State` element, if existing
-    if (!newItems && emptyElement) {
+    // Handle `Empty State`
+    if (emptyElement) {
       const { length } = itemsToShow;
 
+      // Hide the state when items are shown
       if (length && emptyState) {
         emptyElement.remove();
         wrapper.prepend(list);
 
         this.emptyState = false;
-      } else if (!length && !emptyState) {
+      }
+      // Only show it when no new items are being added
+      else if (!newItems && !length && !emptyState) {
         list.remove();
         wrapper.prepend(emptyElement);
 
@@ -229,8 +206,13 @@ export class CMSFilters {
       }
     }
 
+    // Render the items
+    await listInstance.renderItems(itemsToHide, false, !animateList);
+    await listInstance.renderItems(itemsToShow, true, !animateList);
+
     // Update the results
-    if (!newItems) this.resultsCount = itemsToShow.length;
+    if (newItems) this.resultsCount += itemsToShow.length;
+    else this.resultsCount = itemsToShow.length;
     this.updateResults();
 
     if (animateList) await listInstance.displayList();
@@ -243,7 +225,7 @@ export class CMSFilters {
    * Resets the active filters.
    * @param filterKey If passed, only this filter key will be resetted.
    */
-  public resetFilters(filterKey?: string | null): void {
+  public async resetFilters(filterKey?: string | null): Promise<void> {
     const { filtersData, showQueryParams } = this;
 
     if (!filterKey) clearFiltersData(filtersData);
@@ -255,7 +237,7 @@ export class CMSFilters {
 
     if (showQueryParams) setQueryParams(filtersData);
 
-    this.applyFilters();
+    await this.applyFilters();
   }
 
   /**

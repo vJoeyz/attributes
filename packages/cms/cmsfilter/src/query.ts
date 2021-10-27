@@ -9,8 +9,10 @@ const { location, history } = window;
  * Retrieves the existing query parameters of the `window.location` and applies the values to the filters.
  * @param cmsFilters The {@link CMSFilters} instance to update.
  */
-export const getQueryParams = (cmsFilters: CMSFilters) => {
-  const { filtersData, submitButton } = cmsFilters;
+export const getQueryParams = (cmsFilters: CMSFilters): boolean => {
+  let queryParamsValid = false;
+
+  const { filtersData } = cmsFilters;
 
   const url = new URL(location.href);
   const { searchParams } = url;
@@ -21,6 +23,8 @@ export const getQueryParams = (cmsFilters: CMSFilters) => {
 
     const queryValues = extractCommaSeparatedValues(queryValue);
     if (!queryValues.length) continue;
+
+    queryParamsValid = true;
 
     const { elements, mode, values: filterValues } = filterData;
 
@@ -70,7 +74,7 @@ export const getQueryParams = (cmsFilters: CMSFilters) => {
     }
   }
 
-  if (!submitButton) cmsFilters.applyFilters();
+  return queryParamsValid;
 };
 
 /**
