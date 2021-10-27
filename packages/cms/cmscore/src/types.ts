@@ -6,7 +6,7 @@ import type { addItemsToList, CMSList, CMSItem, collectItemsProps, createCMSList
 export interface CMSListEvents {
   beforeadditems: CMSItem[];
   afteradditems: CMSItem[];
-  nestexistingitems: CMSItem[];
+  nestinitialitems: CMSItem[];
   nestnewitems: CMSItem[];
   finishload: undefined;
 }

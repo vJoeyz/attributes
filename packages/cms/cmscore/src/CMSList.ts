@@ -14,8 +14,8 @@ export class CMSList extends Emittery<CMSListEvents> {
   public readonly list: CollectionListElement;
   public readonly paginationNext?: PaginationButtonElement | null;
   public readonly paginationPrevious?: PaginationButtonElement | null;
-  public readonly itemsPerPage: number;
   public readonly pageIndex?: number;
+  public readonly initialItems: CMSItem[];
 
   public items: CMSItem[];
   public showNewItems = true;
@@ -37,10 +37,10 @@ export class CMSList extends Emittery<CMSListEvents> {
     this.paginationPrevious = getCollectionElements(this.wrapper, 'previous');
 
     const collectionItems = getCollectionElements(this.wrapper, 'items');
-    this.itemsPerPage = collectionItems.length;
 
     // Stores
-    this.items = collectionItems.map((element) => new CMSItem(element, this.list));
+    this.initialItems = collectionItems.map((element) => new CMSItem(element, this.list));
+    this.items = [...this.initialItems];
   }
 
   /**
