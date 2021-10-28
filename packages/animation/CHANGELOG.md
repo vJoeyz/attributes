@@ -1,5 +1,9 @@
 # `animation` Changelog
 
+## [v1.0.3] 25th October 2021
+
+- Fixed `anchor` option not being properly used in `Node.insertBefore`.
+
 ## [v1.0.2] 25th October 2021
 
 - Added `initAttributes` call to make sure `window.fsAttributes` exists.

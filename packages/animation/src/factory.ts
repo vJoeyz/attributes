@@ -26,7 +26,7 @@ export const createAnimation = (props: AnimationProps): AnimationFunctions => {
       element.style.display = '';
       Object.assign(element.style, initialStyles);
 
-      if (target && anchor) anchor.insertBefore(element, anchor);
+      if (target && anchor) target.insertBefore(element, anchor);
       else if (target) target.appendChild(element);
     }
 

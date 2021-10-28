@@ -3,8 +3,10 @@ import { Debug } from '@finsweet/ts-utils';
 import type { AnimationImport } from 'packages/animation/src/types';
 import type { CMSCoreImport } from 'packages/cms/cmscore/src/types';
 
-const ANIMATIONS_SOURCE = 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-animation@1.0.1/functions.js';
-const CMS_CORE_SOURCE = 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmscore@1.0.5/cmscore.js';
+const ANIMATIONS_SOURCE = 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-animation@1.0.3/functions.js';
+// const CMS_CORE_SOURCE = 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmscore@1.0.5/cmscore.js';
+const CMS_CORE_SOURCE =
+  'https://onedrive.live.com/download?cid=6BF5AC2A9E9521CC&resid=6BF5AC2A9E9521CC%21268836&authkey=AL8OuJL7uMsa2es';
 
 /**
  * Dynamically imports the `animation` package.
