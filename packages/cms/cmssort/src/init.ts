@@ -1,4 +1,4 @@
-import { isKeyOf, isNotEmpty, getCollectionListWrappers } from '@finsweet/ts-utils';
+import { isKeyOf } from '@finsweet/ts-utils';
 import { importAnimations, importCMSCore } from '$utils/import';
 import { initHTMLSelect } from './select';
 import { initButtons } from './buttons';
@@ -32,9 +32,7 @@ export const init = async (): Promise<void> => {
   const cmsCore = await importCMSCore();
   if (!cmsCore) return;
 
-  const collectionListWrappers = getCollectionListWrappers([getSelector('element', 'list', { operator: 'prefixed' })]);
-
-  const listInstances = collectionListWrappers.map(cmsCore.createCMSListInstance).filter(isNotEmpty);
+  const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
   await Promise.all(listInstances.map((listInstance) => initList(listInstance, cmsCore)));
 };
@@ -82,6 +80,17 @@ const initList = async (listInstance: CMSList, { collectItemsProps }: CMSCore) =
   // Init mode
   const [firstTrigger] = triggers;
 
-  if (firstTrigger instanceof HTMLSelectElement) initHTMLSelect(firstTrigger, listInstance);
-  else initButtons(triggers, listInstance, cssClasses);
+  const originalItemsOrder = [...items];
+
+  const sortItems =
+    firstTrigger instanceof HTMLSelectElement
+      ? initHTMLSelect(firstTrigger, listInstance, originalItemsOrder)
+      : initButtons(triggers, listInstance, cssClasses);
+
+  listInstance.on('afteradditems', async (newItems) => {
+    collectItemsProps(newItems, { fieldKey, typeKey });
+    originalItemsOrder.push(...newItems);
+
+    await sortItems(true);
+  });
 };

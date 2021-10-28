@@ -9,6 +9,7 @@ import type { SortingDirection } from './types';
  * @param params.originalItemsOrder The original order of the items.
  * @param params.direction The direction to sort.
  * @param params.sortKey The key of the field to use as sorting reference.
+ * @param params.renderItems If set to `true`, the items of the list are re-rendered.
  */
 export const sortListItems = async (
   listInstance: CMSList,
@@ -16,13 +17,16 @@ export const sortListItems = async (
     originalItemsOrder,
     direction,
     sortKey,
+    renderItems,
   }: {
     originalItemsOrder: CMSItem[];
     direction?: SortingDirection;
     sortKey?: string;
+    renderItems?: boolean;
   }
 ) => {
   const { items } = listInstance;
+  console.log('sorting items: ', items);
 
   const validSortKey = direction && sortKey && items.some(({ props }) => sortKey in props);
 
@@ -58,7 +62,7 @@ export const sortListItems = async (
   else listInstance.items = [...originalItemsOrder];
 
   // Render the new order
-  await renderListItems(listInstance);
+  if (renderItems) await renderListItems(listInstance);
 };
 
 /**
@@ -72,7 +76,7 @@ const renderListItems = async (listInstance: CMSList, animateList = true) => {
 
   if (animateList) await listInstance.displayList(false, animateList);
 
-  for (const { element } of items) list.appendChild(element);
+  for (const { element, visible, isShowing } of items) if (visible || isShowing) list.appendChild(element);
 
   if (animateList) await listInstance.displayList(true, animateList);
 };

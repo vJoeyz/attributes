@@ -16,6 +16,16 @@ export const initButtons = (buttons: NodeListOf<HTMLElement>, listInstance: CMSL
   const buttonsState: ButtonsState = new Map();
 
   let activeButton: HTMLElement | undefined;
+  let direction: SortingDirection | undefined;
+  let sortKey: string;
+
+  /**
+   * Sorts the items based on the current selected `sortKey` and `direction`.
+   * @param renderItems If set to `true`, the items of the list are re-rendered.
+   */
+  const sortItems = async (renderItems?: boolean) => {
+    await sortListItems(listInstance, { originalItemsOrder, sortKey, direction, renderItems });
+  };
 
   for (const button of buttons) {
     prepareButton(button, buttonsState, cssClasses);
@@ -26,19 +36,20 @@ export const initButtons = (buttons: NodeListOf<HTMLElement>, listInstance: CMSL
       const buttonState = buttonsState.get(button);
       if (!buttonState) return;
 
-      const { sortKey, direction: currentDirection } = buttonState;
-
-      const nextDirection = getNextDirection(currentDirection);
+      sortKey = buttonState.sortKey;
+      direction = getNextDirection(buttonState.direction);
 
       if (activeButton && button !== activeButton) updateButton(activeButton, undefined, buttonsState, cssClasses);
 
       activeButton = button;
 
-      updateButton(button, nextDirection, buttonsState, cssClasses);
+      updateButton(button, direction, buttonsState, cssClasses);
 
-      await sortListItems(listInstance, { originalItemsOrder, sortKey, direction: nextDirection });
+      await sortItems(true);
     });
   }
+
+  return sortItems;
 };
 
 const prepareButton = (button: HTMLElement, buttonsState: ButtonsState, cssClasses: CSSClasses) => {

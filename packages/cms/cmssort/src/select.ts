@@ -1,22 +1,30 @@
 import { sortListItems } from './sort';
 
-import type { CMSList } from 'packages/cms/cmscore/src';
+import type { CMSItem, CMSList } from 'packages/cms/cmscore/src';
 
-export const initHTMLSelect = (selectElement: HTMLSelectElement, listInstance: CMSList) => {
+export const initHTMLSelect = (
+  selectElement: HTMLSelectElement,
+  listInstance: CMSList,
+  originalItemsOrder: CMSItem[]
+) => {
   // Prevent submit events on the form
   const form = selectElement.closest('form');
   form?.addEventListener('submit', handleFormSubmit);
 
+  let sortKey: string;
+  let direction: 'asc' | 'desc';
+
+  /**
+   * Sorts the items based on the current selected `sortKey` and `direction`.
+   * @param renderItems If set to `true`, the items of the list are re-rendered.
+   */
+  const sortItems = async (renderItems?: boolean) => {
+    await sortListItems(listInstance, { originalItemsOrder, direction, sortKey, renderItems });
+  };
+
   // Store the original CMS Order
-  const { items } = listInstance;
-
-  const originalItemsOrder = [...items];
-
   selectElement.addEventListener('change', async () => {
     const { value } = selectElement;
-
-    let sortKey: string;
-    let direction: 'asc' | 'desc';
 
     if (value.endsWith('-asc')) {
       direction = 'asc';
@@ -31,8 +39,10 @@ export const initHTMLSelect = (selectElement: HTMLSelectElement, listInstance: C
 
     direction = value.endsWith('-desc') ? 'desc' : 'asc';
 
-    await sortListItems(listInstance, { originalItemsOrder, direction, sortKey });
+    await sortItems(true);
   });
+
+  return sortItems;
 };
 
 const handleFormSubmit = (e: Event) => {
