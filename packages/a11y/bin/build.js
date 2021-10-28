@@ -14,7 +14,7 @@ const defaultSettings = {
   bundle: true,
   minify: true,
   sourcemap: false,
-  target: 'es6',
+  target: production ? 'es6' : 'esnext',
 };
 
 // Files building
