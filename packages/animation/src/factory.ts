@@ -17,7 +17,7 @@ export const createAnimation = (props: AnimationProps): AnimationFunctions => {
    * @returns An awaitable promise.
    */
   const animateIn: AnimationFunctions['animateIn'] = async (elements, options = {}) => {
-    const { target, anchor, stagger, ...animationOptions } = options;
+    const { target, insertAfter, stagger, ...animationOptions } = options;
     const { keyframes, initialStyles } = props;
 
     if (!Array.isArray(elements)) elements = [elements];
@@ -26,12 +26,14 @@ export const createAnimation = (props: AnimationProps): AnimationFunctions => {
       element.style.display = '';
       Object.assign(element.style, initialStyles);
 
-      if (target && anchor) target.insertBefore(element, anchor);
-      else if (target) target.appendChild(element);
+      if (target && insertAfter !== undefined) {
+        if (insertAfter) target.insertBefore(element, insertAfter.nextSibling);
+        else target.prepend(element);
+      } else if (target) target.appendChild(element);
     }
 
     const { finished } = animate(elements, keyframes, {
-      delay: stagger ? staggerDelay(stagger) : undefined,
+      delay: stagger ? staggerDelay(stagger / 100) : undefined,
       ...animationOptions,
     });
 
@@ -55,7 +57,7 @@ export const createAnimation = (props: AnimationProps): AnimationFunctions => {
 
     const { finished } = animate(elements, keyframes, {
       ...animationOptions,
-      delay: stagger ? staggerDelay(stagger) : undefined,
+      delay: stagger ? staggerDelay(stagger / 100) : undefined,
       direction: 'reverse',
     });
 

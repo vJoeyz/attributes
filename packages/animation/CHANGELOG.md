@@ -1,5 +1,9 @@
 # `animation` Changelog
 
+## [v1.0.4] 25th October 2021
+
+- Switched `anchor` option for `insertAfter` option.
+
 ## [v1.0.3] 25th October 2021
 
 - Fixed `anchor` option not being properly used in `Node.insertBefore`.
