@@ -25,21 +25,19 @@ const domParser = new DOMParser();
  * Queries the existing CMS Collections on the page that will be nested inside the main list instance.
  * @returns A `Map` with the `collectionKey` as the keys and `CMSList` instances as the values.
  */
-export const getCollectionsToNest = ({ createCMSListInstance }: CMSCore): CollectionsToNest => {
+export const getCollectionsToNest = ({ createCMSListInstances }: CMSCore): CollectionsToNest => {
   const collectionsToNest: CollectionsToNest = new Map();
-  const collectionListWrappers = getCollectionListWrappers([getSelector('list')]);
 
-  for (const collectionListWrapper of collectionListWrappers) {
-    const listInstance = createCMSListInstance(collectionListWrapper);
-    if (!listInstance) continue;
+  const listInstances = createCMSListInstances([getSelector('list')]);
 
+  for (const listInstance of listInstances) {
     const collectionKey = listInstance.getAttribute(listKey);
     if (!collectionKey) continue;
 
     const emptyElement = document.querySelector<HTMLElement>(`[${emptyKey}^="${collectionKey}"]`);
     if (emptyElement) emptyElement.remove();
 
-    collectionListWrapper.remove();
+    listInstance.wrapper.remove();
 
     collectionsToNest.set(collectionKey, { listInstance, emptyElement });
   }

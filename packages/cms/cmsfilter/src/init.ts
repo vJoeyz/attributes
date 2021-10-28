@@ -1,5 +1,5 @@
 import { ATTRIBUTES, DEFAULT_ANIMATION_DURATION, getSelector } from './constants';
-import { FORM_CSS_CLASSES, isKeyOf, isNotEmpty, getCollectionListWrappers } from '@finsweet/ts-utils';
+import { FORM_CSS_CLASSES, isKeyOf, isNotEmpty } from '@finsweet/ts-utils';
 import { importAnimations, importCMSCore } from '$utils/import';
 import { CMSFilters } from './CMSFilter';
 
@@ -26,9 +26,7 @@ export const init = async (): Promise<CMSFilters[]> => {
   const cmsCore = await importCMSCore();
   if (!cmsCore) return [];
 
-  const collectionListWrappers = getCollectionListWrappers([getSelector('element', 'list', { operator: 'prefixed' })]);
-
-  const listInstances = collectionListWrappers.map(cmsCore.createCMSListInstance).filter(isNotEmpty);
+  const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
   const filtersInstances = (
     await Promise.all(listInstances.map((listInstance) => initFilters(listInstance, cmsCore)))

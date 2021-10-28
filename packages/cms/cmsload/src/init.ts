@@ -1,4 +1,4 @@
-import { getObjectKeys, isKeyOf, isNotEmpty, restartWebflow, getCollectionListWrappers } from '@finsweet/ts-utils';
+import { getObjectKeys, isKeyOf, restartWebflow } from '@finsweet/ts-utils';
 import { initDefaultMode, initInfiniteMode, initLoadAllMode } from './modes';
 import { ATTRIBUTES, getSelector } from './constants';
 import { importAnimations, importCMSCore } from '$utils/import';
@@ -25,9 +25,7 @@ export const init = async (): Promise<CMSList[]> => {
   if (!cmsCore) return [];
 
   // Create the list instances
-  const collectionListWrappers = getCollectionListWrappers([getSelector('element', 'list', { operator: 'prefixed' })]);
-
-  const listInstances = collectionListWrappers.map(cmsCore.createCMSListInstance).filter(isNotEmpty);
+  const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
   // Init the modes
   await Promise.all(

@@ -1,5 +1,5 @@
 import { ATTRIBUTES, getSelector } from './constants';
-import { restartWebflow, TABS_CSS_CLASSES, isNotEmpty, getCollectionListWrappers } from '@finsweet/ts-utils';
+import { restartWebflow, TABS_CSS_CLASSES } from '@finsweet/ts-utils';
 import { populateTabsFromLists } from './populate';
 import { importCMSCore } from '$utils/import';
 
@@ -25,9 +25,7 @@ export const init = async (): Promise<void> => {
   const cmsCore = await importCMSCore();
   if (!cmsCore) return;
 
-  const collectionListWrappers = getCollectionListWrappers([getSelector('element', 'list', { operator: 'prefixed' })]);
-
-  const listInstances = collectionListWrappers.map(cmsCore.createCMSListInstance).filter(isNotEmpty);
+  const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
   // Collect the combine data
   let populateData: PopulateData[] = [];

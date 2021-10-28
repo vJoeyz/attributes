@@ -3,9 +3,14 @@ import { getCollectionElements } from '@finsweet/ts-utils';
 import { getInstanceIndex } from '$utils/attributes';
 import { CMSItem } from './CMSItem';
 
-import type { CollectionListWrapperElement, CollectionListElement, PaginationButtonElement } from '@finsweet/ts-utils';
 import type { Animation } from 'packages/animation/src/types';
 import type { CMSListEvents } from './types';
+import type {
+  CollectionListWrapperElement,
+  CollectionListElement,
+  PaginationButtonElement,
+  CollectionItemElement,
+} from '@finsweet/ts-utils';
 
 /**
  * Instance of a Collection List.
@@ -27,6 +32,7 @@ export class CMSList extends Emittery<CMSListEvents> {
   constructor(public readonly wrapper: CollectionListWrapperElement, { pageIndex }: { pageIndex?: number } = {}) {
     super();
     this.pageIndex = pageIndex;
+
     // DOM Elements
     this.list = getCollectionElements(this.wrapper, 'list') as CollectionListElement;
     this.paginationNext = getCollectionElements(this.wrapper, 'next');
@@ -38,6 +44,26 @@ export class CMSList extends Emittery<CMSListEvents> {
     // Stores
     this.items = collectionItems.map((element) => new CMSItem(element, this.list));
   }
+
+  /**
+   * Stores new Collection Items in a `CMSList` instance.
+   * **Important:** It mutates the {@link CMSList.items} object.
+   * @param listInstance The `CMSList` instance.
+   * @param newItemElements The new Collection Items to store.
+   */
+  public addItems = async (itemElements: CollectionItemElement[]) => {
+    const { items, list, showNewItems } = this;
+
+    const newItems = itemElements.map((item) => new CMSItem(item, list));
+
+    items.push(...newItems);
+
+    await this.emitSerial('beforeadditems', newItems);
+
+    if (showNewItems) await this.renderItems(newItems);
+
+    await this.emitSerial('afteradditems', newItems);
+  };
 
   /**
    * Shows/hides an item or array of items.
@@ -81,7 +107,7 @@ export class CMSList extends Emittery<CMSListEvents> {
    *
    * @param show Defaults to `true`.
    *
-   * @param animate Defines if the list should be animated (`fadeOut` + `fadeIn`) during the action.
+   * @param animate Defines if the list should be animated during the action.
    * Defaults to `true`.
    */
   public async displayList(show = true, animate = true): Promise<void> {

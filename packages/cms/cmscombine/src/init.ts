@@ -1,4 +1,4 @@
-import { getCollectionElements, isNotEmpty, getCollectionListWrappers } from '@finsweet/ts-utils';
+import { getCollectionElements } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 import { importCMSCore } from '$utils/import';
 
@@ -17,16 +17,12 @@ export const init = async (): Promise<CMSList[]> => {
   const cmsCore = await importCMSCore();
   if (!cmsCore) return [];
 
-  const { createCMSListInstance, addItemsToList } = cmsCore;
-
   let populateData: PopulateData[] = [];
 
-  const collectionListWrappers = getCollectionListWrappers([
+  const listInstances = cmsCore.createCMSListInstances([
     getSelector('element', 'list', { operator: 'prefixed' }),
     getSelector('element', 'target', { operator: 'prefixed' }),
   ]);
-
-  const listInstances = collectionListWrappers.map(createCMSListInstance).filter(isNotEmpty);
 
   // Collect the combine data
   for (const listInstance of listInstances) {
@@ -51,7 +47,7 @@ export const init = async (): Promise<CMSList[]> => {
       for (const { wrapper, items } of lists) {
         const elementsToAdd = items.map(({ element }) => element);
 
-        await addItemsToList(target, elementsToAdd);
+        await target.addItems(elementsToAdd);
 
         wrapper.remove();
       }

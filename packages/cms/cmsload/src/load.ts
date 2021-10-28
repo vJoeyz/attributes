@@ -1,6 +1,5 @@
 import { getCollectionElements, getCollectionListWrappers } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
-import { importCMSCore } from '$utils/import';
 
 import type { PaginationButtonElement } from '@finsweet/ts-utils';
 import type { CMSList } from 'packages/cms/cmscore/src';
@@ -24,9 +23,6 @@ const domParser = new DOMParser();
  * @returns The URL of the next page to be loaded.
  */
 export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all'): Promise<string | undefined> => {
-  const cmsCore = await importCMSCore();
-  if (!cmsCore) return;
-
   const pageLinks: string[] = [];
 
   const { pageIndex, paginationNext } = listInstance;
@@ -54,7 +50,7 @@ export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all
       // Store and mount the new items
       const collectionItems = getCollectionElements(collectionListWrapper, 'items');
 
-      cmsCore.addItemsToList(listInstance, collectionItems).then(async () => {
+      listInstance.addItems(collectionItems).then(async () => {
         if (finishedLoading) await listInstance.emit('finishload');
       });
 

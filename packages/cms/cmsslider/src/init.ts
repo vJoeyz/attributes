@@ -1,4 +1,4 @@
-import { isNotEmpty, restartWebflow, SLIDER_CSS_CLASSES, getCollectionListWrappers } from '@finsweet/ts-utils';
+import { restartWebflow, SLIDER_CSS_CLASSES } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 import { populateSliderFromLists } from './populate';
 import { mutateSliderMask } from './helpers';
@@ -26,9 +26,7 @@ export const init = async (): Promise<void> => {
   const cmsCore = await importCMSCore();
   if (!cmsCore) return;
 
-  const collectionListWrappers = getCollectionListWrappers([getSelector('element', 'list', { operator: 'prefixed' })]);
-
-  const listInstances = collectionListWrappers.map(cmsCore.createCMSListInstance).filter(isNotEmpty);
+  const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
   // Collect the combine data
   let populateData: PopulateData[] = [];

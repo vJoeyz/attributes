@@ -1,5 +1,4 @@
 import { importCMSCore } from '$utils/import';
-import { isNotEmpty, getCollectionListWrappers } from '@finsweet/ts-utils';
 import { getSelector } from './constants';
 import { getCollectionsToNest, populateNestedCollections } from './nest';
 
@@ -14,9 +13,7 @@ export const init = async (): Promise<void> => {
   if (!cmsCore) return;
 
   // Create the list instances
-  const collectionListWrappers = getCollectionListWrappers([getSelector('element', 'list', { operator: 'prefixed' })]);
-
-  const listInstances = collectionListWrappers.map(cmsCore.createCMSListInstance).filter(isNotEmpty);
+  const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
   for (const listInstance of listInstances) initListNesting(listInstance, cmsCore);
 };

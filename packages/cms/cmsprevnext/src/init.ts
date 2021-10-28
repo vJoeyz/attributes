@@ -1,4 +1,3 @@
-import { isNotEmpty, getCollectionListWrappers } from '@finsweet/ts-utils';
 import { getSelector } from './constants';
 import { collectElements } from './collect';
 import { importCMSCore } from '$utils/import';
@@ -15,9 +14,7 @@ export const init = async (): Promise<void> => {
   let previousPlaceholderFilled = false;
   let nextPlaceholderFilled = false;
 
-  const collectionListWrappers = getCollectionListWrappers([getSelector('element', 'list', { operator: 'prefixed' })]);
-
-  const listInstances = collectionListWrappers.map(cmsCore.createCMSListInstance).filter(isNotEmpty);
+  const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
   if (!listInstances.length) return;
 
   const elements = collectElements();
