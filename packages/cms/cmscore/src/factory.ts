@@ -44,10 +44,10 @@ const createCMSListInstance = (referenceElement: HTMLElement): CMSList | undefin
 
   const { lists, listElements } = fsAttributes.cms;
 
-  const pageIndex = listElements.indexOf(wrapper);
-  if (pageIndex === -1) return;
+  const index = listElements.indexOf(wrapper);
+  if (index === -1) return;
 
-  lists[pageIndex] ||= new CMSList(wrapper, { pageIndex });
+  lists[index] ||= new CMSList(wrapper, { index });
 
-  return lists[pageIndex];
+  return lists[index];
 };

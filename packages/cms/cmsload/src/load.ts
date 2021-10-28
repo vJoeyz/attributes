@@ -25,8 +25,8 @@ const domParser = new DOMParser();
 export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all'): Promise<string | undefined> => {
   const pageLinks: string[] = [];
 
-  const { pageIndex, paginationNext } = listInstance;
-  if (!paginationNext || typeof pageIndex !== 'number') return;
+  const { index, paginationNext } = listInstance;
+  if (!paginationNext || typeof index !== 'number') return;
 
   /**
    * Loads the items from the specified URL.
@@ -44,7 +44,7 @@ export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all
       const page = domParser.parseFromString(rawPage, 'text/html');
 
       // Get DOM Elements
-      const collectionListWrapper = getCollectionListWrappers([], page)[pageIndex];
+      const collectionListWrapper = getCollectionListWrappers([], page)[index];
       if (!collectionListWrapper) return;
 
       // Store and mount the new items
