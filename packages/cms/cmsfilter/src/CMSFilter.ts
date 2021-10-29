@@ -79,8 +79,7 @@ export class CMSFilters {
 
     collectItemsProps(items, { fieldKey, rangeKey, typeKey });
 
-    this.resultsCount = items.filter(({ currentIndex }) => typeof currentIndex === 'number').length;
-    this.updateResults();
+    this.updateResults(items.length);
 
     const queryParamsValid = getQueryParams(this);
 
@@ -111,10 +110,12 @@ export class CMSFilters {
   /**
    * Updates the displayed results on the `resultsElement`.
    */
-  public updateResults() {
-    const { resultsElement, resultsCount } = this;
+  public updateResults(resultsCount: number) {
+    const { resultsElement } = this;
 
     if (resultsElement) resultsElement.textContent = `${resultsCount}`;
+
+    this.resultsCount = resultsCount;
   }
 
   /**
@@ -157,7 +158,11 @@ export class CMSFilters {
 
     // Abort if no filtering is needed
     const filtersAreEmpty = filtersData.every(({ values }) => !values.size);
-    if (filtersAreEmpty && !filtersActive) return;
+
+    if (filtersAreEmpty && !filtersActive) {
+      this.updateResults(items.length);
+      return;
+    }
 
     this.filtersActive = !filtersAreEmpty;
 
@@ -191,14 +196,14 @@ export class CMSFilters {
     }
 
     // Render the items
-    if (renderItems) await listInstance.renderItems(false);
+    if (renderItems) {
+      await listInstance.renderItems(false);
+
+      if (scrollTop) this.scrollToTop();
+    }
 
     // Update the results
-    this.resultsCount = itemsToShow;
-    this.updateResults();
-
-    // Scroll Top
-    if (scrollTop) this.scrollToTop();
+    this.updateResults(itemsToShow);
   }
 
   /**
