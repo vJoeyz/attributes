@@ -1,5 +1,9 @@
 # `animation` Changelog
 
+## [v1.0.5] 25th October 2021
+
+- Added `prepareIn` function.
+
 ## [v1.0.4] 25th October 2021
 
 - Switched `anchor` option for `insertAfter` option.

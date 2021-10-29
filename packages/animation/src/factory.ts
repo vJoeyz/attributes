@@ -7,18 +7,15 @@ import type { AnimationFunctions, AnimationProps } from './types';
  * @param props The animaiton props.
  * @returns A new `in` and `out` Animation functions.
  */
-export const createAnimation = (props: AnimationProps): AnimationFunctions => {
+export const createAnimation = ({ initialStyles, keyframes }: AnimationProps): AnimationFunctions => {
   /**
-   * In animation.
-   * @param elements The element to animate.
+   * Prepares the {@link animateIn} elements by setting the initial styles and rendering them to the DOM.
+   * @param elements The elements to prepare.
    * @param options.target If defined, the element will be appended to the target.
-   * @param options.anchor A child of the target. If defined, the element will be appended right before this anchor element.
-   * @param options.animationOptions The main options of the animation. Reference: {@link [Motion One](https://motion.dev/dom/animate#options)}.
-   * @returns An awaitable promise.
+   * @param options.insertAfter A child of the target. If defined, the element will be appended right after this anchor element.
    */
-  const animateIn: AnimationFunctions['animateIn'] = async (elements, options = {}) => {
-    const { target, insertAfter, stagger, ...animationOptions } = options;
-    const { keyframes, initialStyles } = props;
+  const prepareIn: AnimationFunctions['prepareIn'] = (elements, options = {}) => {
+    const { target, insertAfter } = options;
 
     if (!Array.isArray(elements)) elements = [elements];
 
@@ -31,6 +28,22 @@ export const createAnimation = (props: AnimationProps): AnimationFunctions => {
         else target.prepend(element);
       } else if (target) target.appendChild(element);
     }
+  };
+
+  /**
+   * In animation.
+   * @param elements The elements to animate.
+   * @param options.target If defined, the element will be appended to the target.
+   * @param options.insertAfter A child of the target. If defined, the element will be appended right after this anchor element.
+   * @param options.prepared Defines if the animation has been prepared beforehand, useful to avoid performing double preparation.
+   * @param options.stagger If defined, the animation will be staggered using this time value.
+   * @param options.animationOptions The main options of the animation. Reference: {@link [Motion One](https://motion.dev/dom/animate#options)}.
+   * @returns An awaitable promise.
+   */
+  const animateIn: AnimationFunctions['animateIn'] = async (elements, options = {}) => {
+    const { prepared, stagger, ...animationOptions } = options;
+
+    if (!prepared) prepareIn(elements, options);
 
     const { finished } = animate(elements, keyframes, {
       delay: stagger ? staggerDelay(stagger / 100) : undefined,
@@ -42,14 +55,14 @@ export const createAnimation = (props: AnimationProps): AnimationFunctions => {
 
   /**
    * Out animation.
-   * @param elements The element to animate.
+   * @param elements The elements to animate.
    * @param options.remove If defined, the element will be removed from the DOM after the animation ends.
+   * @param options.stagger If defined, the animation will be staggered using this time value.
    * @param options.animationOptions The main options of the animation. Reference: {@link [Motion One](https://motion.dev/dom/animate#options)}.
    * @returns An awaitable promise.
    */
   const animateOut: AnimationFunctions['animateOut'] = async (elements, options = {}) => {
     const { remove, stagger, ...animationOptions } = options;
-    const { keyframes } = props;
 
     if (!Array.isArray(elements)) elements = [elements];
 
@@ -69,5 +82,5 @@ export const createAnimation = (props: AnimationProps): AnimationFunctions => {
     }
   };
 
-  return { animateIn, animateOut };
+  return { prepareIn, animateIn, animateOut };
 };
