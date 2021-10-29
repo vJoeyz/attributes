@@ -1,8 +1,8 @@
 import { ATTRIBUTES } from './constants';
 
 import type { CMSFilters } from './CMSFilter';
-import type { CMSItem, CMSList } from 'packages/cms/cmscore/src';
-import type { CMSCore } from 'packages/cms/cmscore/src/types';
+import type { CMSItem, CMSList } from '$cms/cmscore/src';
+import type { CMSCore } from '$cms/cmscore/src/types';
 
 const {
   field: { key: fieldKey },

@@ -1,4 +1,4 @@
-import type { CMSItem, CMSList } from 'packages/cms/cmscore/src';
+import type { CMSItem, CMSList } from '$cms/cmscore/src';
 import type { SortingDirection } from './types';
 
 /**

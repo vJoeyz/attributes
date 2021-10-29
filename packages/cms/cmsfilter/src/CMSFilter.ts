@@ -7,8 +7,8 @@ import { isFormField } from '@finsweet/ts-utils';
 import { collectFiltersData, collectFiltersElements } from './collect';
 
 import type { FormBlockElement } from '@finsweet/ts-utils';
-import type { CMSList } from 'packages/cms/cmscore/src';
-import type { CMSCore } from 'packages/cms/cmscore/src/types';
+import type { CMSList } from '$cms/cmscore/src';
+import type { CMSCore } from '$cms/cmscore/src/types';
 
 // Constants
 const {

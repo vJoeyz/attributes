@@ -1,7 +1,7 @@
 import { clearFormField, isNotEmpty } from '@finsweet/ts-utils';
 import { normalizeDate } from './dates';
 
-import type { CMSItem } from 'packages/cms/cmscore/src';
+import type { CMSItem } from '$cms/cmscore/src';
 import type { FiltersData } from './types';
 
 /**

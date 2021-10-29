@@ -2,7 +2,7 @@ import { getCollectionElements } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 import { importCMSCore } from '$utils/import';
 
-import type { CMSList } from 'packages/cms/cmscore/src';
+import type { CMSList } from '$cms/cmscore/src';
 
 // Types
 interface PopulateData {

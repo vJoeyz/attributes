@@ -11,8 +11,8 @@ import {
 } from './constants';
 
 import type { CSSClasses } from './types';
-import type { CMSList } from 'packages/cms/cmscore/src';
-import type { CMSCore } from 'packages/cms/cmscore/src/types';
+import type { CMSList } from '$cms/cmscore/src';
+import type { CMSCore } from '$cms/cmscore/src/types';
 
 // Constants destructuring
 const {

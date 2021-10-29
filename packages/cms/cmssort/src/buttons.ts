@@ -2,7 +2,7 @@ import { sortListItems } from './sort';
 import { ATTRIBUTES } from './constants';
 
 import type { CSSClasses, SortingDirection } from './types';
-import type { CMSList } from 'packages/cms/cmscore/src';
+import type { CMSList } from '$cms/cmscore/src';
 
 // Types
 type ButtonsState = Map<HTMLElement, { sortKey: string; direction?: SortingDirection }>;

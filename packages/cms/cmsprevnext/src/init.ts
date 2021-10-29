@@ -2,7 +2,7 @@ import { getSelector } from './constants';
 import { collectElements } from './collect';
 import { importCMSCore } from '$utils/import';
 
-import type { CMSItem } from 'packages/cms/cmscore/src';
+import type { CMSItem } from '$cms/cmscore/src';
 
 /**
  * Inits the attribute.

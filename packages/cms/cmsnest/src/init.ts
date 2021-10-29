@@ -2,8 +2,8 @@ import { importCMSCore } from '$utils/import';
 import { getSelector } from './constants';
 import { getCollectionsToNest, populateNestedCollections } from './nest';
 
-import type { CMSList } from 'packages/cms/cmscore/src';
-import type { CMSCore } from 'packages/cms/cmscore/src/types';
+import type { CMSList } from '$cms/cmscore/src';
+import type { CMSCore } from '$cms/cmscore/src/types';
 
 /**
  * Inits the attribute.

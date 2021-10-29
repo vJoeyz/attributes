@@ -5,7 +5,7 @@ import { mutateSliderMask } from './helpers';
 import { importCMSCore } from '$utils/import';
 
 import type { SliderElement } from '@finsweet/ts-utils';
-import type { CMSList } from 'packages/cms/cmscore/src';
+import type { CMSList } from '$cms/cmscore/src';
 
 // Types
 export interface PopulateData {

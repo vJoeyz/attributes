@@ -2,8 +2,8 @@ import { ATTRIBUTES, getSelector } from './constants';
 import { cloneNode, getCollectionElements, getCollectionListWrappers } from '@finsweet/ts-utils';
 
 import type { CollectionItemElement } from '@finsweet/ts-utils';
-import type { CMSItem, CMSList } from 'packages/cms/cmscore/src';
-import type { CMSCore } from 'packages/cms/cmscore/src/types';
+import type { CMSItem, CMSList } from '$cms/cmscore/src';
+import type { CMSCore } from '$cms/cmscore/src/types';
 
 // Types
 interface CollectionToNest {
