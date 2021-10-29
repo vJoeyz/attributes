@@ -8,14 +8,15 @@ export interface AnimationProps {
   };
 }
 
-type AnimationOptions = Pick<AnimationListOptions, 'duration' | 'easing'> & { stagger?: number; prepared?: true };
+type AnimationOptions = Pick<AnimationListOptions, 'duration' | 'easing'> & { stagger?: number };
 
 type AnimationPrepare<T> = (element: HTMLElement | HTMLElement[], options?: T) => void;
 type AnimationBase<T> = (element: HTMLElement | HTMLElement[], options?: T & AnimationOptions) => Promise<void>;
 
-type AnimationInProps = { target?: Element; insertAfter?: Element | null };
+type PrepareInProps = { target?: Element; insertAfter?: Element | null };
+type AnimationInProps = PrepareInProps & { prepared?: true };
 
-type PrepareIn = AnimationPrepare<AnimationInProps>;
+type PrepareIn = AnimationPrepare<PrepareInProps>;
 
 type AnimationIn = AnimationBase<AnimationInProps>;
 type AnimationOut = AnimationBase<{ remove?: boolean }>;
