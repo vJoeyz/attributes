@@ -1,9 +1,13 @@
-import { getObjectKeys, isKeyOf, restartWebflow } from '@finsweet/ts-utils';
-import { initDefaultMode, initInfiniteMode, initLoadAllMode } from './modes';
+import { restartWebflow } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
-import { importAnimations, importCMSCore } from '$utils/import';
+import { importCMSCore } from '$utils/import';
+import { initLoadAllMode } from './modes/load-all';
+import { initInfiniteMode } from './modes/infinite';
+import { initDefaultMode } from './modes/default';
+import { initPaginateMode } from './modes/paginate';
+import { addItemsAnimation, addListAnimation } from '$cms/utils/animation';
 
-import type { CMSList } from 'packages/cms/cmscore/src';
+import type { CMSList } from '$cms/cmscore/src';
 
 // Types
 
@@ -30,30 +34,10 @@ export const init = async (): Promise<CMSList[]> => {
   // Init the modes
   await Promise.all(
     listInstances.map(async (listInstance) => {
-      // Get animation config
-      importAnimations().then((animationsImport) => {
-        if (!animationsImport) return;
+      // Animation
+      addItemsAnimation(listInstance, { animationKey, durationKey, easingKey, staggerKey });
 
-        const { animations, easings } = animationsImport;
-
-        const animationName = listInstance.getAttribute(animationKey);
-        const animationFunctions = isKeyOf(animationName, getObjectKeys(animations))
-          ? animations[animationName]
-          : animations.fade;
-
-        const animationDuration = listInstance.getAttribute(durationKey);
-        const animationEasing = listInstance.getAttribute(easingKey);
-        const animationStagger = listInstance.getAttribute(staggerKey);
-
-        listInstance.itemsAnimation = {
-          ...animationFunctions,
-          options: {
-            easing: isKeyOf(animationEasing, easings) ? animationEasing : undefined,
-            duration: animationDuration ? parseFloat(animationDuration) : undefined,
-            stagger: animationStagger ? parseFloat(animationStagger) : undefined,
-          },
-        };
-      });
+      if (!listInstance.listAnimation) addListAnimation(listInstance, { durationKey, easingKey });
 
       // Get resetIx config
       const resetIx = listInstance.getAttribute(resetIxKey) === resetIxValues.true;
@@ -70,6 +54,7 @@ export const init = async (): Promise<CMSList[]> => {
       // Init mode
       if (mode === modeValues.loadAll) await initLoadAllMode(listInstance);
       else if (mode === modeValues.infinite) initInfiniteMode(listInstance);
+      else if (mode === modeValues.paginate) initPaginateMode(listInstance);
       else initDefaultMode(listInstance);
 
       return listInstance;

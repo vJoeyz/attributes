@@ -99,5 +99,3 @@ export const MATCHES = ['any', 'all'] as const;
 export const MODES = {
   range: ['from', 'to'],
 } as const;
-
-export const DEFAULT_ANIMATION_DURATION = 0.1;
