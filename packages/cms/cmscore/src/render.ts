@@ -39,8 +39,6 @@ export const renderListItems = async (listInstance: CMSList, animateItems: boole
     if (item.currentIndex !== index) itemsToAnchor.push([item, index, itemsToShow[index - 1]]);
   });
 
-  console.log({ itemsToAnchor });
-
   // Hide the list
   if (!animateItems && listAnimation) await listInstance.displayList(false);
 
@@ -88,7 +86,7 @@ const hideItems = (itemsToHide: CMSItem[], { itemsAnimation }: CMSList, animateI
  * @returns An Array of promises.
  */
 const showItems = (itemsToAnchor: AnchorData[], { list, itemsAnimation }: CMSList, animateItems: boolean) => {
-  return itemsToAnchor.map(async ([item, index, anchor]) => {
+  return itemsToAnchor.map(async ([item, newIndex, anchor], actionIndex) => {
     item.animating = new Promise(async (resolveAnimating) => {
       item.rendering = new Promise(async (resolveRendering) => {
         await anchor?.rendering;
@@ -97,17 +95,22 @@ const showItems = (itemsToAnchor: AnchorData[], { list, itemsAnimation }: CMSLis
 
         const anchorElement = anchor?.element || null;
 
-        let animationFinish: Promise<void> | undefined;
-
         if (typeof currentIndex !== 'number' && animateItems && itemsAnimation) {
-          const { animateIn, options } = itemsAnimation;
-          const { stagger } = options || {};
+          const { prepareIn, animateIn, options } = itemsAnimation;
+          const { stagger, ...animationOptions } = options || {};
 
-          if (stagger) await wait(stagger);
+          const settings = {
+            target: list,
+            insertAfter: anchorElement,
+            ...animationOptions,
+          };
 
-          animationFinish = animateIn(element, { target: list, insertAfter: anchorElement, ...options });
-
+          prepareIn(element, settings);
           resolveRendering();
+
+          if (stagger) await wait(stagger * actionIndex);
+
+          await animateIn(element, { ...settings, prepared: true });
         } else {
           if (anchorElement) list.insertBefore(element, anchorElement.nextSibling);
           else list.prepend(element);
@@ -115,14 +118,12 @@ const showItems = (itemsToAnchor: AnchorData[], { list, itemsAnimation }: CMSLis
           resolveRendering();
         }
 
-        item.currentIndex = index;
-
-        await animationFinish;
-
         resolveAnimating();
       });
     });
 
     await item.rendering;
+
+    item.currentIndex = newIndex;
   });
 };
