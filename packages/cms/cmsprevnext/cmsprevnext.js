@@ -1,1 +1,179 @@
-(()=>{var f=(e,t,r)=>new Promise((l,n)=>{var i=o=>{try{s(r.next(o))}catch(a){n(a)}},c=o=>{try{s(r.throw(o))}catch(a){n(a)}},s=o=>o.done?l(o.value):Promise.resolve(o.value).then(i,c);s((r=r.apply(e,t)).next())});var m=class{static activateAlerts(){this.alertsActivated=!0}static alert(t,r){if(this.alertsActivated&&window.alert(t),r==="error")throw new Error(t)}};m.alertsActivated=!1;var S={wrapper:"w-dyn-list",list:"w-dyn-items",item:"w-dyn-item",paginationNext:"w-pagination-next",paginationPrevious:"w-pagination-previous",emptyState:"w-dyn-empty"};var E=e=>e!=null;var{wrapper:W,list:D,paginationNext:R,paginationPrevious:N,emptyState:O}=S;function g(e,t,r=document){let l=typeof e=="string"?r.querySelector(e):e;if(!l)return;let n=l.closest(`.${W}`);if(!n)return;let i=n.querySelector(`.${D}`);return t==="wrapper"?n:t==="list"?i:t==="items"?[...(i==null?void 0:i.children)||[]]:t==="empty"?n.querySelector(`.${O}`):n.querySelector(`.${t==="next"?R:N}`)}var w=(e,t=document)=>{e=e.filter(i=>i);let r=e.join(", ")||`.${S.wrapper}`;return[...t.querySelectorAll(r)].reduce((i,c)=>{if(!c)return i;let s=g(c,"wrapper");return!s||i.includes(s)||i.push(s),i},[])};var L="fs-attributes",v={preventLoad:{key:`${L}-preventload`},debugMode:{key:`${L}-debug`}};var T=()=>{window.fsAttributes||(window.fsAttributes={cms:{}})},h=e=>{let{preventLoad:t,debugMode:r}=v,l=typeof(e==null?void 0:e.getAttribute(t.key))=="string";return typeof(e==null?void 0:e.getAttribute(r.key))=="string"&&m.activateAlerts(),{preventsLoad:l}};var M=e=>(r,l,n)=>{let i=e[r],{key:c,values:s}=i,o;if(!l)return`[${c}]`;let a=s==null?void 0:s[l];if(typeof a=="string"?o=a:o=a(n&&"instanceIndex"in n?n.instanceIndex:void 0),!(n==null?void 0:n.operator))return`[${c}="${o}"]`;switch(n.operator){case"prefixed":return`[${c}^="${o}"]`;case"suffixed":return`[${c}$="${o}"]`;case"contains":return`[${c}*="${o}"]`}};var V="https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmscore@1.0.5/cmscore.js";var x=()=>f(void 0,null,function*(){let{fsAttributes:e}=window;if(e.cms||(e.cms={}),e.cms.coreImport)return e.cms.coreImport;try{let t=import(V);return e.cms.coreImport=t,t}catch(t){m.alert(`${t}`,"error");return}});var B="fs-cmsprevnext",F={element:{key:`${B}-element`,values:{list:"list",previous:"previous",previousEmpty:"previous-empty",next:"next",nextEmpty:"next-empty"}}},u=M(F);var _=()=>{let e=document.querySelector(u("element","previous",{operator:"prefixed"})),t=document.querySelector(u("element","next",{operator:"prefixed"}));if(!e&&!t)return;let r=document.querySelector(u("element","previousEmpty",{operator:"prefixed"}));r==null||r.remove();let l=document.querySelector(u("element","nextEmpty",{operator:"prefixed"}));return l==null||l.remove(),{previousPlaceholder:e,nextPlaceholder:t,previousEmptyElement:r,nextEmptyElement:l}};var A=()=>f(void 0,null,function*(){let e=yield x();if(!e)return;let t=!1,r=!1,n=w([u("element","list",{operator:"prefixed"})]).map(e.createCMSListInstance).filter(E);if(!n.length)return;let i=_();if(!i)return;let{previousPlaceholder:c,nextPlaceholder:s,previousEmptyElement:o,nextEmptyElement:a}=i,{origin:k,pathname:$}=window.location,P=k+$,I=()=>(!c||c&&t)&&(!s||s&&r);for(let d of n){if(I())break;let C=y=>{if(I()){d.off("afteradditems",C),d.wrapper.remove();return}let b=y.findIndex(({href:p})=>p&&p===P);if(!(b<0)){if(c){let p=y[b-1];p&&!t?(o==null||o.remove(),c.appendChild(p.element),t=!0):o&&c.appendChild(o)}if(s){let p=y[b+1];p&&!r?(a==null||a.remove(),s.appendChild(p.element),r=!0):a&&s.appendChild(a)}}};d.on("afteradditems",C),C(d.items),d.wrapper.style.display="none"}});T();var{currentScript:H}=document,{preventsLoad:q}=h(H);x();q?window.fsAttributes.cmsprevnext={init:A}:(window.Webflow||(window.Webflow=[]),window.Webflow.push(A));})();
+(() => {
+  var f = (e, t, r) =>
+    new Promise((l, n) => {
+      var i = (o) => {
+          try {
+            s(r.next(o));
+          } catch (a) {
+            n(a);
+          }
+        },
+        c = (o) => {
+          try {
+            s(r.throw(o));
+          } catch (a) {
+            n(a);
+          }
+        },
+        s = (o) => (o.done ? l(o.value) : Promise.resolve(o.value).then(i, c));
+      s((r = r.apply(e, t)).next());
+    });
+  var m = class {
+    static activateAlerts() {
+      this.alertsActivated = !0;
+    }
+    static alert(t, r) {
+      if ((this.alertsActivated && window.alert(t), r === 'error')) throw new Error(t);
+    }
+  };
+  m.alertsActivated = !1;
+  var S = {
+    wrapper: 'w-dyn-list',
+    list: 'w-dyn-items',
+    item: 'w-dyn-item',
+    paginationNext: 'w-pagination-next',
+    paginationPrevious: 'w-pagination-previous',
+    emptyState: 'w-dyn-empty',
+  };
+  var E = (e) => e != null;
+  var { wrapper: W, list: D, paginationNext: R, paginationPrevious: N, emptyState: O } = S;
+  function g(e, t, r = document) {
+    let l = typeof e == 'string' ? r.querySelector(e) : e;
+    if (!l) return;
+    let n = l.closest(`.${W}`);
+    if (!n) return;
+    let i = n.querySelector(`.${D}`);
+    return t === 'wrapper'
+      ? n
+      : t === 'list'
+      ? i
+      : t === 'items'
+      ? [...((i == null ? void 0 : i.children) || [])]
+      : t === 'empty'
+      ? n.querySelector(`.${O}`)
+      : n.querySelector(`.${t === 'next' ? R : N}`);
+  }
+  var w = (e, t = document) => {
+    e = e.filter((i) => i);
+    let r = e.join(', ') || `.${S.wrapper}`;
+    return [...t.querySelectorAll(r)].reduce((i, c) => {
+      if (!c) return i;
+      let s = g(c, 'wrapper');
+      return !s || i.includes(s) || i.push(s), i;
+    }, []);
+  };
+  var L = 'fs-attributes',
+    v = { preventLoad: { key: `${L}-preventload` }, debugMode: { key: `${L}-debug` } };
+  var T = () => {
+      window.fsAttributes || (window.fsAttributes = { cms: {} });
+    },
+    h = (e) => {
+      let { preventLoad: t, debugMode: r } = v,
+        l = typeof (e == null ? void 0 : e.getAttribute(t.key)) == 'string';
+      return typeof (e == null ? void 0 : e.getAttribute(r.key)) == 'string' && m.activateAlerts(), { preventsLoad: l };
+    };
+  var M = (e) => (r, l, n) => {
+    let i = e[r],
+      { key: c, values: s } = i,
+      o;
+    if (!l) return `[${c}]`;
+    let a = s == null ? void 0 : s[l];
+    if (
+      (typeof a == 'string' ? (o = a) : (o = a(n && 'instanceIndex' in n ? n.instanceIndex : void 0)),
+      !(n == null ? void 0 : n.operator))
+    )
+      return `[${c}="${o}"]`;
+    switch (n.operator) {
+      case 'prefixed':
+        return `[${c}^="${o}"]`;
+      case 'suffixed':
+        return `[${c}$="${o}"]`;
+      case 'contains':
+        return `[${c}*="${o}"]`;
+    }
+  };
+  var V = 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmscore@1.0.5/cmscore.js';
+  var x = () =>
+    f(void 0, null, function* () {
+      let { fsAttributes: e } = window;
+      if ((e.cms || (e.cms = {}), e.cms.coreImport)) return e.cms.coreImport;
+      try {
+        let t = import(V);
+        return (e.cms.coreImport = t), t;
+      } catch (t) {
+        m.alert(`${t}`, 'error');
+        return;
+      }
+    });
+  var B = 'fs-cmsprevnext',
+    F = {
+      element: {
+        key: `${B}-element`,
+        values: {
+          list: 'list',
+          previous: 'previous',
+          previousEmpty: 'previous-empty',
+          next: 'next',
+          nextEmpty: 'next-empty',
+        },
+      },
+    },
+    u = M(F);
+  var _ = () => {
+    let e = document.querySelector(u('element', 'previous', { operator: 'prefixed' })),
+      t = document.querySelector(u('element', 'next', { operator: 'prefixed' }));
+    if (!e && !t) return;
+    let r = document.querySelector(u('element', 'previousEmpty', { operator: 'prefixed' }));
+    r == null || r.remove();
+    let l = document.querySelector(u('element', 'nextEmpty', { operator: 'prefixed' }));
+    return (
+      l == null || l.remove(),
+      { previousPlaceholder: e, nextPlaceholder: t, previousEmptyElement: r, nextEmptyElement: l }
+    );
+  };
+  var A = () =>
+    f(void 0, null, function* () {
+      let e = yield x();
+      if (!e) return;
+      let t = !1,
+        r = !1,
+        n = w([u('element', 'list', { operator: 'prefixed' })])
+          .map(e.createCMSListInstance)
+          .filter(E);
+      if (!n.length) return;
+      let i = _();
+      if (!i) return;
+      let { previousPlaceholder: c, nextPlaceholder: s, previousEmptyElement: o, nextEmptyElement: a } = i,
+        { origin: k, pathname: $ } = window.location,
+        P = k + $,
+        I = () => (!c || (c && t)) && (!s || (s && r));
+      for (let d of n) {
+        if (I()) break;
+        let C = (y) => {
+          if (I()) {
+            d.off('additems', C), d.wrapper.remove();
+            return;
+          }
+          let b = y.findIndex(({ href: p }) => p && p === P);
+          if (!(b < 0)) {
+            if (c) {
+              let p = y[b - 1];
+              p && !t ? (o == null || o.remove(), c.appendChild(p.element), (t = !0)) : o && c.appendChild(o);
+            }
+            if (s) {
+              let p = y[b + 1];
+              p && !r ? (a == null || a.remove(), s.appendChild(p.element), (r = !0)) : a && s.appendChild(a);
+            }
+          }
+        };
+        d.on('additems', C), C(d.items), (d.wrapper.style.display = 'none');
+      }
+    });
+  T();
+  var { currentScript: H } = document,
+    { preventsLoad: q } = h(H);
+  x();
+  q
+    ? (window.fsAttributes.cmsprevnext = { init: A })
+    : (window.Webflow || (window.Webflow = []), window.Webflow.push(A));
+})();

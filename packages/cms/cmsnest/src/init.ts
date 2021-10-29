@@ -27,10 +27,8 @@ const initListNesting = async (listInstance: CMSList, cmsCore: CMSCore): Promise
   const collectionsToNest = getCollectionsToNest(cmsCore);
   if (!collectionsToNest.size) return;
 
-  listInstance.on('beforeadditems', async (newItems) => {
-    console.log('before adding items');
+  listInstance.on('shouldnest', async (newItems) => {
     await Promise.all(newItems.map((newItem) => populateNestedCollections(newItem, collectionsToNest, cmsCore)));
-    await listInstance.emitSerial('nestnewitems', newItems);
   });
 
   const existingItems = [...listInstance.items];

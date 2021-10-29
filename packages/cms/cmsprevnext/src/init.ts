@@ -42,7 +42,7 @@ export const init = async (): Promise<void> => {
      */
     const handleItems = (items: CMSItem[]) => {
       if (hasCompleted()) {
-        listInstance.off('afteradditems', handleItems);
+        listInstance.off('additems', handleItems);
         listInstance.wrapper.remove();
 
         return;
@@ -72,7 +72,7 @@ export const init = async (): Promise<void> => {
       }
     };
 
-    listInstance.on('afteradditems', handleItems);
+    listInstance.on('additems', handleItems);
 
     handleItems(listInstance.items);
 

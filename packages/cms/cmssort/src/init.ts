@@ -87,10 +87,13 @@ const initList = async (listInstance: CMSList, { collectItemsProps }: CMSCore) =
       ? initHTMLSelect(firstTrigger, listInstance, originalItemsOrder)
       : initButtons(triggers, listInstance, cssClasses);
 
-  listInstance.on('afteradditems', async (newItems) => {
+  listInstance.on('shouldcollectprops', async (newItems) => {
     collectItemsProps(newItems, { fieldKey, typeKey });
+  });
+
+  listInstance.on('shouldsort', async (newItems) => {
     originalItemsOrder.push(...newItems);
 
-    await sortItems(true);
+    await sortItems();
   });
 };

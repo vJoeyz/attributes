@@ -4,10 +4,14 @@ import type { CMSList, CMSItem, collectItemsProps, createCMSListInstances } from
  * `CMSList` Types
  */
 export interface CMSListEvents {
-  beforeadditems: CMSItem[];
-  afteradditems: CMSItem[];
+  shouldnest: CMSItem[];
+  shouldcollectprops: CMSItem[];
+  shouldsort: CMSItem[];
+  shouldfilter: undefined;
+
+  additems: CMSItem[];
+
   nestinitialitems: CMSItem[];
-  nestnewitems: CMSItem[];
   finishload: undefined;
 }
 

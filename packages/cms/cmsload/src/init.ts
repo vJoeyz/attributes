@@ -59,7 +59,7 @@ export const init = async (): Promise<CMSList[]> => {
       const resetIx = listInstance.getAttribute(resetIxKey) === resetIxValues.true;
 
       if (resetIx) {
-        listInstance.on('finishload', async () => {
+        listInstance.on('additems', async () => {
           await restartWebflow();
         });
       }

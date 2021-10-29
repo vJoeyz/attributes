@@ -7,12 +7,11 @@ import type { FiltersData } from './types';
  * @param filtersValues The `FiltersValues` object.
  * @param filterData The {@link FilterData} of the input element.
  */
-export const handleFilterInput = (element: FormField, filtersData: FiltersData) => {
+export const handleFilterInput = (element: FormField, filtersData: FiltersData): boolean => {
   const { value } = element;
 
   const relatedData = filtersData.filter(({ elements }) => elements.some((data) => data.element === element));
-
-  if (!relatedData.length) return;
+  if (!relatedData.length) return false;
 
   for (const data of relatedData) {
     const { elements, values: filterValues, mode: filterMode } = data;
@@ -62,4 +61,6 @@ export const handleFilterInput = (element: FormField, filtersData: FiltersData) 
       }
     }
   }
+
+  return true;
 };

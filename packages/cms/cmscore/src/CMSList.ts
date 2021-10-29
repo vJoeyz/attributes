@@ -1,7 +1,8 @@
 import Emittery from 'emittery';
+import { CMSItem } from './CMSItem';
 import { getCollectionElements } from '@finsweet/ts-utils';
 import { getInstanceIndex } from '$utils/attributes';
-import { CMSItem } from './CMSItem';
+import { renderListItems } from './render';
 
 import type { Animation } from 'packages/animation/src/types';
 import type { CMSListEvents } from './types';
@@ -19,19 +20,27 @@ export class CMSList extends Emittery<CMSListEvents> {
   public readonly list: CollectionListElement;
   public readonly paginationNext?: PaginationButtonElement | null;
   public readonly paginationPrevious?: PaginationButtonElement | null;
+  public readonly index?: number;
   public readonly itemsPerPage: number;
-  public readonly pageIndex?: number;
+
   public items: CMSItem[];
-  public showNewItems = true;
   public listAnimation?: Animation;
   public itemsAnimation?: Animation;
+  public currentPage?: number;
+
+  private renderingQueue?: Promise<void>;
+
   /**
    * @param wrapper A `Collection List Wrapper` element.
-   * @param pageIndex The index of the list on the page. Used when querying/storing this instance.
+   *
+   * @param index The index of the list on the page. Used when querying/storing this instance.
+   * **Important:** This is not related to the `instanceIndex`, which relates to the number suffix in the attribute:
+   * `fs-cmsfilter-element="list-2"` -> `2` is the `instanceIndex`, **not** the `index` of the list on the page.
    */
-  constructor(public readonly wrapper: CollectionListWrapperElement, { pageIndex }: { pageIndex?: number } = {}) {
+  constructor(public readonly wrapper: CollectionListWrapperElement, { index }: { index?: number } = {}) {
     super();
-    this.pageIndex = pageIndex;
+
+    this.index = index;
 
     // DOM Elements
     this.list = getCollectionElements(this.wrapper, 'list') as CollectionListElement;
@@ -42,7 +51,7 @@ export class CMSList extends Emittery<CMSListEvents> {
     this.itemsPerPage = collectionItems.length;
 
     // Stores
-    this.items = collectionItems.map((element) => new CMSItem(element, this.list));
+    this.items = collectionItems.map((element, index) => new CMSItem(element, this.list, index));
   }
 
   /**
@@ -51,54 +60,33 @@ export class CMSList extends Emittery<CMSListEvents> {
    * @param listInstance The `CMSList` instance.
    * @param newItemElements The new Collection Items to store.
    */
-  public addItems = async (itemElements: CollectionItemElement[]) => {
-    const { items, list, showNewItems } = this;
+  public async addItems(itemElements: CollectionItemElement[]): Promise<void> {
+    const { items, list } = this;
 
     const newItems = itemElements.map((item) => new CMSItem(item, list));
 
     items.push(...newItems);
 
-    await this.emitSerial('beforeadditems', newItems);
+    await this.emit('shouldnest', newItems);
+    await this.emit('shouldcollectprops', newItems);
+    await this.emit('shouldsort', newItems);
+    await this.emit('shouldfilter');
 
-    if (showNewItems) await this.renderItems(newItems);
+    await this.renderItems();
 
-    await this.emitSerial('afteradditems', newItems);
-  };
+    await this.emit('additems', newItems);
+  }
 
   /**
-   * Shows/hides an item or array of items.
+   * Recalculates the list object model based on the current props of the items
+   * and triggers de correspondent mutations.
    *
-   * @param items The items to show/hide.
-   * @param show `true` to show, `false` to hide. `true` by default.
-   * @param animate Defines if the items should be animated when rendering them.
+   * @param animateItems Defines if the items should be animated when rendering them.
    */
-  public async renderItems(items: CMSItem | CMSItem[], show = true, animate = true): Promise<void> {
-    const { itemsAnimation: animation, list } = this;
+  public async renderItems(animateItems = true): Promise<void> {
+    await this.renderingQueue;
 
-    if (!Array.isArray(items)) items = [items];
-
-    if (!items.length) return;
-
-    const elements = items.map(({ element }) => element);
-
-    for (const item of items) item[show ? 'isShowing' : 'isHiding'] = true;
-
-    if (animate && animation) {
-      const { animateIn, animateOut, options } = animation;
-
-      if (show) await animateIn(elements, { target: list, ...options });
-      else await animateOut(elements, { remove: true, ...options });
-    } else {
-      for (const element of elements) {
-        if (show) list.appendChild(element);
-        else element.remove();
-      }
-    }
-
-    for (const item of items) {
-      item[show ? 'isShowing' : 'isHiding'] = false;
-      item.visible = show;
-    }
+    this.renderingQueue = renderListItems(this, animateItems);
   }
 
   /**

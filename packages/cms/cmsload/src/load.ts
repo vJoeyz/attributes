@@ -35,7 +35,6 @@ export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all
   const loadPage = async ({ href }: PaginationButtonElement | { href: string }) => {
     // Make sure the limit hasn't reached
     let nextPageURL: string | undefined;
-    let finishedLoading = false;
 
     try {
       // Fetch the page
@@ -50,9 +49,7 @@ export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all
       // Store and mount the new items
       const collectionItems = getCollectionElements(collectionListWrapper, 'items');
 
-      listInstance.addItems(collectionItems).then(async () => {
-        if (finishedLoading) await listInstance.emit('finishload');
-      });
+      listInstance.addItems(collectionItems);
 
       // Check for recursion (Mode: "Load All")
       nextPageURL = getCollectionElements(collectionListWrapper, 'next')?.href;
@@ -63,8 +60,6 @@ export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all
 
         return;
       }
-
-      finishedLoading = true;
     } catch (error) {
       return;
     }

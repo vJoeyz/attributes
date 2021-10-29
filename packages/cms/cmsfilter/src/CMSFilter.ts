@@ -7,7 +7,7 @@ import { isFormField } from '@finsweet/ts-utils';
 import { collectFiltersData, collectFiltersElements } from './collect';
 
 import type { FormBlockElement } from '@finsweet/ts-utils';
-import type { CMSItem, CMSList } from 'packages/cms/cmscore/src';
+import type { CMSList } from 'packages/cms/cmscore/src';
 import type { CMSCore } from 'packages/cms/cmscore/src/types';
 
 // Constants
@@ -17,6 +17,9 @@ const {
   type: { key: typeKey },
 } = ATTRIBUTES;
 
+/**
+ * Instance of a `cmsfilter` form that contains all the filter inputs.
+ */
 export class CMSFilters {
   public readonly form;
   public readonly emptyElement;
@@ -76,7 +79,7 @@ export class CMSFilters {
 
     collectItemsProps(items, { fieldKey, rangeKey, typeKey });
 
-    this.resultsCount = items.filter(({ visible }) => visible).length;
+    this.resultsCount = items.filter(({ currentIndex }) => typeof currentIndex === 'number').length;
     this.updateResults();
 
     const queryParamsValid = getQueryParams(this);
@@ -123,7 +126,8 @@ export class CMSFilters {
 
     if (!isFormField(target)) return;
 
-    handleFilterInput(target, filtersData);
+    const validInput = handleFilterInput(target, filtersData);
+    if (!validInput) return;
 
     if (showQueryParams) setQueryParams(filtersData);
 
@@ -142,63 +146,43 @@ export class CMSFilters {
   }
 
   /**
-   * Sets if the filters are currently active, and inversely enables/disables {@link CMSList.showNewItems}.
-   * When there are active filters, we want to disable `showNewItems` because the {@link CMSFilters.applyFilters} should handle it.
-   * @param value
-   */
-  private setFiltersActive(value: boolean) {
-    this.filtersActive = value;
-    this.listInstance.showNewItems = !value;
-  }
-
-  /**
-   * Applies the active filters to the list.
+   * Mutates each `CMSItem`'s state to define if it should be displayed or not.
    *
-   * @param newItems Optional list of `CMSItem` instances. If passed, only those instances will be filtered.
-   * Used when new items have been added with `cmsload`.
-   *
-   * @param animateList When set to `true`, the list will fade out and fade in during the filtering process.
+   * @param renderItems If set to `true`, the items will be re-rendered.
+   * Defaults to `true`.
    */
-  public async applyFilters(newItems?: CMSItem[], animateList = true): Promise<void> {
+  public async applyFilters(renderItems = true): Promise<void> {
     const { listInstance, filtersData, filtersActive, emptyElement, emptyState, scrollTop } = this;
+    const { wrapper, list, items } = listInstance;
 
+    // Abort if no filtering is needed
     const filtersAreEmpty = filtersData.every(({ values }) => !values.size);
-
     if (filtersAreEmpty && !filtersActive) return;
 
-    this.setFiltersActive(!filtersAreEmpty);
+    this.filtersActive = !filtersAreEmpty;
 
-    const { wrapper, list } = listInstance;
-
-    // Scroll Top
-    if (scrollTop) this.scrollToTop();
-
-    // Start populating
-    if (animateList) await listInstance.displayList(false);
-
-    // Show / hide the items based on their match
-    const itemsToShow: CMSItem[] = [];
-    const itemsToHide: CMSItem[] = [];
-
-    for (const item of newItems || listInstance.items) {
+    // Define show/hide of each item based on the match
+    const itemsToShow = items.reduce((itemsToShow, item) => {
       const show = filtersAreEmpty || assessFilter(item, filtersData);
 
-      (show ? itemsToShow : itemsToHide).push(item);
-    }
+      if (show) itemsToShow += 1;
+
+      item.mustShow = show;
+
+      return itemsToShow;
+    }, 0);
 
     // Handle `Empty State`
     if (emptyElement) {
-      const { length } = itemsToShow;
-
       // Hide the state when items are shown
-      if (length && emptyState) {
+      if (itemsToShow && emptyState) {
         emptyElement.remove();
         wrapper.prepend(list);
 
         this.emptyState = false;
       }
       // Only show it when no new items are being added
-      else if (!newItems && !length && !emptyState) {
+      else if (!itemsToShow && !emptyState) {
         list.remove();
         wrapper.prepend(emptyElement);
 
@@ -207,15 +191,11 @@ export class CMSFilters {
     }
 
     // Render the items
-    await listInstance.renderItems(itemsToHide, false, !animateList);
-    await listInstance.renderItems(itemsToShow, true, !animateList);
+    if (renderItems) await listInstance.renderItems(false);
 
     // Update the results
-    if (newItems) this.resultsCount += itemsToShow.length;
-    else this.resultsCount = itemsToShow.length;
+    this.resultsCount = itemsToShow;
     this.updateResults();
-
-    if (animateList) await listInstance.displayList();
 
     // Scroll Top
     if (scrollTop) this.scrollToTop();

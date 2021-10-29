@@ -26,7 +26,6 @@ export const sortListItems = async (
   }
 ) => {
   const { items } = listInstance;
-  console.log('sorting items: ', items);
 
   const validSortKey = direction && sortKey && items.some(({ props }) => sortKey in props);
 
@@ -62,21 +61,5 @@ export const sortListItems = async (
   else listInstance.items = [...originalItemsOrder];
 
   // Render the new order
-  if (renderItems) await renderListItems(listInstance);
-};
-
-/**
- * Renders the {@link CMSList.items} in the current order of the array.
- *
- * @param listInstance The `CMSList` instance.
- * @param animateList Defines if the list should be animated (`fadeOut` + `fadeIn`) during the action.
- */
-const renderListItems = async (listInstance: CMSList, animateList = true) => {
-  const { list, items } = listInstance;
-
-  if (animateList) await listInstance.displayList(false, animateList);
-
-  for (const { element, visible, isShowing } of items) if (visible || isShowing) list.appendChild(element);
-
-  if (animateList) await listInstance.displayList(true, animateList);
+  if (renderItems) await listInstance.renderItems(false);
 };

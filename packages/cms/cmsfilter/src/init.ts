@@ -1,22 +1,19 @@
-import { ATTRIBUTES, DEFAULT_ANIMATION_DURATION, getSelector } from './constants';
-import { FORM_CSS_CLASSES, isKeyOf, isNotEmpty } from '@finsweet/ts-utils';
-import { importAnimations, importCMSCore } from '$utils/import';
+import { ATTRIBUTES, getSelector } from './constants';
+import { FORM_CSS_CLASSES, isNotEmpty } from '@finsweet/ts-utils';
+import { importCMSCore } from '$utils/import';
 import { CMSFilters } from './CMSFilter';
 
 import type { FormBlockElement } from '@finsweet/ts-utils';
-import type { CMSItem, CMSList } from 'packages/cms/cmscore/src';
+import type { CMSList } from 'packages/cms/cmscore/src';
 import type { CMSCore } from 'packages/cms/cmscore/src/types';
+import { listenListEvents } from './events';
+import { addAnimation } from './animation';
 
 // Constants destructuring
 const {
   element: { key: elementKey },
   showQuery: { key: showQueryKey, values: showQueryValues },
-  duration: { key: durationKey },
-  easing: { key: easingKey },
   scrollTop: { key: scrollTopKey, values: scrollTopValues },
-  field: { key: fieldKey },
-  range: { key: rangeKey },
-  type: { key: typeKey },
 } = ATTRIBUTES;
 
 /**
@@ -61,31 +58,11 @@ const initFilters = async (listInstance: CMSList, cmsCore: CMSCore) => {
   // Query Params
   const showQueryParams = listInstance.getAttribute(showQueryKey) === showQueryValues.true;
 
-  // Animation
-  if (!listInstance.listAnimation) {
-    importAnimations().then((animationsImport) => {
-      if (!animationsImport) return;
-
-      const {
-        animations: { fade },
-        easings,
-      } = animationsImport;
-
-      const animationDuration = listInstance.getAttribute(durationKey);
-      const animationEasing = listInstance.getAttribute(easingKey);
-
-      listInstance.listAnimation = {
-        ...fade,
-        options: {
-          easing: isKeyOf(animationEasing, easings) ? animationEasing : undefined,
-          duration: animationDuration ? parseFloat(animationDuration) / 200 : DEFAULT_ANIMATION_DURATION,
-        },
-      };
-    });
-  }
-
   // Scroll Top
   const scrollTop = listInstance.getAttribute(scrollTopKey) === scrollTopValues.true;
+
+  // Animation
+  if (!listInstance.listAnimation) addAnimation(listInstance);
 
   // Init instances
   const filtersInstance = new CMSFilters(formBlock, listInstance, cmsCore, {
@@ -95,22 +72,8 @@ const initFilters = async (listInstance: CMSList, cmsCore: CMSCore) => {
     scrollTop,
   });
 
-  // Listen Events
-  const handleItems = async (items: CMSItem[]) => {
-    cmsCore.collectItemsProps(items, { fieldKey, rangeKey, typeKey });
-    await filtersInstance.applyFilters(items, false);
-  };
-
-  listInstance.on('nestinitialitems', handleItems);
-
-  listInstance.on('afteradditems', async (newItems) => {
-    await handleItems(newItems);
-
-    if (!filtersInstance.filtersActive) {
-      filtersInstance.resultsCount += newItems.length;
-      filtersInstance.updateResults();
-    }
-  });
+  // Listen events
+  listenListEvents(filtersInstance, listInstance, cmsCore);
 
   return filtersInstance;
 };

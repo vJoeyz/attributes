@@ -59,7 +59,7 @@ export const init = async (): Promise<void> => {
 
     // Listen events
     for (const listInstance of listInstances) {
-      listInstance.on('afteradditems', (newItems) => {
+      listInstance.on('additems', (newItems) => {
         createSlidesFromItems?.(newItems);
       });
 

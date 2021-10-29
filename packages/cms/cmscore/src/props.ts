@@ -1,7 +1,5 @@
 import { CMSItem } from '.';
 
-import type { CMSItemProps } from './types';
-
 /**
  * Collects the props of {@link CMSItem} elements and stores them in their instance.
  * @param items The `CMSItems` to collect.
@@ -11,17 +9,17 @@ export const collectItemsProps = (
   items: CMSItem[],
   { fieldKey, typeKey, rangeKey }: { fieldKey: string; typeKey?: string; rangeKey?: string }
 ): void => {
-  for (const item of items) {
-    const elements = [...item.element.querySelectorAll<HTMLElement>(`[${fieldKey}]`)];
+  for (const { element, props } of items) {
+    const fieldElements = [...element.querySelectorAll<HTMLElement>(`[${fieldKey}]`)];
 
-    const itemProps = elements.reduce<CMSItemProps>((props, element) => {
-      const filterKey = element.getAttribute(fieldKey);
-      const type = typeKey ? element.getAttribute(typeKey) : undefined;
-      const range = rangeKey ? element.getAttribute(rangeKey) : undefined;
+    for (const fieldElement of fieldElements) {
+      const filterKey = fieldElement.getAttribute(fieldKey);
+      const type = typeKey ? fieldElement.getAttribute(typeKey) : undefined;
+      const range = rangeKey ? fieldElement.getAttribute(rangeKey) : undefined;
 
-      const { textContent } = element;
+      const { textContent } = fieldElement;
 
-      if (!filterKey || !textContent) return props;
+      if (!filterKey || !textContent) continue;
 
       props[filterKey] ||= { type, range, values: new Set() };
 
@@ -36,10 +34,6 @@ export const collectItemsProps = (
       }
 
       values.add(textContent);
-
-      return props;
-    }, {});
-
-    item.props = itemProps;
+    }
   }
 };
