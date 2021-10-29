@@ -19,17 +19,27 @@ export const renderListItems = async (listInstance: CMSList, animateItems: boole
 
   // Collect items
   const itemsToHide: CMSItem[] = [];
-  let itemsToShow: CMSItem[] = [];
+  const itemsToShow: CMSItem[] = [];
+
+  let itemsToShowCount = 0;
 
   for (const item of items) {
     const { mustShow, currentIndex } = item;
 
-    if (mustShow) itemsToShow.push(item);
-    else if (typeof currentIndex === 'number') itemsToHide.push(item);
-  }
+    if (mustShow) {
+      itemsToShowCount += 1;
 
-  if (currentPage) {
-    itemsToShow = itemsToShow.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+      if (!currentPage) {
+        itemsToShow.push(item);
+        continue;
+      }
+
+      const matchesCurrentPage =
+        itemsToShowCount > (currentPage - 1) * itemsPerPage && itemsToShowCount <= currentPage * itemsPerPage;
+
+      if (matchesCurrentPage) itemsToShow.push(item);
+      else if (typeof currentIndex === 'number') itemsToHide.push(item);
+    } else if (typeof currentIndex === 'number') itemsToHide.push(item);
   }
 
   // Prepare items to show
