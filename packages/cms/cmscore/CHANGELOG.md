@@ -1,5 +1,9 @@
 # `cmscore` Changelog
 
+## [v1.0.7] 27th October 2021
+
+- Published missing updates.
+
 ## [v1.0.6] 27th October 2021
 
 - Improved rendering logic.
