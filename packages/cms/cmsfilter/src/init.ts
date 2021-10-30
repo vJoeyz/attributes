@@ -52,7 +52,7 @@ const initFilters = async (listInstance: CMSList, cmsCore: CMSCore) => {
 
   // Empty State Element
   const emptyElement = document.querySelector<HTMLElement>(getSelector('element', 'empty', { instanceIndex }));
-  emptyElement?.remove();
+  if (emptyElement) listInstance.addEmptyElement(emptyElement);
 
   // Results Count
   const resultsElement = document.querySelector<HTMLElement>(getSelector('element', 'results', { instanceIndex }));
@@ -68,7 +68,6 @@ const initFilters = async (listInstance: CMSList, cmsCore: CMSCore) => {
 
   // Init instances
   const filtersInstance = new CMSFilters(formBlock, listInstance, cmsCore, {
-    emptyElement,
     resultsElement,
     showQueryParams,
     scrollTop,

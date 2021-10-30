@@ -16,7 +16,7 @@ type AnchorData = [CMSItem, number, CMSItem | undefined];
  * If not, the list will be animated instead.
  */
 export const renderListItems = async (listInstance: CMSList, addingItems = false) => {
-  const { items, itemsPerPage, currentPage, listAnimation } = listInstance;
+  const { items, itemsPerPage, currentPage, emptyState } = listInstance;
 
   // Collect items
   const itemsToHide: CMSItem[] = [];
@@ -51,7 +51,7 @@ export const renderListItems = async (listInstance: CMSList, addingItems = false
   });
 
   // Hide the list
-  if (!addingItems && listAnimation) await listInstance.displayList(false);
+  if (!addingItems) await listInstance.displayElement(emptyState ? 'emptyElement' : 'list', false);
 
   // Render the items
   await Promise.all([
@@ -63,7 +63,12 @@ export const renderListItems = async (listInstance: CMSList, addingItems = false
   listInstance.emit('renderitems', itemsToShow);
 
   // Show the list
-  if (!addingItems && listAnimation) await listInstance.displayList();
+  if (!addingItems) {
+    const newEmptyState = !itemsToShowCount;
+    listInstance.emptyState = newEmptyState;
+
+    await listInstance.displayElement(newEmptyState ? 'emptyElement' : 'list');
+  }
 };
 
 /**

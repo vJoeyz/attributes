@@ -22,7 +22,6 @@ const {
  */
 export class CMSFilters {
   public readonly form;
-  public readonly emptyElement;
   public readonly resultsElement;
   public readonly resetButtonsData;
   public readonly submitButton;
@@ -34,19 +33,15 @@ export class CMSFilters {
   private readonly showQueryParams;
   private readonly scrollTop;
 
-  private emptyState = false;
-
   constructor(
     public readonly formBlock: FormBlockElement,
     public readonly listInstance: CMSList,
     private readonly cmsCore: CMSCore,
     {
-      emptyElement,
       resultsElement,
       showQueryParams,
       scrollTop,
     }: {
-      emptyElement: HTMLElement | null;
       resultsElement: HTMLElement | null;
       showQueryParams: boolean;
       scrollTop: boolean;
@@ -57,7 +52,6 @@ export class CMSFilters {
     this.submitButton = submitButton;
     this.resetButtonsData = resetButtonsData;
 
-    this.emptyElement = emptyElement;
     this.resultsElement = resultsElement;
 
     this.showQueryParams = showQueryParams;
@@ -153,8 +147,8 @@ export class CMSFilters {
    * In that case, the rendering responsibilities are handled by another controller.
    */
   public async applyFilters(addingItems?: boolean): Promise<void> {
-    const { listInstance, filtersData, filtersActive, emptyElement, emptyState, scrollTop } = this;
-    const { wrapper, list, items } = listInstance;
+    const { listInstance, filtersData, filtersActive, scrollTop } = this;
+    const { items, currentPage } = listInstance;
 
     // Abort if no filtering is needed
     const filtersAreEmpty = filtersData.every(({ values }) => !values.size);
@@ -177,26 +171,10 @@ export class CMSFilters {
       return itemsToShow;
     }, 0);
 
-    // Handle `Empty State`
-    if (emptyElement) {
-      // Hide the state when items are shown
-      if (itemsToShowCount && emptyState) {
-        emptyElement.remove();
-        wrapper.prepend(list);
-
-        this.emptyState = false;
-      }
-      // Only show it when no new items are being added
-      else if (!itemsToShowCount && !emptyState) {
-        list.remove();
-        wrapper.prepend(emptyElement);
-
-        this.emptyState = true;
-      }
-    }
-
     // Render the items
     if (!addingItems) {
+      if (currentPage) listInstance.currentPage = 1;
+
       await listInstance.renderItems();
 
       if (scrollTop) this.scrollToTop();

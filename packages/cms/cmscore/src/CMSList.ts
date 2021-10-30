@@ -28,6 +28,9 @@ export class CMSList extends Emittery<CMSListEvents> {
   public itemsAnimation?: Animation;
   public currentPage?: number;
 
+  public emptyElement?: HTMLElement;
+  public emptyState?: boolean;
+
   private renderingQueue?: Promise<void>;
 
   /**
@@ -92,22 +95,39 @@ export class CMSList extends Emittery<CMSListEvents> {
   }
 
   /**
-   * Shows / hides the list.
+   * Shows / hides the requested element.
    * If the `listAnimation` exists, it uses that animation.
    *
-   * @param show Defaults to `true`.
+   * @param elementKey The element to show/hide.
    *
-   * @param animate Defines if the list should be animated during the action.
-   * Defaults to `true`.
+   * @param show Defaults to `true`.
    */
-  public async displayList(show = true, animate = true): Promise<void> {
-    const { wrapper, listAnimation } = this;
+  public async displayElement(elementKey: 'list' | 'emptyElement', show = true): Promise<void> {
+    const { listAnimation } = this;
 
-    if (animate && listAnimation) {
+    const elementToDisplay = this[elementKey];
+    if (!elementToDisplay) return;
+
+    if (listAnimation) {
       const { animateIn, animateOut, options } = listAnimation;
 
-      await (show ? animateIn : animateOut)(wrapper, options);
-    } else wrapper.style.display = show ? '' : 'none';
+      await (show ? animateIn : animateOut)(elementToDisplay, options);
+    } else elementToDisplay.style.display = show ? '' : 'none';
+  }
+
+  /**
+   * Adds an `Empty State` element to the list.
+   * @param element The element to add.
+   */
+  public addEmptyElement(element: HTMLElement) {
+    const { wrapper, list, emptyElement } = this;
+
+    if (emptyElement) return;
+
+    element.style.display = 'none';
+    wrapper.insertBefore(element, list.nextSibling);
+
+    this.emptyElement = element;
   }
 
   /**
