@@ -28,6 +28,8 @@ export class CMSList extends Emittery<CMSListEvents> {
   public visibleItems = 0;
   public currentPage?: number;
 
+  public loader?: HTMLElement;
+
   public items: CMSItem[];
   public listAnimation?: Animation;
   public itemsAnimation?: Animation;
@@ -107,7 +109,7 @@ export class CMSList extends Emittery<CMSListEvents> {
    * @param show Defaults to `true`.
    */
   public async displayElement(
-    elementKey: 'list' | 'emptyElement' | 'paginationNext' | 'paginationPrevious',
+    elementKey: 'list' | 'emptyElement' | 'paginationNext' | 'paginationPrevious' | 'loader',
     show = true
   ): Promise<void> {
     const { listAnimation } = this;
@@ -167,6 +169,20 @@ export class CMSList extends Emittery<CMSListEvents> {
     paginationNext?.parentElement?.prepend(element);
 
     this.paginationPrevious = element;
+  }
+
+  /**
+   * Adds a `Loader` element to the list.
+   * @param element The element to add.
+   */
+  public addLoader(element: HTMLElement) {
+    const { loader } = this;
+
+    if (loader) return;
+
+    element.style.display = 'none';
+
+    this.loader = element;
   }
 
   /**
