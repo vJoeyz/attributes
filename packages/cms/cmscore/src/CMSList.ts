@@ -116,6 +116,23 @@ export class CMSList extends Emittery<CMSListEvents> {
   }
 
   /**
+   * Switches the current page.
+   * @param targetPage The target page to set.
+   * @returns An awaitable Promise that resolves after the list has re-rendered.
+   */
+  public async switchPage(targetPage: number) {
+    const { currentPage: previousPage } = this;
+
+    if (targetPage === previousPage) return;
+
+    this.currentPage = targetPage;
+
+    await this.emit('switchpage', targetPage);
+
+    if (previousPage) await this.renderItems();
+  }
+
+  /**
    * Adds an `Empty State` element to the list.
    * @param element The element to add.
    */

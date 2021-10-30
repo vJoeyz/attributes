@@ -9,8 +9,14 @@ export interface CMSListEvents {
   shouldsort: CMSItem[];
   shouldfilter: undefined;
 
-  renderitems: CMSItem[];
+  renderitems: {
+    totalShowCount: number;
+    renderedItems: CMSItem[];
+  };
+
   additems: CMSItem[];
+
+  switchpage: number;
 
   nestinitialitems: CMSItem[];
   finishload: undefined;
