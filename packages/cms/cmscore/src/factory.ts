@@ -47,7 +47,7 @@ const createCMSListInstance = (referenceElement: HTMLElement): CMSList | undefin
   const index = listElements.indexOf(wrapper);
   if (index === -1) return;
 
-  lists[index] ||= new CMSList(wrapper, { index });
+  lists[index] ||= new CMSList(wrapper, index);
 
   return lists[index];
 };

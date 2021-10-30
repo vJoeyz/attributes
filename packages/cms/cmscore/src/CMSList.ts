@@ -20,7 +20,6 @@ export class CMSList extends Emittery<CMSListEvents> {
   public readonly list: CollectionListElement;
   public readonly paginationNext?: PaginationButtonElement | null;
   public readonly paginationPrevious?: PaginationButtonElement | null;
-  public readonly index?: number;
   public readonly itemsPerPage: number;
 
   public visibleItems = 0;
@@ -42,10 +41,8 @@ export class CMSList extends Emittery<CMSListEvents> {
    * **Important:** This is not related to the `instanceIndex`, which relates to the number suffix in the attribute:
    * `fs-cmsfilter-element="list-2"` -> `2` is the `instanceIndex`, **not** the `index` of the list on the page.
    */
-  constructor(public readonly wrapper: CollectionListWrapperElement, { index }: { index?: number } = {}) {
+  constructor(public readonly wrapper: CollectionListWrapperElement, public readonly index?: number) {
     super();
-
-    this.index = index;
 
     // DOM Elements
     this.list = getCollectionElements(this.wrapper, 'list') as CollectionListElement;
