@@ -23,8 +23,8 @@ export class CMSList extends Emittery<CMSListEvents> {
   public readonly index?: number;
   public readonly itemsPerPage: number;
 
-  public currentPage?: number;
   public visibleItems = 0;
+  public currentPage?: number;
 
   public items: CMSItem[];
   public listAnimation?: Animation;
@@ -105,7 +105,10 @@ export class CMSList extends Emittery<CMSListEvents> {
    *
    * @param show Defaults to `true`.
    */
-  public async displayElement(elementKey: 'list' | 'emptyElement', show = true): Promise<void> {
+  public async displayElement(
+    elementKey: 'list' | 'emptyElement' | 'paginationNext' | 'paginationPrevious',
+    show = true
+  ): Promise<void> {
     const { listAnimation } = this;
 
     const elementToDisplay = this[elementKey];
@@ -128,9 +131,9 @@ export class CMSList extends Emittery<CMSListEvents> {
 
     if (targetPage === previousPage) return;
 
-    this.currentPage = targetPage;
-
     await this.emit('switchpage', targetPage);
+
+    this.currentPage = targetPage;
 
     if (previousPage) await this.renderItems();
   }
