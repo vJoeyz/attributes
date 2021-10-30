@@ -12,7 +12,6 @@ import {
 
 import type { CSSClasses } from './types';
 import type { CMSList } from '$cms/cmscore/src';
-import type { CMSCore } from '$cms/cmscore/src/types';
 
 // Constants destructuring
 const {
@@ -34,10 +33,10 @@ export const init = async (): Promise<void> => {
 
   const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
-  await Promise.all(listInstances.map((listInstance) => initList(listInstance, cmsCore)));
+  await Promise.all(listInstances.map(initList));
 };
 
-const initList = async (listInstance: CMSList, { collectItemsProps }: CMSCore) => {
+const initList = async (listInstance: CMSList) => {
   const instanceIndex = listInstance.getInstanceIndex(elementKey);
 
   const triggers = document.querySelectorAll<HTMLElement>(getSelector('element', 'trigger', { instanceIndex }));
@@ -46,7 +45,7 @@ const initList = async (listInstance: CMSList, { collectItemsProps }: CMSCore) =
   const { items, listAnimation } = listInstance;
 
   // Store item props
-  collectItemsProps(items, { fieldKey, typeKey });
+  for (const item of items) item.collectProps({ fieldKey, typeKey });
 
   // Animation
   if (!listAnimation) {
@@ -88,7 +87,7 @@ const initList = async (listInstance: CMSList, { collectItemsProps }: CMSCore) =
       : initButtons(triggers, listInstance, cssClasses);
 
   listInstance.on('shouldcollectprops', async (newItems) => {
-    collectItemsProps(newItems, { fieldKey, typeKey });
+    for (const item of newItems) item.collectProps({ fieldKey, typeKey });
   });
 
   listInstance.on('shouldsort', async (newItems) => {

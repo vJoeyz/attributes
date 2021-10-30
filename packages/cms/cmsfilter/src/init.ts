@@ -7,7 +7,6 @@ import { addListAnimation } from '$cms/utils/animation';
 
 import type { FormBlockElement } from '@finsweet/ts-utils';
 import type { CMSList } from '$cms/cmscore/src';
-import type { CMSCore } from '$cms/cmscore/src/types';
 
 // Constants destructuring
 const {
@@ -27,9 +26,7 @@ export const init = async (): Promise<CMSFilters[]> => {
 
   const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
-  const filtersInstances = (
-    await Promise.all(listInstances.map((listInstance) => initFilters(listInstance, cmsCore)))
-  ).filter(isNotEmpty);
+  const filtersInstances = (await Promise.all(listInstances.map(initFilters))).filter(isNotEmpty);
 
   return filtersInstances;
 };
@@ -38,7 +35,7 @@ export const init = async (): Promise<CMSFilters[]> => {
  * Creates a new {@link CMSFilters} instance for each {@link CMSList}.
  * @param listInstance The `CMSList` instance.
  */
-const initFilters = async (listInstance: CMSList, cmsCore: CMSCore) => {
+const initFilters = async (listInstance: CMSList) => {
   const instanceIndex = listInstance.getInstanceIndex(elementKey);
 
   // Base elements
@@ -65,14 +62,14 @@ const initFilters = async (listInstance: CMSList, cmsCore: CMSCore) => {
   if (!listInstance.listAnimation) addListAnimation(listInstance, { durationKey, easingKey });
 
   // Init instances
-  const filtersInstance = new CMSFilters(formBlock, listInstance, cmsCore, {
+  const filtersInstance = new CMSFilters(formBlock, listInstance, {
     resultsElement,
     showQueryParams,
     scrollTop,
   });
 
   // Listen events
-  listenListEvents(filtersInstance, listInstance, cmsCore);
+  listenListEvents(filtersInstance, listInstance);
 
   return filtersInstance;
 };

@@ -2,7 +2,6 @@ import { ATTRIBUTES } from './constants';
 
 import type { CMSFilters } from './CMSFilter';
 import type { CMSItem, CMSList } from '$cms/cmscore/src';
-import type { CMSCore } from '$cms/cmscore/src/types';
 
 const {
   field: { key: fieldKey },
@@ -14,15 +13,10 @@ const {
  * Listens for events on the `CMSList` and triggers the correspondent actions.
  * @param listInstance The {@link CMSFilters} instance.
  * @param listInstance The {@link CMSList} instance.
- * @param cmsCore The {@link CMSCore} import.
  */
-export const listenListEvents = (
-  filtersInstance: CMSFilters,
-  listInstance: CMSList,
-  { collectItemsProps }: CMSCore
-) => {
+export const listenListEvents = (filtersInstance: CMSFilters, listInstance: CMSList) => {
   listInstance.on('shouldcollectprops', (items: CMSItem[]) => {
-    collectItemsProps(items, { fieldKey, rangeKey, typeKey });
+    for (const item of items) item.collectProps({ fieldKey, rangeKey, typeKey });
   });
 
   listInstance.on('shouldfilter', async () => await filtersInstance.applyFilters(true));
@@ -30,7 +24,8 @@ export const listenListEvents = (
   listInstance.on('renderitems', () => filtersInstance.updateResults());
 
   listInstance.once('nestinitialitems').then(async (items: CMSItem[]) => {
-    collectItemsProps(items, { fieldKey, rangeKey, typeKey });
+    for (const item of items) item.collectProps({ fieldKey, rangeKey, typeKey });
+
     await filtersInstance.applyFilters();
   });
 };

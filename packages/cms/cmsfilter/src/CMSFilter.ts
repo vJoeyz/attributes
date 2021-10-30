@@ -8,7 +8,6 @@ import { collectFiltersData, collectFiltersElements } from './collect';
 
 import type { FormBlockElement } from '@finsweet/ts-utils';
 import type { CMSList } from '$cms/cmscore/src';
-import type { CMSCore } from '$cms/cmscore/src/types';
 
 // Constants
 const {
@@ -35,7 +34,6 @@ export class CMSFilters {
   constructor(
     public readonly formBlock: FormBlockElement,
     public readonly listInstance: CMSList,
-    private readonly cmsCore: CMSCore,
     {
       resultsElement,
       showQueryParams,
@@ -66,11 +64,10 @@ export class CMSFilters {
    */
   private async init() {
     const {
-      cmsCore: { collectItemsProps },
       listInstance: { items },
     } = this;
 
-    collectItemsProps(items, { fieldKey, rangeKey, typeKey });
+    for (const item of items) item.collectProps({ fieldKey, rangeKey, typeKey });
 
     this.updateResults();
 
