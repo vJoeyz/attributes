@@ -28,7 +28,6 @@ export class CMSFilters {
   public readonly filtersData;
 
   public filtersActive = false;
-  public resultsCount = 0;
 
   private readonly showQueryParams;
   private readonly scrollTop;
@@ -73,7 +72,7 @@ export class CMSFilters {
 
     collectItemsProps(items, { fieldKey, rangeKey, typeKey });
 
-    this.updateResults(items.length);
+    this.updateResults();
 
     const queryParamsValid = getQueryParams(this);
 
@@ -99,17 +98,6 @@ export class CMSFilters {
     for (const [resetButton, filterKey] of resetButtonsData) {
       resetButton?.addEventListener('click', () => this.resetFilters(filterKey));
     }
-  }
-
-  /**
-   * Updates the displayed results on the `resultsElement`.
-   */
-  public updateResults(resultsCount: number) {
-    const { resultsElement } = this;
-
-    if (resultsElement) resultsElement.textContent = `${resultsCount}`;
-
-    this.resultsCount = resultsCount;
   }
 
   /**
@@ -141,6 +129,18 @@ export class CMSFilters {
   }
 
   /**
+   * Updates the displayed results on the `resultsElement`.
+   */
+  public updateResults() {
+    const {
+      resultsElement,
+      listInstance: { visibleItems },
+    } = this;
+
+    if (resultsElement) resultsElement.textContent = `${visibleItems}`;
+  }
+
+  /**
    * Mutates each `CMSItem`'s state to define if it should be displayed or not.
    *
    * @param addingItems Defines if new items are being added.
@@ -153,23 +153,12 @@ export class CMSFilters {
     // Abort if no filtering is needed
     const filtersAreEmpty = filtersData.every(({ values }) => !values.size);
 
-    if (filtersAreEmpty && !filtersActive) {
-      this.updateResults(items.length);
-      return;
-    }
+    if (filtersAreEmpty && !filtersActive) return;
 
     this.filtersActive = !filtersAreEmpty;
 
     // Define show/hide of each item based on the match
-    const itemsToShowCount = items.reduce((itemsToShow, item) => {
-      const show = filtersAreEmpty || assessFilter(item, filtersData);
-
-      if (show) itemsToShow += 1;
-
-      item.mustShow = show;
-
-      return itemsToShow;
-    }, 0);
+    for (const item of items) item.mustShow = filtersAreEmpty || assessFilter(item, filtersData);
 
     // Render the items
     if (!addingItems) {
@@ -179,9 +168,6 @@ export class CMSFilters {
 
       if (scrollTop) this.scrollToTop();
     }
-
-    // Update the results
-    this.updateResults(itemsToShowCount);
   }
 
   /**

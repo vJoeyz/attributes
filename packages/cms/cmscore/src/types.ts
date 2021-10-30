@@ -9,16 +9,13 @@ export interface CMSListEvents {
   shouldsort: CMSItem[];
   shouldfilter: undefined;
 
-  renderitems: {
-    totalShowCount: number;
-    renderedItems: CMSItem[];
-  };
-
+  renderitems: CMSItem[];
   additems: CMSItem[];
 
   switchpage: number;
 
   nestinitialitems: CMSItem[];
+
   finishload: undefined;
 }
 

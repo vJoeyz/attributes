@@ -23,10 +23,12 @@ export class CMSList extends Emittery<CMSListEvents> {
   public readonly index?: number;
   public readonly itemsPerPage: number;
 
+  public currentPage?: number;
+  public visibleItems = 0;
+
   public items: CMSItem[];
   public listAnimation?: Animation;
   public itemsAnimation?: Animation;
-  public currentPage?: number;
 
   public emptyElement?: HTMLElement;
   public emptyState?: boolean;
@@ -51,7 +53,8 @@ export class CMSList extends Emittery<CMSListEvents> {
     this.paginationPrevious = getCollectionElements(this.wrapper, 'previous');
 
     const collectionItems = getCollectionElements(this.wrapper, 'items');
-    this.itemsPerPage = collectionItems.length;
+
+    this.visibleItems = this.itemsPerPage = collectionItems.length;
 
     // Stores
     this.items = collectionItems.map((element, index) => new CMSItem(element, this.list, index));

@@ -31,8 +31,6 @@ export const init = async (): Promise<CMSFilters[]> => {
     await Promise.all(listInstances.map((listInstance) => initFilters(listInstance, cmsCore)))
   ).filter(isNotEmpty);
 
-  console.log({ filtersInstances });
-
   return filtersInstances;
 };
 
