@@ -16,10 +16,11 @@ export const initHTMLSelect = (
 
   /**
    * Sorts the items based on the current selected `sortKey` and `direction`.
-   * @param renderItems If set to `true`, the items of the list are re-rendered.
+   * @param addingItems Defines if new items are being added.
+   * In that case, the rendering responsibilities are handled by another controller.
    */
-  const sortItems = async (renderItems?: boolean) => {
-    await sortListItems(listInstance, { originalItemsOrder, direction, sortKey, renderItems });
+  const sortItems = async (addingItems?: boolean) => {
+    await sortListItems(listInstance, { originalItemsOrder, direction, sortKey, addingItems });
   };
 
   // Store the original CMS Order
@@ -39,7 +40,7 @@ export const initHTMLSelect = (
 
     direction = value.endsWith('-desc') ? 'desc' : 'asc';
 
-    await sortItems(true);
+    await sortItems();
   });
 
   return sortItems;

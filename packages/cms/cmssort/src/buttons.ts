@@ -21,10 +21,11 @@ export const initButtons = (buttons: NodeListOf<HTMLElement>, listInstance: CMSL
 
   /**
    * Sorts the items based on the current selected `sortKey` and `direction`.
-   * @param renderItems If set to `true`, the items of the list are re-rendered.
+   * @param addingItems Defines if new items are being added.
+   * In that case, the rendering responsibilities are handled by another controller.
    */
-  const sortItems = async (renderItems?: boolean) => {
-    await sortListItems(listInstance, { originalItemsOrder, sortKey, direction, renderItems });
+  const sortItems = async (addingItems?: boolean) => {
+    await sortListItems(listInstance, { originalItemsOrder, sortKey, direction, addingItems });
   };
 
   for (const button of buttons) {
@@ -45,7 +46,7 @@ export const initButtons = (buttons: NodeListOf<HTMLElement>, listInstance: CMSL
 
       updateButton(button, direction, buttonsState, cssClasses);
 
-      await sortItems(true);
+      await sortItems();
     });
   }
 

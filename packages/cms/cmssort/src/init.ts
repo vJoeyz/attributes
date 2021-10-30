@@ -94,6 +94,6 @@ const initList = async (listInstance: CMSList, { collectItemsProps }: CMSCore) =
   listInstance.on('shouldsort', async (newItems) => {
     originalItemsOrder.push(...newItems);
 
-    await sortItems();
+    await sortItems(true);
   });
 };

@@ -9,7 +9,8 @@ import type { SortingDirection } from './types';
  * @param params.originalItemsOrder The original order of the items.
  * @param params.direction The direction to sort.
  * @param params.sortKey The key of the field to use as sorting reference.
- * @param params.renderItems If set to `true`, the items of the list are re-rendered.
+ * @param params.addingItems Defines if new items are being added.
+ * In that case, the rendering responsibilities are handled by another controller.
  */
 export const sortListItems = async (
   listInstance: CMSList,
@@ -17,15 +18,15 @@ export const sortListItems = async (
     originalItemsOrder,
     direction,
     sortKey,
-    renderItems,
+    addingItems,
   }: {
     originalItemsOrder: CMSItem[];
     direction?: SortingDirection;
     sortKey?: string;
-    renderItems?: boolean;
+    addingItems?: boolean;
   }
 ) => {
-  const { items } = listInstance;
+  const { items, currentPage } = listInstance;
 
   const validSortKey = direction && sortKey && items.some(({ props }) => sortKey in props);
 
@@ -61,5 +62,9 @@ export const sortListItems = async (
   else listInstance.items = [...originalItemsOrder];
 
   // Render the new order
-  if (renderItems) await listInstance.renderItems();
+  if (!addingItems) {
+    if (currentPage) listInstance.currentPage = 1;
+
+    await listInstance.renderItems();
+  }
 };
