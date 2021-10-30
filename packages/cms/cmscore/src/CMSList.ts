@@ -9,8 +9,9 @@ import type { CMSListEvents } from './types';
 import type {
   CollectionListWrapperElement,
   CollectionListElement,
-  PaginationButtonElement,
   CollectionItemElement,
+  PaginationButtonElement,
+  PaginationWrapperElement,
 } from '@finsweet/ts-utils';
 
 /**
@@ -18,9 +19,11 @@ import type {
  */
 export class CMSList extends Emittery<CMSListEvents> {
   public readonly list: CollectionListElement;
+  public readonly paginationWrapper?: PaginationWrapperElement | null;
   public readonly paginationNext?: PaginationButtonElement | null;
-  public readonly paginationPrevious?: PaginationButtonElement | null;
   public readonly itemsPerPage: number;
+
+  public paginationPrevious?: PaginationButtonElement | null;
 
   public visibleItems = 0;
   public currentPage?: number;
@@ -46,6 +49,7 @@ export class CMSList extends Emittery<CMSListEvents> {
 
     // DOM Elements
     this.list = getCollectionElements(this.wrapper, 'list') as CollectionListElement;
+    this.paginationWrapper = getCollectionElements(this.wrapper, 'pagination');
     this.paginationNext = getCollectionElements(this.wrapper, 'next');
     this.paginationPrevious = getCollectionElements(this.wrapper, 'previous');
 
@@ -148,6 +152,21 @@ export class CMSList extends Emittery<CMSListEvents> {
     wrapper.insertBefore(element, list.nextSibling);
 
     this.emptyElement = element;
+  }
+
+  /**
+   * Adds a `Pagination Previous` button to the list.
+   * @param element The element to add.
+   */
+  public addPaginationPrevious(element: PaginationButtonElement) {
+    const { paginationPrevious, paginationNext } = this;
+
+    if (paginationPrevious) return;
+
+    element.style.display = 'none';
+    paginationNext?.parentElement?.prepend(element);
+
+    this.paginationPrevious = element;
   }
 
   /**
