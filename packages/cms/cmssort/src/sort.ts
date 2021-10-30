@@ -61,5 +61,5 @@ export const sortListItems = async (
   else listInstance.items = [...originalItemsOrder];
 
   // Render the new order
-  if (renderItems) await listInstance.renderItems(false);
+  if (renderItems) await listInstance.renderItems();
 };

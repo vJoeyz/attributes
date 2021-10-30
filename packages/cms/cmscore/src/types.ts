@@ -9,6 +9,7 @@ export interface CMSListEvents {
   shouldsort: CMSItem[];
   shouldfilter: undefined;
 
+  renderitems: CMSItem[];
   additems: CMSItem[];
 
   nestinitialitems: CMSItem[];

@@ -149,10 +149,10 @@ export class CMSFilters {
   /**
    * Mutates each `CMSItem`'s state to define if it should be displayed or not.
    *
-   * @param renderItems If set to `true`, the items will be re-rendered.
-   * Defaults to `true`.
+   * @param addingItems Defines if new items are being added.
+   * In that case, the rendering responsibilities are handled by another controller.
    */
-  public async applyFilters(renderItems = true): Promise<void> {
+  public async applyFilters(addingItems?: boolean): Promise<void> {
     const { listInstance, filtersData, filtersActive, emptyElement, emptyState, scrollTop } = this;
     const { wrapper, list, items } = listInstance;
 
@@ -167,7 +167,7 @@ export class CMSFilters {
     this.filtersActive = !filtersAreEmpty;
 
     // Define show/hide of each item based on the match
-    const itemsToShow = items.reduce((itemsToShow, item) => {
+    const itemsToShowCount = items.reduce((itemsToShow, item) => {
       const show = filtersAreEmpty || assessFilter(item, filtersData);
 
       if (show) itemsToShow += 1;
@@ -180,14 +180,14 @@ export class CMSFilters {
     // Handle `Empty State`
     if (emptyElement) {
       // Hide the state when items are shown
-      if (itemsToShow && emptyState) {
+      if (itemsToShowCount && emptyState) {
         emptyElement.remove();
         wrapper.prepend(list);
 
         this.emptyState = false;
       }
       // Only show it when no new items are being added
-      else if (!itemsToShow && !emptyState) {
+      else if (!itemsToShowCount && !emptyState) {
         list.remove();
         wrapper.prepend(emptyElement);
 
@@ -196,14 +196,14 @@ export class CMSFilters {
     }
 
     // Render the items
-    if (renderItems) {
-      await listInstance.renderItems(false);
+    if (!addingItems) {
+      await listInstance.renderItems();
 
       if (scrollTop) this.scrollToTop();
     }
 
     // Update the results
-    this.updateResults(itemsToShow);
+    this.updateResults(itemsToShowCount);
   }
 
   /**

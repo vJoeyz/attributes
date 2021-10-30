@@ -72,7 +72,7 @@ export class CMSList extends Emittery<CMSListEvents> {
     await this.emit('shouldsort', newItems);
     await this.emit('shouldfilter');
 
-    await this.renderItems();
+    await this.renderItems(true);
 
     await this.emit('additems', newItems);
   }
@@ -81,12 +81,14 @@ export class CMSList extends Emittery<CMSListEvents> {
    * Recalculates the list object model based on the current props of the items
    * and triggers de correspondent mutations.
    *
-   * @param animateItems Defines if the items should be animated when rendering them.
+   * @param addingItems Defines if new items are being added.
+   * If yes, the items will be animated.
+   * If not, the list will be animated instead.
    */
-  public async renderItems(animateItems = true): Promise<void> {
+  public async renderItems(addingItems?: boolean): Promise<void> {
     await this.renderingQueue;
 
-    this.renderingQueue = renderListItems(this, animateItems);
+    this.renderingQueue = renderListItems(this, addingItems);
   }
 
   /**

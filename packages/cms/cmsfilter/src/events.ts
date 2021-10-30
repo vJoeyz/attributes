@@ -26,11 +26,11 @@ export const listenListEvents = (
   });
 
   listInstance.on('shouldfilter', async () => {
-    await filtersInstance.applyFilters(false);
+    await filtersInstance.applyFilters(true);
   });
 
   listInstance.on('nestinitialitems', async (items: CMSItem[]) => {
     collectItemsProps(items, { fieldKey, rangeKey, typeKey });
-    await filtersInstance.applyFilters(false);
+    await filtersInstance.applyFilters();
   });
 };

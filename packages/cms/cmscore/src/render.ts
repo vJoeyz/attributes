@@ -11,10 +11,11 @@ type AnchorData = [CMSItem, number, CMSItem | undefined];
 /**
  * Shows / hides the list items based on their properties.
  * @param listInstance The {@link CMSList} instance.
- * @param animateItems Defines if the items should be animated when rendering them.
+ * @param addingItems Defines if new items are being added.
+ * If yes, the items will be animated.
  * If not, the list will be animated instead.
  */
-export const renderListItems = async (listInstance: CMSList, animateItems: boolean) => {
+export const renderListItems = async (listInstance: CMSList, addingItems = false) => {
   const { items, itemsPerPage, currentPage, listAnimation } = listInstance;
 
   // Collect items
@@ -50,16 +51,19 @@ export const renderListItems = async (listInstance: CMSList, animateItems: boole
   });
 
   // Hide the list
-  if (!animateItems && listAnimation) await listInstance.displayList(false);
+  if (!addingItems && listAnimation) await listInstance.displayList(false);
 
   // Render the items
   await Promise.all([
-    ...hideItems(itemsToHide, listInstance, animateItems),
-    ...showItems(itemsToAnchor, listInstance, animateItems),
+    ...hideItems(itemsToHide, listInstance, addingItems),
+    ...showItems(itemsToAnchor, listInstance, addingItems),
   ]);
 
+  // Emit events
+  listInstance.emit('renderitems', itemsToShow);
+
   // Show the list
-  if (!animateItems && listAnimation) await listInstance.displayList();
+  if (!addingItems && listAnimation) await listInstance.displayList();
 };
 
 /**
