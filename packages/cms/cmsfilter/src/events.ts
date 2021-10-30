@@ -27,10 +27,10 @@ export const listenListEvents = (
 
   listInstance.on('shouldfilter', async () => await filtersInstance.applyFilters(true));
 
-  listInstance.on('nestinitialitems', async (items: CMSItem[]) => {
+  listInstance.on('renderitems', () => filtersInstance.updateResults());
+
+  listInstance.once('nestinitialitems').then(async (items: CMSItem[]) => {
     collectItemsProps(items, { fieldKey, rangeKey, typeKey });
     await filtersInstance.applyFilters();
   });
-
-  listInstance.on('renderitems', () => filtersInstance.updateResults());
 };
