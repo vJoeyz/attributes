@@ -1,6 +1,6 @@
 import { extractCommaSeparatedValues, setFormFieldValue } from '@finsweet/ts-utils';
 
-import type { CMSFilters } from './CMSFilter';
+import type { CMSFilters } from './CMSFilters';
 import type { FiltersData } from './types';
 
 const { location, history } = window;
@@ -18,7 +18,7 @@ export const getQueryParams = (cmsFilters: CMSFilters): boolean => {
   const { searchParams } = url;
 
   for (const [queryKey, queryValue] of searchParams) {
-    const filterData = filtersData.find(({ filterKeys }) => filterKeys.size === 1 && filterKeys.has(queryKey));
+    const filterData = filtersData.find(({ filterKeys }) => filterKeys.length === 1 && filterKeys.includes(queryKey));
     if (!filterData) continue;
 
     const queryValues = extractCommaSeparatedValues(queryValue);
@@ -32,12 +32,8 @@ export const getQueryParams = (cmsFilters: CMSFilters): boolean => {
     if (mode === 'range') {
       const [fromValue, toValue] = queryValues;
 
-      const fromElement = elements.find(
-        ({ mode, fixedValue }) => mode === 'from' && (!fixedValue || fixedValue === fromValue)
-      );
-      const toElement = elements.find(
-        ({ mode, fixedValue }) => mode === 'to' && (!fixedValue || fixedValue === toValue)
-      );
+      const fromElement = elements.find(({ mode, value }) => mode === 'from' && (!value || value === fromValue));
+      const toElement = elements.find(({ mode, value }) => mode === 'to' && (!value || value === toValue));
 
       const newValues: string[] = [];
 
@@ -64,9 +60,9 @@ export const getQueryParams = (cmsFilters: CMSFilters): boolean => {
 
     // Regular Values
     for (const queryValue of queryValues) {
-      for (const { element, fixedValue, type } of elements) {
-        if (fixedValue === queryValue && (type === 'checkbox' || type === 'radio')) setFormFieldValue(element, true);
-        else if (!fixedValue && type !== 'checkbox' && type !== 'radio') setFormFieldValue(element, queryValue);
+      for (const { element, value, type } of elements) {
+        if (value === queryValue && (type === 'checkbox' || type === 'radio')) setFormFieldValue(element, true);
+        else if (!value && type !== 'checkbox' && type !== 'radio') setFormFieldValue(element, queryValue);
         else continue;
 
         filterValues.add(queryValue);

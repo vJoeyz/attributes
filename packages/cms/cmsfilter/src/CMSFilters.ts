@@ -1,13 +1,14 @@
 import debounce from 'just-debounce';
-import { assessFilter, clearFiltersData } from './filter';
+import { assessFilter, clearFilterData } from './filter';
 import { getQueryParams, setQueryParams } from './query';
 import { handleFilterInput } from './input';
 import { ATTRIBUTES } from './constants';
-import { isFormField } from '@finsweet/ts-utils';
+import { isFormField, sameValues } from '@finsweet/ts-utils';
 import { collectFiltersData, collectFiltersElements } from './collect';
 
 import type { FormBlockElement } from '@finsweet/ts-utils';
 import type { CMSList } from '$cms/cmscore/src';
+import type { CMSTags } from './CMSTags';
 
 // Constants
 const {
@@ -26,10 +27,11 @@ export class CMSFilters {
   public readonly submitButton;
   public readonly filtersData;
 
-  public filtersActive = false;
-
   private readonly showQueryParams;
   private readonly scrollTop;
+
+  private filtersActive = false;
+  private tagsInstance?: CMSTags;
 
   constructor(
     public readonly formBlock: FormBlockElement,
@@ -102,7 +104,7 @@ export class CMSFilters {
    * @param e The `InputEvent`.
    */
   private async handleInputEvents({ target }: Event) {
-    const { filtersData, submitButton, showQueryParams } = this;
+    const { filtersData, submitButton, showQueryParams, tagsInstance } = this;
 
     if (!isFormField(target)) return;
 
@@ -110,6 +112,8 @@ export class CMSFilters {
     if (!validInput) return;
 
     if (showQueryParams) setQueryParams(filtersData);
+
+    if (tagsInstance) tagsInstance.syncTags(filtersData);
 
     if (!submitButton) await this.applyFilters();
   }
@@ -170,18 +174,22 @@ export class CMSFilters {
   /**
    * Resets the active filters.
    * @param filterKey If passed, only this filter key will be resetted.
+   * @param value If passed, only that specific value and the elements that hold it will be cleared.
    */
-  public async resetFilters(filterKey?: string | null): Promise<void> {
-    const { filtersData, showQueryParams } = this;
+  public async resetFilters(filterKeys?: string[], value?: string): Promise<void> {
+    const { filtersData, showQueryParams, tagsInstance } = this;
 
-    if (!filterKey) clearFiltersData(filtersData);
+    if (!filterKeys || !filterKeys.length) for (const filterData of filtersData) clearFilterData(filterData);
     else {
-      const filtersToReset = filtersData.filter(({ filterKeys }) => filterKeys.has(filterKey));
+      const filterData = filtersData.find((data) => sameValues(data.filterKeys, filterKeys));
+      if (!filterData) return;
 
-      clearFiltersData(filtersToReset);
+      clearFilterData(filterData, value);
     }
 
     if (showQueryParams) setQueryParams(filtersData);
+
+    if (!value && tagsInstance) tagsInstance.syncTags(filtersData);
 
     await this.applyFilters();
   }
@@ -191,5 +199,19 @@ export class CMSFilters {
    */
   public scrollToTop() {
     this.listInstance.wrapper.parentElement?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  /**
+   * Adds a {@link CMSTags} instance.
+   * @param tagsInstance The `CMSTags` instance.
+   */
+  public async addTagsInstance(tagsInstance: CMSTags) {
+    const { filtersData } = this;
+
+    this.tagsInstance = tagsInstance;
+
+    tagsInstance.on('tagremove', async ({ filterKeys, value }) => await this.resetFilters(filterKeys, value));
+
+    await tagsInstance.syncTags(filtersData);
   }
 }

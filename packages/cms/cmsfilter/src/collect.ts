@@ -5,10 +5,11 @@ import {
   getObjectEntries,
   isFormField,
   isKeyOf,
+  sameValues,
 } from '@finsweet/ts-utils';
 
 import type { FormBlockElement } from '@finsweet/ts-utils';
-import type { ElementMode, FilterData, FilterMode, FiltersData, ResetButtonsData } from './types';
+import type { ElementMode, FilterData, FilterElement, FilterMode, FiltersData, ResetButtonsData } from './types';
 
 // Constants
 const {
@@ -40,9 +41,11 @@ export const collectFiltersElements = (
   const resetButtonsData: ResetButtonsData = new Map();
 
   for (const resetButton of resetButtonElements) {
-    const filterKey = resetButton.getAttribute(resetKey);
+    const rawFilterKeys = resetButton.getAttribute(resetKey);
+    const filterKeys = [...new Set(extractCommaSeparatedValues(rawFilterKeys))];
+    if (!filterKeys.length) continue;
 
-    resetButtonsData.set(resetButton, filterKey);
+    resetButtonsData.set(resetButton, filterKeys);
   }
 
   return { form, submitButton, resetButtonsData };
@@ -66,17 +69,10 @@ export const collectFiltersData = (form: HTMLFormElement): FiltersData => {
     const rawFilterKeys = element.getAttribute(fieldKey);
     if (!rawFilterKeys) continue;
 
-    const filterKeys = new Set(extractCommaSeparatedValues(rawFilterKeys));
-    if (!filterKeys.size) continue;
+    const filterKeys = [...new Set(extractCommaSeparatedValues(rawFilterKeys))];
+    if (!filterKeys.length) continue;
 
-    const existingData = filtersData.find((data) => {
-      const elementKeys = [...filterKeys];
-      const existingKeys = [...data.filterKeys];
-
-      return (
-        elementKeys.every((key) => existingKeys.includes(key)) && existingKeys.every((key) => elementKeys.includes(key))
-      );
-    });
+    const existingData = filtersData.find((data) => sameValues(filterKeys, data.filterKeys));
 
     const rawMatch = element.getAttribute(matchKey);
     const rawMode = element.getAttribute(rangeKey);
@@ -107,12 +103,12 @@ export const collectFiltersData = (form: HTMLFormElement): FiltersData => {
       const isCheckbox = element instanceof HTMLInputElement;
       const fieldElement = isCheckbox ? element : (checkboxOrRadioField.querySelector('input') as HTMLInputElement);
 
-      const elementData = {
+      const elementData: FilterElement = {
         mode: elementMode,
         element: fieldElement,
         type: fieldElement.type,
-        fixedValue: isCheckbox ? 'true' : element.textContent,
-      };
+        value: isCheckbox ? 'true' : element.textContent || '',
+      } as const;
 
       if (existingData) existingData.elements.push(elementData);
       else {
@@ -126,7 +122,9 @@ export const collectFiltersData = (form: HTMLFormElement): FiltersData => {
     }
 
     if (isFormField(element) && element.type !== 'submit') {
-      const elementData = { mode: elementMode, element, type: element.type };
+      const { type, value } = element;
+
+      const elementData: FilterElement = { element, type, value, mode: elementMode };
 
       if (existingData) existingData.elements.push(elementData);
       else {

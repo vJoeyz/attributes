@@ -19,30 +19,32 @@ export const handleFilterInput = (element: FormField, filtersData: FiltersData):
     const elementData = elements.find((data) => data.element === element);
     if (!elementData) continue;
 
-    const { fixedValue, mode: elementMode, type } = elementData;
+    const { value: storedValue, mode: elementMode, type } = elementData;
 
     switch (type) {
       case 'checkbox': {
         const { checked } = <HTMLInputElement>element;
 
-        if (!fixedValue) break;
+        if (!storedValue) break;
 
-        filterValues[checked ? 'add' : 'delete'](fixedValue);
+        filterValues[checked ? 'add' : 'delete'](storedValue);
         break;
       }
 
       case 'radio': {
         const { checked } = <HTMLInputElement>element;
 
-        if (!checked || !fixedValue) break;
+        if (!checked || !storedValue) break;
 
         filterValues.clear();
-        filterValues.add(fixedValue);
+        filterValues.add(storedValue);
 
         break;
       }
 
       default: {
+        elementData.value = value;
+
         if (filterMode === 'range') {
           const newValues = [...filterValues];
           newValues[elementMode === 'from' ? 0 : 1] = value;

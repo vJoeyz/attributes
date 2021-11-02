@@ -27,6 +27,21 @@ export const ATTRIBUTES = {
       results: generateDynamicAttibuteValue('results-count'),
 
       /**
+       * Defines a tag template element.
+       */
+      tagTemplate: generateDynamicAttibuteValue('tag-template'),
+
+      /**
+       * Defines the text node of a tag.
+       */
+      tagText: generateDynamicAttibuteValue('tag-text'),
+
+      /**
+       * Defines a remove trigger element of a tag.
+       */
+      tagRemove: generateDynamicAttibuteValue('tag-remove'),
+
+      /**
        * Defines a button that resets all filters when clicked.
        */
       reset: 'reset',
@@ -45,6 +60,7 @@ export const ATTRIBUTES = {
 
   /**
    * Defines the matching mode.
+   * Available values: {@link MATCHES}.
    * `any` by default.
    */
   match: {
@@ -57,6 +73,7 @@ export const ATTRIBUTES = {
 
   /**
    * Defines a range to filter.
+   * Available values: {@link MODES.range}.
    */
   range: {
     key: `${ATTRIBUTES_PREFIX}-range`,
@@ -75,6 +92,13 @@ export const ATTRIBUTES = {
    * Defines if the filter query params should be displayed on the URL.
    */
   showQuery: { key: `${ATTRIBUTES_PREFIX}-showquery`, values: { true: 'true' } },
+
+  /**
+   * Defines the format of the tags.
+   * Available values: {@link TAGS_MODES}.
+   * Defaults to `default`.
+   */
+  tagsFormat: { key: `${ATTRIBUTES_PREFIX}-tagformat` },
 
   /**
    * Defines the easing function of the list animation.
@@ -99,3 +123,5 @@ export const MATCHES = ['any', 'all'] as const;
 export const MODES = {
   range: ['from', 'to'],
 } as const;
+
+export const TAGS_MODES = ['category'] as const;

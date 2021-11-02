@@ -1,9 +1,10 @@
-import { ATTRIBUTES, getSelector } from './constants';
-import { FORM_CSS_CLASSES, isNotEmpty } from '@finsweet/ts-utils';
+import { ATTRIBUTES, getSelector, TAGS_MODES } from './constants';
+import { FORM_CSS_CLASSES, isKeyOf, isNotEmpty } from '@finsweet/ts-utils';
 import { importCMSCore } from '$utils/import';
-import { CMSFilters } from './CMSFilter';
+import { CMSFilters } from './CMSFilters';
 import { listenListEvents } from './events';
 import { addListAnimation } from '$cms/utils/animation';
+import { CMSTags } from './CMSTags';
 
 import type { FormBlockElement } from '@finsweet/ts-utils';
 import type { CMSList } from '$cms/cmscore/src';
@@ -14,6 +15,7 @@ const {
   duration: { key: durationKey },
   easing: { key: easingKey },
   showQuery: { key: showQueryKey, values: showQueryValues },
+  tagsFormat: { key: tagsFormatKey },
   scrollTop: { key: scrollTopKey, values: scrollTopValues },
 } = ATTRIBUTES;
 
@@ -62,11 +64,23 @@ const initFilters = async (listInstance: CMSList) => {
   if (!listInstance.listAnimation) addListAnimation(listInstance, { durationKey, easingKey });
 
   // Init instances
+  // Filters
   const filtersInstance = new CMSFilters(formBlock, listInstance, {
     resultsElement,
     showQueryParams,
     scrollTop,
   });
+
+  // Tags
+  const tagsTemplate = document.querySelector<HTMLElement>(getSelector('element', 'tagTemplate', { instanceIndex }));
+  if (tagsTemplate) {
+    const rawTagsFormat = listInstance.getAttribute(tagsFormatKey);
+    const tagsFormat = isKeyOf(rawTagsFormat, TAGS_MODES) ? rawTagsFormat : undefined;
+
+    const tagsInstance = new CMSTags(tagsTemplate, tagsFormat, listInstance);
+
+    filtersInstance.addTagsInstance(tagsInstance);
+  }
 
   // Listen events
   listenListEvents(filtersInstance, listInstance);

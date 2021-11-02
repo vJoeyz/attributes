@@ -1,6 +1,6 @@
 import { ATTRIBUTES } from './constants';
 
-import type { CMSFilters } from './CMSFilter';
+import type { CMSFilters } from './CMSFilters';
 import type { CMSItem, CMSList } from '$cms/cmscore/src';
 
 const {

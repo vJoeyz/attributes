@@ -1,8 +1,8 @@
-import { clearFormField, isNotEmpty } from '@finsweet/ts-utils';
+import { clearFormField, isNotEmpty, sameValues } from '@finsweet/ts-utils';
 import { normalizeDate } from './dates';
 
 import type { CMSItem } from '$cms/cmscore/src';
-import type { FiltersData } from './types';
+import type { FilterData, FilterElement, FiltersData } from './types';
 
 /**
  * Assesses if an item should be displayed/hidden based on the filters.
@@ -24,7 +24,7 @@ const checkFilterValidity = (item: CMSItem, { filterKeys, values, match, mode: f
   const filterValues = [...values].filter(isNotEmpty);
   if (!filterValues.length) return true;
 
-  return [...filterKeys][match === 'all' ? 'every' : 'some']((filterKey) => {
+  return filterKeys[match === 'all' ? 'every' : 'some']((filterKey) => {
     // Range Filter Modes
     if (filterMode === 'range') {
       const prop = item.props[filterKey];
@@ -66,7 +66,7 @@ const checkFilterValidity = (item: CMSItem, { filterKeys, values, match, mode: f
           return filterDateTime === propDateTime;
         }
 
-        if (propValues.length === 1 || filterKeys.size > 1) {
+        if (propValues.length === 1 || filterKeys.length > 1) {
           return propValue.toLowerCase().includes(filterValue.toLowerCase());
         }
 
@@ -108,6 +108,17 @@ const checkRangeValidity = (value: string, from: string, to: string, type?: stri
   return filterNumberValue >= propNumberFrom && filterNumberValue <= propNumberTo;
 };
 
+export const removeFilterValue = (filterKeys: string[], value: string, filtersData: FiltersData) => {
+  const filterData = filtersData.find((data) => sameValues(data.filterKeys, filterKeys));
+  if (!filterData) return;
+
+  const elements = filterData.elements.filter((elementData) => elementData.value === value);
+
+  filterData.values.delete(value);
+
+  for (const { element } of elements) clearFormField(element, ['input']);
+};
+
 /**
  * Clears a set of `FiltersData`, including the input values.
  * @param filtersData
@@ -118,4 +129,23 @@ export const clearFiltersData = (filtersData: FiltersData) => {
 
     values.clear();
   }
+};
+
+/**
+ * Clears a record of `FilterData`, including the input values.
+ * @param filterData The {@link FilterData} object.
+ * @param value If passed, only that specific value and the elements that hold it will be cleared.
+ */
+export const clearFilterData = ({ elements, values }: FilterData, value?: string) => {
+  let elementsToClear: FilterElement[];
+
+  if (value) {
+    values.delete(value);
+    elementsToClear = elements.filter((elementData) => elementData.value === value);
+  } else {
+    values.clear();
+    elementsToClear = elements;
+  }
+
+  for (const { element } of elementsToClear) clearFormField(element, ['input']);
 };

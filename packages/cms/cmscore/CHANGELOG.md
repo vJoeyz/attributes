@@ -1,5 +1,9 @@
 # `cmscore` Changelog
 
+## [v1.0.8] 27th October 2021
+
+- Added new methods to `CMSList`.
+
 ## [v1.0.7] 27th October 2021
 
 - Published missing updates.
