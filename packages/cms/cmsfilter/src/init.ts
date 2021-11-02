@@ -1,23 +1,11 @@
-import { ATTRIBUTES, getSelector, TAGS_MODES } from './constants';
-import { FORM_CSS_CLASSES, isKeyOf, isNotEmpty } from '@finsweet/ts-utils';
+import { createCMSFiltersInstance, createCMSTagsInstance } from './factory';
+import { listenListEvents } from './events';
+import { getSelector } from './constants';
+import { isNotEmpty } from '@finsweet/ts-utils';
 import { importCMSCore } from '$utils/import';
 import { CMSFilters } from './CMSFilters';
-import { listenListEvents } from './events';
-import { addListAnimation } from '$cms/utils/animation';
-import { CMSTags } from './CMSTags';
 
-import type { FormBlockElement } from '@finsweet/ts-utils';
 import type { CMSList } from '$cms/cmscore/src';
-
-// Constants destructuring
-const {
-  element: { key: elementKey },
-  duration: { key: durationKey },
-  easing: { key: easingKey },
-  showQuery: { key: showQueryKey, values: showQueryValues },
-  tagsFormat: { key: tagsFormatKey },
-  scrollTop: { key: scrollTopKey, values: scrollTopValues },
-} = ATTRIBUTES;
 
 /**
  * Inits the attribute.
@@ -38,52 +26,14 @@ export const init = async (): Promise<CMSFilters[]> => {
  * @param listInstance The `CMSList` instance.
  */
 const initFilters = async (listInstance: CMSList) => {
-  const instanceIndex = listInstance.getInstanceIndex(elementKey);
-
-  // Base elements
-  const filters = document.querySelector(getSelector('element', 'filters', { instanceIndex }));
-  if (!filters) return;
-
-  const formBlock = filters.closest<FormBlockElement>(`.${FORM_CSS_CLASSES.formBlock}`);
-  if (!formBlock) return;
-
-  // Empty State Element
-  const emptyElement = document.querySelector<HTMLElement>(getSelector('element', 'empty', { instanceIndex }));
-  if (emptyElement) listInstance.addEmptyElement(emptyElement);
-
-  // Results Count
-  const resultsElement = document.querySelector<HTMLElement>(getSelector('element', 'results', { instanceIndex }));
-
-  // Query Params
-  const showQueryParams = listInstance.getAttribute(showQueryKey) === showQueryValues.true;
-
-  // Scroll Top
-  const scrollTop = listInstance.getAttribute(scrollTopKey) === scrollTopValues.true;
-
-  // Animation
-  if (!listInstance.listAnimation) addListAnimation(listInstance, { durationKey, easingKey });
-
-  // Init instances
   // Filters
-  const filtersInstance = new CMSFilters(formBlock, listInstance, {
-    resultsElement,
-    showQueryParams,
-    scrollTop,
-  });
+  const filtersInstance = createCMSFiltersInstance(listInstance);
+  if (!filtersInstance) return;
+
+  listenListEvents(filtersInstance, listInstance);
 
   // Tags
-  const tagsTemplate = document.querySelector<HTMLElement>(getSelector('element', 'tagTemplate', { instanceIndex }));
-  if (tagsTemplate) {
-    const rawTagsFormat = listInstance.getAttribute(tagsFormatKey);
-    const tagsFormat = isKeyOf(rawTagsFormat, TAGS_MODES) ? rawTagsFormat : undefined;
-
-    const tagsInstance = new CMSTags(tagsTemplate, tagsFormat, listInstance);
-
-    filtersInstance.addTagsInstance(tagsInstance);
-  }
-
-  // Listen events
-  listenListEvents(filtersInstance, listInstance);
+  await createCMSTagsInstance(listInstance, filtersInstance);
 
   return filtersInstance;
 };

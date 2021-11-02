@@ -11,7 +11,7 @@ const {
 
 /**
  * Listens for events on the `CMSList` and triggers the correspondent actions.
- * @param listInstance The {@link CMSFilters} instance.
+ * @param filtersInstance The {@link CMSFilters} instance.
  * @param listInstance The {@link CMSList} instance.
  */
 export const listenListEvents = (filtersInstance: CMSFilters, listInstance: CMSList) => {

@@ -189,9 +189,15 @@ export class CMSFilters {
 
     if (showQueryParams) setQueryParams(filtersData);
 
-    if (!value && tagsInstance) tagsInstance.syncTags(filtersData);
+    await Promise.all([
+      // Apply filters
+      this.applyFilters(),
 
-    await this.applyFilters();
+      // Sync the tags
+      (async () => {
+        if (!value && tagsInstance) await tagsInstance.syncTags(filtersData);
+      })(),
+    ]);
   }
 
   /**
@@ -209,8 +215,6 @@ export class CMSFilters {
     const { filtersData } = this;
 
     this.tagsInstance = tagsInstance;
-
-    tagsInstance.on('tagremove', async ({ filterKeys, value }) => await this.resetFilters(filterKeys, value));
 
     await tagsInstance.syncTags(filtersData);
   }

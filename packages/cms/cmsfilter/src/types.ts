@@ -47,7 +47,3 @@ export interface TagData {
 export type TagsData = TagData[];
 
 export type TagsFormat = 'default' | 'category';
-
-export interface CMSTagsEvents {
-  tagremove: TagData;
-}

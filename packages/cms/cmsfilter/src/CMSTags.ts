@@ -1,12 +1,12 @@
-import Emittery from 'emittery';
 import { cloneNode, Debug, sameValues } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 import { hasRemoveTrigger, updateTagText } from './tags';
+import { CMSFilters } from './CMSFilters';
 
-import type { CMSTagsEvents, FiltersData, TagData, TagsData, TagsFormat } from './types';
+import type { FiltersData, TagData, TagsData, TagsFormat } from './types';
 import type { CMSList } from '$cms/cmscore/src';
 
-export class CMSTags extends Emittery<CMSTagsEvents> {
+export class CMSTags {
   private readonly wrapper: HTMLElement;
 
   private tagsData: TagsData = [];
@@ -15,10 +15,9 @@ export class CMSTags extends Emittery<CMSTagsEvents> {
   constructor(
     private readonly template: HTMLElement,
     private readonly format: TagsFormat = 'default',
+    private readonly filtersInstance: CMSFilters,
     private readonly listInstance: CMSList
   ) {
-    super();
-
     this.wrapper = template.parentElement || Debug.alert('The tags have no parent wrapper.', 'error');
 
     this.init();
@@ -107,12 +106,13 @@ export class CMSTags extends Emittery<CMSTagsEvents> {
   /**
    * Removes an existing tag.
    * @param tagData A {@link TagData} record.
-   * @param emitEvent If set to `true`, the `tagremove` event will be emitted.
+   * @param resetFilters If set to `true`, the `tagremove` event will be emitted.
    */
-  private async removeTag(tagData: TagData, emitEvent?: boolean) {
-    const { element } = tagData;
+  private async removeTag(tagData: TagData, resetFilters?: boolean) {
+    const { element, filterKeys, value } = tagData;
     const {
       tagsData,
+      filtersInstance,
       listInstance: { listAnimation },
     } = this;
 
@@ -122,7 +122,7 @@ export class CMSTags extends Emittery<CMSTagsEvents> {
     await Promise.all([
       // Emit events
       (async () => {
-        if (emitEvent) await this.emit('tagremove', tagData);
+        if (resetFilters) await filtersInstance.resetFilters(filterKeys, value);
       })(),
 
       // Remove the element
