@@ -1,3 +1,0 @@
-# `cmscombine` Attribute
-
-Attribute description.

@@ -11,7 +11,6 @@
     "packages\\cms\\cmsfilter",
     "packages\\cms\\cmsload",
     "packages\\cms\\cmsnest",
-    "packages\\cms\\cmspagination",
     "packages\\cms\\cmsprevnext",
     "packages\\cms\\cmsselect",
     "packages\\cms\\cmsslider",
