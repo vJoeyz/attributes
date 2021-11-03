@@ -94,8 +94,8 @@ export class CMSFilters {
     );
 
     // Reset buttons
-    for (const [resetButton, filterKey] of resetButtonsData) {
-      resetButton?.addEventListener('click', () => this.resetFilters(filterKey));
+    for (const [resetButton, filterKeys] of resetButtonsData) {
+      resetButton?.addEventListener('click', () => this.resetFilters(filterKeys));
     }
   }
 

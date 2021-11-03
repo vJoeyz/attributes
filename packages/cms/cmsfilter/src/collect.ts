@@ -42,8 +42,7 @@ export const collectFiltersElements = (
 
   for (const resetButton of resetButtonElements) {
     const rawFilterKeys = resetButton.getAttribute(resetKey);
-    const filterKeys = [...new Set(extractCommaSeparatedValues(rawFilterKeys))];
-    if (!filterKeys.length) continue;
+    const filterKeys = rawFilterKeys ? [...new Set(extractCommaSeparatedValues(rawFilterKeys))] : [];
 
     resetButtonsData.set(resetButton, filterKeys);
   }
