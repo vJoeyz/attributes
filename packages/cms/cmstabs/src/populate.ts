@@ -1,20 +1,9 @@
 import { getSelector } from './constants';
 import { TABS_CSS_CLASSES, CURRENT_CSS_CLASS } from '@finsweet/ts-utils';
 
-import type { CMSList, CMSItem } from '$cms/cmscore/src';
-import type {
-  TabsElement,
-  TabsMenuElement,
-  TabsContentElement,
-  TabLinkElement,
-  TabPaneElement,
-} from '@finsweet/ts-utils';
-
-// Types
-interface PopulateData {
-  listInstances: CMSList[];
-  tabsElement: TabsElement;
-}
+import type { CMSItem } from '$cms/cmscore/src';
+import type { TabsMenuElement, TabsContentElement, TabLinkElement, TabPaneElement } from '@finsweet/ts-utils';
+import type { PopulateData } from './types';
 
 // Constants destructuring
 const {
@@ -35,6 +24,7 @@ export const populateTabsFromLists = ({ listInstances, tabsElement }: PopulateDa
   const tabsContent = tabsElement.querySelector<TabsContentElement>(`.${tabsContentCSSClass}`);
   const existingTabLinks = tabsElement.querySelectorAll<TabLinkElement>(`.${tabLinkCSSClass}`);
   const existingTabPanes = tabsElement.querySelectorAll<TabPaneElement>(`.${tabPaneCSSClass}`);
+
   if (!tabsMenu || !tabsContent || !existingTabLinks.length || !existingTabPanes.length) return;
 
   // Store the template CSS classes
