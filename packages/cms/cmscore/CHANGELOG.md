@@ -1,5 +1,9 @@
 # `cmscore` Changelog
 
+## [v1.0.9] 5th November 2021
+
+- Added `CMSList.scrollAnchor` prop + `CMSList.scrollToAnchor()` method.
+
 ## [v1.0.8] 27th October 2021
 
 - Added new methods to `CMSList`.

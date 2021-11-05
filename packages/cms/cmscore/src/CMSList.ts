@@ -24,18 +24,20 @@ export class CMSList extends Emittery<CMSListEvents> {
   public readonly itemsPerPage: number;
 
   public paginationPrevious?: PaginationButtonElement | null;
+  public scrollAnchor?: HTMLElement;
+
+  public emptyElement?: HTMLElement;
+  public emptyState?: boolean;
+
+  public loader?: HTMLElement;
 
   public visibleItems = 0;
   public currentPage?: number;
 
-  public loader?: HTMLElement;
-
   public items: CMSItem[];
+
   public listAnimation?: Animation;
   public itemsAnimation?: Animation;
-
-  public emptyElement?: HTMLElement;
-  public emptyState?: boolean;
 
   private renderingQueue?: Promise<void>;
 
@@ -183,6 +185,13 @@ export class CMSList extends Emittery<CMSListEvents> {
     element.style.display = 'none';
 
     this.loader = element;
+  }
+
+  /**
+   * Scrolls to the anchor element of the list.
+   */
+  public scrollToAnchor() {
+    this.scrollAnchor?.scrollIntoView({ behavior: 'smooth' });
   }
 
   /**

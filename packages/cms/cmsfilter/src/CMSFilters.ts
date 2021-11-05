@@ -28,7 +28,6 @@ export class CMSFilters {
   public readonly filtersData;
 
   private readonly showQueryParams;
-  private readonly scrollTop;
 
   private filtersActive = false;
   private tagsInstance?: CMSTags;
@@ -39,11 +38,9 @@ export class CMSFilters {
     {
       resultsElement,
       showQueryParams,
-      scrollTop,
     }: {
       resultsElement: HTMLElement | null;
       showQueryParams: boolean;
-      scrollTop: boolean;
     }
   ) {
     const { form, submitButton, resetButtonsData } = collectFiltersElements(formBlock);
@@ -54,7 +51,6 @@ export class CMSFilters {
     this.resultsElement = resultsElement;
 
     this.showQueryParams = showQueryParams;
-    this.scrollTop = scrollTop;
 
     this.filtersData = collectFiltersData(form);
 
@@ -148,7 +144,7 @@ export class CMSFilters {
    * In that case, the rendering responsibilities are handled by another controller.
    */
   public async applyFilters(addingItems?: boolean): Promise<void> {
-    const { listInstance, filtersData, filtersActive, scrollTop } = this;
+    const { listInstance, filtersData, filtersActive } = this;
     const { items, currentPage } = listInstance;
 
     // Abort if no filtering is needed
@@ -167,7 +163,7 @@ export class CMSFilters {
 
       await listInstance.renderItems();
 
-      if (scrollTop) this.scrollToTop();
+      listInstance.scrollToAnchor();
     }
   }
 
@@ -198,13 +194,6 @@ export class CMSFilters {
         if (!value && tagsInstance) await tagsInstance.syncTags(filtersData);
       })(),
     ]);
-  }
-
-  /**
-   * Scrolls to the top of the list.
-   */
-  public scrollToTop() {
-    this.listInstance.wrapper.parentElement?.scrollIntoView({ behavior: 'smooth' });
   }
 
   /**

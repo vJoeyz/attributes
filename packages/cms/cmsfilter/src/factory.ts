@@ -14,7 +14,6 @@ const {
   easing: { key: easingKey },
   showQuery: { key: showQueryKey, values: showQueryValues },
   tagsFormat: { key: tagsFormatKey },
-  scrollTop: { key: scrollTopKey, values: scrollTopValues },
 } = ATTRIBUTES;
 
 /**
@@ -36,14 +35,15 @@ export const createCMSFiltersInstance = (listInstance: CMSList): CMSFilters | un
   const emptyElement = document.querySelector<HTMLElement>(getSelector('element', 'empty', { instanceIndex }));
   if (emptyElement) listInstance.addEmptyElement(emptyElement);
 
-  // Results Count
+  // Scroll Anchor Element
+  const scrollAnchor = document.querySelector<HTMLElement>(getSelector('element', 'scrollAnchor', { instanceIndex }));
+  if (scrollAnchor) listInstance.scrollAnchor = scrollAnchor;
+
+  // Results Count Element
   const resultsElement = document.querySelector<HTMLElement>(getSelector('element', 'results', { instanceIndex }));
 
   // Query Params
   const showQueryParams = listInstance.getAttribute(showQueryKey) === showQueryValues.true;
-
-  // Scroll Top
-  const scrollTop = listInstance.getAttribute(scrollTopKey) === scrollTopValues.true;
 
   // Animation
   if (!listInstance.listAnimation) addListAnimation(listInstance, { durationKey, easingKey });
@@ -52,7 +52,6 @@ export const createCMSFiltersInstance = (listInstance: CMSList): CMSFilters | un
   const filtersInstance = new CMSFilters(formBlock, listInstance, {
     resultsElement,
     showQueryParams,
-    scrollTop,
   });
 
   return filtersInstance;

@@ -42,6 +42,11 @@ export const ATTRIBUTES = {
       tagRemove: generateDynamicAttibuteValue('tag-remove'),
 
       /**
+       * Defines an element where to scroll the view every time a filter is applied.
+       */
+      scrollAnchor: generateDynamicAttibuteValue('scroll-anchor'),
+
+      /**
        * Defines a button that resets all filters when clicked.
        */
       reset: 'reset',
@@ -110,11 +115,6 @@ export const ATTRIBUTES = {
    * Defines the duration of the list animation.
    */
   duration: { key: `${ATTRIBUTES_PREFIX}-duration` },
-
-  /**
-   * Defines if the window should scroll to the top of the list after applying filters.
-   */
-  scrollTop: { key: `${ATTRIBUTES_PREFIX}-scrolltop`, values: { true: 'true' } },
 } as const;
 
 export const getSelector = generateSelectors(ATTRIBUTES);
