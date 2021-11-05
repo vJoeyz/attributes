@@ -1,8 +1,8 @@
 import { SLIDER_CSS_CLASSES } from '@finsweet/ts-utils';
 
 import type { SlideElement, SliderMaskElement } from '@finsweet/ts-utils';
-import type { PopulateData } from './init';
 import type { CMSItem } from '$cms/cmscore/src';
+import type { PopulateData } from './types';
 
 // Constants destructuring
 const { slide: slideCSSClass, sliderMask: sliderMaskCSSClass } = SLIDER_CSS_CLASSES;
