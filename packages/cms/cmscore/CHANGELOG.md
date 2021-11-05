@@ -1,5 +1,9 @@
 # `cmscore` Changelog
 
+## [v1.0.10] 5th November 2021
+
+- Added `CMSList.paginationCount` prop.
+
 ## [v1.0.9] 5th November 2021
 
 - Added `CMSList.scrollAnchor` prop + `CMSList.scrollToAnchor()` method.

@@ -12,6 +12,7 @@ import type {
   CollectionItemElement,
   PaginationButtonElement,
   PaginationWrapperElement,
+  PageCountElement,
 } from '@finsweet/ts-utils';
 
 /**
@@ -19,8 +20,11 @@ import type {
  */
 export class CMSList extends Emittery<CMSListEvents> {
   public readonly list: CollectionListElement;
+
   public readonly paginationWrapper?: PaginationWrapperElement | null;
   public readonly paginationNext?: PaginationButtonElement | null;
+  public readonly paginationCount?: PageCountElement | null;
+
   public readonly itemsPerPage: number;
 
   public paginationPrevious?: PaginationButtonElement | null;
@@ -56,6 +60,7 @@ export class CMSList extends Emittery<CMSListEvents> {
     this.paginationWrapper = getCollectionElements(this.wrapper, 'pagination');
     this.paginationNext = getCollectionElements(this.wrapper, 'next');
     this.paginationPrevious = getCollectionElements(this.wrapper, 'previous');
+    this.paginationCount = getCollectionElements(this.wrapper, 'pageCount');
 
     const collectionItems = getCollectionElements(this.wrapper, 'items');
 
