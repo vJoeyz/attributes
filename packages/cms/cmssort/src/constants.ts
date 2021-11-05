@@ -46,18 +46,18 @@ export const ATTRIBUTES = {
 
   /**
    * Defines the CSS Class for the `asc` state.
+   * Defaults to {@link DEFAULT_ASC_CLASS}.
    */
   ascClass: { key: `${ATTRIBUTES_PREFIX}-asc` },
 
   /**
    * Defines the CSS Class for the `desc` state.
+   * Defaults to {@link DEFAULT_DESC_CLASS}.
    */
   descClass: { key: `${ATTRIBUTES_PREFIX}-desc` },
 } as const;
 
 export const getSelector = generateSelectors(ATTRIBUTES);
-
-export const DEFAULT_ANIMATION_DURATION = 0.1;
 
 export const DEFAULT_ASC_CLASS = `${ATTRIBUTES_PREFIX}_asc`;
 export const DEFAULT_DESC_CLASS = `${ATTRIBUTES_PREFIX}_desc`;

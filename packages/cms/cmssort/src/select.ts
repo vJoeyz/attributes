@@ -2,6 +2,12 @@ import { sortListItems } from './sort';
 
 import type { CMSItem, CMSList } from '$cms/cmscore/src';
 
+/**
+ * Inits sorting on an `HTMLSelectElement`.
+ * @param selectElement The {@link HTMLSelectElement}.
+ * @param listInstance The {@link CMSList} instance.
+ * @param originalItemsOrder The stored original order of the items.
+ */
 export const initHTMLSelect = (
   selectElement: HTMLSelectElement,
   listInstance: CMSList,
@@ -46,6 +52,10 @@ export const initHTMLSelect = (
   return sortItems;
 };
 
+/**
+ * Handles `submit` events on the parent form of the `HTMLSelect` element.
+ * @param e The `submit` event.
+ */
 const handleFormSubmit = (e: Event) => {
   e.preventDefault();
   e.stopImmediatePropagation();

@@ -1,14 +1,8 @@
-import { isKeyOf } from '@finsweet/ts-utils';
-import { importAnimations, importCMSCore } from '$utils/import';
+import { ATTRIBUTES, DEFAULT_ASC_CLASS, DEFAULT_DESC_CLASS, getSelector } from './constants';
+import { addListAnimation } from '$cms/utils/animation';
+import { importCMSCore } from '$utils/import';
 import { initHTMLSelect } from './select';
 import { initButtons } from './buttons';
-import {
-  ATTRIBUTES,
-  DEFAULT_ANIMATION_DURATION,
-  DEFAULT_ASC_CLASS,
-  DEFAULT_DESC_CLASS,
-  getSelector,
-} from './constants';
 
 import type { CSSClasses } from './types';
 import type { CMSList } from '$cms/cmscore/src';
@@ -36,6 +30,11 @@ export const init = async (): Promise<void> => {
   await Promise.all(listInstances.map(initList));
 };
 
+/**
+ * Inits sorting on a `CMSList`.
+ * @param listInstance The {@link CMSList} instance.
+ * @returns An awaitable Promise.
+ */
 const initList = async (listInstance: CMSList) => {
   const instanceIndex = listInstance.getInstanceIndex(elementKey);
 
@@ -48,27 +47,7 @@ const initList = async (listInstance: CMSList) => {
   for (const item of items) item.collectProps({ fieldKey, typeKey });
 
   // Animation
-  if (!listAnimation) {
-    importAnimations().then((animationsImport) => {
-      if (!animationsImport) return;
-
-      const {
-        animations: { fade },
-        easings,
-      } = animationsImport;
-
-      const animationDuration = listInstance.getAttribute(durationKey);
-      const animationEasing = listInstance.getAttribute(easingKey);
-
-      listInstance.listAnimation = {
-        ...fade,
-        options: {
-          easing: isKeyOf(animationEasing, easings) ? animationEasing : undefined,
-          duration: animationDuration ? parseFloat(animationDuration) / 200 : DEFAULT_ANIMATION_DURATION,
-        },
-      };
-    });
-  }
+  if (!listAnimation) addListAnimation(listInstance, { durationKey, easingKey });
 
   // CSS Classes
   const cssClasses: CSSClasses = {
