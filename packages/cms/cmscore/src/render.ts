@@ -61,7 +61,7 @@ export const renderListItems = async (listInstance: CMSList, addingItems = false
   ]);
 
   // Emit events
-  listInstance.emit('renderitems', itemsToShow);
+  await listInstance.emit('renderitems', itemsToShow);
 
   // Show the list
   if (!addingItems) {

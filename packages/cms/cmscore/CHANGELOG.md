@@ -1,5 +1,9 @@
 # `cmscore` Changelog
 
+## [v1.0.11] 5th November 2021
+
+- Awaited `renderitems` event emit on `CMSList.renderItems`
+
 ## [v1.0.10] 5th November 2021
 
 - Added `CMSList.paginationCount` prop.
