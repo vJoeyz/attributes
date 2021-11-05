@@ -24,11 +24,13 @@ export const init = async (): Promise<void> => {
 
     // Listen events
     for (const listInstance of listInstances) {
-      listInstance.on('additems', (newItems) => {
-        createTabsFromItems?.(newItems);
-      });
+      listInstance.items = [];
 
-      listInstance.on('finishload', async () => {
+      listInstance.on('renderitems', async (renderedItems) => {
+        listInstance.items = [];
+
+        createTabsFromItems?.(renderedItems);
+
         await restartWebflow();
       });
     }
