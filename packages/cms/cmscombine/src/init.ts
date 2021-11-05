@@ -1,14 +1,10 @@
-import { getCollectionElements } from '@finsweet/ts-utils';
-import { ATTRIBUTES, getSelector } from './constants';
+import { getSelector } from './constants';
 import { importCMSCore } from '$utils/import';
+import { collectCombineData } from './collect';
+import { combineItemsToTarget } from './combine';
 
 import type { CMSList } from '$cms/cmscore/src';
-
-// Types
-interface PopulateData {
-  lists: CMSList[];
-  target: CMSList;
-}
+import type { CombineData } from './types';
 
 /**
  * Inits the attribute.
@@ -17,44 +13,37 @@ export const init = async (): Promise<CMSList[]> => {
   const cmsCore = await importCMSCore();
   if (!cmsCore) return [];
 
-  let populateData: PopulateData[] = [];
-
   const listInstances = cmsCore.createCMSListInstances([
     getSelector('element', 'list', { operator: 'prefixed' }),
     getSelector('element', 'target', { operator: 'prefixed' }),
   ]);
 
-  // Collect the combine data
-  for (const listInstance of listInstances) {
-    const instanceIndex = listInstance.getInstanceIndex(ATTRIBUTES.element.key);
-
-    // Get the target, default to the first list when non-existing
-    const targetElement = getCollectionElements(getSelector('element', 'target', { instanceIndex }), 'wrapper');
-    const target = listInstances.find(({ wrapper }) => wrapper === targetElement) || listInstance;
-
-    // Make sure the populate data exists
-    const data = (populateData[instanceIndex || 0] ||= { lists: [], target });
-
-    if (listInstance !== data.target) data.lists.push(listInstance);
-  }
-
-  // Filter out invalid instances
-  populateData = populateData.filter((data) => data && data.lists.length);
+  const populateData = collectCombineData(listInstances);
 
   // Combine the lists
-  const combineLists = await Promise.all(
-    populateData.map(async ({ lists, target }) => {
-      for (const { wrapper, items } of lists) {
-        const elementsToAdd = items.map(({ element }) => element);
-
-        await target.addItems(elementsToAdd);
-
-        wrapper.remove();
-      }
-
-      return target;
-    })
-  );
+  const combineLists = await Promise.all(populateData.map(initListsCombine));
 
   return combineLists;
+};
+
+/**
+ * Combines the existing items from the source lists to the target list.
+ * Listens for `additems` events on the source lists to combine those new items too.
+ * @param combineData The {@link CombineData} array.
+ * @returns The target {@link CMSList} instance.
+ */
+const initListsCombine = async ({ lists, target }: CombineData) => {
+  // Listen events
+  for (const listInstance of lists) {
+    listInstance.on('additems', async (newItems) => await combineItemsToTarget(target, newItems));
+  }
+
+  // Combine items
+  for (const { wrapper, items } of lists) {
+    wrapper.remove();
+
+    await combineItemsToTarget(target, items);
+  }
+
+  return target;
 };
