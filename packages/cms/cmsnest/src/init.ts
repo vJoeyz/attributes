@@ -1,6 +1,7 @@
 import { importCMSCore } from '$utils/import';
 import { getSelector } from './constants';
-import { getCollectionsToNest, populateNestedCollections } from './nest';
+import { populateNestedCollections } from './nest';
+import { getCollectionsToNest } from './collect';
 
 import type { CMSList } from '$cms/cmscore/src';
 import type { CMSCore } from '$cms/cmscore/src/types';

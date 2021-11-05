@@ -1,49 +1,16 @@
 import { ATTRIBUTES, getSelector } from './constants';
 import { cloneNode, getCollectionElements, getCollectionListWrappers } from '@finsweet/ts-utils';
+import { getNestingTargets } from './collect';
 
 import type { CollectionItemElement } from '@finsweet/ts-utils';
-import type { CMSItem, CMSList } from '$cms/cmscore/src';
+import type { CMSItem } from '$cms/cmscore/src';
 import type { CMSCore } from '$cms/cmscore/src/types';
+import type { CollectionsToNest } from './types';
 
 // Types
-interface CollectionToNest {
-  listInstance: CMSList;
-  emptyElement: HTMLElement | null;
-}
-type CollectionsToNest = Map<string, CollectionToNest>;
-type NestingTargets = Map<string, HTMLElement>;
 
 // Constants
-const {
-  list: { key: listKey },
-  empty: { key: emptyKey },
-} = ATTRIBUTES;
-
 const domParser = new DOMParser();
-
-/**
- * Queries the existing CMS Collections on the page that will be nested inside the main list instance.
- * @returns A `Map` with the `collectionKey` as the keys and `CMSList` instances as the values.
- */
-export const getCollectionsToNest = ({ createCMSListInstances }: CMSCore): CollectionsToNest => {
-  const collectionsToNest: CollectionsToNest = new Map();
-
-  const listInstances = createCMSListInstances([getSelector('list')]);
-
-  for (const listInstance of listInstances) {
-    const collectionKey = listInstance.getAttribute(listKey);
-    if (!collectionKey) continue;
-
-    const emptyElement = document.querySelector<HTMLElement>(`[${emptyKey}^="${collectionKey}"]`);
-    if (emptyElement) emptyElement.remove();
-
-    listInstance.wrapper.remove();
-
-    collectionsToNest.set(collectionKey, { listInstance, emptyElement });
-  }
-
-  return collectionsToNest;
-};
 
 /**
  * Fetches each Collection Item's Template Page, checks which nested items belong to it, and appends the nested collection only containing the correspondent items.
@@ -73,7 +40,7 @@ export const populateNestedCollections = async (
   for (const pageCollectionListWrapper of pageCollectionListWrappers) {
     const pageListInstance = new CMSList(pageCollectionListWrapper);
 
-    const collectionKey = pageListInstance.getAttribute(listKey);
+    const collectionKey = pageListInstance.getAttribute(ATTRIBUTES.list.key);
     if (!collectionKey) continue;
 
     const collectionToNest = collectionsToNest.get(collectionKey);
@@ -116,23 +83,4 @@ export const populateNestedCollections = async (
     nestingTargetParent.insertBefore(newCollectionWrapper, nestingTarget);
     nestingTarget.remove();
   }
-};
-
-/**
- * Queries the target elements where the nested CMS Collections will be appended.
- * @param itemElement The `CollectionItemElement`.
- * @returns A `Map` with the `collectionKey` as the keys and `HTMLElement` targets as the values.
- */
-const getNestingTargets = (itemElement: CollectionItemElement) => {
-  const nestingTargets: NestingTargets = new Map();
-  const nestingTargetElements = itemElement.querySelectorAll<HTMLElement>(getSelector('list'));
-
-  for (const target of nestingTargetElements) {
-    const collectionKey = target.getAttribute(listKey);
-    if (!collectionKey) continue;
-
-    nestingTargets.set(collectionKey, target);
-  }
-
-  return nestingTargets;
 };
