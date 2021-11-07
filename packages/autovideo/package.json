@@ -1,0 +1,34 @@
+{
+  "name": "@finsweet/attributes-autovideo",
+  "version": "1.0.0",
+  "description": "Auto-play videos only in viewport.",
+  "main": "autovideo.js",
+  "files": [
+    "autovideo.js",
+    "examples.json"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development node ./bin/build.js",
+    "build": "cross-env NODE_ENV=production node ./bin/build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/finsweet/attributes.git"
+  },
+  "keywords": [
+    "webflow",
+    "attributes",
+    "autovideo",
+    "no code"
+  ],
+  "author": {
+    "name": "Finsweet",
+    "url": "https://www.finsweet.com/"
+  },
+  "bugs": {
+    "url": "https://sweetjs.finsweet.com/"
+  },
+  "homepage": "https://www.finsweet.com/attributes"
+}
