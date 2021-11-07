@@ -8,7 +8,7 @@ import { ATTRIBUTES, getSelector } from './constants';
 export const populateSelectElement = (selectElement: HTMLSelectElement) => {
   const instanceIndex = getInstanceIndex(selectElement, ATTRIBUTES.element.key);
 
-  const displaySources = document.querySelectorAll<HTMLElement>(getSelector('element', 'source', { instanceIndex }));
+  const displaySources = document.querySelectorAll<HTMLElement>(getSelector('element', 'textValue', { instanceIndex }));
   if (!displaySources.length) return;
 
   for (const displaySource of displaySources) {

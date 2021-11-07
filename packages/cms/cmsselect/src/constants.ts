@@ -9,12 +9,12 @@ export const ATTRIBUTES = {
       /**
        * Defines the elements as the source to populate the target.
        */
-      source: generateDynamicAttibuteValue('source'),
+      textValue: generateDynamicAttibuteValue('text-value'),
 
       /**
        * Defines the element as the target to be populated.
        */
-      target: 'target',
+      select: 'select',
     },
   },
 } as const;

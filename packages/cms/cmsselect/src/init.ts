@@ -6,7 +6,7 @@ import { populateSelectElement } from './populate';
  *
  */
 export const init = (): void => {
-  const targetElements = document.querySelectorAll(getSelector('element', 'target', { operator: 'prefixed' }));
+  const targetElements = document.querySelectorAll(getSelector('element', 'select', { operator: 'prefixed' }));
 
   for (const targetElement of targetElements) {
     if (targetElement instanceof HTMLSelectElement) populateSelectElement(targetElement);
