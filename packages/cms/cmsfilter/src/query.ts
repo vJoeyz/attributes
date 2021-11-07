@@ -81,7 +81,7 @@ export const setQueryParams = (filtersData: FiltersData) => {
   const url = new URL(location.href);
   const { searchParams } = url;
 
-  for (const [key] of searchParams) searchParams.delete(key);
+  for (const key of [...searchParams.keys()]) searchParams.delete(key);
 
   for (const {
     filterKeys: [filterKey],

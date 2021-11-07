@@ -183,8 +183,6 @@ export class CMSFilters {
       clearFilterData(filterData, value);
     }
 
-    if (showQueryParams) setQueryParams(filtersData);
-
     await Promise.all([
       // Apply filters
       this.applyFilters(),
@@ -194,6 +192,8 @@ export class CMSFilters {
         if (!value && tagsInstance) await tagsInstance.syncTags(filtersData);
       })(),
     ]);
+
+    if (showQueryParams) setQueryParams(filtersData);
   }
 
   /**
