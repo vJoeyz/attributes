@@ -19,6 +19,17 @@ const {
 } = ATTRIBUTES;
 
 /**
+ * Adds a loader element to the `CMSList` instance.
+ * @param listInstance The {@link CMSList} instance.
+ */
+const collectLoader = (listInstance: CMSList) => {
+  const instanceIndex = listInstance.getInstanceIndex(elementKey);
+
+  const loaderElement = document.querySelector<HTMLElement>(getSelector('element', 'loader', { instanceIndex }));
+  if (loaderElement) listInstance.addLoader(loaderElement);
+};
+
+/**
  * Prepares the `CMSList` instance:
  * - Gets and prepares the pagination buttons.
  * - Gets the user's settings.
@@ -39,6 +50,8 @@ export const collectMainSettings = (
 
   if (!paginationNext) return;
 
+  collectLoader(listInstance);
+
   paginationPrevious?.remove();
 
   const paginationNextTextNode = paginationNext.querySelector(getSelector('loading'));
@@ -46,11 +59,6 @@ export const collectMainSettings = (
   const originalNextText = paginationNextTextNode?.textContent;
 
   const loadingText = paginationNextTextNode?.getAttribute(loadingKey);
-
-  const instanceIndex = listInstance.getInstanceIndex(elementKey);
-
-  const loaderElement = document.querySelector<HTMLElement>(getSelector('element', 'loader', { instanceIndex }));
-  if (loaderElement) listInstance.addLoader(loaderElement);
 
   return {
     listInstance,
@@ -81,6 +89,8 @@ export const collectPaginationSettings = (
   const { paginationWrapper, paginationCount } = listInstance;
 
   if (!paginationWrapper) return;
+
+  collectLoader(listInstance);
 
   const pageButtonTemplate = paginationWrapper.querySelector<HTMLElement>(
     getSelector('element', 'pageButton', { operator: 'prefixed' })

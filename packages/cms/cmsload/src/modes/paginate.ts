@@ -40,7 +40,7 @@ export const initPaginateMode = async (listInstance: CMSList): Promise<void> => 
 
   // Set initial page
   await listInstance.switchPage(1);
-  handleElements(listInstance, pageButtonsData, paginationCount);
+  handleElements(listInstance, pageButtonsData, paginationCount, false);
 
   //  Listen events
   listInstance.on('renderitems', () => handleElements(listInstance, pageButtonsData, paginationCount));
@@ -60,15 +60,17 @@ export const initPaginateMode = async (listInstance: CMSList): Promise<void> => 
  * @param listInstance The {@link CMSList} instance.
  * @param pageButtonsData The {@link PageButtonsData} array.
  * @param paginationCount The {@link PageCountElement}.
+ * @param updatePaginationButtons `true` by default.
  */
 const handleElements = (
   listInstance: CMSList,
   pageButtonsData: PageButtonsData | undefined,
-  paginationCount: HTMLDivElement | null | undefined
+  paginationCount: HTMLDivElement | null | undefined,
+  updatePaginationButtons = true
 ) => {
-  handlePaginationButtons(listInstance);
   if (pageButtonsData) handlePageButtons(pageButtonsData, listInstance);
   if (paginationCount) handlePaginationCount(paginationCount, listInstance);
+  if (updatePaginationButtons) handlePaginationButtons(listInstance);
 };
 
 /**
