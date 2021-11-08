@@ -24,6 +24,10 @@ const checkFilterValidity = (item: CMSItem, { filterKeys, values, match, mode: f
   const filterValues = [...values].filter(isNotEmpty);
   if (!filterValues.length) return true;
 
+  const isGlobal = filterKeys.includes('*');
+
+  if (isGlobal) filterKeys = Object.keys(item.props);
+
   return filterKeys[match === 'all' ? 'every' : 'some']((filterKey) => {
     // Range Filter Modes
     if (filterMode === 'range') {
@@ -58,7 +62,7 @@ const checkFilterValidity = (item: CMSItem, { filterKeys, values, match, mode: f
 
       // Regular Prop Values
       const hasValue = propValues.some((propValue) => {
-        if (propType === 'date') {
+        if (propType === 'date' && !isGlobal) {
           const [filterDateTime, propDateTime] = [filterValue, propValue].map((value) =>
             normalizeDate(value).getTime()
           );
