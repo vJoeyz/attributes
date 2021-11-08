@@ -34,17 +34,17 @@ export const populateNestedCollections = async (
   const page = domParser.parseFromString(rawPage, 'text/html');
 
   // Get the existing lists to nest
-  const pageCollectionListWrappers = getCollectionListWrappers([getSelector('list')], page);
+  const pageCollectionListWrappers = getCollectionListWrappers([getSelector('collection')], page);
 
   // Populate the nested CMS lists only with the correspondent nested items
   for (const pageCollectionListWrapper of pageCollectionListWrappers) {
     const pageListInstance = new CMSList(pageCollectionListWrapper);
 
-    const collectionKey = pageListInstance.getAttribute(ATTRIBUTES.list.key);
-    if (!collectionKey) continue;
+    const collectionId = pageListInstance.getAttribute(ATTRIBUTES.collection.key);
+    if (!collectionId) continue;
 
-    const collectionToNest = collectionsToNest.get(collectionKey);
-    const nestingTarget = nestingTargets.get(collectionKey);
+    const collectionToNest = collectionsToNest.get(collectionId);
+    const nestingTarget = nestingTargets.get(collectionId);
     if (!collectionToNest || !nestingTarget) continue;
 
     const nestingTargetParent = nestingTarget.parentElement;

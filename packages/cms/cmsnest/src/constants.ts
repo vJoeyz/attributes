@@ -14,9 +14,9 @@ export const ATTRIBUTES = {
   },
 
   /**
-   * Defines a list that will be nested inside the target list element.
+   * Defines a Collection List that will be nested inside the target list element.
    */
-  list: { key: `${ATTRIBUTES_PREFIX}-list` },
+  collection: { key: `${ATTRIBUTES_PREFIX}-collection` },
 
   /**
    * Defines an `Empty State` element.

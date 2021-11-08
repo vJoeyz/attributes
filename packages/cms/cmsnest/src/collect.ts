@@ -6,7 +6,7 @@ import type { CMSCore } from '$cms/cmscore/src/types';
 
 // Constants
 const {
-  list: { key: listKey },
+  collection: { key: collectionKey },
   empty: { key: emptyKey },
 } = ATTRIBUTES;
 
@@ -17,18 +17,18 @@ const {
 export const getCollectionsToNest = ({ createCMSListInstances }: CMSCore): CollectionsToNest => {
   const collectionsToNest: CollectionsToNest = new Map();
 
-  const listInstances = createCMSListInstances([getSelector('list')]);
+  const listInstances = createCMSListInstances([getSelector('collection')]);
 
   for (const listInstance of listInstances) {
-    const collectionKey = listInstance.getAttribute(listKey);
-    if (!collectionKey) continue;
+    const collectionId = listInstance.getAttribute(collectionKey);
+    if (!collectionId) continue;
 
-    const emptyElement = document.querySelector<HTMLElement>(`[${emptyKey}^="${collectionKey}"]`);
+    const emptyElement = document.querySelector<HTMLElement>(`[${emptyKey}^="${collectionId}"]`);
     if (emptyElement) emptyElement.remove();
 
     listInstance.wrapper.remove();
 
-    collectionsToNest.set(collectionKey, { listInstance, emptyElement });
+    collectionsToNest.set(collectionId, { listInstance, emptyElement });
   }
 
   return collectionsToNest;
@@ -41,13 +41,13 @@ export const getCollectionsToNest = ({ createCMSListInstances }: CMSCore): Colle
  */
 export const getNestingTargets = (itemElement: CollectionItemElement) => {
   const nestingTargets: NestingTargets = new Map();
-  const nestingTargetElements = itemElement.querySelectorAll<HTMLElement>(getSelector('list'));
+  const nestingTargetElements = itemElement.querySelectorAll<HTMLElement>(getSelector('collection'));
 
   for (const target of nestingTargetElements) {
-    const collectionKey = target.getAttribute(listKey);
-    if (!collectionKey) continue;
+    const collectionId = target.getAttribute(collectionKey);
+    if (!collectionId) continue;
 
-    nestingTargets.set(collectionKey, target);
+    nestingTargets.set(collectionId, target);
   }
 
   return nestingTargets;
