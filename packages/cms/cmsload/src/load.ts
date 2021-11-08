@@ -1,14 +1,8 @@
 import { getCollectionElements, getCollectionListWrappers } from '@finsweet/ts-utils';
-import { ATTRIBUTES, getSelector } from './constants';
+import { collectMainSettings } from './settings';
 
 import type { PaginationButtonElement } from '@finsweet/ts-utils';
-import type { CMSList } from 'packages/cms/cmscore/src';
-
-// Constants
-const {
-  element: { key: elementKey },
-  loading: { key: loadingKey },
-} = ATTRIBUTES;
+import type { CMSList } from '$cms/cmscore/src';
 
 /**
  * DOM Parser to parse html strings.
@@ -46,12 +40,19 @@ export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all
       const collectionListWrapper = getCollectionListWrappers([], page)[index];
       if (!collectionListWrapper) return;
 
+      // Store and mount the Pagination Previous element, if required
+      if (!listInstance.paginationPrevious) {
+        const paginationPrevious = getCollectionElements(collectionListWrapper, 'previous');
+
+        if (paginationPrevious) listInstance.addPaginationPrevious(paginationPrevious);
+      }
+
       // Store and mount the new items
       const collectionItems = getCollectionElements(collectionListWrapper, 'items');
 
-      listInstance.addItems(collectionItems);
+      await listInstance.addItems(collectionItems);
 
-      // Check for recursion (Mode: "Load All")
+      // Check for recursion (action: `all`)
       nextPageURL = getCollectionElements(collectionListWrapper, 'next')?.href;
 
       if (nextPageURL && !pageLinks.includes(nextPageURL) && action === 'all') {
@@ -60,6 +61,8 @@ export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all
 
         return;
       }
+
+      await listInstance.emit('finishload');
     } catch (error) {
       return;
     }
@@ -72,74 +75,36 @@ export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all
 };
 
 /**
- * Prepares the pagination of a `CMSList` instance:
- * - Gets the pagination buttons.
- * - Gets the user's settings.
- * @param listInstance The `CMSList` instance.
- */
-export const preparePagination = (
-  listInstance: CMSList
-):
-  | {
-      listInstance: CMSList;
-      paginationNext: PaginationButtonElement;
-      textNode: Node | null;
-      originalText?: string | null;
-      loadingText?: string | null;
-      loader: HTMLElement | null;
-    }
-  | undefined => {
-  const { paginationNext, paginationPrevious } = listInstance;
-
-  if (!paginationNext) return;
-  if (paginationPrevious) paginationPrevious.remove();
-
-  const textNode = paginationNext.querySelector(getSelector('loading'));
-
-  const originalText = textNode?.textContent;
-
-  const loadingText = textNode?.getAttribute(loadingKey);
-
-  const instanceIndex = listInstance.getInstanceIndex(elementKey);
-
-  const loader = document.querySelector<HTMLElement>(getSelector('element', 'loader', { instanceIndex }));
-  if (loader) loader.style.display = 'none';
-
-  return { listInstance, paginationNext, textNode, originalText, loadingText, loader };
-};
-
-/**
  * Handles the Pagination Next button when loading a new page's items.
  * @param params
  * @returns The URL of the next page to be loaded.
  */
-export const handleLoadPage = async ({
+export const loadNextPage = async ({
   e,
   paginationNext,
   listInstance,
-  textNode,
-  originalText,
+  paginationNextTextNode,
+  originalNextText,
   loadingText,
-  loader,
 }: {
   e?: MouseEvent;
-} & ReturnType<typeof preparePagination>): ReturnType<typeof loadListItems> => {
+} & ReturnType<typeof collectMainSettings>): ReturnType<typeof loadListItems> => {
   e?.preventDefault();
 
   if (!document.body.contains(paginationNext)) return;
 
-  if (loader) loader.style.display = '';
+  await listInstance.displayElement('loader');
 
-  if (textNode && loadingText) textNode.textContent = loadingText;
+  if (paginationNextTextNode && loadingText) paginationNextTextNode.textContent = loadingText;
 
   const nextPageURL = await loadListItems(listInstance, 'next');
 
-  if (textNode && originalText) textNode.textContent = originalText || '';
+  if (paginationNextTextNode && originalNextText) paginationNextTextNode.textContent = originalNextText || '';
 
   if (nextPageURL) paginationNext.href = nextPageURL;
   else paginationNext.remove();
 
-  if (loader) loader.style.display = 'none';
+  await listInstance.displayElement('loader', false);
 
   return nextPageURL;
 };

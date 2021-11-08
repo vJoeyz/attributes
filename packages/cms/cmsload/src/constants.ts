@@ -15,6 +15,16 @@ export const ATTRIBUTES = {
        * Defines a node that will be displayed when loading new items.
        */
       loader: generateDynamicAttibuteValue('loader'),
+
+      /**
+       * Defines the template element to generate all page buttons for the `paginate` mode.
+       */
+      pageButton: 'page-button',
+
+      /**
+       * Defines the template element to create the page dots separators.
+       */
+      pageDots: 'page-dots',
     },
   },
 
@@ -30,10 +40,14 @@ export const ATTRIBUTES = {
     key: `${ATTRIBUTES_PREFIX}-mode`,
     values: {
       /**
-       * All items will be loaded at once.
-       * Limit can be set with {@link ATTRIBUTES.limit}.
+       * All items will be rendered at once.
        */
-      loadAll: 'load-all',
+      renderAll: 'render-all',
+
+      /**
+       * Pagination will be created.
+       */
+      pagination: 'pagination',
 
       /**
        * Items will be loaded when the user reaches the bottom of the Collection List.
@@ -45,8 +59,21 @@ export const ATTRIBUTES = {
 
   /**
    * Defines the scrolling threshold to trigger a new page load in `infinite` mode.
+   * Defaults to {@link DEFAULT_INFINITE_THRESHOLD}.
    */
   threshold: { key: `${ATTRIBUTES_PREFIX}-threshold` },
+
+  /**
+   * Defines the amount of digits to display either side of the current page.
+   * Defaults to {@link DEFAULT_PAGE_SIBLINGS}.
+   */
+  pageSiblings: { key: `${ATTRIBUTES_PREFIX}-pagesiblings` },
+
+  /**
+   * Defines the amount of digits to display at the start and end of a page buttons list.
+   * Defaults to {@link DEFAULT_PAGE_BOUNDARY}.
+   */
+  pageBoundary: { key: `${ATTRIBUTES_PREFIX}-pageboundary` },
 
   /**
    * Defines the animation to use when appending elements to the list.
@@ -79,3 +106,6 @@ export const ATTRIBUTES = {
 export const getSelector = generateSelectors(ATTRIBUTES);
 
 export const DEFAULT_INFINITE_THRESHOLD = '-20';
+
+export const DEFAULT_PAGE_SIBLINGS = '1';
+export const DEFAULT_PAGE_BOUNDARY = '1';
