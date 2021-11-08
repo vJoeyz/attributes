@@ -1,5 +1,10 @@
 # `cmscore` Changelog
 
+## [v1.0.14] 8th November 2021
+
+- Fixed `renderitems` and `additems` events fire order.
+- Added `CMSList.resetIx` prop that is used in the `render` function.
+
 ## [v1.0.13] 8th November 2021
 
 - Added `CMSList.totalPages` prop.

@@ -1,4 +1,4 @@
-import { wait } from '@finsweet/ts-utils';
+import { restartWebflow, wait } from '@finsweet/ts-utils';
 import { CMSItem } from '.';
 
 import type { CMSList } from '.';
@@ -16,7 +16,7 @@ type AnchorData = [CMSItem, number, CMSItem | undefined];
  * If not, the list will be animated instead.
  */
 export const renderListItems = async (listInstance: CMSList, addingItems = false) => {
-  const { items, itemsPerPage, currentPage, emptyState } = listInstance;
+  const { items, itemsPerPage, currentPage, emptyState, resetIx } = listInstance;
 
   // Collect items and recalculate the total pages
   const itemsToHide: CMSItem[] = [];
@@ -63,7 +63,14 @@ export const renderListItems = async (listInstance: CMSList, addingItems = false
   ]);
 
   // Emit events
-  await listInstance.emit('renderitems', itemsToShow);
+  await listInstance.emitSerial('renderitems', itemsToShow);
+
+  // Reset IX if needed
+  if (resetIx && itemsToShow.some(({ ixResetted }) => !ixResetted)) {
+    for (const item of items) item.ixResetted = itemsToShow.includes(item);
+
+    await restartWebflow();
+  }
 
   // Show the list
   if (!addingItems) {

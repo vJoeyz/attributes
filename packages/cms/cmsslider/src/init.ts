@@ -26,16 +26,23 @@ export const init = async (): Promise<void> => {
 
     // Listen events
     for (const listInstance of listInstances) {
-      listInstance.on('additems', (newItems) => {
+      listInstance.resetIx = true;
+
+      listInstance.items = [];
+
+      let restoreMask: (() => void) | undefined;
+
+      listInstance.on('renderitems', (newItems) => {
+        listInstance.items = [];
+
         createSlidesFromItems?.(newItems);
+
+        restoreMask = mutateSliderMask(slider);
       });
 
-      listInstance.on('finishload', async () => {
-        const restoreMask = mutateSliderMask(slider);
-
-        await restartWebflow();
-
-        restoreMask();
+      listInstance.on('additems', async () => {
+        restoreMask?.();
+        restoreMask = undefined;
       });
     }
 

@@ -8,9 +8,13 @@ export class CMSItem {
   public readonly href?: string;
 
   public props: CMSItemProps = {};
+
   public mustShow = true;
+
   public rendering?: Promise<void>;
   public animating?: Promise<void>;
+
+  public ixResetted: boolean;
 
   /**
    * @param element The DOM element of the item.
@@ -22,6 +26,8 @@ export class CMSItem {
     public currentIndex?: number
   ) {
     this.href = element.querySelector('a')?.href;
+
+    this.ixResetted = typeof currentIndex === 'number';
   }
 
   /**

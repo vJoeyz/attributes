@@ -1,4 +1,3 @@
-import { restartWebflow } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 import { importCMSCore } from '$utils/import';
 import { initRenderAllMode } from './modes/render-all';
@@ -50,12 +49,7 @@ const initInstance = async (listInstance: CMSList) => {
 
   // Get resetIx config
   const resetIx = listInstance.getAttribute(resetIxKey) === resetIxValues.true;
-
-  if (resetIx) {
-    listInstance.on('additems', async () => {
-      await restartWebflow();
-    });
-  }
+  if (resetIx) listInstance.resetIx = resetIx;
 
   // Get mode config
   const mode = listInstance.getAttribute(modeKey);

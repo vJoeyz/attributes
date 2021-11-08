@@ -44,6 +44,8 @@ export class CMSList extends Emittery<CMSListEvents> {
   public listAnimation?: Animation;
   public itemsAnimation?: Animation;
 
+  public resetIx = false;
+
   private renderingQueue?: Promise<void>;
 
   /**
@@ -106,7 +108,14 @@ export class CMSList extends Emittery<CMSListEvents> {
   public async renderItems(addingItems?: boolean): Promise<void> {
     await this.renderingQueue;
 
-    this.renderingQueue = renderListItems(this, addingItems);
+    return new Promise(async (resolve) => {
+      const queueItem = renderListItems(this, addingItems);
+
+      this.renderingQueue = queueItem;
+
+      await queueItem;
+      resolve();
+    });
   }
 
   /**

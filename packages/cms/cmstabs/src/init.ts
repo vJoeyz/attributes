@@ -24,14 +24,14 @@ export const init = async (): Promise<void> => {
 
     // Listen events
     for (const listInstance of listInstances) {
+      listInstance.resetIx = true;
+
       listInstance.items = [];
 
       listInstance.on('renderitems', async (renderedItems) => {
         listInstance.items = [];
 
         createTabsFromItems?.(renderedItems);
-
-        await restartWebflow();
       });
     }
   }
