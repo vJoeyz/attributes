@@ -1,5 +1,9 @@
 # `richtext` Changelog
 
+## [v1.2.0] 08th November 2021
+
+- Now the original components templates are removed from the page after rendering them in the Rich Text Blocks.
+
 ## [v1.1.2] 25th October 2021
 
 - Added `initAttributes` call to make sure `window.fsAttributes` exists.

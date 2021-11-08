@@ -3,6 +3,11 @@ import { ATTRIBUTES } from './constants';
 import { HAS_COMPONENT_TEMPLATE_REGEX, IS_EXTERNAL_COMPONENT_REGEX, TRAILING_SLASH_REGEX } from './regex';
 
 /**
+ * Memoizes the queried components.
+ */
+const componentsStore: Array<{ element: HTMLElement; componentKey: string; source?: string }> = [];
+
+/**
  *
  * @returns The `outterHTML` of a component based on the templating syntax:
  * @param rawHTML The raw HTML containing the templating syntax.
@@ -51,6 +56,9 @@ export const getComponentHTML = async (rawHTML: string): Promise<string | undefi
  * @returns The component node, if existing.
  */
 const queryComponent = async (componentKey: string, source?: string): Promise<HTMLElement | null | undefined> => {
+  const storedComponent = componentsStore.find((data) => data.componentKey === componentKey && data.source === source);
+  if (storedComponent) return storedComponent.element;
+
   let externalDocument: Document | undefined;
 
   if (source) {
@@ -66,11 +74,21 @@ const queryComponent = async (componentKey: string, source?: string): Promise<HT
     }
   }
 
-  const component = (externalDocument || document).querySelector<HTMLElement>(
+  const element = (externalDocument || document).querySelector<HTMLElement>(
     `[${ATTRIBUTES.component.key}="${componentKey}"]`
   );
 
-  if (!component) Debug.alert(`No components were found with the [${componentKey}] key.`, 'info');
+  if (!element) Debug.alert(`No components were found with the [${componentKey}] key.`, 'info');
 
-  return component;
+  if (element) {
+    componentsStore.push({
+      element,
+      componentKey,
+      source,
+    });
+
+    element.remove();
+  }
+
+  return element;
 };
