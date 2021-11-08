@@ -1,5 +1,9 @@
 # `cmscore` Changelog
 
+## [v1.0.13] 8th November 2021
+
+- Added `CMSList.totalPages` prop.
+
 ## [v1.0.12] 8th November 2021
 
 - Added optional `animate` param to `CMSList.renderItems`.

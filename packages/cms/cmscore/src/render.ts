@@ -18,17 +18,17 @@ type AnchorData = [CMSItem, number, CMSItem | undefined];
 export const renderListItems = async (listInstance: CMSList, addingItems = false) => {
   const { items, itemsPerPage, currentPage, emptyState } = listInstance;
 
-  // Collect items
+  // Collect items and recalculate the total pages
   const itemsToHide: CMSItem[] = [];
   const itemsToShow: CMSItem[] = [];
 
-  listInstance.visibleItems = 0;
+  let visibleItems = 0;
 
   for (const item of items) {
     const { mustShow, currentIndex } = item;
 
     if (mustShow) {
-      listInstance.visibleItems += 1;
+      visibleItems += 1;
 
       if (!currentPage) {
         itemsToShow.push(item);
@@ -36,13 +36,15 @@ export const renderListItems = async (listInstance: CMSList, addingItems = false
       }
 
       const matchesCurrentPage =
-        listInstance.visibleItems > (currentPage - 1) * itemsPerPage &&
-        listInstance.visibleItems <= currentPage * itemsPerPage;
+        visibleItems > (currentPage - 1) * itemsPerPage && visibleItems <= currentPage * itemsPerPage;
 
       if (matchesCurrentPage) itemsToShow.push(item);
       else if (typeof currentIndex === 'number') itemsToHide.push(item);
     } else if (typeof currentIndex === 'number') itemsToHide.push(item);
   }
+
+  listInstance.visibleItems = visibleItems;
+  listInstance.totalPages = Math.ceil(visibleItems / itemsPerPage);
 
   // Prepare items to show
   const itemsToAnchor: AnchorData[] = [];
@@ -65,7 +67,7 @@ export const renderListItems = async (listInstance: CMSList, addingItems = false
 
   // Show the list
   if (!addingItems) {
-    const isEmpty = !listInstance.visibleItems;
+    const isEmpty = !visibleItems;
     listInstance.emptyState = isEmpty;
 
     await listInstance.displayElement(isEmpty ? 'emptyElement' : 'list');

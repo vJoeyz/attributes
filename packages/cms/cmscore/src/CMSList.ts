@@ -35,7 +35,8 @@ export class CMSList extends Emittery<CMSListEvents> {
 
   public loader?: HTMLElement;
 
-  public visibleItems = 0;
+  public visibleItems: number;
+  public totalPages: number;
   public currentPage?: number;
 
   public items: CMSItem[];
@@ -65,6 +66,7 @@ export class CMSList extends Emittery<CMSListEvents> {
     const collectionItems = getCollectionElements(this.wrapper, 'items');
 
     this.visibleItems = this.itemsPerPage = collectionItems.length;
+    this.totalPages = 1;
 
     // Stores
     this.items = collectionItems.map((element, index) => new CMSItem(element, this.list, index));
