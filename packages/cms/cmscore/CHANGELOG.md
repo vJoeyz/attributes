@@ -1,8 +1,12 @@
 # `cmscore` Changelog
 
+## [v1.0.12] 8th November 2021
+
+- Added optional `animate` param to `CMSList.renderItems`.
+
 ## [v1.0.11] 5th November 2021
 
-- Awaited `renderitems` event emit on `CMSList.renderItems`
+- Awaited `renderitems` event emit on `CMSList.renderItems`.
 
 ## [v1.0.10] 5th November 2021
 

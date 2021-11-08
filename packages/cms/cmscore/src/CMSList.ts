@@ -114,17 +114,19 @@ export class CMSList extends Emittery<CMSListEvents> {
    * @param elementKey The element to show/hide.
    *
    * @param show Defaults to `true`.
+   * @param animate Defaults to `true`.
    */
   public async displayElement(
     elementKey: 'list' | 'emptyElement' | 'paginationNext' | 'paginationPrevious' | 'loader',
-    show = true
+    show = true,
+    animate = true
   ): Promise<void> {
     const { listAnimation } = this;
 
     const elementToDisplay = this[elementKey];
     if (!elementToDisplay) return;
 
-    if (listAnimation) {
+    if (listAnimation && animate) {
       const { animateIn, animateOut, options } = listAnimation;
 
       await (show ? animateIn : animateOut)(elementToDisplay, options);
