@@ -54,14 +54,14 @@
     "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "esbuild": "^0.13.12",
-    "eslint": "^8.1.0",
+    "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.4.1",
     "typescript": "^4.4.4"
   },
   "dependencies": {
-    "@finsweet/ts-utils": "^0.21.1",
+    "@finsweet/ts-utils": "^0.22.1",
     "emittery": "^0.10.0",
     "just-debounce": "^1.1.0",
     "just-throttle": "^3.1.1"

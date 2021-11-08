@@ -1,5 +1,6 @@
+import debounce from 'just-debounce';
 import { loadListItems } from '../load';
-import { collectPaginationSettings } from '../settings';
+import { collectPaginationSettings, getPageButtonsSettings } from '../settings';
 import { cloneNode, CMS_CSS_CLASSES, CURRENT_CSS_CLASS } from '@finsweet/ts-utils';
 import { getSelector } from '../constants';
 
@@ -18,8 +19,17 @@ export const initPaginateMode = async (listInstance: CMSList): Promise<void> => 
   const settingsData = collectPaginationSettings(listInstance);
   if (!settingsData) return;
 
-  const { paginationWrapper, pageButtonTemplate, pageDotsTemplate, paginationCount, pageBoundary, pageSiblings } =
-    settingsData;
+  const {
+    paginationWrapper,
+    pageButtonTemplate,
+    pageDotsTemplate,
+    paginationCount,
+    pageBoundary,
+    pageBoundaryValues,
+    pageSiblings,
+    pageSiblingsValues,
+    hasBreakpoints,
+  } = settingsData;
 
   let pageButtonsData: PageButtonsData | undefined;
 
@@ -46,6 +56,16 @@ export const initPaginateMode = async (listInstance: CMSList): Promise<void> => 
   listInstance.on('renderitems', () => handleElements(listInstance, pageButtonsData, paginationCount));
 
   paginationWrapper.addEventListener('click', (e) => handlePaginationClicks(e, pageButtonsData, listInstance));
+
+  if (pageButtonsData && hasBreakpoints) {
+    window.addEventListener(
+      'resize',
+      debounce(() => {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        handleWindowResize(pageButtonsData!, listInstance, pageBoundaryValues, pageSiblingsValues);
+      }, 100)
+    );
+  }
 
   // Load items
   await listInstance.displayElement('loader');
@@ -220,4 +240,31 @@ const handlePaginationClicks = (e: MouseEvent, pageButtonsData: PageButtonsData 
   if (!targetPage) return;
 
   if (targetPage >= 1 && targetPage <= totalPages) listInstance.switchPage(targetPage);
+};
+
+/**
+ * Handles the page buttons when resizing the window.
+ * @param pageButtonsData The {@link PageButtonsData} object.
+ * @param listInstance The {@link CMSList} instance.
+ * @param args The parameters for {@link getPageButtonsSettings}.
+ */
+const handleWindowResize = (
+  pageButtonsData: PageButtonsData,
+  listInstance: CMSList,
+  ...args: Parameters<typeof getPageButtonsSettings>
+) => {
+  const { pageBoundary, pageSiblings, renderedElements } = pageButtonsData;
+
+  const [newPageBoundary, newPageSiblings] = getPageButtonsSettings(...args);
+
+  if (pageBoundary === newPageBoundary && pageSiblings === newPageSiblings) return;
+
+  pageButtonsData.pageBoundary = newPageBoundary;
+  pageButtonsData.pageSiblings = newPageSiblings;
+
+  for (const [element] of renderedElements) element.remove();
+
+  renderedElements.clear();
+
+  handlePageButtons(pageButtonsData, listInstance);
 };

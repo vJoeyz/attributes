@@ -1,5 +1,7 @@
 import { generateDynamicAttibuteValue, generateSelectors } from '$utils/attributes';
 
+import type { WebflowBreakpoint } from '@finsweet/ts-utils';
+
 const ATTRIBUTES_PREFIX = 'fs-cmsload';
 
 export const ATTRIBUTES = {
@@ -65,12 +67,16 @@ export const ATTRIBUTES = {
 
   /**
    * Defines the amount of digits to display either side of the current page.
+   * It can be a comma-separated string listing the values in a `Desktop, Tablet, Landscape, Portrait` order.
+   *
    * Defaults to {@link DEFAULT_PAGE_SIBLINGS}.
    */
   pageSiblings: { key: `${ATTRIBUTES_PREFIX}-pagesiblings` },
 
   /**
    * Defines the amount of digits to display at the start and end of a page buttons list.
+   * It can be a comma-separated string listing the values in a `Desktop, Tablet, Landscape, Portrait` order.
+   *
    * Defaults to {@link DEFAULT_PAGE_BOUNDARY}.
    */
   pageBoundary: { key: `${ATTRIBUTES_PREFIX}-pageboundary` },
@@ -107,5 +113,12 @@ export const getSelector = generateSelectors(ATTRIBUTES);
 
 export const DEFAULT_INFINITE_THRESHOLD = '-20';
 
-export const DEFAULT_PAGE_SIBLINGS = '1';
-export const DEFAULT_PAGE_BOUNDARY = '1';
+export const DEFAULT_PAGE_SIBLINGS = 1;
+export const DEFAULT_PAGE_BOUNDARY = 1;
+
+export const BREAKPOINTS_INDEX: { [key in WebflowBreakpoint]: number } = {
+  main: 0,
+  medium: 1,
+  small: 2,
+  tiny: 3,
+} as const;

@@ -1,5 +1,7 @@
+import { extractCommaSeparatedValues, getCurrentBreakpoint } from '@finsweet/ts-utils';
 import {
   ATTRIBUTES,
+  BREAKPOINTS_INDEX,
   DEFAULT_INFINITE_THRESHOLD,
   DEFAULT_PAGE_BOUNDARY,
   DEFAULT_PAGE_SIBLINGS,
@@ -82,8 +84,11 @@ export const collectPaginationSettings = (
       pageButtonTemplate?: HTMLElement | null;
       pageDotsTemplate: HTMLElement;
       paginationCount: HTMLDivElement | null | undefined;
-      pageSiblings: number;
       pageBoundary: number;
+      pageBoundaryValues: number[];
+      pageSiblings: number;
+      pageSiblingsValues: number[];
+      hasBreakpoints: boolean;
     }
   | undefined => {
   const { paginationWrapper, paginationCount } = listInstance;
@@ -106,8 +111,20 @@ export const collectPaginationSettings = (
     pageDotsTemplate.textContent = '...';
   }
 
-  const pageSiblings = parseInt(listInstance.getAttribute(pageSiblingsKey) || DEFAULT_PAGE_SIBLINGS);
-  const pageBoundary = parseInt(listInstance.getAttribute(pageBoundaryKey) || DEFAULT_PAGE_BOUNDARY);
+  const rawPageBoundaryValues = listInstance.getAttribute(pageBoundaryKey);
+  const rawPageSiblingsValues = listInstance.getAttribute(pageSiblingsKey);
+
+  const pageBoundaryValues = (rawPageBoundaryValues ? extractCommaSeparatedValues(rawPageBoundaryValues) : []).map(
+    (value) => parseInt(value)
+  );
+
+  const pageSiblingsValues = (rawPageSiblingsValues ? extractCommaSeparatedValues(rawPageSiblingsValues) : []).map(
+    (value) => parseInt(value)
+  );
+
+  const [pageBoundary, pageSiblings] = getPageButtonsSettings(pageBoundaryValues, pageSiblingsValues);
+
+  const hasBreakpoints = [pageBoundaryValues, pageSiblingsValues].some(({ length }) => length > 1);
 
   return {
     listInstance,
@@ -115,9 +132,46 @@ export const collectPaginationSettings = (
     pageButtonTemplate,
     pageDotsTemplate,
     paginationCount,
-    pageSiblings,
     pageBoundary,
+    pageBoundaryValues,
+    pageSiblings,
+    pageSiblingsValues,
+    hasBreakpoints,
   };
+};
+
+/**
+ * Returns the correspondent `pageBoundary` and `pageSiblings` settings based on the current breakpoint.
+ * @param pageBoundaryValues The array of pageBoundary values.
+ * @param pageSiblingsValues The array of pageSiblings values.
+ * @returns A tuple with the correspondent values.
+ */
+export const getPageButtonsSettings = (
+  pageBoundaryValues: number[],
+  pageSiblingsValues: number[]
+): [number, number] => {
+  const currentBreakpoint = getCurrentBreakpoint();
+  const breakpointIndex = BREAKPOINTS_INDEX[currentBreakpoint];
+
+  const values: number[] = [];
+
+  [pageBoundaryValues, pageSiblingsValues].forEach((array, index) => {
+    for (let i = breakpointIndex; i >= 0; i--) {
+      const value = array[i];
+
+      if (typeof value === 'number') {
+        values[index] = value;
+        break;
+      }
+    }
+  });
+
+  let [pageBoundary, pageSiblings] = values;
+
+  pageBoundary ??= DEFAULT_PAGE_BOUNDARY;
+  pageSiblings ??= DEFAULT_PAGE_SIBLINGS;
+
+  return [pageBoundary, pageSiblings];
 };
 
 /**
