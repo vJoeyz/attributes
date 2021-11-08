@@ -48,7 +48,7 @@ export const initPaginateMode = async (listInstance: CMSList): Promise<void> => 
     }
   }
 
-  // Set initial page
+  // Set initial state
   await listInstance.switchPage(1);
   handleElements(listInstance, pageButtonsData, paginationCount, false);
 
