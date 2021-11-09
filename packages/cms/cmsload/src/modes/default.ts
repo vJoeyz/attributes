@@ -1,5 +1,5 @@
 import { loadNextPage } from '../load';
-import { collectMainSettings } from '../settings';
+import { getMainSettings } from '../settings';
 
 import type { CMSList } from '$cms/cmscore/src';
 
@@ -8,7 +8,7 @@ import type { CMSList } from '$cms/cmscore/src';
  * @param listInstance The `CMSList` instance.
  */
 export const initDefaultMode = (listInstance: CMSList): void => {
-  const settingsData = collectMainSettings(listInstance);
+  const settingsData = getMainSettings(listInstance);
   if (!settingsData) return;
 
   let isLoading = false;

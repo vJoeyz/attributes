@@ -19,6 +19,11 @@ export const ATTRIBUTES = {
       loader: generateDynamicAttibuteValue('loader'),
 
       /**
+       * Defines an element where to scroll the view every time a page in `Pagination` mode is switched.
+       */
+      scrollAnchor: generateDynamicAttibuteValue('scroll-anchor'),
+
+      /**
        * Defines the template element to generate all page buttons for the `paginate` mode.
        */
       pageButton: 'page-button',

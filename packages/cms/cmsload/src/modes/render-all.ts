@@ -1,5 +1,5 @@
 import { loadListItems } from '../load';
-import { collectMainSettings } from '../settings';
+import { getMainSettings } from '../settings';
 
 import type { CMSList } from '$cms/cmscore/src';
 
@@ -9,7 +9,7 @@ import type { CMSList } from '$cms/cmscore/src';
  * @param loadingText The text to display while loading.
  */
 export const initRenderAllMode = async (listInstance: CMSList): Promise<void> => {
-  const settingsData = collectMainSettings(listInstance);
+  const settingsData = getMainSettings(listInstance);
   if (!settingsData) return;
 
   const { paginationNext, paginationNextTextNode, loadingText } = settingsData;

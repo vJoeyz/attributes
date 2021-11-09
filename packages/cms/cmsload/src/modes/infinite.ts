@@ -1,6 +1,6 @@
 import throttle from 'just-throttle';
 import { loadNextPage } from '../load';
-import { collectInfiniteSettings, collectMainSettings } from '../settings';
+import { getInfiniteSettings, getMainSettings } from '../settings';
 
 import type { CMSList } from '$cms/cmscore/src';
 
@@ -9,8 +9,9 @@ import type { CMSList } from '$cms/cmscore/src';
  * @param listInstance The `CMSList` instance.
  */
 export const initInfiniteMode = (listInstance: CMSList): void => {
-  const settingsData = collectMainSettings(listInstance);
-  const { threshold } = collectInfiniteSettings(listInstance);
+  const settingsData = getMainSettings(listInstance);
+  const { threshold } = getInfiniteSettings(listInstance);
+
   if (!settingsData) return;
 
   let isLoading = false;

@@ -13,7 +13,6 @@ import type { CMSList } from '$cms/cmscore/src';
 
 // Constants
 const {
-  element: { key: elementKey },
   loading: { key: loadingKey },
   pageSiblings: { key: pageSiblingsKey },
   pageBoundary: { key: pageBoundaryKey },
@@ -21,23 +20,12 @@ const {
 } = ATTRIBUTES;
 
 /**
- * Adds a loader element to the `CMSList` instance.
- * @param listInstance The {@link CMSList} instance.
- */
-const collectLoader = (listInstance: CMSList) => {
-  const instanceIndex = listInstance.getInstanceIndex(elementKey);
-
-  const loaderElement = document.querySelector<HTMLElement>(getSelector('element', 'loader', { instanceIndex }));
-  if (loaderElement) listInstance.addLoader(loaderElement);
-};
-
-/**
  * Prepares the `CMSList` instance:
  * - Gets and prepares the pagination buttons.
  * - Gets the user's settings.
  * @param listInstance The {@link CMSList} instance.
  */
-export const collectMainSettings = (
+export const getMainSettings = (
   listInstance: CMSList
 ):
   | {
@@ -51,8 +39,6 @@ export const collectMainSettings = (
   const { paginationNext, paginationPrevious } = listInstance;
 
   if (!paginationNext) return;
-
-  collectLoader(listInstance);
 
   paginationPrevious?.remove();
 
@@ -75,7 +61,7 @@ export const collectMainSettings = (
  * Collects the `Pagination` mode settings.
  * @param listInstance The {@link CMSList} instance.
  */
-export const collectPaginationSettings = (
+export const getPaginationSettings = (
   listInstance: CMSList
 ):
   | {
@@ -94,8 +80,6 @@ export const collectPaginationSettings = (
   const { paginationWrapper, paginationCount } = listInstance;
 
   if (!paginationWrapper) return;
-
-  collectLoader(listInstance);
 
   const pageButtonTemplate = paginationWrapper.querySelector<HTMLElement>(
     getSelector('element', 'pageButton', { operator: 'prefixed' })
@@ -178,7 +162,7 @@ export const getPageButtonsSettings = (
  * Collects the `Infinite` mode settings.
  * @param listInstance The {@link CMSList} instance.
  */
-export const collectInfiniteSettings = (
+export const getInfiniteSettings = (
   listInstance: CMSList
 ): {
   threshold: number;

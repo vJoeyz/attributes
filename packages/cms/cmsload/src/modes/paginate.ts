@@ -1,6 +1,6 @@
 import debounce from 'just-debounce';
 import { loadListItems } from '../load';
-import { collectPaginationSettings, getPageButtonsSettings } from '../settings';
+import { getPaginationSettings, getPageButtonsSettings } from '../settings';
 import { cloneNode, CMS_CSS_CLASSES, CURRENT_CSS_CLASS } from '@finsweet/ts-utils';
 import { getSelector } from '../constants';
 
@@ -16,7 +16,7 @@ const { paginationNext: paginationNextCSSClass, paginationPrevious: paginationPr
  * @param listInstance The {@link CMSList} instance.
  */
 export const initPaginateMode = async (listInstance: CMSList): Promise<void> => {
-  const settingsData = collectPaginationSettings(listInstance);
+  const settingsData = getPaginationSettings(listInstance);
   if (!settingsData) return;
 
   const {

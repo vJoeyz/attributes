@@ -1,11 +1,11 @@
 import { getCollectionElements, getCollectionListWrappers } from '@finsweet/ts-utils';
-import { collectMainSettings } from './settings';
+import { getMainSettings } from './settings';
 
 import type { PaginationButtonElement } from '@finsweet/ts-utils';
 import type { CMSList } from '$cms/cmscore/src';
 
 /**
- * DOM Parser to parse html strings.
+ * DOM Parser to parse `HTML` strings.
  */
 const domParser = new DOMParser();
 
@@ -20,6 +20,7 @@ export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all
   const pageLinks: string[] = [];
 
   const { index, paginationNext } = listInstance;
+
   if (!paginationNext || typeof index !== 'number') return;
 
   /**
@@ -88,7 +89,7 @@ export const loadNextPage = async ({
   loadingText,
 }: {
   e?: MouseEvent;
-} & ReturnType<typeof collectMainSettings>): ReturnType<typeof loadListItems> => {
+} & ReturnType<typeof getMainSettings>): ReturnType<typeof loadListItems> => {
   e?.preventDefault();
 
   if (!document.body.contains(paginationNext)) return;
