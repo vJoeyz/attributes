@@ -1,5 +1,9 @@
 # `cmscore` Changelog
 
+## [v1.0.15] 9th November 2021
+
+- `CMSList.switchPage()` now triggers a `scrollToAnchor` action, if the anchor element exists.
+
 ## [v1.0.14] 8th November 2021
 
 - Fixed `renderitems` and `additems` events fire order.

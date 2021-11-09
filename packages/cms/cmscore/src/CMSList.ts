@@ -158,6 +158,8 @@ export class CMSList extends Emittery<CMSListEvents> {
 
     this.currentPage = targetPage;
 
+    this.scrollToAnchor();
+
     if (previousPage) await this.renderItems();
   }
 
