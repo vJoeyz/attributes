@@ -27,6 +27,11 @@ export const ATTRIBUTES = {
       results: generateDynamicAttibuteValue('results-count'),
 
       /**
+       * Defines an element where to display the total items of the list.
+       */
+      itemsCount: generateDynamicAttibuteValue('items-count'),
+
+      /**
        * Defines a tag template element.
        */
       tagTemplate: generateDynamicAttibuteValue('tag-template'),

@@ -31,6 +31,9 @@ export const createCMSFiltersInstance = (listInstance: CMSList): CMSFilters | un
   const formBlock = filters.closest<FormBlockElement>(`.${FORM_CSS_CLASSES.formBlock}`);
   if (!formBlock) return;
 
+  // Animation
+  if (!listInstance.listAnimation) addListAnimation(listInstance, { durationKey, easingKey });
+
   // Empty State Element
   const emptyElement = document.querySelector<HTMLElement>(getSelector('element', 'empty', { instanceIndex }));
   if (emptyElement) listInstance.addEmptyElement(emptyElement);
@@ -41,14 +44,17 @@ export const createCMSFiltersInstance = (listInstance: CMSList): CMSFilters | un
     if (scrollAnchor) listInstance.scrollAnchor = scrollAnchor;
   }
 
+  // Items Count Element
+  if (!listInstance.itemsCount) {
+    const itemsCount = document.querySelector<HTMLElement>(getSelector('element', 'itemsCount', { instanceIndex }));
+    if (itemsCount) listInstance.itemsCount = itemsCount;
+  }
+
   // Results Count Element
   const resultsElement = document.querySelector<HTMLElement>(getSelector('element', 'results', { instanceIndex }));
 
   // Query Params
   const showQueryParams = listInstance.getAttribute(showQueryKey) === showQueryValues.true;
-
-  // Animation
-  if (!listInstance.listAnimation) addListAnimation(listInstance, { durationKey, easingKey });
 
   // Init instance
   const filtersInstance = new CMSFilters(formBlock, listInstance, {
