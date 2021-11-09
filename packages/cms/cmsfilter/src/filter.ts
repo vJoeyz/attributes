@@ -156,18 +156,6 @@ export const removeFilterValue = (filterKeys: string[], value: string, filtersDa
 };
 
 /**
- * Clears a set of `FiltersData`, including the input values.
- * @param filtersData
- */
-export const clearFiltersData = (filtersData: FiltersData) => {
-  for (const { elements, values } of filtersData) {
-    for (const { element } of elements) clearFormField(element, ['input']);
-
-    values.clear();
-  }
-};
-
-/**
  * Clears a record of `FilterData`, including the input values.
  * @param filterData The {@link FilterData} object.
  * @param value If passed, only that specific value and the elements that hold it will be cleared.
