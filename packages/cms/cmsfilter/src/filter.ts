@@ -1,4 +1,5 @@
 import { clearFormField, isNotEmpty, sameValues } from '@finsweet/ts-utils';
+import { clearHighlight, toggleHighlight } from './highlight';
 import { normalizeDate } from './dates';
 
 import type { CMSItem } from '$cms/cmscore/src';
@@ -6,21 +7,36 @@ import type { FilterData, FilterElement, FiltersData } from './types';
 
 /**
  * Assesses if an item should be displayed/hidden based on the filters.
- * @param item The item to assess.
- * @param filters The active filters to apply.
+ * @param item The {@link CMSItem} to assess.
+ * @param filtersData The {@link FiltersData} object.
+ * @param filtersAreEmpty Defines if the current filters are empty.
  * @returns `true` to show, `false` to hide the item.
  */
-export const assessFilter = (item: CMSItem, filtersData: FiltersData): boolean => {
-  return filtersData.every((filterData) => checkFilterValidity(item, filterData));
+export const assessFilter = (
+  item: CMSItem,
+  filtersData: FiltersData,
+  filtersAreEmpty: boolean,
+  highlightCSSClass: string
+): boolean => {
+  if (filtersAreEmpty) {
+    clearHighlight(item, highlightCSSClass);
+    return true;
+  }
+
+  return filtersData.every((filterData) => checkFilterValidity(item, filterData, highlightCSSClass));
 };
 
 /**
  * Checks if a CMSItem's props match the filter values.
- * @param item The `CMSItem` instance.
+ * @param item The {@link CMSItem} instance.
  * @param filter The data of a specific filter key.
  * @returns `true` when the `CMSItem` matches the conditions.
  */
-const checkFilterValidity = (item: CMSItem, { filterKeys, values, match, mode: filterMode }: FiltersData[number]) => {
+const checkFilterValidity = (
+  item: CMSItem,
+  { filterKeys, values, match, mode: filterMode, highlight }: FiltersData[number],
+  highlightCSSClass: string
+) => {
   const filterValues = [...values].filter(isNotEmpty);
   if (!filterValues.length) return true;
 
@@ -28,58 +44,78 @@ const checkFilterValidity = (item: CMSItem, { filterKeys, values, match, mode: f
 
   if (isGlobal) filterKeys = Object.keys(item.props);
 
-  return filterKeys[match === 'all' ? 'every' : 'some']((filterKey) => {
+  const validFilterKeys = filterKeys.filter((filterKey) => {
+    // Get prop data
+    const prop = item.props[filterKey];
+    if (!prop) return false;
+
+    const { values, type: propType, range: propRange } = prop;
+
+    const propValues = [...values];
+    if (!propValues.length) return false;
+
     // Range Filter Modes
     if (filterMode === 'range') {
-      const prop = item.props[filterKey];
-      if (!prop) return false;
-
-      const { type: propType, values: propValues } = prop;
-      if (!propValues.size) return false;
-
       const [propValue] = propValues;
       const [filterFrom, filterTo] = filterValues;
 
-      return checkRangeValidity(propValue, filterFrom, filterTo, propType);
+      const isValid = checkRangeValidity(propValue, filterFrom, filterTo, propType);
+
+      if (highlight) toggleHighlight(prop, isValid ? propValues : [], highlightCSSClass);
+
+      return isValid;
     }
 
     // Regular Filter Modes
-    return filterValues[match === 'all' ? 'every' : 'some']((filterValue) => {
-      const prop = item.props[filterKey];
-      if (!prop) return false;
+    const matchingPropValues: string[] = [];
 
-      const { values, type: propType, range: propRange } = prop;
-
-      const propValues = [...values];
-      if (!propValues.length) return false;
-
+    const matchingFilterValues = filterValues.filter((filterValue) => {
       // Range Prop Values
       if (propRange === 'from' || propRange === 'to') {
         const [propFrom, propTo] = propValues;
 
-        return checkRangeValidity(filterValue, propFrom, propTo, propType);
+        const isValid = checkRangeValidity(filterValue, propFrom, propTo, propType);
+
+        if (isValid) matchingPropValues.push(propFrom, propTo);
+
+        return isValid;
       }
 
       // Regular Prop Values
       const hasValue = propValues.some((propValue) => {
+        let isValid: boolean;
+
+        // Date Prop
         if (propType === 'date' && !isGlobal) {
           const [filterDateTime, propDateTime] = [filterValue, propValue].map((value) =>
             normalizeDate(value).getTime()
           );
 
-          return filterDateTime === propDateTime;
+          isValid = filterDateTime === propDateTime;
         }
 
-        if (propValues.length === 1 || filterKeys.length > 1) {
-          return propValue.toLowerCase().includes(filterValue.toLowerCase());
+        // Single Prop Value
+        else if (propValues.length === 1 || filterKeys.length > 1) {
+          isValid = propValue.toLowerCase().includes(filterValue.toLowerCase());
         }
 
-        return filterValue.toLowerCase() === propValue.toLowerCase();
+        // Multiple Prop Values
+        else isValid = filterValue.toLowerCase() === propValue.toLowerCase();
+
+        if (isValid) matchingPropValues.push(propValue);
+
+        return isValid;
       });
 
       return hasValue;
     });
+
+    if (highlight) toggleHighlight(prop, matchingPropValues, highlightCSSClass);
+
+    return match === 'all' ? matchingFilterValues.length === filterValues.length : matchingFilterValues.length > 0;
   });
+
+  return match === 'all' ? validFilterKeys.length === filterKeys.length : validFilterKeys.length > 0;
 };
 
 /**
@@ -112,6 +148,12 @@ const checkRangeValidity = (value: string, from: string, to: string, type?: stri
   return filterNumberValue >= propNumberFrom && filterNumberValue <= propNumberTo;
 };
 
+/**
+ * Removes the value of a specific filter and clears the correspondent `FormField` element.
+ * @param filterKeys The keys of the filter.
+ * @param value The specific value to remove-
+ * @param filtersData The {@link FiltersData} object.
+ */
 export const removeFilterValue = (filterKeys: string[], value: string, filtersData: FiltersData) => {
   const filterData = filtersData.find((data) => sameValues(data.filterKeys, filterKeys));
   if (!filterData) return;

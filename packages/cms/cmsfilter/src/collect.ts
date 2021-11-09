@@ -17,6 +17,7 @@ const {
   reset: { key: resetKey },
   range: { key: rangeKey },
   match: { key: matchKey },
+  highlight: { key: highlightKey, values: highlightValues },
 } = ATTRIBUTES;
 
 const { checkboxField: checkboxFieldCSSClass, radioField: radioFieldCSSClass } = FORM_CSS_CLASSES;
@@ -56,10 +57,11 @@ export const collectFiltersElements = (
  * - The filter keys.
  * - The filter mode.
  * - The fixed value, if existing.
+ * - The highlight mode.
  * @param form The form that contains the filter fields.
  * @returns A `FiltersData` map.
  */
-export const collectFiltersData = (form: HTMLFormElement): FiltersData => {
+export const collectFiltersData = (form: HTMLFormElement, highlightAll?: boolean): FiltersData => {
   const filtersData: FiltersData = [];
 
   const elements = form.querySelectorAll<HTMLElement>(getSelector('field'));
@@ -75,8 +77,10 @@ export const collectFiltersData = (form: HTMLFormElement): FiltersData => {
 
     const rawMatch = element.getAttribute(matchKey);
     const rawMode = element.getAttribute(rangeKey);
+    const rawHighlight = element.getAttribute(highlightKey);
 
     const match = isKeyOf(rawMatch, MATCHES) ? rawMatch : undefined;
+    const highlight = highlightAll || rawHighlight === highlightValues.true;
 
     let filterMode: FilterMode | undefined;
     let elementMode: ElementMode | undefined;
@@ -92,6 +96,7 @@ export const collectFiltersData = (form: HTMLFormElement): FiltersData => {
     const filterData: Omit<FilterData, 'elements'> = {
       match,
       filterKeys,
+      highlight,
       mode: filterMode,
       values: new Set(),
     };

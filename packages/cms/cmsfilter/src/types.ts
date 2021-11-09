@@ -26,6 +26,7 @@ export interface FilterData {
   values: Set<string>;
   match?: Match;
   mode?: FilterMode;
+  highlight: boolean;
 }
 
 export type FiltersData = FilterData[];

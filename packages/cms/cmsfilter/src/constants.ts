@@ -104,6 +104,18 @@ export const ATTRIBUTES = {
   showQuery: { key: `${ATTRIBUTES_PREFIX}-showquery`, values: { true: 'true' } },
 
   /**
+   * Defines if the filter query should highlight the matching item props.
+   * It's applied to the input elements.
+   */
+  highlight: { key: `${ATTRIBUTES_PREFIX}-highlight`, values: { true: 'true' } },
+
+  /**
+   * Defines the highlight CSS class to be used to highlight elements.
+   * Defaults to {@link DEFAULT_HIGHLIGHT_CSS_CLASS}.
+   */
+  highlightCSS: { key: `${ATTRIBUTES_PREFIX}-highlightclass` },
+
+  /**
    * Defines the format of the tags.
    * Available values: {@link TAGS_MODES}.
    * Defaults to `default`.
@@ -130,3 +142,5 @@ export const MODES = {
 } as const;
 
 export const TAGS_MODES = ['category'] as const;
+
+export const DEFAULT_HIGHLIGHT_CSS_CLASS = 'fs-cmsfilter_highlight';

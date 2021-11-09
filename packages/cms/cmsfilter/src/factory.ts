@@ -1,7 +1,7 @@
 import { CMSFilters } from './CMSFilters';
 import { CMSTags } from './CMSTags';
 import { isKeyOf, FORM_CSS_CLASSES } from '@finsweet/ts-utils';
-import { ATTRIBUTES, getSelector, TAGS_MODES } from './constants';
+import { ATTRIBUTES, DEFAULT_HIGHLIGHT_CSS_CLASS, getSelector, TAGS_MODES } from './constants';
 import { addListAnimation } from '$cms/utils/animation';
 
 import type { CMSList } from '$cms/cmscore/src';
@@ -14,6 +14,8 @@ const {
   easing: { key: easingKey },
   showQuery: { key: showQueryKey, values: showQueryValues },
   tagsFormat: { key: tagsFormatKey },
+  highlight: { key: highlightKey, values: highlightValues },
+  highlightCSS: { key: highlightCSSKey },
 } = ATTRIBUTES;
 
 /**
@@ -47,7 +49,7 @@ export const createCMSFiltersInstance = (listInstance: CMSList): CMSFilters | un
   // Items Count Element
   if (!listInstance.itemsCount) {
     const itemsCount = document.querySelector<HTMLElement>(getSelector('element', 'itemsCount', { instanceIndex }));
-    if (itemsCount) listInstance.itemsCount = itemsCount;
+    if (itemsCount) listInstance.addItemsCount(itemsCount);
   }
 
   // Results Count Element
@@ -56,10 +58,16 @@ export const createCMSFiltersInstance = (listInstance: CMSList): CMSFilters | un
   // Query Params
   const showQueryParams = listInstance.getAttribute(showQueryKey) === showQueryValues.true;
 
+  // Highlight
+  const highlightAll = listInstance.getAttribute(highlightKey) === highlightValues.true;
+  const highlightCSSClass = listInstance.getAttribute(highlightCSSKey) || DEFAULT_HIGHLIGHT_CSS_CLASS;
+
   // Init instance
   const filtersInstance = new CMSFilters(formBlock, listInstance, {
     resultsElement,
     showQueryParams,
+    highlightAll,
+    highlightCSSClass,
   });
 
   return filtersInstance;
