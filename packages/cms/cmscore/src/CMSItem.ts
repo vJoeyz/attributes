@@ -40,28 +40,30 @@ export class CMSItem {
 
     const fieldElements = [...element.querySelectorAll<HTMLElement>(`[${fieldKey}]`)];
 
-    for (const fieldElement of fieldElements) {
-      const filterKey = fieldElement.getAttribute(fieldKey);
-      const type = typeKey ? fieldElement.getAttribute(typeKey) : undefined;
-      const range = rangeKey ? fieldElement.getAttribute(rangeKey) : undefined;
+    for (const element of fieldElements) {
+      const filterKey = element.getAttribute(fieldKey);
+      const type = typeKey ? element.getAttribute(typeKey) : undefined;
+      const range = rangeKey ? element.getAttribute(rangeKey) : undefined;
 
-      const { textContent } = fieldElement;
+      const { textContent: propValue } = element;
 
-      if (!filterKey || !textContent) continue;
+      if (!filterKey || !propValue) continue;
 
-      props[filterKey] ||= { type, range, values: new Set() };
+      props[filterKey] ||= { type, range, values: new Set(), elements: new Map() };
 
       const prop = props[filterKey];
-      const { values } = prop;
+      const { values, elements } = prop;
 
       if (range === 'from' || range === 'to') {
         const newValues = [...values];
-        newValues[range === 'from' ? 0 : 1] = textContent;
+        newValues[range === 'from' ? 0 : 1] = propValue;
 
         prop.values = new Set(newValues);
       }
 
-      values.add(textContent);
+      values.add(propValue);
+
+      elements.set(propValue, element);
     }
   }
 }

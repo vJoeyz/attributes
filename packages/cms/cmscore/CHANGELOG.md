@@ -1,5 +1,9 @@
 # `cmscore` Changelog
 
+## [v1.0.18] 9th November 2021
+
+- Added `CMSItemProp.elements` property that stores the value holders.
+
 ## [v1.0.17] 9th November 2021
 
 - Added optional `scrollToAnchor` param to the `CMSList.switchPage()` method.

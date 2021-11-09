@@ -24,7 +24,16 @@ export interface CMSListEvents {
  */
 export interface CMSItemProps {
   [key: string]: {
+    /**
+     * Defines the prop values.
+     */
     values: Set<string>;
+
+    /**
+     * Defines the elements that hold the prop values.
+     * The Map is used as [propValue, element].
+     */
+    elements: Map<string, HTMLElement>;
 
     /**
      * Defines the type of the value.
