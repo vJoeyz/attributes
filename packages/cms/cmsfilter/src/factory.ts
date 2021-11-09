@@ -51,7 +51,7 @@ export const createCMSFiltersInstance = (listInstance: CMSList): CMSFilters | un
   }
 
   // Results Count Element
-  const resultsElement = document.querySelector<HTMLElement>(getSelector('element', 'results', { instanceIndex }));
+  const resultsElement = document.querySelector<HTMLElement>(getSelector('element', 'resultsCount', { instanceIndex }));
 
   // Query Params
   const showQueryParams = listInstance.getAttribute(showQueryKey) === showQueryValues.true;

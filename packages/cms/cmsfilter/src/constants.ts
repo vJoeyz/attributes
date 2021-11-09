@@ -24,7 +24,7 @@ export const ATTRIBUTES = {
       /**
        * Defines an element that will display all existing results.
        */
-      results: generateDynamicAttibuteValue('results-count'),
+      resultsCount: generateDynamicAttibuteValue('results-count'),
 
       /**
        * Defines an element where to display the total items of the list.
