@@ -149,10 +149,15 @@ export class CMSList extends Emittery<CMSListEvents> {
 
   /**
    * Switches the current page.
+   *
    * @param targetPage The target page to set.
+   *
+   * @param scrollToAnchor Defines if the list should scroll to the anchor element (if existing) when switching pages.
+   * Defaults to `true`.
+   *
    * @returns An awaitable Promise that resolves after the list has re-rendered.
    */
-  public async switchPage(targetPage: number) {
+  public async switchPage(targetPage: number, scrollToAnchor = true) {
     const { currentPage: previousPage } = this;
 
     if (targetPage === previousPage) return;
@@ -161,7 +166,7 @@ export class CMSList extends Emittery<CMSListEvents> {
 
     this.currentPage = targetPage;
 
-    this.scrollToAnchor();
+    if (scrollToAnchor) this.scrollToAnchor();
 
     if (previousPage) await this.renderItems();
   }

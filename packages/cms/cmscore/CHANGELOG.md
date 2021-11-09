@@ -1,5 +1,9 @@
 # `cmscore` Changelog
 
+## [v1.0.17] 9th November 2021
+
+- Added optional `scrollToAnchor` param to the `CMSList.switchPage()` method.
+
 ## [v1.0.16] 9th November 2021
 
 - Added `CMSList.itemsCount` and `CMSList.addItemsCount()` to display the amount of items of the list.
