@@ -127,25 +127,15 @@ const checkFilterValidity = (
  * @returns `true` if it's valid.
  */
 const checkRangeValidity = (value: string, from: string, to: string, type?: string | null) => {
-  // Date Value
-  if (type === 'date') {
-    const [filterDateValue, propDateFrom, propDateTo] = [value, from, to].map(normalizeDate);
+  const [filterValue, propFrom, propTo] = [value, from, to].map((string) =>
+    type === 'date' ? normalizeDate(string) : parseFloat(string)
+  );
 
-    if (!from) return filterDateValue <= propDateTo;
+  if (!from) return filterValue <= propTo;
 
-    if (!to) return filterDateValue >= propDateFrom;
+  if (!to) return filterValue >= propFrom;
 
-    return filterDateValue >= propDateFrom && filterDateValue <= propDateTo;
-  }
-
-  // Regular Value
-  const [filterNumberValue, propNumberFrom, propNumberTo] = [value, from, to].map(parseFloat);
-
-  if (!from) return filterNumberValue <= propNumberTo;
-
-  if (!to) return filterNumberValue >= propNumberFrom;
-
-  return filterNumberValue >= propNumberFrom && filterNumberValue <= propNumberTo;
+  return filterValue >= propFrom && filterValue <= propTo;
 };
 
 /**
