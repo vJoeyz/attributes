@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-cmscore",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "Core functionalities of all cms Attributes.",
   "main": "cmscore.js",
   "files": [

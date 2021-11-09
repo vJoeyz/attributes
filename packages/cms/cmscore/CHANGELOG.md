@@ -1,5 +1,9 @@
 # `cmscore` Changelog
 
+## [v1.0.19] 9th November 2021
+
+- Refactored `CMSList.itemsCount` usage.
+
 ## [v1.0.18] 9th November 2021
 
 - Added `CMSItemProp.elements` property that stores the value holders.

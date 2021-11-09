@@ -36,7 +36,7 @@ const initListsCombine = async ({ lists, target, instanceIndex }: CombineData) =
   // Get items count element
   if (!target.itemsCount) {
     const itemsCount = document.querySelector<HTMLElement>(getSelector('element', 'itemsCount', { instanceIndex }));
-    if (itemsCount) target.itemsCount = itemsCount;
+    if (itemsCount) target.addItemsCount(itemsCount);
   }
 
   // Listen events

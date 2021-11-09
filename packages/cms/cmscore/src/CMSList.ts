@@ -82,11 +82,13 @@ export class CMSList extends Emittery<CMSListEvents> {
    * @param newItemElements The new Collection Items to store.
    */
   public async addItems(itemElements: CollectionItemElement[]): Promise<void> {
-    const { items, list, itemsCount } = this;
+    const { items, list } = this;
 
     const newItems = itemElements.map((item) => new CMSItem(item, list));
 
     items.push(...newItems);
+
+    this.updateItemsCount();
 
     await this.emit('shouldnest', newItems);
     await this.emit('shouldcollectprops', newItems);
@@ -94,8 +96,6 @@ export class CMSList extends Emittery<CMSListEvents> {
     await this.emit('shouldfilter');
 
     await this.renderItems(true);
-
-    if (itemsCount) itemsCount.textContent = `${items.length}`;
 
     await this.emit('additems', newItems);
   }
@@ -220,13 +220,22 @@ export class CMSList extends Emittery<CMSListEvents> {
    * @param element The element to add.
    */
   public addItemsCount(element: HTMLElement) {
-    const { itemsCount, items } = this;
+    const { itemsCount } = this;
 
     if (itemsCount) return;
 
-    element.textContent = `${items.length}`;
-
     this.itemsCount = element;
+
+    this.updateItemsCount();
+  }
+
+  /**
+   * Updates the `Items Count` element.
+   */
+  public updateItemsCount() {
+    const { itemsCount, items } = this;
+
+    if (itemsCount) itemsCount.textContent = `${items.length}`;
   }
 
   /**
