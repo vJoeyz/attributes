@@ -29,6 +29,7 @@ export class CMSList extends Emittery<CMSListEvents> {
 
   public paginationPrevious?: PaginationButtonElement | null;
   public scrollAnchor?: HTMLElement;
+  public itemsCount?: HTMLElement;
 
   public emptyElement?: HTMLElement;
   public emptyState?: boolean;
@@ -81,7 +82,7 @@ export class CMSList extends Emittery<CMSListEvents> {
    * @param newItemElements The new Collection Items to store.
    */
   public async addItems(itemElements: CollectionItemElement[]): Promise<void> {
-    const { items, list } = this;
+    const { items, list, itemsCount } = this;
 
     const newItems = itemElements.map((item) => new CMSItem(item, list));
 
@@ -93,6 +94,8 @@ export class CMSList extends Emittery<CMSListEvents> {
     await this.emit('shouldfilter');
 
     await this.renderItems(true);
+
+    if (itemsCount) itemsCount.textContent = `${items.length}`;
 
     await this.emit('additems', newItems);
   }
@@ -205,6 +208,20 @@ export class CMSList extends Emittery<CMSListEvents> {
     element.style.display = 'none';
 
     this.loader = element;
+  }
+
+  /**
+   * Adds an `Items Count` element to the list.
+   * @param element The element to add.
+   */
+  public addItemsCount(element: HTMLElement) {
+    const { itemsCount, items } = this;
+
+    if (itemsCount) return;
+
+    element.textContent = `${items.length}`;
+
+    this.itemsCount = element;
   }
 
   /**
