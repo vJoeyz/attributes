@@ -16,6 +16,11 @@ export const ATTRIBUTES = {
        * If not defined, the first queried list will act as the target.
        */
       target: generateDynamicAttibuteValue('target'),
+
+      /**
+       * Defines an element where to display the total items of the list.
+       */
+      itemsCount: generateDynamicAttibuteValue('items-count'),
     },
   },
 } as const;

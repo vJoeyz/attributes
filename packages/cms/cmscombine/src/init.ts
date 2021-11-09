@@ -32,7 +32,13 @@ export const init = async (): Promise<CMSList[]> => {
  * @param combineData The {@link CombineData} array.
  * @returns The target {@link CMSList} instance.
  */
-const initListsCombine = async ({ lists, target }: CombineData) => {
+const initListsCombine = async ({ lists, target, instanceIndex }: CombineData) => {
+  // Get items count element
+  if (!target.itemsCount) {
+    const itemsCount = document.querySelector<HTMLElement>(getSelector('element', 'itemsCount', { instanceIndex }));
+    if (itemsCount) target.itemsCount = itemsCount;
+  }
+
   // Listen events
   for (const listInstance of lists) {
     listInstance.on('additems', async (newItems) => await combineItemsToTarget(target, newItems));

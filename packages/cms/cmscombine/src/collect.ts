@@ -21,7 +21,7 @@ export const collectCombineData = (listInstances: CMSList[]): CombineData[] => {
     const target = listInstances.find(({ wrapper }) => wrapper === targetElement) || listInstance;
 
     // Make sure the populate data exists
-    const data = (populateData[instanceIndex || 0] ||= { lists: [], target });
+    const data = (populateData[instanceIndex || 0] ||= { lists: [], target, instanceIndex });
 
     if (listInstance !== data.target) data.lists.push(listInstance);
   }
