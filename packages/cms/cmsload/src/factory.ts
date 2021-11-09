@@ -44,6 +44,12 @@ export const initLoadInstance = async (listInstance: CMSList) => {
   const loaderElement = document.querySelector<HTMLElement>(getSelector('element', 'loader', { instanceIndex }));
   if (loaderElement) listInstance.addLoader(loaderElement);
 
+  // Get items count element
+  if (!listInstance.itemsCount) {
+    const itemsCount = document.querySelector<HTMLElement>(getSelector('element', 'itemsCount', { instanceIndex }));
+    if (itemsCount) listInstance.itemsCount = itemsCount;
+  }
+
   // Get scroll anchor
   if (!listInstance.scrollAnchor) {
     const scrollAnchor = document.querySelector<HTMLElement>(getSelector('element', 'scrollAnchor', { instanceIndex }));
