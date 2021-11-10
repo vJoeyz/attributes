@@ -18,10 +18,10 @@ export const init = async (): Promise<CMSList[]> => {
     getSelector('element', 'target', { operator: 'prefixed' }),
   ]);
 
-  const populateData = collectCombineData(listInstances);
+  const combineData = collectCombineData(listInstances);
 
   // Combine the lists
-  const combineLists = await Promise.all(populateData.map(initListsCombine));
+  const combineLists = await Promise.all(combineData.map(initListsCombine));
 
   return combineLists;
 };
@@ -45,11 +45,13 @@ const initListsCombine = async ({ lists, target, instanceIndex }: CombineData) =
   }
 
   // Combine items
-  for (const { wrapper, items } of lists) {
-    wrapper.remove();
+  await Promise.all(
+    lists.map(async ({ wrapper, items }) => {
+      wrapper.remove();
 
-    await combineItemsToTarget(target, items);
-  }
+      await combineItemsToTarget(target, items);
+    })
+  );
 
   return target;
 };
