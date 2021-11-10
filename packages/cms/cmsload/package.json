@@ -1,7 +1,7 @@
 {
   "name": "@finsweet/attributes-cmsload",
   "version": "1.0.1",
-  "description": "Description.",
+  "description": "Load More Webflow CMS items on the page after the page has loaded.",
   "main": "cmsload.js",
   "files": [
     "cmsload.js"
