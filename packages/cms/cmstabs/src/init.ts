@@ -4,12 +4,14 @@ import { populateTabsFromLists } from './populate';
 import { importCMSCore } from '$utils/import';
 import { collectPopulateData } from './collect';
 
+import type { CMSList } from '$cms/cmscore/src';
+
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<void> => {
+export const init = async (): Promise<CMSList[]> => {
   const cmsCore = await importCMSCore();
-  if (!cmsCore) return;
+  if (!cmsCore) return [];
 
   const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
@@ -37,4 +39,6 @@ export const init = async (): Promise<void> => {
   }
 
   await restartWebflow();
+
+  return listInstances;
 };

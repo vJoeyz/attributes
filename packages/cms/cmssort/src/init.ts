@@ -21,13 +21,15 @@ const {
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<void> => {
+export const init = async (): Promise<CMSList[]> => {
   const cmsCore = await importCMSCore();
-  if (!cmsCore) return;
+  if (!cmsCore) return [];
 
   const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
   await Promise.all(listInstances.map(initList));
+
+  return listInstances;
 };
 
 /**
