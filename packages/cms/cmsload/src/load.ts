@@ -13,7 +13,6 @@ const domParser = new DOMParser();
  * Collects Collection Items from a Collection List's pagination.
  * @param listInstance The CMSList instance.
  * @param action The action to perform:`next` just loads the next page's items, `all` loads all of them.
- * @param resetIx Defines if Webflow Interactions should be restarted after finishing loading.
  * @returns The URL of the next page to be loaded.
  */
 export const loadListItems = async (listInstance: CMSList, action: 'next' | 'all'): Promise<string | undefined> => {
