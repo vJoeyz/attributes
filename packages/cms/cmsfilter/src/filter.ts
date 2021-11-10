@@ -16,10 +16,12 @@ export const assessFilter = (
   item: CMSItem,
   filtersData: FiltersData,
   filtersAreEmpty: boolean,
+  highlightActivated: boolean,
   highlightCSSClass: string
 ): boolean => {
   if (filtersAreEmpty) {
-    clearHighlight(item, highlightCSSClass);
+    if (highlightActivated) clearHighlight(item, highlightCSSClass);
+
     return true;
   }
 
@@ -61,13 +63,13 @@ const checkFilterValidity = (
 
       const isValid = checkRangeValidity(propValue, filterFrom, filterTo, propType);
 
-      if (highlight) toggleHighlight(prop, isValid ? propValues : [], highlightCSSClass);
+      if (highlight) toggleHighlight(prop, isValid ? [[propValue]] : [], highlightCSSClass);
 
       return isValid;
     }
 
     // Regular Filter Modes
-    const matchingPropValues: string[] = [];
+    const matchingPropValues: Array<[string] | [string, string]> = [];
 
     const matchingFilterValues = filterValues.filter((filterValue) => {
       // Range Prop Values
@@ -76,7 +78,7 @@ const checkFilterValidity = (
 
         const isValid = checkRangeValidity(filterValue, propFrom, propTo, propType);
 
-        if (isValid) matchingPropValues.push(propFrom, propTo);
+        if (isValid) matchingPropValues.push([propFrom], [propTo]);
 
         return isValid;
       }
@@ -102,7 +104,7 @@ const checkFilterValidity = (
         // Multiple Prop Values
         else isValid = filterValue.toLowerCase() === propValue.toLowerCase();
 
-        if (isValid) matchingPropValues.push(propValue);
+        if (isValid) matchingPropValues.push([propValue, filterValue]);
 
         return isValid;
       });
