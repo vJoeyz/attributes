@@ -1,7 +1,7 @@
 {
   "name": "@finsweet/attributes-cmsnest",
   "version": "1.0.1",
-  "description": "Description.",
+  "description": "Nest CMS collections easily on Webflow.",
   "main": "cmsnest.js",
   "files": [
     "cmsnest.js"
