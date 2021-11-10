@@ -27,7 +27,7 @@ export const init = async (): Promise<CMSList[]> => {
 
     // Listen events
     for (const listInstance of listInstances) {
-      listInstance.resetIx = true;
+      listInstance.restartIx = true;
 
       listInstance.items = [];
 

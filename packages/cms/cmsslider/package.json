@@ -1,7 +1,7 @@
 {
   "name": "@finsweet/attributes-cmsslider",
   "version": "1.0.0",
-  "description": "Description.",
+  "description": "Convert the native Webflow slider component to a CMS slider.",
   "main": "cmsslider.js",
   "files": [
     "cmsslider.js"
