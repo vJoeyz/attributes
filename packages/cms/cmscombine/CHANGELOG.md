@@ -1,5 +1,17 @@
 # `cmscombine` Changelog
 
+## [v1.1.3] 10th November 2021
+
+- Updated `cmscore` import.
+
+## [v1.1.2] 10th November 2021
+
+- Updated package descriptions.
+
+## [v1.1.1] 10th November 2021
+
+- Added missing return statement in the `init` function.
+
 ## [v1.1.0] 23th October 2021
 
 - Integrated `CMSList` instances.
