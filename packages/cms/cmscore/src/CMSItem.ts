@@ -14,7 +14,8 @@ export class CMSItem {
   public rendering?: Promise<void>;
   public animating?: Promise<void>;
 
-  public ixResetted: boolean;
+  public ixRestarted: boolean;
+  public commerceRestarted: boolean;
 
   /**
    * @param element The DOM element of the item.
@@ -27,7 +28,7 @@ export class CMSItem {
   ) {
     this.href = element.querySelector('a')?.href;
 
-    this.ixResetted = typeof currentIndex === 'number';
+    this.ixRestarted = this.commerceRestarted = typeof currentIndex === 'number';
   }
 
   /**

@@ -2,6 +2,7 @@ import { restartWebflow, wait } from '@finsweet/ts-utils';
 import { CMSItem } from '.';
 
 import type { CMSList } from '.';
+import type { WebflowModule } from '@finsweet/ts-utils/types/Webflow';
 
 /**
  * Defines: [The item to render, The index where to render it, The item to use as anchor]
@@ -16,7 +17,7 @@ type AnchorData = [CMSItem, number, CMSItem | undefined];
  * If not, the list will be animated instead.
  */
 export const renderListItems = async (listInstance: CMSList, addingItems = false) => {
-  const { items, itemsPerPage, currentPage, emptyState, resetIx } = listInstance;
+  const { items, itemsPerPage, currentPage, emptyState, restartIx, restartCommerce } = listInstance;
 
   // Collect items and recalculate the total pages
   const itemsToHide: CMSItem[] = [];
@@ -65,11 +66,25 @@ export const renderListItems = async (listInstance: CMSList, addingItems = false
   // Emit events
   await listInstance.emitSerial('renderitems', itemsToShow);
 
-  // Reset IX if needed
-  if (resetIx && itemsToShow.some(({ ixResetted }) => !ixResetted)) {
-    for (const item of items) item.ixResetted = itemsToShow.includes(item);
+  // Restart Webflow Modules if needed
+  if (restartIx || restartCommerce) {
+    const modulesToRestart: WebflowModule[] = [];
 
-    await restartWebflow();
+    if (restartIx && itemsToShow.some(({ ixRestarted }) => !ixRestarted)) modulesToRestart.push('ix2');
+    if (restartCommerce && itemsToShow.some(({ commerceRestarted }) => !commerceRestarted)) {
+      modulesToRestart.push('commerce');
+    }
+
+    if (modulesToRestart.length) {
+      for (const item of items) {
+        const rendered = itemsToShow.includes(item);
+
+        if (restartIx) item.ixRestarted = rendered;
+        if (restartCommerce) item.commerceRestarted = rendered;
+      }
+    }
+
+    await restartWebflow(modulesToRestart);
   }
 
   // Show the list

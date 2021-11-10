@@ -1,5 +1,9 @@
 # `cmscore` Changelog
 
+## [v1.0.23] 9th November 2021
+
+- Improved Webflow Modules restarting in the `render` workflow.
+
 ## [v1.0.22] 9th November 2021
 
 - Updated `ts-utils` to add support for `commerce` sites.

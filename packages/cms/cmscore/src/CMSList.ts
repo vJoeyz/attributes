@@ -45,7 +45,8 @@ export class CMSList extends Emittery<CMSListEvents> {
   public listAnimation?: Animation;
   public itemsAnimation?: Animation;
 
-  public resetIx = false;
+  public restartIx = false;
+  public restartCommerce = false;
 
   private renderingQueue?: Promise<void>;
 
