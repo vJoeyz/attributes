@@ -1,3 +1,3 @@
 # `cmsprevnext` Attribute
 
-Attribute description.
+Add Previous and Next buttons in Collection Template Pages.

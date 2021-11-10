@@ -2,4 +2,4 @@
 
 ## [v1.0.0] 24th October 2021
 
-- Created the attribute package.
+Add Previous and Next buttons in Collection Template Pages.
