@@ -1,5 +1,5 @@
 import { clearFormField, isNotEmpty, sameValues } from '@finsweet/ts-utils';
-import { clearHighlight, toggleHighlight } from './highlight';
+import { clearHighlight } from './highlight';
 import { normalizeDate } from './dates';
 
 import type { CMSItem } from '$cms/cmscore/src';
@@ -16,16 +16,15 @@ export const assessFilter = (
   item: CMSItem,
   filtersData: FiltersData,
   filtersAreEmpty: boolean,
-  highlightActivated: boolean,
-  highlightCSSClass: string
+  highlightActivated: boolean
 ): boolean => {
   if (filtersAreEmpty) {
-    if (highlightActivated) clearHighlight(item, highlightCSSClass);
+    if (highlightActivated) clearHighlight(item);
 
     return true;
   }
 
-  return filtersData.every((filterData) => checkFilterValidity(item, filterData, highlightCSSClass));
+  return filtersData.every((filterData) => checkFilterValidity(item, filterData));
 };
 
 /**
@@ -36,8 +35,7 @@ export const assessFilter = (
  */
 const checkFilterValidity = (
   item: CMSItem,
-  { filterKeys, values, match, mode: filterMode, highlight }: FiltersData[number],
-  highlightCSSClass: string
+  { filterKeys, values, match, mode: filterMode, highlight }: FiltersData[number]
 ) => {
   const filterValues = [...values].filter(isNotEmpty);
   if (!filterValues.length) return true;
@@ -56,6 +54,11 @@ const checkFilterValidity = (
     const propValues = [...values];
     if (!propValues.length) return false;
 
+    // Init highlighting
+    const highlightValues = new Map();
+
+    if (highlight) prop.highlightValues = highlightValues;
+
     // Range Filter Modes
     if (filterMode === 'range') {
       const [propValue] = propValues;
@@ -63,14 +66,12 @@ const checkFilterValidity = (
 
       const isValid = checkRangeValidity(propValue, filterFrom, filterTo, propType);
 
-      if (highlight) toggleHighlight(prop, isValid ? [[propValue]] : [], highlightCSSClass);
+      if (isValid && highlight) highlightValues.set(propValue, null);
 
       return isValid;
     }
 
     // Regular Filter Modes
-    const matchingPropValues: Array<[string] | [string, string]> = [];
-
     const matchingFilterValues = filterValues.filter((filterValue) => {
       // Range Prop Values
       if (propRange === 'from' || propRange === 'to') {
@@ -78,7 +79,10 @@ const checkFilterValidity = (
 
         const isValid = checkRangeValidity(filterValue, propFrom, propTo, propType);
 
-        if (isValid) matchingPropValues.push([propFrom], [propTo]);
+        if (isValid && highlight) {
+          highlightValues.set(propFrom, null);
+          highlightValues.set(propTo, null);
+        }
 
         return isValid;
       }
@@ -104,15 +108,13 @@ const checkFilterValidity = (
         // Multiple Prop Values
         else isValid = filterValue.toLowerCase() === propValue.toLowerCase();
 
-        if (isValid) matchingPropValues.push([propValue, filterValue]);
+        if (isValid && highlight) highlightValues.set(propValue, filterValue);
 
         return isValid;
       });
 
       return hasValue;
     });
-
-    if (highlight) toggleHighlight(prop, matchingPropValues, highlightCSSClass);
 
     return match === 'all' ? matchingFilterValues.length === filterValues.length : matchingFilterValues.length > 0;
   });

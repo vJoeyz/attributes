@@ -27,10 +27,10 @@ export class CMSFilters {
   public readonly submitButton;
   public readonly filtersData;
 
-  private readonly showQueryParams;
+  public readonly highlightCSSClass;
+  public readonly highlightActivated;
 
-  private readonly highlightActivated;
-  private readonly highlightCSSClass;
+  private readonly showQueryParams;
 
   private filtersActive = false;
   private tagsInstance?: CMSTags;
@@ -154,7 +154,7 @@ export class CMSFilters {
    * In that case, the rendering responsibilities are handled by another controller.
    */
   public async applyFilters(addingItems?: boolean): Promise<void> {
-    const { listInstance, filtersData, filtersActive, highlightCSSClass, highlightActivated } = this;
+    const { listInstance, filtersData, filtersActive, highlightActivated } = this;
     const { items, currentPage } = listInstance;
 
     // Abort if no filtering is needed
@@ -166,7 +166,7 @@ export class CMSFilters {
 
     // Define show/hide of each item based on the match
     for (const item of items) {
-      item.mustShow = assessFilter(item, filtersData, filtersAreEmpty, highlightActivated, highlightCSSClass);
+      item.mustShow = assessFilter(item, filtersData, filtersAreEmpty, highlightActivated);
     }
 
     // Render the items

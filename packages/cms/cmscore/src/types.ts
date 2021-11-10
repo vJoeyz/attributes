@@ -42,6 +42,14 @@ export interface CMSItemProps {
     >;
 
     /**
+     * Defines filter values to highlight in a Map like:
+     * ```
+     * [propValue, filterValue | null]
+     * ```
+     */
+    highlightValues?: Map<string, string | null>;
+
+    /**
      * Defines the type of the value.
      * @example `date`
      */
