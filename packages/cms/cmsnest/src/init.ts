@@ -1,3 +1,4 @@
+import { Debug } from '@finsweet/ts-utils';
 import { importCMSCore } from '$utils/import';
 import { getSelector } from './constants';
 import { populateNestedCollections } from './nest';
@@ -9,14 +10,18 @@ import type { CMSCore } from '$cms/cmscore/src/types';
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<void> => {
+export const init = async (): Promise<CMSList[]> => {
   const cmsCore = await importCMSCore();
-  if (!cmsCore) return;
+  if (!cmsCore) return [];
 
   // Create the list instances
   const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
   for (const listInstance of listInstances) initListNesting(listInstance, cmsCore);
+
+  await Promise.all(listInstances.map((listInstance) => initListNesting(listInstance, cmsCore)));
+
+  return listInstances;
 };
 
 /**
@@ -26,7 +31,10 @@ export const init = async (): Promise<void> => {
  */
 const initListNesting = async (listInstance: CMSList, cmsCore: CMSCore): Promise<void> => {
   const collectionsToNest = getCollectionsToNest(cmsCore);
-  if (!collectionsToNest.size) return;
+  if (!collectionsToNest.size) {
+    Debug.alert(`No collections to nest found for the list nº ${listInstance.index}`, 'info');
+    return;
+  }
 
   listInstance.on('shouldnest', async (newItems) => {
     await Promise.all(newItems.map((newItem) => populateNestedCollections(newItem, collectionsToNest, cmsCore)));
