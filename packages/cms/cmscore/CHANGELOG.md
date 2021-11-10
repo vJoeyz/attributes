@@ -1,5 +1,9 @@
 # `cmscore` Changelog
 
+## [v1.0.22] 9th November 2021
+
+- Updated `ts-utils` to add support for `commerce` sites.
+
 ## [v1.0.21] 9th November 2021
 
 - Added `highlightValues` optional prop in each `CMSItemProp` object. Used for `fs-cmsfilter-highlight`.
