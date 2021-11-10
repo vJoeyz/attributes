@@ -7,8 +7,6 @@ import { addItemsAnimation, addListAnimation } from '$cms/utils/animation';
 
 import type { CMSList } from '$cms/cmscore/src';
 
-// Types
-
 // Constants
 const {
   element: { key: elementKey },
@@ -23,6 +21,8 @@ const {
   resetIx: { key: resetIxKey, values: resetIxValues },
 } = ATTRIBUTES;
 
+const { Webflow } = window;
+
 /**
  * Gets the base config and inits a `mode` for a `CMSList` instance.
  * @param listInstance The {@link CMSList} instance.
@@ -36,9 +36,13 @@ export const initLoadInstance = async (listInstance: CMSList) => {
 
   if (!listInstance.listAnimation) addListAnimation(listInstance, { durationKey, easingKey });
 
+  // Get commerce config
+  const restartCommerce = !!Webflow && 'require' in Webflow && !!Webflow.require('commerce');
+  if (restartCommerce) listInstance.restartCommerce = restartCommerce;
+
   // Get resetIx config
-  const resetIx = listInstance.getAttribute(resetIxKey) === resetIxValues.true;
-  if (resetIx) listInstance.resetIx = resetIx;
+  const restartIx = listInstance.getAttribute(resetIxKey) === resetIxValues.true;
+  if (restartIx) listInstance.restartIx = restartIx;
 
   // Get loader
   const loaderElement = document.querySelector<HTMLElement>(getSelector('element', 'loader', { instanceIndex }));
