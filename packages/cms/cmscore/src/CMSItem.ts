@@ -45,7 +45,7 @@ export class CMSItem {
       const type = typeKey ? element.getAttribute(typeKey) : undefined;
       const range = rangeKey ? element.getAttribute(rangeKey) : undefined;
 
-      const { textContent: propValue } = element;
+      const { textContent: propValue, innerHTML: originalHTML } = element;
 
       if (!filterKey || !propValue) continue;
 
@@ -63,7 +63,7 @@ export class CMSItem {
 
       values.add(propValue);
 
-      elements.set(propValue, element);
+      if (!elements.has(propValue)) elements.set(propValue, { element, originalHTML });
     }
   }
 }

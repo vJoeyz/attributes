@@ -33,7 +33,13 @@ export interface CMSItemProps {
      * Defines the elements that hold the prop values.
      * The Map is used as [propValue, element].
      */
-    elements: Map<string, HTMLElement>;
+    elements: Map<
+      string,
+      {
+        element: HTMLElement;
+        originalHTML: string;
+      }
+    >;
 
     /**
      * Defines the type of the value.

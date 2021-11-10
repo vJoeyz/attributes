@@ -1,5 +1,9 @@
 # `cmscore` Changelog
 
+## [v1.0.20] 9th November 2021
+
+- Now the `originalHTML` is stored in each `CMSItemProp.elements` record. Used to reset the elements after having mutated them in actions like `fs-cmsfilter-highlight`.
+
 ## [v1.0.19] 9th November 2021
 
 - Refactored `CMSList.itemsCount` usage.
