@@ -1,3 +1,3 @@
 # `cmsselect` Attribute
 
-Populate elements based on a source.
+Populate Select elements based on a CMS source.

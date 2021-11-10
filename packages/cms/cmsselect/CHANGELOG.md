@@ -1,5 +1,9 @@
 # `cmsselect` Changelog
 
+## [v1.0.3] 10th November 2021
+
+- Updated package description.
+
 ## [v1.0.2] 7th November 2021
 
 - Renamed `fs-cmsselect-element="source"` as `fs-cmsselect-element="text-value"`.
