@@ -1,5 +1,4 @@
-import { getCollectionElements } from '@finsweet/ts-utils';
-import { ATTRIBUTES, getSelector } from './constants';
+import { ATTRIBUTES } from './constants';
 
 import type { CMSList } from '$cms/cmscore/src';
 import type { CombineData } from './types';
@@ -16,12 +15,9 @@ export const collectCombineData = (listInstances: CMSList[]): CombineData[] => {
   for (const listInstance of listInstances) {
     const instanceIndex = listInstance.getInstanceIndex(ATTRIBUTES.element.key);
 
-    // Get the target, default to the first list when non-existing
-    const targetElement = getCollectionElements(getSelector('element', 'target', { instanceIndex }), 'wrapper');
-    const target = listInstances.find(({ wrapper }) => wrapper === targetElement) || listInstance;
-
     // Make sure the populate data exists
-    const data = (populateData[instanceIndex || 0] ||= { lists: [], target, instanceIndex });
+    // Default the target to the first collected list
+    const data = (populateData[instanceIndex || 0] ||= { lists: [], target: listInstance, instanceIndex });
 
     if (listInstance !== data.target) data.lists.push(listInstance);
   }

@@ -13,10 +13,7 @@ export const init = async (): Promise<CMSList[]> => {
   const cmsCore = await importCMSCore();
   if (!cmsCore) return [];
 
-  const listInstances = cmsCore.createCMSListInstances([
-    getSelector('element', 'list', { operator: 'prefixed' }),
-    getSelector('element', 'target', { operator: 'prefixed' }),
-  ]);
+  const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
   const combineData = collectCombineData(listInstances);
 

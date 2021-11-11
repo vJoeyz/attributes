@@ -1,5 +1,10 @@
 # `cmscombine` Changelog
 
+## [v1.2.0] 11th November 2021
+
+- Removed `fs-cmscombine-element="target"` option as it could potentially create confusions.
+  Now all lists in a group are always combined into the first one on the page.
+
 ## [v1.1.3] 10th November 2021
 
 - Updated `cmscore` import.
