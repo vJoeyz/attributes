@@ -10,9 +10,10 @@ import type { CMSList } from '$cms/cmscore/src';
  */
 export const initInfiniteMode = (listInstance: CMSList): void => {
   const settingsData = getMainSettings(listInstance);
-  const { threshold } = getInfiniteSettings(listInstance);
-
   if (!settingsData) return;
+
+  const { threshold } = getInfiniteSettings(listInstance);
+  const thresholdCoefficient = 1 - threshold / 100;
 
   let isLoading = false;
 
@@ -50,13 +51,8 @@ export const initInfiniteMode = (listInstance: CMSList): void => {
     const { innerHeight } = window;
     const { bottom } = list.getBoundingClientRect();
 
-    const thresholdSign = Math.sign(threshold);
-    const distance = innerHeight - bottom;
-    const percentage = (distance * 100) / innerHeight;
-
-    const shouldLoad =
-      (thresholdSign === 1 && percentage > threshold && percentage > 0) ||
-      (thresholdSign < 1 && percentage > threshold && percentage < 0);
+    const validRange = thresholdCoefficient * innerHeight;
+    const shouldLoad = bottom > 0 && bottom <= validRange;
 
     if (shouldLoad) {
       isLoading = true;
