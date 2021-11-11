@@ -19,45 +19,120 @@ import type {
  * Instance of a Collection List.
  */
 export class CMSList extends Emittery<CMSListEvents> {
+  /**
+   * The `Collection List` element.
+   */
   public readonly list: CollectionListElement;
 
+  /**
+   * The `Pagination` wrapper element.
+   */
   public readonly paginationWrapper?: PaginationWrapperElement | null;
-  public readonly paginationNext?: PaginationButtonElement | null;
-  public readonly paginationCount?: PageCountElement | null;
-
-  public readonly itemsPerPage: number;
-
-  public paginationPrevious?: PaginationButtonElement | null;
-  public scrollAnchor?: HTMLElement;
-  public itemsCount?: HTMLElement;
-
-  public emptyElement?: HTMLElement;
-  public emptyState?: boolean;
-
-  public loader?: HTMLElement;
-
-  public visibleItems: number;
-  public totalPages: number;
-  public currentPage?: number;
-
-  public items: CMSItem[];
-
-  public listAnimation?: Animation;
-  public itemsAnimation?: Animation;
-
-  public restartIx = false;
-  public restartCommerce = false;
-
-  private renderingQueue?: Promise<void>;
 
   /**
-   * @param wrapper A `Collection List Wrapper` element.
-   *
-   * @param index The index of the list on the page. Used when querying/storing this instance.
-   * **Important:** This is not related to the `instanceIndex`, which relates to the number suffix in the attribute:
-   * `fs-cmsfilter-element="list-2"` -> `2` is the `instanceIndex`, **not** the `index` of the list on the page.
+   * The `Next` button.
    */
-  constructor(public readonly wrapper: CollectionListWrapperElement, public readonly index?: number) {
+  public readonly paginationNext?: PaginationButtonElement | null;
+
+  /**
+   * The `Page Count` element.
+   */
+  public readonly paginationCount?: PageCountElement | null;
+
+  /**
+   * Defines the amount of items per page.
+   */
+  public readonly itemsPerPage: number;
+
+  /**
+   * The `Previous` button.
+   */
+  public paginationPrevious?: PaginationButtonElement | null;
+
+  /**
+   * An element used as scroll anchor.
+   */
+  public scrollAnchor?: HTMLElement;
+
+  /**
+   * An element that displays the total amount of items in the list.
+   */
+  public itemsCount?: HTMLElement;
+
+  /**
+   * A custom `Empty State` element.
+   */
+  public emptyElement?: HTMLElement;
+
+  /**
+   * Defines if the `Empty State` is currently active (no valid elements to show).
+   */
+  public emptyState?: boolean;
+
+  /**
+   * A custom loader element.
+   */
+  public loader?: HTMLElement;
+
+  /**
+   * Defines the total amount of pages in the list.
+   */
+  public totalPages: number;
+
+  /**
+   * Defines the current page in `Pagination` mode.
+   */
+  public currentPage?: number;
+
+  /**
+   * An array holding all {@link CMSItem} instances of the list.
+   */
+  public items: CMSItem[];
+
+  /**
+   * An array holding all valid {@link CMSItem} instances of the list.
+   * Items are set to valid/invalid by `cmsfilter` when performing any filter query.
+   */
+  public validItems: CMSItem[];
+
+  /**
+   * A {@link Animation} object to animate the list.
+   */
+  public listAnimation?: Animation;
+
+  /**
+   * A {@link Animation} object to animate the items.
+   */
+  public itemsAnimation?: Animation;
+
+  /**
+   * Defines if the Webflow `ix2` module must be restarted when rendering items.
+   */
+  public restartIx = false;
+
+  /**
+   * Defines if the Webflow `commerce` module must be restarted when rendering items.
+   */
+  public restartCommerce = false;
+
+  /**
+   * A Promise that resolves when the previous rendering task finishes.
+   */
+  private renderingQueue?: Promise<void>;
+
+  constructor(
+    /**
+     * The `Collection List Wrapper` element.
+     */
+    public readonly wrapper: CollectionListWrapperElement,
+
+    /**
+     * The index of the list on the page. Used when querying/storing this instance.
+     * **Important:** This is not related to the `instanceIndex`, which relates to the number suffix in the attribute:
+     * `fs-cmsfilter-element="list-2"` -> `2` is the `instanceIndex`, **not** the `index` of the list on the page.
+     */
+    public readonly index?: number
+  ) {
     super();
 
     // DOM Elements
@@ -69,11 +144,11 @@ export class CMSList extends Emittery<CMSListEvents> {
 
     const collectionItems = getCollectionElements(this.wrapper, 'items');
 
-    this.visibleItems = this.itemsPerPage = collectionItems.length;
+    this.itemsPerPage = collectionItems.length;
     this.totalPages = 1;
 
-    // Stores
-    this.items = collectionItems.map((element, index) => new CMSItem(element, this.list, index));
+    // Items
+    this.items = this.validItems = collectionItems.map((element, index) => new CMSItem(element, this.list, index));
   }
 
   /**

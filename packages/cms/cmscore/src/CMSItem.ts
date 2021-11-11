@@ -5,30 +5,67 @@ import type { CMSItemProps } from './types';
  * An instance of a `Collection List Item`.
  */
 export class CMSItem {
+  /**
+   * The URL of the item's `Template Page`.
+   */
   public readonly href?: string;
 
+  /**
+   * The item's properties.
+   * Defined by {@link CMSItemProps}.
+   */
   public props: CMSItemProps = {};
 
-  public mustShow = true;
+  /**
+   * Defines if the item is valid to be rendered.
+   */
+  public valid = true;
 
+  /**
+   * Promise that fulfills when the item is rendered to the DOM.
+   */
   public rendering?: Promise<void>;
+
+  /**
+   * Promise that fulfills when the item's render animation is fully finished.
+   */
   public animating?: Promise<void>;
 
-  public ixRestarted: boolean;
-  public commerceRestarted: boolean;
+  /**
+   * Defines if the item needs a Webflow `ix2` module restart.
+   */
+  public needsIx2Restart: boolean;
+
+  /**
+   * Defines if the item needs a Webflow `commerce` module restart.
+   */
+  public needsCommerceRestart: boolean;
 
   /**
    * @param element The DOM element of the item.
    * @param list The parent Collection List.
    */
   constructor(
+    /**
+     * The `Collection Item` element.
+     */
     public readonly element: CollectionItemElement,
+
+    /**
+     * The `Collection List` parent element.
+     */
     public readonly list: CollectionListElement,
+
+    /**
+     * The element's current index in the rendered DOM.
+     */
     public currentIndex?: number
   ) {
     this.href = element.querySelector('a')?.href;
 
-    this.ixRestarted = this.commerceRestarted = typeof currentIndex === 'number';
+    const rendered = typeof currentIndex === 'number';
+
+    this.needsIx2Restart = this.needsCommerceRestart = !rendered;
   }
 
   /**

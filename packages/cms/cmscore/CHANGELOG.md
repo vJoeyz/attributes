@@ -1,5 +1,10 @@
 # `cmscore` Changelog
 
+## [v1.1.0] 11th November 2021
+
+- Switched `CMSList.validItems` prop from `boolean` to an array of the valid `CMSItem` instanced.
+- Internal refactors.
+
 ## [v1.0.24] 11th November 2021
 
 - Fixed rendering issues caused by the `Empty State` not being correctly displayed in some situations.

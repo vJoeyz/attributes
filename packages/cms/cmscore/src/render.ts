@@ -1,8 +1,8 @@
-import { restartWebflow, wait } from '@finsweet/ts-utils';
+import { restartWebflowModules } from './webflow';
+import { wait } from '@finsweet/ts-utils';
 import { CMSItem } from '.';
 
 import type { CMSList } from '.';
-import type { WebflowModule } from '@finsweet/ts-utils/types/Webflow';
 
 /**
  * Defines: [The item to render, The index where to render it, The item to use as anchor]
@@ -20,16 +20,17 @@ export const renderListItems = async (listInstance: CMSList, addingItems = false
   const { items, itemsPerPage, currentPage, restartIx, restartCommerce, emptyState: oldEmptyState } = listInstance;
 
   // Collect items and recalculate the total pages
+  const validItems: CMSItem[] = [];
+
   const itemsToHide: CMSItem[] = [];
   const itemsToShow: CMSItem[] = [];
 
-  let visibleItems = 0;
-
   for (const item of items) {
-    const { mustShow, currentIndex } = item;
+    const { valid, currentIndex } = item;
+    const rendered = typeof currentIndex === 'number';
 
-    if (mustShow) {
-      visibleItems += 1;
+    if (valid) {
+      validItems.push(item);
 
       if (!currentPage) {
         itemsToShow.push(item);
@@ -37,18 +38,18 @@ export const renderListItems = async (listInstance: CMSList, addingItems = false
       }
 
       const matchesCurrentPage =
-        visibleItems > (currentPage - 1) * itemsPerPage && visibleItems <= currentPage * itemsPerPage;
+        validItems.length > (currentPage - 1) * itemsPerPage && validItems.length <= currentPage * itemsPerPage;
 
       if (matchesCurrentPage) itemsToShow.push(item);
-      else if (typeof currentIndex === 'number') itemsToHide.push(item);
-    } else if (typeof currentIndex === 'number') itemsToHide.push(item);
+      else if (rendered) itemsToHide.push(item);
+    } else if (rendered) itemsToHide.push(item);
   }
 
   // Set new properties
-  listInstance.visibleItems = visibleItems;
-  listInstance.totalPages = Math.ceil(visibleItems / itemsPerPage) || 1;
+  listInstance.validItems = validItems;
+  listInstance.totalPages = Math.ceil(validItems.length / itemsPerPage) || 1;
 
-  const newEmptyState = !visibleItems;
+  const newEmptyState = !validItems.length;
   listInstance.emptyState = newEmptyState;
 
   // Prepare items to show
@@ -73,25 +74,7 @@ export const renderListItems = async (listInstance: CMSList, addingItems = false
   await listInstance.emitSerial('renderitems', itemsToShow);
 
   // Restart Webflow Modules if needed
-  if (restartIx || restartCommerce) {
-    const modulesToRestart: WebflowModule[] = [];
-
-    if (restartIx && itemsToShow.some(({ ixRestarted }) => !ixRestarted)) modulesToRestart.push('ix2');
-    if (restartCommerce && itemsToShow.some(({ commerceRestarted }) => !commerceRestarted)) {
-      modulesToRestart.push('commerce');
-    }
-
-    if (modulesToRestart.length) {
-      for (const item of items) {
-        const rendered = itemsToShow.includes(item);
-
-        if (restartIx) item.ixRestarted = rendered;
-        if (restartCommerce) item.commerceRestarted = rendered;
-      }
-    }
-
-    await restartWebflow(modulesToRestart);
-  }
+  if (restartIx || restartCommerce) await restartWebflowModules(items, itemsToShow, restartIx, restartCommerce);
 
   // Animate the list
   if (animateList) await listInstance.displayElement(newEmptyState ? 'emptyElement' : 'list');
