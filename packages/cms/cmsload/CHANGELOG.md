@@ -1,5 +1,9 @@
 # `cmsload` Changelog
 
+## [v1.1.0] 11th November 2021
+
+- Improved accessibility for `fs-cmsload-element="page-button"` elements by adding [aria-current="page"](https://www.aditus.io/aria/aria-current/#aria-current-page) to the current active button.
+
 ## [v1.0.2] 11th November 2021
 
 - Improved `inifinite` threshold calculations to load more items.

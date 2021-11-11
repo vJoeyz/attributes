@@ -89,7 +89,7 @@ const handleElements = (
   updatePaginationButtons = true
 ) => {
   if (pageButtonsData) handlePageButtons(pageButtonsData, listInstance);
-  if (paginationCount) handlePaginationCount(paginationCount, listInstance);
+  if (paginationCount) updatePaginationCount(paginationCount, listInstance);
   if (updatePaginationButtons) handlePaginationButtons(listInstance);
 };
 
@@ -161,8 +161,8 @@ const handlePageButtons = (pageButtonsData: PageButtonsData, listInstance: CMSLi
       newElement.style.opacity = '';
     }
 
-    // Update CSS
-    (newElement || existingElement).classList[targetPage === currentPage ? 'add' : 'remove'](CURRENT_CSS_CLASS);
+    // Update CSS and Aria
+    updatePageElement(newElement || existingElement, targetPage === currentPage);
   }
 
   // Store new state
@@ -170,7 +170,7 @@ const handlePageButtons = (pageButtonsData: PageButtonsData, listInstance: CMSLi
 };
 
 /**
- * Creates a new page button.
+ * Creates a new page element.
  * @param pageButtonsData The {@link PageButtonsData} object.
  * @param targetPage The page where it will point to. If no target page is defined, a `Page Dots` element will be returned.
  * @returns The new element.
@@ -188,6 +188,21 @@ const createPageElement = ({ pageButtonTemplate, pageDotsTemplate }: PageButtons
 };
 
 /**
+ * Updates the CSS and `a11ty` of a page element.
+ * @param element The page element.
+ * @param isCurrentPage Defines if the element points to the current active page.
+ */
+const updatePageElement = (element: HTMLElement, isCurrentPage: boolean) => {
+  if (isCurrentPage) {
+    element.classList.add(CURRENT_CSS_CLASS);
+    element.setAttribute('aria-current', 'page');
+  } else {
+    element.classList.remove(CURRENT_CSS_CLASS);
+    element.removeAttribute('aria-current');
+  }
+};
+
+/**
  * Handles the native pagination buttons (`Previous` & `Next`).
  * @param listInstance The {@link CMSList} instance.
  */
@@ -199,11 +214,11 @@ const handlePaginationButtons = (listInstance: CMSList) => {
 };
 
 /**
- * Handles the native `Page Count` element.
+ * Updates the native `Page Count` element.
  * @param paginationCount The {@link PageCountElement}.
  * @param listInstance The {@link CMSList} instance.
  */
-const handlePaginationCount = (paginationCount: PageCountElement, { currentPage, totalPages }: CMSList) => {
+const updatePaginationCount = (paginationCount: PageCountElement, { currentPage, totalPages }: CMSList) => {
   paginationCount.setAttribute('aria-label', `Page ${currentPage} of ${totalPages}`);
   paginationCount.textContent = `${currentPage} / ${totalPages}`;
 };
