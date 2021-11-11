@@ -1,8 +1,12 @@
 # `cmscombine` Changelog
 
+## [v1.2.2] 11th November 2021
+
+- Updated `cmscore` import.
+
 ## [v1.2.1] 11th November 2021
 
-- Update `cmscore` import.
+- Updated `cmscore` import.
 
 ## [v1.2.0] 11th November 2021
 
