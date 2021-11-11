@@ -1,5 +1,9 @@
 # `cmscombine` Changelog
 
+## [v1.2.1] 11th November 2021
+
+- Update `cmscore` import.
+
 ## [v1.2.0] 11th November 2021
 
 - Removed `fs-cmscombine-element="target"` option as it could potentially create confusions.
