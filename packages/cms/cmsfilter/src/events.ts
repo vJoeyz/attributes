@@ -33,6 +33,7 @@ export const listenListEvents = (filtersInstance: CMSFilters, listInstance: CMSL
   listInstance.once('nestinitialitems').then(async (items: CMSItem[]) => {
     for (const item of items) item.collectProps({ fieldKey, rangeKey, typeKey });
 
-    await filtersInstance.applyFilters();
+    await filtersInstance.applyFilters(true);
+    await listInstance.renderItems(true);
   });
 };
