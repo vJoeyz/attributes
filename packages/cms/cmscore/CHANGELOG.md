@@ -1,5 +1,9 @@
 # `cmscore` Changelog
 
+## [v1.0.24] 11th November 2021
+
+- Fixed rendering issues caused by the `Empty State` not being correctly displayed in some situations.
+
 ## [v1.0.23] 9th November 2021
 
 - Improved Webflow Modules restarting in the `render` workflow.

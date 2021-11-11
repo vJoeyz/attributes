@@ -17,7 +17,7 @@ type AnchorData = [CMSItem, number, CMSItem | undefined];
  * If not, the list will be animated instead.
  */
 export const renderListItems = async (listInstance: CMSList, addingItems = false) => {
-  const { items, itemsPerPage, currentPage, emptyState, restartIx, restartCommerce } = listInstance;
+  const { items, itemsPerPage, currentPage, restartIx, restartCommerce, emptyState: oldEmptyState } = listInstance;
 
   // Collect items and recalculate the total pages
   const itemsToHide: CMSItem[] = [];
@@ -44,8 +44,12 @@ export const renderListItems = async (listInstance: CMSList, addingItems = false
     } else if (typeof currentIndex === 'number') itemsToHide.push(item);
   }
 
+  // Set new properties
   listInstance.visibleItems = visibleItems;
-  listInstance.totalPages = Math.ceil(visibleItems / itemsPerPage);
+  listInstance.totalPages = Math.ceil(visibleItems / itemsPerPage) || 1;
+
+  const newEmptyState = !visibleItems;
+  listInstance.emptyState = newEmptyState;
 
   // Prepare items to show
   const itemsToAnchor: AnchorData[] = [];
@@ -54,8 +58,10 @@ export const renderListItems = async (listInstance: CMSList, addingItems = false
     if (item.currentIndex !== index) itemsToAnchor.push([item, index, itemsToShow[index - 1]]);
   });
 
-  // Hide the list
-  if (!addingItems) await listInstance.displayElement(emptyState ? 'emptyElement' : 'list', false);
+  // Animate the list
+  const animateList = !addingItems || (oldEmptyState && !newEmptyState);
+
+  if (animateList) await listInstance.displayElement(oldEmptyState ? 'emptyElement' : 'list', false);
 
   // Render the items
   await Promise.all([
@@ -87,13 +93,8 @@ export const renderListItems = async (listInstance: CMSList, addingItems = false
     await restartWebflow(modulesToRestart);
   }
 
-  // Show the list
-  if (!addingItems) {
-    const isEmpty = !visibleItems;
-    listInstance.emptyState = isEmpty;
-
-    await listInstance.displayElement(isEmpty ? 'emptyElement' : 'list');
-  }
+  // Animate the list
+  if (animateList) await listInstance.displayElement(newEmptyState ? 'emptyElement' : 'list');
 };
 
 /**
