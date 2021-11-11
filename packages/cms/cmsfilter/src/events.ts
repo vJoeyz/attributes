@@ -1,5 +1,7 @@
 import { ATTRIBUTES } from './constants';
 import { toggleHighlight } from './highlight';
+import { syncFilterKeyResults, updateFilterKeyResults, updateListResults } from './results';
+import { displayFilterElements } from './display';
 
 import type { CMSFilters } from './CMSFilters';
 import type { CMSItem, CMSList } from '$cms/cmscore/src';
@@ -16,7 +18,7 @@ const {
  * @param listInstance The {@link CMSList} instance.
  */
 export const listenListEvents = (filtersInstance: CMSFilters, listInstance: CMSList) => {
-  const { highlightActivated, highlightCSSClass } = filtersInstance;
+  const { highlightResults, highlightCSSClass, showFilterResults, hideEmptyFilters } = filtersInstance;
 
   listInstance.on('shouldcollectprops', (items: CMSItem[]) => {
     for (const item of items) item.collectProps({ fieldKey, rangeKey, typeKey });
@@ -25,9 +27,15 @@ export const listenListEvents = (filtersInstance: CMSFilters, listInstance: CMSL
   listInstance.on('shouldfilter', async () => await filtersInstance.applyFilters(true));
 
   listInstance.on('renderitems', (renderedItems) => {
-    filtersInstance.updateResults();
+    updateListResults(filtersInstance, listInstance);
 
-    if (highlightActivated) for (const item of renderedItems) toggleHighlight(item, highlightCSSClass);
+    syncFilterKeyResults(filtersInstance, listInstance);
+
+    if (hideEmptyFilters) displayFilterElements(filtersInstance);
+
+    if (showFilterResults) updateFilterKeyResults(filtersInstance);
+
+    if (highlightResults) for (const item of renderedItems) toggleHighlight(item, highlightCSSClass);
   });
 
   listInstance.once('nestinitialitems').then(async (items: CMSItem[]) => {

@@ -17,6 +17,7 @@ const {
   reset: { key: resetKey },
   range: { key: rangeKey },
   match: { key: matchKey },
+  hideEmpty: { key: hideEmptyKey, values: hideEmptyValues },
   highlight: { key: highlightKey, values: highlightValues },
 } = ATTRIBUTES;
 
@@ -59,14 +60,17 @@ export const collectFiltersElements = (
  * - The fixed value, if existing.
  * - The highlight mode.
  * @param form The form that contains the filter fields.
- * @returns A `FiltersData` map.
+ *
+ * @returns A {@link FiltersData} Map and a {@link FilterKeyResults} object.
  */
 export const collectFiltersData = (form: HTMLFormElement, highlightAll?: boolean): FiltersData => {
   const filtersData: FiltersData = [];
+  // const filterKeyResults: FilterKeyResults = {};
 
   const elements = form.querySelectorAll<HTMLElement>(getSelector('field'));
 
   for (const element of elements) {
+    // Collect settings
     const rawFilterKeys = element.getAttribute(fieldKey);
     if (!rawFilterKeys) continue;
 
@@ -93,7 +97,8 @@ export const collectFiltersData = (form: HTMLFormElement, highlightAll?: boolean
       }
     }
 
-    const filterData: Omit<FilterData, 'elements'> = {
+    // Collect global data
+    const globalFilterData: Omit<FilterData, 'elements'> = {
       match,
       filterKeys,
       highlight,
@@ -101,23 +106,41 @@ export const collectFiltersData = (form: HTMLFormElement, highlightAll?: boolean
       values: new Set(),
     };
 
+    const globalElementData: Omit<FilterElement, 'element' | 'value' | 'type'> = {
+      resultsCount: 0,
+      mode: elementMode,
+      hidden: false,
+    };
+
+    // Checkbox or Radios
     const checkboxOrRadioField = element.closest<HTMLLabelElement>(`.${checkboxFieldCSSClass}, .${radioFieldCSSClass}`);
 
     if (checkboxOrRadioField) {
       const isCheckbox = element instanceof HTMLInputElement;
+
+      const value = isCheckbox ? 'true' : element.textContent || '';
+
       const fieldElement = isCheckbox ? element : (checkboxOrRadioField.querySelector('input') as HTMLInputElement);
+      const resultsElement = checkboxOrRadioField.querySelector<HTMLElement>(
+        getSelector('element', 'filterResultsCount', { operator: 'prefixed' })
+      );
+
+      const mustHideEmpty = element.getAttribute(hideEmptyKey) === hideEmptyValues.true;
+      const hideEmpty = mustHideEmpty ? checkboxOrRadioField : undefined;
 
       const elementData: FilterElement = {
-        mode: elementMode,
+        ...globalElementData,
+        value,
+        resultsElement,
+        hideEmpty,
         element: fieldElement,
         type: fieldElement.type,
-        value: isCheckbox ? 'true' : element.textContent || '',
       } as const;
 
       if (existingData) existingData.elements.push(elementData);
       else {
         filtersData.push({
-          ...filterData,
+          ...globalFilterData,
           elements: [elementData],
         });
       }
@@ -125,15 +148,21 @@ export const collectFiltersData = (form: HTMLFormElement, highlightAll?: boolean
       continue;
     }
 
+    // Other Form Fields
     if (isFormField(element) && element.type !== 'submit') {
       const { type, value } = element;
 
-      const elementData: FilterElement = { element, type, value, mode: elementMode };
+      const elementData: FilterElement = {
+        ...globalElementData,
+        element,
+        type,
+        value,
+      };
 
       if (existingData) existingData.elements.push(elementData);
       else {
         filtersData.push({
-          ...filterData,
+          ...globalFilterData,
           elements: [elementData],
         });
       }

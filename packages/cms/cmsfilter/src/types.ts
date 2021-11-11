@@ -17,6 +17,10 @@ export interface FilterElement {
   element: FormField;
   value: string;
   type: string;
+  resultsCount: number;
+  resultsElement?: HTMLElement | null;
+  hideEmpty?: HTMLElement;
+  hidden: boolean;
   mode?: ElementMode;
 }
 

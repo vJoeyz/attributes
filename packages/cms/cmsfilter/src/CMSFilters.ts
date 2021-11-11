@@ -5,6 +5,7 @@ import { handleFilterInput } from './input';
 import { ATTRIBUTES } from './constants';
 import { isFormField, sameValues } from '@finsweet/ts-utils';
 import { collectFiltersData, collectFiltersElements } from './collect';
+import { updateListResults } from './results';
 
 import type { FormBlockElement } from '@finsweet/ts-utils';
 import type { CMSList } from '$cms/cmscore/src';
@@ -21,22 +22,75 @@ const {
  * Instance of a `cmsfilter` form that contains all the filter inputs.
  */
 export class CMSFilters {
+  /**
+   * The <form> element that holds all filters.
+   */
   public readonly form;
+
+  /**
+   * An element where the amount of matching results is displayed.
+   */
   public readonly resultsElement;
+
+  /**
+   * Reset buttons settings.
+   */
   public readonly resetButtonsData;
+
+  /**
+   * A `<input type="submit">` button.
+   */
   public readonly submitButton;
+
+  /**
+   * The filters data.
+   */
   public readonly filtersData;
 
-  public readonly highlightCSSClass;
-  public readonly highlightActivated;
+  /**
+   * Defines if any filter element that must be hidden when empty exists.
+   */
+  public readonly hideEmptyFilters;
 
+  /**
+   * Defines if the filters query must be printed in the Address bar.
+   */
   private readonly showQueryParams;
 
+  /**
+   * Defines if any filter element has a results display element.
+   */
+  public readonly showFilterResults;
+
+  /**
+   * Defines if any filter element must highlight its matching results.
+   */
+  public readonly highlightResults;
+
+  /**
+   * The CSS class used to highlight elements in the results.
+   */
+  public readonly highlightCSSClass;
+
+  /**
+   * Defines if any filter is currently active.
+   */
   private filtersActive = false;
+
+  /**
+   * Defines a {@link CMSTags} instance.
+   */
   private tagsInstance?: CMSTags;
 
   constructor(
+    /**
+     * Defines the `Form Block` element that hold all filters.
+     */
     public readonly formBlock: FormBlockElement,
+
+    /**
+     * Defines a {@link CMSList} instance.
+     */
     public readonly listInstance: CMSList,
     {
       resultsElement,
@@ -59,9 +113,15 @@ export class CMSFilters {
 
     this.showQueryParams = showQueryParams;
 
-    this.filtersData = collectFiltersData(form, highlightAll);
+    const filtersData = collectFiltersData(form, highlightAll);
 
-    this.highlightActivated = this.filtersData.some(({ highlight }) => highlight);
+    this.filtersData = filtersData;
+
+    this.showFilterResults = filtersData.some(({ elements }) => elements.some(({ resultsElement }) => resultsElement));
+
+    this.hideEmptyFilters = filtersData.some(({ elements }) => elements.some(({ hideEmpty }) => hideEmpty));
+
+    this.highlightResults = filtersData.some(({ highlight }) => highlight);
     this.highlightCSSClass = highlightCSSClass;
 
     this.init();
@@ -71,13 +131,11 @@ export class CMSFilters {
    * Inits the instance.
    */
   private async init() {
-    const {
-      listInstance: { items },
-    } = this;
+    const { listInstance } = this;
 
-    for (const item of items) item.collectProps({ fieldKey, rangeKey, typeKey });
+    for (const item of listInstance.items) item.collectProps({ fieldKey, rangeKey, typeKey });
 
-    this.updateResults();
+    updateListResults(this, listInstance);
 
     const queryParamsValid = getQueryParams(this);
 
@@ -136,25 +194,13 @@ export class CMSFilters {
   }
 
   /**
-   * Updates the displayed results on the `resultsElement`.
-   */
-  public updateResults() {
-    const {
-      resultsElement,
-      listInstance: { visibleItems },
-    } = this;
-
-    if (resultsElement) resultsElement.textContent = `${visibleItems}`;
-  }
-
-  /**
    * Mutates each `CMSItem`'s state to define if it should be displayed or not.
    *
    * @param addingItems Defines if new items are being added.
    * In that case, the rendering responsibilities are handled by another controller.
    */
   public async applyFilters(addingItems?: boolean): Promise<void> {
-    const { listInstance, filtersData, filtersActive, highlightActivated } = this;
+    const { listInstance, filtersData, filtersActive, highlightResults: highlightActivated } = this;
     const { items, currentPage } = listInstance;
 
     // Abort if no filtering is needed
@@ -166,7 +212,7 @@ export class CMSFilters {
 
     // Define show/hide of each item based on the match
     for (const item of items) {
-      item.mustShow = assessFilter(item, filtersData, filtersAreEmpty, highlightActivated);
+      item.valid = assessFilter(item, filtersData, filtersAreEmpty, highlightActivated);
     }
 
     // Render the items

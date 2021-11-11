@@ -27,6 +27,11 @@ export const ATTRIBUTES = {
       resultsCount: generateDynamicAttibuteValue('results-count'),
 
       /**
+       * Defines an element that will display the existing results for a specific filter.
+       */
+      filterResultsCount: generateDynamicAttibuteValue('filter-results-count'),
+
+      /**
        * Defines an element where to display the total items of the list.
        */
       itemsCount: generateDynamicAttibuteValue('items-count'),
@@ -102,6 +107,11 @@ export const ATTRIBUTES = {
    * Defines if the filter query params should be displayed on the URL.
    */
   showQuery: { key: `${ATTRIBUTES_PREFIX}-showquery`, values: { true: 'true' } },
+
+  /**
+   * Defines if a filter element should be hidden when there are no results for it.
+   */
+  hideEmpty: { key: `${ATTRIBUTES_PREFIX}-hideempty`, values: { true: 'true' } },
 
   /**
    * Defines if the filter query should highlight the matching item props.
