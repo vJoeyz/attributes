@@ -2,15 +2,15 @@ import type { CMSItem, CMSList } from '$cms/cmscore/src';
 import type { SortingDirection } from './types';
 
 /**
- * Sorts the items of a {@link CMSList}.
+ * Sorts the items of a `CMSList`.
  * **Important:** This method mutates the {@link CMSList.items} property.
  *
- * @param listInstance The `CMSList` instance.
+ * @param listInstance The {@link CMSList} instance.
  * @param params.originalItemsOrder The original order of the items.
  * @param params.direction The direction to sort.
  * @param params.sortKey The key of the field to use as sorting reference.
  * @param params.addingItems Defines if new items are being added.
- * In that case, the rendering responsibilities are handled by another controller.
+ * In that case, the rendering responsibilities are handled by the {@link CMSList} controller.
  */
 export const sortListItems = async (
   listInstance: CMSList,
@@ -30,8 +30,8 @@ export const sortListItems = async (
 
   const validSortKey = direction && sortKey && items.some(({ props }) => sortKey in props);
 
-  // Sort items by the key and value type
-  if (validSortKey) {
+  if (!validSortKey) listInstance.items = [...originalItemsOrder];
+  else {
     items.sort((firstItem, secondItem) => {
       const firstItemProp = firstItem.props[sortKey];
       const secondItemProp = secondItem.props[sortKey];
@@ -58,8 +58,6 @@ export const sortListItems = async (
       return secondItemValue.localeCompare(firstItemValue);
     });
   }
-  // Return to original order
-  else listInstance.items = [...originalItemsOrder];
 
   // Render the new order
   if (!addingItems) {

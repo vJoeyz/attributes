@@ -1,8 +1,8 @@
 import { sortListItems } from './sort';
 import { ATTRIBUTES } from './constants';
 
-import type { CSSClasses, SortingDirection } from './types';
-import type { CMSList } from '$cms/cmscore/src';
+import type { CSSClasses, SortingDirection, SortItemsCallback } from './types';
+import type { CMSItem, CMSList } from '$cms/cmscore/src';
 
 // Types
 type ButtonsState = Map<HTMLElement, { sortKey: string; direction?: SortingDirection }>;
@@ -13,14 +13,15 @@ type ButtonsState = Map<HTMLElement, { sortKey: string; direction?: SortingDirec
  * @param listInstance The {@link CMSList} instance.
  * @param cssClasses The state CSS classes (`asc` and `desc`).
  */
-export const initButtons = (buttons: NodeListOf<HTMLElement>, listInstance: CMSList, cssClasses: CSSClasses) => {
-  // Store the original CMS Order
-  const { items } = listInstance;
-
-  const originalItemsOrder = [...items];
-
+export const initButtons = (
+  buttons: NodeListOf<HTMLElement>,
+  listInstance: CMSList,
+  originalItemsOrder: CMSItem[],
+  cssClasses: CSSClasses
+) => {
   const buttonsState: ButtonsState = new Map();
 
+  let sorting = false;
   let activeButton: HTMLElement | undefined;
   let direction: SortingDirection | undefined;
   let sortKey: string;
@@ -30,7 +31,7 @@ export const initButtons = (buttons: NodeListOf<HTMLElement>, listInstance: CMSL
    * @param addingItems Defines if new items are being added.
    * In that case, the rendering responsibilities are handled by another controller.
    */
-  const sortItems = async (addingItems?: boolean) => {
+  const sortItems: SortItemsCallback = async (addingItems) => {
     await sortListItems(listInstance, { originalItemsOrder, sortKey, direction, addingItems });
   };
 
@@ -40,8 +41,15 @@ export const initButtons = (buttons: NodeListOf<HTMLElement>, listInstance: CMSL
     button.addEventListener('click', async (e) => {
       e.preventDefault();
 
+      if (sorting) return;
+
+      sorting = true;
+
       const buttonState = buttonsState.get(button);
-      if (!buttonState) return;
+      if (!buttonState) {
+        sorting = false;
+        return;
+      }
 
       sortKey = buttonState.sortKey;
       direction = getNextDirection(buttonState.direction);
@@ -53,6 +61,8 @@ export const initButtons = (buttons: NodeListOf<HTMLElement>, listInstance: CMSL
       updateButton(button, direction, buttonsState, cssClasses);
 
       await sortItems();
+
+      sorting = false;
     });
   }
 

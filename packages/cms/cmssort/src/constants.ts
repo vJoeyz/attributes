@@ -15,6 +15,11 @@ export const ATTRIBUTES = {
        * Defines the `Previous` placeholder target.
        */
       trigger: generateDynamicAttibuteValue('trigger'),
+
+      /**
+       * Defines a Dropdown label.
+       */
+      dropdownLabel: generateDynamicAttibuteValue('dropdown-label'),
     },
   },
 

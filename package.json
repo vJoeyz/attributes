@@ -61,7 +61,7 @@
     "typescript": "^4.4.4"
   },
   "dependencies": {
-    "@finsweet/ts-utils": "^0.23.4",
+    "@finsweet/ts-utils": "^0.24.1",
     "emittery": "^0.10.0",
     "just-debounce": "^1.1.0",
     "just-throttle": "^4.0.0"

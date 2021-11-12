@@ -1,6 +1,7 @@
 import { sortListItems } from './sort';
 
 import type { CMSItem, CMSList } from '$cms/cmscore/src';
+import type { SortingDirection, SortItemsCallback } from './types';
 
 /**
  * Inits sorting on an `HTMLSelectElement`.
@@ -8,7 +9,7 @@ import type { CMSItem, CMSList } from '$cms/cmscore/src';
  * @param listInstance The {@link CMSList} instance.
  * @param originalItemsOrder The stored original order of the items.
  */
-export const initHTMLSelect = (
+export const initHTMLSelect = async (
   selectElement: HTMLSelectElement,
   listInstance: CMSList,
   originalItemsOrder: CMSItem[]
@@ -17,20 +18,25 @@ export const initHTMLSelect = (
   const form = selectElement.closest('form');
   form?.addEventListener('submit', handleFormSubmit);
 
-  let sortKey: string;
-  let direction: 'asc' | 'desc';
+  let sorting = false;
+  let sortKey = selectElement.value;
+  let direction: SortingDirection;
 
   /**
    * Sorts the items based on the current selected `sortKey` and `direction`.
    * @param addingItems Defines if new items are being added.
    * In that case, the rendering responsibilities are handled by another controller.
    */
-  const sortItems = async (addingItems?: boolean) => {
+  const sortItems: SortItemsCallback = async (addingItems) => {
     await sortListItems(listInstance, { originalItemsOrder, direction, sortKey, addingItems });
   };
 
   // Store the original CMS Order
   selectElement.addEventListener('change', async () => {
+    if (sorting) return;
+
+    sorting = true;
+
     const { value } = selectElement;
 
     if (value.endsWith('-asc')) {
@@ -44,10 +50,13 @@ export const initHTMLSelect = (
       sortKey = value;
     }
 
-    direction = value.endsWith('-desc') ? 'desc' : 'asc';
-
     await sortItems();
+
+    sorting = false;
   });
+
+  // Sort items if a sortKey exists on page load
+  if (sortKey) await sortItems();
 
   return sortItems;
 };

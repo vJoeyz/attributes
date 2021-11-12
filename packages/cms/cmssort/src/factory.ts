@@ -1,10 +1,14 @@
 import { ATTRIBUTES, DEFAULT_ASC_CLASS, DEFAULT_DESC_CLASS, getSelector } from './constants';
+import { DROPDOWN_CSS_CLASSES } from '@finsweet/ts-utils';
 import { addListAnimation } from '$cms/utils/animation';
+import { listenListEvents } from './events';
 import { initHTMLSelect } from './select';
+import { initDropdown } from './dropdown';
 import { initButtons } from './buttons';
 
 import type { CSSClasses } from './types';
 import type { CMSList } from '$cms/cmscore/src';
+import type { Dropdown } from '@finsweet/ts-utils';
 
 // Constants destructuring
 const {
@@ -42,23 +46,22 @@ export const initListSorting = async (listInstance: CMSList) => {
     desc: listInstance.getAttribute(descClassKey) || DEFAULT_DESC_CLASS,
   };
 
-  // Init mode
-  const [firstTrigger] = triggers;
-
+  // Store original items order
   const originalItemsOrder = [...items];
 
-  const sortItems =
-    firstTrigger instanceof HTMLSelectElement
-      ? initHTMLSelect(firstTrigger, listInstance, originalItemsOrder)
-      : initButtons(triggers, listInstance, cssClasses);
+  // Init mode
+  const [firstTrigger] = triggers;
+  const isSelect = firstTrigger instanceof HTMLSelectElement;
+  const isDropdown = firstTrigger.closest<Dropdown>(`.${DROPDOWN_CSS_CLASSES.dropdown}`);
 
-  listInstance.on('shouldcollectprops', async (newItems) => {
-    for (const item of newItems) item.collectProps({ fieldKey, typeKey });
-  });
+  const sortItems = isSelect
+    ? await initHTMLSelect(firstTrigger, listInstance, originalItemsOrder)
+    : isDropdown
+    ? initDropdown(isDropdown, listInstance, originalItemsOrder)
+    : initButtons(triggers, listInstance, originalItemsOrder, cssClasses);
 
-  listInstance.on('shouldsort', async (newItems) => {
-    originalItemsOrder.push(...newItems);
+  if (!sortItems) return;
 
-    await sortItems(true);
-  });
+  // Listen events
+  listenListEvents(listInstance, originalItemsOrder, sortItems);
 };
