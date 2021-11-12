@@ -9,7 +9,7 @@ import {
 } from '@finsweet/ts-utils';
 
 import type { FormBlockElement } from '@finsweet/ts-utils';
-import type { ElementMode, FilterData, FilterElement, FilterMode, FiltersData, ResetButtonsData } from './types';
+import type { FilterData, FilterElement, FiltersData, ResetButtonsData } from './types';
 
 // Constants
 const {
@@ -80,14 +80,15 @@ export const collectFiltersData = (form: HTMLFormElement, highlightAll?: boolean
     const existingData = filtersData.find((data) => sameValues(filterKeys, data.filterKeys));
 
     const rawMatch = element.getAttribute(matchKey);
-    const rawMode = element.getAttribute(rangeKey);
     const rawHighlight = element.getAttribute(highlightKey);
 
     const match = isKeyOf(rawMatch, MATCHES) ? rawMatch : undefined;
     const highlight = highlightAll || rawHighlight === highlightValues.true;
 
-    let filterMode: FilterMode | undefined;
-    let elementMode: ElementMode | undefined;
+    const rawMode = element.getAttribute(rangeKey);
+
+    let filterMode: FilterData['mode'] | undefined;
+    let elementMode: FilterElement['mode'] | undefined;
 
     for (const [key, value] of getObjectEntries(MODES)) {
       if (isKeyOf(rawMode, value)) {
@@ -149,23 +150,23 @@ export const collectFiltersData = (form: HTMLFormElement, highlightAll?: boolean
     }
 
     // Other Form Fields
-    if (isFormField(element) && element.type !== 'submit') {
-      const { type, value } = element;
+    if (!isFormField(element) || element.type === 'submit') continue;
 
-      const elementData: FilterElement = {
-        ...globalElementData,
-        element,
-        type,
-        value,
-      };
+    const { type, value } = element;
 
-      if (existingData) existingData.elements.push(elementData);
-      else {
-        filtersData.push({
-          ...globalFilterData,
-          elements: [elementData],
-        });
-      }
+    const elementData: FilterElement = {
+      ...globalElementData,
+      element,
+      type,
+      value,
+    };
+
+    if (existingData) existingData.elements.push(elementData);
+    else {
+      filtersData.push({
+        ...globalFilterData,
+        elements: [elementData],
+      });
     }
   }
 

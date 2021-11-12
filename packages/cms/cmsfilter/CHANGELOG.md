@@ -1,5 +1,10 @@
 # `cmsfilter` Changelog
 
+## [v1.1.1] 12th November 2021
+
+- Fixed `filter-results-count` and `hideempty` not being applied initially on page load.
+- Added support to using `filter-results-count` and `hideempty` even when users have added duplicated values by mistake.
+
 ## [v1.1.0] 11th November 2021
 
 - Added new `fs-cmsfilter-element="filter-results-count"` attribute.

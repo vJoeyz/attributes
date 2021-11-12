@@ -36,7 +36,7 @@ export const syncFilterKeyResults = ({ filtersData }: CMSFilters, { validItems }
   // Memoize filters data
   const data: {
     [filterKey: string]: {
-      [value: string]: FilterElement;
+      [value: string]: FilterElement[];
     };
   } = {};
 
@@ -49,7 +49,8 @@ export const syncFilterKeyResults = ({ filtersData }: CMSFilters, { validItems }
 
     for (const element of elements) {
       element.resultsCount = 0;
-      data[filterKey][element.value] ||= element;
+      data[filterKey][element.value] ||= [];
+      data[filterKey][element.value].push(element);
     }
   }
 
@@ -62,10 +63,10 @@ export const syncFilterKeyResults = ({ filtersData }: CMSFilters, { validItems }
       const { values } = props[filterKey];
 
       for (const value of values) {
-        const filterElement = filterKeyData[value];
-        if (!filterElement) continue;
+        const filterElements = filterKeyData[value];
+        if (!filterElements) continue;
 
-        filterElement.resultsCount += 1;
+        for (const filterElement of filterElements) filterElement.resultsCount += 1;
       }
     }
   }

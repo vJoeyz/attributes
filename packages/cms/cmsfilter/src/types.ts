@@ -5,8 +5,8 @@ import type { MATCHES, MODES } from './constants';
  * Main
  */
 type Modes = typeof MODES;
-export type FilterMode = keyof Modes;
-export type ElementMode = Modes[FilterMode][number];
+type FilterMode = keyof Modes;
+type ElementMode = Modes[FilterMode][number];
 
 type Match = typeof MATCHES[number];
 

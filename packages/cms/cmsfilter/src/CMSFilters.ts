@@ -5,7 +5,8 @@ import { handleFilterInput } from './input';
 import { ATTRIBUTES } from './constants';
 import { isFormField, sameValues } from '@finsweet/ts-utils';
 import { collectFiltersData, collectFiltersElements } from './collect';
-import { updateListResults } from './results';
+import { syncFilterKeyResults, updateFilterKeyResults, updateListResults } from './results';
+import { displayFilterElements } from './display';
 
 import type { FormBlockElement } from '@finsweet/ts-utils';
 import type { CMSList } from '$cms/cmscore/src';
@@ -131,11 +132,17 @@ export class CMSFilters {
    * Inits the instance.
    */
   private async init() {
-    const { listInstance } = this;
+    const { listInstance, hideEmptyFilters, showFilterResults } = this;
 
     for (const item of listInstance.items) item.collectProps({ fieldKey, rangeKey, typeKey });
 
     updateListResults(this, listInstance);
+
+    syncFilterKeyResults(this, listInstance);
+
+    if (hideEmptyFilters) displayFilterElements(this);
+
+    if (showFilterResults) updateFilterKeyResults(this);
 
     const queryParamsValid = getQueryParams(this);
 
