@@ -1,5 +1,9 @@
 # `cmsfilter` Changelog
 
+## [v1.1.2] 12th November 2021
+
+- Added support to parse numbers that contain symbols like `$` or `,`.
+
 ## [v1.1.1] 12th November 2021
 
 - Fixed `filter-results-count` and `hideempty` not being applied initially on page load.

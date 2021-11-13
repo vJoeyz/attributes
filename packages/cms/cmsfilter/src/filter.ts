@@ -1,6 +1,7 @@
 import { clearFormField, isNotEmpty, sameValues } from '@finsweet/ts-utils';
 import { clearHighlight } from './highlight';
 import { normalizeDate } from './dates';
+import { normalizeNumber } from './numbers';
 
 import type { CMSItem } from '$cms/cmscore/src';
 import type { FilterData, FilterElement, FiltersData } from './types';
@@ -132,7 +133,7 @@ const checkFilterValidity = (
  */
 const checkRangeValidity = (value: string, from: string, to: string, type?: string | null) => {
   const [filterValue, propFrom, propTo] = [value, from, to].map((string) =>
-    type === 'date' ? normalizeDate(string) : parseFloat(string)
+    type === 'date' ? normalizeDate(string) : normalizeNumber(string)
   );
 
   if (!from) return filterValue <= propTo;
