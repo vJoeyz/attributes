@@ -1,0 +1,3 @@
+# `rangeslider` Attribute
+
+Attribute description.
