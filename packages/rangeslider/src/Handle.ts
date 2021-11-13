@@ -64,7 +64,7 @@ export class Handle extends Emittery<HandleEvents> {
     const { element, inputElement } = this;
 
     element.addEventListener('keydown', (e) => this.handleKeyDown(e));
-    inputElement?.addEventListener('input', () => this.handleInput());
+    inputElement?.addEventListener('change', () => this.handleInputChange());
   }
 
   private handleKeyDown(e: KeyboardEvent) {
@@ -81,7 +81,7 @@ export class Handle extends Emittery<HandleEvents> {
     else this.setValue(currentValue - step);
   }
 
-  private handleInput() {
+  private handleInputChange() {
     const { inputElement, index, minRange, maxRange, step } = this;
     if (!inputElement) return;
 
