@@ -117,13 +117,13 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
 
   // Handle events
   handle1.on('update', (newValue) => {
-    handle2?.setConstraints(newValue + 1, maxRange);
+    handle2?.setConstraints(newValue + step, maxRange);
     fill?.update();
   });
 
   if (handle2) {
     handle2.on('update', (newValue) => {
-      handle1.setConstraints(minRange, newValue - 1);
+      handle1.setConstraints(minRange, newValue - step);
       fill?.update();
     });
   }

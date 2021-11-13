@@ -1,3 +1,3 @@
 # `rangeslider` Attribute
 
-Attribute description.
+Powerful range slider.

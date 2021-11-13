@@ -1,16 +1,18 @@
-import { setFormFieldValue } from '@finsweet/ts-utils';
 import Emittery from 'emittery';
+import { setFormFieldValue } from '@finsweet/ts-utils';
 import { HANDLE_INCREMENT_KEYS, HANDLE_KEYS } from './constants';
+import { adjustValueToStep } from './values';
 
 interface HandleEvents {
   update: number;
 }
 
 export class Handle extends Emittery<HandleEvents> {
-  private readonly inputElement;
+  private readonly index;
   private readonly minRange;
   private readonly maxRange;
   private readonly step;
+  private readonly inputElement;
 
   private trackWidth;
 
@@ -21,12 +23,20 @@ export class Handle extends Emittery<HandleEvents> {
   constructor(
     public readonly element: HTMLElement,
     {
+      index,
       minRange,
       maxRange,
       trackWidth,
       step,
       inputElement,
-    }: { minRange: number; maxRange: number; trackWidth: number; step: number; inputElement?: HTMLInputElement }
+    }: {
+      index: number;
+      minRange: number;
+      maxRange: number;
+      trackWidth: number;
+      step: number;
+      inputElement?: HTMLInputElement;
+    }
   ) {
     super();
 
@@ -37,6 +47,7 @@ export class Handle extends Emittery<HandleEvents> {
 
     this.inputElement = inputElement;
 
+    this.index = index;
     this.minRange = minRange;
     this.maxRange = maxRange;
     this.step = step;
@@ -50,28 +61,49 @@ export class Handle extends Emittery<HandleEvents> {
   }
 
   private listenEvents() {
-    const { element, step } = this;
+    const { element, inputElement } = this;
 
-    element.onkeydown = (e) => {
-      const { key } = e;
+    element.addEventListener('keydown', (e) => this.handleKeyDown(e));
+    inputElement?.addEventListener('input', () => this.handleInput());
+  }
 
-      if (!HANDLE_KEYS.includes(key)) return;
+  private handleKeyDown(e: KeyboardEvent) {
+    const { step } = this;
+    const { key } = e;
 
-      e.preventDefault();
+    if (!HANDLE_KEYS.includes(key)) return;
 
-      const currentValue = this.getValue();
+    e.preventDefault();
 
-      if (HANDLE_INCREMENT_KEYS.includes(key)) this.setValue(currentValue + step);
-      else this.setValue(currentValue - step);
-    };
+    const currentValue = this.getValue();
+
+    if (HANDLE_INCREMENT_KEYS.includes(key)) this.setValue(currentValue + step);
+    else this.setValue(currentValue - step);
+  }
+
+  private handleInput() {
+    const { inputElement, index, minRange, maxRange, step } = this;
+    if (!inputElement) return;
+
+    const { value } = inputElement;
+
+    const numericValue = parseFloat(value);
+
+    if (numericValue) {
+      this.setValue(adjustValueToStep(numericValue, step));
+
+      return;
+    }
+
+    if (index === 0) this.setValue(index === 0 ? minRange : maxRange);
   }
 
   public getValue = (): number => this.currentValue;
 
   public setValue(newValue: number): void {
-    const { element, trackWidth, minRange, minValue, maxRange, maxValue, inputElement } = this;
+    const { currentValue, element, trackWidth, minRange, minValue, maxRange, maxValue, inputElement } = this;
 
-    if (newValue < minValue || newValue > maxValue) return;
+    if (currentValue === newValue || newValue < minValue || newValue > maxValue) return;
 
     const left = ((newValue - minRange) * trackWidth) / (maxRange - minRange);
 

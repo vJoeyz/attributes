@@ -37,7 +37,7 @@ export const createHandleInstances = (
         return;
       }
 
-      const handle = new Handle(handleElement, { minRange, maxRange, trackWidth, step, inputElement });
+      const handle = new Handle(handleElement, { index, minRange, maxRange, trackWidth, step, inputElement });
 
       handle.setValue(startValue);
 
