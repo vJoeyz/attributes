@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-rangeslider",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.0",
   "description": "Description.",
   "main": "rangeslider.js",
   "files": [

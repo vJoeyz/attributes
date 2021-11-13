@@ -25,11 +25,6 @@ export const ATTRIBUTES = {
        * Defines a handle of the slider.
        */
       handle: 'handle',
-
-      /**
-       * Defines an input of the slider.
-       */
-      input: 'input',
     },
   },
 

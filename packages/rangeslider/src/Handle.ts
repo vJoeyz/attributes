@@ -1,3 +1,4 @@
+import { setFormFieldValue } from '@finsweet/ts-utils';
 import Emittery from 'emittery';
 import { HANDLE_INCREMENT_KEYS, HANDLE_KEYS } from './constants';
 
@@ -6,25 +7,35 @@ interface HandleEvents {
 }
 
 export class Handle extends Emittery<HandleEvents> {
-  private readonly minRange: number;
-  private readonly maxRange: number;
-  private readonly step: number;
+  private readonly inputElement;
+  private readonly minRange;
+  private readonly maxRange;
+  private readonly step;
 
-  private trackWidth: number;
+  private trackWidth;
 
   private currentValue = 0;
-  private minValue: number;
-  private maxValue: number;
+  private minValue;
+  private maxValue;
 
   constructor(
     public readonly element: HTMLElement,
-    { minRange, maxRange, trackWidth, step }: { minRange: number; maxRange: number; trackWidth: number; step: number }
+    {
+      minRange,
+      maxRange,
+      trackWidth,
+      step,
+      inputElement,
+    }: { minRange: number; maxRange: number; trackWidth: number; step: number; inputElement?: HTMLInputElement }
   ) {
     super();
 
     element.setAttribute('role', 'slider');
     element.setAttribute('tabindex', '0');
+    element.style.top = `50%`;
     element.style.transform = 'translate(-50%, -50%)';
+
+    this.inputElement = inputElement;
 
     this.minRange = minRange;
     this.maxRange = maxRange;
@@ -58,18 +69,19 @@ export class Handle extends Emittery<HandleEvents> {
   public getValue = (): number => this.currentValue;
 
   public setValue(newValue: number): void {
-    const { element, trackWidth, minRange, minValue, maxRange, maxValue } = this;
+    const { element, trackWidth, minRange, minValue, maxRange, maxValue, inputElement } = this;
 
     if (newValue < minValue || newValue > maxValue) return;
 
     const left = ((newValue - minRange) * trackWidth) / (maxRange - minRange);
 
-    element.style.top = `50%`;
+    this.currentValue = newValue;
+
     element.style.left = `${left}px`;
 
     element.setAttribute('aria-valuenow', `${newValue}`);
 
-    this.currentValue = newValue;
+    if (inputElement) setFormFieldValue(inputElement, `${newValue}`);
 
     this.emit('update', newValue);
   }

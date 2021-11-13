@@ -1,4 +1,3 @@
-import { setFormFieldValue } from '@finsweet/ts-utils';
 import { getSelector } from './constants';
 import { createHandleInstances } from './factory';
 import { Fill } from './Fill';
@@ -120,18 +119,12 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
   handle1.on('update', (newValue) => {
     handle2?.setConstraints(newValue + 1, maxRange);
     fill?.update();
-
-    const [inputElement] = inputElements;
-    if (inputElement) setFormFieldValue(inputElement, `${newValue}`);
   });
 
   if (handle2) {
     handle2.on('update', (newValue) => {
       handle1.setConstraints(minRange, newValue - 1);
       fill?.update();
-
-      const [, inputElement] = inputElements;
-      if (inputElement) setFormFieldValue(inputElement, `${newValue}`);
     });
   }
 };

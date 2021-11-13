@@ -25,6 +25,7 @@ export const createHandleInstances = (
     .slice(0, 2)
     .map((handleElement, index) => {
       const startValue = parseFloat(handleElement.getAttribute(ATTRIBUTES.start.key) || `${index}`);
+      const inputElement = inputElements[index];
 
       if (startValue < minRange) {
         Debug.alert("The start value can't be less than the min.", 'error');
@@ -36,11 +37,10 @@ export const createHandleInstances = (
         return;
       }
 
-      const handle = new Handle(handleElement, { minRange, maxRange, trackWidth, step });
+      const handle = new Handle(handleElement, { minRange, maxRange, trackWidth, step, inputElement });
 
       handle.setValue(startValue);
 
-      const inputElement = inputElements[index];
       if (inputElement) setFormFieldValue(inputElement, `${startValue}`);
 
       return handle;
