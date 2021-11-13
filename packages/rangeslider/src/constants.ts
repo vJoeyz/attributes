@@ -25,6 +25,11 @@ export const ATTRIBUTES = {
        * Defines a handle of the slider.
        */
       handle: 'handle',
+
+      /**
+       * Defines an element to display a Handle's value.
+       */
+      displayValue: 'display-value',
     },
   },
 

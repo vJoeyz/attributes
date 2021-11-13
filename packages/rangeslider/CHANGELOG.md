@@ -1,5 +1,9 @@
 # `rangeslider` Changelog
 
+## [v1.0.0.beta-4] 13th November 2021
+
+- Added `fs-rangeslider-element="display-value"` attribute.
+
 ## [v1.0.0.beta-3] 13th November 2021
 
 - Fixed `Handle.handleInputChange` issue.

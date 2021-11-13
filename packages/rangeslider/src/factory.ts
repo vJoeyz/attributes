@@ -16,6 +16,7 @@ import type { HandleInstances } from './types';
 export const createHandleInstances = (
   handleElements: HTMLElement[],
   inputElements: HTMLInputElement[],
+  displayValueElements: HTMLElement[],
   minRange: number,
   maxRange: number,
   trackWidth: number,
@@ -24,8 +25,12 @@ export const createHandleInstances = (
   const handles = handleElements
     .slice(0, 2)
     .map((handleElement, index) => {
-      const startValue = parseFloat(handleElement.getAttribute(ATTRIBUTES.start.key) || `${index}`);
+      const startValue = parseFloat(
+        handleElement.getAttribute(ATTRIBUTES.start.key) || `${index === 0 ? minRange : maxRange}`
+      );
+
       const inputElement = inputElements[index];
+      const displayValueElement = displayValueElements[index];
 
       if (startValue < minRange) {
         Debug.alert("The start value can't be less than the min.", 'error');
@@ -37,7 +42,15 @@ export const createHandleInstances = (
         return;
       }
 
-      const handle = new Handle(handleElement, { index, minRange, maxRange, trackWidth, step, inputElement });
+      const handle = new Handle(handleElement, {
+        index,
+        minRange,
+        maxRange,
+        trackWidth,
+        step,
+        inputElement,
+        displayValueElement,
+      });
 
       handle.setValue(startValue);
 

@@ -12,7 +12,9 @@ export class Handle extends Emittery<HandleEvents> {
   private readonly minRange;
   private readonly maxRange;
   private readonly step;
+
   private readonly inputElement;
+  private readonly displayValueElement;
 
   private trackWidth;
 
@@ -29,6 +31,7 @@ export class Handle extends Emittery<HandleEvents> {
       trackWidth,
       step,
       inputElement,
+      displayValueElement,
     }: {
       index: number;
       minRange: number;
@@ -36,6 +39,7 @@ export class Handle extends Emittery<HandleEvents> {
       trackWidth: number;
       step: number;
       inputElement?: HTMLInputElement;
+      displayValueElement?: HTMLElement;
     }
   ) {
     super();
@@ -46,6 +50,7 @@ export class Handle extends Emittery<HandleEvents> {
     element.style.transform = 'translate(-50%, -50%)';
 
     this.inputElement = inputElement;
+    this.displayValueElement = displayValueElement;
 
     this.index = index;
     this.minRange = minRange;
@@ -95,13 +100,23 @@ export class Handle extends Emittery<HandleEvents> {
       return;
     }
 
-    this.setValue(index === 0 ? minRange : maxRange);
+    this.setValue(index === 0 ? minRange : maxRange, false);
   }
 
   public getValue = (): number => this.currentValue;
 
-  public setValue(newValue: number): void {
-    const { currentValue, element, trackWidth, minRange, minValue, maxRange, maxValue, inputElement } = this;
+  public setValue(newValue: number, updateInputElement = true): void {
+    const {
+      currentValue,
+      element,
+      trackWidth,
+      minRange,
+      minValue,
+      maxRange,
+      maxValue,
+      inputElement,
+      displayValueElement,
+    } = this;
 
     if (currentValue === newValue || newValue < minValue || newValue > maxValue) return;
 
@@ -111,9 +126,13 @@ export class Handle extends Emittery<HandleEvents> {
 
     element.style.left = `${left}px`;
 
-    element.setAttribute('aria-valuenow', `${newValue}`);
+    const stringValue = `${newValue}`;
 
-    if (inputElement) setFormFieldValue(inputElement, `${newValue}`);
+    element.setAttribute('aria-valuenow', stringValue);
+
+    if (displayValueElement) displayValueElement.textContent = stringValue;
+
+    if (inputElement && updateInputElement) setFormFieldValue(inputElement, stringValue);
 
     this.emit('update', newValue);
   }

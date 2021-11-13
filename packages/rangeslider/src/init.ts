@@ -27,10 +27,28 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
   const settings = getSettings(wrapperElement);
   if (!settings) return;
 
-  const { fillElement, handleElements, inputElements, maxRange, minRange, step, totalRange, trackElement, trackWidth } =
-    settings;
+  const {
+    fillElement,
+    handleElements,
+    inputElements,
+    displayValueElements,
+    maxRange,
+    minRange,
+    step,
+    totalRange,
+    trackElement,
+    trackWidth,
+  } = settings;
 
-  const handles = createHandleInstances(handleElements, inputElements, minRange, maxRange, trackWidth, step);
+  const handles = createHandleInstances(
+    handleElements,
+    inputElements,
+    displayValueElements,
+    minRange,
+    maxRange,
+    trackWidth,
+    step
+  );
   if (!handles) return;
 
   const [handle1, handle2] = handles;

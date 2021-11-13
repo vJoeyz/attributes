@@ -14,6 +14,7 @@ export const getSettings = (
       fillElement: HTMLElement | null;
       handleElements: HTMLElement[];
       inputElements: HTMLInputElement[];
+      displayValueElements: HTMLElement[];
       trackWidth: number;
       minRange: number;
       maxRange: number;
@@ -33,6 +34,10 @@ export const getSettings = (
 
   const handleElements = [
     ...wrapperElement.querySelectorAll<HTMLElement>(getSelector('element', 'handle', { operator: 'prefixed' })),
+  ];
+
+  const displayValueElements = [
+    ...wrapperElement.querySelectorAll<HTMLElement>(getSelector('element', 'displayValue', { operator: 'prefixed' })),
   ];
 
   if (!handleElements.length || !trackElement) {
@@ -58,5 +63,16 @@ export const getSettings = (
 
   const step = parseFloat(wrapperElement.getAttribute(ATTRIBUTES.step.key) || `${totalRange / 100}`);
 
-  return { trackElement, fillElement, handleElements, inputElements, trackWidth, minRange, maxRange, totalRange, step };
+  return {
+    trackElement,
+    fillElement,
+    handleElements,
+    inputElements,
+    displayValueElements,
+    trackWidth,
+    minRange,
+    maxRange,
+    totalRange,
+    step,
+  };
 };
