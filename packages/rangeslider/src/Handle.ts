@@ -95,7 +95,7 @@ export class Handle extends Emittery<HandleEvents> {
       return;
     }
 
-    if (index === 0) this.setValue(index === 0 ? minRange : maxRange);
+    this.setValue(index === 0 ? minRange : maxRange);
   }
 
   public getValue = (): number => this.currentValue;
