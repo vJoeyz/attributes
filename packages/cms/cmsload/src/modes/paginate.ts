@@ -1,7 +1,7 @@
 import debounce from 'just-debounce';
 import { loadListItems } from '../load';
 import { getPaginationSettings, getPageButtonsSettings } from '../settings';
-import { cloneNode, CMS_CSS_CLASSES, CURRENT_CSS_CLASS } from '@finsweet/ts-utils';
+import { cloneNode, CMS_CSS_CLASSES, CURRENT_CSS_CLASS, isNotEmpty } from '@finsweet/ts-utils';
 import { getSelector } from '../constants';
 
 import type { PageCountElement } from '@finsweet/ts-utils';
@@ -105,7 +105,7 @@ const handlePageButtons = (pageButtonsData: PageButtonsData, listInstance: CMSLi
 
   const { parentElement, renderedElements, pageBoundary, pageSiblings } = pageButtonsData;
 
-  const existingElements = [...renderedElements];
+  const existingElements: Array<[HTMLElement, number | null] | undefined> = [...renderedElements];
 
   const totalSiblings = pageSiblings * 2 + 1;
   const totalBoundary = pageBoundary * 2;
@@ -116,33 +116,37 @@ const handlePageButtons = (pageButtonsData: PageButtonsData, listInstance: CMSLi
   const isEndRange = totalPages - currentPage < maxElements - totalSiblings;
 
   for (let index = 1; index <= maxElements; index++) {
-    if (index > totalPages) continue;
+    // Get previous elements
+    const [existingElement, existingTargetPage] = existingElements[index - 1] || [];
+    const [lastElement] = existingElements[index - 2] || [];
+
+    // Get rid of invalid elements
+    if (index > totalPages) {
+      if (existingElement) {
+        existingElement.remove();
+        existingElements[index - 1] = undefined;
+      }
+      continue;
+    }
 
     // Collect new target page
     let targetPage: number | null;
 
     if (totalPages <= maxElements) targetPage = index;
-    else if (index <= pageBoundary) targetPage = totalPages;
-    else if (index > maxElements - pageBoundary) targetPage = totalPages - (maxElements - index);
-
-    if (isStartRange) {
-      if (index === maxElements) targetPage = totalPages;
+    else if (isStartRange) {
+      if (index > maxElements - pageBoundary) targetPage = totalPages - (maxElements - index);
       else if (index === maxElements - pageBoundary) targetPage = null;
       else targetPage = index;
     } else if (isEndRange) {
-      if (index === 1) targetPage = 1;
+      if (index < pageBoundary + 1) targetPage = index;
       else if (index === pageBoundary + 1) targetPage = null;
       else targetPage = totalPages - (maxElements - index);
     } else {
-      if (index === 1) targetPage = 1;
-      else if (index === maxElements) targetPage = totalPages;
+      if (index < pageBoundary + 1) targetPage = index;
+      else if (index > maxElements - pageBoundary) targetPage = totalPages - (maxElements - index);
       else if (index === pageBoundary + 1 || index === maxElements - pageBoundary) targetPage = null;
       else targetPage = currentPage + (index - (pageBoundary + 1) - (1 + pageSiblings));
     }
-
-    // Get previous elements
-    const [existingElement, existingTargetPage] = existingElements[index - 1] || [];
-    const [lastElement] = existingElements[index - 2] || [];
 
     // Render a new item only when needed
     let newElement: HTMLElement | undefined;
@@ -161,12 +165,15 @@ const handlePageButtons = (pageButtonsData: PageButtonsData, listInstance: CMSLi
       newElement.style.opacity = '';
     }
 
+    const elementToUpdate = newElement || existingElement;
+    if (!elementToUpdate) continue;
+
     // Update CSS and Aria
-    updatePageElement(newElement || existingElement, targetPage === currentPage);
+    updatePageElement(elementToUpdate, targetPage === currentPage);
   }
 
   // Store new state
-  pageButtonsData.renderedElements = new Map([...existingElements]);
+  pageButtonsData.renderedElements = new Map([...existingElements.filter(isNotEmpty)]);
 };
 
 /**
