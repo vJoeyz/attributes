@@ -20,6 +20,11 @@ export const ATTRIBUTES = {
        * Defines a Dropdown label.
        */
       dropdownLabel: generateDynamicAttibuteValue('dropdown-label'),
+
+      /**
+       * Defines an element where to scroll the view every time a filter is applied.
+       */
+      scrollAnchor: generateDynamicAttibuteValue('scroll-anchor'),
     },
   },
 

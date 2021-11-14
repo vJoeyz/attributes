@@ -40,6 +40,12 @@ export const initListSorting = async (listInstance: CMSList) => {
   // Animation
   if (!listAnimation) addListAnimation(listInstance, { durationKey, easingKey });
 
+  // Scroll Anchor Element
+  if (!listInstance.scrollAnchor) {
+    const scrollAnchor = document.querySelector<HTMLElement>(getSelector('element', 'scrollAnchor', { instanceIndex }));
+    if (scrollAnchor) listInstance.scrollAnchor = scrollAnchor;
+  }
+
   // CSS Classes
   const cssClasses: CSSClasses = {
     asc: listInstance.getAttribute(ascClassKey) || DEFAULT_ASC_CLASS,

@@ -68,6 +68,8 @@ export const sortListItems = async (
   if (!addingItems) {
     if (currentPage) listInstance.currentPage = 1;
 
+    listInstance.scrollToAnchor();
+
     await listInstance.renderItems();
   }
 };

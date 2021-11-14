@@ -1,5 +1,10 @@
 # `cmssort` Changelog
 
+## [v1.2.0] 14th November 2021
+
+- Added support to use `fs-cmssort-element="scroll-anchor"`.
+  If set to any element on the page, the viewport will scroll into it when a sorting action is triggered.
+
 ## [v1.1.1] 14th November 2021
 
 - Added support for Alphanumeric sorting. Before, the following strings:
