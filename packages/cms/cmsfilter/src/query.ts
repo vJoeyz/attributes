@@ -32,23 +32,25 @@ export const getQueryParams = (cmsFilters: CMSFilters): boolean => {
     if (mode === 'range') {
       const [fromValue, toValue] = queryValues;
 
-      const fromElement = elements.find(({ mode, value }) => mode === 'from' && (!value || value === fromValue));
-      const toElement = elements.find(({ mode, value }) => mode === 'to' && (!value || value === toValue));
+      const fromElements = elements.filter(({ mode }) => mode === 'from');
+      const toElements = elements.filter(({ mode }) => mode === 'to');
 
       const newValues: string[] = [];
 
-      if (fromValue && fromElement) {
-        const { element, type } = fromElement;
-        if (type === 'checkbox' || type === 'radio') setFormFieldValue(element, true);
-        else setFormFieldValue(element, fromValue);
+      if (fromValue && fromElements.length) {
+        for (const { element, type } of fromElements) {
+          if (type === 'checkbox' || type === 'radio') setFormFieldValue(element, true);
+          else setFormFieldValue(element, fromValue);
+        }
 
         newValues[0] = fromValue;
       }
 
-      if (toValue && toElement) {
-        const { element, type } = toElement;
-        if (type === 'checkbox' || type === 'radio') setFormFieldValue(element, true);
-        else setFormFieldValue(element, toValue);
+      if (toValue && toElements) {
+        for (const { element, type } of toElements) {
+          if (type === 'checkbox' || type === 'radio') setFormFieldValue(element, true);
+          else setFormFieldValue(element, toValue);
+        }
 
         newValues[1] = toValue;
       }
