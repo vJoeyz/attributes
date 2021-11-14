@@ -8,4 +8,8 @@ const dateFormatter = Intl.DateTimeFormat();
  * @param value
  * @returns
  */
-export const normalizeDate = (value: string) => new Date(dateFormatter.format(new Date(value)));
+export const normalizeDate = (value: string) => {
+  if (!value) return;
+
+  return new Date(dateFormatter.format(new Date(value)));
+};

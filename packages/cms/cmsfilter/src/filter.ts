@@ -36,7 +36,7 @@ export const assessFilter = (
  */
 const checkFilterValidity = (
   item: CMSItem,
-  { filterKeys, values, match, mode: filterMode, highlight }: FiltersData[number]
+  { filterKeys, values, match, mode: filterMode, highlight, elements: filterElements }: FiltersData[number]
 ) => {
   const filterValues = [...values].filter(isNotEmpty);
   if (!filterValues.length) return true;
@@ -95,14 +95,14 @@ const checkFilterValidity = (
         // Date Prop
         if (propType === 'date' && !isGlobal) {
           const [filterDateTime, propDateTime] = [filterValue, propValue].map((value) =>
-            normalizeDate(value).getTime()
+            normalizeDate(value)?.getTime()
           );
 
           isValid = filterDateTime === propDateTime;
         }
 
         // Single Prop Value
-        else if (propValues.length === 1 || filterKeys.length > 1) {
+        else if (filterElements.some(({ type }) => type !== 'checkbox' && type !== 'radio') || filterKeys.length > 1) {
           isValid = propValue.toLowerCase().includes(filterValue.toLowerCase());
         }
 
@@ -132,15 +132,19 @@ const checkFilterValidity = (
  * @returns `true` if it's valid.
  */
 const checkRangeValidity = (value: string, from: string, to: string, type?: string | null) => {
-  const [filterValue, propFrom, propTo] = [value, from, to].map((string) =>
+  const [normalizedValue, normalizedFrom, normalizedTo] = [value, from, to].map((string) =>
     type === 'date' ? normalizeDate(string) : normalizeNumber(string)
   );
 
-  if (!from) return filterValue <= propTo;
+  if (!normalizedValue) return false;
 
-  if (!to) return filterValue >= propFrom;
+  if (!from && typeof normalizedTo !== 'undefined') return normalizedValue <= normalizedTo;
 
-  return filterValue >= propFrom && filterValue <= propTo;
+  if (!to && typeof normalizedFrom !== 'undefined') return normalizedValue >= normalizedFrom;
+
+  if (typeof normalizedTo === 'undefined' || typeof normalizedFrom === 'undefined') return false;
+
+  return normalizedValue >= normalizedFrom && normalizedValue <= normalizedTo;
 };
 
 /**
