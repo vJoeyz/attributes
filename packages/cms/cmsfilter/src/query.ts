@@ -21,7 +21,7 @@ export const getQueryParams = (cmsFilters: CMSFilters): boolean => {
     const filterData = filtersData.find(({ filterKeys }) => filterKeys.length === 1 && filterKeys.includes(queryKey));
     if (!filterData) continue;
 
-    const queryValues = extractCommaSeparatedValues(queryValue);
+    const queryValues = extractCommaSeparatedValues(queryValue, undefined, undefined, false);
     if (!queryValues.length) continue;
 
     queryParamsValid = true;
@@ -48,7 +48,7 @@ export const getQueryParams = (cmsFilters: CMSFilters): boolean => {
       if (toValue && toElement) {
         const { element, type } = toElement;
         if (type === 'checkbox' || type === 'radio') setFormFieldValue(element, true);
-        else setFormFieldValue(element, fromValue);
+        else setFormFieldValue(element, toValue);
 
         newValues[1] = toValue;
       }
