@@ -1,6 +1,6 @@
 # `cmssort` Changelog
 
-## [v1.1.1] 12th November 2021
+## [v1.1.1] 14th November 2021
 
 - Added support for Alphanumeric sorting. Before, the following strings:
 
