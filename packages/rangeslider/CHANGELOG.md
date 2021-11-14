@@ -1,5 +1,9 @@
 # `rangeslider` Changelog
 
+## [v1.0.0.beta-6] 14th November 2021
+
+- Improved `mousedown` boundaries to correctly pick the handles when they are located at the ends of the track.
+
 ## [v1.0.0.beta-5] 14th November 2021
 
 - Added locale converter to the `display-value` element.

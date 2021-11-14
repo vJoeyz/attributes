@@ -118,7 +118,12 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
     document.addEventListener('mouseup', handleMouseUp);
     document.addEventListener('touchend', handleMouseUp);
 
-    const value = ((clientX - left) * totalRange) / trackWidth;
+    let value: number;
+
+    if (left > clientX) value = minRange;
+    else if (right < clientX) value = maxRange;
+    else value = ((clientX - left) * totalRange) / trackWidth;
+
     const adjustedValue = adjustValueToStep(value, step);
 
     const closestHandle = getClosestValidHandle(adjustedValue, handles);
