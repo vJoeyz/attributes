@@ -7,8 +7,11 @@ import type { TagData, TagsFormat } from './types';
  * @param tagData A {@link TagData} record.
  * @param format The output format.
  */
-export const updateTagText = ({ element, filterKeys, value }: TagData, format: TagsFormat): void => {
+export const updateTagText = ({ element, filterKeys, values, mode }: TagData, format: TagsFormat): void => {
   const textNode = element.querySelector(getSelector('element', 'tagText', { operator: 'prefixed' })) || element;
+
+  // Format the value
+  const value = mode === 'range' ? `[${values.map((value) => value || '--').join(', ')}]` : values[0];
 
   // Capitalize the filter keys and join them
   const keys = filterKeys

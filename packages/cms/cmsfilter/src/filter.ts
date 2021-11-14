@@ -1,4 +1,4 @@
-import { clearFormField, isNotEmpty, sameValues } from '@finsweet/ts-utils';
+import { clearFormField, sameValues } from '@finsweet/ts-utils';
 import { clearHighlight } from './highlight';
 import { normalizeDate } from './dates';
 import { normalizeNumber } from './numbers';
@@ -38,7 +38,7 @@ const checkFilterValidity = (
   item: CMSItem,
   { filterKeys, values, match, mode: filterMode, highlight, elements: filterElements }: FiltersData[number]
 ) => {
-  const filterValues = [...values].filter(isNotEmpty);
+  const filterValues = [...values];
   if (!filterValues.length) return true;
 
   const isGlobal = filterKeys.includes('*');

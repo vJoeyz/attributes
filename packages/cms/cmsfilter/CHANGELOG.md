@@ -1,5 +1,13 @@
 # `cmsfilter` Changelog
 
+## [v1.2.0] 12th November 2021
+
+- Fixed `undefined` errors when checking range validity in single range props.
+- Fixed value checking when multiple non checkbox/radio elements exist in a filter key.
+- Fixed `fs-cmsfilter-range` filtering issue when the `from` value was not specified.
+- Improved tags rendering when the filter is a `range`. Now it outputs a single tag with a `[FROM_VALUE, TO_VALUE]` format, replacing the `undefined` values with a double dash `--`.
+- Exposed the `CMSFilters` instances at `window.fsAttributes.cms.filtersInstances`.
+
 ## [v1.1.2] 12th November 2021
 
 - Added support to parse numbers that contain symbols like `$` or `,`.

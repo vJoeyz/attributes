@@ -46,7 +46,8 @@ export type ResetButtonsData = Map<HTMLElement, string[]>;
 export interface TagData {
   element: HTMLElement;
   filterKeys: string[];
-  value: string;
+  values: string[];
+  mode?: FilterMode;
 }
 
 export type TagsData = TagData[];

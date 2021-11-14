@@ -62,9 +62,9 @@ export class CMSTags {
   /**
    * Adds a new tag.
    * @param filterKeys The `filterKeys` that correspond to the tag.
-   * @param value The `value` that corresponds to the tag.
+   * @param values The `value` that corresponds to the tag.
    */
-  private async addTag(filterKeys: TagData['filterKeys'], value: TagData['value']) {
+  private async addTag(filterKeys: TagData['filterKeys'], values: TagData['values'], mode?: TagData['mode']) {
     const {
       wrapper,
       template,
@@ -78,7 +78,8 @@ export class CMSTags {
     const tagData: TagData = {
       element,
       filterKeys,
-      value,
+      values,
+      mode,
     };
 
     updateTagText(tagData, format);
@@ -95,10 +96,10 @@ export class CMSTags {
   /**
    * Updates a tag's content.
    * @param tagData A {@link TagData} record.
-   * @param newValue The new value to store.
+   * @param newValues The new value to store.
    */
-  private async updateTag(tagData: TagData, newValue: string) {
-    tagData.value = newValue;
+  private async updateTag(tagData: TagData, newValues: string[]) {
+    tagData.values = newValues;
 
     updateTagText(tagData, this.format);
   }
@@ -109,7 +110,7 @@ export class CMSTags {
    * @param resetFilters If set to `true`, the `tagremove` event will be emitted.
    */
   private async removeTag(tagData: TagData, resetFilters?: boolean) {
-    const { element, filterKeys, value } = tagData;
+    const { element, filterKeys, values } = tagData;
     const {
       tagsData,
       filtersInstance,
@@ -120,10 +121,12 @@ export class CMSTags {
     this.tagsData = tagsData.filter((data) => data !== tagData);
 
     await Promise.all([
-      // Emit events
-      (async () => {
-        if (resetFilters) await filtersInstance.resetFilters(filterKeys, value);
-      })(),
+      // Reset filters
+      Promise.all(
+        values.map(async (value) => {
+          if (resetFilters) return filtersInstance.resetFilters(filterKeys, value);
+        })
+      ),
 
       // Remove the element
       (async () => {
@@ -145,27 +148,45 @@ export class CMSTags {
 
     await Promise.all(
       filtersData.map((filterData) => {
-        const { filterKeys, values } = filterData;
+        const { filterKeys, values, mode: filterMode } = filterData;
 
-        const existingTags = tagsData.filter((data) => sameValues(data.filterKeys, filterKeys));
+        const filterValues = [...values];
 
-        // Just update the text if it's a single value
-        if (values.size === 1 && existingTags.length === 1) {
+        const existingTags = tagsData.filter(
+          ({ filterKeys: tagKeys, mode: tagMode }) => filterMode === tagMode && sameValues(tagKeys, filterKeys)
+        );
+
+        // Just update the text if it's a single value or a range
+        if (
+          existingTags.length === 1 &&
+          (filterValues.length === 1 || (filterMode === 'range' && filterValues.length))
+        ) {
           const [tagData] = existingTags;
-          const [value] = values;
 
-          this.updateTag(tagData, value);
+          this.updateTag(tagData, filterValues);
 
           return;
         }
 
         // Otherwise re-render the differences
-        const tagsToAdd = [...values].filter((filterValue) => !existingTags.some(({ value }) => value === filterValue));
-        const tagsToRemove = existingTags.filter(({ value }) => !values.has(value));
+        const valuesToAdd = [...filterValues].filter(
+          (filterValue) => !existingTags.some(({ values }) => values.includes(filterValue))
+        );
+
+        const tagsToRemove = existingTags.filter(({ values }) =>
+          values.every((value) => !filterValues.includes(value))
+        );
 
         return Promise.all([
-          tagsToAdd.map((value) => this.addTag(filterKeys, value)),
-          tagsToRemove.map((tagData) => this.removeTag(tagData)),
+          // Add tags
+          (async () => {
+            if (filterMode === 'range' && valuesToAdd.length) return this.addTag(filterKeys, valuesToAdd, filterMode);
+
+            return Promise.all(valuesToAdd.map((value) => this.addTag(filterKeys, [value])));
+          })(),
+
+          // Remove tags
+          Promise.all(tagsToRemove.map((tagData) => this.removeTag(tagData))),
         ]);
       })
     );
