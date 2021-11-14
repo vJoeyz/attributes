@@ -70,6 +70,14 @@ export const createCMSFiltersInstance = (listInstance: CMSList): CMSFilters | un
     highlightCSSClass,
   });
 
+  // Expose it in the `window` context
+  const {
+    fsAttributes: { cms },
+  } = window;
+
+  if (!cms.filtersInstances) cms.filtersInstances = [filtersInstance];
+  else cms.filtersInstances.push(filtersInstance);
+
   return filtersInstance;
 };
 
