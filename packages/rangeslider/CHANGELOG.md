@@ -1,5 +1,9 @@
 # `rangeslider` Changelog
 
+## [v1.0.0.beta-7] 14th November 2021
+
+- Fixed `v1.0.0.beta-6` code not being included in the build. Ooops!
+
 ## [v1.0.0.beta-6] 14th November 2021
 
 - Improved `mousedown` boundaries to correctly pick the handles when they are located at the ends of the track.

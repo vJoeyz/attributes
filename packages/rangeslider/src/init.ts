@@ -111,8 +111,6 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
 
     const { left, right } = trackElement.getBoundingClientRect();
 
-    if (left > clientX || right < clientX) return;
-
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('touchmove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
