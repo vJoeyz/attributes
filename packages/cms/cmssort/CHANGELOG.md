@@ -14,7 +14,7 @@
   - Project 21
   - Project 22
 
-  Where sorted like:
+  Were sorted like:
 
   - Project 0
   - Project 1
