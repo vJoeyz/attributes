@@ -29,6 +29,9 @@ export class Fill {
     this.update();
   }
 
+  /**
+   * Updates the Fill width and position based on the handle's values.
+   */
   public update(): void {
     const {
       element,

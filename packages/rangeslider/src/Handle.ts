@@ -65,6 +65,9 @@ export class Handle extends Emittery<HandleEvents> {
     this.listenEvents();
   }
 
+  /**
+   * Listens for internal events.
+   */
   private listenEvents() {
     const { element, inputElement } = this;
 
@@ -72,6 +75,10 @@ export class Handle extends Emittery<HandleEvents> {
     inputElement?.addEventListener('change', () => this.handleInputChange());
   }
 
+  /**
+   * Handles when the keyboard is used when focusing the Handle.
+   * @param e A `keydown` event.
+   */
   private handleKeyDown(e: KeyboardEvent) {
     const { step } = this;
     const { key } = e;
@@ -86,6 +93,9 @@ export class Handle extends Emittery<HandleEvents> {
     else this.setValue(currentValue - step);
   }
 
+  /**
+   * Handles when the value of the `<input>` element is updated by third party actions.
+   */
   private handleInputChange() {
     const { inputElement, index, minRange, maxRange, step } = this;
     if (!inputElement) return;
@@ -103,8 +113,17 @@ export class Handle extends Emittery<HandleEvents> {
     this.setValue(index === 0 ? minRange : maxRange, false);
   }
 
+  /**
+   * @returns The current value of the Handle.
+   */
   public getValue = (): number => this.currentValue;
 
+  /**
+   * Sets a new value to the Handle.
+   * The Handle's position is automatically updated based on the new value.
+   * @param newValue The new value to set.
+   * @param updateInputElement Defines if the `<input>` element should be updated. Defaults to `true`.
+   */
   public setValue(newValue: number, updateInputElement = true): void {
     const {
       currentValue,
@@ -138,8 +157,16 @@ export class Handle extends Emittery<HandleEvents> {
     this.emit('update', newValue);
   }
 
+  /**
+   * @returns The Handle's constraints.
+   */
   public getConstraints = (): [number, number] => [this.minValue, this.maxValue];
 
+  /**
+   * Sets new constraints to the Handle.
+   * @param minValue The new minimum value.
+   * @param maxValue The new maximum value.
+   */
   public setConstraints(minValue: number, maxValue: number): void {
     const { element } = this;
 

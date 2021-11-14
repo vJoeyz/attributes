@@ -59,8 +59,8 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
 
   // Mouse Events
   /**
-   *
-   * @param e
+   * Handles when the user moves the cursor/finger while holding down a {@link Handle}.
+   * @param e A `mousemove` or `touchmove` event.
    */
   const handleMouseMove = (e: MouseEvent | TouchEvent) => {
     if (!focusedHandle) return;
@@ -83,8 +83,8 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
   };
 
   /**
-   *
-   * @param e
+   * Handles when the user releases the currently focused {@link Handle}.
+   * @param e A `mouseup` or `touchend` event.
    */
   const handleMouseUp = (e: MouseEvent | TouchEvent) => {
     e.preventDefault();
@@ -100,9 +100,8 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
   };
 
   /**
-   *
-   * @param param0
-   * @returns
+   * Handles when the users hold down a {@link Handle}.
+   * @param e A `mousedown` or `touchstart` event.
    */
   const handleMouseDown = (e: MouseEvent | TouchEvent) => {
     e.preventDefault();
@@ -136,16 +135,16 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
   trackElement.addEventListener('mousedown', handleMouseDown);
   trackElement.addEventListener('touchstart', handleMouseDown);
 
-  // Handle events
+  /**
+   * Handle events
+   */
   handle1.on('update', (newValue) => {
     handle2?.setConstraints(newValue + step, maxRange);
     fill?.update();
   });
 
-  if (handle2) {
-    handle2.on('update', (newValue) => {
-      handle1.setConstraints(minRange, newValue - step);
-      fill?.update();
-    });
-  }
+  handle2?.on('update', (newValue) => {
+    handle1.setConstraints(minRange, newValue - step);
+    fill?.update();
+  });
 };
