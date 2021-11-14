@@ -1,5 +1,9 @@
 # `cmscore` Changelog
 
+## [v1.1.1] 11th November 2021
+
+- Added a `100ms` timeout to the `CMSList.scrollToAnchor` method to avoid it being cancelled by the browser's smooth scrolling.
+
 ## [v1.1.0] 11th November 2021
 
 - Switched `CMSList.validItems` prop from `boolean` to an array of the valid `CMSItem` instanced.

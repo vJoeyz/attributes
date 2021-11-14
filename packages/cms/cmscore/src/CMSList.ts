@@ -318,7 +318,11 @@ export class CMSList extends Emittery<CMSListEvents> {
    * Scrolls to the anchor element of the list.
    */
   public scrollToAnchor() {
-    this.scrollAnchor?.scrollIntoView({ behavior: 'smooth' });
+    const { scrollAnchor } = this;
+
+    if (!scrollAnchor) return;
+
+    window.setTimeout(() => scrollAnchor.scrollIntoView({ behavior: 'smooth' }), 100);
   }
 
   /**
