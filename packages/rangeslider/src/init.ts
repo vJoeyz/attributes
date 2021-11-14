@@ -57,7 +57,6 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
 
   let focusedHandle: Handle | undefined;
 
-  // Mouse Events
   /**
    * Handles when the user moves the cursor/finger while holding down a {@link Handle}.
    * @param e A `mousemove` or `touchmove` event.
@@ -100,7 +99,7 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
   };
 
   /**
-   * Handles when the users hold down a {@link Handle}.
+   * Handles when the user holds down a {@link Handle}.
    * @param e A `mousedown` or `touchstart` event.
    */
   const handleMouseDown = (e: MouseEvent | TouchEvent) => {
@@ -132,11 +131,8 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
     focusedHandle = closestHandle;
   };
 
-  trackElement.addEventListener('mousedown', handleMouseDown);
-  trackElement.addEventListener('touchstart', handleMouseDown);
-
   /**
-   * Handle events
+   * Handles' events
    */
   handle1.on('update', (newValue) => {
     handle2?.setConstraints(newValue + step, maxRange);
@@ -147,4 +143,10 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
     handle1.setConstraints(minRange, newValue - step);
     fill?.update();
   });
+
+  /**
+   * Init events
+   */
+  trackElement.addEventListener('mousedown', handleMouseDown);
+  trackElement.addEventListener('touchstart', handleMouseDown);
 };
