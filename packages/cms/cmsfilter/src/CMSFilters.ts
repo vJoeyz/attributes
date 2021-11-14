@@ -226,9 +226,9 @@ export class CMSFilters {
     if (!addingItems) {
       if (currentPage) listInstance.currentPage = 1;
 
-      await listInstance.renderItems();
-
       listInstance.scrollToAnchor();
+
+      await listInstance.renderItems();
     }
   }
 
