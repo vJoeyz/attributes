@@ -26,7 +26,7 @@
   - Project 21
   - Project 22
 
-  Now strings that contain both characters and numbers are analized and sorted correctly.
+  Now strings that contain both characters and numbers are analyzed and sorted correctly.
 
 ## [v1.1.0] 12th November 2021
 
