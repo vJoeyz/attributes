@@ -1,5 +1,33 @@
 # `cmssort` Changelog
 
+## [v1.1.1] 12th November 2021
+
+- Added support for Alphanumeric sorting. Before, the following strings:
+
+  - Project 0
+  - Project 1
+  - Project 2
+  - Project 10
+  - Project 11
+  - Project 12
+  - Project 20
+  - Project 21
+  - Project 22
+
+  Where sorted like:
+
+  - Project 0
+  - Project 1
+  - Project 10
+  - Project 11
+  - Project 12
+  - Project 2
+  - Project 20
+  - Project 21
+  - Project 22
+
+  Now strings that contain both characters and numbers are analized and sorted correctly.
+
 ## [v1.1.0] 12th November 2021
 
 - Added support to build sorting systems with native `Dropdown` components.

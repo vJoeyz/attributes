@@ -53,9 +53,14 @@ export const sortListItems = async (
         return secondItemTime - firstItemTime;
       }
 
-      if (direction === 'asc') return firstItemValue.localeCompare(secondItemValue);
+      const collatorOptions: Intl.CollatorOptions = {
+        numeric: true,
+        sensitivity: 'base',
+      };
 
-      return secondItemValue.localeCompare(firstItemValue);
+      if (direction === 'asc') return firstItemValue.localeCompare(secondItemValue, undefined, collatorOptions);
+
+      return secondItemValue.localeCompare(firstItemValue, undefined, collatorOptions);
     });
   }
 
