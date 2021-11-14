@@ -1,5 +1,9 @@
 # `rangeslider` Changelog
 
+## [v1.0.0.beta-5] 14th November 2021
+
+- Added locale converter to the `display-value` element.
+
 ## [v1.0.0.beta-4] 13th November 2021
 
 - Added `fs-rangeslider-element="display-value"` attribute.

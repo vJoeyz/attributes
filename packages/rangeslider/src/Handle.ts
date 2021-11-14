@@ -127,10 +127,11 @@ export class Handle extends Emittery<HandleEvents> {
     element.style.left = `${left}px`;
 
     const stringValue = `${newValue}`;
+    const localeStringValue = newValue.toLocaleString();
 
     element.setAttribute('aria-valuenow', stringValue);
 
-    if (displayValueElement) displayValueElement.textContent = stringValue;
+    if (displayValueElement) displayValueElement.textContent = localeStringValue;
 
     if (inputElement && updateInputElement) setFormFieldValue(inputElement, stringValue);
 
