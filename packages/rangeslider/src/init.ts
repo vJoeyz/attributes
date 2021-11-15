@@ -58,6 +58,20 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
   let focusedHandle: Handle | undefined;
 
   /**
+   * Calculates the value based on where the user clicked and adjusts it to the step increment,
+   * @param clientX The event `clientX` value.
+   */
+  const calculateValue = (clientX: number) => {
+    const { left } = trackElement.getBoundingClientRect();
+
+    const value = minRange + ((clientX - left) * totalRange) / trackWidth;
+
+    const adjustedValue = adjustValueToStep(value, step);
+
+    return adjustedValue;
+  };
+
+  /**
    * Handles when the user moves the cursor/finger while holding down a {@link Handle}.
    * @param e A `mousemove` or `touchmove` event.
    */
@@ -74,11 +88,9 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
 
     if (left > clientX) value = minValue;
     else if (right < clientX) value = maxValue;
-    else value = ((clientX - left) * totalRange) / trackWidth;
+    else value = calculateValue(clientX);
 
-    const adjustedValue = adjustValueToStep(value, step);
-
-    focusedHandle.setValue(adjustedValue);
+    focusedHandle.setValue(value);
   };
 
   /**
@@ -118,15 +130,13 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
 
     if (left > clientX) value = minRange;
     else if (right < clientX) value = maxRange;
-    else value = ((clientX - left) * totalRange) / trackWidth;
+    else value = minRange + ((clientX - left) * totalRange) / trackWidth;
 
-    const adjustedValue = adjustValueToStep(value, step);
-
-    const closestHandle = getClosestValidHandle(adjustedValue, handles);
+    const closestHandle = getClosestValidHandle(value, handles);
     if (!closestHandle) return;
 
     closestHandle.element.focus();
-    closestHandle.setValue(adjustedValue);
+    closestHandle.setValue(value);
 
     focusedHandle = closestHandle;
   };

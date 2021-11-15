@@ -1,5 +1,9 @@
 # `rangeslider` Changelog
 
+## [v1.0.0.beta-8] 14th November 2021
+
+- Fixed values not being correctly calculated when the `min range` was set to a different value than 0.
+
 ## [v1.0.0.beta-7] 14th November 2021
 
 - Fixed `v1.0.0.beta-6` code not being included in the build. Ooops!
