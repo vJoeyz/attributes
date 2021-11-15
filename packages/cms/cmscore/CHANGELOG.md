@@ -1,5 +1,9 @@
 # `cmscore` Changelog
 
+## [v1.1.2] 11th November 2021
+
+- Updated `restartWebflow` from `@finsweet/ts-utils` to support persisting state after reinitializing the `ix2` module.
+
 ## [v1.1.1] 11th November 2021
 
 - Added a `100ms` timeout to the `CMSList.scrollToAnchor` method to avoid it being cancelled by the browser's smooth scrolling.
