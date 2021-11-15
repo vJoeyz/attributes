@@ -1,7 +1,7 @@
 {
   "name": "@finsweet/attributes-richtext",
-  "version": "1.2.0",
-  "description": "Advanced Rich Text Blocks for Webflow.",
+  "version": "1.2.1",
+  "description": "Add HTML to Rich Text elements, add components from the same page or from different pages, add classes, ids, attributes, and more.",
   "main": "richtext.js",
   "files": [
     "richtext.js"

@@ -73,5 +73,5 @@ const initRtbElement = async (element: RichTextBlockElement) => {
     })
   );
 
-  if (resetIx) await restartWebflow();
+  if (resetIx) await restartWebflow(['ix2']);
 };

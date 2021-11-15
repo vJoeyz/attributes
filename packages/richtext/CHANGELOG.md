@@ -1,5 +1,9 @@
 # `richtext` Changelog
 
+## [v1.2.1] 15th November 2021
+
+- `resetIx`: Preserved `ix2` state after re-initting the Webflow module.
+
 ## [v1.2.0] 08th November 2021
 
 - Now the original components templates are removed from the page after rendering them in the Rich Text Blocks.
