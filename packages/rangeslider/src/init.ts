@@ -1,70 +1,51 @@
-import { getSelector } from './constants';
-import { createHandleInstances } from './factory';
-import { Fill } from './Fill';
-import { getSettings } from './settings';
+import debounce from 'just-debounce';
 import { adjustValueToStep, getClosestValidHandle } from './values';
+import { createFillInstance, createHandleInstances } from './factory';
+import { getSelector } from './constants';
+import { getSettings } from './settings';
 import { getClientX } from './events';
 
 import type { Handle } from './Handle';
+import type { HandleInstances } from './types';
 
 /**
  * Inits the attribute.
  */
-export const init = (): void => {
-  const wrapperElements = document.querySelectorAll<HTMLElement>(
-    getSelector('element', 'wrapper', { operator: 'prefixed' })
-  );
+export const init = (): (HandleInstances | undefined)[] => {
+  const wrapperElements = [
+    ...document.querySelectorAll<HTMLElement>(getSelector('element', 'wrapper', { operator: 'prefixed' })),
+  ];
 
-  for (const wrapperElement of wrapperElements) initRangeSlider(wrapperElement);
+  const handleInstances = wrapperElements.map(initRangeSlider);
+
+  return handleInstances;
 };
 
 /**
- *
- * @param wrapperElement
- * @returns
+ * Inits a range slider.
+ * @param wrapperElement The wrapper element.
+ * @returns The {@link HandleInstances}.
  */
 const initRangeSlider = (wrapperElement: HTMLElement) => {
   const settings = getSettings(wrapperElement);
   if (!settings) return;
 
-  const {
-    fillElement,
-    handleElements,
-    inputElements,
-    displayValueElements,
-    maxRange,
-    minRange,
-    step,
-    totalRange,
-    trackElement,
-    trackWidth,
-  } = settings;
-
-  const handles = createHandleInstances(
-    handleElements,
-    inputElements,
-    displayValueElements,
-    minRange,
-    maxRange,
-    trackWidth,
-    step
-  );
+  const handles = createHandleInstances(settings);
   if (!handles) return;
 
-  const [handle1, handle2] = handles;
+  createFillInstance(settings, handles);
 
-  const fill = fillElement ? new Fill(fillElement, { minRange, maxRange, trackWidth, handles }) : undefined;
+  const { maxRange, minRange, step, totalRange, trackElement } = settings;
 
+  let { trackWidth, trackLeft, trackRight } = settings;
   let focusedHandle: Handle | undefined;
 
   /**
    * Calculates the value based on where the user clicked and adjusts it to the step increment,
    * @param clientX The event `clientX` value.
    */
-  const calculateValue = (clientX: number) => {
-    const { left } = trackElement.getBoundingClientRect();
-
-    const value = minRange + ((clientX - left) * totalRange) / trackWidth;
+  const calculateNewValue = (clientX: number) => {
+    const value = minRange + ((clientX - trackLeft) * totalRange) / trackWidth;
 
     const adjustedValue = adjustValueToStep(value, step);
 
@@ -78,17 +59,16 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
   const handleMouseMove = (e: MouseEvent | TouchEvent) => {
     if (!focusedHandle) return;
 
-    e.preventDefault();
+    if (e instanceof MouseEvent) e.preventDefault();
 
     const clientX = getClientX(e);
     const [minValue, maxValue] = focusedHandle.getConstraints();
-    const { left, right } = trackElement.getBoundingClientRect();
 
     let value: number;
 
-    if (left > clientX) value = minValue;
-    else if (right < clientX) value = maxValue;
-    else value = calculateValue(clientX);
+    if (trackLeft > clientX) value = minValue;
+    else if (trackRight < clientX) value = maxValue;
+    else value = calculateNewValue(clientX);
 
     focusedHandle.setValue(value);
   };
@@ -98,7 +78,7 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
    * @param e A `mouseup` or `touchend` event.
    */
   const handleMouseUp = (e: MouseEvent | TouchEvent) => {
-    e.preventDefault();
+    if (e.cancelable) e.preventDefault();
 
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('touchmove', handleMouseMove);
@@ -115,11 +95,9 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
    * @param e A `mousedown` or `touchstart` event.
    */
   const handleMouseDown = (e: MouseEvent | TouchEvent) => {
-    e.preventDefault();
+    if (e.cancelable) e.preventDefault();
 
     const clientX = getClientX(e);
-
-    const { left, right } = trackElement.getBoundingClientRect();
 
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('touchmove', handleMouseMove);
@@ -128,9 +106,9 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
 
     let value: number;
 
-    if (left > clientX) value = minRange;
-    else if (right < clientX) value = maxRange;
-    else value = minRange + ((clientX - left) * totalRange) / trackWidth;
+    if (trackLeft > clientX) value = minRange;
+    else if (trackRight < clientX) value = maxRange;
+    else value = calculateNewValue(clientX);
 
     const closestHandle = getClosestValidHandle(value, handles);
     if (!closestHandle) return;
@@ -142,21 +120,22 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
   };
 
   /**
-   * Handles' events
+   * Updates the stored `trackWidth` value and the Handles' position.
    */
-  handle1.on('update', (newValue) => {
-    handle2?.setConstraints(newValue + step, maxRange);
-    fill?.update();
-  });
+  const handleWindowResize = debounce(() => {
+    trackWidth = trackElement.clientWidth;
 
-  handle2?.on('update', (newValue) => {
-    handle1.setConstraints(minRange, newValue - step);
-    fill?.update();
-  });
+    ({ left: trackLeft, right: trackRight } = trackElement.getBoundingClientRect());
+
+    for (const handle of handles) if (handle) handle.updateTrackWidth(trackWidth);
+  }, 100);
 
   /**
    * Init events
    */
   trackElement.addEventListener('mousedown', handleMouseDown);
   trackElement.addEventListener('touchstart', handleMouseDown);
+  window.addEventListener('resize', handleWindowResize);
+
+  return handles;
 };

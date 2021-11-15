@@ -1,5 +1,11 @@
 # `rangeslider` Changelog
 
+## [v1.0.0.beta-9] 15th November 2021
+
+- Added support to recalculate the range slider position on window `resize` events.
+- Removed dependency on `Emittery`, reduced the package size from 14KB to 9KB.
+- Internal refactoring and performance improvements.
+
 ## [v1.0.0.beta-8] 14th November 2021
 
 - Fixed values not being correctly calculated when the `min range` was set to a different value than 0.

@@ -1,27 +1,25 @@
-import { Debug, isNotEmpty, setFormFieldValue } from '@finsweet/ts-utils';
+import { Debug, isNotEmpty } from '@finsweet/ts-utils';
 import { ATTRIBUTES } from './constants';
+import { Fill } from './Fill';
 import { Handle } from './Handle';
 
+import type { getSettings } from './settings';
 import type { HandleInstances } from './types';
 
 /**
  * Creates {@link Handle} instances and sets them up.
- * @param handleElements The handle elements.
- * @param inputElements An array of input elements, if existing.
- * @param minRange
- * @param maxRange
- * @param trackWidth
- * @returns
+ * @param settings The settings returned by {@link getSettings}.
+ * @returns The new {@link Handle} instances.
  */
-export const createHandleInstances = (
-  handleElements: HTMLElement[],
-  inputElements: HTMLInputElement[],
-  displayValueElements: HTMLElement[],
-  minRange: number,
-  maxRange: number,
-  trackWidth: number,
-  step: number
-): HandleInstances | undefined => {
+export const createHandleInstances = ({
+  handleElements,
+  inputElements,
+  displayValueElements,
+  minRange,
+  maxRange,
+  trackWidth,
+  step,
+}: NonNullable<ReturnType<typeof getSettings>>): HandleInstances | undefined => {
   const handles = handleElements
     .slice(0, 2)
     .map((handleElement, index) => {
@@ -48,13 +46,10 @@ export const createHandleInstances = (
         maxRange,
         trackWidth,
         step,
+        startValue,
         inputElement,
         displayValueElement,
       });
-
-      handle.setValue(startValue);
-
-      if (inputElement) setFormFieldValue(inputElement, `${startValue}`);
 
       return handle;
     })
@@ -66,8 +61,29 @@ export const createHandleInstances = (
 
   const [handle1, handle2] = handles;
 
-  handle1.setConstraints(minRange, handle2 ? handle2.getValue() - 1 : maxRange);
-  handle2?.setConstraints(handle1.getValue() + 1, maxRange);
+  if (handle2) {
+    handle1.addSibling(handle2);
+    handle2.addSibling(handle1);
+  } else handle1.setConstraints(minRange, maxRange);
 
   return [handle1, handle2];
+};
+
+/**
+ * Creates a `Fill` instance and adds it to the Handles.
+ * @param settings The settings returned by {@link getSettings}.
+ * @param handles The {@link HandleInstances} tuple.
+ * @returns
+ */
+export const createFillInstance = (
+  { fillElement, minRange, maxRange, trackWidth }: NonNullable<ReturnType<typeof getSettings>>,
+  handles: HandleInstances
+) => {
+  if (!fillElement) return;
+
+  const fill = new Fill(fillElement, { minRange, maxRange, trackWidth, handles });
+  const [handle1, handle2] = handles;
+
+  handle1.addFill(fill);
+  handle2?.addFill(fill);
 };

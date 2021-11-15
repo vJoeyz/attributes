@@ -15,6 +15,8 @@ export const getSettings = (
       handleElements: HTMLElement[];
       inputElements: HTMLInputElement[];
       displayValueElements: HTMLElement[];
+      trackLeft: number;
+      trackRight: number;
       trackWidth: number;
       minRange: number;
       maxRange: number;
@@ -45,6 +47,7 @@ export const getSettings = (
     return;
   }
 
+  const { left: trackLeft, right: trackRight } = trackElement.getBoundingClientRect();
   const trackWidth = trackElement.clientWidth;
 
   const minRange = parseFloat(wrapperElement.getAttribute(ATTRIBUTES.min.key) || '0');
@@ -69,6 +72,8 @@ export const getSettings = (
     handleElements,
     inputElements,
     displayValueElements,
+    trackLeft,
+    trackRight,
     trackWidth,
     minRange,
     maxRange,

@@ -2,7 +2,6 @@ import type { Handle } from './Handle';
 
 export class Fill {
   private readonly minRange;
-  private readonly maxRange;
   private readonly totalRange;
 
   private readonly handles: readonly [Handle, Handle | undefined];
@@ -19,7 +18,6 @@ export class Fill {
     }: { minRange: number; maxRange: number; handles: readonly [Handle, Handle | undefined]; trackWidth: number }
   ) {
     this.minRange = minRange;
-    this.maxRange = maxRange;
     this.totalRange = maxRange - minRange;
 
     this.handles = handles;
@@ -27,6 +25,15 @@ export class Fill {
     this.trackWidth = trackWidth;
 
     this.update();
+  }
+
+  /**
+   * Updates the stored track width.
+   * The `update` method is fired from the Handles.
+   * @param newTrackWidth The new track width.
+   */
+  public updateTrackWidth(newTrackWidth: number) {
+    this.trackWidth = newTrackWidth;
   }
 
   /**

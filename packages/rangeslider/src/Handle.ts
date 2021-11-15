@@ -1,24 +1,25 @@
-import Emittery from 'emittery';
 import { setFormFieldValue } from '@finsweet/ts-utils';
 import { HANDLE_INCREMENT_KEYS, HANDLE_KEYS } from './constants';
 import { adjustValueToStep } from './values';
 
-interface HandleEvents {
-  update: number;
-}
+import type { Fill } from './Fill';
 
-export class Handle extends Emittery<HandleEvents> {
+export class Handle {
   private readonly index;
   private readonly minRange;
   private readonly maxRange;
+  private readonly totalRange;
   private readonly step;
 
   private readonly inputElement;
   private readonly displayValueElement;
 
+  private fill?: Fill;
+  private sibling?: Handle;
+
   private trackWidth;
 
-  private currentValue = 0;
+  private currentValue!: number;
   private minValue;
   private maxValue;
 
@@ -30,6 +31,7 @@ export class Handle extends Emittery<HandleEvents> {
       maxRange,
       trackWidth,
       step,
+      startValue,
       inputElement,
       displayValueElement,
     }: {
@@ -38,12 +40,11 @@ export class Handle extends Emittery<HandleEvents> {
       maxRange: number;
       trackWidth: number;
       step: number;
+      startValue: number;
       inputElement?: HTMLInputElement;
       displayValueElement?: HTMLElement;
     }
   ) {
-    super();
-
     element.setAttribute('role', 'slider');
     element.setAttribute('tabindex', '0');
     element.style.top = `50%`;
@@ -55,6 +56,7 @@ export class Handle extends Emittery<HandleEvents> {
     this.index = index;
     this.minRange = minRange;
     this.maxRange = maxRange;
+    this.totalRange = maxRange - minRange;
     this.step = step;
 
     this.minValue = minRange;
@@ -62,6 +64,7 @@ export class Handle extends Emittery<HandleEvents> {
 
     this.trackWidth = trackWidth;
 
+    this.setValue(startValue);
     this.listenEvents();
   }
 
@@ -114,6 +117,19 @@ export class Handle extends Emittery<HandleEvents> {
   }
 
   /**
+   * Updates the Handle's position on the track.
+   */
+  private updatePosition() {
+    const { currentValue, element, trackWidth, minRange, totalRange, fill } = this;
+
+    const left = ((currentValue - minRange) * trackWidth) / totalRange;
+
+    element.style.left = `${left}px`;
+
+    fill?.update();
+  }
+
+  /**
    * @returns The current value of the Handle.
    */
   public getValue = (): number => this.currentValue;
@@ -125,25 +141,14 @@ export class Handle extends Emittery<HandleEvents> {
    * @param updateInputElement Defines if the `<input>` element should be updated. Defaults to `true`.
    */
   public setValue(newValue: number, updateInputElement = true): void {
-    const {
-      currentValue,
-      element,
-      trackWidth,
-      minRange,
-      minValue,
-      maxRange,
-      maxValue,
-      inputElement,
-      displayValueElement,
-    } = this;
+    const { currentValue, element, minValue, maxValue, inputElement, displayValueElement } = this;
 
     if (currentValue === newValue || newValue < minValue || newValue > maxValue) return;
 
-    const left = ((newValue - minRange) * trackWidth) / (maxRange - minRange);
-
     this.currentValue = newValue;
 
-    element.style.left = `${left}px`;
+    this.updatePosition();
+    this.updateSiblingConstraints();
 
     const stringValue = `${newValue}`;
     const localeStringValue = newValue.toLocaleString();
@@ -153,8 +158,6 @@ export class Handle extends Emittery<HandleEvents> {
     if (displayValueElement) displayValueElement.textContent = localeStringValue;
 
     if (inputElement && updateInputElement) setFormFieldValue(inputElement, stringValue);
-
-    this.emit('update', newValue);
   }
 
   /**
@@ -175,5 +178,46 @@ export class Handle extends Emittery<HandleEvents> {
 
     this.minValue = minValue;
     this.maxValue = maxValue;
+  }
+
+  /**
+   * Updates the sibling's constaints, if existing.
+   */
+  public updateSiblingConstraints() {
+    const { index, sibling, step, minRange, maxRange, currentValue } = this;
+
+    if (!sibling) return;
+
+    if (index === 0) sibling.setConstraints(currentValue + step, maxRange);
+    else sibling.setConstraints(minRange, currentValue - step);
+  }
+
+  /**
+   * Updates the stored track width and the Handle's position on the track.
+   * @param newTrackWidth The new track width.
+   */
+  public updateTrackWidth(newTrackWidth: number) {
+    this.trackWidth = newTrackWidth;
+
+    this.fill?.updateTrackWidth(newTrackWidth);
+    this.updatePosition();
+  }
+
+  /**
+   * Adds a `Fill` instance to the Handle.
+   * @param fill A {@link Fill} instance.
+   */
+  public addFill(fill: Fill) {
+    this.fill = fill;
+  }
+
+  /**
+   * Adds a sibling Handle.
+   * @param sibling A {@link Handle} instance.
+   */
+  public addSibling(sibling: Handle) {
+    this.sibling = sibling;
+
+    this.updateSiblingConstraints();
   }
 }
