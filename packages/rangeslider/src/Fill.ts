@@ -17,6 +17,9 @@ export class Fill {
       trackWidth,
     }: { minRange: number; maxRange: number; handles: readonly [Handle, Handle | undefined]; trackWidth: number }
   ) {
+    element.style.position = 'absolute';
+    element.style.right = 'unset';
+
     this.minRange = minRange;
     this.totalRange = maxRange - minRange;
 

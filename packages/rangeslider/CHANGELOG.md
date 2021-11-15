@@ -1,5 +1,9 @@
 # `rangeslider` Changelog
 
+## [v1.0.1] 15th November 2021
+
+- Made sure the track is set to `position: relative` and the Handles & Fill have the correct `position: absolute` values.
+
 ## [v1.0.0] 15th November 2021
 
 - Added support to recalculate the range slider position on window `resize` events.

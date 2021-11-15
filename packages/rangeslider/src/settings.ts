@@ -49,6 +49,7 @@ export const getSettings = (
 
   const { left: trackLeft, right: trackRight } = trackElement.getBoundingClientRect();
   const trackWidth = trackElement.clientWidth;
+  trackElement.style.position = 'relative';
 
   const minRange = parseFloat(wrapperElement.getAttribute(ATTRIBUTES.min.key) || '0');
   const maxRange = parseFloat(wrapperElement.getAttribute(ATTRIBUTES.max.key) || `${minRange + 1}`);

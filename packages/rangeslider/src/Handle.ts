@@ -47,6 +47,8 @@ export class Handle {
   ) {
     element.setAttribute('role', 'slider');
     element.setAttribute('tabindex', '0');
+    element.style.position = 'absolute';
+    element.style.right = 'unset';
     element.style.top = `50%`;
     element.style.transform = 'translate(-50%, -50%)';
 
