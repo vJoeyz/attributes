@@ -1,5 +1,11 @@
 # `cmsfilter` Changelog
 
+## [v1.4.0] 16th November 2021
+
+- Added a visibility tracker to Submit Buttons. If it's not visible (`display: none`), the form will auto-submit as if there was no Submit Button.
+- Added a window `resize` observer to update the visibility status of the Submit Button.
+- Moved tags being rendered on `input` events to being rendered on during the filter rendering. This assures that, if a Submit Button exists and it's visible, the tags will only be updated when submitting the form.
+
 ## [v1.3.1] 16th November 2021
 
 - Updated `cmscore` import.

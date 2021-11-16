@@ -3,7 +3,7 @@ import { assessFilter, clearFilterData } from './filter';
 import { getQueryParams, setQueryParams } from './query';
 import { handleFilterInput } from './input';
 import { ATTRIBUTES } from './constants';
-import { isFormField, sameValues } from '@finsweet/ts-utils';
+import { isFormField, isVisible, sameValues } from '@finsweet/ts-utils';
 import { collectFiltersData, collectFiltersElements } from './collect';
 import { syncFilterKeyResults, updateFilterKeyResults, updateListResults } from './results';
 import { displayFilterElements } from './display';
@@ -79,6 +79,11 @@ export class CMSFilters {
   private filtersActive = false;
 
   /**
+   * Defines if the submit button is visible.
+   */
+  private submitButtonVisible;
+
+  /**
    * Defines a {@link CMSTags} instance.
    */
   private tagsInstance?: CMSTags;
@@ -109,6 +114,8 @@ export class CMSFilters {
     this.form = form;
     this.submitButton = submitButton;
     this.resetButtonsData = resetButtonsData;
+
+    this.submitButtonVisible = !!submitButton && isVisible(submitButton);
 
     this.resultsElement = resultsElement;
 
@@ -155,7 +162,7 @@ export class CMSFilters {
    * Listens for internal events.
    */
   private async listenEvents() {
-    const { form, resetButtonsData } = this;
+    const { form, resetButtonsData, submitButton } = this;
 
     // Form
     form.addEventListener('submit', (e) => this.handleSubmit(e));
@@ -168,6 +175,16 @@ export class CMSFilters {
     for (const [resetButton, filterKeys] of resetButtonsData) {
       resetButton?.addEventListener('click', () => this.resetFilters(filterKeys));
     }
+
+    // Submit button visibility
+    if (submitButton) {
+      window.addEventListener(
+        'resize',
+        debounce(() => {
+          this.submitButtonVisible = isVisible(submitButton);
+        }, 50)
+      );
+    }
   }
 
   /**
@@ -175,7 +192,7 @@ export class CMSFilters {
    * @param e The `InputEvent`.
    */
   private async handleInputEvents({ target }: Event) {
-    const { filtersData, submitButton, showQueryParams, tagsInstance } = this;
+    const { filtersData, submitButtonVisible, showQueryParams } = this;
 
     if (!isFormField(target)) return;
 
@@ -184,9 +201,7 @@ export class CMSFilters {
 
     if (showQueryParams) setQueryParams(filtersData);
 
-    tagsInstance?.syncTags();
-
-    if (!submitButton) await this.applyFilters();
+    if (!submitButtonVisible) await this.applyFilters();
   }
 
   /**
@@ -207,7 +222,7 @@ export class CMSFilters {
    * In that case, the rendering responsibilities are handled by another controller.
    */
   public async applyFilters(addingItems?: boolean): Promise<void> {
-    const { listInstance, filtersData, filtersActive, highlightResults: highlightActivated } = this;
+    const { listInstance, filtersData, filtersActive, highlightResults: highlightActivated, tagsInstance } = this;
     const { items, currentPage } = listInstance;
 
     // Abort if no filtering is needed
@@ -228,7 +243,7 @@ export class CMSFilters {
 
       listInstance.scrollToAnchor();
 
-      await listInstance.renderItems();
+      await Promise.all([tagsInstance?.syncTags(), listInstance.renderItems()]);
     }
   }
 
