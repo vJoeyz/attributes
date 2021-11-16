@@ -1,5 +1,9 @@
 # `cmsload` Changelog
 
+## [v1.1.4] 16th November 2021
+
+- Updated `cmscore` import.
+
 ## [v1.1.3] 12th November 2021
 
 - Fixed `pagination` issues when narrowing down the total amount of pages after using `cmsfilter`.
