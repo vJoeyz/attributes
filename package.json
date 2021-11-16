@@ -6,8 +6,11 @@
   "sideEffects": false,
   "workspaces": [
     "packages\\a11y",
+    "packages\\animation",
+    "packages\\autovideo",
     "packages\\cms\\cmscombine",
     "packages\\cms\\cmscore",
+    "packages\\cms\\cmscss",
     "packages\\cms\\cmsfilter",
     "packages\\cms\\cmsload",
     "packages\\cms\\cmsnest",
@@ -26,8 +29,7 @@
     "packages\\mirrorclick",
     "packages\\mirrorinput",
     "packages\\rangeslider",
-    "packages\\populate",
-    "packages\\rangeslider",
+    "packages\\richtext",
     "packages\\scrolldisable",
     "packages\\sliderdots",
     "packages\\untransform"
@@ -45,8 +47,8 @@
   },
   "homepage": "https://github.com/finsweet/attributes#readme",
   "scripts": {
-    "dev:cms": "npm run dev -w=packages\\cms\\cmscombine -w=packages\\cms\\cmscore -w=packages\\cms\\cmsfilter -w=packages\\cms\\cmsload -w=packages\\cms\\cmsnest -w=packages\\cms\\cmspagination -w=packages\\cms\\cmsprevnext -w=packages\\cms\\cmsselect -w=packages\\cms\\cmsslider -w=packages\\cms\\cmssort -w=packages\\cms\\cmstabs",
-    "build:cms": "npm run build -w=packages\\cms\\cmscombine -w=packages\\cms\\cmscore -w=packages\\cms\\cmsfilter -w=packages\\cms\\cmsload -w=packages\\cms\\cmsnest -w=packages\\cms\\cmspagination -w=packages\\cms\\cmsprevnext -w=packages\\cms\\cmsselect -w=packages\\cms\\cmsslider -w=packages\\cms\\cmssort -w=packages\\cms\\cmstabs"
+    "dev:cms": "npm run dev -w=packages\\cms\\cmscombine -w=packages\\cms\\cmscore -w=packages\\cms\\cmscss -w=packages\\cms\\cmsfilter -w=packages\\cms\\cmsload -w=packages\\cms\\cmsnest -w=packages\\cms\\cmspagination -w=packages\\cms\\cmsprevnext -w=packages\\cms\\cmsselect -w=packages\\cms\\cmsslider -w=packages\\cms\\cmssort -w=packages\\cms\\cmstabs",
+    "build:cms": "npm run build -w=packages\\cms\\cmscombine -w=packages\\cms\\cmscore -w=packages\\cms\\cmscss -w=packages\\cms\\cmsfilter -w=packages\\cms\\cmsload -w=packages\\cms\\cmsnest -w=packages\\cms\\cmspagination -w=packages\\cms\\cmsprevnext -w=packages\\cms\\cmsselect -w=packages\\cms\\cmsslider -w=packages\\cms\\cmssort -w=packages\\cms\\cmstabs"
   },
   "devDependencies": {
     "@finsweet/eslint-config": "^1.1.1",

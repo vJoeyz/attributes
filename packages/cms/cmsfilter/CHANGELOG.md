@@ -1,5 +1,9 @@
 # `cmsfilter` Changelog
 
+## [v1.3.1] 16th November 2021
+
+- Updated `cmscore` import.
+
 ## [v1.3.0] 16th November 2021
 
 - Added `fs-cmsfilter-tagformat` override at the filters level + a new `fs-cmsfilter-tagcategory` attribute.

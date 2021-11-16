@@ -1,5 +1,9 @@
 # `cmsnest` Changelog
 
+## [v1.0.5] 16th November 2021
+
+- Updated `cmscore` import.
+
 ## [v1.0.4] 16th November 2021
 
 - Updated `cmscore` import.

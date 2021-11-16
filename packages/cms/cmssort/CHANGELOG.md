@@ -1,5 +1,9 @@
 # `cmssort` Changelog
 
+## [v1.3.2] 16th November 2021
+
+- Updated `cmscore` import.
+
 ## [v1.3.1] 16th November 2021
 
 - Updated `cmscore` import.

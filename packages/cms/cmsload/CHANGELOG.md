@@ -1,5 +1,9 @@
 # `cmsload` Changelog
 
+## [v1.1.5] 16th November 2021
+
+- Updated `cmscore` import.
+
 ## [v1.1.4] 16th November 2021
 
 - Updated `cmscore` import.
