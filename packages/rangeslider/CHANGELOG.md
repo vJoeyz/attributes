@@ -1,5 +1,9 @@
 # `rangeslider` Changelog
 
+## [v1.1.1] 15th November 2021
+
+- Added `examples.json` to the package.
+
 ## [v1.1.0] 15th November 2021
 
 - Added new `fs-rangefilter-formatdisplay="true"` attribute.
