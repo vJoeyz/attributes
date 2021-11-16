@@ -1,5 +1,9 @@
 # `cmssort` Changelog
 
+## [v1.3.1] 16th November 2021
+
+- Updated `cmscore` import.
+
 ## [v1.3.0] 16th November 2021
 
 - [Buttons]: Added support to override `fs-cmsort-asc="ASC_CSS_CLASS"` and `fs-cmsort-desc="DESC_CSS_CLASS"` at the buttons level.
