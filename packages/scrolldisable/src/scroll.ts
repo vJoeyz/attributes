@@ -1,8 +1,13 @@
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 import { isScrollable } from '@finsweet/ts-utils';
 
+const { body } = document;
+
 let reserveScrollBarGap = true;
 let scrollingDisabled = false;
+
+// TODO: This is a temporary fix, should be removed after `body-scroll-lock` releases an official update.
+let storedScrollY: number | undefined;
 
 /**
  * @returns The current scrolling state
@@ -22,16 +27,24 @@ export const setReserveScrollBarGap = (value: boolean): void => {
  * @param target The target that will preserve scrolling.
  */
 export const disableScrolling = (target: Element): void => {
-  disableBodyScroll(target, { reserveScrollBarGap });
+  storedScrollY = window.scrollY;
   scrollingDisabled = true;
+
+  disableBodyScroll(target, { reserveScrollBarGap });
+
+  body.style.setProperty('top', `${storedScrollY * -1}px`);
 };
 
 /**
  * Enables scrolling.
  */
 export const enableScrolling = (): void => {
-  clearAllBodyScrollLocks();
   scrollingDisabled = false;
+
+  clearAllBodyScrollLocks();
+
+  body.style.setProperty('top', '');
+  if (storedScrollY) body.scrollTo(0, storedScrollY);
 };
 
 /**
