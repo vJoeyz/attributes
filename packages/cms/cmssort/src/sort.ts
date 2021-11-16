@@ -39,8 +39,8 @@ export const sortListItems = async (
       const [firstItemValue] = firstItemProp?.values || [];
       const [secondItemValue] = secondItemProp?.values || [];
 
-      if (!firstItemValue) return 0;
-      if (!secondItemValue) return 1;
+      if (!firstItemValue) return 1;
+      if (!secondItemValue) return -1;
 
       const { type } = firstItemProp;
 

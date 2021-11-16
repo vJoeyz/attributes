@@ -1,5 +1,9 @@
 # `cmssort` Changelog
 
+## [v1.3.3] 16th November 2021
+
+- Fixed items not being sorted correctly when some of them have an empty value.
+
 ## [v1.3.2] 16th November 2021
 
 - Updated `cmscore` import.
