@@ -1,25 +1,26 @@
 import { getSelector } from './constants';
 
-import type { TagData, TagsFormat } from './types';
+import type { TagData, TagFormat } from './types';
 
 /**
  * Updates the innter text of a filter tag.
  * @param tagData A {@link TagData} record.
  * @param format The output format.
  */
-export const updateTagText = ({ element, filterKeys, values, mode }: TagData, format: TagsFormat): void => {
+export const updateTagText = (
+  { element, values, filterData: { filterKeys, mode, tagFormat, tagCategory } }: TagData,
+  globalTagsFormat?: TagFormat
+): void => {
   const textNode = element.querySelector(getSelector('element', 'tagText', { operator: 'prefixed' })) || element;
 
   // Format the value
   const value = mode === 'range' ? `[${values.map((value) => value || '--').join(', ')}]` : values[0];
 
   // Capitalize the filter keys and join them
-  const keys = filterKeys
-    .map((filterKey) => filterKey.replace(/\w[^\s\-]*/g, (word) => word.replace(/^\w/, (char) => char.toUpperCase())))
-    .join(', ');
+  const keys = tagCategory || filterKeys.join(', ');
 
   // Set the new text
-  textNode.textContent = format === 'category' ? `${keys}: ${value}` : value;
+  textNode.textContent = (tagFormat || globalTagsFormat) === 'category' ? `${keys}: ${value}` : value;
 };
 
 /**

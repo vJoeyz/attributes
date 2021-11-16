@@ -184,7 +184,7 @@ export class CMSFilters {
 
     if (showQueryParams) setQueryParams(filtersData);
 
-    if (tagsInstance) tagsInstance.syncTags(filtersData);
+    tagsInstance?.syncTags();
 
     if (!submitButton) await this.applyFilters();
   }
@@ -254,7 +254,7 @@ export class CMSFilters {
 
       // Sync the tags
       (async () => {
-        if (!value && tagsInstance) await tagsInstance.syncTags(filtersData);
+        if (!value && tagsInstance) await tagsInstance.syncTags();
       })(),
     ]);
 
@@ -266,10 +266,8 @@ export class CMSFilters {
    * @param tagsInstance The `CMSTags` instance.
    */
   public async addTagsInstance(tagsInstance: CMSTags) {
-    const { filtersData } = this;
-
     this.tagsInstance = tagsInstance;
 
-    await tagsInstance.syncTags(filtersData);
+    await tagsInstance.syncTags();
   }
 }

@@ -1,4 +1,4 @@
-import { ATTRIBUTES, getSelector, MATCHES, MODES } from './constants';
+import { ATTRIBUTES, getSelector, MATCHES, MODES, TAG_FORMATS } from './constants';
 import {
   extractCommaSeparatedValues,
   FORM_CSS_CLASSES,
@@ -17,6 +17,8 @@ const {
   reset: { key: resetKey },
   range: { key: rangeKey },
   match: { key: matchKey },
+  tagFormat: { key: tagFormatKey },
+  tagCategory: { key: tagCategoryKey },
   hideEmpty: { key: hideEmptyKey, values: hideEmptyValues },
   highlight: { key: highlightKey, values: highlightValues },
 } = ATTRIBUTES;
@@ -81,9 +83,12 @@ export const collectFiltersData = (form: HTMLFormElement, highlightAll?: boolean
 
     const rawMatch = element.getAttribute(matchKey);
     const rawHighlight = element.getAttribute(highlightKey);
+    const rawTagFormat = element.getAttribute(tagFormatKey);
 
     const match = isKeyOf(rawMatch, MATCHES) ? rawMatch : undefined;
     const highlight = highlightAll || rawHighlight === highlightValues.true;
+    const tagFormat = isKeyOf(rawTagFormat, TAG_FORMATS) ? rawTagFormat : undefined;
+    const tagCategory = element.getAttribute(tagCategoryKey);
 
     const rawMode = element.getAttribute(rangeKey);
 
@@ -103,6 +108,8 @@ export const collectFiltersData = (form: HTMLFormElement, highlightAll?: boolean
       match,
       filterKeys,
       highlight,
+      tagFormat,
+      tagCategory,
       mode: filterMode,
       values: new Set(),
     };

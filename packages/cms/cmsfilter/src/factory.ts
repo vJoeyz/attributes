@@ -1,7 +1,7 @@
 import { CMSFilters } from './CMSFilters';
 import { CMSTags } from './CMSTags';
 import { isKeyOf, FORM_CSS_CLASSES } from '@finsweet/ts-utils';
-import { ATTRIBUTES, DEFAULT_HIGHLIGHT_CSS_CLASS, getSelector, TAGS_MODES } from './constants';
+import { ATTRIBUTES, DEFAULT_HIGHLIGHT_CSS_CLASS, getSelector, TAG_FORMATS } from './constants';
 import { addListAnimation } from '$cms/utils/animation';
 
 import type { CMSList } from '$cms/cmscore/src';
@@ -13,7 +13,7 @@ const {
   duration: { key: durationKey },
   easing: { key: easingKey },
   showQuery: { key: showQueryKey, values: showQueryValues },
-  tagsFormat: { key: tagsFormatKey },
+  tagFormat: { key: tagsFormatKey },
   highlight: { key: highlightKey, values: highlightValues },
   highlightCSS: { key: highlightCSSKey },
 } = ATTRIBUTES;
@@ -93,13 +93,13 @@ export const createCMSTagsInstance = async (
 ): Promise<CMSTags | undefined> => {
   const instanceIndex = listInstance.getInstanceIndex(elementKey);
 
-  const tagsTemplate = document.querySelector<HTMLElement>(getSelector('element', 'tagTemplate', { instanceIndex }));
-  if (!tagsTemplate) return;
+  const tagTemplate = document.querySelector<HTMLElement>(getSelector('element', 'tagTemplate', { instanceIndex }));
+  if (!tagTemplate) return;
 
   const rawTagsFormat = listInstance.getAttribute(tagsFormatKey);
-  const tagsFormat = isKeyOf(rawTagsFormat, TAGS_MODES) ? rawTagsFormat : undefined;
+  const globalTagsFormat = isKeyOf(rawTagsFormat, TAG_FORMATS) ? rawTagsFormat : undefined;
 
-  const tagsInstance = new CMSTags(tagsTemplate, tagsFormat, filtersInstance, listInstance);
+  const tagsInstance = new CMSTags(tagTemplate, filtersInstance, listInstance, globalTagsFormat);
 
   await filtersInstance.addTagsInstance(tagsInstance);
 

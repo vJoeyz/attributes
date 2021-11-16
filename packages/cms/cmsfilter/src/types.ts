@@ -1,5 +1,5 @@
 import type { FormField } from '@finsweet/ts-utils';
-import type { MATCHES, MODES } from './constants';
+import type { MATCHES, MODES, TAG_FORMATS } from './constants';
 
 /**
  * Main
@@ -85,6 +85,16 @@ export interface FilterData {
    * Defines if matching `CMSItemProps` should be highlighted.
    */
   highlight: boolean;
+
+  /**
+   * Defines an override for the tag format of the filter.
+   */
+  tagFormat?: TagFormat;
+
+  /**
+   * Defines an override for the identifier display in the `category` tag format.
+   */
+  tagCategory: string | null;
 }
 
 export type FiltersData = FilterData[];
@@ -104,26 +114,16 @@ export interface TagData {
   element: HTMLElement;
 
   /**
-   * The {@link FilterData.filterKeys} that represent this tag.
+   * The related filter data.
    */
-  filterKeys: string[];
+  filterData: FilterData;
 
   /**
-   * The {@link FilterData.values} that represent this tag.
+   * The sliced {@link FilterData.values} that represent this tag.
    */
   values: string[];
-
-  /**
-   * A {@link FilterMode}.
-   */
-  mode?: FilterMode;
-
-  /**
-   * Defines an override name for the `filterKeys` display.
-   */
-  filterKeysOverride?: string;
 }
 
 export type TagsData = TagData[];
 
-export type TagsFormat = 'default' | 'category';
+export type TagFormat = typeof TAG_FORMATS[number];

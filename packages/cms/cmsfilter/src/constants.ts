@@ -127,10 +127,14 @@ export const ATTRIBUTES = {
 
   /**
    * Defines the format of the tags.
-   * Available values: {@link TAGS_MODES}.
-   * Defaults to `default`.
+   * Available values: {@link TAG_FORMATS}.
    */
-  tagsFormat: { key: `${ATTRIBUTES_PREFIX}-tagformat` },
+  tagFormat: { key: `${ATTRIBUTES_PREFIX}-tagformat` },
+
+  /**
+   * Overrides the key display of a filter when using the `category` tag format.
+   */
+  tagCategory: { key: `${ATTRIBUTES_PREFIX}-tagcategory` },
 
   /**
    * Defines the easing function of the list animation.
@@ -151,6 +155,6 @@ export const MODES = {
   range: ['from', 'to'],
 } as const;
 
-export const TAGS_MODES = ['category'] as const;
+export const TAG_FORMATS = ['category'] as const;
 
 export const DEFAULT_HIGHLIGHT_CSS_CLASS = 'fs-cmsfilter_highlight';

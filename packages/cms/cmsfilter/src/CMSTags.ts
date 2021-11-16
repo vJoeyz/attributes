@@ -1,9 +1,9 @@
-import { cloneNode, Debug, sameValues } from '@finsweet/ts-utils';
+import { cloneNode, Debug } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 import { hasRemoveTrigger, updateTagText } from './tags';
 import { CMSFilters } from './CMSFilters';
 
-import type { FiltersData, TagData, TagsData, TagsFormat } from './types';
+import type { FilterData, TagData, TagFormat, TagsData } from './types';
 import type { CMSList } from '$cms/cmscore/src';
 
 export class CMSTags {
@@ -14,9 +14,9 @@ export class CMSTags {
 
   constructor(
     private readonly template: HTMLElement,
-    private readonly format: TagsFormat = 'default',
     private readonly filtersInstance: CMSFilters,
-    private readonly listInstance: CMSList
+    private readonly listInstance: CMSList,
+    private readonly globalTagsFormat?: TagFormat
   ) {
     this.wrapper = template.parentElement || Debug.alert('The tags have no parent wrapper.', 'error');
 
@@ -64,12 +64,12 @@ export class CMSTags {
    * @param filterKeys The `filterKeys` that correspond to the tag.
    * @param values The `value` that corresponds to the tag.
    */
-  private async addTag(filterKeys: TagData['filterKeys'], values: TagData['values'], mode?: TagData['mode']) {
+  private async addTag(filterData: FilterData, values: TagData['values']) {
     const {
       wrapper,
       template,
-      format,
       tagsData,
+      globalTagsFormat,
       listInstance: { listAnimation },
     } = this;
 
@@ -77,12 +77,11 @@ export class CMSTags {
 
     const tagData: TagData = {
       element,
-      filterKeys,
+      filterData,
       values,
-      mode,
     };
 
-    updateTagText(tagData, format);
+    updateTagText(tagData, globalTagsFormat);
 
     tagsData.push(tagData);
 
@@ -99,9 +98,11 @@ export class CMSTags {
    * @param newValues The new value to store.
    */
   private async updateTag(tagData: TagData, newValues: string[]) {
+    const { globalTagsFormat } = this;
+
     tagData.values = newValues;
 
-    updateTagText(tagData, this.format);
+    updateTagText(tagData, globalTagsFormat);
   }
 
   /**
@@ -110,7 +111,11 @@ export class CMSTags {
    * @param resetFilters If set to `true`, the `tagremove` event will be emitted.
    */
   private async removeTag(tagData: TagData, resetFilters?: boolean) {
-    const { element, filterKeys, values } = tagData;
+    const {
+      element,
+      values,
+      filterData: { filterKeys },
+    } = tagData;
     const {
       tagsData,
       filtersInstance,
@@ -143,18 +148,19 @@ export class CMSTags {
    * Syncs the tags with the existing `FiltersData`.
    * @returns An awaitable Promise that resolves once all animations have concluded.
    */
-  public async syncTags(filtersData: FiltersData) {
-    const { tagsData } = this;
+  public async syncTags() {
+    const {
+      tagsData,
+      filtersInstance: { filtersData },
+    } = this;
 
     await Promise.all(
       filtersData.map((filterData) => {
-        const { filterKeys, values, mode: filterMode } = filterData;
+        const { values, mode: filterMode } = filterData;
 
         const filterValues = [...values];
 
-        const existingTags = tagsData.filter(
-          ({ filterKeys: tagKeys, mode: tagMode }) => filterMode === tagMode && sameValues(tagKeys, filterKeys)
-        );
+        const existingTags = tagsData.filter((tagData) => tagData.filterData === filterData);
 
         // Just update the text if it's a single value or a range
         if (
@@ -180,9 +186,9 @@ export class CMSTags {
         return Promise.all([
           // Add tags
           (async () => {
-            if (filterMode === 'range' && valuesToAdd.length) return this.addTag(filterKeys, valuesToAdd, filterMode);
+            if (filterMode === 'range' && valuesToAdd.length) return this.addTag(filterData, valuesToAdd);
 
-            return Promise.all(valuesToAdd.map((value) => this.addTag(filterKeys, [value])));
+            return Promise.all(valuesToAdd.map((value) => this.addTag(filterData, [value])));
           })(),
 
           // Remove tags

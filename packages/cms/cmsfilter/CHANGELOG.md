@@ -1,5 +1,10 @@
 # `cmsfilter` Changelog
 
+## [v1.3.0] 16th November 2021
+
+- Added `fs-cmsfilter-tagformat` override at the filters level + a new `fs-cmsfilter-tagcategory` attribute.
+- Updated `cmscore` import.
+
 ## [v1.2.0] 12th November 2021
 
 - Fixed `undefined` errors when checking range validity in single range props.
