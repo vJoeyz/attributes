@@ -1,5 +1,105 @@
 [
   {
+    "key": "autovideo",
+    "title": "Auto Video",
+    "description": "All videos on the page (Background Video components & <video> elements used in HTML Embeds) play and pause based on if the video is visible in the viewport.",
+    "href": "https://www.finsweet.com/attributes/auto-video",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-autovideo@1",
+    "scriptSrc": "autovideo.js",
+    "examplesSrc": "examples.json",
+    "loadMode": "defer"
+  },
+  {
+    "key": "cmscombine",
+    "title": "CMS Combine",
+    "description": "Take multiple Collection Lists from different Collections and Combine them to one single Collection List.",
+    "href": "https://www.finsweet.com/attributes/cms-combine",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmscombine@1",
+    "scriptSrc": "cmscombine.js",
+    "examplesSrc": "examples.json",
+    "loadMode": "async"
+  },
+  {
+    "key": "cmsfilter",
+    "title": "CMS Filter",
+    "description": "Create advanced and complex no-code filter systems for Webflow CMS Collection List content.",
+    "href": "https://www.finsweet.com/attributes/cms-filter",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmsfilter@1",
+    "scriptSrc": "cmsfilter.js",
+    "examplesSrc": "examples.json",
+    "loadMode": "async"
+  },
+  {
+    "key": "cmsload",
+    "title": "CMS Load",
+    "description": "Set up powerful load functionality on Webflow CMS Collection Lists. Load items under, infinite scroll, pagination, and render all items.",
+    "href": "https://www.finsweet.com/attributes/cms-load",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmsload@1",
+    "scriptSrc": "cmsload.js",
+    "examplesSrc": "examples.json",
+    "loadMode": "async"
+  },
+  {
+    "key": "cmsnest",
+    "title": "CMS Nest",
+    "description": "Option to have no limitations for Webflow CMS Nested Collections. Nest more than 5 items. Nest multiple Collections on a page.",
+    "href": "https://www.finsweet.com/attributes/cms-nest",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmsnest@1",
+    "scriptSrc": "cmsnest.js",
+    "examplesSrc": "examples.json",
+    "loadMode": "async"
+  },
+  {
+    "key": "cmsprevnext",
+    "title": "CMS PrevNext",
+    "description": "Add Previous and Next buttons in Collection Template Pages.",
+    "href": "https://www.finsweet.com/attributes/cms-prevnext",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmsprevnext@1",
+    "scriptSrc": "cmsprevnext.js",
+    "examplesSrc": "examples.json",
+    "loadMode": "async"
+  },
+  {
+    "key": "cmsselect",
+    "title": "CMS Select",
+    "description": "Create dynamic Form Select element with Webflow CMS Collection List.",
+    "href": "https://www.finsweet.com/attributes/cms-select",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmsselect@1",
+    "scriptSrc": "cmsselect.js",
+    "examplesSrc": "examples.json",
+    "loadMode": "async"
+  },
+  {
+    "key": "cmsslider",
+    "title": "CMS Slider",
+    "description": "Create a CMS powered native Webflow Slider component with a Webflow CMS Collection List.",
+    "href": "https://www.finsweet.com/attributes/cms-slider",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmsslider@1",
+    "scriptSrc": "cmsslider.js",
+    "examplesSrc": "examples.json",
+    "loadMode": "async"
+  },
+  {
+    "key": "cmssort",
+    "title": "CMS Sort",
+    "description": "Create advanced and complex no-code sorting for Webflow CMS Collection List content.",
+    "href": "https://www.finsweet.com/attributes/cms-sort",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmssort@1",
+    "scriptSrc": "cmssort.js",
+    "examplesSrc": "examples.json",
+    "loadMode": "async"
+  },
+  {
+    "key": "cmstabs",
+    "title": "CMS Tabs",
+    "description": "Create a CMS powered native Webflow Tabs component with a Webflow CMS Collection List.",
+    "href": "https://www.finsweet.com/attributes/cms-tabs",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmstabs@1",
+    "scriptSrc": "cmstabs.js",
+    "examplesSrc": "examples.json",
+    "loadMode": "async"
+  },
+  {
     "key": "copyclip",
     "title": "Copy to clipboard",
     "description": "Set any element to copy a string value to the clipboard when clicking on it.",
@@ -56,6 +156,26 @@
     "href": "https://www.finsweet.com/attributes/mirror-input-values",
     "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-mirrorinput@1",
     "scriptSrc": "mirrorinput.js",
+    "examplesSrc": "examples.json",
+    "loadMode": "defer"
+  },
+  {
+    "key": "rangeslider",
+    "title": "Range Slider",
+    "description": "Build a custom Range Slider Form component natively in Webflow.",
+    "href": "https://www.finsweet.com/attributes/range-slider",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-rangeslider@1",
+    "scriptSrc": "rangeslider.js",
+    "examplesSrc": "examples.json",
+    "loadMode": "defer"
+  },
+  {
+    "key": "richtext",
+    "title": "Powerful Rich Text",
+    "description": "Add HTML to Rich Text elements, add components from the same page or from different pages, add classes, ids, attributes, and more.",
+    "href": "https://www.finsweet.com/attributes/powerful-rich-text",
+    "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-richtext@1",
+    "scriptSrc": "richtext.js",
     "examplesSrc": "examples.json",
     "loadMode": "defer"
   },

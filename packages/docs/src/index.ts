@@ -21,13 +21,14 @@ window.Webflow.push(async () => {
 
   const { baseSrc, examplesSrc } = attributeData;
 
+  initCopyScriptButton(attributeData);
+
   try {
     const response = await fetch(`${baseSrc}/${examplesSrc}`);
 
     const examples: AttributeExample[] = await response.json();
 
     initCopyExampleButtons(examples);
-    initCopyScriptButton(attributeData);
   } catch (error) {
     return;
   }

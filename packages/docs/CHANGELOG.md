@@ -1,5 +1,9 @@
 # `docs` Changelog
 
+## [v1.3.1] 14th October 2021
+
+- Added new packages in `attributes.json`.
+
 ## [v1.3.0] 14th October 2021
 
 - Removed unused code bits.
