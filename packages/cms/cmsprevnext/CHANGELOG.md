@@ -1,6 +1,6 @@
 # `cmsprevnext` Changelog
 
-## [v1.0.3] 11th November 2021
+## [v1.0.3] 16th November 2021
 
 - Updated `cmscore` import.
 
