@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-autovideo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Auto-play videos only in viewport.",
   "main": "autovideo.js",
   "files": [
