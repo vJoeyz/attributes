@@ -2,6 +2,16 @@ import { Debug, isFormField } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector } from './constants';
 
 /**
+ * Constants
+ */
+const {
+  min: { key: minKey },
+  max: { key: maxKey },
+  step: { key: stepKey },
+  formatDisplay: { key: formatDisplayKey, values: formatDisplayValues },
+} = ATTRIBUTES;
+
+/**
  * Collects the required settings.
  * @param wrapperElement The wrapper element.
  * @returns The settings, if no errors were found.
@@ -15,6 +25,7 @@ export const getSettings = (
       handleElements: HTMLElement[];
       inputElements: HTMLInputElement[];
       displayValueElements: HTMLElement[];
+      formatValueDisplay: boolean;
       trackLeft: number;
       trackRight: number;
       trackWidth: number;
@@ -42,6 +53,8 @@ export const getSettings = (
     ...wrapperElement.querySelectorAll<HTMLElement>(getSelector('element', 'displayValue', { operator: 'prefixed' })),
   ];
 
+  const formatValueDisplay = wrapperElement.getAttribute(formatDisplayKey) === formatDisplayValues.true;
+
   if (!handleElements.length || !trackElement) {
     Debug.alert('The rangeslider is missing a Track element or a Handle element.', 'error');
     return;
@@ -51,8 +64,8 @@ export const getSettings = (
   const trackWidth = trackElement.clientWidth;
   trackElement.style.position = 'relative';
 
-  const minRange = parseFloat(wrapperElement.getAttribute(ATTRIBUTES.min.key) || '0');
-  const maxRange = parseFloat(wrapperElement.getAttribute(ATTRIBUTES.max.key) || `${minRange + 1}`);
+  const minRange = parseFloat(wrapperElement.getAttribute(minKey) || '0');
+  const maxRange = parseFloat(wrapperElement.getAttribute(maxKey) || `${minRange + 1}`);
   const totalRange = maxRange - minRange;
 
   if (Number.isNaN(totalRange)) {
@@ -65,7 +78,13 @@ export const getSettings = (
     return;
   }
 
-  const step = parseFloat(wrapperElement.getAttribute(ATTRIBUTES.step.key) || `${totalRange / 100}`);
+  const step = parseFloat(wrapperElement.getAttribute(stepKey) || `${totalRange / 100}`);
+
+  if (totalRange % step > 0)
+    Debug.alert(
+      `The provided step [${step}] doesn't fit the range [${minRange},${maxRange}], are you sure you want to use this value?`,
+      'info'
+    );
 
   return {
     trackElement,
@@ -73,6 +92,7 @@ export const getSettings = (
     handleElements,
     inputElements,
     displayValueElements,
+    formatValueDisplay,
     trackLeft,
     trackRight,
     trackWidth,

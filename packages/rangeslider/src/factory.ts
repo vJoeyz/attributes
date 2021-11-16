@@ -2,6 +2,7 @@ import { Debug, isNotEmpty } from '@finsweet/ts-utils';
 import { ATTRIBUTES } from './constants';
 import { Fill } from './Fill';
 import { Handle } from './Handle';
+import { adjustValueToStep } from './values';
 
 import type { getSettings } from './settings';
 import type { HandleInstances } from './types';
@@ -15,6 +16,7 @@ export const createHandleInstances = ({
   handleElements,
   inputElements,
   displayValueElements,
+  formatValueDisplay,
   minRange,
   maxRange,
   trackWidth,
@@ -23,21 +25,29 @@ export const createHandleInstances = ({
   const handles = handleElements
     .slice(0, 2)
     .map((handleElement, index) => {
-      const startValue = parseFloat(
+      const rawStartValue = parseFloat(
         handleElement.getAttribute(ATTRIBUTES.start.key) || `${index === 0 ? minRange : maxRange}`
       );
+
+      let startValue = adjustValueToStep(rawStartValue, step);
 
       const inputElement = inputElements[index];
       const displayValueElement = displayValueElements[index];
 
       if (startValue < minRange) {
-        Debug.alert("The start value can't be less than the min.", 'error');
-        return;
+        Debug.alert(
+          `The Handle start value [${startValue}] doesn't match the range, so it has been set to the min value [${minRange}].`,
+          'info'
+        );
+        startValue = minRange;
       }
 
       if (startValue > maxRange) {
-        Debug.alert("The start value can't be greater than the max.", 'error');
-        return;
+        Debug.alert(
+          `The Handle start value [${startValue}] doesn't match the range, so it has been set to the max value [${maxRange}].`,
+          'info'
+        );
+        startValue = maxRange;
       }
 
       const handle = new Handle(handleElement, {
@@ -49,6 +59,7 @@ export const createHandleInstances = ({
         startValue,
         inputElement,
         displayValueElement,
+        formatValueDisplay,
       });
 
       return handle;
@@ -57,10 +68,12 @@ export const createHandleInstances = ({
 
   if (!handles.length) return;
 
+  // Sort them by start value
   if (handles.length > 1) handles.sort((handle1, handle2) => handle1.getValue() - handle2.getValue());
 
   const [handle1, handle2] = handles;
 
+  // Add relationships
   if (handle2) {
     handle1.addSibling(handle2);
     handle2.addSibling(handle1);

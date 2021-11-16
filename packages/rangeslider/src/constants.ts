@@ -53,6 +53,11 @@ export const ATTRIBUTES = {
    * Defines the step of the values.
    */
   step: { key: `${ATTRIBUTES_PREFIX}-step` },
+
+  /**
+   * Defines if the Handles' value display should be formatted.
+   */
+  formatDisplay: { key: `${ATTRIBUTES_PREFIX}-formatdisplay`, values: { true: 'true' } },
 } as const;
 
 export const getSelector = generateSelectors(ATTRIBUTES);

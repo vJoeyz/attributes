@@ -13,6 +13,7 @@ export class Handle {
 
   private readonly inputElement;
   private readonly displayValueElement;
+  private readonly formatValueDisplay;
 
   private fill?: Fill;
   private sibling?: Handle;
@@ -34,6 +35,7 @@ export class Handle {
       startValue,
       inputElement,
       displayValueElement,
+      formatValueDisplay,
     }: {
       index: number;
       minRange: number;
@@ -43,6 +45,7 @@ export class Handle {
       startValue: number;
       inputElement?: HTMLInputElement;
       displayValueElement?: HTMLElement;
+      formatValueDisplay: boolean;
     }
   ) {
     element.setAttribute('role', 'slider');
@@ -54,6 +57,7 @@ export class Handle {
 
     this.inputElement = inputElement;
     this.displayValueElement = displayValueElement;
+    this.formatValueDisplay = formatValueDisplay;
 
     this.index = index;
     this.minRange = minRange;
@@ -143,7 +147,7 @@ export class Handle {
    * @param updateInputElement Defines if the `<input>` element should be updated. Defaults to `true`.
    */
   public setValue(newValue: number, updateInputElement = true): void {
-    const { currentValue, element, minValue, maxValue, inputElement, displayValueElement } = this;
+    const { currentValue, element, minValue, maxValue, inputElement, displayValueElement, formatValueDisplay } = this;
 
     if (currentValue === newValue || newValue < minValue || newValue > maxValue) return;
 
@@ -157,7 +161,7 @@ export class Handle {
 
     element.setAttribute('aria-valuenow', stringValue);
 
-    if (displayValueElement) displayValueElement.textContent = localeStringValue;
+    if (displayValueElement) displayValueElement.textContent = formatValueDisplay ? localeStringValue : stringValue;
 
     if (inputElement && updateInputElement) setFormFieldValue(inputElement, stringValue);
   }
