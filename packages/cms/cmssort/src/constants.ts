@@ -65,6 +65,11 @@ export const ATTRIBUTES = {
    * Defaults to {@link DEFAULT_DESC_CLASS}.
    */
   descClass: { key: `${ATTRIBUTES_PREFIX}-desc` },
+
+  /**
+   * Defines if a button should trigger `desc` sorting on first click.
+   */
+  reverse: { key: `${ATTRIBUTES_PREFIX}-reverse`, values: { true: 'true' } },
 } as const;
 
 export const getSelector = generateSelectors(ATTRIBUTES);

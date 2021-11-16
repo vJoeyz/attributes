@@ -1,5 +1,11 @@
 # `cmssort` Changelog
 
+## [v1.3.0] 16th November 2021
+
+- [Buttons]: Added support to override `fs-cmsort-asc="ASC_CSS_CLASS"` and `fs-cmsort-desc="DESC_CSS_CLASS"` at the buttons level.
+  If the CSS Class Attributes are set to the list, all buttons inherit them by default, but each individual button can override these global values by setting the Attributes to it.
+- [Buttons]: Added new `fs-cmssort-reverse="true"` optional attribute. If set to a button element, the first click will trigger `desc` sorting instead of the default `asc`.
+
 ## [v1.2.0] 14th November 2021
 
 - Added support to use `fs-cmssort-element="scroll-anchor"`.

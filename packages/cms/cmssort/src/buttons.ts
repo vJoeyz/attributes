@@ -1,23 +1,28 @@
 import { sortListItems } from './sort';
 import { ATTRIBUTES } from './constants';
 
-import type { CSSClasses, SortingDirection, SortItemsCallback } from './types';
+import type { ButtonState, ButtonsState, CSSClasses, SortingDirection, SortItemsCallback } from './types';
 import type { CMSItem, CMSList } from '$cms/cmscore/src';
+import type { MapEntries } from '@finsweet/ts-utils';
 
-// Types
-type ButtonsState = Map<HTMLElement, { sortKey: string; direction?: SortingDirection }>;
+// Constants destructuring
+const {
+  ascClass: { key: ascClassKey },
+  descClass: { key: descClassKey },
+  reverse: { key: reverseKey, values: reverseValues },
+} = ATTRIBUTES;
 
 /**
  * Inits the sorting with a group of Buttons.
  * @param buttons The button elements.
  * @param listInstance The {@link CMSList} instance.
- * @param cssClasses The state CSS classes (`asc` and `desc`).
+ * @param globalCSSClasses The state CSS classes (`asc` and `desc`) globally defined on the list.
  */
 export const initButtons = (
   buttons: NodeListOf<HTMLElement>,
   listInstance: CMSList,
   originalItemsOrder: CMSItem[],
-  cssClasses: CSSClasses
+  globalCSSClasses: CSSClasses
 ) => {
   const buttonsState: ButtonsState = new Map();
 
@@ -36,7 +41,7 @@ export const initButtons = (
   };
 
   for (const button of buttons) {
-    prepareButton(button, buttonsState, cssClasses);
+    prepareButton(button, buttonsState, globalCSSClasses);
 
     button.addEventListener('click', async (e) => {
       e.preventDefault();
@@ -52,13 +57,13 @@ export const initButtons = (
       }
 
       sortKey = buttonState.sortKey;
-      direction = getNextDirection(buttonState.direction);
+      direction = getNextDirection(buttonState.direction, buttonState.reverse);
 
-      if (activeButton && button !== activeButton) updateButton(activeButton, undefined, buttonsState, cssClasses);
+      if (activeButton && button !== activeButton) updateButton(activeButton, undefined, buttonsState);
 
       activeButton = button;
 
-      updateButton(button, direction, buttonsState, cssClasses);
+      updateButton(button, direction, buttonsState);
 
       await sortItems();
 
@@ -73,23 +78,36 @@ export const initButtons = (
  * - Inits the button state.
  * - Clears state CSS classes.
  * - Adds `a11ty` attributes.
+ * - Stores CSS Class overrides.
  * @param button The button element.
  * @param buttonsState The {@link ButtonsState} object.
- * @param cssClasses The state CSS classes (`asc` and `desc`).
- * @returns
+ * @param globalCSSClasses The state CSS classes (`asc` and `desc`) globally defined on the list.
  */
-const prepareButton = (button: HTMLElement, buttonsState: ButtonsState, cssClasses: CSSClasses) => {
+const prepareButton = (button: HTMLElement, buttonsState: ButtonsState, globalCSSClasses: CSSClasses) => {
   const sortKey = button.getAttribute(ATTRIBUTES.field.key);
   if (!sortKey) return;
 
-  clearClasses(button, cssClasses);
+  const reverse = button.getAttribute(reverseKey) === reverseValues.true;
+  const ascCSSClassOverride = button.getAttribute(ascClassKey);
+  const descCSSClassOverride = button.getAttribute(descClassKey);
+
+  const buttonState: ButtonState = {
+    sortKey,
+    reverse,
+    cssClasses: {
+      asc: ascCSSClassOverride || globalCSSClasses.asc,
+      desc: descCSSClassOverride || globalCSSClasses.desc,
+    },
+  };
 
   button.setAttribute('role', 'columnheader');
   button.setAttribute('tabindex', '0');
 
   setAria(button);
 
-  buttonsState.set(button, { sortKey });
+  buttonsState.set(button, buttonState);
+
+  clearClasses(button, buttonState);
 };
 
 /**
@@ -97,7 +115,7 @@ const prepareButton = (button: HTMLElement, buttonsState: ButtonsState, cssClass
  * @param button The button element.
  * @param cssClasses The state CSS classes (`asc` and `desc`).
  */
-const clearClasses = (button: HTMLElement, cssClasses: CSSClasses) => {
+const clearClasses = (...[button, { cssClasses }]: MapEntries<ButtonsState>[number]) => {
   for (const cssClass of Object.values(cssClasses)) button.classList.remove(cssClass);
 };
 
@@ -115,18 +133,14 @@ const setAria = (button: HTMLElement, direction?: SortingDirection | undefined) 
  * @param button The button element.
  * @param direction The new direction.
  * @param buttonsState The {@link ButtonsState} object.
- * @param cssClasses The state CSS classes (`asc` and `desc`).
  */
-const updateButton = (
-  button: HTMLElement,
-  direction: SortingDirection | undefined,
-  buttonsState: ButtonsState,
-  cssClasses: CSSClasses
-) => {
+const updateButton = (button: HTMLElement, direction: SortingDirection | undefined, buttonsState: ButtonsState) => {
   const buttonState = buttonsState.get(button);
   if (!buttonState) return;
 
-  clearClasses(button, cssClasses);
+  const { cssClasses } = buttonState;
+
+  clearClasses(button, buttonState);
 
   if (direction) button.classList.add(cssClasses[direction]);
 
@@ -139,5 +153,8 @@ const updateButton = (
  * @returns The new direction of a button.
  * @param currentDirection The current direction of a button.
  */
-// prettier-ignore
-const getNextDirection = (currentDirection?: SortingDirection): SortingDirection => (!currentDirection || currentDirection) === 'desc' ? 'asc' : 'desc';
+const getNextDirection = (currentDirection: SortingDirection | undefined, reverse: boolean): SortingDirection => {
+  if (!currentDirection) return reverse ? 'desc' : 'asc';
+
+  return currentDirection === 'desc' ? 'asc' : 'desc';
+};

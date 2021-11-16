@@ -2,12 +2,19 @@
  * Sorting
  */
 export type SortItemsCallback = (addingItems?: boolean | undefined) => Promise<void>;
+export type SortingDirection = 'asc' | 'desc';
 
 /**
  * Buttons
  */
-export type SortingDirection = 'asc' | 'desc';
 export type CSSClasses = Record<SortingDirection, string>;
+export interface ButtonState {
+  sortKey: string;
+  cssClasses: CSSClasses;
+  direction?: SortingDirection;
+  reverse: boolean;
+}
+export type ButtonsState = Map<HTMLElement, ButtonState>;
 
 /**
  * Dropdown
