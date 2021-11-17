@@ -32,13 +32,13 @@ export const initListSorting = async (listInstance: CMSList) => {
   const triggers = document.querySelectorAll<HTMLElement>(getSelector('element', 'trigger', { instanceIndex }));
   if (!triggers.length) return;
 
-  const { items, listAnimation } = listInstance;
+  const { items } = listInstance;
 
   // Store item props
   for (const item of items) item.collectProps({ fieldKey, typeKey });
 
   // Animation
-  if (!listAnimation) addListAnimation(listInstance, { durationKey, easingKey });
+  addListAnimation(listInstance, { durationKey, easingKey });
 
   // Scroll Anchor Element
   if (!listInstance.scrollAnchor) {

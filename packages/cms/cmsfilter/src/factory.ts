@@ -34,7 +34,7 @@ export const createCMSFiltersInstance = (listInstance: CMSList): CMSFilters | un
   if (!formBlock) return;
 
   // Animation
-  if (!listInstance.listAnimation) addListAnimation(listInstance, { durationKey, easingKey });
+  addListAnimation(listInstance, { durationKey, easingKey });
 
   // Empty State Element
   const emptyElement = document.querySelector<HTMLElement>(getSelector('element', 'empty', { instanceIndex }));

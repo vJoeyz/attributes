@@ -34,7 +34,7 @@ export const initLoadInstance = async (listInstance: CMSList) => {
   // Get animation config
   addItemsAnimation(listInstance, { animationKey, durationKey, easingKey, staggerKey });
 
-  if (!listInstance.listAnimation) addListAnimation(listInstance, { durationKey, easingKey });
+  addListAnimation(listInstance, { durationKey, easingKey });
 
   // Get commerce config
   const restartCommerce = !!Webflow && 'require' in Webflow && !!Webflow.require('commerce');

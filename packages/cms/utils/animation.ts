@@ -21,16 +21,32 @@ export const addListAnimation = async (
     easings,
   } = animationsImport;
 
+  const { listAnimation } = listInstance;
+
   const animationDuration = listInstance.getAttribute(durationKey);
   const animationEasing = listInstance.getAttribute(easingKey);
 
-  listInstance.listAnimation = {
-    ...fade,
-    options: {
-      easing: isKeyOf(animationEasing, easings) ? animationEasing : undefined,
-      duration: animationDuration ? parseFloat(animationDuration) / 200 : DEFAULT_LIST_ANIMATION_DURATION,
-    },
-  };
+  if (listAnimation && !animationDuration && !animationEasing) return;
+
+  const easing = isKeyOf(animationEasing, easings) ? animationEasing : undefined;
+  const duration = animationDuration ? parseFloat(animationDuration) / 200 : DEFAULT_LIST_ANIMATION_DURATION;
+
+  if (!listAnimation) {
+    listInstance.listAnimation = { ...fade, options: { easing, duration } };
+
+    return;
+  }
+
+  const { options } = listAnimation;
+
+  if (!options) {
+    listAnimation.options = { easing, duration };
+
+    return;
+  }
+
+  options.easing ||= easing;
+  if (animationDuration) options.duration = duration;
 };
 
 /**

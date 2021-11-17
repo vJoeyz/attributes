@@ -1,5 +1,9 @@
 # `cmsload` Changelog
 
+## [v1.2.1] 17th November 2021
+
+- Added support to override default list animation duration when it was already set by other `cms` packages.
+
 ## [v1.2.0] 17th November 2021
 
 - Added support for `cmscore` versioning.

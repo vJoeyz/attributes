@@ -1,8 +1,9 @@
 # `cmsfilter` Changelog
 
-## Unreleased
+## [v1.5.1] 17th November 2021
 
-- Added `TagData.textNode` prop so the text node doesn't have to be queried every time a text update is required on a tag.
+- Added support to override default list animation duration when it was already set by other `cms` packages.
+- Memoized `TagData.textNode` prop so the text node doesn't have to be queried every time a text update is required on a tag.
 
 ## [v1.5.0] 17th November 2021
 
