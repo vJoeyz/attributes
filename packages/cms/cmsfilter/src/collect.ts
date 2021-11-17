@@ -1,4 +1,6 @@
 import { ATTRIBUTES, getSelector, MATCHES, MODES, TAG_FORMATS } from './constants';
+import { checkCMSCoreVersion } from '$cms/utils/versioning';
+import { normalizePropKey } from '$cms/utils/props';
 import {
   extractCommaSeparatedValues,
   FORM_CSS_CLASSES,
@@ -46,7 +48,11 @@ export const collectFiltersElements = (
 
   for (const resetButton of resetButtonElements) {
     const rawFilterKeys = resetButton.getAttribute(resetKey);
-    const filterKeys = rawFilterKeys ? [...new Set(extractCommaSeparatedValues(rawFilterKeys))] : [];
+    let filterKeys = rawFilterKeys ? [...new Set(extractCommaSeparatedValues(rawFilterKeys))] : [];
+
+    // `cmscore v1.2.0` implements propKeys normalization.
+    // TODO: Make this a default after 24th November.
+    if (checkCMSCoreVersion('>=', '1.2.0')) filterKeys = filterKeys.map((filterKey) => normalizePropKey(filterKey));
 
     resetButtonsData.set(resetButton, filterKeys);
   }
@@ -76,8 +82,12 @@ export const collectFiltersData = (form: HTMLFormElement, highlightAll?: boolean
     const rawFilterKeys = element.getAttribute(fieldKey);
     if (!rawFilterKeys) continue;
 
-    const filterKeys = [...new Set(extractCommaSeparatedValues(rawFilterKeys))];
+    let filterKeys = [...new Set(extractCommaSeparatedValues(rawFilterKeys))];
     if (!filterKeys.length) continue;
+
+    // `cmscore v1.2.0` implements propKeys normalization.
+    // TODO: Make this a default after 24th November.
+    if (checkCMSCoreVersion('>=', '1.2.0')) filterKeys = filterKeys.map((filterKey) => normalizePropKey(filterKey));
 
     const existingData = filtersData.find((data) => sameValues(filterKeys, data.filterKeys));
 

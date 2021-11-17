@@ -1,6 +1,8 @@
 import { CURRENT_CSS_CLASS, Debug, DROPDOWN_CSS_CLASSES, simulateEvent } from '@finsweet/ts-utils';
-import { sortListItems } from './sort';
+import { checkCMSCoreVersion } from '$cms/utils/versioning';
 import { ATTRIBUTES, getSelector } from './constants';
+import { normalizePropKey } from '$cms/utils/props';
+import { sortListItems } from './sort';
 
 import type { CMSItem, CMSList } from '$cms/cmscore/src';
 import type { Dropdown, DropdownToggle, DropdownList } from '@finsweet/ts-utils';
@@ -126,6 +128,10 @@ const collectDropdownOptions = (dropdownList: DropdownList) => {
         sortKey = fieldKey;
       }
     }
+
+    // `cmscore v1.2.0` implements propKeys normalization.
+    // TODO: Make this a default after 24th November.
+    if (sortKey && checkCMSCoreVersion('>=', '1.2.0')) sortKey = normalizePropKey(sortKey);
 
     dropdownOptions.push({ element, sortKey, direction, selected: false });
   }

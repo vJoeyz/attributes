@@ -1,3 +1,5 @@
+import { checkCMSCoreVersion } from '$cms/utils/versioning';
+import { normalizePropKey } from '$cms/utils/props';
 import { sortListItems } from './sort';
 
 import type { CMSItem, CMSList } from '$cms/cmscore/src';
@@ -49,6 +51,10 @@ export const initHTMLSelect = async (
       direction = 'asc';
       sortKey = value;
     }
+
+    // `cmscore v1.2.0` implements propKeys normalization.
+    // TODO: Make this a default after 24th November.
+    if (checkCMSCoreVersion('>=', '1.2.0')) sortKey = normalizePropKey(sortKey);
 
     await sortItems();
 

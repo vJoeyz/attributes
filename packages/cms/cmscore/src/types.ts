@@ -67,6 +67,7 @@ export interface CMSItemProps {
  * Dynamic Import type
  */
 export interface CMSCore {
+  version: string;
   CMSList: typeof CMSList;
   CMSItem: typeof CMSItem;
   createCMSListInstances: typeof createCMSListInstances;

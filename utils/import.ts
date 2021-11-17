@@ -33,19 +33,27 @@ export const importAnimations = async (): AnimationImport => {
 /**
  * Dynamically imports the `cms/cmscore` package.
  * After the first import, it stores the response in {@link window.fsAttributes.cms.coreImport}.
+ *
+ * Once the import has finished, it also stores the `cmscore` version so other `cms` packages can access it.
+ *
  * @returns A `Promise` of the package response.
  */
 export const importCMSCore = async (): CMSCoreImport => {
   const { fsAttributes } = window;
 
   fsAttributes.cms ||= {};
+  const { cms } = fsAttributes;
 
-  if (fsAttributes.cms.coreImport) return fsAttributes.cms.coreImport;
+  if (cms.coreImport) return cms.coreImport;
 
   try {
-    const cmsCoreImport = import(CMS_CORE_SOURCE);
+    const cmsCoreImport: CMSCoreImport = import(CMS_CORE_SOURCE);
 
-    fsAttributes.cms.coreImport = cmsCoreImport;
+    cms.coreImport = cmsCoreImport;
+
+    cmsCoreImport.then((cmsCore) => {
+      if (cmsCore) cms.coreVersion ||= cmsCore.version;
+    });
 
     return cmsCoreImport;
   } catch (error) {

@@ -1,5 +1,9 @@
 # `cmstabs` Changelog
 
+## [v1.1.0] 17th November 2021
+
+- Added support for `cmscore` versioning.
+
 ## [v1.0.4] 16th November 2021
 
 - Updated `cmscore` import.

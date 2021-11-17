@@ -1,5 +1,6 @@
-import { ATTRIBUTES, getSelector } from './constants';
 import { cloneNode, getCollectionElements, getCollectionListWrappers } from '@finsweet/ts-utils';
+import { ATTRIBUTES, getSelector } from './constants';
+import { normalizePropKey } from '$cms/utils/props';
 import { getNestingTargets } from './collect';
 
 import type { CollectionItemElement } from '@finsweet/ts-utils';
@@ -40,7 +41,7 @@ export const populateNestedCollections = async (
   for (const pageCollectionListWrapper of pageCollectionListWrappers) {
     const pageListInstance = new CMSList(pageCollectionListWrapper);
 
-    const collectionId = pageListInstance.getAttribute(ATTRIBUTES.collection.key);
+    const collectionId = normalizePropKey(pageListInstance.getAttribute(ATTRIBUTES.collection.key));
     if (!collectionId) continue;
 
     const collectionToNest = collectionsToNest.get(collectionId);

@@ -1,5 +1,9 @@
 # `cmssort` Changelog
 
+## [v1.4.0] 17th November 2021
+
+- Added support for `cmscore` versioning.
+
 ## [v1.3.3] 16th November 2021
 
 - Fixed items not being sorted correctly when some of them have an empty value.

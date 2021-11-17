@@ -1,5 +1,9 @@
 # `cmsfilter` Changelog
 
+## [v1.5.0] 17th November 2021
+
+- Added support for `cmscore` versioning.
+
 ## [v1.4.0] 16th November 2021
 
 - Added a visibility tracker to Submit Buttons. If it's not visible (`display: none`), the list will auto-filter as if there was no Submit Button.

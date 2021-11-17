@@ -1,3 +1,5 @@
+import { normalizePropKey } from '$cms/utils/props';
+
 import type { CollectionListElement, CollectionItemElement } from '@finsweet/ts-utils';
 import type { CMSItemProps } from './types';
 
@@ -79,17 +81,18 @@ export class CMSItem {
     const fieldElements = [...element.querySelectorAll<HTMLElement>(`[${fieldKey}]`)];
 
     for (const element of fieldElements) {
-      const filterKey = element.getAttribute(fieldKey);
+      const propKey = normalizePropKey(element.getAttribute(fieldKey));
+      if (!propKey) return;
+
+      const { textContent: propValue, innerHTML: originalHTML } = element;
+      if (!propValue) continue;
+
       const type = typeKey ? element.getAttribute(typeKey) : undefined;
       const range = rangeKey ? element.getAttribute(rangeKey) : undefined;
 
-      const { textContent: propValue, innerHTML: originalHTML } = element;
+      props[propKey] ||= { type, range, values: new Set(), elements: new Map() };
 
-      if (!filterKey || !propValue) continue;
-
-      props[filterKey] ||= { type, range, values: new Set(), elements: new Map() };
-
-      const prop = props[filterKey];
+      const prop = props[propKey];
       const { values, elements } = prop;
 
       if (range === 'from' || range === 'to') {

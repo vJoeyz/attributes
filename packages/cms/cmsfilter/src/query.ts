@@ -1,3 +1,5 @@
+import { normalizePropKey } from '$cms/utils/props';
+import { checkCMSCoreVersion } from '$cms/utils/versioning';
 import { extractCommaSeparatedValues, setFormFieldValue } from '@finsweet/ts-utils';
 
 import type { CMSFilters } from './CMSFilters';
@@ -17,7 +19,14 @@ export const getQueryParams = (cmsFilters: CMSFilters): boolean => {
   const url = new URL(location.href);
   const { searchParams } = url;
 
-  for (const [queryKey, queryValue] of searchParams) {
+  for (const searchParam of searchParams) {
+    let queryKey = searchParam[0];
+    const queryValue = searchParam[1];
+
+    // `cmscore v1.2.0` implements propKeys normalization.
+    // TODO: Make this a default after 24th November.
+    if (checkCMSCoreVersion('>=', '1.2.0')) queryKey = normalizePropKey(queryKey);
+
     const filterData = filtersData.find(({ filterKeys }) => filterKeys.length === 1 && filterKeys.includes(queryKey));
     if (!filterData) continue;
 

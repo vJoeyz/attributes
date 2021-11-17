@@ -13,6 +13,7 @@ declare global {
       animationImport?: AnimationImport;
 
       cms: {
+        coreVersion?: string;
         coreImport?: CMSCoreImport;
         listElements?: CollectionListWrapperElement[];
         lists?: CMSList[];

@@ -1,4 +1,5 @@
 import { ATTRIBUTES, getSelector } from './constants';
+import { normalizePropKey } from '$cms/utils/props';
 
 import type { CollectionItemElement } from '@finsweet/ts-utils';
 import type { CollectionsToNest, NestingTargets } from './types';
@@ -20,7 +21,7 @@ export const getCollectionsToNest = ({ createCMSListInstances }: CMSCore): Colle
   const listInstances = createCMSListInstances([getSelector('collection')]);
 
   for (const listInstance of listInstances) {
-    const collectionId = listInstance.getAttribute(collectionKey);
+    const collectionId = normalizePropKey(listInstance.getAttribute(collectionKey));
     if (!collectionId) continue;
 
     const emptyElement = document.querySelector<HTMLElement>(`[${emptyKey}^="${collectionId}"]`);
@@ -44,7 +45,7 @@ export const getNestingTargets = (itemElement: CollectionItemElement) => {
   const nestingTargetElements = itemElement.querySelectorAll<HTMLElement>(getSelector('collection'));
 
   for (const target of nestingTargetElements) {
-    const collectionId = target.getAttribute(collectionKey);
+    const collectionId = normalizePropKey(target.getAttribute(collectionKey));
     if (!collectionId) continue;
 
     nestingTargets.set(collectionId, target);

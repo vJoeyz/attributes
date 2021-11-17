@@ -1,5 +1,10 @@
 # `cmsnest` Changelog
 
+## [v1.1.0] 17th November 2021
+
+- Added support for `cmscore` versioning.
+- Added `collectionId` normalization.
+
 ## [v1.0.5] 16th November 2021
 
 - Updated `cmscore` import.
