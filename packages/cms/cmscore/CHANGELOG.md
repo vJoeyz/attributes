@@ -1,12 +1,12 @@
 # `cmscore` Changelog
 
-## [v1.2.0] 11th November 2021
+## [v1.2.0] 17th November 2021
 
 - Included the `package.version` in the exports.
 - Forced `trim` and `toLowerCase` to all prop field keys.
 - Added support for `cmscore` versioning.
 
-## [v1.1.2] 11th November 2021
+## [v1.1.2] 15th November 2021
 
 - Updated `restartWebflow` from `@finsweet/ts-utils` to support persisting state after reinitializing the `ix2` module.
 
