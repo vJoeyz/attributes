@@ -8,11 +8,9 @@ import type { TagData, TagFormat } from './types';
  * @param format The output format.
  */
 export const updateTagText = (
-  { element, values, filterData: { filterKeys, mode, tagFormat, tagCategory } }: TagData,
+  { values, textNode, filterData: { filterKeys, mode, tagFormat, tagCategory } }: TagData,
   globalTagsFormat?: TagFormat
 ): void => {
-  const textNode = element.querySelector(getSelector('element', 'tagText', { operator: 'prefixed' })) || element;
-
   // Format the value
   const value = mode === 'range' ? `[${values.map((value) => value || '--').join(', ')}]` : values[0];
 

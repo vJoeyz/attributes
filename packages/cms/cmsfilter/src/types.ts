@@ -114,6 +114,11 @@ export interface TagData {
   element: HTMLElement;
 
   /**
+   * Defines the node where the tag text will be displayed.
+   */
+  textNode: Element;
+
+  /**
    * The related filter data.
    */
   filterData: FilterData;

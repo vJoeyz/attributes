@@ -1,5 +1,9 @@
 # `cmsfilter` Changelog
 
+## Unreleased
+
+- Added `TagData.textNode` prop so the text node doesn't have to be queried every time a text update is required on a tag.
+
 ## [v1.5.0] 17th November 2021
 
 - Added support for `cmscore` versioning.

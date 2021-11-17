@@ -75,10 +75,13 @@ export class CMSTags {
 
     const element = cloneNode(template);
 
+    const textNode = element.querySelector(getSelector('element', 'tagText', { operator: 'prefixed' })) || element;
+
     const tagData: TagData = {
       element,
-      filterData,
       values,
+      textNode,
+      filterData,
     };
 
     updateTagText(tagData, globalTagsFormat);
