@@ -1,3 +1,3 @@
 # `rangeslider` Attribute
 
-Powerful range slider.
+Build a custom Range Slider Form component natively in Webflow.

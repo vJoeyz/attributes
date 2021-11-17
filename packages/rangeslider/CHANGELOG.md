@@ -1,5 +1,9 @@
 # `rangeslider` Changelog
 
+## [v1.1.2] 15th November 2021
+
+- Reduced `resize` debouncing from 100ms to 50ms.
+
 ## [v1.1.1] 15th November 2021
 
 - Added `examples.json` to the package.

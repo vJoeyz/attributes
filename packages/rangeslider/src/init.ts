@@ -128,7 +128,7 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
     ({ left: trackLeft, right: trackRight } = trackElement.getBoundingClientRect());
 
     for (const handle of handles) if (handle) handle.updateTrackWidth(trackWidth);
-  }, 100);
+  }, 50);
 
   /**
    * Init events
