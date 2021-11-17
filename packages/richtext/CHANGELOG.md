@@ -1,5 +1,9 @@
 # `richtext` Changelog
 
+## [v1.2.2] 17th November 2021
+
+- Fixed `examples.json` not being available on NPM.
+
 ## [v1.2.1] 15th November 2021
 
 - `resetIx`: Preserved `ix2` state after re-initting the Webflow module.

@@ -1,10 +1,11 @@
 {
   "name": "@finsweet/attributes-cmsselect",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Populate Select elements based on a CMS source.",
   "main": "cmsselect.js",
   "files": [
-    "cmsselect.js"
+    "cmsselect.js",
+    "examples.json"
   ],
   "type": "module",
   "sideEffects": false,

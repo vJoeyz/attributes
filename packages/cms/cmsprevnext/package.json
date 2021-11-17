@@ -1,10 +1,11 @@
 {
   "name": "@finsweet/attributes-cmsprevnext",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Add Previous and Next buttons in Collection Template Pages.",
   "main": "cmsprevnext.js",
   "files": [
-    "cmsprevnext.js"
+    "cmsprevnext.js",
+    "examples.json"
   ],
   "type": "module",
   "sideEffects": false,

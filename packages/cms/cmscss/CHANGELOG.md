@@ -1,5 +1,9 @@
 # `cmscss` Changelog
 
+## [v1.1.1] 17th November 2021
+
+- Fixed `examples.json` not being available on NPM.
+
 ## [v1.1.0] 17th November 2021
 
 - Added support for `cmscore` versioning.

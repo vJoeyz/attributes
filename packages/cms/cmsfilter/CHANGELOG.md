@@ -1,5 +1,9 @@
 # `cmsfilter` Changelog
 
+## [v1.5.2] 17th November 2021
+
+- Fixed `examples.json` not being available on NPM.
+
 ## [v1.5.1] 17th November 2021
 
 - Added support to override default list animation duration when it was already set by other `cms` packages.

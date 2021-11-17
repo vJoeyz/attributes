@@ -1,10 +1,11 @@
 {
   "name": "@finsweet/attributes-cmsfilter",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Filter items from Webflow CMS dynamic collection list.",
   "main": "cmsfilter.js",
   "files": [
-    "cmsfilter.js"
+    "cmsfilter.js",
+    "examples.json"
   ],
   "type": "module",
   "sideEffects": false,

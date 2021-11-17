@@ -1,5 +1,9 @@
 # `cmsselect` Changelog
 
+## [v1.0.4] 17th November 2021
+
+- Fixed `examples.json` not being available on NPM.
+
 ## [v1.0.3] 10th November 2021
 
 - Updated package description.
