@@ -51,17 +51,17 @@
     "build:cms": "npm run build -w=packages\\cms\\cmscombine -w=packages\\cms\\cmscore -w=packages\\cms\\cmscss -w=packages\\cms\\cmsfilter -w=packages\\cms\\cmsload -w=packages\\cms\\cmsnest -w=packages\\cms\\cmspagination -w=packages\\cms\\cmsprevnext -w=packages\\cms\\cmsselect -w=packages\\cms\\cmsslider -w=packages\\cms\\cmssort -w=packages\\cms\\cmstabs"
   },
   "devDependencies": {
-    "@finsweet/eslint-config": "^1.1.1",
-    "@typescript-eslint/eslint-plugin": "^5.3.1",
-    "@typescript-eslint/parser": "^5.3.1",
+    "@finsweet/eslint-config": "^1.1.2",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
     "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
-    "esbuild": "^0.13.13",
+    "esbuild": "^0.13.14",
     "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.4.1",
-    "typescript": "^4.4.4"
+    "typescript": "^4.5.2"
   },
   "dependencies": {
     "@finsweet/ts-utils": "^0.24.3",
