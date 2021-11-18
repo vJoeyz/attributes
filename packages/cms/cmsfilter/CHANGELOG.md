@@ -1,5 +1,14 @@
 # `cmsfilter` Changelog
 
+## [v1.5.3] 17th November 2021
+
+- Added support for initial state values on `Checkboxes`, `Radio` and `Select` elements.
+  If any of these elements has a default value, on page load the filters will automatically:
+  - Store the value.
+  - Trigger a filter + render workflow.
+  - Sync the tags, if required.
+  - Sync the URL query params, if required.
+
 ## [v1.5.2] 17th November 2021
 
 - Fixed `examples.json` not being available on NPM.

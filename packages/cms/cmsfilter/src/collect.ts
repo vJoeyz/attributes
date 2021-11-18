@@ -1,6 +1,7 @@
 import { ATTRIBUTES, getSelector, MATCHES, MODES, TAG_FORMATS } from './constants';
 import { checkCMSCoreVersion } from '$cms/utils/versioning';
 import { normalizePropKey } from '$cms/utils/props';
+import { handleFilterInput } from './input';
 import {
   extractCommaSeparatedValues,
   FORM_CSS_CLASSES,
@@ -163,6 +164,9 @@ export const collectFiltersData = (form: HTMLFormElement, highlightAll?: boolean
         });
       }
 
+      // Collect initial value
+      handleFilterInput(fieldElement, filtersData);
+
       continue;
     }
 
@@ -185,6 +189,9 @@ export const collectFiltersData = (form: HTMLFormElement, highlightAll?: boolean
         elements: [elementData],
       });
     }
+
+    // Collect initial value
+    if (type === 'select-one') handleFilterInput(element, filtersData);
   }
 
   return filtersData;

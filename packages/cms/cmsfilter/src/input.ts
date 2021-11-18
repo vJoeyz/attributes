@@ -6,15 +6,17 @@ import type { FiltersData } from './types';
  * @param element The input element.
  * @param filtersValues The `FiltersValues` object.
  * @param filterData The {@link FilterData} of the input element.
+ *
+ * @returns `true` if the input event was valid and some filter data was updated.
  */
 export const handleFilterInput = (element: FormField, filtersData: FiltersData): boolean => {
   const { value } = element;
 
-  const relatedData = filtersData.filter(({ elements }) => elements.some((data) => data.element === element));
-  if (!relatedData.length) return false;
+  const relatedFilterData = filtersData.filter(({ elements }) => elements.some((data) => data.element === element));
+  if (!relatedFilterData.length) return false;
 
-  for (const data of relatedData) {
-    const { elements, values: filterValues, mode: filterMode } = data;
+  for (const relatedData of relatedFilterData) {
+    const { elements, values: filterValues, mode: filterMode } = relatedData;
 
     const elementData = elements.find((data) => data.element === element);
     if (!elementData) continue;
@@ -49,7 +51,7 @@ export const handleFilterInput = (element: FormField, filtersData: FiltersData):
           const newValues = [...filterValues];
           newValues[elementMode === 'from' ? 0 : 1] = value;
 
-          if (newValues.some((value) => !!value)) data.values = new Set(newValues);
+          if (newValues.some((value) => !!value)) relatedData.values = new Set(newValues);
           else filterValues.clear();
 
           break;

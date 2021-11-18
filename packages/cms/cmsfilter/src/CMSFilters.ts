@@ -151,9 +151,9 @@ export class CMSFilters {
 
     if (showFilterResults) updateFilterKeyResults(this);
 
-    const queryParamsValid = getQueryParams(this);
+    getQueryParams(this);
 
-    if (queryParamsValid) this.applyFilters();
+    this.applyFilters();
 
     this.listenEvents();
   }
@@ -192,14 +192,12 @@ export class CMSFilters {
    * @param e The `InputEvent`.
    */
   private async handleInputEvents({ target }: Event) {
-    const { filtersData, submitButtonVisible, showQueryParams } = this;
+    const { filtersData, submitButtonVisible } = this;
 
     if (!isFormField(target)) return;
 
     const validInput = handleFilterInput(target, filtersData);
     if (!validInput) return;
-
-    if (showQueryParams) setQueryParams(filtersData);
 
     if (!submitButtonVisible) await this.applyFilters();
   }
@@ -220,9 +218,11 @@ export class CMSFilters {
    *
    * @param addingItems Defines if new items are being added.
    * In that case, the rendering responsibilities are handled by another controller.
+   *
+   * @param syncTags Defines if the {@link CMSTags} instance should be syncronized. Defaults to `true`.
    */
-  public async applyFilters(addingItems?: boolean): Promise<void> {
-    const { listInstance, filtersData, filtersActive, highlightResults: highlightActivated, tagsInstance } = this;
+  public async applyFilters(addingItems?: boolean, syncTags = true): Promise<void> {
+    const { listInstance, filtersData, filtersActive, highlightResults, tagsInstance, showQueryParams } = this;
     const { items, currentPage } = listInstance;
 
     // Abort if no filtering is needed
@@ -234,7 +234,7 @@ export class CMSFilters {
 
     // Define show/hide of each item based on the match
     for (const item of items) {
-      item.valid = assessFilter(item, filtersData, filtersAreEmpty, highlightActivated);
+      item.valid = assessFilter(item, filtersData, filtersAreEmpty, highlightResults);
     }
 
     // Render the items
@@ -243,7 +243,17 @@ export class CMSFilters {
 
       listInstance.scrollToAnchor();
 
-      await Promise.all([tagsInstance?.syncTags(), listInstance.renderItems()]);
+      if (showQueryParams) setQueryParams(filtersData);
+
+      await Promise.all([
+        // Render items
+        listInstance.renderItems(),
+
+        // Sync the `CMSTags`
+        (async () => {
+          if (syncTags) await tagsInstance?.syncTags();
+        })(),
+      ]);
     }
   }
 
@@ -253,7 +263,7 @@ export class CMSFilters {
    * @param value If passed, only that specific value and the elements that hold it will be cleared.
    */
   public async resetFilters(filterKeys?: string[], value?: string): Promise<void> {
-    const { filtersData, showQueryParams, tagsInstance } = this;
+    const { filtersData } = this;
 
     if (!filterKeys || !filterKeys.length) for (const filterData of filtersData) clearFilterData(filterData);
     else {
@@ -263,17 +273,9 @@ export class CMSFilters {
       clearFilterData(filterData, value);
     }
 
-    await Promise.all([
-      // Apply filters
-      this.applyFilters(),
+    const syncTags = !value;
 
-      // Sync the tags
-      (async () => {
-        if (!value && tagsInstance) await tagsInstance.syncTags();
-      })(),
-    ]);
-
-    if (showQueryParams) setQueryParams(filtersData);
+    await this.applyFilters(false, syncTags);
   }
 
   /**
