@@ -1,6 +1,6 @@
 # `cmsfilter` Changelog
 
-## [v1.5.4] 17th November 2021
+## [v1.5.4] 23rd November 2021
 
 - Improved accessibility by ensuring unique IDs on dynamically generated form elements in `Collection Lists`.
 
