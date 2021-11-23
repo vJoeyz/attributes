@@ -1,5 +1,12 @@
 # `cmsload` Changelog
 
+## [v1.3.0] 23rd November 2021
+
+- Added support for using `Lightbox` elements inside `Collection List Items` when using `cmsload`.
+  The script will now detect if any newly rendered item contains a `.w-lightbox` trigger and restart the Webflow `lightbox` module.
+- Improved support for loading items when `E-Commerce` is enabled.
+  Now the Webflow `commerce` module will only be restarted if if any newly rendered has an `Add To Cart` form.
+
 ## [v1.2.2] 17th November 2021
 
 - Fixed `examples.json` not being available on NPM.

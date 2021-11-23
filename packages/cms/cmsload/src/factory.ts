@@ -1,9 +1,10 @@
+import { COMMERCE_CSS_CLASSES, LIGHTBOX_CSS_CLASSES } from '@finsweet/ts-utils';
+import { addItemsAnimation, addListAnimation } from '$cms/utils/animation';
 import { ATTRIBUTES, getSelector } from './constants';
 import { initRenderAllMode } from './modes/render-all';
 import { initInfiniteMode } from './modes/infinite';
-import { initDefaultMode } from './modes/default';
 import { initPaginateMode } from './modes/paginate';
-import { addItemsAnimation, addListAnimation } from '$cms/utils/animation';
+import { initDefaultMode } from './modes/default';
 
 import type { CMSList } from '$cms/cmscore/src';
 
@@ -30,6 +31,7 @@ const { Webflow } = window;
  */
 export const initLoadInstance = async (listInstance: CMSList) => {
   const instanceIndex = listInstance.getInstanceIndex(elementKey);
+  const { items } = listInstance;
 
   // Get animation config
   addItemsAnimation(listInstance, { animationKey, durationKey, easingKey, staggerKey });
@@ -37,8 +39,22 @@ export const initLoadInstance = async (listInstance: CMSList) => {
   addListAnimation(listInstance, { durationKey, easingKey });
 
   // Get commerce config
-  const restartCommerce = !!Webflow && 'require' in Webflow && !!Webflow.require('commerce');
+  const restartCommerce =
+    !!Webflow &&
+    'require' in Webflow &&
+    !!Webflow.require('commerce') &&
+    items.some(({ element }) => element.querySelector(`.${COMMERCE_CSS_CLASSES.addToCartForm}`));
+
   if (restartCommerce) listInstance.restartCommerce = restartCommerce;
+
+  // Get lightbox config
+  const restartLightbox =
+    !!Webflow &&
+    'require' in Webflow &&
+    !!Webflow.require('lightbox') &&
+    items.some(({ element }) => element.querySelector(`.${LIGHTBOX_CSS_CLASSES.trigger}`));
+
+  if (restartLightbox) listInstance.restartLightbox = restartLightbox;
 
   // Get resetIx config
   const restartIx = listInstance.getAttribute(resetIxKey) === resetIxValues.true;
