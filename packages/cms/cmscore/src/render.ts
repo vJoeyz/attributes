@@ -17,7 +17,7 @@ type AnchorData = [CMSItem, number, CMSItem | undefined];
  * If not, the list will be animated instead.
  */
 export const renderListItems = async (listInstance: CMSList, addingItems = false) => {
-  const { items, itemsPerPage, currentPage, restartIx, restartCommerce, emptyState: oldEmptyState } = listInstance;
+  const { items, itemsPerPage, currentPage, emptyState: oldEmptyState } = listInstance;
 
   // Collect items and recalculate the total pages
   const validItems: CMSItem[] = [];
@@ -74,7 +74,7 @@ export const renderListItems = async (listInstance: CMSList, addingItems = false
   await listInstance.emitSerial('renderitems', itemsToShow);
 
   // Restart Webflow Modules if needed
-  if (restartIx || restartCommerce) await restartWebflowModules(items, itemsToShow, restartIx, restartCommerce);
+  await restartWebflowModules(itemsToShow, listInstance);
 
   // Animate the list
   if (animateList) await listInstance.displayElement(newEmptyState ? 'emptyElement' : 'list');

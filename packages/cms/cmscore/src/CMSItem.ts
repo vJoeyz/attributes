@@ -34,14 +34,9 @@ export class CMSItem {
   public animating?: Promise<void>;
 
   /**
-   * Defines if the item needs a Webflow `ix2` module restart.
+   * Defines if the item needs a Webflow modules restart.
    */
-  public needsIx2Restart: boolean;
-
-  /**
-   * Defines if the item needs a Webflow `commerce` module restart.
-   */
-  public needsCommerceRestart: boolean;
+  public needsWebflowRestart: boolean;
 
   /**
    * @param element The DOM element of the item.
@@ -67,7 +62,7 @@ export class CMSItem {
 
     const rendered = typeof currentIndex === 'number';
 
-    this.needsIx2Restart = this.needsCommerceRestart = !rendered;
+    this.needsWebflowRestart = !rendered;
   }
 
   /**

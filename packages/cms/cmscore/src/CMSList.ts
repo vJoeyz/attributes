@@ -106,6 +106,12 @@ export class CMSList extends Emittery<CMSListEvents> {
   public itemsAnimation?: Animation;
 
   /**
+   * Defines if the entire `window.Webflow` instance must be restarted when rendering items.
+   * If set, individual modules ('ix2', 'commerce', 'lightbox') will also be restarted.
+   */
+  public restartWebflow = false;
+
+  /**
    * Defines if the Webflow `ix2` module must be restarted when rendering items.
    */
   public restartIx = false;
@@ -114,6 +120,11 @@ export class CMSList extends Emittery<CMSListEvents> {
    * Defines if the Webflow `commerce` module must be restarted when rendering items.
    */
   public restartCommerce = false;
+
+  /**
+   * Defines if the Webflow `lightbox` module must be restarted when rendering items.
+   */
+  public restartLightbox = false;
 
   /**
    * A Promise that resolves when the previous rendering task finishes.

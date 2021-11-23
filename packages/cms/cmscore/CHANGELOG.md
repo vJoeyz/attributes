@@ -1,5 +1,11 @@
 # `cmscore` Changelog
 
+## [v1.3.0] 17th November 2021
+
+- Replaced `CMSItem.needsXXXRestart` props to a single `CMSItem.needsWebflowRestart`, as they were redundant.
+- Added `CMSList.restartWebflow` prop.
+- Improved `restartWebflowModules` and added support for `CMSList.restartWebflow`.
+
 ## [v1.2.0] 17th November 2021
 
 - Included the `package.version` in the exports.
