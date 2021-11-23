@@ -56,15 +56,15 @@
     "@typescript-eslint/parser": "^5.4.0",
     "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
-    "esbuild": "^0.13.14",
-    "eslint": "^8.2.0",
+    "esbuild": "^0.13.15",
+    "eslint": "^8.3.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.4.1",
     "typescript": "^4.5.2"
   },
   "dependencies": {
-    "@finsweet/ts-utils": "^0.24.3",
+    "@finsweet/ts-utils": "^0.25.1",
     "emittery": "^0.10.0",
     "just-debounce": "^1.1.0",
     "just-throttle": "^4.0.1"
