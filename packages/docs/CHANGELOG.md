@@ -1,5 +1,13 @@
 # `docs` Changelog
 
+## [v1.4.1] 23rd November 2021
+
+- Switched from using `hljs.highlightBlock` to `hljs.highlightElement`.
+
+## [v1.4.0] 23rd November 2021
+
+- Added code highlighting.
+
 ## [v1.3.1] 14th October 2021
 
 - Added new packages in `attributes.json`.

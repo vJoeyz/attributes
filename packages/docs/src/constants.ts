@@ -9,6 +9,7 @@ export const ATTRIBUTES = {
   element: {
     key: `${ATTRIBUTES_PREFIX}-element`,
     values: {
+      code: 'code',
       copyButton: 'copy-button',
       copyButtonText: 'copy-button-text',
       exampleDisplay: 'example-display',

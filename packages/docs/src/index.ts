@@ -2,6 +2,7 @@ import ATTRIBUTES_DATA from '../attributes.json';
 import { ATTRIBUTES } from './constants';
 import { initCopyExampleButtons } from './copy-examples';
 import { initCopyScriptButton } from './copy-script';
+import { initCodeHighlight } from './highlight';
 import { initTitles } from './titles';
 
 import type { AttributeExample } from './types';
@@ -19,9 +20,12 @@ window.Webflow.push(async () => {
 
   initTitles();
 
-  const { baseSrc, examplesSrc } = attributeData;
+  const { baseSrc, examplesSrc, title, loadMode, scriptSrc } = attributeData;
 
-  initCopyScriptButton(attributeData);
+  const copyCode = `<!-- [Attributes by Finsweet] ${title} -->\n<script ${loadMode} src=\"${baseSrc}/${scriptSrc}\"></script>`;
+
+  initCodeHighlight(copyCode);
+  initCopyScriptButton(copyCode);
 
   try {
     const response = await fetch(`${baseSrc}/${examplesSrc}`);
