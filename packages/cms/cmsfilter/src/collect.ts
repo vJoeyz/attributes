@@ -1,6 +1,6 @@
 import { ATTRIBUTES, getSelector, MATCHES, MODES, TAG_FORMATS } from './constants';
-import { checkCMSCoreVersion } from '$cms/utils/versioning';
 import { normalizePropKey } from '$cms/utils/props';
+import { ensureUniqueFormFieldId } from './a11ty';
 import { handleFilterInput } from './input';
 import {
   extractCommaSeparatedValues,
@@ -49,11 +49,9 @@ export const collectFiltersElements = (
 
   for (const resetButton of resetButtonElements) {
     const rawFilterKeys = resetButton.getAttribute(resetKey);
-    let filterKeys = rawFilterKeys ? [...new Set(extractCommaSeparatedValues(rawFilterKeys))] : [];
-
-    // `cmscore v1.2.0` implements propKeys normalization.
-    // TODO: Make this a default after 24th November.
-    if (checkCMSCoreVersion('>=', '1.2.0')) filterKeys = filterKeys.map((filterKey) => normalizePropKey(filterKey));
+    const filterKeys = rawFilterKeys
+      ? [...new Set(extractCommaSeparatedValues(rawFilterKeys))].map((filterKey) => normalizePropKey(filterKey))
+      : [];
 
     resetButtonsData.set(resetButton, filterKeys);
   }
@@ -78,17 +76,16 @@ export const collectFiltersData = (form: HTMLFormElement, highlightAll?: boolean
 
   const elements = form.querySelectorAll<HTMLElement>(getSelector('field'));
 
-  for (const element of elements) {
+  elements.forEach((element, index) => {
     // Collect settings
     const rawFilterKeys = element.getAttribute(fieldKey);
-    if (!rawFilterKeys) continue;
+    if (!rawFilterKeys) return;
 
-    let filterKeys = [...new Set(extractCommaSeparatedValues(rawFilterKeys))];
-    if (!filterKeys.length) continue;
+    const filterKeys = [...new Set(extractCommaSeparatedValues(rawFilterKeys))].map((filterKey) =>
+      normalizePropKey(filterKey)
+    );
 
-    // `cmscore v1.2.0` implements propKeys normalization.
-    // TODO: Make this a default after 24th November.
-    if (checkCMSCoreVersion('>=', '1.2.0')) filterKeys = filterKeys.map((filterKey) => normalizePropKey(filterKey));
+    if (!filterKeys.length) return;
 
     const existingData = filtersData.find((data) => sameValues(filterKeys, data.filterKeys));
 
@@ -140,6 +137,9 @@ export const collectFiltersData = (form: HTMLFormElement, highlightAll?: boolean
       const value = isCheckbox ? 'true' : element.textContent || '';
 
       const fieldElement = isCheckbox ? element : (checkboxOrRadioField.querySelector('input') as HTMLInputElement);
+
+      ensureUniqueFormFieldId(fieldElement, index);
+
       const resultsElement = checkboxOrRadioField.querySelector<HTMLElement>(
         getSelector('element', 'filterResultsCount', { operator: 'prefixed' })
       );
@@ -167,13 +167,15 @@ export const collectFiltersData = (form: HTMLFormElement, highlightAll?: boolean
       // Collect initial value
       handleFilterInput(fieldElement, filtersData);
 
-      continue;
+      return;
     }
 
     // Other Form Fields
-    if (!isFormField(element) || element.type === 'submit') continue;
+    if (!isFormField(element) || element.type === 'submit') return;
 
     const { type, value } = element;
+
+    ensureUniqueFormFieldId(element, index);
 
     const elementData: FilterElement = {
       ...globalElementData,
@@ -192,7 +194,7 @@ export const collectFiltersData = (form: HTMLFormElement, highlightAll?: boolean
 
     // Collect initial value
     if (type === 'select-one') handleFilterInput(element, filtersData);
-  }
+  });
 
   return filtersData;
 };

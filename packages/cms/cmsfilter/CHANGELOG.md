@@ -1,5 +1,9 @@
 # `cmsfilter` Changelog
 
+## [v1.5.4] 17th November 2021
+
+- Improved accessibility by ensuring unique IDs on dynamically generated form elements in `Collection Lists`.
+
 ## [v1.5.3] 17th November 2021
 
 - Added support for initial state values on `Checkboxes`, `Radio` and `Select` elements.
