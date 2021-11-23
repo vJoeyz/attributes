@@ -1,5 +1,9 @@
 # `cmscore` Changelog
 
+## [v1.3.1] 23rd November 2021
+
+- Updated `restartWebflow` from `@finsweet/ts-utils` to include `lightbox` module support.
+
 ## [v1.3.0] 23rd November 2021
 
 - Replaced `CMSItem.needsXXXRestart` props to a single `CMSItem.needsWebflowRestart`, as they were redundant.
