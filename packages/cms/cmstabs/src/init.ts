@@ -26,7 +26,7 @@ export const init = async (): Promise<CMSList[]> => {
 
     // Listen events
     for (const listInstance of listInstances) {
-      listInstance.restartIx = true;
+      listInstance.restartWebflow = true;
 
       listInstance.items = [];
 
