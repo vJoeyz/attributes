@@ -1,4 +1,3 @@
-import { checkCMSCoreVersion } from '$cms/utils/versioning';
 import { normalizePropKey } from '$cms/utils/props';
 import { ATTRIBUTES } from './constants';
 import { sortListItems } from './sort';
@@ -86,11 +85,10 @@ export const initButtons = (
  * @param globalCSSClasses The state CSS classes (`asc` and `desc`) globally defined on the list.
  */
 const prepareButton = (button: HTMLElement, buttonsState: ButtonsState, globalCSSClasses: CSSClasses) => {
-  // `cmscore v1.2.0` implements propKeys normalization.
-  // TODO: Make this a default after 24th November.
-  let sortKey: string | null | undefined = button.getAttribute(ATTRIBUTES.field.key);
-  if (checkCMSCoreVersion('>=', '1.2.0')) sortKey = normalizePropKey(sortKey);
-  if (!sortKey) return;
+  const rawSortKey = button.getAttribute(ATTRIBUTES.field.key);
+  if (!rawSortKey) return;
+
+  const sortKey = normalizePropKey(rawSortKey);
 
   const reverse = button.getAttribute(reverseKey) === reverseValues.true;
   const ascCSSClassOverride = button.getAttribute(ascClassKey);

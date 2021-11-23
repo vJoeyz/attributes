@@ -1,5 +1,9 @@
 # `cmssort` Changelog
 
+## [v1.4.3] 23rd November 2021
+
+- Removed `cmscore v1.2.0` checks.
+
 ## [v1.4.2] 17th November 2021
 
 - Fixed `examples.json` not being available on NPM.
