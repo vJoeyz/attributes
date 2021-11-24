@@ -48,7 +48,9 @@ export const init = async (): Promise<void> => {
         return;
       }
 
-      const currentItemIndex = items.findIndex(({ href }) => href && href === currentURL);
+      const currentItemIndex = items.findIndex(
+        ({ href }) => href && href.replace(/\/+$/, '') === currentURL.replace(/\/+$/, '')
+      );
       if (currentItemIndex < 0) return;
 
       if (previousPlaceholder) {
