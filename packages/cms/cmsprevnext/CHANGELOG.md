@@ -1,5 +1,9 @@
 # `cmsprevnext` Changelog
 
+## Unreleased
+
+- Updated `@finsweet/ts-utils` to use the new `removeTrailingSlash` helper.
+
 ## [v1.1.2] 24th November 2021
 
 - Added support to compare URLs with and without a trailing slash `/`.

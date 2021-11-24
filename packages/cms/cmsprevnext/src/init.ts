@@ -1,6 +1,7 @@
-import { getSelector } from './constants';
-import { collectElements } from './collect';
+import { removeTrailingSlash } from '@finsweet/ts-utils';
 import { importCMSCore } from '$utils/import';
+import { collectElements } from './collect';
+import { getSelector } from './constants';
 
 import type { CMSItem } from '$cms/cmscore/src';
 
@@ -49,8 +50,9 @@ export const init = async (): Promise<void> => {
       }
 
       const currentItemIndex = items.findIndex(
-        ({ href }) => href && href.replace(/\/+$/, '') === currentURL.replace(/\/+$/, '')
+        ({ href }) => href && removeTrailingSlash(href) === removeTrailingSlash(currentURL)
       );
+
       if (currentItemIndex < 0) return;
 
       if (previousPlaceholder) {
