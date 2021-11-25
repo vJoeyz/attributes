@@ -1,5 +1,10 @@
 # `scrolldisable` Changelog
 
+## [v1.1.11] 25th November 2021
+
+- Updated `Example 3: When Visible` data.
+- Updated `README.md`.
+
 ## [v1.1.10] 16th November 2021
 
 - Added a [temporary fix](https://github.com/willmcpo/body-scroll-lock/issues/237#issuecomment-954804479) to prevent Safari on `iOS 15` from jumping to the top of the page.
