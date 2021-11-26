@@ -1,5 +1,9 @@
 # `cmssort` Changelog
 
+## [v1.4.4] 26th November 2021
+
+- Fixed `fs-cmssort-duration` being incorrectly applied.
+
 ## [v1.4.3] 23rd November 2021
 
 - Removed `cmscore v1.2.0` checks.
