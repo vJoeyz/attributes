@@ -1,5 +1,9 @@
 # `cmsfilter` Changelog
 
+## [v1.6.1] 26th November 2021
+
+- Renamed `fs-cmsfilter-debouncing` to `fs-cmsfilter-debounce`.
+
 ## [v1.6.0] 26th November 2021
 
 - Added `fs-cmsfilter-debouncing="TIME_IN_MS"`.

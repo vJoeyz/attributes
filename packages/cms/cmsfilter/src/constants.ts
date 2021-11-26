@@ -135,7 +135,7 @@ export const ATTRIBUTES = {
    * Defines the debouncing for input events.
    * Defaults to {@link DEFAULT_DEBOUNCING}.
    */
-  debouncing: { key: `${ATTRIBUTES_PREFIX}-debouncing` },
+  debouncing: { key: `${ATTRIBUTES_PREFIX}-debounce` },
 
   /**
    * Defines the format of the tags.
