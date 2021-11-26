@@ -36,8 +36,9 @@
     "href": "https://www.finsweet.com/attributes/cms-load",
     "baseSrc": "https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmsload@1",
     "scriptSrc": "cmsload.js",
+    "loadMode": "async",
     "examplesSrc": "examples.json",
-    "loadMode": "async"
+    "schemaSrc": "schema.json"
   },
   {
     "key": "cmsnest",

@@ -1,6 +1,6 @@
 import { Debug, extractNumberSuffix } from '@finsweet/ts-utils';
 import { ATTRIBUTES } from './constants';
-import { GlobalAttributeParams } from './types';
+import { GlobalAttributeParams } from './types/global';
 
 /**
  * Makes sure the window object is defined.

@@ -5,7 +5,8 @@
   "main": "cmsload.js",
   "files": [
     "cmsload.js",
-    "examples.json"
+    "examples.json",
+    "schema.json"
   ],
   "type": "module",
   "sideEffects": false,
