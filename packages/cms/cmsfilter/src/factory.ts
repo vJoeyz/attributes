@@ -1,7 +1,14 @@
 import { CMSFilters } from './CMSFilters';
 import { CMSTags } from './CMSTags';
 import { isKeyOf, FORM_CSS_CLASSES } from '@finsweet/ts-utils';
-import { ATTRIBUTES, DEFAULT_HIGHLIGHT_CSS_CLASS, getSelector, TAG_FORMATS } from './constants';
+import {
+  ATTRIBUTES,
+  DEFAULT_ACTIVE_CSS_CLASS,
+  DEFAULT_DEBOUNCING,
+  DEFAULT_HIGHLIGHT_CSS_CLASS,
+  getSelector,
+  TAG_FORMATS,
+} from './constants';
 import { addListAnimation } from '$cms/utils/animation';
 
 import type { CMSList } from '$cms/cmscore/src';
@@ -16,6 +23,8 @@ const {
   tagFormat: { key: tagsFormatKey },
   highlight: { key: highlightKey, values: highlightValues },
   highlightCSS: { key: highlightCSSKey },
+  activeCSS: { key: activeCSSKey },
+  debouncing: { key: debouncingKey },
 } = ATTRIBUTES;
 
 /**
@@ -62,12 +71,20 @@ export const createCMSFiltersInstance = (listInstance: CMSList): CMSFilters | un
   const highlightAll = listInstance.getAttribute(highlightKey) === highlightValues.true;
   const highlightCSSClass = listInstance.getAttribute(highlightCSSKey) || DEFAULT_HIGHLIGHT_CSS_CLASS;
 
+  // Active CSS
+  const activeCSSClass = listInstance.getAttribute(activeCSSKey) || DEFAULT_ACTIVE_CSS_CLASS;
+
+  // Debouncing
+  const debouncing = parseFloat(listInstance.getAttribute(debouncingKey) || DEFAULT_DEBOUNCING);
+
   // Init instance
   const filtersInstance = new CMSFilters(formBlock, listInstance, {
     resultsElement,
     showQueryParams,
     highlightAll,
     highlightCSSClass,
+    activeCSSClass,
+    debouncing,
   });
 
   // Expose it in the `window` context

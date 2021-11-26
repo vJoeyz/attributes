@@ -66,13 +66,19 @@ export const collectFiltersElements = (
  * - The filter mode.
  * - The fixed value, if existing.
  * - The highlight mode.
+ *
+ * @param filtersInstance The {@link CMSFilters} instance.
  * @param form The form that contains the filter fields.
+ * @param highlightAll Defines if all matching values must be highlighted.
  *
  * @returns A {@link FiltersData} Map and a {@link FilterKeyResults} object.
  */
-export const collectFiltersData = (form: HTMLFormElement, highlightAll?: boolean): FiltersData => {
+export const collectFiltersData = (
+  form: HTMLFormElement,
+  activeCSSClass: string,
+  highlightAll?: boolean
+): FiltersData => {
   const filtersData: FiltersData = [];
-  // const filterKeyResults: FilterKeyResults = {};
 
   const elements = form.querySelectorAll<HTMLElement>(getSelector('field'));
 
@@ -165,7 +171,7 @@ export const collectFiltersData = (form: HTMLFormElement, highlightAll?: boolean
       }
 
       // Collect initial value
-      handleFilterInput(fieldElement, filtersData);
+      handleFilterInput(fieldElement, filtersData, activeCSSClass);
 
       return;
     }
@@ -193,7 +199,7 @@ export const collectFiltersData = (form: HTMLFormElement, highlightAll?: boolean
     }
 
     // Collect initial value
-    if (type === 'select-one') handleFilterInput(element, filtersData);
+    if (type === 'select-one') handleFilterInput(element, filtersData, activeCSSClass);
   });
 
   return filtersData;

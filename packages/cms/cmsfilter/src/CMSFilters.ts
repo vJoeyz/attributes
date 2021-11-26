@@ -74,6 +74,16 @@ export class CMSFilters {
   public readonly highlightCSSClass;
 
   /**
+   * The CSS class added to active checkboxes/radios' parents.
+   */
+  public readonly activeCSSClass;
+
+  /**
+   * The debouncing value used for input events.
+   */
+  private readonly debouncing;
+
+  /**
    * Defines if any filter is currently active.
    */
   private filtersActive = false;
@@ -103,25 +113,22 @@ export class CMSFilters {
       showQueryParams,
       highlightAll,
       highlightCSSClass,
+      activeCSSClass,
+      debouncing,
     }: {
       resultsElement: HTMLElement | null;
       showQueryParams: boolean;
       highlightAll: boolean;
       highlightCSSClass: string;
+      activeCSSClass: string;
+      debouncing: number;
     }
   ) {
     const { form, submitButton, resetButtonsData } = collectFiltersElements(formBlock);
-    this.form = form;
-    this.submitButton = submitButton;
-    this.resetButtonsData = resetButtonsData;
 
     this.submitButtonVisible = !!submitButton && isVisible(submitButton);
 
-    this.resultsElement = resultsElement;
-
-    this.showQueryParams = showQueryParams;
-
-    const filtersData = collectFiltersData(form, highlightAll);
+    const filtersData = collectFiltersData(form, activeCSSClass, highlightAll);
 
     this.filtersData = filtersData;
 
@@ -130,7 +137,15 @@ export class CMSFilters {
     this.hideEmptyFilters = filtersData.some(({ elements }) => elements.some(({ hideEmpty }) => hideEmpty));
 
     this.highlightResults = filtersData.some(({ highlight }) => highlight);
+
+    this.form = form;
+    this.submitButton = submitButton;
+    this.resetButtonsData = resetButtonsData;
     this.highlightCSSClass = highlightCSSClass;
+    this.resultsElement = resultsElement;
+    this.showQueryParams = showQueryParams;
+    this.activeCSSClass = activeCSSClass;
+    this.debouncing = debouncing;
 
     this.init();
   }
@@ -162,13 +177,13 @@ export class CMSFilters {
    * Listens for internal events.
    */
   private async listenEvents() {
-    const { form, resetButtonsData, submitButton } = this;
+    const { form, resetButtonsData, submitButton, debouncing } = this;
 
     // Form
     form.addEventListener('submit', (e) => this.handleSubmit(e));
     form.addEventListener(
       'input',
-      debounce((e: Event) => this.handleInputEvents(e), 50)
+      debounce((e: Event) => this.handleInputEvents(e), debouncing)
     );
 
     // Reset buttons
@@ -192,11 +207,11 @@ export class CMSFilters {
    * @param e The `InputEvent`.
    */
   private async handleInputEvents({ target }: Event) {
-    const { filtersData, submitButtonVisible } = this;
+    const { submitButtonVisible, filtersData, activeCSSClass } = this;
 
     if (!isFormField(target)) return;
 
-    const validInput = handleFilterInput(target, filtersData);
+    const validInput = handleFilterInput(target, filtersData, activeCSSClass);
     if (!validInput) return;
 
     if (!submitButtonVisible) await this.applyFilters();

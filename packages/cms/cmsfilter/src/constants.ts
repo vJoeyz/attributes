@@ -126,6 +126,18 @@ export const ATTRIBUTES = {
   highlightCSS: { key: `${ATTRIBUTES_PREFIX}-highlightclass` },
 
   /**
+   * Defines an active CSS class that will be added to checked checkboxes/radios's parent element.
+   * Defaults to {@link DEFAULT_ACTIVE_CSS_CLASS}.
+   */
+  activeCSS: { key: `${ATTRIBUTES_PREFIX}-active` },
+
+  /**
+   * Defines the debouncing for input events.
+   * Defaults to {@link DEFAULT_DEBOUNCING}.
+   */
+  debouncing: { key: `${ATTRIBUTES_PREFIX}-debouncing` },
+
+  /**
    * Defines the format of the tags.
    * Available values: {@link TAG_FORMATS}.
    */
@@ -158,3 +170,6 @@ export const MODES = {
 export const TAG_FORMATS = ['category'] as const;
 
 export const DEFAULT_HIGHLIGHT_CSS_CLASS = 'fs-cmsfilter_highlight';
+export const DEFAULT_ACTIVE_CSS_CLASS = 'fs-cmsfilter_active';
+
+export const DEFAULT_DEBOUNCING = '50';

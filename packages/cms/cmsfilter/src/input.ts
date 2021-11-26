@@ -2,14 +2,16 @@ import type { FormField } from '@finsweet/ts-utils';
 import type { FiltersData } from './types';
 
 /**
- * Updates the {@link FiltersValues} of the `CMSFilter` instance.
+ * Updates the `filtersData` object with the new input data.
+ * Adds/Removes the active CSS Class.
+ *
  * @param element The input element.
- * @param filtersValues The `FiltersValues` object.
- * @param filterData The {@link FilterData} of the input element.
+ * @param filtersData The {@link FiltersData} object.
+ * @param activeCSSClass The CSS Class to be added to active elements.
  *
  * @returns `true` if the input event was valid and some filter data was updated.
  */
-export const handleFilterInput = (element: FormField, filtersData: FiltersData): boolean => {
+export const handleFilterInput = (element: FormField, filtersData: FiltersData, activeCSSClass: string): boolean => {
   const { value } = element;
 
   const relatedFilterData = filtersData.filter(({ elements }) => elements.some((data) => data.element === element));
@@ -29,14 +31,22 @@ export const handleFilterInput = (element: FormField, filtersData: FiltersData):
 
         if (!storedValue) break;
 
+        element.parentElement?.classList[checked ? 'add' : 'remove'](activeCSSClass);
+
         filterValues[checked ? 'add' : 'delete'](storedValue);
+
         break;
       }
-
       case 'radio': {
         const { checked } = <HTMLInputElement>element;
 
         if (!checked || !storedValue) break;
+
+        for (const { element: groupElement, type } of elements) {
+          if (type !== 'radio') continue;
+
+          groupElement.parentElement?.classList[groupElement === element ? 'add' : 'remove'](activeCSSClass);
+        }
 
         filterValues.clear();
         filterValues.add(storedValue);

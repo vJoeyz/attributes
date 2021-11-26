@@ -29,7 +29,7 @@ export const addListAnimation = async (
   if (listAnimation && !animationDuration && !animationEasing) return;
 
   const easing = isKeyOf(animationEasing, easings) ? animationEasing : undefined;
-  const duration = animationDuration ? parseFloat(animationDuration) / 200 : DEFAULT_LIST_ANIMATION_DURATION;
+  const duration = animationDuration ? parseFloat(animationDuration) / 2000 : DEFAULT_LIST_ANIMATION_DURATION;
 
   if (!listAnimation) {
     listInstance.listAnimation = { ...fade, options: { easing, duration } };
