@@ -1,5 +1,9 @@
 # `cmsload` Changelog
 
+## [v1.3.1] 26th November 2021
+
+- Fixed `fs-cmsload-duration` being incorrectly applied.
+
 ## [v1.3.0] 23rd November 2021
 
 - Added support for using `Lightbox` elements inside `Collection List Items` when using `cmsload`.
