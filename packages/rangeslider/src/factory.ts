@@ -2,14 +2,13 @@ import { Debug, isNotEmpty } from '@finsweet/ts-utils';
 import { ATTRIBUTES } from './utils/constants';
 import { Fill } from './components/Fill';
 import { Handle } from './components/Handle';
-import { adjustValueToStep } from './utils/values';
+import { adjustValueToStep } from './actions/values';
 
-import type { getSettings } from './actions/settings';
-import type { HandleInstances } from './utils/types';
+import type { HandleInstances, RangeSliderSettings } from './utils/types';
 
 /**
  * Creates {@link Handle} instances and sets them up.
- * @param settings The settings returned by {@link getSettings}.
+ * @param settings The {@link RangeSliderSettings}.
  * @returns The new {@link Handle} instances.
  */
 export const createHandleInstances = ({
@@ -21,7 +20,7 @@ export const createHandleInstances = ({
   maxRange,
   trackWidth,
   step,
-}: NonNullable<ReturnType<typeof getSettings>>): HandleInstances | undefined => {
+}: RangeSliderSettings): HandleInstances | undefined => {
   const handles = handleElements
     .slice(0, 2)
     .map((handleElement, index) => {
@@ -89,7 +88,7 @@ export const createHandleInstances = ({
  * @returns
  */
 export const createFillInstance = (
-  { fillElement, minRange, maxRange, trackWidth }: NonNullable<ReturnType<typeof getSettings>>,
+  { fillElement, minRange, maxRange, trackWidth }: RangeSliderSettings,
   handles: HandleInstances
 ) => {
   if (!fillElement) return;
