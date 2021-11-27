@@ -89,14 +89,12 @@ export class Handle {
    * @param e A `keydown` event.
    */
   private handleKeyDown(e: KeyboardEvent) {
-    const { step } = this;
+    const { step, currentValue } = this;
     const { key } = e;
 
     if (!HANDLE_KEYS.includes(key)) return;
 
     e.preventDefault();
-
-    const currentValue = this.getValue();
 
     if (HANDLE_INCREMENT_KEYS.includes(key)) this.setValue(currentValue + step);
     else this.setValue(currentValue - step);
@@ -145,11 +143,13 @@ export class Handle {
    * The Handle's position is automatically updated based on the new value.
    * @param newValue The new value to set.
    * @param updateInputElement Defines if the `<input>` element should be updated. Defaults to `true`.
+   *
+   * @returns `true` if the current value was updated.
    */
-  public setValue(newValue: number, updateInputElement = true): void {
-    const { currentValue, element, minValue, maxValue, inputElement, displayValueElement, formatValueDisplay } = this;
+  public setValue(newValue: number, updateInputElement = true): boolean {
+    const { currentValue, element, minValue, maxValue, displayValueElement, formatValueDisplay } = this;
 
-    if (currentValue === newValue || newValue < minValue || newValue > maxValue) return;
+    if (currentValue === newValue || newValue < minValue || newValue > maxValue) return false;
 
     this.currentValue = newValue;
 
@@ -163,7 +163,20 @@ export class Handle {
 
     if (displayValueElement) displayValueElement.textContent = formatValueDisplay ? localeStringValue : stringValue;
 
-    if (inputElement && updateInputElement) setFormFieldValue(inputElement, stringValue);
+    if (updateInputElement) this.updateInputElement();
+
+    return true;
+  }
+
+  /**
+   * Updates the input element's value.
+   */
+  public updateInputElement() {
+    const { currentValue, inputElement } = this;
+
+    if (!inputElement) return;
+
+    setFormFieldValue(inputElement, `${currentValue}`);
   }
 
   /**

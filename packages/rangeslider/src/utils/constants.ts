@@ -2,7 +2,7 @@ import { generateSelectors } from '$utils/attributes';
 
 export const ATTRIBUTE = 'rangeslider';
 
-const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
+const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}` as const;
 
 export const WRAPPER_ELEMENT_KEY = 'wrapper';
 export const TRACK_ELEMENT_KEY = 'track';
@@ -16,6 +16,11 @@ export const START_SETTING_KEY = 'start';
 export const STEP_SETTING_KEY = 'step';
 export const FORMAT_DISPLAY_SETTING_KEY = 'formatdisplay';
 export const FORMAT_DISPLAY_SETTING_VALUES = { true: 'true' } as const;
+export const UPDATE_ACTION_SETTING_KEY = 'update';
+export const UPDATE_ACTION_SETTING_VALUES = {
+  move: 'move',
+  release: 'release',
+} as const;
 
 export const ATTRIBUTES = {
   element: {
@@ -73,6 +78,12 @@ export const ATTRIBUTES = {
    * Defines if the Handles' value display should be formatted.
    */
   formatDisplay: { key: `${ATTRIBUTES_PREFIX}-${FORMAT_DISPLAY_SETTING_KEY}`, values: FORMAT_DISPLAY_SETTING_VALUES },
+
+  /**
+   * Defines when should the <input> elements be updated.
+   * Defaults to {@link UPDATE_ACTION_SETTING_VALUES.release}
+   */
+  updateAction: { key: `${ATTRIBUTES_PREFIX}-${UPDATE_ACTION_SETTING_KEY}`, values: UPDATE_ACTION_SETTING_VALUES },
 } as const;
 
 export const getSelector = generateSelectors(ATTRIBUTES);

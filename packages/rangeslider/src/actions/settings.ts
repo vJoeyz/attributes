@@ -9,6 +9,7 @@ const {
   max: { key: maxKey },
   step: { key: stepKey },
   formatDisplay: { key: formatDisplayKey, values: formatDisplayValues },
+  updateAction: { key: updateActionKey, values: updateActionValues },
 } = ATTRIBUTES;
 
 /**
@@ -33,6 +34,7 @@ export const getSettings = (
       maxRange: number;
       totalRange: number;
       step: number;
+      updateOnRelease: boolean;
     }
   | undefined => {
   const trackElement = wrapperElement.querySelector<HTMLElement>(
@@ -54,6 +56,8 @@ export const getSettings = (
   ];
 
   const formatValueDisplay = wrapperElement.getAttribute(formatDisplayKey) === formatDisplayValues.true;
+
+  const updateOnRelease = wrapperElement.getAttribute(updateActionKey) === updateActionValues.release;
 
   if (!handleElements.length || !trackElement) {
     Debug.alert('The rangeslider is missing a Track element or a Handle element.', 'error');
@@ -100,5 +104,6 @@ export const getSettings = (
     maxRange,
     totalRange,
     step,
+    updateOnRelease,
   };
 };

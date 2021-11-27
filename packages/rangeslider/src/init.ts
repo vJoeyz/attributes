@@ -36,10 +36,11 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
 
   createFillInstance(settings, handles);
 
-  const { maxRange, minRange, step, totalRange, trackElement } = settings;
+  const { maxRange, minRange, step, totalRange, trackElement, updateOnRelease } = settings;
 
   let { trackWidth, trackLeft, trackRight } = settings;
   let focusedHandle: Handle | undefined;
+  let focusedHandleHasUpdated = false;
 
   /**
    * Calculates the value based on where the user clicked and adjusts it to the step increment,
@@ -71,7 +72,9 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
     else if (trackRight < clientX) value = maxValue;
     else value = calculateNewValue(clientX);
 
-    focusedHandle.setValue(value);
+    const hasUpdatedValue = focusedHandle.setValue(value, !updateOnRelease);
+
+    focusedHandleHasUpdated ||= hasUpdatedValue;
   };
 
   /**
@@ -86,8 +89,11 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
     document.removeEventListener('mouseup', handleMouseUp);
     document.removeEventListener('touchend', handleMouseUp);
 
-    focusedHandle?.element.blur();
+    if (updateOnRelease && focusedHandleHasUpdated) focusedHandle?.updateInputElement();
 
+    focusedHandleHasUpdated = false;
+
+    focusedHandle?.element.blur();
     focusedHandle = undefined;
   };
 
@@ -115,9 +121,12 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
     if (!closestHandle) return;
 
     closestHandle.element.focus();
-    closestHandle.setValue(value);
 
     focusedHandle = closestHandle;
+
+    const hasUpdatedValue = closestHandle.setValue(value, !updateOnRelease);
+
+    focusedHandleHasUpdated ||= hasUpdatedValue;
   };
 
   /**
