@@ -1,5 +1,5 @@
 import debounce from 'just-debounce';
-import { adjustValueToStep, getClosestValidHandle } from './utils/values';
+import { adjustValueToStep, getClosestValidHandle } from './actions/values';
 import { createFillInstance, createHandleInstances } from './factory';
 import { getSelector } from './utils/constants';
 import { getSettings } from './actions/settings';

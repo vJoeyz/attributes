@@ -1,6 +1,6 @@
 import { setFormFieldValue } from '@finsweet/ts-utils';
 import { HANDLE_INCREMENT_KEYS, HANDLE_KEYS } from '../utils/constants';
-import { adjustValueToStep } from '../utils/values';
+import { adjustValueToStep } from '../actions/values';
 
 import type { Fill } from './Fill';
 

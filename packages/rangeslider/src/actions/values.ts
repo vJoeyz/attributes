@@ -1,6 +1,6 @@
 import { isNotEmpty } from '@finsweet/ts-utils';
 
-import type { HandleInstances } from './types';
+import type { HandleInstances } from '../utils/types';
 
 /**
  * Adjusts a numeric value to a step factor.
