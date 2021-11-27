@@ -1,5 +1,9 @@
 # `rangeslider` Changelog
 
+## [v1.2.0] 27th November 2021
+
+- Added support for the range slider being initially hidden on page load. Now the library will recalculate the range slider's position whenever its visibility changes.
+
 ## [v1.1.2] 15th November 2021
 
 - Reduced `resize` debouncing from 100ms to 50ms.

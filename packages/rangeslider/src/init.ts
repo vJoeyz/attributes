@@ -4,6 +4,7 @@ import { createFillInstance, createHandleInstances } from './factory';
 import { getSelector } from './utils/constants';
 import { getSettings } from './actions/settings';
 import { getClientX } from './actions/events';
+import { getHiddenParent, isVisible } from '@finsweet/ts-utils';
 
 import type { Handle } from './components/Handle';
 import type { HandleInstances } from './utils/types';
@@ -122,20 +123,39 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
   /**
    * Updates the stored `trackWidth` value and the Handles' position.
    */
-  const handleWindowResize = debounce(() => {
+  const handleDOMMutation = () => {
     trackWidth = trackElement.clientWidth;
 
     ({ left: trackLeft, right: trackRight } = trackElement.getBoundingClientRect());
 
     for (const handle of handles) if (handle) handle.updateTrackWidth(trackWidth);
-  }, 50);
+  };
+
+  /**
+   * If the wrapper is initially hidden, observes mutations and performs the needed actions.
+   */
+  const observeWrapperVisibility = () => {
+    const hiddenParent = getHiddenParent(wrapperElement);
+    if (!hiddenParent) return;
+
+    const observer = new MutationObserver(() => {
+      if (isVisible(hiddenParent)) handleDOMMutation();
+    });
+
+    observer.observe(hiddenParent, {
+      attributes: true,
+      attributeFilter: ['style', 'class'],
+    });
+  };
 
   /**
    * Init events
    */
   trackElement.addEventListener('mousedown', handleMouseDown);
   trackElement.addEventListener('touchstart', handleMouseDown);
-  window.addEventListener('resize', handleWindowResize);
+
+  observeWrapperVisibility();
+  window.addEventListener('resize', debounce(handleDOMMutation, 50));
 
   return handles;
 };
