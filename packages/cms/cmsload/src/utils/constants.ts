@@ -2,7 +2,50 @@ import { generateDynamicAttibuteValue, generateSelectors } from '$utils/attribut
 
 import type { WebflowBreakpoint } from '@finsweet/ts-utils';
 
-const ATTRIBUTES_PREFIX = 'fs-cmsload';
+export const ATTRIBUTE = 'cmsload';
+
+const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
+
+export const LIST_ELEMENT_KEY = 'list';
+export const LOADER_ELEMENT_KEY = 'loader';
+export const ITEMS_COUNT_ELEMENT_KEY = 'items-count';
+export const SCROLL_ANCHOR_ELEMENT_KEY = 'scroll-anchor';
+export const PAGE_BUTTON_ELEMENT_KEY = 'page-button';
+export const PAGE_DOTS_ELEMENT_KEY = 'page-dots';
+
+export const LOADING_SETTING_KEY = 'loading';
+export const MODE_SETTING_KEY = 'mode';
+export const MODE_SETTING_VALUES = {
+  /**
+   * Renders items at the bottom of the page.
+   */
+  loadUnder: 'load-under',
+
+  /**
+   * All items will be rendered at once.
+   */
+  renderAll: 'render-all',
+
+  /**
+   * Pagination will be created.
+   */
+  pagination: 'pagination',
+
+  /**
+   * Items will be loaded when the user reaches the bottom of the Collection List.
+   * Threshold can be defined with {@link ATTRIBUTES.threshold}.
+   */
+  infinite: 'infinite',
+} as const;
+export const THRESHOLD_SETTING_KEY = 'threshold';
+export const PAGE_SIBLINGS_SETTING_KEY = 'pagesiblings';
+export const PAGE_BOUNDARY_SETTING_KEY = 'pageboundary';
+export const ANIMATION_SETTING_KEY = 'animation';
+export const EASING_SETTING_KEY = 'easing';
+export const DURATION_SETTING_KEY = 'duration';
+export const STAGGER_SETTING_KEY = 'stagger';
+export const RESET_IX_SETTING_KEY = 'resetix';
+export const RESET_IX_SETTING_VALUES = { true: 'true' } as const;
 
 export const ATTRIBUTES = {
   element: {
@@ -11,69 +54,53 @@ export const ATTRIBUTES = {
       /**
        * Defines a list to be instantiated.
        */
-      list: generateDynamicAttibuteValue('list'),
+      list: generateDynamicAttibuteValue(LIST_ELEMENT_KEY),
 
       /**
        * Defines a node that will be displayed when loading new items.
        */
-      loader: generateDynamicAttibuteValue('loader'),
+      loader: generateDynamicAttibuteValue(LOADER_ELEMENT_KEY),
 
       /**
        * Defines an element where to display the total items of the list.
        */
-      itemsCount: generateDynamicAttibuteValue('items-count'),
+      itemsCount: generateDynamicAttibuteValue(ITEMS_COUNT_ELEMENT_KEY),
 
       /**
        * Defines an element where to scroll the view every time a page in `Pagination` mode is switched.
        */
-      scrollAnchor: generateDynamicAttibuteValue('scroll-anchor'),
+      scrollAnchor: generateDynamicAttibuteValue(SCROLL_ANCHOR_ELEMENT_KEY),
 
       /**
        * Defines the template element to generate all page buttons for the `paginate` mode.
        */
-      pageButton: 'page-button',
+      pageButton: PAGE_BUTTON_ELEMENT_KEY,
 
       /**
        * Defines the template element to create the page dots separators.
        */
-      pageDots: 'page-dots',
+      pageDots: PAGE_DOTS_ELEMENT_KEY,
     },
   },
 
   /**
    * Defines the text to display while loading.
    */
-  loading: { key: `${ATTRIBUTES_PREFIX}-loading` },
+  loading: { key: `${ATTRIBUTES_PREFIX}-${LOADING_SETTING_KEY}` },
 
   /**
    * Defines the text to display while loading.
    */
   mode: {
-    key: `${ATTRIBUTES_PREFIX}-mode`,
-    values: {
-      /**
-       * All items will be rendered at once.
-       */
-      renderAll: 'render-all',
-
-      /**
-       * Pagination will be created.
-       */
-      pagination: 'pagination',
-
-      /**
-       * Items will be loaded when the user reaches the bottom of the Collection List.
-       * Threshold can be defined with {@link ATTRIBUTES.threshold}.
-       */
-      infinite: 'infinite',
-    },
+    key: `${ATTRIBUTES_PREFIX}-${MODE_SETTING_KEY}`,
+    values: MODE_SETTING_VALUES,
   },
 
   /**
    * Defines the scrolling threshold to trigger a new page load in `infinite` mode.
    * Defaults to {@link DEFAULT_INFINITE_THRESHOLD}.
    */
-  threshold: { key: `${ATTRIBUTES_PREFIX}-threshold` },
+  threshold: { key: `${ATTRIBUTES_PREFIX}-${THRESHOLD_SETTING_KEY}` },
 
   /**
    * Defines the amount of digits to display either side of the current page.
@@ -81,7 +108,7 @@ export const ATTRIBUTES = {
    *
    * Defaults to {@link DEFAULT_PAGE_SIBLINGS}.
    */
-  pageSiblings: { key: `${ATTRIBUTES_PREFIX}-pagesiblings` },
+  pageSiblings: { key: `${ATTRIBUTES_PREFIX}-${PAGE_SIBLINGS_SETTING_KEY}` },
 
   /**
    * Defines the amount of digits to display at the start and end of a page buttons list.
@@ -89,34 +116,34 @@ export const ATTRIBUTES = {
    *
    * Defaults to {@link DEFAULT_PAGE_BOUNDARY}.
    */
-  pageBoundary: { key: `${ATTRIBUTES_PREFIX}-pageboundary` },
+  pageBoundary: { key: `${ATTRIBUTES_PREFIX}-${PAGE_BOUNDARY_SETTING_KEY}` },
 
   /**
    * Defines the animation to use when appending elements to the list.
    * Allowed values are defined in {@link "packages/animations"}.
    */
-  animation: { key: `${ATTRIBUTES_PREFIX}-animation` },
+  animation: { key: `${ATTRIBUTES_PREFIX}-${ANIMATION_SETTING_KEY}` },
 
   /**
    * Defines the easing function of the animation.
    * Allowed values are defined in {@link "packages/animations"}.
    */
-  easing: { key: `${ATTRIBUTES_PREFIX}-easing` },
+  easing: { key: `${ATTRIBUTES_PREFIX}-${EASING_SETTING_KEY}` },
 
   /**
    * Defines the duration of the animation.
    */
-  duration: { key: `${ATTRIBUTES_PREFIX}-duration` },
+  duration: { key: `${ATTRIBUTES_PREFIX}-${DURATION_SETTING_KEY}` },
 
   /**
    * Defines if animations should be staggered.
    */
-  stagger: { key: `${ATTRIBUTES_PREFIX}-stagger` },
+  stagger: { key: `${ATTRIBUTES_PREFIX}-${STAGGER_SETTING_KEY}` },
 
   /**
    * Defines if Webflow should be restarted after loading new items.
    */
-  resetIx: { key: `${ATTRIBUTES_PREFIX}-resetix`, values: { true: 'true' } },
+  resetIx: { key: `${ATTRIBUTES_PREFIX}-${RESET_IX_SETTING_KEY}`, values: RESET_IX_SETTING_VALUES },
 } as const;
 
 export const getSelector = generateSelectors(ATTRIBUTES);

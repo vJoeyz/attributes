@@ -1,17 +1,36 @@
 import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
+import {
+  ANIMATION_SETTING_KEY,
+  DURATION_SETTING_KEY,
+  EASING_SETTING_KEY,
+  ITEMS_COUNT_ELEMENT_KEY,
+  LIST_ELEMENT_KEY,
+  LOADER_ELEMENT_KEY,
+  LOADING_SETTING_KEY,
+  MODE_SETTING_KEY,
+  MODE_SETTING_VALUES,
+  PAGE_BOUNDARY_SETTING_KEY,
+  PAGE_BUTTON_ELEMENT_KEY,
+  PAGE_DOTS_ELEMENT_KEY,
+  PAGE_SIBLINGS_SETTING_KEY,
+  RESET_IX_SETTING_KEY,
+  SCROLL_ANCHOR_ELEMENT_KEY,
+  STAGGER_SETTING_KEY,
+  THRESHOLD_SETTING_KEY,
+} from './utils/constants';
 
 import type { AttributeSchema } from '$utils/types/schema';
 
 export const schema: AttributeSchema = {
   elements: {
-    list: {
+    [LIST_ELEMENT_KEY]: {
       description: 'Defines the list to load more items.',
       required: true,
       appliedTo: [`.${CMS_CSS_CLASSES.wrapper}`, `.${CMS_CSS_CLASSES.list}`],
       requiresInstance: true,
       conditions: [],
     },
-    loader: {
+    [LOADER_ELEMENT_KEY]: {
       description: 'Defines an element that will be displayed while the library is loading items in the background.',
       required: false,
       appliedTo: [],
@@ -19,11 +38,11 @@ export const schema: AttributeSchema = {
       conditions: [
         {
           type: 'exists',
-          element: 'list',
+          element: LIST_ELEMENT_KEY,
         },
       ],
     },
-    'items-count': {
+    [ITEMS_COUNT_ELEMENT_KEY]: {
       description: 'Defines an element where to display the total items of the list.',
       required: false,
       appliedTo: [],
@@ -31,11 +50,11 @@ export const schema: AttributeSchema = {
       conditions: [
         {
           type: 'exists',
-          element: 'listt',
+          element: LIST_ELEMENT_KEY,
         },
       ],
     },
-    'scroll-anchor': {
+    [SCROLL_ANCHOR_ELEMENT_KEY]: {
       description: 'Defines an element where to scroll the view every time a page in `Pagination` mode is switched.',
       required: false,
       appliedTo: [],
@@ -43,11 +62,11 @@ export const schema: AttributeSchema = {
       conditions: [
         {
           type: 'exists',
-          element: 'list',
+          element: LIST_ELEMENT_KEY,
         },
       ],
     },
-    'page-button': {
+    [PAGE_BUTTON_ELEMENT_KEY]: {
       description: 'Defines the template element to generate all page buttons for the `Pagination` mode.',
       required: false,
       appliedTo: [],
@@ -55,7 +74,7 @@ export const schema: AttributeSchema = {
       conditions: [
         {
           type: 'isChildOf',
-          element: 'list',
+          element: LIST_ELEMENT_KEY,
         },
         {
           type: 'isChildOf',
@@ -63,7 +82,7 @@ export const schema: AttributeSchema = {
         },
       ],
     },
-    'page-dots': {
+    [PAGE_DOTS_ELEMENT_KEY]: {
       description: 'Defines the template element to create the page dots separators.',
       required: false,
       appliedTo: [],
@@ -71,7 +90,7 @@ export const schema: AttributeSchema = {
       conditions: [
         {
           type: 'isChildOf',
-          element: 'list',
+          element: LIST_ELEMENT_KEY,
         },
         {
           type: 'isChildOf',
@@ -82,39 +101,39 @@ export const schema: AttributeSchema = {
   },
 
   settings: {
-    mode: {
+    [MODE_SETTING_KEY]: {
       description: 'Defines the loading mode.',
       appliedTo: {
-        elements: ['list'],
+        elements: [LIST_ELEMENT_KEY],
       },
       value: {
         type: 'options',
         options: [
           {
-            value: 'load-under',
+            value: MODE_SETTING_VALUES.loadUnder,
             description: 'When clicking the Next button more items will be loaded and rendered at the end of the list.',
           },
           {
-            value: 'infinite',
+            value: MODE_SETTING_VALUES.infinite,
             description:
               'When the bottom of the list reaches a certain threshold more items will be loaded and rendered at the end of the list.',
           },
           {
-            value: 'pagination',
+            value: MODE_SETTING_VALUES.pagination,
             description: 'Users can quickly navigate through pages.',
           },
           {
-            value: 'render-all',
+            value: MODE_SETTING_VALUES.renderAll,
             description:
               'All items will be loaded and rendered on the list. Not advised for lists with more than 200 items.',
           },
         ],
-        default: 'load-under',
+        default: MODE_SETTING_VALUES.loadUnder,
       },
       conditions: [],
     },
 
-    loading: {
+    [LOADING_SETTING_KEY]: {
       description: 'Defines the text to display on the Next button while loading new items.',
       appliedTo: {},
       value: {
@@ -128,10 +147,10 @@ export const schema: AttributeSchema = {
       ],
     },
 
-    threshold: {
+    [THRESHOLD_SETTING_KEY]: {
       description: 'Defines when new items will load when the user scrolls',
       appliedTo: {
-        elements: ['list'],
+        elements: [LIST_ELEMENT_KEY],
       },
       value: {
         type: 'float',
@@ -140,22 +159,22 @@ export const schema: AttributeSchema = {
       conditions: [
         {
           type: 'settings',
-          element: 'list',
+          element: LIST_ELEMENT_KEY,
           settings: [
             {
-              key: 'mode',
-              value: 'infinite',
+              key: MODE_SETTING_KEY,
+              value: MODE_SETTING_VALUES.infinite,
             },
           ],
         },
       ],
     },
 
-    pagesiblings: {
+    [PAGE_SIBLINGS_SETTING_KEY]: {
       description:
         'Defines the amount of digits to display either side of the current page. It can be a comma-separated string listing the values in a `Desktop, Tablet, Landscape, Portrait` order.',
       appliedTo: {
-        elements: ['list'],
+        elements: [LIST_ELEMENT_KEY],
       },
       value: {
         type: 'commaSeparatedFloat',
@@ -164,11 +183,11 @@ export const schema: AttributeSchema = {
       conditions: [],
     },
 
-    pageboundary: {
+    [PAGE_BOUNDARY_SETTING_KEY]: {
       description:
         'Defines the amount of digits to display at the start and end of a page buttons list. It can be a comma-separated string listing the values in a `Desktop, Tablet, Landscape, Portrait` order.',
       appliedTo: {
-        elements: ['list'],
+        elements: [LIST_ELEMENT_KEY],
       },
       value: {
         type: 'commaSeparatedFloat',
@@ -177,10 +196,10 @@ export const schema: AttributeSchema = {
       conditions: [],
     },
 
-    animation: {
+    [ANIMATION_SETTING_KEY]: {
       description: 'Defines the animation to use when appending elements to the list.',
       appliedTo: {
-        elements: ['list'],
+        elements: [LIST_ELEMENT_KEY],
       },
       value: {
         type: 'options',
@@ -223,10 +242,10 @@ export const schema: AttributeSchema = {
       conditions: [],
     },
 
-    easing: {
+    [EASING_SETTING_KEY]: {
       description: 'Defines the easing function of the animation.',
       appliedTo: {
-        elements: ['list'],
+        elements: [LIST_ELEMENT_KEY],
       },
       value: {
         type: 'options',
@@ -257,10 +276,10 @@ export const schema: AttributeSchema = {
       conditions: [],
     },
 
-    duration: {
+    [DURATION_SETTING_KEY]: {
       description: 'Defines the duration of the animation in miliseconds.',
       appliedTo: {
-        elements: ['list'],
+        elements: [LIST_ELEMENT_KEY],
       },
 
       value: {
@@ -270,10 +289,10 @@ export const schema: AttributeSchema = {
       conditions: [],
     },
 
-    stagger: {
+    [STAGGER_SETTING_KEY]: {
       description: 'Defines a stagger delay for the items animation in miliseconds.',
       appliedTo: {
-        elements: ['list'],
+        elements: [LIST_ELEMENT_KEY],
       },
 
       value: {
@@ -282,11 +301,11 @@ export const schema: AttributeSchema = {
       conditions: [],
     },
 
-    resetix: {
+    [RESET_IX_SETTING_KEY]: {
       description:
         "Defines if Webflow's interactions should be restarted after rendering new items. Use it if your Collection List Items use interactions.",
       appliedTo: {
-        elements: ['list'],
+        elements: [LIST_ELEMENT_KEY],
       },
 
       value: {

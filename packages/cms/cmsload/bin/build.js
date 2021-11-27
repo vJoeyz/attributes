@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import { dirname } from 'path';
 import { writeFileSync } from 'fs';
 import { fileURLToPath } from 'url';
-import { schema } from '../schema.js';
+import { schema } from '../temp/schema.js';
 
 dotenv.config({ path: '../../../.env' });
 
@@ -24,16 +24,16 @@ const defaultSettings = {
 };
 
 // Files building
-esbuild.build({
+esbuild.buildSync({
   ...defaultSettings,
   entryPoints: ['src/index.ts'],
   outfile: `${production ? '' : process.env.CUSTOM_BUILD_DIRECTORY || ''}/cmsload.js`,
 });
 
-esbuild.build({
+esbuild.buildSync({
   ...defaultSettings,
   entryPoints: ['src/schema.ts'],
-  outfile: 'schema.js',
+  outfile: 'temp/schema.js',
   format: 'esm',
 });
 
