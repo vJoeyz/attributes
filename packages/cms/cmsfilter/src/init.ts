@@ -1,9 +1,9 @@
 import { createCMSFiltersInstance, createCMSTagsInstance } from './factory';
-import { listenListEvents } from './events';
-import { getSelector } from './constants';
+import { listenListEvents } from './actions/events';
+import { getSelector } from './utils/constants';
 import { isNotEmpty } from '@finsweet/ts-utils';
 import { importCMSCore } from '$utils/import';
-import { CMSFilters } from './CMSFilters';
+import { CMSFilters } from './components/CMSFilters';
 
 import type { CMSList } from '$cms/cmscore/src';
 

@@ -1,5 +1,5 @@
-import { CMSFilters } from './CMSFilters';
-import { CMSTags } from './CMSTags';
+import { CMSFilters } from './components/CMSFilters';
+import { CMSTags } from './components/CMSTags';
 import { isKeyOf, FORM_CSS_CLASSES } from '@finsweet/ts-utils';
 import {
   ATTRIBUTES,
@@ -8,7 +8,7 @@ import {
   DEFAULT_HIGHLIGHT_CSS_CLASS,
   getSelector,
   TAG_FORMATS,
-} from './constants';
+} from './utils/constants';
 import { addListAnimation } from '$cms/utils/animation';
 
 import type { CMSList } from '$cms/cmscore/src';

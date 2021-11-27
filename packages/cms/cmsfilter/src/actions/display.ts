@@ -1,4 +1,4 @@
-import type { CMSFilters } from './CMSFilters';
+import type { CMSFilters } from '../components/CMSFilters';
 
 /**
  * Hides / shows filter elements based on their results.

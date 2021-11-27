@@ -1,10 +1,10 @@
 import { clearFormField, sameValues } from '@finsweet/ts-utils';
 import { clearHighlight } from './highlight';
-import { normalizeDate } from './dates';
-import { normalizeNumber } from './numbers';
+import { normalizeDate } from '../utils/dates';
+import { normalizeNumber } from '../utils/numbers';
 
 import type { CMSItem } from '$cms/cmscore/src';
-import type { FilterData, FilterElement, FiltersData } from './types';
+import type { FilterData, FilterElement, FiltersData } from '../utils/types';
 
 /**
  * Assesses if an item should be displayed/hidden based on the filters.

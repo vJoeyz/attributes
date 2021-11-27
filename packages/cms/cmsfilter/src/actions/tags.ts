@@ -1,6 +1,6 @@
-import { getSelector } from './constants';
+import { getSelector } from '../utils/constants';
 
-import type { TagData, TagFormat } from './types';
+import type { TagData, TagFormat } from '../utils/types';
 
 /**
  * Updates the innter text of a filter tag.

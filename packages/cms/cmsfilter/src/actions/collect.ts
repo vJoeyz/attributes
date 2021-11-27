@@ -1,6 +1,6 @@
-import { ATTRIBUTES, getSelector, MATCHES, MODES, TAG_FORMATS } from './constants';
+import { ATTRIBUTES, getSelector, MATCHES, MODES, TAG_FORMATS } from '../utils/constants';
 import { normalizePropKey } from '$cms/utils/props';
-import { ensureUniqueFormFieldId } from './a11ty';
+import { ensureUniqueFormFieldId } from '../utils/a11ty';
 import { handleFilterInput } from './input';
 import {
   extractCommaSeparatedValues,
@@ -12,7 +12,7 @@ import {
 } from '@finsweet/ts-utils';
 
 import type { FormBlockElement } from '@finsweet/ts-utils';
-import type { FilterData, FilterElement, FiltersData, ResetButtonsData } from './types';
+import type { FilterData, FilterElement, FiltersData, ResetButtonsData } from '../utils/types';
 
 // Constants
 const {
@@ -67,15 +67,15 @@ export const collectFiltersElements = (
  * - The fixed value, if existing.
  * - The highlight mode.
  *
- * @param filtersInstance The {@link CMSFilters} instance.
  * @param form The form that contains the filter fields.
+ * @param globalActiveCSSClass The global active CSS Class.
  * @param highlightAll Defines if all matching values must be highlighted.
  *
  * @returns A {@link FiltersData} Map and a {@link FilterKeyResults} object.
  */
 export const collectFiltersData = (
   form: HTMLFormElement,
-  activeCSSClass: string,
+  globalActiveCSSClass: string,
   highlightAll?: boolean
 ): FiltersData => {
   const filtersData: FiltersData = [];
@@ -171,7 +171,7 @@ export const collectFiltersData = (
       }
 
       // Collect initial value
-      handleFilterInput(fieldElement, filtersData, activeCSSClass);
+      handleFilterInput(fieldElement, filtersData, globalActiveCSSClass);
 
       return;
     }
@@ -199,7 +199,7 @@ export const collectFiltersData = (
     }
 
     // Collect initial value
-    if (type === 'select-one') handleFilterInput(element, filtersData, activeCSSClass);
+    if (type === 'select-one') handleFilterInput(element, filtersData, globalActiveCSSClass);
   });
 
   return filtersData;

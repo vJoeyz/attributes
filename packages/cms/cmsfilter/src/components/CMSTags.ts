@@ -1,9 +1,9 @@
 import { cloneNode, Debug } from '@finsweet/ts-utils';
-import { ATTRIBUTES, getSelector } from './constants';
-import { hasRemoveTrigger, updateTagText } from './tags';
+import { ATTRIBUTES, getSelector } from '../utils/constants';
+import { hasRemoveTrigger, updateTagText } from '../actions/tags';
 import { CMSFilters } from './CMSFilters';
 
-import type { FilterData, TagData, TagFormat, TagsData } from './types';
+import type { FilterData, TagData, TagFormat, TagsData } from '../utils/types';
 import type { CMSList } from '$cms/cmscore/src';
 
 export class CMSTags {

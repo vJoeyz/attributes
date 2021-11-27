@@ -1,12 +1,12 @@
 import debounce from 'just-debounce';
-import { assessFilter, clearFilterData } from './filter';
-import { getQueryParams, setQueryParams } from './query';
-import { handleFilterInput } from './input';
-import { ATTRIBUTES } from './constants';
+import { assessFilter, clearFilterData } from '../actions/filter';
+import { getQueryParams, setQueryParams } from '../actions/query';
+import { handleFilterInput } from '../actions/input';
+import { ATTRIBUTES } from '../utils/constants';
 import { isFormField, isVisible, sameValues } from '@finsweet/ts-utils';
-import { collectFiltersData, collectFiltersElements } from './collect';
-import { syncFilterKeyResults, updateFilterKeyResults, updateListResults } from './results';
-import { displayFilterElements } from './display';
+import { collectFiltersData, collectFiltersElements } from '../actions/collect';
+import { syncFilterKeyResults, updateFilterKeyResults, updateListResults } from '../actions/results';
+import { displayFilterElements } from '../actions/display';
 
 import type { FormBlockElement } from '@finsweet/ts-utils';
 import type { CMSList } from '$cms/cmscore/src';

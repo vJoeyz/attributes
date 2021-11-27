@@ -1,8 +1,8 @@
 import { normalizePropKey } from '$cms/utils/props';
 import { extractCommaSeparatedValues, setFormFieldValue } from '@finsweet/ts-utils';
 
-import type { CMSFilters } from './CMSFilters';
-import type { FiltersData } from './types';
+import type { CMSFilters } from '../components/CMSFilters';
+import type { FiltersData } from '../utils/types';
 
 const { location, history } = window;
 

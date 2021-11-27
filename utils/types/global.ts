@@ -2,7 +2,7 @@ import type { CollectionListWrapperElement } from '@finsweet/ts-utils';
 import type { AnimationImport } from 'packages/animation/src/types';
 import type { CMSList } from '$cms/cmscore/src';
 import type { CMSCoreImport } from '$cms/cmscore/src/types';
-import type { CMSFilters } from '$cms/cmsfilter/src/CMSFilters';
+import type { CMSFilters } from '$cms/cmsfilter/src/components/CMSFilters';
 
 /**
  * Window object.

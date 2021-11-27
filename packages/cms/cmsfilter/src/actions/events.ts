@@ -1,9 +1,9 @@
-import { ATTRIBUTES } from './constants';
+import { ATTRIBUTES } from '../utils/constants';
 import { toggleHighlight } from './highlight';
 import { syncFilterKeyResults, updateFilterKeyResults, updateListResults } from './results';
 import { displayFilterElements } from './display';
 
-import type { CMSFilters } from './CMSFilters';
+import type { CMSFilters } from '../components/CMSFilters';
 import type { CMSItem, CMSList } from '$cms/cmscore/src';
 
 const {

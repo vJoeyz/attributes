@@ -1,5 +1,5 @@
 import type { FormField } from '@finsweet/ts-utils';
-import type { FiltersData } from './types';
+import type { FiltersData } from '../utils/types';
 
 /**
  * Updates the `filtersData` object with the new input data.
