@@ -81,7 +81,7 @@ export const ATTRIBUTES = {
 
   /**
    * Defines when should the <input> elements be updated.
-   * Defaults to {@link UPDATE_ACTION_SETTING_VALUES.release}
+   * Defaults to {@link UPDATE_ACTION_SETTING_VALUES.move}
    */
   updateAction: { key: `${ATTRIBUTES_PREFIX}-${UPDATE_ACTION_SETTING_KEY}`, values: UPDATE_ACTION_SETTING_VALUES },
 } as const;
