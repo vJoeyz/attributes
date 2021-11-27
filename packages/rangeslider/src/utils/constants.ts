@@ -1,6 +1,21 @@
 import { generateSelectors } from '$utils/attributes';
 
-const ATTRIBUTES_PREFIX = 'fs-rangeslider';
+export const ATTRIBUTE = 'rangeslider';
+
+const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
+
+export const WRAPPER_ELEMENT_KEY = 'wrapper';
+export const TRACK_ELEMENT_KEY = 'track';
+export const FILL_ELEMENT_KEY = 'fill';
+export const HANDLE_ELEMENT_KEY = 'handle';
+export const DISPLAY_VALUE_ELEMENT_KEY = 'display-value';
+
+export const MIN_SETTING_KEY = 'min';
+export const MAX_SETTING_KEY = 'max';
+export const START_SETTING_KEY = 'start';
+export const STEP_SETTING_KEY = 'step';
+export const FORMAT_DISPLAY_SETTING_KEY = 'formatdisplay';
+export const FORMAT_DISPLAY_SETTING_VALUES = { true: 'true' } as const;
 
 export const ATTRIBUTES = {
   element: {
@@ -9,55 +24,55 @@ export const ATTRIBUTES = {
       /**
        * Defines a range slider instance element.
        */
-      wrapper: 'wrapper',
+      wrapper: WRAPPER_ELEMENT_KEY,
 
       /**
        * Defines the track of the slider.
        */
-      track: 'track',
+      track: TRACK_ELEMENT_KEY,
 
       /**
        * Defines the fill of the slider.
        */
-      fill: 'fill',
+      fill: FILL_ELEMENT_KEY,
 
       /**
        * Defines a handle of the slider.
        */
-      handle: 'handle',
+      handle: HANDLE_ELEMENT_KEY,
 
       /**
        * Defines an element to display a Handle's value.
        */
-      displayValue: 'display-value',
+      displayValue: DISPLAY_VALUE_ELEMENT_KEY,
     },
   },
 
   /**
    * Defines the minimum value of the range.
    */
-  min: { key: `${ATTRIBUTES_PREFIX}-min` },
+  min: { key: `${ATTRIBUTES_PREFIX}-${MIN_SETTING_KEY}` },
 
   /**
    * Defines the maximum value of the range.
    */
-  max: { key: `${ATTRIBUTES_PREFIX}-max` },
+  max: { key: `${ATTRIBUTES_PREFIX}-${MAX_SETTING_KEY}` },
 
   /**
    * Defines the start value of a handle.
-   * Must be applied to a handle element {@link ATTRIBUTES.element.handle}.
+   * Must be applied to a handle element {@link ATTRIBUTES.element.values.handle}.
    */
-  start: { key: `${ATTRIBUTES_PREFIX}-start` },
+  start: { key: `${ATTRIBUTES_PREFIX}-${START_SETTING_KEY}` },
 
   /**
    * Defines the step of the values.
    */
-  step: { key: `${ATTRIBUTES_PREFIX}-step` },
+  step: { key: `${ATTRIBUTES_PREFIX}-${STEP_SETTING_KEY}` },
 
   /**
    * Defines if the Handles' value display should be formatted.
    */
-  formatDisplay: { key: `${ATTRIBUTES_PREFIX}-formatdisplay`, values: { true: 'true' } },
+  formatDisplay: { key: `${ATTRIBUTES_PREFIX}-${FORMAT_DISPLAY_SETTING_KEY}`, values: FORMAT_DISPLAY_SETTING_VALUES },
 } as const;
 
 export const getSelector = generateSelectors(ATTRIBUTES);

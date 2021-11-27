@@ -1,4 +1,5 @@
 import { assessScript, initAttributes } from '$utils/attributes';
+import { ATTRIBUTE } from './utils/constants';
 import { init } from './init';
 
 /**
@@ -9,7 +10,7 @@ initAttributes();
 const { currentScript } = document;
 const { preventsLoad } = assessScript(currentScript);
 
-if (preventsLoad) window.fsAttributes['rangeslider'] = { init };
+if (preventsLoad) window.fsAttributes[ATTRIBUTE] = { init };
 else {
   window.Webflow ||= [];
   window.Webflow.push(init);
