@@ -1,4 +1,4 @@
-import { getSelector } from './constants';
+import { getSelector } from './utils/constants';
 import { importCMSCore } from '$utils/import';
 import { initLoadInstance } from './factory';
 

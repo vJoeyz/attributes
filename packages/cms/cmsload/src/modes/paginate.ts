@@ -1,12 +1,12 @@
 import debounce from 'just-debounce';
-import { loadListItems } from '../load';
-import { getPaginationSettings, getPageButtonsSettings } from '../settings';
+import { loadListItems } from '../actions/load';
+import { getPaginationSettings, getPageButtonsSettings } from '../actions/settings';
 import { cloneNode, CMS_CSS_CLASSES, CURRENT_CSS_CLASS, isNotEmpty } from '@finsweet/ts-utils';
-import { getSelector } from '../constants';
+import { getSelector } from '../utils/constants';
 
 import type { PageCountElement } from '@finsweet/ts-utils';
 import type { CMSList } from '$cms/cmscore/src';
-import type { PageButtonsData } from '../types';
+import type { PageButtonsData } from '../utils/types';
 
 // Constants
 const { paginationNext: paginationNextCSSClass, paginationPrevious: paginationPreviousCSSClass } = CMS_CSS_CLASSES;

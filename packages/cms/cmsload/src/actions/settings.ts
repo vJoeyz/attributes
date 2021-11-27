@@ -6,7 +6,7 @@ import {
   DEFAULT_PAGE_BOUNDARY,
   DEFAULT_PAGE_SIBLINGS,
   getSelector,
-} from './constants';
+} from '../utils/constants';
 
 import type { PaginationButtonElement, PaginationWrapperElement } from '@finsweet/ts-utils';
 import type { CMSList } from '$cms/cmscore/src';

@@ -1,5 +1,5 @@
-import { loadNextPage } from '../load';
-import { getMainSettings } from '../settings';
+import { loadNextPage } from '../actions/load';
+import { getMainSettings } from '../actions/settings';
 
 import type { CMSList } from '$cms/cmscore/src';
 

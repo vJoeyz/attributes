@@ -1,6 +1,6 @@
 import { COMMERCE_CSS_CLASSES, LIGHTBOX_CSS_CLASSES } from '@finsweet/ts-utils';
 import { addItemsAnimation, addListAnimation } from '$cms/utils/animation';
-import { ATTRIBUTES, getSelector } from './constants';
+import { ATTRIBUTES, getSelector } from './utils/constants';
 import { initRenderAllMode } from './modes/render-all';
 import { initInfiniteMode } from './modes/infinite';
 import { initPaginateMode } from './modes/paginate';

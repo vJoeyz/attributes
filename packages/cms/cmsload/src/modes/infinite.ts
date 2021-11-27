@@ -1,6 +1,6 @@
 import throttle from 'just-throttle';
-import { loadNextPage } from '../load';
-import { getInfiniteSettings, getMainSettings } from '../settings';
+import { loadNextPage } from '../actions/load';
+import { getInfiniteSettings, getMainSettings } from '../actions/settings';
 
 import type { CMSList } from '$cms/cmscore/src';
 
