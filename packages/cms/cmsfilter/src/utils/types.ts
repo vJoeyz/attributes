@@ -53,6 +53,11 @@ export interface FilterElement {
    * Defines a {@link ElementMode}.
    */
   mode?: ElementMode;
+
+  /**
+   * Defines the Active CSS Class to add when the element is active.
+   */
+  activeCSSClass: string;
 }
 
 export interface FilterData {

@@ -74,14 +74,9 @@ export class CMSFilters {
   public readonly highlightCSSClass;
 
   /**
-   * The CSS class added to active checkboxes/radios' parents.
+   * The debounced `applyFilters` action, based on the user's debouncing settings.
    */
-  public readonly activeCSSClass;
-
-  /**
-   * The debouncing value used for input events.
-   */
-  private readonly debouncing;
+  private readonly debouncedApplyFilters;
 
   /**
    * Defines if any filter is currently active.
@@ -144,8 +139,8 @@ export class CMSFilters {
     this.highlightCSSClass = highlightCSSClass;
     this.resultsElement = resultsElement;
     this.showQueryParams = showQueryParams;
-    this.activeCSSClass = activeCSSClass;
-    this.debouncing = debouncing;
+
+    this.debouncedApplyFilters = debounce(this.applyFilters, debouncing);
 
     this.init();
   }
@@ -177,14 +172,11 @@ export class CMSFilters {
    * Listens for internal events.
    */
   private async listenEvents() {
-    const { form, resetButtonsData, submitButton, debouncing } = this;
+    const { form, resetButtonsData, submitButton } = this;
 
     // Form
     form.addEventListener('submit', (e) => this.handleSubmit(e));
-    form.addEventListener(
-      'input',
-      debounce((e: Event) => this.handleInputEvents(e), debouncing)
-    );
+    form.addEventListener('input', (e) => this.handleInputEvents(e));
 
     // Reset buttons
     for (const [resetButton, filterKeys] of resetButtonsData) {
@@ -207,14 +199,14 @@ export class CMSFilters {
    * @param e The `InputEvent`.
    */
   private async handleInputEvents({ target }: Event) {
-    const { submitButtonVisible, filtersData, activeCSSClass } = this;
+    const { submitButtonVisible, filtersData } = this;
 
     if (!isFormField(target)) return;
 
-    const validInput = handleFilterInput(target, filtersData, activeCSSClass);
+    const validInput = handleFilterInput(target, filtersData);
     if (!validInput) return;
 
-    if (!submitButtonVisible) await this.applyFilters();
+    if (!submitButtonVisible) await this.debouncedApplyFilters();
   }
 
   /**
@@ -287,10 +279,6 @@ export class CMSFilters {
 
       clearFilterData(filterData, value);
     }
-
-    const syncTags = !value;
-
-    await this.applyFilters(false, syncTags);
   }
 
   /**

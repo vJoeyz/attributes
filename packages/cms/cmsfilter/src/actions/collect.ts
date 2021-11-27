@@ -24,6 +24,7 @@ const {
   tagCategory: { key: tagCategoryKey },
   hideEmpty: { key: hideEmptyKey, values: hideEmptyValues },
   highlight: { key: highlightKey, values: highlightValues },
+  activeCSS: { key: activeCSSKey },
 } = ATTRIBUTES;
 
 const { checkboxField: checkboxFieldCSSClass, radioField: radioFieldCSSClass } = FORM_CSS_CLASSES;
@@ -83,7 +84,7 @@ export const collectFiltersData = (
   const elements = form.querySelectorAll<HTMLElement>(getSelector('field'));
 
   elements.forEach((element, index) => {
-    // Collect settings
+    // Collect the filter keys
     const rawFilterKeys = element.getAttribute(fieldKey);
     if (!rawFilterKeys) return;
 
@@ -93,48 +94,16 @@ export const collectFiltersData = (
 
     if (!filterKeys.length) return;
 
+    // Collect settings
+    const settings = collectGlobalFilterSettings(element, filterKeys, globalActiveCSSClass, highlightAll);
+    if (!settings) return;
+
+    const [globalFilterData, globalElementData] = settings;
+
+    // Collect existing data
     const existingData = filtersData.find((data) => sameValues(filterKeys, data.filterKeys));
 
-    const rawMatch = element.getAttribute(matchKey);
-    const rawHighlight = element.getAttribute(highlightKey);
-    const rawTagFormat = element.getAttribute(tagFormatKey);
-
-    const match = isKeyOf(rawMatch, MATCHES) ? rawMatch : undefined;
-    const highlight = highlightAll || rawHighlight === highlightValues.true;
-    const tagFormat = isKeyOf(rawTagFormat, TAG_FORMATS) ? rawTagFormat : undefined;
-    const tagCategory = element.getAttribute(tagCategoryKey);
-
-    const rawMode = element.getAttribute(rangeKey);
-
-    let filterMode: FilterData['mode'] | undefined;
-    let elementMode: FilterElement['mode'] | undefined;
-
-    for (const [key, value] of getObjectEntries(MODES)) {
-      if (isKeyOf(rawMode, value)) {
-        filterMode = key;
-        elementMode = rawMode;
-        break;
-      }
-    }
-
-    // Collect global data
-    const globalFilterData: Omit<FilterData, 'elements'> = {
-      match,
-      filterKeys,
-      highlight,
-      tagFormat,
-      tagCategory,
-      mode: filterMode,
-      values: new Set(),
-    };
-
-    const globalElementData: Omit<FilterElement, 'element' | 'value' | 'type'> = {
-      resultsCount: 0,
-      mode: elementMode,
-      hidden: false,
-    };
-
-    // Checkbox or Radios
+    // Handle Checkboxes or Radios
     const checkboxOrRadioField = element.closest<HTMLLabelElement>(`.${checkboxFieldCSSClass}, .${radioFieldCSSClass}`);
 
     if (checkboxOrRadioField) {
@@ -171,12 +140,12 @@ export const collectFiltersData = (
       }
 
       // Collect initial value
-      handleFilterInput(fieldElement, filtersData, globalActiveCSSClass);
+      handleFilterInput(fieldElement, filtersData);
 
       return;
     }
 
-    // Other Form Fields
+    // Handle other Form Fields
     if (!isFormField(element) || element.type === 'submit') return;
 
     const { type, value } = element;
@@ -199,8 +168,69 @@ export const collectFiltersData = (
     }
 
     // Collect initial value
-    if (type === 'select-one') handleFilterInput(element, filtersData, globalActiveCSSClass);
+    if (type === 'select-one') handleFilterInput(element, filtersData);
   });
 
   return filtersData;
+};
+
+/**
+ * Collects the global settings from a filter element.
+ *
+ * @param element The filter element.
+ * @param filterKeys The filter keys.
+ * @param globalActiveCSSClass The global active CSS Class.
+ * @param highlightAll Defines if all matching values must be highlighted.
+ *
+ * @returns A tuple with [globalFilterData, globalElementData].
+ */
+const collectGlobalFilterSettings = (
+  element: HTMLElement,
+  filterKeys: string[],
+  globalActiveCSSClass: string,
+  highlightAll?: boolean
+) => {
+  const rawMatch = element.getAttribute(matchKey);
+  const rawHighlight = element.getAttribute(highlightKey);
+  const rawTagFormat = element.getAttribute(tagFormatKey);
+  const rawActiveCSSClass = element.getAttribute(activeCSSKey);
+
+  const match = isKeyOf(rawMatch, MATCHES) ? rawMatch : undefined;
+  const highlight = highlightAll || rawHighlight === highlightValues.true;
+  const tagFormat = isKeyOf(rawTagFormat, TAG_FORMATS) ? rawTagFormat : undefined;
+  const tagCategory = element.getAttribute(tagCategoryKey);
+  const activeCSSClass = rawActiveCSSClass || globalActiveCSSClass;
+
+  const rawMode = element.getAttribute(rangeKey);
+
+  let filterMode: FilterData['mode'] | undefined;
+  let elementMode: FilterElement['mode'] | undefined;
+
+  for (const [key, value] of getObjectEntries(MODES)) {
+    if (isKeyOf(rawMode, value)) {
+      filterMode = key;
+      elementMode = rawMode;
+      break;
+    }
+  }
+
+  // Collect global data
+  const globalFilterData: Omit<FilterData, 'elements'> = {
+    match,
+    filterKeys,
+    highlight,
+    tagFormat,
+    tagCategory,
+    mode: filterMode,
+    values: new Set(),
+  };
+
+  const globalElementData: Omit<FilterElement, 'element' | 'value' | 'type'> = {
+    activeCSSClass,
+    resultsCount: 0,
+    mode: elementMode,
+    hidden: false,
+  };
+
+  return [globalFilterData, globalElementData] as const;
 };

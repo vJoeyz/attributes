@@ -7,11 +7,10 @@ import type { FiltersData } from '../utils/types';
  *
  * @param element The input element.
  * @param filtersData The {@link FiltersData} object.
- * @param activeCSSClass The CSS Class to be added to active elements.
  *
  * @returns `true` if the input event was valid and some filter data was updated.
  */
-export const handleFilterInput = (element: FormField, filtersData: FiltersData, activeCSSClass: string): boolean => {
+export const handleFilterInput = (element: FormField, filtersData: FiltersData): boolean => {
   const { value } = element;
 
   const relatedFilterData = filtersData.filter(({ elements }) => elements.some((data) => data.element === element));
@@ -23,7 +22,7 @@ export const handleFilterInput = (element: FormField, filtersData: FiltersData, 
     const elementData = elements.find((data) => data.element === element);
     if (!elementData) continue;
 
-    const { value: storedValue, mode: elementMode, type } = elementData;
+    const { value: storedValue, mode: elementMode, type, activeCSSClass } = elementData;
 
     switch (type) {
       case 'checkbox': {
@@ -31,12 +30,14 @@ export const handleFilterInput = (element: FormField, filtersData: FiltersData, 
 
         if (!storedValue) break;
 
+        // Active CSS
         element.parentElement?.classList[checked ? 'add' : 'remove'](activeCSSClass);
 
         filterValues[checked ? 'add' : 'delete'](storedValue);
 
         break;
       }
+
       case 'radio': {
         const { checked } = <HTMLInputElement>element;
 
@@ -45,6 +46,7 @@ export const handleFilterInput = (element: FormField, filtersData: FiltersData, 
         for (const { element: groupElement, type } of elements) {
           if (type !== 'radio') continue;
 
+          // Active CSS
           groupElement.parentElement?.classList[groupElement === element ? 'add' : 'remove'](activeCSSClass);
         }
 
@@ -57,6 +59,10 @@ export const handleFilterInput = (element: FormField, filtersData: FiltersData, 
       default: {
         elementData.value = value;
 
+        // Active CSS
+        element.classList[value ? 'add' : 'remove'](activeCSSClass);
+
+        // Range mode
         if (filterMode === 'range') {
           const newValues = [...filterValues];
           newValues[elementMode === 'from' ? 0 : 1] = value;
@@ -65,11 +71,12 @@ export const handleFilterInput = (element: FormField, filtersData: FiltersData, 
           else filterValues.clear();
 
           break;
-        } else {
-          filterValues.clear();
-
-          if (value) filterValues.add(value);
         }
+
+        // Regular mode
+        filterValues.clear();
+
+        if (value) filterValues.add(value);
 
         break;
       }

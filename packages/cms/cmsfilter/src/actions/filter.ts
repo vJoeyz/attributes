@@ -1,4 +1,4 @@
-import { clearFormField, sameValues } from '@finsweet/ts-utils';
+import { clearFormField } from '@finsweet/ts-utils';
 import { clearHighlight } from './highlight';
 import { normalizeDate } from '../utils/dates';
 import { normalizeNumber } from '../utils/numbers';
@@ -148,24 +148,9 @@ const checkRangeValidity = (value: string, from: string, to: string, type?: stri
 };
 
 /**
- * Removes the value of a specific filter and clears the correspondent `FormField` element.
- * @param filterKeys The keys of the filter.
- * @param value The specific value to remove-
- * @param filtersData The {@link FiltersData} object.
- */
-export const removeFilterValue = (filterKeys: string[], value: string, filtersData: FiltersData) => {
-  const filterData = filtersData.find((data) => sameValues(data.filterKeys, filterKeys));
-  if (!filterData) return;
-
-  const elements = filterData.elements.filter((elementData) => elementData.value === value);
-
-  filterData.values.delete(value);
-
-  for (const { element } of elements) clearFormField(element, ['input']);
-};
-
-/**
  * Clears a record of `FilterData`, including the input values.
+ * Emits `input` events on all cleared `FormField` elements.
+ *
  * @param filterData The {@link FilterData} object.
  * @param value If passed, only that specific value and the elements that hold it will be cleared.
  */
@@ -180,5 +165,5 @@ export const clearFilterData = ({ elements, values }: FilterData, value?: string
     elementsToClear = elements;
   }
 
-  for (const { element } of elementsToClear) clearFormField(element, ['input']);
+  for (const { element } of elementsToClear) clearFormField(element);
 };
