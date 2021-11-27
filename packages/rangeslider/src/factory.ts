@@ -1,11 +1,11 @@
 import { Debug, isNotEmpty } from '@finsweet/ts-utils';
-import { ATTRIBUTES } from './constants';
-import { Fill } from './Fill';
-import { Handle } from './Handle';
-import { adjustValueToStep } from './values';
+import { ATTRIBUTES } from './utils/constants';
+import { Fill } from './components/Fill';
+import { Handle } from './components/Handle';
+import { adjustValueToStep } from './utils/values';
 
-import type { getSettings } from './settings';
-import type { HandleInstances } from './types';
+import type { getSettings } from './actions/settings';
+import type { HandleInstances } from './utils/types';
 
 /**
  * Creates {@link Handle} instances and sets them up.

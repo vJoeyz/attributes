@@ -1,12 +1,12 @@
 import debounce from 'just-debounce';
-import { adjustValueToStep, getClosestValidHandle } from './values';
+import { adjustValueToStep, getClosestValidHandle } from './utils/values';
 import { createFillInstance, createHandleInstances } from './factory';
-import { getSelector } from './constants';
-import { getSettings } from './settings';
-import { getClientX } from './events';
+import { getSelector } from './utils/constants';
+import { getSettings } from './actions/settings';
+import { getClientX } from './actions/events';
 
-import type { Handle } from './Handle';
-import type { HandleInstances } from './types';
+import type { Handle } from './components/Handle';
+import type { HandleInstances } from './utils/types';
 
 /**
  * Inits the attribute.

@@ -1,5 +1,5 @@
 import { Debug, isFormField } from '@finsweet/ts-utils';
-import { ATTRIBUTES, getSelector } from './constants';
+import { ATTRIBUTES, getSelector } from '../utils/constants';
 
 /**
  * Constants
