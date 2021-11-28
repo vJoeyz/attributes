@@ -58,6 +58,11 @@ export interface FilterElement {
    * Defines the Active CSS Class to add when the element is active.
    */
   activeCSSClass: string;
+
+  /**
+   * Defines the debouncing for this specific element.
+   */
+  debouncing: number;
 }
 
 export interface FilterData {

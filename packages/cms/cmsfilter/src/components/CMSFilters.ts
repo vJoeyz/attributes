@@ -12,6 +12,7 @@ import { clearFilterData } from '../actions/clear';
 import type { FormBlockElement } from '@finsweet/ts-utils';
 import type { CMSList } from '$cms/cmscore/src';
 import type { CMSTags } from './CMSTags';
+import type { FilterElement } from '../utils/types';
 
 // Constants
 const {
@@ -77,7 +78,12 @@ export class CMSFilters {
   /**
    * The debounced `applyFilters` action, based on the user's debouncing settings.
    */
-  private readonly debouncedApplyFilters;
+  private debouncedApplyFilters?: () => void;
+
+  /**
+   * Defines if some filter is currently being restarted.
+   */
+  private restartingFilters = false;
 
   /**
    * Defines if any filter is currently active.
@@ -124,7 +130,7 @@ export class CMSFilters {
 
     this.submitButtonVisible = !!submitButton && isVisible(submitButton);
 
-    const filtersData = collectFiltersData(form, activeCSSClass, highlightAll);
+    const filtersData = collectFiltersData(form, activeCSSClass, debouncing, highlightAll);
 
     this.filtersData = filtersData;
 
@@ -140,8 +146,6 @@ export class CMSFilters {
     this.highlightCSSClass = highlightCSSClass;
     this.resultsElement = resultsElement;
     this.showQueryParams = showQueryParams;
-
-    this.debouncedApplyFilters = debounce(this.applyFilters, debouncing);
 
     this.init();
   }
@@ -200,14 +204,30 @@ export class CMSFilters {
    * @param e The `InputEvent`.
    */
   private async handleInputEvents({ target }: Event) {
-    const { submitButtonVisible, filtersData } = this;
+    const { submitButtonVisible, filtersData, restartingFilters } = this;
 
     if (!isFormField(target)) return;
 
-    const validInput = handleFilterInput(target, filtersData);
+    let elementData: FilterElement | undefined;
+
+    const filterData = filtersData.find(({ elements }) => {
+      elementData = elements.find((data) => data.element === target);
+
+      return elementData;
+    });
+
+    if (!filterData || !elementData) return;
+
+    const validInput = handleFilterInput(target, filterData, elementData);
     if (!validInput) return;
 
-    if (!submitButtonVisible) await this.debouncedApplyFilters();
+    if (restartingFilters || submitButtonVisible) return;
+
+    const { debouncing } = elementData;
+
+    this.debouncedApplyFilters ||= debounce(this.applyFilters, debouncing);
+
+    await this.debouncedApplyFilters();
   }
 
   /**
@@ -230,6 +250,9 @@ export class CMSFilters {
    * @param syncTags Defines if the {@link CMSTags} instance should be syncronized. Defaults to `true`.
    */
   public async applyFilters(addingItems?: boolean, syncTags = true): Promise<void> {
+    // Remove current debouncing
+    this.debouncedApplyFilters = undefined;
+
     const { listInstance, filtersData, filtersActive, highlightResults, tagsInstance, showQueryParams } = this;
     const { items, currentPage } = listInstance;
 
@@ -271,6 +294,8 @@ export class CMSFilters {
    * @param value If passed, only that specific value and the elements that hold it will be cleared.
    */
   public async resetFilters(filterKeys?: string[], value?: string): Promise<void> {
+    this.restartingFilters = true;
+
     const { filtersData } = this;
 
     if (!filterKeys || !filterKeys.length) for (const filterData of filtersData) clearFilterData(filterData);
@@ -280,6 +305,12 @@ export class CMSFilters {
 
       clearFilterData(filterData, value);
     }
+
+    const syncTags = !value;
+
+    await this.applyFilters(false, syncTags);
+
+    this.restartingFilters = false;
   }
 
   /**

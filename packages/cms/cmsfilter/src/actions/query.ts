@@ -41,20 +41,24 @@ export const getQueryParams = (cmsFilters: CMSFilters): boolean => {
       const toElements = elements.filter(({ mode }) => mode === 'to');
 
       if (fromValue && fromElements.length) {
-        for (const { element, type } of fromElements) {
+        for (const elementData of fromElements) {
+          const { element, type } = elementData;
+
           if (type === 'checkbox' || type === 'radio') setFormFieldValue(element, true);
           else setFormFieldValue(element, fromValue);
 
-          handleFilterInput(element, filtersData);
+          handleFilterInput(element, filterData, elementData);
         }
       }
 
       if (toValue && toElements) {
-        for (const { element, type } of toElements) {
+        for (const elementData of toElements) {
+          const { element, type } = elementData;
+
           if (type === 'checkbox' || type === 'radio') setFormFieldValue(element, true);
           else setFormFieldValue(element, toValue);
 
-          handleFilterInput(element, filtersData);
+          handleFilterInput(element, filterData, elementData);
         }
       }
 
@@ -63,12 +67,14 @@ export const getQueryParams = (cmsFilters: CMSFilters): boolean => {
 
     // Regular Values
     for (const queryValue of queryValues) {
-      for (const { element, value, type } of elements) {
+      for (const elementData of elements) {
+        const { element, value, type } = elementData;
+
         if (value === queryValue && (type === 'checkbox' || type === 'radio')) setFormFieldValue(element, true);
         else if (!value && type !== 'checkbox' && type !== 'radio') setFormFieldValue(element, queryValue);
         else continue;
 
-        handleFilterInput(element, filtersData);
+        handleFilterInput(element, filterData, elementData);
       }
     }
   }

@@ -25,6 +25,7 @@ const {
   hideEmpty: { key: hideEmptyKey, values: hideEmptyValues },
   highlight: { key: highlightKey, values: highlightValues },
   activeCSS: { key: activeCSSKey },
+  debouncing: { key: debouncingKey },
 } = ATTRIBUTES;
 
 const { checkboxField: checkboxFieldCSSClass, radioField: radioFieldCSSClass } = FORM_CSS_CLASSES;
@@ -70,6 +71,7 @@ export const collectFiltersElements = (
  *
  * @param form The form that contains the filter fields.
  * @param globalActiveCSSClass The global active CSS Class.
+ * @param globalDebouncing The global debouncing value for `input` events.
  * @param highlightAll Defines if all matching values must be highlighted.
  *
  * @returns A {@link FiltersData} Map and a {@link FilterKeyResults} object.
@@ -77,6 +79,7 @@ export const collectFiltersElements = (
 export const collectFiltersData = (
   form: HTMLFormElement,
   globalActiveCSSClass: string,
+  globalDebouncing: number,
   highlightAll?: boolean
 ): FiltersData => {
   const filtersData: FiltersData = [];
@@ -95,13 +98,27 @@ export const collectFiltersData = (
     if (!filterKeys.length) return;
 
     // Collect settings
-    const settings = collectGlobalFilterSettings(element, filterKeys, globalActiveCSSClass, highlightAll);
+    const settings = collectGlobalFilterSettings(
+      element,
+      filterKeys,
+      globalActiveCSSClass,
+      globalDebouncing,
+      highlightAll
+    );
+
     if (!settings) return;
 
     const [globalFilterData, globalElementData] = settings;
 
     // Collect existing data
     const existingData = filtersData.find((data) => sameValues(filterKeys, data.filterKeys));
+
+    const filterData = existingData || {
+      ...globalFilterData,
+      elements: [],
+    };
+
+    if (!existingData) filtersData.push(filterData);
 
     // Handle Checkboxes or Radios
     const checkboxOrRadioField = element.closest<HTMLLabelElement>(`.${checkboxFieldCSSClass}, .${radioFieldCSSClass}`);
@@ -131,16 +148,10 @@ export const collectFiltersData = (
         type: fieldElement.type,
       } as const;
 
-      if (existingData) existingData.elements.push(elementData);
-      else {
-        filtersData.push({
-          ...globalFilterData,
-          elements: [elementData],
-        });
-      }
+      filterData.elements.push(elementData);
 
       // Collect initial value
-      handleFilterInput(fieldElement, filtersData);
+      handleFilterInput(fieldElement, filterData, elementData);
 
       return;
     }
@@ -159,16 +170,10 @@ export const collectFiltersData = (
       value,
     };
 
-    if (existingData) existingData.elements.push(elementData);
-    else {
-      filtersData.push({
-        ...globalFilterData,
-        elements: [elementData],
-      });
-    }
+    filterData.elements.push(elementData);
 
     // Collect initial value
-    if (type === 'select-one') handleFilterInput(element, filtersData);
+    if (type === 'select-one') handleFilterInput(element, filterData, elementData);
   });
 
   return filtersData;
@@ -180,6 +185,7 @@ export const collectFiltersData = (
  * @param element The filter element.
  * @param filterKeys The filter keys.
  * @param globalActiveCSSClass The global active CSS Class.
+ * @param globalDebouncing The global debouncing value for `input` events.
  * @param highlightAll Defines if all matching values must be highlighted.
  *
  * @returns A tuple with [globalFilterData, globalElementData].
@@ -188,18 +194,21 @@ const collectGlobalFilterSettings = (
   element: HTMLElement,
   filterKeys: string[],
   globalActiveCSSClass: string,
+  globalDebouncing: number,
   highlightAll?: boolean
 ) => {
   const rawMatch = element.getAttribute(matchKey);
   const rawHighlight = element.getAttribute(highlightKey);
   const rawTagFormat = element.getAttribute(tagFormatKey);
   const rawActiveCSSClass = element.getAttribute(activeCSSKey);
+  const rawDebouncing = element.getAttribute(debouncingKey);
 
   const match = isKeyOf(rawMatch, MATCHES) ? rawMatch : undefined;
   const highlight = highlightAll || rawHighlight === highlightValues.true;
   const tagFormat = isKeyOf(rawTagFormat, TAG_FORMATS) ? rawTagFormat : undefined;
   const tagCategory = element.getAttribute(tagCategoryKey);
   const activeCSSClass = rawActiveCSSClass || globalActiveCSSClass;
+  const debouncing = rawDebouncing ? parseFloat(rawDebouncing) : globalDebouncing;
 
   const rawMode = element.getAttribute(rangeKey);
 
@@ -227,6 +236,7 @@ const collectGlobalFilterSettings = (
 
   const globalElementData: Omit<FilterElement, 'element' | 'value' | 'type'> = {
     activeCSSClass,
+    debouncing,
     resultsCount: 0,
     mode: elementMode,
     hidden: false,

@@ -1,5 +1,5 @@
 import type { FormField } from '@finsweet/ts-utils';
-import type { FiltersData } from '../utils/types';
+import type { FilterData, FilterElement } from '../utils/types';
 
 /**
  * Updates the `filtersData` object with the new input data.
@@ -10,76 +10,66 @@ import type { FiltersData } from '../utils/types';
  *
  * @returns `true` if the input event was valid and some filter data was updated.
  */
-export const handleFilterInput = (element: FormField, filtersData: FiltersData): boolean => {
+export const handleFilterInput = (element: FormField, filterData: FilterData, elementData: FilterElement): boolean => {
   const { value } = element;
+  const { elements, values: filterValues, mode: filterMode } = filterData;
+  const { value: storedValue, mode: elementMode, type, activeCSSClass } = elementData;
 
-  const relatedFilterData = filtersData.filter(({ elements }) => elements.some((data) => data.element === element));
-  if (!relatedFilterData.length) return false;
+  switch (type) {
+    case 'checkbox': {
+      const { checked } = <HTMLInputElement>element;
 
-  for (const relatedData of relatedFilterData) {
-    const { elements, values: filterValues, mode: filterMode } = relatedData;
+      if (!storedValue) break;
 
-    const elementData = elements.find((data) => data.element === element);
-    if (!elementData) continue;
+      // Active CSS
+      element.parentElement?.classList[checked ? 'add' : 'remove'](activeCSSClass);
 
-    const { value: storedValue, mode: elementMode, type, activeCSSClass } = elementData;
+      filterValues[checked ? 'add' : 'delete'](storedValue);
 
-    switch (type) {
-      case 'checkbox': {
-        const { checked } = <HTMLInputElement>element;
+      break;
+    }
 
-        if (!storedValue) break;
+    case 'radio': {
+      const { checked } = <HTMLInputElement>element;
 
-        // Active CSS
-        element.parentElement?.classList[checked ? 'add' : 'remove'](activeCSSClass);
+      // Active CSS
+      for (const { element: groupElement, type } of elements) {
+        if (type !== 'radio') return false;
 
-        filterValues[checked ? 'add' : 'delete'](storedValue);
+        groupElement.parentElement?.classList[groupElement === element && checked ? 'add' : 'remove'](activeCSSClass);
+      }
+
+      if (!checked || !storedValue) break;
+
+      filterValues.clear();
+      filterValues.add(storedValue);
+
+      break;
+    }
+
+    default: {
+      elementData.value = value;
+
+      // Active CSS
+      element.classList[value ? 'add' : 'remove'](activeCSSClass);
+
+      // Range mode
+      if (filterMode === 'range') {
+        const newValues = [...filterValues];
+        newValues[elementMode === 'from' ? 0 : 1] = value;
+
+        if (newValues.some((value) => !!value)) filterData.values = new Set(newValues);
+        else filterValues.clear();
 
         break;
       }
 
-      case 'radio': {
-        const { checked } = <HTMLInputElement>element;
+      // Regular mode
+      filterValues.clear();
 
-        // Active CSS
-        for (const { element: groupElement, type } of elements) {
-          if (type !== 'radio') continue;
+      if (value) filterValues.add(value);
 
-          groupElement.parentElement?.classList[groupElement === element && checked ? 'add' : 'remove'](activeCSSClass);
-        }
-
-        if (!checked || !storedValue) break;
-
-        filterValues.clear();
-        filterValues.add(storedValue);
-
-        break;
-      }
-
-      default: {
-        elementData.value = value;
-
-        // Active CSS
-        element.classList[value ? 'add' : 'remove'](activeCSSClass);
-
-        // Range mode
-        if (filterMode === 'range') {
-          const newValues = [...filterValues];
-          newValues[elementMode === 'from' ? 0 : 1] = value;
-
-          if (newValues.some((value) => !!value)) relatedData.values = new Set(newValues);
-          else filterValues.clear();
-
-          break;
-        }
-
-        // Regular mode
-        filterValues.clear();
-
-        if (value) filterValues.add(value);
-
-        break;
-      }
+      break;
     }
   }
 
