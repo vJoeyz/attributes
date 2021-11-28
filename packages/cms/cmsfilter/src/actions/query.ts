@@ -1,5 +1,6 @@
 import { normalizePropKey } from '$cms/utils/props';
 import { extractCommaSeparatedValues, setFormFieldValue } from '@finsweet/ts-utils';
+import { handleFilterInput } from './input';
 
 import type { CMSFilters } from '../components/CMSFilters';
 import type { FiltersData } from '../utils/types';
@@ -30,7 +31,7 @@ export const getQueryParams = (cmsFilters: CMSFilters): boolean => {
 
     queryParamsValid = true;
 
-    const { elements, mode, values: filterValues } = filterData;
+    const { elements, mode } = filterData;
 
     // Range Values
     if (mode === 'range') {
@@ -39,27 +40,23 @@ export const getQueryParams = (cmsFilters: CMSFilters): boolean => {
       const fromElements = elements.filter(({ mode }) => mode === 'from');
       const toElements = elements.filter(({ mode }) => mode === 'to');
 
-      const newValues: string[] = [];
-
       if (fromValue && fromElements.length) {
         for (const { element, type } of fromElements) {
           if (type === 'checkbox' || type === 'radio') setFormFieldValue(element, true);
           else setFormFieldValue(element, fromValue);
-        }
 
-        newValues[0] = fromValue;
+          handleFilterInput(element, filtersData);
+        }
       }
 
       if (toValue && toElements) {
         for (const { element, type } of toElements) {
           if (type === 'checkbox' || type === 'radio') setFormFieldValue(element, true);
           else setFormFieldValue(element, toValue);
+
+          handleFilterInput(element, filtersData);
         }
-
-        newValues[1] = toValue;
       }
-
-      if (newValues.length) filterData.values = new Set(newValues);
 
       continue;
     }
@@ -71,7 +68,7 @@ export const getQueryParams = (cmsFilters: CMSFilters): boolean => {
         else if (!value && type !== 'checkbox' && type !== 'radio') setFormFieldValue(element, queryValue);
         else continue;
 
-        filterValues.add(queryValue);
+        handleFilterInput(element, filtersData);
       }
     }
   }

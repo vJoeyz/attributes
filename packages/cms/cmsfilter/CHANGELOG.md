@@ -3,6 +3,7 @@
 ## [v1.7.0-beta.1] 27th November 2021
 
 - Fixed `fs-cmsfilter-active="ACTIVE_CSS_CLASS"` not being removed from Radio Buttons when using a `reset` button.
+- Fixed `fs-cmsfilter-active="ACTIVE_CSS_CLASS"` not working correctly when pre-populating the filters using query params.
 
 ## [v1.7.0-beta.0] 27th November 2021
 
