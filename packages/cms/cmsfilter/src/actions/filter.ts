@@ -1,10 +1,9 @@
-import { clearFormField } from '@finsweet/ts-utils';
 import { clearHighlight } from './highlight';
 import { normalizeDate } from '../utils/dates';
 import { normalizeNumber } from '../utils/numbers';
 
 import type { CMSItem } from '$cms/cmscore/src';
-import type { FilterData, FilterElement, FiltersData } from '../utils/types';
+import type { FiltersData } from '../utils/types';
 
 /**
  * Assesses if an item should be displayed/hidden based on the filters.
@@ -145,25 +144,4 @@ const checkRangeValidity = (value: string, from: string, to: string, type?: stri
   if (typeof normalizedTo === 'undefined' || typeof normalizedFrom === 'undefined') return false;
 
   return normalizedValue >= normalizedFrom && normalizedValue <= normalizedTo;
-};
-
-/**
- * Clears a record of `FilterData`, including the input values.
- * Emits `input` events on all cleared `FormField` elements.
- *
- * @param filterData The {@link FilterData} object.
- * @param value If passed, only that specific value and the elements that hold it will be cleared.
- */
-export const clearFilterData = ({ elements, values }: FilterData, value?: string) => {
-  let elementsToClear: FilterElement[];
-
-  if (value) {
-    values.delete(value);
-    elementsToClear = elements.filter((elementData) => elementData.value === value);
-  } else {
-    values.clear();
-    elementsToClear = elements;
-  }
-
-  for (const { element } of elementsToClear) clearFormField(element);
 };
