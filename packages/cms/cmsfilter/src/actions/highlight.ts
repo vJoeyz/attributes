@@ -43,9 +43,6 @@ export const toggleHighlight = ({ props }: CMSItem, highlightCSSClass: string) =
  *
  * @param item The {@link CMSItem} to clear.
  */
-export const clearHighlight = ({ props }: CMSItem) => {
-  for (const propKey in props) {
-    const { highlightValues } = props[propKey];
-    highlightValues?.clear();
-  }
+export const restartHighlight = ({ props }: CMSItem) => {
+  for (const propKey in props) props[propKey].highlightValues = new Map();
 };

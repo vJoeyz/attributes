@@ -4,6 +4,7 @@
 
 - Fixed `fs-cmsfilter-active="ACTIVE_CSS_CLASS"` not being removed from Radio Buttons when using a `reset` button.
 - Fixed `fs-cmsfilter-active="ACTIVE_CSS_CLASS"` not working correctly when pre-populating the filters using query params.
+- Fixed `fs-cmsfilter-highlight` not behaving correctly when combining global search highlighting (`*`) with field-specific searches.
 
 ## [v1.7.0-beta.0] 27th November 2021
 

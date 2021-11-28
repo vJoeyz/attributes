@@ -1,4 +1,4 @@
-import { clearHighlight } from './highlight';
+import { restartHighlight } from './highlight';
 import { normalizeDate } from '../utils/dates';
 import { normalizeNumber } from '../utils/numbers';
 
@@ -18,11 +18,9 @@ export const assessFilter = (
   filtersAreEmpty: boolean,
   highlightActivated: boolean
 ): boolean => {
-  if (filtersAreEmpty) {
-    if (highlightActivated) clearHighlight(item);
+  if (highlightActivated) restartHighlight(item);
 
-    return true;
-  }
+  if (filtersAreEmpty) return true;
 
   return filtersData.every((filterData) => checkFilterValidity(item, filterData));
 };
@@ -49,15 +47,10 @@ const checkFilterValidity = (
     const prop = item.props[filterKey];
     if (!prop) return false;
 
-    const { values, type: propType, range: propRange } = prop;
+    const { values, highlightValues, type: propType, range: propRange } = prop;
 
     const propValues = [...values];
     if (!propValues.length) return false;
-
-    // Init highlighting
-    const highlightValues = new Map();
-
-    if (highlight) prop.highlightValues = highlightValues;
 
     // Range Filter Modes
     if (filterMode === 'range') {
@@ -66,7 +59,7 @@ const checkFilterValidity = (
 
       const isValid = checkRangeValidity(propValue, filterFrom, filterTo, propType);
 
-      if (isValid && highlight) highlightValues.set(propValue, null);
+      if (isValid && highlight) highlightValues?.set(propValue, null);
 
       return isValid;
     }
@@ -80,8 +73,8 @@ const checkFilterValidity = (
         const isValid = checkRangeValidity(filterValue, propFrom, propTo, propType);
 
         if (isValid && highlight) {
-          highlightValues.set(propFrom, null);
-          highlightValues.set(propTo, null);
+          highlightValues?.set(propFrom, null);
+          highlightValues?.set(propTo, null);
         }
 
         return isValid;
@@ -108,7 +101,7 @@ const checkFilterValidity = (
         // Multiple Prop Values
         else isValid = filterValue.toLowerCase() === propValue.toLowerCase();
 
-        if (isValid && highlight) highlightValues.set(propValue, filterValue);
+        if (isValid && highlight) highlightValues?.set(propValue, filterValue);
 
         return isValid;
       });
