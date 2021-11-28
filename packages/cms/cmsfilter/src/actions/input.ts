@@ -41,14 +41,14 @@ export const handleFilterInput = (element: FormField, filtersData: FiltersData):
       case 'radio': {
         const { checked } = <HTMLInputElement>element;
 
-        if (!checked || !storedValue) break;
-
+        // Active CSS
         for (const { element: groupElement, type } of elements) {
           if (type !== 'radio') continue;
 
-          // Active CSS
-          groupElement.parentElement?.classList[groupElement === element ? 'add' : 'remove'](activeCSSClass);
+          groupElement.parentElement?.classList[groupElement === element && checked ? 'add' : 'remove'](activeCSSClass);
         }
+
+        if (!checked || !storedValue) break;
 
         filterValues.clear();
         filterValues.add(storedValue);
