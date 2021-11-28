@@ -1,5 +1,9 @@
 # `rangeslider` Changelog
 
+## [v1.2.0] 28th November 2021
+
+- Published to NPM.
+
 ## [v1.2.0-beta.0] 27th November 2021
 
 - Added support for the range slider being initially hidden on page load. Now the library will recalculate the range slider's position whenever its visibility changes.
