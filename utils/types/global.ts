@@ -4,24 +4,30 @@ import type { CMSList } from '$cms/cmscore/src';
 import type { CMSCoreImport } from '$cms/cmscore/src/types';
 import type { CMSFilters } from '$cms/cmsfilter/src/components/CMSFilters';
 
+type FsAttributes = {
+  animationImport?: AnimationImport;
+
+  cms: {
+    coreVersion?: string;
+    coreImport?: CMSCoreImport;
+    listElements?: CollectionListWrapperElement[];
+    lists?: CMSList[];
+    filtersInstances?: CMSFilters[];
+  };
+};
+
+type FsInitMethods = {
+  [key: string]: {
+    init?: () => unknown | Promise<unknown>;
+  };
+};
+
 /**
  * Window object.
  */
 declare global {
   interface Window {
-    fsAttributes: {
-      animationImport?: AnimationImport;
-
-      cms: {
-        coreVersion?: string;
-        coreImport?: CMSCoreImport;
-        listElements?: CollectionListWrapperElement[];
-        lists?: CMSList[];
-        filtersInstances?: CMSFilters[];
-      };
-
-      [key: string]: unknown;
-    };
+    fsAttributes: FsAttributes & FsInitMethods;
   }
 }
 
