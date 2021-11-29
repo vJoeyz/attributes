@@ -30,43 +30,41 @@ export const initCollapseOptions = () => {
     if (!(target instanceof Element)) return;
 
     const isToggleElement = target.closest(OPTIONS_TRIGGER_SELECTOR);
+    if (!isToggleElement) return;
 
-    if (isToggleElement) {
-      const wasExpanded = expandedToggles.has(isToggleElement);
+    collapsing = true;
 
-      if (wasExpanded) {
-        expandedToggles.delete(isToggleElement);
+    const wasExpanded = expandedToggles.has(isToggleElement);
 
-        if (!expandedToggles.size) collapseAllDropdownsTrigger.style.display = 'none';
+    if (wasExpanded) {
+      expandedToggles.delete(isToggleElement);
 
-        return;
-      }
-
-      expandedToggles.add(isToggleElement);
-
-      collapseAllDropdownsTrigger.style.display = '';
+      if (!expandedToggles.size) collapseAllDropdownsTrigger.style.display = 'none';
 
       return;
     }
 
-    const isCollapseAllTriggerElement = target.closest<HTMLAnchorElement>(
-      getSelector('element', 'collapseAllDropdowns')
-    );
+    expandedToggles.add(isToggleElement);
 
-    if (isCollapseAllTriggerElement) {
-      collapsing = true;
+    collapseAllDropdownsTrigger.style.display = '';
 
-      e.preventDefault();
+    collapsing = false;
+  });
 
-      for (const toggle of expandedToggles) simulateEvent(toggle, ['click']);
+  collapseAllDropdownsTrigger.addEventListener('click', (e) => {
+    if (collapsing) return;
 
-      expandedToggles.clear();
+    collapsing = true;
 
-      scrollAnchor?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    e.preventDefault();
+    e.stopImmediatePropagation();
 
-      collapseAllDropdownsTrigger.click();
+    for (const toggle of expandedToggles) simulateEvent(toggle, ['click']);
 
-      collapsing = false;
-    }
+    expandedToggles.clear();
+
+    scrollAnchor?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+
+    collapsing = false;
   });
 };
