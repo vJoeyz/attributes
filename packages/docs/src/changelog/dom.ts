@@ -15,19 +15,20 @@ const markdownIt = new MarkdownIt();
  * @returns A new node populated with the changeset data.
  */
 export const createChangesetElement = (
-  { title, key }: AttributesData[number],
+  { title, key, href }: AttributesData[number],
   { date, version, markdown }: AttributeChangesets[number],
   templateElement: HTMLDivElement
 ) => {
   const newElement = cloneNode(templateElement);
 
-  const titleElement = newElement.querySelector(getSelector('element', 'attributeTitle')) as HTMLElement;
+  const titleElement = newElement.querySelector(getSelector('element', 'attributeTitle')) as HTMLAnchorElement;
   const keyElement = newElement.querySelector(getSelector('element', 'attributeKey')) as HTMLElement;
   const versionElement = newElement.querySelector(getSelector('element', 'attributeVersion')) as HTMLElement;
   const changesetElement = newElement.querySelector(getSelector('element', 'attributeChangeset')) as HTMLElement;
   const dateElement = newElement.querySelector(getSelector('element', 'attributeDate')) as HTMLElement;
 
   titleElement.textContent = title;
+  titleElement.href = href;
   keyElement.textContent = key;
   versionElement.textContent = version;
   changesetElement.innerHTML = markdownIt.render(markdown);
