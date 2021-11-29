@@ -11,6 +11,10 @@ export const initCollapseOptions = () => {
 
   if (!collapseAllDropdownsTrigger) return;
 
+  const { href } = collapseAllDropdownsTrigger;
+
+  const scrollAnchor = document.querySelector(href);
+
   collapseAllDropdownsTrigger.style.display = 'none';
 
   const expandedToggles: Set<Element> = new Set();
@@ -56,6 +60,8 @@ export const initCollapseOptions = () => {
       for (const toggle of expandedToggles) simulateEvent(toggle, ['click']);
 
       expandedToggles.clear();
+
+      scrollAnchor?.scrollIntoView({ block: 'start', behavior: 'smooth' });
 
       collapseAllDropdownsTrigger.click();
 
