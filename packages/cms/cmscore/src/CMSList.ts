@@ -42,7 +42,7 @@ export class CMSList extends Emittery<CMSListEvents> {
   /**
    * Defines the amount of items per page.
    */
-  public readonly itemsPerPage: number;
+  public itemsPerPage: number;
 
   /**
    * The `Previous` button.
@@ -88,6 +88,11 @@ export class CMSList extends Emittery<CMSListEvents> {
    * An array holding all {@link CMSItem} instances of the list.
    */
   public items: CMSItem[];
+
+  /**
+   * An array holding all unsorted {@link CMSItem} instances of the list.
+   */
+  public originalItemsOrder: CMSItem[];
 
   /**
    * An array holding all valid {@link CMSItem} instances of the list.
@@ -159,21 +164,25 @@ export class CMSList extends Emittery<CMSListEvents> {
     this.totalPages = 1;
 
     // Items
-    this.items = this.validItems = collectionItems.map((element, index) => new CMSItem(element, this.list, index));
+    const items = collectionItems.map((element, index) => new CMSItem(element, this.list, index));
+
+    this.items = items;
+    this.validItems = items;
+    this.originalItemsOrder = [...items];
   }
 
   /**
-   * Stores new Collection Items in a `CMSList` instance.
-   * **Important:** It mutates the {@link CMSList.items} object.
-   * @param listInstance The `CMSList` instance.
-   * @param newItemElements The new Collection Items to store.
+   * Stores new Collection Items in the instance.
+   *
+   * @param itemElements The new `Collection Item` elements to store.
    */
   public async addItems(itemElements: CollectionItemElement[]): Promise<void> {
-    const { items, list } = this;
+    const { items, list, originalItemsOrder } = this;
 
     const newItems = itemElements.map((item) => new CMSItem(item, list));
 
     items.push(...newItems);
+    originalItemsOrder.push(...newItems);
 
     this.updateItemsCount();
 
@@ -188,12 +197,30 @@ export class CMSList extends Emittery<CMSListEvents> {
   }
 
   /**
+   * Restores the original items order.
+   */
+  public restoreItemsOrder() {
+    this.items = [...this.originalItemsOrder];
+  }
+
+  /**
+   * Clears all stored {@link CMSItem} instances from the list.
+   * @param removeElements If `true`, the {@link CMSItem.element} nodes will be removed from the DOM.
+   */
+  public clearItems(removeElements?: boolean) {
+    if (removeElements) for (const { element } of this.items) element.remove();
+
+    this.items = [];
+    this.originalItemsOrder = [];
+  }
+
+  /**
    * Recalculates the list object model based on the current props of the items
    * and triggers de correspondent mutations.
    *
    * @param addingItems Defines if new items are being added.
-   * If yes, the items will be animated.
-   * If not, the list will be animated instead.
+   * If `true`, the items will be animated.
+   * If `false`, the list will be animated instead.
    */
   public async renderItems(addingItems?: boolean): Promise<void> {
     await this.renderingQueue;

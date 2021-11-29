@@ -1,5 +1,10 @@
 # `cmscore` Changelog
 
+## [v1.4.0] 23rd November 2021
+
+- Added `CMSList.originalItemsOrder` prop.
+- Added `CMSList.clearItems()` method.
+
 ## [v1.3.1] 23rd November 2021
 
 - Updated `restartWebflow` from `@finsweet/ts-utils` to include `lightbox` module support.
