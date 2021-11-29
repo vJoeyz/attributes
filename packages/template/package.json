@@ -1,10 +1,13 @@
 {
   "name": "@finsweet/attributes-ATTRIBUTE_KEY",
   "version": "1.0.0",
-  "description": "Description.",
+  "description": "ATTRIBUTE_DESCRIPTION.",
   "main": "ATTRIBUTE_KEY.js",
   "files": [
-    "ATTRIBUTE_KEY.js"
+    "ATTRIBUTE_KEY.js",
+    "examples.json",
+    "schema.json",
+    "changesets.json"
   ],
   "type": "module",
   "sideEffects": false,
