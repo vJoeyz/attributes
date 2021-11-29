@@ -45,8 +45,6 @@ export const initCollapseOptions = () => {
     );
 
     if (isCollapseAllTriggerElement) {
-      e.preventDefault();
-
       for (const toggle of expandedToggles) simulateEvent(toggle, ['click']);
 
       expandedToggles.clear();
