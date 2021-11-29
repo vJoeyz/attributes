@@ -1,4 +1,4 @@
-import { getSelector } from './constants';
+import { getSelector } from '../utils/constants';
 
 /**
  * Updates the text content of some elements on the page with the current Attribute's title.
