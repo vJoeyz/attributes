@@ -1,11 +1,13 @@
 {
   "name": "@finsweet/attributes-cmscombine",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "description": "Combine multiple Collection Lists to one Collection List.",
   "main": "cmscombine.js",
   "files": [
     "cmscombine.js",
-    "examples.json"
+    "examples.json",
+    "changesets.json",
+    "schema.json"
   ],
   "type": "module",
   "sideEffects": false,
