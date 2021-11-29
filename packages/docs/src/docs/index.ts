@@ -4,6 +4,7 @@ import { initCopyExampleButtons } from './copy-examples';
 import { initCopyScriptButton } from './copy-script';
 import { initCodeHighlight } from './highlight';
 import { initTitles } from './titles';
+import { initCollapseOptions } from './collapse-options';
 
 import type { AttributeExamples } from '$utils/types/examples';
 
@@ -19,6 +20,7 @@ window.Webflow.push(async () => {
   if (!attributeData) return;
 
   initTitles();
+  initCollapseOptions();
 
   const { baseSrc, examplesSrc, title, loadMode, scriptSrc } = attributeData;
 

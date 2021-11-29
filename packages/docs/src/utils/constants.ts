@@ -13,6 +13,7 @@ export const ATTRIBUTES = {
       copyButton: 'copy-button',
       copyButtonText: 'copy-button-text',
       exampleDisplay: 'example-display',
+      collapseAllDropdowns: 'collapse-all',
       copyScript: 'copy-script',
       title: 'title',
       titleTarget: 'title-target',
@@ -39,3 +40,5 @@ export const ATTRIBUTES = {
 } as const;
 
 export const getSelector = generateSelectors(ATTRIBUTES);
+
+export const OPTIONS_TRIGGER_SELECTOR = '.element_header';
