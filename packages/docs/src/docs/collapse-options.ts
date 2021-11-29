@@ -15,7 +15,11 @@ export const initCollapseOptions = () => {
 
   const expandedToggles: Set<Element> = new Set();
 
+  let collapsing = false;
+
   window.addEventListener('click', (e) => {
+    if (collapsing) return;
+
     const { target } = e;
 
     if (!(target instanceof Element)) return;
@@ -45,9 +49,17 @@ export const initCollapseOptions = () => {
     );
 
     if (isCollapseAllTriggerElement) {
+      collapsing = true;
+
+      e.preventDefault();
+
       for (const toggle of expandedToggles) simulateEvent(toggle, ['click']);
 
       expandedToggles.clear();
+
+      collapseAllDropdownsTrigger.click();
+
+      collapsing = false;
     }
   });
 };
