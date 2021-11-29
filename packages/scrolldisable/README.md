@@ -9,6 +9,6 @@ Users can prevent the page from scrolling when:
 ## CDN Import
 
 ```html
-<!-- [Attributes by Finsweet] CMS PrevNext -->
-<script async src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-scrolldisable@1/scrolldisable.js"></script>
+<!-- [Attributes by Finsweet] CMS Scroll Disable -->
+<script defer src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-scrolldisable@1/scrolldisable.js"></script>
 ```
