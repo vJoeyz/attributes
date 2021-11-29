@@ -1,11 +1,13 @@
 {
   "name": "@finsweet/attributes-countitems",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Display the amount of CMS items of a Collection List.",
   "main": "countitems.js",
   "files": [
     "countitems.js",
-    "examples.json"
+    "examples.json",
+    "schema.json",
+    "changesets.json"
   ],
   "type": "module",
   "sideEffects": false,
