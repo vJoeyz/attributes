@@ -8,6 +8,7 @@ import { collectFiltersData, collectFiltersElements } from '../actions/collect';
 import { syncFilterKeyResults, updateFilterKeyResults, updateListResults } from '../actions/results';
 import { displayFilterElements } from '../actions/display';
 import { clearFilterData } from '../actions/clear';
+import { importAnimations } from '$utils/import';
 
 import type { FormBlockElement } from '@finsweet/ts-utils';
 import type { CMSList } from '$cms/cmscore/src';
@@ -167,6 +168,8 @@ export class CMSFilters {
     if (showFilterResults) updateFilterKeyResults(this);
 
     getQueryParams(this);
+
+    await importAnimations();
 
     this.applyFilters();
 
