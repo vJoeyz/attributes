@@ -17,7 +17,7 @@ import {
   SCROLL_ANCHOR_ELEMENT_KEY,
   STAGGER_SETTING_KEY,
   THRESHOLD_SETTING_KEY,
-} from './utils/constants';
+} from '../src/utils/constants';
 
 import type { AttributeSchema } from '$utils/types/schema';
 
