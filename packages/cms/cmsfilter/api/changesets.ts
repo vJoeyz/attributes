@@ -23,7 +23,7 @@ export const changesets: PartialAttributeChangesets = [
   },
   {
     version: 'v1.5.4',
-    date: '23rd November 2021',
+    date: '23 November 2021',
   },
   {
     version: 'v1.5.3',
