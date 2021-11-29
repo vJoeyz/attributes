@@ -1,7 +1,6 @@
 // Import ESBuild
 import esbuild from 'esbuild';
 import dotenv from 'dotenv';
-
 import { dirname } from 'path';
 import { writeFileSync, readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
