@@ -6,5 +6,5 @@ ATTRIBUTE_DESCRIPTION.
 
 ```html
 <!-- [Attributes by Finsweet] ATTRIBUTE_TITLE -->
-<script async src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-ATTRIBUTE_KEY@1/ATTRIBUTE_KEY.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-ATTRIBUTE_KEY@1/ATTRIBUTE_KEY.js"></script>
 ```
