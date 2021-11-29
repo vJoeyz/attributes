@@ -22,6 +22,7 @@ const {
 export const initButtons = (
   buttons: NodeListOf<HTMLElement>,
   listInstance: CMSList,
+  // TODO: cmscore 1.4.0 introduces its own originalItemsOrder management.
   originalItemsOrder: CMSItem[],
   globalCSSClasses: CSSClasses
 ) => {

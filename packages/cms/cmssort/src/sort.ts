@@ -1,4 +1,5 @@
 import type { CMSItem, CMSList } from '$cms/cmscore/src';
+import { checkCMSCoreVersion } from '$cms/utils/versioning';
 import type { SortingDirection } from './types';
 
 /**
@@ -30,8 +31,11 @@ export const sortListItems = async (
 
   const validSortKey = direction && sortKey && items.some(({ props }) => sortKey in props);
 
-  if (!validSortKey) listInstance.items = [...originalItemsOrder];
-  else {
+  if (!validSortKey) {
+    // TODO: cmscore 1.4.0 introduces its own originalItemsOrder management.
+    if (checkCMSCoreVersion('>=', '1.4.0')) listInstance.restoreItemsOrder();
+    else listInstance.items = [...originalItemsOrder];
+  } else {
     items.sort((firstItem, secondItem) => {
       const firstItemProp = firstItem.props[sortKey];
       const secondItemProp = secondItem.props[sortKey];

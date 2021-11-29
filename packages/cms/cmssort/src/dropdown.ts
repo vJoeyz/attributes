@@ -13,6 +13,8 @@ const { dropdownToggle: dropdownToggleCSSClass, dropdownList: dropdownListCSSCla
  * Inits sorting on a `Dropdown` component.
  * @param dropdown The {@link Dropdown} element.
  * @param listInstance The {@link CMSList} instance.
+ *
+ * TODO: cmscore 1.4.0 introduces its own originalItemsOrder management.
  * @param originalItemsOrder The stored original order of the items.
  */
 export const initDropdown = (dropdown: Dropdown, listInstance: CMSList, originalItemsOrder: CMSItem[]) => {
