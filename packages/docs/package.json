@@ -1,11 +1,12 @@
 {
   "name": "@finsweet/attributes-docs",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Attributes documentation custom code.",
   "main": "docs.js",
   "files": [
     "docs.js",
-    "attributes.json"
+    "attributes.json",
+    "changesets.json"
   ],
   "type": "module",
   "sideEffects": false,
