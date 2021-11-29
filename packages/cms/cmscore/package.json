@@ -4,7 +4,8 @@
   "description": "Core functionalities of all cms Attributes.",
   "main": "cmscore.js",
   "files": [
-    "cmscore.js"
+    "cmscore.js",
+    "changesets.json"
   ],
   "type": "module",
   "sideEffects": false,
