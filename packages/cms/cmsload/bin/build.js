@@ -23,7 +23,7 @@ const defaultSettings = {
 };
 
 // Files building
-esbuild.buildSync({
+esbuild.build({
   ...defaultSettings,
   entryPoints: ['src/index.ts'],
   outfile: `${production ? '' : process.env.CUSTOM_BUILD_DIRECTORY || ''}/cmsload.js`,
