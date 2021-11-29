@@ -34,6 +34,6 @@ export const ATTRIBUTES = {
   globalSelector: { key: `${ATTRIBUTES_PREFIX}-selector` },
 } as const;
 
-export const getSelector = generateSelectors(ATTRIBUTES);
+export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 
 export const IGNORE_LINE_PREFIX = '&lt;!-- fs-richtext-ignore --&gt;';

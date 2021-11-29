@@ -1,5 +1,5 @@
 import { cloneNode, Debug } from '@finsweet/ts-utils';
-import { ATTRIBUTES, getSelector } from '../utils/constants';
+import { ATTRIBUTES, getSelector, queryElement } from '../utils/constants';
 import { hasRemoveTrigger, updateTagText } from '../actions/tags';
 import { CMSFilters } from './CMSFilters';
 
@@ -75,7 +75,7 @@ export class CMSTags {
 
     const element = cloneNode(template);
 
-    const textNode = element.querySelector(getSelector('element', 'tagText', { operator: 'prefixed' })) || element;
+    const textNode = queryElement('tagText', { operator: 'prefixed', scope: element }) || element;
 
     const tagData: TagData = {
       element,

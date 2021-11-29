@@ -1,6 +1,6 @@
 import { COMMERCE_CSS_CLASSES, LIGHTBOX_CSS_CLASSES } from '@finsweet/ts-utils';
 import { addItemsAnimation, addListAnimation } from '$cms/utils/animation';
-import { ATTRIBUTES, getSelector } from './utils/constants';
+import { ATTRIBUTES, queryElement } from './utils/constants';
 import { initRenderAllMode } from './modes/render-all';
 import { initInfiniteMode } from './modes/infinite';
 import { initPaginateMode } from './modes/paginate';
@@ -61,18 +61,18 @@ export const initLoadInstance = async (listInstance: CMSList) => {
   if (restartIx) listInstance.restartIx = restartIx;
 
   // Get loader
-  const loaderElement = document.querySelector<HTMLElement>(getSelector('element', 'loader', { instanceIndex }));
+  const loaderElement = queryElement<HTMLElement>('loader', { instanceIndex });
   if (loaderElement) listInstance.addLoader(loaderElement);
 
   // Get items count element
   if (!listInstance.itemsCount) {
-    const itemsCount = document.querySelector<HTMLElement>(getSelector('element', 'itemsCount', { instanceIndex }));
+    const itemsCount = queryElement<HTMLElement>('itemsCount', { instanceIndex });
     if (itemsCount) listInstance.addItemsCount(itemsCount);
   }
 
   // Get scroll anchor
   if (!listInstance.scrollAnchor) {
-    const scrollAnchor = document.querySelector<HTMLElement>(getSelector('element', 'scrollAnchor', { instanceIndex }));
+    const scrollAnchor = queryElement<HTMLElement>('scrollAnchor', { instanceIndex });
     if (scrollAnchor) listInstance.scrollAnchor = scrollAnchor;
   }
 

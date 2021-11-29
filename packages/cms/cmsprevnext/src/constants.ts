@@ -34,4 +34,4 @@ export const ATTRIBUTES = {
   },
 } as const;
 
-export const getSelector = generateSelectors(ATTRIBUTES);
+export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

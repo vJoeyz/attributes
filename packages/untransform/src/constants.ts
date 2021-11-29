@@ -35,7 +35,7 @@ export const ATTRIBUTES = {
   timeout: { key: `${ATTRIBUTES_PREFIX}-timeout`, values: {} },
 } as const;
 
-export const getSelector = generateSelectors(ATTRIBUTES);
+export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 
 /**
  * The CSS class for untransforming the parents.

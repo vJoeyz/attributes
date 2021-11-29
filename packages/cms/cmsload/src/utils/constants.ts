@@ -146,7 +146,7 @@ export const ATTRIBUTES = {
   resetIx: { key: `${ATTRIBUTES_PREFIX}-${RESET_IX_SETTING_KEY}`, values: RESET_IX_SETTING_VALUES },
 } as const;
 
-export const getSelector = generateSelectors(ATTRIBUTES);
+export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 
 export const DEFAULT_INFINITE_THRESHOLD = '-20';
 

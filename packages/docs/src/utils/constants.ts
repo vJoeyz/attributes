@@ -39,6 +39,6 @@ export const ATTRIBUTES = {
   attribute: { key: `${ATTRIBUTES_PREFIX}-attribute` },
 } as const;
 
-export const getSelector = generateSelectors(ATTRIBUTES);
+export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 
 export const OPTIONS_TRIGGER_SELECTOR = '.element_header';

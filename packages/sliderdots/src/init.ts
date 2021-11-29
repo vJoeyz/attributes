@@ -1,5 +1,5 @@
 import { cloneNode, SliderNavElement, SLIDER_CSS_CLASSES } from '@finsweet/ts-utils';
-import { ATTRIBUTES, DEFAULT_ACTIVE_CSS_CLASS, getSelector } from './constants';
+import { ATTRIBUTES, DEFAULT_ACTIVE_CSS_CLASS, getSelector, queryElement } from './constants';
 import { getInstanceIndex } from '$utils/attributes';
 
 import type { SliderElement, SlideElement, SliderDotElement } from '@finsweet/ts-utils';
@@ -50,7 +50,7 @@ const initSliderDots = (slider: SliderElement) => {
   const instanceIndex = getInstanceIndex(slider, elementKey);
 
   const sliderNav = slider.querySelector<SliderNavElement>(`.${sliderNavCSSClass}`);
-  const customSliderNav = document.querySelector<HTMLElement>(getSelector('element', 'sliderNav', { instanceIndex }));
+  const customSliderNav = queryElement<HTMLElement>('sliderNav', { instanceIndex });
 
   if (!sliderNav || !customSliderNav) return;
 
@@ -66,9 +66,7 @@ const initSliderDots = (slider: SliderElement) => {
     const dot = dots[index];
     if (!dot) return;
 
-    const customDotElement = slide.querySelector<HTMLElement>(
-      getSelector('element', 'content', { operator: 'prefixed' })
-    );
+    const customDotElement = queryElement<HTMLElement>('content', { operator: 'prefixed', scope: slide });
     if (!customDotElement) return;
 
     const mustRemove = customDotElement.getAttribute(removeKey) === removeValues.true;

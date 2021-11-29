@@ -24,4 +24,4 @@ export const ATTRIBUTES = {
   empty: { key: `${ATTRIBUTES_PREFIX}-empty` },
 } as const;
 
-export const getSelector = generateSelectors(ATTRIBUTES);
+export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

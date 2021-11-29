@@ -1,5 +1,5 @@
 import { Debug, isFormField } from '@finsweet/ts-utils';
-import { ATTRIBUTES, getSelector } from '../utils/constants';
+import { ATTRIBUTES, getSelector, queryElement } from '../utils/constants';
 
 /**
  * Constants
@@ -37,13 +37,9 @@ export const getSettings = (
       updateOnRelease: boolean;
     }
   | undefined => {
-  const trackElement = wrapperElement.querySelector<HTMLElement>(
-    getSelector('element', 'track', { operator: 'prefixed' })
-  );
+  const trackElement = queryElement<HTMLElement>('track', { operator: 'prefixed', scope: wrapperElement });
 
-  const fillElement = wrapperElement.querySelector<HTMLElement>(
-    getSelector('element', 'fill', { operator: 'prefixed' })
-  );
+  const fillElement = queryElement<HTMLElement>('fill', { operator: 'prefixed', scope: wrapperElement });
 
   const inputElements = [...wrapperElement.querySelectorAll('input')].filter(isFormField);
 

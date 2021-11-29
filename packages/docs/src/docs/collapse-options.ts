@@ -1,13 +1,11 @@
-import { getSelector, OPTIONS_TRIGGER_SELECTOR } from '../utils/constants';
+import { OPTIONS_TRIGGER_SELECTOR, queryElement } from '../utils/constants';
 import { simulateEvent } from '@finsweet/ts-utils';
 
 /**
  * Enables the `Collapse All` floating button.
  */
 export const initCollapseOptions = () => {
-  const collapseAllDropdownsTrigger = document.querySelector<HTMLAnchorElement>(
-    getSelector('element', 'collapseAllDropdowns')
-  );
+  const collapseAllDropdownsTrigger = queryElement<HTMLAnchorElement>('collapseAllDropdowns');
 
   if (!collapseAllDropdownsTrigger) return;
 

@@ -1,4 +1,4 @@
-import { getSelector } from '../utils/constants';
+import { queryElement } from '../utils/constants';
 
 import type { TagData, TagFormat } from '../utils/types';
 
@@ -26,4 +26,4 @@ export const updateTagText = (
  * @param tagElement
  */
 // prettier-ignore
-export const hasRemoveTrigger = (tagElement: HTMLElement): boolean => !!tagElement.querySelector(getSelector('element', 'tagRemove', { operator: 'prefixed' }));
+export const hasRemoveTrigger = (tagElement: HTMLElement): boolean => !!queryElement('tagRemove', { operator: 'prefixed', scope: tagElement });

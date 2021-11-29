@@ -86,7 +86,7 @@ export const ATTRIBUTES = {
   updateAction: { key: `${ATTRIBUTES_PREFIX}-${UPDATE_ACTION_SETTING_KEY}`, values: UPDATE_ACTION_SETTING_VALUES },
 } as const;
 
-export const getSelector = generateSelectors(ATTRIBUTES);
+export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 
 export const HANDLE_INCREMENT_KEYS = ['ArrowUp', 'ArrowRight'];
 export const HANDLE_DECREMENT_KEYS = ['ArrowDown', 'ArrowLeft'];

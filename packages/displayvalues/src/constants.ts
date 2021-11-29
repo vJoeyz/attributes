@@ -24,4 +24,4 @@ export const ATTRIBUTES = {
   placeholder: { key: `${ATTRIBUTES_PREFIX}-placeholder` },
 } as const;
 
-export const getSelector = generateSelectors(ATTRIBUTES);
+export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

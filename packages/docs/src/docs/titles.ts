@@ -1,10 +1,10 @@
-import { getSelector } from '../utils/constants';
+import { getSelector, queryElement } from '../utils/constants';
 
 /**
  * Updates the text content of some elements on the page with the current Attribute's title.
  */
 export const initTitles = (): void => {
-  const title = document.querySelector(getSelector('element', 'title'));
+  const title = queryElement('title');
   const titleTargets = document.querySelectorAll(getSelector('element', 'titleTarget'));
 
   if (!title || !titleTargets.length) return;

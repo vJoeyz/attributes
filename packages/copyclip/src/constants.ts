@@ -59,7 +59,7 @@ export const ATTRIBUTES = {
   globalSelector: { key: `${ATTRIBUTES_PREFIX}-selector` },
 } as const;
 
-export const getSelector = generateSelectors(ATTRIBUTES);
+export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 
 export const DEFAULT_SUCCESS_DURATION = 1000 as const;
 export const DEFAULT_SUCCESS_CSS_CLASS = `${ATTRIBUTES_PREFIX}_active` as const;

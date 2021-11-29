@@ -19,4 +19,4 @@ export const ATTRIBUTES = {
   selector: { key: `${ATTRIBUTES_PREFIX}-selector` },
 } as const;
 
-export const getSelector = generateSelectors(ATTRIBUTES);
+export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

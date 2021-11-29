@@ -72,7 +72,7 @@ export const ATTRIBUTES = {
   reverse: { key: `${ATTRIBUTES_PREFIX}-reverse`, values: { true: 'true' } },
 } as const;
 
-export const getSelector = generateSelectors(ATTRIBUTES);
+export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 
 export const DEFAULT_ASC_CLASS = `${ATTRIBUTES_PREFIX}_asc`;
 export const DEFAULT_DESC_CLASS = `${ATTRIBUTES_PREFIX}_desc`;

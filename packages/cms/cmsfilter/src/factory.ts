@@ -6,7 +6,7 @@ import {
   DEFAULT_ACTIVE_CSS_CLASS,
   DEFAULT_DEBOUNCING,
   DEFAULT_HIGHLIGHT_CSS_CLASS,
-  getSelector,
+  queryElement,
   TAG_FORMATS,
 } from './utils/constants';
 import { addListAnimation } from '$cms/utils/animation';
@@ -36,7 +36,7 @@ export const createCMSFiltersInstance = (listInstance: CMSList): CMSFilters | un
   const instanceIndex = listInstance.getInstanceIndex(elementKey);
 
   // Base elements
-  const filters = document.querySelector(getSelector('element', 'filters', { instanceIndex }));
+  const filters = queryElement('filters', { instanceIndex });
   if (!filters) return;
 
   const formBlock = filters.closest<FormBlockElement>(`.${FORM_CSS_CLASSES.formBlock}`);
@@ -46,23 +46,23 @@ export const createCMSFiltersInstance = (listInstance: CMSList): CMSFilters | un
   addListAnimation(listInstance, { durationKey, easingKey });
 
   // Empty State Element
-  const emptyElement = document.querySelector<HTMLElement>(getSelector('element', 'empty', { instanceIndex }));
+  const emptyElement = queryElement<HTMLElement>('empty', { instanceIndex });
   if (emptyElement) listInstance.addEmptyElement(emptyElement);
 
   // Scroll Anchor Element
   if (!listInstance.scrollAnchor) {
-    const scrollAnchor = document.querySelector<HTMLElement>(getSelector('element', 'scrollAnchor', { instanceIndex }));
+    const scrollAnchor = queryElement<HTMLElement>('scrollAnchor', { instanceIndex });
     if (scrollAnchor) listInstance.scrollAnchor = scrollAnchor;
   }
 
   // Items Count Element
   if (!listInstance.itemsCount) {
-    const itemsCount = document.querySelector<HTMLElement>(getSelector('element', 'itemsCount', { instanceIndex }));
+    const itemsCount = queryElement<HTMLElement>('itemsCount', { instanceIndex });
     if (itemsCount) listInstance.addItemsCount(itemsCount);
   }
 
   // Results Count Element
-  const resultsElement = document.querySelector<HTMLElement>(getSelector('element', 'resultsCount', { instanceIndex }));
+  const resultsElement = queryElement<HTMLElement>('resultsCount', { instanceIndex });
 
   // Query Params
   const showQueryParams = listInstance.getAttribute(showQueryKey) === showQueryValues.true;
@@ -110,7 +110,7 @@ export const createCMSTagsInstance = async (
 ): Promise<CMSTags | undefined> => {
   const instanceIndex = listInstance.getInstanceIndex(elementKey);
 
-  const tagTemplate = document.querySelector<HTMLElement>(getSelector('element', 'tagTemplate', { instanceIndex }));
+  const tagTemplate = queryElement<HTMLElement>('tagTemplate', { instanceIndex });
   if (!tagTemplate) return;
 
   const rawTagsFormat = listInstance.getAttribute(tagsFormatKey);

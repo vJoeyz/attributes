@@ -1,4 +1,4 @@
-import { ATTRIBUTES, DEFAULT_ASC_CLASS, DEFAULT_DESC_CLASS, getSelector } from './constants';
+import { ATTRIBUTES, DEFAULT_ASC_CLASS, DEFAULT_DESC_CLASS, getSelector, queryElement } from './constants';
 import { DROPDOWN_CSS_CLASSES } from '@finsweet/ts-utils';
 import { addListAnimation } from '$cms/utils/animation';
 import { listenListEvents } from './events';
@@ -42,7 +42,7 @@ export const initListSorting = async (listInstance: CMSList) => {
 
   // Scroll Anchor Element
   if (!listInstance.scrollAnchor) {
-    const scrollAnchor = document.querySelector<HTMLElement>(getSelector('element', 'scrollAnchor', { instanceIndex }));
+    const scrollAnchor = queryElement<HTMLElement>('scrollAnchor', { instanceIndex });
     if (scrollAnchor) listInstance.scrollAnchor = scrollAnchor;
   }
 

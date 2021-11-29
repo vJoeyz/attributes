@@ -37,6 +37,6 @@ export const ATTRIBUTES = {
   },
 } as const;
 
-export const getSelector = generateSelectors(ATTRIBUTES);
+export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 
 export const DEFAULT_ACTIVE_CSS_CLASS = `${ATTRIBUTES_PREFIX}_active`;

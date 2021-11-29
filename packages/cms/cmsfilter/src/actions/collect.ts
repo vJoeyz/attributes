@@ -1,4 +1,4 @@
-import { ATTRIBUTES, getSelector, MATCHES, MODES, TAG_FORMATS } from '../utils/constants';
+import { ATTRIBUTES, getSelector, MATCHES, MODES, queryElement, TAG_FORMATS } from '../utils/constants';
 import { normalizePropKey } from '$cms/utils/props';
 import { ensureUniqueFormFieldId } from '../utils/a11ty';
 import { handleFilterInput } from './input';
@@ -132,9 +132,10 @@ export const collectFiltersData = (
 
       ensureUniqueFormFieldId(fieldElement, index);
 
-      const resultsElement = checkboxOrRadioField.querySelector<HTMLElement>(
-        getSelector('element', 'filterResultsCount', { operator: 'prefixed' })
-      );
+      const resultsElement = queryElement<HTMLElement>('filterResultsCount', {
+        operator: 'prefixed',
+        scope: checkboxOrRadioField,
+      });
 
       const mustHideEmpty = element.getAttribute(hideEmptyKey) === hideEmptyValues.true;
       const hideEmpty = mustHideEmpty ? checkboxOrRadioField : undefined;

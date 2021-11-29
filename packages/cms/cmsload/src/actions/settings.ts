@@ -6,6 +6,7 @@ import {
   DEFAULT_PAGE_BOUNDARY,
   DEFAULT_PAGE_SIBLINGS,
   getSelector,
+  queryElement,
 } from '../utils/constants';
 
 import type { PaginationButtonElement, PaginationWrapperElement } from '@finsweet/ts-utils';
@@ -81,13 +82,12 @@ export const getPaginationSettings = (
 
   if (!paginationWrapper) return;
 
-  const pageButtonTemplate = paginationWrapper.querySelector<HTMLElement>(
-    getSelector('element', 'pageButton', { operator: 'prefixed' })
-  );
+  const pageButtonTemplate = queryElement<HTMLElement>('pageButton', {
+    operator: 'prefixed',
+    scope: paginationWrapper,
+  });
 
-  let pageDotsTemplate = paginationWrapper.querySelector<HTMLElement>(
-    getSelector('element', 'pageDots', { operator: 'prefixed' })
-  );
+  let pageDotsTemplate = queryElement<HTMLElement>('pageDots', { operator: 'prefixed', scope: paginationWrapper });
 
   if (pageDotsTemplate) pageDotsTemplate.remove();
   else {

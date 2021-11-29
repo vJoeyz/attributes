@@ -1,7 +1,7 @@
 import MarkdownIt from 'markdown-it';
 import { AttributeChangesets } from '$utils/types/changesets';
 import { cloneNode } from '@finsweet/ts-utils';
-import { getSelector } from '../utils/constants';
+import { queryElement } from '../utils/constants';
 import { AttributesData } from '../utils/types';
 
 const markdownIt = new MarkdownIt();
@@ -21,11 +21,11 @@ export const createChangesetElement = (
 ) => {
   const newElement = cloneNode(templateElement);
 
-  const titleElement = newElement.querySelector(getSelector('element', 'attributeTitle')) as HTMLAnchorElement;
-  const keyElement = newElement.querySelector(getSelector('element', 'attributeKey')) as HTMLElement;
-  const versionElement = newElement.querySelector(getSelector('element', 'attributeVersion')) as HTMLElement;
-  const changesetElement = newElement.querySelector(getSelector('element', 'attributeChangeset')) as HTMLElement;
-  const dateElement = newElement.querySelector(getSelector('element', 'attributeDate')) as HTMLElement;
+  const titleElement = queryElement('attributeTitle') as HTMLAnchorElement;
+  const keyElement = queryElement('attributeKey') as HTMLElement;
+  const versionElement = queryElement('attributeVersion') as HTMLElement;
+  const changesetElement = queryElement('attributeChangeset') as HTMLElement;
+  const dateElement = queryElement('attributeDate') as HTMLElement;
 
   titleElement.textContent = title;
   titleElement.href = href;

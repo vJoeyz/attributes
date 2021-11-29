@@ -160,7 +160,7 @@ export const ATTRIBUTES = {
   duration: { key: `${ATTRIBUTES_PREFIX}-duration` },
 } as const;
 
-export const getSelector = generateSelectors(ATTRIBUTES);
+export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 
 export const MATCHES = ['any', 'all'] as const;
 export const MODES = {

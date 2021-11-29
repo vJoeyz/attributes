@@ -1,6 +1,6 @@
 import { getInstanceIndex } from '$utils/attributes';
 import { getCollectionElements } from '@finsweet/ts-utils';
-import { ATTRIBUTES, getSelector } from './constants';
+import { ATTRIBUTES, getSelector, queryElement } from './constants';
 
 /**
  * Inits list items count.
@@ -13,7 +13,7 @@ export const init = (): void => {
 
     const instanceIndex = getInstanceIndex(listReference, ATTRIBUTES.element.key);
 
-    const valueTarget = document.querySelector(getSelector('element', 'value', { instanceIndex }));
+    const valueTarget = queryElement('value', { instanceIndex });
     if (!valueTarget) continue;
 
     const collectionItemsCount = listElement.children.length;

@@ -1,6 +1,6 @@
 import { getInstanceIndex } from '$utils/attributes';
 import { isFormField, simulateEvent } from '@finsweet/ts-utils';
-import { ATTRIBUTES, getSelector } from './constants';
+import { ATTRIBUTES, getSelector, queryElement } from './constants';
 
 /**
  * Inits click events mirroring.
@@ -15,7 +15,7 @@ export const init = (): void => {
     // Get the instance index
     const instanceIndex = getInstanceIndex(mirrorTrigger, ATTRIBUTES.element.key);
 
-    const mirrorTarget = document.querySelector(getSelector('element', 'target', { instanceIndex }));
+    const mirrorTarget = queryElement('target', { instanceIndex });
     if (!isFormField(mirrorTarget) || mirrorTrigger.type !== mirrorTarget.type) return;
 
     // If must update the `checked` property

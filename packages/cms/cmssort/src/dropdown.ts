@@ -1,5 +1,5 @@
 import { CURRENT_CSS_CLASS, Debug, DROPDOWN_CSS_CLASSES, simulateEvent } from '@finsweet/ts-utils';
-import { ATTRIBUTES, getSelector } from './constants';
+import { ATTRIBUTES, queryElement } from './constants';
 import { normalizePropKey } from '$cms/utils/props';
 import { sortListItems } from './sort';
 
@@ -144,7 +144,7 @@ const collectDropdownOptions = (dropdownList: DropdownList) => {
  * @returns A {@link DropdownLabelData} object, if existing.
  */
 const collectDropdownLabelData = (dropdownToggle: DropdownToggle): DropdownLabelData | undefined => {
-  const dropdownLabel = dropdownToggle.querySelector(getSelector('element', 'dropdownLabel', { operator: 'prefixed' }));
+  const dropdownLabel = queryElement('dropdownLabel', { operator: 'prefixed', scope: dropdownToggle });
   if (!dropdownLabel) return;
 
   const originalHTML = dropdownLabel.innerHTML;

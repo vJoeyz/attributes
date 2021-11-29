@@ -1,4 +1,4 @@
-import { getSelector } from './constants';
+import { queryElement } from './constants';
 
 /**
  * @returns The stakeholder elements, if existing.
@@ -11,22 +11,17 @@ export const collectElements = ():
       nextEmptyElement: HTMLElement | null;
     }
   | undefined => {
-  const previousPlaceholder = document.querySelector<HTMLElement>(
-    getSelector('element', 'previous', { operator: 'prefixed' })
-  );
+  const previousPlaceholder = queryElement<HTMLElement>('previous', { operator: 'prefixed' });
 
-  const nextPlaceholder = document.querySelector<HTMLElement>(getSelector('element', 'next', { operator: 'prefixed' }));
+  const nextPlaceholder = queryElement<HTMLElement>('next', { operator: 'prefixed' });
 
   if (!previousPlaceholder && !nextPlaceholder) return;
 
-  const previousEmptyElement = document.querySelector<HTMLElement>(
-    getSelector('element', 'previousEmpty', { operator: 'prefixed' })
-  );
+  const previousEmptyElement = queryElement<HTMLElement>('previousEmpty', { operator: 'prefixed' });
   previousEmptyElement?.remove();
 
-  const nextEmptyElement = document.querySelector<HTMLElement>(
-    getSelector('element', 'nextEmpty', { operator: 'prefixed' })
-  );
+  const nextEmptyElement = queryElement<HTMLElement>('nextEmpty', { operator: 'prefixed' });
+
   nextEmptyElement?.remove();
 
   return { previousPlaceholder, nextPlaceholder, previousEmptyElement, nextEmptyElement };

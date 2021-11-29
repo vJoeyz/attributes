@@ -1,6 +1,6 @@
 import hljs from 'highlight.js/lib/core';
 import xml from 'highlight.js/lib/languages/xml';
-import { getSelector } from '../utils/constants';
+import { queryElement } from '../utils/constants';
 
 hljs.registerLanguage('xml', xml);
 
@@ -9,7 +9,7 @@ hljs.registerLanguage('xml', xml);
  * @param copyCode The string to display and highlight.
  */
 export const initCodeHighlight = (copyCode: string) => {
-  const embedElement = document.querySelector(getSelector('element', 'code'));
+  const embedElement = queryElement('code');
   if (!embedElement) return;
 
   const preElement = document.createElement('pre');

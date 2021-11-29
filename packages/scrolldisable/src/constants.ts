@@ -72,7 +72,7 @@ export const ATTRIBUTES = {
   gap: { key: `${ATTRIBUTES_PREFIX}-gap`, values: { true: 'true', false: 'false' } },
 } as const;
 
-export const getSelector = generateSelectors(ATTRIBUTES);
+export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 
 /**
  * Defines the `Navbar` component media breakpoints.

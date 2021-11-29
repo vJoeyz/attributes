@@ -106,7 +106,33 @@ export const generateSelectors = <
     }
   };
 
-  return getSelector;
+  /**
+   * Queries an element using the generated element selectors.
+   * @param elementKey The element key.
+   * @param params.index Only accepted when the value is dynamic.
+   * @param params.operator Optional operator for the selector.
+   * @param params.scope The scope for the query. Defaults to `document`.
+   */
+  const queryElement = <
+    E extends Element = Element,
+    ElementKey extends keyof Attributes['element']['values'] = keyof Attributes['element']['values']
+  >(
+    elementKey: ElementKey,
+    params?: { scope?: ParentNode } & (Attributes['element']['values'][ElementKey] extends AttributeStaticValue
+      ? {
+          operator?: AttributeOperator;
+        }
+      : {
+          instanceIndex?: number;
+          operator?: AttributeOperator;
+        })
+  ) => {
+    const selector = getSelector('element', elementKey, params);
+
+    return (params?.scope || document).querySelector<E>(selector);
+  };
+
+  return [getSelector, queryElement] as const;
 };
 
 /**

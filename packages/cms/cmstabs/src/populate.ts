@@ -1,4 +1,4 @@
-import { getSelector } from './constants';
+import { getSelector, queryElement } from './constants';
 import { TABS_CSS_CLASSES, CURRENT_CSS_CLASS } from '@finsweet/ts-utils';
 
 import type { CMSItem } from '$cms/cmscore/src';
@@ -56,7 +56,8 @@ export const populateTabsFromLists = ({ listInstances, tabsElement }: PopulateDa
       }
 
       // Populate the `Tab Link` and `Tab Pane`
-      let newTabLinkContent = element.querySelector(getSelector('element', 'tabLink', { operator: 'prefixed' }));
+      let newTabLinkContent = queryElement('tabLink', { operator: 'prefixed', scope: element });
+
       if (!newTabLinkContent) {
         newTabLinkContent = document.createElement('div');
         newTabLinkContent.innerHTML = /* html */ `Use <strong>${getSelector(

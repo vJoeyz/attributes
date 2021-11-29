@@ -1,4 +1,4 @@
-import { getSelector } from '../utils/constants';
+import { queryElement } from '../utils/constants';
 import { init } from '@finsweet/attributes-copyclip/src/init';
 import { ATTRIBUTES as COPYCLIP_ATTRIBUTES } from '@finsweet/attributes-copyclip/src/constants';
 
@@ -7,7 +7,7 @@ import { ATTRIBUTES as COPYCLIP_ATTRIBUTES } from '@finsweet/attributes-copyclip
  * @param copyCode The string to copy on click.
  */
 export const initCopyScriptButton = (copyCode: string): void => {
-  const element = document.querySelector<HTMLAnchorElement>(getSelector('element', 'copyScript'));
+  const element = queryElement<HTMLAnchorElement>('copyScript');
   if (!element) return;
 
   element.setAttribute(COPYCLIP_ATTRIBUTES.element.key, 'click');

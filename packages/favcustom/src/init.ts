@@ -1,4 +1,4 @@
-import { ATTRIBUTES, getSelector } from './constants';
+import { ATTRIBUTES, queryElement } from './constants';
 
 // Types
 interface Params {
@@ -25,7 +25,7 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
   }
 
   // Get the element's src, if existing.
-  const srcElement = document.querySelector(getSelector('element', 'src'));
+  const srcElement = queryElement('src');
   const elementSrc = srcElement instanceof HTMLImageElement ? srcElement.src : undefined;
   if (elementSrc) linkHref = elementSrc;
 
