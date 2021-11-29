@@ -14,7 +14,7 @@ export const initCollapseOptions = () => {
   const { href } = collapseAllDropdownsTrigger;
   const { hash } = new URL(href);
 
-  const scrollAnchor = hash ? document.querySelector(href) : null;
+  const scrollAnchor = hash ? document.querySelector(hash) : null;
 
   collapseAllDropdownsTrigger.style.display = 'none';
 
