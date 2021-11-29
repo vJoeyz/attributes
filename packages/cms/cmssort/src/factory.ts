@@ -53,6 +53,7 @@ export const initListSorting = async (listInstance: CMSList) => {
   };
 
   // Store original items order
+  // TODO: cmscore 1.4.0 introduces its own originalItemsOrder management.
   const originalItemsOrder = [...items];
 
   // Init mode

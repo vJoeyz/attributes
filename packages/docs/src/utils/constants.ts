@@ -16,6 +16,13 @@ export const ATTRIBUTES = {
       copyScript: 'copy-script',
       title: 'title',
       titleTarget: 'title-target',
+      attributeTitle: 'attribute-title',
+      attributeKey: 'attribute-key',
+      attributeVersion: 'attribute-version',
+      attributeDate: 'attribute-date',
+      attributeChangeset: 'attribute-changeset',
+      attributeSelect: 'attribute-select',
+      loader: 'loader',
     },
   },
 

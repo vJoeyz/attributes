@@ -24,6 +24,7 @@ export const listenListEvents = (
     for (const item of newItems) item.collectProps({ fieldKey, typeKey });
   });
 
+  // TODO: cmscore 1.4.0 introduces its own originalItemsOrder management.
   listInstance.on('shouldsort', async (newItems) => {
     originalItemsOrder.push(...newItems);
 

@@ -1,5 +1,9 @@
 # `cmssort` Changelog
 
+## [v1.5.0] 29 November 2021
+
+- Switched `originalItemsOrder` to be managed by `cmscore`.
+
 ## [v1.4.4] 26th November 2021
 
 - Fixed `fs-cmssort-duration` being incorrectly applied.

@@ -1,10 +1,4 @@
-export interface AttributeExample {
-  title: string;
-  description: string;
-  data: Record<string, unknown>;
-}
-
-export interface AttributeData {
+interface AttributeData {
   key: string;
   title: string;
   description: string;
@@ -13,4 +7,8 @@ export interface AttributeData {
   scriptSrc: string;
   examplesSrc: string;
   loadMode: string;
+  schemaSrc: string;
+  changesetsSrc: string;
 }
+
+export type AttributesData = AttributeData[];

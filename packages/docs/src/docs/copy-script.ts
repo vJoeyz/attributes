@@ -1,4 +1,4 @@
-import { getSelector } from './constants';
+import { getSelector } from '../utils/constants';
 import { init } from '@finsweet/attributes-copyclip/src/init';
 import { ATTRIBUTES as COPYCLIP_ATTRIBUTES } from '@finsweet/attributes-copyclip/src/constants';
 

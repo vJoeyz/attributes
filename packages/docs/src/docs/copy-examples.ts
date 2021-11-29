@@ -1,7 +1,7 @@
-import { ATTRIBUTES, getSelector } from './constants';
+import { ATTRIBUTES, getSelector } from '../utils/constants';
 import { CopyJSONButton } from '@finsweet/ts-utils';
 
-import type { AttributeExample } from './types';
+import type { AttributeExamples } from '$utils/types/examples';
 
 // Constants destructuring
 const {
@@ -12,7 +12,7 @@ const {
  * Inits the `Copy Example` functionality.
  * @param attributeData The current attribute data.
  */
-export const initCopyExampleButtons = (examples: AttributeExample[]): void => {
+export const initCopyExampleButtons = (examples: AttributeExamples): void => {
   const elements = document.querySelectorAll<HTMLAnchorElement>(getSelector('example'));
   if (!elements) return;
 

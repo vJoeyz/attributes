@@ -13,6 +13,7 @@ import type { SortingDirection, SortItemsCallback } from './types';
 export const initHTMLSelect = async (
   selectElement: HTMLSelectElement,
   listInstance: CMSList,
+  // TODO: cmscore 1.4.0 introduces its own originalItemsOrder management.
   originalItemsOrder: CMSItem[]
 ) => {
   // Prevent submit events on the form
