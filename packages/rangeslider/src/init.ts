@@ -36,7 +36,7 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
 
   createFillInstance(settings, handles);
 
-  const { maxRange, minRange, step, totalRange, trackElement, updateOnRelease } = settings;
+  const { maxRange, minRange, step, precision, totalRange, trackElement, updateOnRelease } = settings;
 
   let { trackWidth, trackLeft, trackRight } = settings;
   let focusedHandle: Handle | undefined;
@@ -49,7 +49,7 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
   const calculateNewValue = (clientX: number) => {
     const value = minRange + ((clientX - trackLeft) * totalRange) / trackWidth;
 
-    const adjustedValue = adjustValueToStep(value, step);
+    const adjustedValue = adjustValueToStep(value, step, precision);
 
     return adjustedValue;
   };

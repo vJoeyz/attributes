@@ -10,6 +10,7 @@ export class Handle {
   private readonly maxRange;
   private readonly totalRange;
   private readonly step;
+  private readonly precision;
 
   private readonly inputElement;
   private readonly displayValueElement;
@@ -24,6 +25,8 @@ export class Handle {
   private minValue;
   private maxValue;
 
+  private updatingInput = false;
+
   constructor(
     public readonly element: HTMLElement,
     {
@@ -32,6 +35,7 @@ export class Handle {
       maxRange,
       trackWidth,
       step,
+      precision,
       startValue,
       inputElement,
       displayValueElement,
@@ -42,6 +46,7 @@ export class Handle {
       maxRange: number;
       trackWidth: number;
       step: number;
+      precision: number;
       startValue: number;
       inputElement?: HTMLInputElement;
       displayValueElement?: HTMLElement;
@@ -64,6 +69,7 @@ export class Handle {
     this.maxRange = maxRange;
     this.totalRange = maxRange - minRange;
     this.step = step;
+    this.precision = precision;
 
     this.minValue = minRange;
     this.maxValue = maxRange;
@@ -104,15 +110,15 @@ export class Handle {
    * Handles when the value of the `<input>` element is updated by third party actions.
    */
   private handleInputChange() {
-    const { inputElement, index, minRange, maxRange, step } = this;
-    if (!inputElement) return;
+    const { inputElement, index, minRange, maxRange, step, precision, updatingInput } = this;
+    if (!inputElement || updatingInput) return;
 
     const { value } = inputElement;
 
     const numericValue = parseFloat(value);
 
     if (numericValue) {
-      this.setValue(adjustValueToStep(numericValue, step));
+      this.setValue(adjustValueToStep(numericValue, step, precision));
 
       return;
     }
@@ -172,11 +178,15 @@ export class Handle {
    * Updates the input element's value.
    */
   public updateInputElement() {
+    this.updatingInput = true;
+
     const { currentValue, inputElement } = this;
 
     if (!inputElement) return;
 
     setFormFieldValue(inputElement, `${currentValue}`);
+
+    this.updatingInput = false;
   }
 
   /**

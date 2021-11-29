@@ -20,6 +20,7 @@ export const createHandleInstances = ({
   maxRange,
   trackWidth,
   step,
+  precision,
 }: RangeSliderSettings): HandleInstances | undefined => {
   const handles = handleElements
     .slice(0, 2)
@@ -28,7 +29,7 @@ export const createHandleInstances = ({
         handleElement.getAttribute(ATTRIBUTES.start.key) || `${index === 0 ? minRange : maxRange}`
       );
 
-      let startValue = adjustValueToStep(rawStartValue, step);
+      let startValue = adjustValueToStep(rawStartValue, step, precision);
 
       const inputElement = inputElements[index];
       const displayValueElement = displayValueElements[index];
@@ -55,6 +56,7 @@ export const createHandleInstances = ({
         maxRange,
         trackWidth,
         step,
+        precision,
         startValue,
         inputElement,
         displayValueElement,

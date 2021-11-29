@@ -1,5 +1,6 @@
 import { Debug, isFormField } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector, queryElement } from '../utils/constants';
+import { getDecimalPrecision } from './values';
 
 /**
  * Constants
@@ -34,6 +35,7 @@ export const getSettings = (
       maxRange: number;
       totalRange: number;
       step: number;
+      precision: number;
       updateOnRelease: boolean;
     }
   | undefined => {
@@ -79,6 +81,7 @@ export const getSettings = (
   }
 
   const step = parseFloat(wrapperElement.getAttribute(stepKey) || `${totalRange / 100}`);
+  const precision = getDecimalPrecision(step);
 
   if (totalRange % step > 0)
     Debug.alert(
@@ -100,6 +103,7 @@ export const getSettings = (
     maxRange,
     totalRange,
     step,
+    precision,
     updateOnRelease,
   };
 };
