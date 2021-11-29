@@ -1,11 +1,13 @@
 {
   "name": "@finsweet/attributes-mirrorinput",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Mirrors input events between two elements.",
   "main": "mirrorinput.js",
   "files": [
     "mirrorinput.js",
-    "examples.json"
+    "examples.json",
+    "schema.json",
+    "changesets.json"
   ],
   "type": "module",
   "sideEffects": false,
