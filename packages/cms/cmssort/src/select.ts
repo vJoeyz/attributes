@@ -20,9 +20,8 @@ export const initHTMLSelect = async (
   const form = selectElement.closest('form');
   form?.addEventListener('submit', handleFormSubmit);
 
+  let [sortKey, direction] = getSortingParams(selectElement.value);
   let sorting = false;
-  let sortKey = selectElement.value;
-  let direction: SortingDirection;
 
   /**
    * Sorts the items based on the current selected `sortKey` and `direction`.
@@ -39,20 +38,7 @@ export const initHTMLSelect = async (
 
     sorting = true;
 
-    const { value } = selectElement;
-
-    if (value.endsWith('-asc')) {
-      direction = 'asc';
-      sortKey = value.slice(0, -4);
-    } else if (value.endsWith('-desc')) {
-      direction = 'desc';
-      sortKey = value.slice(0, -5);
-    } else {
-      direction = 'asc';
-      sortKey = value;
-    }
-
-    sortKey = normalizePropKey(sortKey);
+    [sortKey, direction] = getSortingParams(selectElement.value);
 
     await sortItems();
 
@@ -73,4 +59,28 @@ const handleFormSubmit = (e: Event) => {
   e.preventDefault();
   e.stopImmediatePropagation();
   return false;
+};
+
+/**
+ * Extracts the `sortKey` and `direction` from a Select element value.
+ * @param value The Select element value.
+ */
+const getSortingParams = (value: string) => {
+  let sortKey: string;
+  let direction: SortingDirection;
+
+  if (value.endsWith('-asc')) {
+    direction = 'asc';
+    sortKey = value.slice(0, -4);
+  } else if (value.endsWith('-desc')) {
+    direction = 'desc';
+    sortKey = value.slice(0, -5);
+  } else {
+    direction = 'asc';
+    sortKey = value;
+  }
+
+  sortKey = normalizePropKey(sortKey);
+
+  return [sortKey, direction] as const;
 };
