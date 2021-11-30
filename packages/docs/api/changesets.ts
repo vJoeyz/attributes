@@ -1,56 +1,22 @@
 import { PartialAttributeChangesets } from '$utils/types/changesets';
 
 export const changesets: PartialAttributeChangesets = [
-  {
-    version: 'v1.6.6',
-    date: '29 November 2021',
-  },
-  {
-    version: 'v1.6.5',
-    date: '29 November 2021',
-  },
-  {
-    version: 'v1.6.4',
-    date: '29 November 2021',
-  },
-  {
-    version: 'v1.6.3',
-    date: '29 November 2021',
-  },
-  {
-    version: 'v1.6.2',
-    date: '29 November 2021',
-  },
-  {
-    version: 'v1.6.1',
-    date: '29 November 2021',
-  },
-  {
-    version: 'v1.6.0',
-    date: '29 November 2021',
-  },
-  {
-    version: 'v1.5.0',
-    date: '29 November 2021',
-  },
-  {
-    version: 'v1.4.1',
-    date: '23 November 2021',
-  },
-  {
-    version: 'v1.4.0',
-    date: '23 November 2021',
-  },
-  {
-    version: 'v1.3.1',
-    date: '14 October 2021',
-  },
-  {
-    version: 'v1.3.0',
-    date: '14 October 2021',
-  },
-  {
-    version: 'v1.2.1',
-    date: '25 September 2021',
-  },
+  { version: 'v1.6.11', date: '30 November 2021' },
+  { version: 'v1.6.10', date: '30 November 2021' },
+  { version: 'v1.6.9', date: '30 November 2021' },
+  { version: 'v1.6.8', date: '30 November 2021' },
+  { version: 'v1.6.7', date: '30 November 2021' },
+  { version: 'v1.6.6', date: '29 November 2021' },
+  { version: 'v1.6.5', date: '29 November 2021' },
+  { version: 'v1.6.4', date: '29 November 2021' },
+  { version: 'v1.6.3', date: '29 November 2021' },
+  { version: 'v1.6.2', date: '29 November 2021' },
+  { version: 'v1.6.1', date: '29 November 2021' },
+  { version: 'v1.6.0', date: '29 November 2021' },
+  { version: 'v1.5.0', date: '29 November 2021' },
+  { version: 'v1.4.1', date: '23 November 2021' },
+  { version: 'v1.4.0', date: '23 November 2021' },
+  { version: 'v1.3.1', date: '14 October 2021' },
+  { version: 'v1.3.0', date: '14 October 2021' },
+  { version: 'v1.2.1', date: '25 September 2021' },
 ];

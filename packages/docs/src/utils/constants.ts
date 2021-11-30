@@ -17,6 +17,7 @@ export const ATTRIBUTES = {
       copyScript: 'copy-script',
       title: 'title',
       titleTarget: 'title-target',
+      attributeCard: 'attribute-card',
       attributeTitle: 'attribute-title',
       attributeKey: 'attribute-key',
       attributeVersion: 'attribute-version',

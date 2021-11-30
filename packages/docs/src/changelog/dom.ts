@@ -21,14 +21,14 @@ export const createChangesetElement = (
 ) => {
   const newElement = cloneNode(templateElement);
 
-  const titleElement = queryElement('attributeTitle') as HTMLAnchorElement;
-  const keyElement = queryElement('attributeKey') as HTMLElement;
-  const versionElement = queryElement('attributeVersion') as HTMLElement;
-  const changesetElement = queryElement('attributeChangeset') as HTMLElement;
-  const dateElement = queryElement('attributeDate') as HTMLElement;
+  const cardElement = queryElement('attributeCard', { scope: newElement }) as HTMLElement;
+  const titleElement = queryElement('attributeTitle', { scope: newElement }) as HTMLElement;
+  const keyElement = queryElement('attributeKey', { scope: newElement }) as HTMLElement;
+  const versionElement = queryElement('attributeVersion', { scope: newElement }) as HTMLElement;
+  const changesetElement = queryElement('attributeChangeset', { scope: newElement }) as HTMLElement;
+  const dateElement = queryElement('attributeDate', { scope: newElement }) as HTMLElement;
 
   titleElement.textContent = title;
-  titleElement.href = href;
   keyElement.textContent = key;
   versionElement.textContent = version;
   changesetElement.innerHTML = markdownIt.render(markdown);
@@ -37,6 +37,18 @@ export const createChangesetElement = (
     month: 'long',
     day: 'numeric',
   });
+
+  // Change the card element to be a `<a>`
+  const linkCardElement = document.createElement('a');
+  linkCardElement.href = href;
+  linkCardElement.target = '_blank';
+  linkCardElement.innerHTML = cardElement.innerHTML;
+
+  for (let index = cardElement.attributes.length - 1; index >= 0; index--) {
+    linkCardElement.attributes.setNamedItem(cloneNode(cardElement.attributes[index]));
+  }
+
+  newElement.replaceChild(linkCardElement, cardElement);
 
   return newElement;
 };

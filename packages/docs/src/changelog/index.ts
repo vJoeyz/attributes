@@ -18,7 +18,6 @@ window.Webflow.push(async () => {
   const [{ element: templateElement }] = listInstance.items;
 
   listInstance.clearItems?.(true);
-  listInstance.itemsPerPage = 20;
 
   const addSelectOption = initAttributeSelect();
 
