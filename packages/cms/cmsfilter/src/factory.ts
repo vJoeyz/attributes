@@ -42,9 +42,6 @@ export const createCMSFiltersInstance = (listInstance: CMSList): CMSFilters | un
   const formBlock = filters.closest<FormBlockElement>(`.${FORM_CSS_CLASSES.formBlock}`);
   if (!formBlock) return;
 
-  // Animation
-  addListAnimation(listInstance, { durationKey, easingKey });
-
   // Empty State Element
   const emptyElement = queryElement<HTMLElement>('empty', { instanceIndex });
   if (emptyElement) listInstance.addEmptyElement(emptyElement);
@@ -77,7 +74,16 @@ export const createCMSFiltersInstance = (listInstance: CMSList): CMSFilters | un
   // Debouncing
   const debouncing = parseFloat(listInstance.getAttribute(debouncingKey) || DEFAULT_DEBOUNCING);
 
-  // Init instance
+  // Make sure instances are unique
+  const {
+    fsAttributes: { cms },
+  } = window;
+
+  cms.filtersInstances ||= [];
+
+  if (cms.filtersInstances[instanceIndex || 0]) return;
+
+  // Create instance
   const filtersInstance = new CMSFilters(formBlock, listInstance, {
     resultsElement,
     showQueryParams,
@@ -87,13 +93,10 @@ export const createCMSFiltersInstance = (listInstance: CMSList): CMSFilters | un
     debouncing,
   });
 
-  // Expose it in the `window` context
-  const {
-    fsAttributes: { cms },
-  } = window;
+  cms.filtersInstances[instanceIndex || 0] ||= filtersInstance;
 
-  if (!cms.filtersInstances) cms.filtersInstances = [filtersInstance];
-  else cms.filtersInstances.push(filtersInstance);
+  // Add animation
+  addListAnimation(listInstance, { durationKey, easingKey });
 
   return filtersInstance;
 };
