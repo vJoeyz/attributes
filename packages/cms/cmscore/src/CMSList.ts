@@ -22,7 +22,7 @@ export class CMSList extends Emittery<CMSListEvents> {
   /**
    * The `Collection List` element.
    */
-  public readonly list: CollectionListElement;
+  public readonly list?: CollectionListElement | null;
 
   /**
    * The `Pagination` wrapper element.
@@ -62,7 +62,7 @@ export class CMSList extends Emittery<CMSListEvents> {
   /**
    * A custom `Empty State` element.
    */
-  public emptyElement?: HTMLElement;
+  public emptyElement?: HTMLElement | null;
 
   /**
    * Defines if the `Empty State` is currently active (no valid elements to show).
@@ -152,19 +152,24 @@ export class CMSList extends Emittery<CMSListEvents> {
     super();
 
     // DOM Elements
-    this.list = getCollectionElements(this.wrapper, 'list') as CollectionListElement;
-    this.paginationWrapper = getCollectionElements(this.wrapper, 'pagination');
-    this.paginationNext = getCollectionElements(this.wrapper, 'next');
-    this.paginationPrevious = getCollectionElements(this.wrapper, 'previous');
-    this.paginationCount = getCollectionElements(this.wrapper, 'pageCount');
+    const list = getCollectionElements(wrapper, 'list');
 
-    const collectionItems = getCollectionElements(this.wrapper, 'items');
+    this.list = list;
+    this.paginationWrapper = getCollectionElements(wrapper, 'pagination');
+    this.paginationNext = getCollectionElements(wrapper, 'next');
+    this.paginationPrevious = getCollectionElements(wrapper, 'previous');
+    this.paginationCount = getCollectionElements(wrapper, 'pageCount');
+    this.emptyElement = getCollectionElements(wrapper, 'empty');
+
+    const collectionItems = getCollectionElements(wrapper, 'items');
 
     this.itemsPerPage = collectionItems.length;
     this.totalPages = 1;
 
     // Items
-    const items = collectionItems.map((element, index) => new CMSItem(element, this.list, index));
+    const items: CMSItem[] = [];
+
+    if (list) items.push(...collectionItems.map((element, index) => new CMSItem(element, list, index)));
 
     this.items = items;
     this.validItems = items;
@@ -178,6 +183,8 @@ export class CMSList extends Emittery<CMSListEvents> {
    */
   public async addItems(itemElements: CollectionItemElement[]): Promise<void> {
     const { items, list, originalItemsOrder } = this;
+
+    if (!list) return;
 
     const newItems = itemElements.map((item) => new CMSItem(item, list));
 
@@ -295,7 +302,7 @@ export class CMSList extends Emittery<CMSListEvents> {
     if (emptyElement) return;
 
     element.style.display = 'none';
-    wrapper.insertBefore(element, list.nextSibling);
+    wrapper.insertBefore(element, list?.nextSibling || null);
 
     this.emptyElement = element;
   }
@@ -367,10 +374,10 @@ export class CMSList extends Emittery<CMSListEvents> {
    * @returns An attribute value, if exists on the `Collection List Wrapper` or the `Collection List`.
    * @param attributeKey The key of the attribute
    */
-  public getAttribute(attributeKey: string): string | null {
+  public getAttribute(attributeKey: string): string | null | undefined {
     const { wrapper, list } = this;
 
-    return wrapper.getAttribute(attributeKey) || list.getAttribute(attributeKey);
+    return wrapper.getAttribute(attributeKey) || list?.getAttribute(attributeKey);
   }
 
   /**
@@ -379,6 +386,6 @@ export class CMSList extends Emittery<CMSListEvents> {
    */
   public getInstanceIndex(key: string): number | undefined {
     const { wrapper, list } = this;
-    return getInstanceIndex(wrapper, key) || getInstanceIndex(list, key);
+    return getInstanceIndex(wrapper, key) || (list ? getInstanceIndex(list, key) : undefined);
   }
 }

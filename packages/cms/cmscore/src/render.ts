@@ -114,6 +114,8 @@ const hideItems = (itemsToHide: CMSItem[], { itemsAnimation }: CMSList, animateI
  * @returns An Array of promises.
  */
 const showItems = (itemsToAnchor: AnchorData[], { list, itemsAnimation }: CMSList, animateItems: boolean) => {
+  if (!list) return [];
+
   return itemsToAnchor.map(async ([item, newIndex, anchor], actionIndex) => {
     item.animating = new Promise(async (resolveAnimating) => {
       item.rendering = new Promise(async (resolveRendering) => {

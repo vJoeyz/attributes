@@ -1,132 +1,37 @@
 import type { PartialAttributeChangesets } from '$utils/types/changesets';
 
 export const changesets: PartialAttributeChangesets = [
-  {
-    version: 'v1.4.0',
-    date: '29 November 2021',
-  },
-  {
-    version: 'v1.3.1',
-    date: '23 November 2021',
-  },
-  {
-    version: 'v1.3.0',
-    date: '23 November 2021',
-  },
-  {
-    version: 'v1.2.0',
-    date: '17 November 2021',
-  },
-  {
-    version: 'v1.1.2',
-    date: '15 November 2021',
-  },
-  {
-    version: 'v1.1.1',
-    date: '11 November 2021',
-  },
-  {
-    version: 'v1.1.0',
-    date: '11 November 2021',
-  },
-  {
-    version: 'v1.0.24',
-    date: '11 November 2021',
-  },
-  {
-    version: 'v1.0.23',
-    date: '9 November 2021',
-  },
-  {
-    version: 'v1.0.22',
-    date: '9 November 2021',
-  },
-  {
-    version: 'v1.0.21',
-    date: '9 November 2021',
-  },
-  {
-    version: 'v1.0.20',
-    date: '9 November 2021',
-  },
-  {
-    version: 'v1.0.19',
-    date: '9 November 2021',
-  },
-  {
-    version: 'v1.0.18',
-    date: '9 November 2021',
-  },
-  {
-    version: 'v1.0.17',
-    date: '9 November 2021',
-  },
-  {
-    version: 'v1.0.16',
-    date: '9 November 2021',
-  },
-  {
-    version: 'v1.0.15',
-    date: '9 November 2021',
-  },
-  {
-    version: 'v1.0.14',
-    date: '8 November 2021',
-  },
-  {
-    version: 'v1.0.13',
-    date: '8 November 2021',
-  },
-  {
-    version: 'v1.0.12',
-    date: '8 November 2021',
-  },
-  {
-    version: 'v1.0.11',
-    date: '5 November 2021',
-  },
-  {
-    version: 'v1.0.10',
-    date: '5 November 2021',
-  },
-  {
-    version: 'v1.0.9',
-    date: '5 November 2021',
-  },
-  {
-    version: 'v1.0.8',
-    date: '27 October 2021',
-  },
-  {
-    version: 'v1.0.7',
-    date: '27 October 2021',
-  },
-  {
-    version: 'v1.0.6',
-    date: '27 October 2021',
-  },
-  {
-    version: 'v1.0.5',
-    date: '27 October 2021',
-  },
-  {
-    version: 'v1.0.4',
-    date: '27 October 2021',
-  },
-  {
-    version: 'v1.0.3',
-    date: '26 October 2021',
-  },
-  {
-    version: 'v1.0.2',
-    date: '26 October 2021',
-  },
-  {
-    version: 'v1.0.1',
-    date: '26 October 2021',
-  },
-  {
-    version: 'v1.0.0',
-    date: '25 October 2021',
-  },
+  { version: 'v1.4.1', date: '1 December 2021' },
+  { version: 'v1.4.0', date: '29 November 2021' },
+  { version: 'v1.3.1', date: '23 November 2021' },
+  { version: 'v1.3.0', date: '23 November 2021' },
+  { version: 'v1.2.0', date: '17 November 2021' },
+  { version: 'v1.1.2', date: '15 November 2021' },
+  { version: 'v1.1.1', date: '11 November 2021' },
+  { version: 'v1.1.0', date: '11 November 2021' },
+  { version: 'v1.0.24', date: '11 November 2021' },
+  { version: 'v1.0.23', date: '9 November 2021' },
+  { version: 'v1.0.22', date: '9 November 2021' },
+  { version: 'v1.0.21', date: '9 November 2021' },
+  { version: 'v1.0.20', date: '9 November 2021' },
+  { version: 'v1.0.19', date: '9 November 2021' },
+  { version: 'v1.0.18', date: '9 November 2021' },
+  { version: 'v1.0.17', date: '9 November 2021' },
+  { version: 'v1.0.16', date: '9 November 2021' },
+  { version: 'v1.0.15', date: '9 November 2021' },
+  { version: 'v1.0.14', date: '8 November 2021' },
+  { version: 'v1.0.13', date: '8 November 2021' },
+  { version: 'v1.0.12', date: '8 November 2021' },
+  { version: 'v1.0.11', date: '5 November 2021' },
+  { version: 'v1.0.10', date: '5 November 2021' },
+  { version: 'v1.0.9', date: '5 November 2021' },
+  { version: 'v1.0.8', date: '27 October 2021' },
+  { version: 'v1.0.7', date: '27 October 2021' },
+  { version: 'v1.0.6', date: '27 October 2021' },
+  { version: 'v1.0.5', date: '27 October 2021' },
+  { version: 'v1.0.4', date: '27 October 2021' },
+  { version: 'v1.0.3', date: '26 October 2021' },
+  { version: 'v1.0.2', date: '26 October 2021' },
+  { version: 'v1.0.1', date: '26 October 2021' },
+  { version: 'v1.0.0', date: '25 October 2021' },
 ];

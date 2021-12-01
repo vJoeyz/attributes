@@ -20,6 +20,8 @@ export const initInfiniteMode = (listInstance: CMSList): void => {
   const { paginationNext } = settingsData;
   const { list } = listInstance;
 
+  if (!list) return;
+
   paginationNext.addEventListener('click', async (e) => {
     e.preventDefault();
 
