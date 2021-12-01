@@ -11,7 +11,7 @@ type FsAttributes = {
     coreVersion?: string;
     coreImport?: CMSCoreImport;
     listElements?: CollectionListWrapperElement[];
-    lists?: CMSList[];
+    listInstances?: CMSList[];
     filtersInstances?: CMSFilters[];
   };
 };

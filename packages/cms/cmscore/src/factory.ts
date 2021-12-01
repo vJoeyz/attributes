@@ -37,17 +37,17 @@ const createCMSListInstance = (referenceElement: HTMLElement): CMSList | undefin
 
   const { fsAttributes } = window;
 
-  fsAttributes.cms.lists ||= [];
+  fsAttributes.cms.listInstances ||= [];
   fsAttributes.cms.listElements ||= [
     ...document.querySelectorAll<CollectionListWrapperElement>(`.${CMS_CSS_CLASSES.wrapper}`),
   ];
 
-  const { lists, listElements } = fsAttributes.cms;
+  const { listInstances, listElements } = fsAttributes.cms;
 
   const index = listElements.indexOf(wrapper);
   if (index === -1) return;
 
-  lists[index] ||= new CMSList(wrapper, index);
+  listInstances[index] ||= new CMSList(wrapper, index);
 
-  return lists[index];
+  return listInstances[index];
 };
