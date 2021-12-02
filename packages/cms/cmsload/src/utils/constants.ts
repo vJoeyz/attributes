@@ -13,7 +13,6 @@ export const SCROLL_ANCHOR_ELEMENT_KEY = 'scroll-anchor';
 export const PAGE_BUTTON_ELEMENT_KEY = 'page-button';
 export const PAGE_DOTS_ELEMENT_KEY = 'page-dots';
 
-export const LOADING_SETTING_KEY = 'loading';
 export const MODE_SETTING_KEY = 'mode';
 export const MODE_SETTING_VALUES = {
   /**
@@ -84,12 +83,7 @@ export const ATTRIBUTES = {
   },
 
   /**
-   * Defines the text to display while loading.
-   */
-  loading: { key: `${ATTRIBUTES_PREFIX}-${LOADING_SETTING_KEY}` },
-
-  /**
-   * Defines the text to display while loading.
+   * Defines the loading mode.
    */
   mode: {
     key: `${ATTRIBUTES_PREFIX}-${MODE_SETTING_KEY}`,

@@ -1,6 +1,7 @@
 import throttle from 'just-throttle';
-import { loadNextPage } from '../actions/load';
-import { getInfiniteSettings, getMainSettings } from '../actions/settings';
+import { loadPaginatedItems } from '../actions/load';
+import { getInfiniteThreshold } from '../actions/settings';
+import { incrementItemsPerPage } from '../actions/pagination';
 
 import type { CMSList } from '$cms/cmscore/src';
 
@@ -8,47 +9,52 @@ import type { CMSList } from '$cms/cmscore/src';
  * Inits the infinite mode.
  * @param listInstance The `CMSList` instance.
  */
-export const initInfiniteMode = (listInstance: CMSList): void => {
-  const settingsData = getMainSettings(listInstance);
-  if (!settingsData) return;
+export const initInfiniteMode = async (listInstance: CMSList): Promise<void> => {
+  const {
+    list,
+    paginationNext,
+    paginationPrevious,
+    paginationCount,
+    itemsPerPage: originalItemsPerPage,
+  } = listInstance;
 
-  const { threshold } = getInfiniteSettings(listInstance);
-  const thresholdCoefficient = 1 - threshold / 100;
+  if (!list || !paginationNext) return;
 
-  let isLoading = false;
+  paginationPrevious?.remove();
+  paginationCount?.remove();
 
-  const { paginationNext } = settingsData;
-  const { list } = listInstance;
+  const thresholdCoefficient = getInfiniteThreshold(listInstance);
 
-  if (!list) return;
+  let isLoading = true;
+  let isHandling = false;
 
-  paginationNext.addEventListener('click', async (e) => {
-    e.preventDefault();
+  listInstance.currentPage = 1;
 
-    if (isLoading) return;
+  listInstance.on('renderitems', () => {
+    const { validItems, items, itemsPerPage: currentItemsPerPage } = listInstance;
 
-    isLoading = true;
-
-    await loadNextPage({ e, ...settingsData });
-
-    isLoading = false;
-  });
-
-  const observer = new IntersectionObserver((entries) => {
-    for (const { isIntersecting } of entries) {
-      const action = isIntersecting ? 'addEventListener' : 'removeEventListener';
-      window[action]('scroll', handleScroll);
+    if (!isLoading && items.length === currentItemsPerPage) {
+      conclude();
+      return;
     }
+
+    paginationNext.style.display = validItems.length > currentItemsPerPage ? '' : 'none';
   });
 
-  observer.observe(list);
+  /**
+   * Handles click events on the `Pagination Next` button.
+   * @param e The mouse event.
+   */
+  const handleClicks = async (e: MouseEvent) => {
+    e.preventDefault();
+  };
 
   /**
    * Handles a scroll event.
    * Recalculates the scroll ratio of the element.
    */
   const handleScroll = throttle(async () => {
-    if (isLoading) return;
+    if (isHandling) return;
 
     const { innerHeight } = window;
     const { bottom } = list.getBoundingClientRect();
@@ -57,16 +63,36 @@ export const initInfiniteMode = (listInstance: CMSList): void => {
     const shouldLoad = bottom > 0 && bottom <= validRange;
 
     if (shouldLoad) {
-      isLoading = true;
+      isHandling = true;
 
-      const nextPageURL = await loadNextPage(settingsData);
+      await incrementItemsPerPage(listInstance, isLoading, originalItemsPerPage);
 
-      if (!nextPageURL) {
-        window.removeEventListener('scroll', handleScroll);
-        observer.disconnect();
-      }
-
-      isLoading = false;
+      isHandling = false;
     }
   }, 100);
+
+  const observer = new IntersectionObserver((entries) => {
+    for (const { isIntersecting } of entries) {
+      const action = isIntersecting ? 'addEventListener' : 'removeEventListener';
+      window[action]('scroll', handleScroll);
+    }
+  });
+
+  /**
+   * Destroys the `Pagination Next` button and the `Intersection Observer`.
+   */
+  const conclude = () => {
+    window.removeEventListener('scroll', handleScroll);
+    paginationNext.removeEventListener('click', handleClicks);
+    paginationNext.remove();
+    observer.disconnect();
+  };
+
+  // Init
+  paginationNext.addEventListener('click', handleClicks);
+  observer.observe(list);
+
+  await loadPaginatedItems(listInstance);
+
+  isLoading = false;
 };

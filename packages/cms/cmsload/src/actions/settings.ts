@@ -5,58 +5,18 @@ import {
   DEFAULT_INFINITE_THRESHOLD,
   DEFAULT_PAGE_BOUNDARY,
   DEFAULT_PAGE_SIBLINGS,
-  getSelector,
   queryElement,
 } from '../utils/constants';
 
-import type { PaginationButtonElement, PaginationWrapperElement } from '@finsweet/ts-utils';
+import type { PaginationWrapperElement } from '@finsweet/ts-utils';
 import type { CMSList } from '$cms/cmscore/src';
 
 // Constants
 const {
-  loading: { key: loadingKey },
   pageSiblings: { key: pageSiblingsKey },
   pageBoundary: { key: pageBoundaryKey },
   threshold: { key: thresholdKey },
 } = ATTRIBUTES;
-
-/**
- * Prepares the `CMSList` instance:
- * - Gets and prepares the pagination buttons.
- * - Gets the user's settings.
- * @param listInstance The {@link CMSList} instance.
- */
-export const getMainSettings = (
-  listInstance: CMSList
-):
-  | {
-      listInstance: CMSList;
-      paginationNext: PaginationButtonElement;
-      paginationNextTextNode: Node | null;
-      originalNextText?: string | null;
-      loadingText?: string | null;
-    }
-  | undefined => {
-  const { paginationNext, paginationPrevious } = listInstance;
-
-  if (!paginationNext) return;
-
-  paginationPrevious?.remove();
-
-  const paginationNextTextNode = paginationNext.querySelector(getSelector('loading'));
-
-  const originalNextText = paginationNextTextNode?.textContent;
-
-  const loadingText = paginationNextTextNode?.getAttribute(loadingKey);
-
-  return {
-    listInstance,
-    paginationNext,
-    paginationNextTextNode,
-    originalNextText,
-    loadingText,
-  };
-};
 
 /**
  * Collects the `Pagination` mode settings.
@@ -66,7 +26,6 @@ export const getPaginationSettings = (
   listInstance: CMSList
 ):
   | {
-      listInstance: CMSList;
       paginationWrapper: PaginationWrapperElement;
       pageButtonTemplate?: HTMLElement | null;
       pageDotsTemplate: HTMLElement;
@@ -111,7 +70,6 @@ export const getPaginationSettings = (
   const hasBreakpoints = [pageBoundaryValues, pageSiblingsValues].some(({ length }) => length > 1);
 
   return {
-    listInstance,
     paginationWrapper,
     pageButtonTemplate,
     pageDotsTemplate,
@@ -162,12 +120,9 @@ export const getPageButtonsSettings = (
  * Collects the `Infinite` mode settings.
  * @param listInstance The {@link CMSList} instance.
  */
-export const getInfiniteSettings = (
-  listInstance: CMSList
-): {
-  threshold: number;
-} => {
+export const getInfiniteThreshold = (listInstance: CMSList): number => {
   const threshold = parseInt(listInstance.getAttribute(thresholdKey) || DEFAULT_INFINITE_THRESHOLD);
+  const thresholdCoefficient = 1 - threshold / 100;
 
-  return { threshold };
+  return thresholdCoefficient;
 };
