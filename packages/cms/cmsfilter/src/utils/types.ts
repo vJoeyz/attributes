@@ -74,6 +74,11 @@ export interface FilterData {
   /**
    * The `filterKey` indentifiers.
    */
+  originalFilterKeys: string[];
+
+  /**
+   * The normalized `filterKey` indentifiers.
+   */
   filterKeys: string[];
 
   /**

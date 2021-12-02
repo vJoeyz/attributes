@@ -91,15 +91,16 @@ export const collectFiltersData = (
     const rawFilterKeys = element.getAttribute(fieldKey);
     if (!rawFilterKeys) return;
 
-    const filterKeys = [...new Set(extractCommaSeparatedValues(rawFilterKeys))].map((filterKey) =>
-      normalizePropKey(filterKey)
-    );
+    const originalFilterKeys = [...new Set(extractCommaSeparatedValues(rawFilterKeys))];
+
+    const filterKeys = originalFilterKeys.map((filterKey) => normalizePropKey(filterKey));
 
     if (!filterKeys.length) return;
 
     // Collect settings
     const settings = collectGlobalFilterSettings(
       element,
+      originalFilterKeys,
       filterKeys,
       globalActiveCSSClass,
       globalDebouncing,
@@ -184,7 +185,8 @@ export const collectFiltersData = (
  * Collects the global settings from a filter element.
  *
  * @param element The filter element.
- * @param filterKeys The filter keys.
+ * @param originalFilterKeys The filter keys.
+ * @param filterKeys The normalized filter keys.
  * @param globalActiveCSSClass The global active CSS Class.
  * @param globalDebouncing The global debouncing value for `input` events.
  * @param highlightAll Defines if all matching values must be highlighted.
@@ -193,6 +195,7 @@ export const collectFiltersData = (
  */
 const collectGlobalFilterSettings = (
   element: HTMLElement,
+  originalFilterKeys: string[],
   filterKeys: string[],
   globalActiveCSSClass: string,
   globalDebouncing: number,
@@ -228,6 +231,7 @@ const collectGlobalFilterSettings = (
   const globalFilterData: Omit<FilterData, 'elements'> = {
     match,
     filterKeys,
+    originalFilterKeys,
     highlight,
     tagFormat,
     tagCategory,

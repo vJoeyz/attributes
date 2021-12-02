@@ -8,14 +8,14 @@ import type { TagData, TagFormat } from '../utils/types';
  * @param format The output format.
  */
 export const updateTagText = (
-  { values, textNode, filterData: { filterKeys, mode, tagFormat, tagCategory } }: TagData,
+  { values, textNode, filterData: { originalFilterKeys, mode, tagFormat, tagCategory } }: TagData,
   globalTagsFormat?: TagFormat
 ): void => {
   // Format the value
   const value = mode === 'range' ? `[${values.map((value) => value || '--').join(', ')}]` : values[0];
 
   // Capitalize the filter keys and join them
-  const keys = tagCategory || filterKeys.join(', ');
+  const keys = tagCategory || originalFilterKeys.join(', ');
 
   // Set the new text
   textNode.textContent = (tagFormat || globalTagsFormat) === 'category' ? `${keys}: ${value}` : value;
