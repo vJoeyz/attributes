@@ -1,5 +1,4 @@
-import { loadListItems } from '../actions/load';
-import { getMainSettings } from '../actions/settings';
+import { loadPaginatedItems } from '../actions/load';
 
 import type { CMSList } from '$cms/cmscore/src';
 
@@ -9,10 +8,10 @@ import type { CMSList } from '$cms/cmscore/src';
  * @param loadingText The text to display while loading.
  */
 export const initRenderAllMode = async (listInstance: CMSList): Promise<void> => {
-  const settingsData = getMainSettings(listInstance);
-  if (!settingsData) return;
+  const { paginationNext, paginationPrevious } = listInstance;
+  if (!paginationNext) return;
 
-  const { paginationNext, paginationNextTextNode, loadingText } = settingsData;
+  paginationPrevious?.remove();
 
   const handleClicks = (e: MouseEvent) => {
     e.preventDefault();
@@ -21,14 +20,8 @@ export const initRenderAllMode = async (listInstance: CMSList): Promise<void> =>
 
   paginationNext.addEventListener('click', handleClicks);
 
-  await listInstance.displayElement('loader');
-
-  if (paginationNextTextNode && loadingText) paginationNextTextNode.textContent = loadingText;
-
-  await loadListItems(listInstance, 'all');
+  await loadPaginatedItems(listInstance);
 
   paginationNext.removeEventListener('click', handleClicks);
   paginationNext.remove();
-
-  await listInstance.displayElement('loader', false);
 };

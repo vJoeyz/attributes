@@ -6,7 +6,6 @@ import {
   ITEMS_COUNT_ELEMENT_KEY,
   LIST_ELEMENT_KEY,
   LOADER_ELEMENT_KEY,
-  LOADING_SETTING_KEY,
   MODE_SETTING_KEY,
   MODE_SETTING_VALUES,
   PAGE_BOUNDARY_SETTING_KEY,
@@ -131,20 +130,6 @@ export const schema: AttributeSchema = {
         default: MODE_SETTING_VALUES.loadUnder,
       },
       conditions: [],
-    },
-
-    [LOADING_SETTING_KEY]: {
-      description: 'Defines the text to display on the Next button while loading new items.',
-      appliedTo: {},
-      value: {
-        type: 'string',
-      },
-      conditions: [
-        {
-          type: 'isChildOf',
-          selector: `.${CMS_CSS_CLASSES.paginationNext}`,
-        },
-      ],
     },
 
     [THRESHOLD_SETTING_KEY]: {

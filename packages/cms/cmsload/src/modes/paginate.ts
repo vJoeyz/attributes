@@ -1,5 +1,5 @@
 import debounce from 'just-debounce';
-import { loadListItems } from '../actions/load';
+import { loadPaginatedItems } from '../actions/load';
 import { getPaginationSettings, getPageButtonsSettings } from '../actions/settings';
 import { cloneNode, CMS_CSS_CLASSES, CURRENT_CSS_CLASS, isNotEmpty } from '@finsweet/ts-utils';
 import { getSelector } from '../utils/constants';
@@ -50,7 +50,6 @@ export const initPaginateMode = async (listInstance: CMSList): Promise<void> => 
 
   // Set initial state
   await listInstance.switchPage(1, false);
-  handleElements(listInstance, pageButtonsData, paginationCount, false);
 
   //  Listen events
   listInstance.on('renderitems', () => handleElements(listInstance, pageButtonsData, paginationCount));
@@ -67,12 +66,8 @@ export const initPaginateMode = async (listInstance: CMSList): Promise<void> => 
     );
   }
 
-  // Load items
-  await listInstance.displayElement('loader');
-
-  await loadListItems(listInstance, 'all');
-
-  await listInstance.displayElement('loader', false);
+  // Init items load
+  await loadPaginatedItems(listInstance);
 };
 
 /**
