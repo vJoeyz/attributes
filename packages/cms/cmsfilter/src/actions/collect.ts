@@ -24,6 +24,7 @@ const {
   tagCategory: { key: tagCategoryKey },
   hideEmpty: { key: hideEmptyKey, values: hideEmptyValues },
   highlight: { key: highlightKey, values: highlightValues },
+  highlightCSS: { key: highlightCSSKey },
   activeCSS: { key: activeCSSKey },
   debouncing: { key: debouncingKey },
 } = ATTRIBUTES;
@@ -73,6 +74,7 @@ export const collectFiltersElements = (
  * @param globalActiveCSSClass The global active CSS Class.
  * @param globalDebouncing The global debouncing value for `input` events.
  * @param highlightAll Defines if all matching values must be highlighted.
+ * @param globalHighlightCSSClass The global highlight CSS Class.
  *
  * @returns A {@link FiltersData} Map and a {@link FilterKeyResults} object.
  */
@@ -80,7 +82,8 @@ export const collectFiltersData = (
   form: HTMLFormElement,
   globalActiveCSSClass: string,
   globalDebouncing: number,
-  highlightAll?: boolean
+  highlightAll: boolean,
+  globalHighlightCSSClass: string
 ): FiltersData => {
   const filtersData: FiltersData = [];
 
@@ -104,7 +107,8 @@ export const collectFiltersData = (
       filterKeys,
       globalActiveCSSClass,
       globalDebouncing,
-      highlightAll
+      highlightAll,
+      globalHighlightCSSClass
     );
 
     if (!settings) return;
@@ -190,6 +194,7 @@ export const collectFiltersData = (
  * @param globalActiveCSSClass The global active CSS Class.
  * @param globalDebouncing The global debouncing value for `input` events.
  * @param highlightAll Defines if all matching values must be highlighted.
+ * @param globalHighlightCSSClass The global highlight CSS Class.
  *
  * @returns A tuple with [globalFilterData, globalElementData].
  */
@@ -199,20 +204,25 @@ const collectGlobalFilterSettings = (
   filterKeys: string[],
   globalActiveCSSClass: string,
   globalDebouncing: number,
-  highlightAll?: boolean
+  highlightAll: boolean,
+  globalHighlightCSSClass: string
 ) => {
-  const rawMatch = element.getAttribute(matchKey);
-  const rawHighlight = element.getAttribute(highlightKey);
-  const rawTagFormat = element.getAttribute(tagFormatKey);
-  const rawActiveCSSClass = element.getAttribute(activeCSSKey);
-  const rawDebouncing = element.getAttribute(debouncingKey);
+  const [rawMatch, rawTagFormat, rawActiveCSSClass, rawDebouncing, rawHighlight, rawHighlightCSSClass] = [
+    matchKey,
+    tagFormatKey,
+    activeCSSKey,
+    debouncingKey,
+    highlightKey,
+    highlightCSSKey,
+  ].map((key) => element.getAttribute(key));
 
   const match = isKeyOf(rawMatch, MATCHES) ? rawMatch : undefined;
-  const highlight = highlightAll || rawHighlight === highlightValues.true;
   const tagFormat = isKeyOf(rawTagFormat, TAG_FORMATS) ? rawTagFormat : undefined;
   const tagCategory = element.getAttribute(tagCategoryKey);
   const activeCSSClass = rawActiveCSSClass || globalActiveCSSClass;
   const debouncing = rawDebouncing ? parseFloat(rawDebouncing) : globalDebouncing;
+  const highlight = highlightAll || rawHighlight === highlightValues.true;
+  const highlightCSSClass = rawHighlightCSSClass || globalHighlightCSSClass;
 
   const rawMode = element.getAttribute(rangeKey);
 
@@ -235,6 +245,7 @@ const collectGlobalFilterSettings = (
     highlight,
     tagFormat,
     tagCategory,
+    highlightCSSClass,
     mode: filterMode,
     values: new Set(),
   };

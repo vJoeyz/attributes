@@ -18,7 +18,7 @@ const {
  * @param listInstance The {@link CMSList} instance.
  */
 export const listenListEvents = (filtersInstance: CMSFilters, listInstance: CMSList) => {
-  const { highlightResults, highlightCSSClass, showFilterResults, hideEmptyFilters } = filtersInstance;
+  const { highlightResults, showFilterResults, hideEmptyFilters } = filtersInstance;
 
   listInstance.on('shouldcollectprops', (items: CMSItem[]) => {
     for (const item of items) item.collectProps({ fieldKey, rangeKey, typeKey });
@@ -35,7 +35,7 @@ export const listenListEvents = (filtersInstance: CMSFilters, listInstance: CMSL
 
     if (showFilterResults) updateFilterKeyResults(filtersInstance);
 
-    if (highlightResults) for (const item of renderedItems) toggleHighlight(item, highlightCSSClass);
+    if (highlightResults) for (const item of renderedItems) toggleHighlight(item);
   });
 
   listInstance.once('nestinitialitems').then(async (items: CMSItem[]) => {

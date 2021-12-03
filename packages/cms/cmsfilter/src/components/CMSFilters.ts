@@ -72,11 +72,6 @@ export class CMSFilters {
   public readonly highlightResults;
 
   /**
-   * The CSS class used to highlight elements in the results.
-   */
-  public readonly highlightCSSClass;
-
-  /**
    * The debounced `applyFilters` action, based on the user's debouncing settings.
    */
   private debouncedApplyFilters?: () => void;
@@ -131,7 +126,7 @@ export class CMSFilters {
 
     this.submitButtonVisible = !!submitButton && isVisible(submitButton);
 
-    const filtersData = collectFiltersData(form, activeCSSClass, debouncing, highlightAll);
+    const filtersData = collectFiltersData(form, activeCSSClass, debouncing, highlightAll, highlightCSSClass);
 
     this.filtersData = filtersData;
 
@@ -144,7 +139,6 @@ export class CMSFilters {
     this.form = form;
     this.submitButton = submitButton;
     this.resetButtonsData = resetButtonsData;
-    this.highlightCSSClass = highlightCSSClass;
     this.resultsElement = resultsElement;
     this.showQueryParams = showQueryParams;
 

@@ -6,32 +6,29 @@ import type { CMSItem } from '$cms/cmscore/src';
  * @param item A {@link CMSItem} instance.
  * @param highlightCSSClass The CSS Class to appy.
  */
-export const toggleHighlight = ({ props }: CMSItem, highlightCSSClass: string) => {
+export const toggleHighlight = ({ props }: CMSItem) => {
   for (const propKey in props) {
-    const { elements, values, highlightValues } = props[propKey];
+    const { elements, values, highlightData } = props[propKey];
 
-    if (!highlightValues) continue;
+    if (!highlightData) continue;
 
-    for (const value of values) {
-      const elementData = elements.get(value);
+    for (const propValue of values) {
+      const elementData = elements.get(propValue);
       if (!elementData) continue;
 
       const { element, originalHTML } = elementData;
 
-      const filterValue = highlightValues.get(value);
+      const existingHighlightData = highlightData.get(propValue);
 
-      if (typeof filterValue === 'undefined') {
+      if (!existingHighlightData) {
         element.innerHTML = originalHTML;
-        element.classList.remove(highlightCSSClass);
+
         continue;
       }
 
-      if (!filterValue) {
-        element.classList.add(highlightCSSClass);
-        continue;
-      }
+      const { filterValue, highlightCSSClass } = existingHighlightData;
 
-      const regex = new RegExp(filterValue, 'gi');
+      const regex = new RegExp(filterValue || propValue, 'gi');
 
       element.innerHTML = originalHTML.replace(regex, `<span class="${highlightCSSClass}">$&</span>`);
     }
@@ -44,5 +41,5 @@ export const toggleHighlight = ({ props }: CMSItem, highlightCSSClass: string) =
  * @param item The {@link CMSItem} to clear.
  */
 export const restartHighlight = ({ props }: CMSItem) => {
-  for (const propKey in props) props[propKey].highlightValues = new Map();
+  for (const propKey in props) props[propKey].highlightData = new Map();
 };

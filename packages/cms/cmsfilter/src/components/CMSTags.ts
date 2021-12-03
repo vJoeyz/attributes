@@ -92,7 +92,10 @@ export class CMSTags {
       const { animateIn, options } = listAnimation;
 
       await animateIn(element, { target: wrapper, ...options });
-    } else wrapper.appendChild(element);
+    } else {
+      element.style.opacity = '1';
+      wrapper.appendChild(element);
+    }
   }
 
   /**

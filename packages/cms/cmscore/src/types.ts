@@ -36,7 +36,14 @@ export interface CMSItemProps {
     elements: Map<
       string,
       {
+        /**
+         * The prop element.
+         */
         element: HTMLElement;
+
+        /**
+         * Stores the original outer HTML of the element before any mutations.
+         */
         originalHTML: string;
       }
     >;
@@ -44,10 +51,10 @@ export interface CMSItemProps {
     /**
      * Defines filter values to highlight in a Map like:
      * ```
-     * [propValue, filterValue | null]
+     * [propValue, data]
      * ```
      */
-    highlightValues?: Map<string, string | null>;
+    highlightData?: Map<string, { filterValue?: string; highlightCSSClass: string }>;
 
     /**
      * Defines the type of the value.

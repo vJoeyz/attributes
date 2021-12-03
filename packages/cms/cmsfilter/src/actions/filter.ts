@@ -33,7 +33,15 @@ export const assessFilter = (
  */
 const checkFilterValidity = (
   item: CMSItem,
-  { filterKeys, values, match, mode: filterMode, highlight, elements: filterElements }: FiltersData[number]
+  {
+    filterKeys,
+    values,
+    match,
+    mode: filterMode,
+    highlight,
+    highlightCSSClass,
+    elements: filterElements,
+  }: FiltersData[number]
 ) => {
   const filterValues = [...values];
   if (!filterValues.length) return true;
@@ -47,7 +55,7 @@ const checkFilterValidity = (
     const prop = item.props[filterKey];
     if (!prop) return false;
 
-    const { values, highlightValues, type: propType, range: propRange } = prop;
+    const { values, highlightData, type: propType, range: propRange } = prop;
 
     const propValues = [...values];
     if (!propValues.length) return false;
@@ -59,7 +67,7 @@ const checkFilterValidity = (
 
       const isValid = checkRangeValidity(propValue, filterFrom, filterTo, propType);
 
-      if (isValid && highlight) highlightValues?.set(propValue, null);
+      if (isValid && highlight) highlightData?.set(propValue, { highlightCSSClass });
 
       return isValid;
     }
@@ -73,8 +81,8 @@ const checkFilterValidity = (
         const isValid = checkRangeValidity(filterValue, propFrom, propTo, propType);
 
         if (isValid && highlight) {
-          highlightValues?.set(propFrom, null);
-          highlightValues?.set(propTo, null);
+          highlightData?.set(propFrom, { highlightCSSClass });
+          highlightData?.set(propTo, { highlightCSSClass });
         }
 
         return isValid;
@@ -101,7 +109,7 @@ const checkFilterValidity = (
         // Multiple Prop Values
         else isValid = filterValue.toLowerCase() === propValue.toLowerCase();
 
-        if (isValid && highlight) highlightValues?.set(propValue, filterValue);
+        if (isValid && highlight) highlightData?.set(propValue, { highlightCSSClass, filterValue });
 
         return isValid;
       });

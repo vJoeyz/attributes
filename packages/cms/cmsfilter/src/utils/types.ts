@@ -102,6 +102,11 @@ export interface FilterData {
   highlight: boolean;
 
   /**
+   * Defines the Highlight CSS Class to add to highlight targets.
+   */
+  highlightCSSClass: string;
+
+  /**
    * Defines an override for the tag format of the filter.
    */
   tagFormat?: TagFormat;
