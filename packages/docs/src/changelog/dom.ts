@@ -1,10 +1,8 @@
-import MarkdownIt from 'markdown-it';
 import { AttributeChangesets } from '$utils/types/changesets';
 import { cloneNode } from '@finsweet/ts-utils';
 import { queryElement } from '../utils/constants';
 import { AttributesData } from '../utils/types';
-
-const markdownIt = new MarkdownIt();
+import { marked } from 'marked';
 
 /**
  * Creates a new `Collection Item` element from a changeset's data.
@@ -31,7 +29,7 @@ export const createChangesetElement = (
   titleElement.textContent = title;
   keyElement.textContent = key;
   versionElement.textContent = version;
-  changesetElement.innerHTML = markdownIt.render(markdown);
+  changesetElement.innerHTML = marked.parse(markdown);
   dateElement.textContent = new Date(date).toLocaleDateString(undefined, {
     year: 'numeric',
     month: 'long',

@@ -9,16 +9,20 @@ export const initCollapseOptions = () => {
 
   if (!collapseAllDropdownsTrigger) return;
 
+  let collapsing = false;
+
   const { href } = collapseAllDropdownsTrigger;
   const { hash } = new URL(href);
 
   const scrollAnchor = hash ? document.querySelector(hash) : null;
 
-  collapseAllDropdownsTrigger.style.display = 'none';
-
   const expandedToggles: Set<Element> = new Set();
 
-  let collapsing = false;
+  const displayTrigger = (display = true) => {
+    collapseAllDropdownsTrigger.style.display = display ? '' : 'none';
+  };
+
+  displayTrigger(false);
 
   window.addEventListener('click', (e) => {
     if (collapsing) return;
@@ -37,14 +41,16 @@ export const initCollapseOptions = () => {
     if (wasExpanded) {
       expandedToggles.delete(isToggleElement);
 
-      if (!expandedToggles.size) collapseAllDropdownsTrigger.style.display = 'none';
+      if (!expandedToggles.size) displayTrigger(false);
+
+      collapsing = false;
 
       return;
     }
 
     expandedToggles.add(isToggleElement);
 
-    collapseAllDropdownsTrigger.style.display = '';
+    displayTrigger();
 
     collapsing = false;
   });
@@ -60,6 +66,8 @@ export const initCollapseOptions = () => {
     for (const toggle of expandedToggles) simulateEvent(toggle, ['click']);
 
     expandedToggles.clear();
+
+    displayTrigger(false);
 
     scrollAnchor?.scrollIntoView({ block: 'start', behavior: 'smooth' });
 
