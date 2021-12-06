@@ -107,7 +107,7 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
     const clientX = getClientX(e);
 
     document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('touchmove', handleMouseMove);
+    document.addEventListener('touchmove', handleMouseMove, { passive: true });
     document.addEventListener('mouseup', handleMouseUp);
     document.addEventListener('touchend', handleMouseUp);
 
@@ -161,7 +161,7 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
    * Init events
    */
   trackElement.addEventListener('mousedown', handleMouseDown);
-  trackElement.addEventListener('touchstart', handleMouseDown);
+  trackElement.addEventListener('touchstart', handleMouseDown, { passive: true });
 
   observeWrapperVisibility();
   window.addEventListener('resize', debounce(handleDOMMutation, 50));

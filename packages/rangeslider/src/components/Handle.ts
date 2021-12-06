@@ -1,6 +1,9 @@
 import { setFormFieldValue } from '@finsweet/ts-utils';
 import { HANDLE_INCREMENT_KEYS, HANDLE_KEYS } from '../utils/constants';
 import { adjustValueToStep } from '../actions/values';
+import { ARIA_VALUEMAX_KEY, ARIA_VALUEMIN_KEY, ARIA_VALUENOW_KEY } from '$utils/a11ty';
+import { setHandleA11ty } from '../actions/a11ty';
+import { setHandleStyles } from '../actions/styles';
 
 import type { Fill } from './Fill';
 
@@ -53,13 +56,6 @@ export class Handle {
       formatValueDisplay: boolean;
     }
   ) {
-    element.setAttribute('role', 'slider');
-    element.setAttribute('tabindex', '0');
-    element.style.position = 'absolute';
-    element.style.right = 'unset';
-    element.style.top = `50%`;
-    element.style.transform = 'translate(-50%, -50%)';
-
     this.inputElement = inputElement;
     this.displayValueElement = displayValueElement;
     this.formatValueDisplay = formatValueDisplay;
@@ -75,6 +71,9 @@ export class Handle {
     this.maxValue = maxRange;
 
     this.trackWidth = trackWidth;
+
+    setHandleStyles(element);
+    setHandleA11ty(element, inputElement);
 
     this.setValue(startValue);
     this.listenEvents();
@@ -165,7 +164,7 @@ export class Handle {
     const stringValue = `${newValue}`;
     const localeStringValue = newValue.toLocaleString();
 
-    element.setAttribute('aria-valuenow', stringValue);
+    element.setAttribute(ARIA_VALUENOW_KEY, stringValue);
 
     if (displayValueElement) displayValueElement.textContent = formatValueDisplay ? localeStringValue : stringValue;
 
@@ -202,8 +201,8 @@ export class Handle {
   public setConstraints(minValue: number, maxValue: number): void {
     const { element } = this;
 
-    element.setAttribute('aria-valuemin', `${minValue}`);
-    element.setAttribute('aria-valuemax', `${maxValue}`);
+    element.setAttribute(ARIA_VALUEMIN_KEY, `${minValue}`);
+    element.setAttribute(ARIA_VALUEMAX_KEY, `${maxValue}`);
 
     this.minValue = minValue;
     this.maxValue = maxValue;
