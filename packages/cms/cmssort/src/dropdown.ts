@@ -3,7 +3,7 @@ import { ATTRIBUTES, queryElement } from './constants';
 import { normalizePropKey } from '$cms/utils/props';
 import { sortListItems } from './sort';
 
-import type { CMSItem, CMSList } from '$cms/cmscore/src';
+import type { CMSList } from '$cms/cmscore/src';
 import type { Dropdown, DropdownToggle, DropdownList } from '@finsweet/ts-utils';
 import type { DropdownLabelData, DropdownOption, DropdownOptions, SortingDirection, SortItemsCallback } from './types';
 
@@ -13,11 +13,8 @@ const { dropdownToggle: dropdownToggleCSSClass, dropdownList: dropdownListCSSCla
  * Inits sorting on a `Dropdown` component.
  * @param dropdown The {@link Dropdown} element.
  * @param listInstance The {@link CMSList} instance.
- *
- * TODO: cmscore 1.4.0 introduces its own originalItemsOrder management.
- * @param originalItemsOrder The stored original order of the items.
  */
-export const initDropdown = (dropdown: Dropdown, listInstance: CMSList, originalItemsOrder: CMSItem[]) => {
+export const initDropdown = (dropdown: Dropdown, listInstance: CMSList) => {
   const dropdownToggle = dropdown.querySelector<DropdownToggle>(`.${dropdownToggleCSSClass}`);
   const dropdownList = dropdown.querySelector<DropdownList>(`.${dropdownListCSSClass}`);
 
@@ -46,7 +43,7 @@ export const initDropdown = (dropdown: Dropdown, listInstance: CMSList, original
    * In that case, the rendering responsibilities are handled by another controller.
    */
   const sortItems: SortItemsCallback = async (addingItems?: boolean) => {
-    await sortListItems(listInstance, { originalItemsOrder, direction, sortKey, addingItems });
+    await sortListItems(listInstance, { direction, sortKey, addingItems });
   };
 
   // Listen events

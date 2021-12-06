@@ -1,6 +1,6 @@
 import { ATTRIBUTES } from './constants';
 
-import type { CMSItem, CMSList } from '$cms/cmscore/src';
+import type { CMSList } from '$cms/cmscore/src';
 import type { SortItemsCallback } from './types';
 
 // Constants destructuring
@@ -15,19 +15,12 @@ const {
  * @param originalItemsOrder The original order of {@link CMSItem} instances.
  * @param sortItems A callback to sort the items in the currently selected order.
  */
-export const listenListEvents = (
-  listInstance: CMSList,
-  originalItemsOrder: CMSItem[],
-  sortItems: SortItemsCallback
-) => {
+export const listenListEvents = (listInstance: CMSList, sortItems: SortItemsCallback) => {
   listInstance.on('shouldcollectprops', async (newItems) => {
     for (const item of newItems) item.collectProps({ fieldKey, typeKey });
   });
 
-  // TODO: cmscore 1.4.0 introduces its own originalItemsOrder management.
-  listInstance.on('shouldsort', async (newItems) => {
-    originalItemsOrder.push(...newItems);
-
+  listInstance.on('shouldsort', async () => {
     await sortItems(true);
   });
 };

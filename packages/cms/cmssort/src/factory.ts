@@ -52,23 +52,19 @@ export const initListSorting = async (listInstance: CMSList) => {
     desc: listInstance.getAttribute(descClassKey) || DEFAULT_DESC_CLASS,
   };
 
-  // Store original items order
-  // TODO: cmscore 1.4.0 introduces its own originalItemsOrder management.
-  const originalItemsOrder = [...items];
-
   // Init mode
   const [firstTrigger] = triggers;
   const isSelect = firstTrigger instanceof HTMLSelectElement;
   const isDropdown = firstTrigger.closest<Dropdown>(`.${DROPDOWN_CSS_CLASSES.dropdown}`);
 
   const sortItems = isSelect
-    ? await initHTMLSelect(firstTrigger, listInstance, originalItemsOrder)
+    ? await initHTMLSelect(firstTrigger, listInstance)
     : isDropdown
-    ? initDropdown(isDropdown, listInstance, originalItemsOrder)
-    : initButtons(triggers, listInstance, originalItemsOrder, cssClasses);
+    ? initDropdown(isDropdown, listInstance)
+    : initButtons(triggers, listInstance, cssClasses);
 
   if (!sortItems) return;
 
   // Listen events
-  listenListEvents(listInstance, originalItemsOrder, sortItems);
+  listenListEvents(listInstance, sortItems);
 };

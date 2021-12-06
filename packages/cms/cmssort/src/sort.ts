@@ -1,5 +1,4 @@
-import type { CMSItem, CMSList } from '$cms/cmscore/src';
-import { checkCMSCoreVersion } from '$cms/utils/versioning';
+import type { CMSList } from '$cms/cmscore/src';
 import type { SortingDirection } from './types';
 
 /**
@@ -7,7 +6,6 @@ import type { SortingDirection } from './types';
  * **Important:** This method mutates the {@link CMSList.items} property.
  *
  * @param listInstance The {@link CMSList} instance.
- * @param params.originalItemsOrder The original order of the items.
  * @param params.direction The direction to sort.
  * @param params.sortKey The key of the field to use as sorting reference.
  * @param params.addingItems Defines if new items are being added.
@@ -16,12 +14,10 @@ import type { SortingDirection } from './types';
 export const sortListItems = async (
   listInstance: CMSList,
   {
-    originalItemsOrder,
     direction,
     sortKey,
     addingItems,
   }: {
-    originalItemsOrder: CMSItem[];
     direction?: SortingDirection;
     sortKey?: string;
     addingItems?: boolean;
@@ -31,11 +27,8 @@ export const sortListItems = async (
 
   const validSortKey = direction && sortKey && items.some(({ props }) => sortKey in props);
 
-  if (!validSortKey) {
-    // TODO: cmscore 1.4.0 introduces its own originalItemsOrder management.
-    if (checkCMSCoreVersion('>=', '1.4.0')) listInstance.restoreItemsOrder();
-    else listInstance.items = [...originalItemsOrder];
-  } else {
+  if (!validSortKey) listInstance.restoreItemsOrder();
+  else {
     items.sort((firstItem, secondItem) => {
       const firstItemProp = firstItem.props[sortKey];
       const secondItemProp = secondItem.props[sortKey];

@@ -3,7 +3,7 @@ import { ATTRIBUTES } from './constants';
 import { sortListItems } from './sort';
 
 import type { ButtonState, ButtonsState, CSSClasses, SortingDirection, SortItemsCallback } from './types';
-import type { CMSItem, CMSList } from '$cms/cmscore/src';
+import type { CMSList } from '$cms/cmscore/src';
 import type { MapEntries } from '@finsweet/ts-utils';
 
 // Constants destructuring
@@ -19,13 +19,7 @@ const {
  * @param listInstance The {@link CMSList} instance.
  * @param globalCSSClasses The state CSS classes (`asc` and `desc`) globally defined on the list.
  */
-export const initButtons = (
-  buttons: NodeListOf<HTMLElement>,
-  listInstance: CMSList,
-  // TODO: cmscore 1.4.0 introduces its own originalItemsOrder management.
-  originalItemsOrder: CMSItem[],
-  globalCSSClasses: CSSClasses
-) => {
+export const initButtons = (buttons: NodeListOf<HTMLElement>, listInstance: CMSList, globalCSSClasses: CSSClasses) => {
   const buttonsState: ButtonsState = new Map();
 
   let sorting = false;
@@ -39,7 +33,7 @@ export const initButtons = (
    * In that case, the rendering responsibilities are handled by another controller.
    */
   const sortItems: SortItemsCallback = async (addingItems) => {
-    await sortListItems(listInstance, { originalItemsOrder, sortKey, direction, addingItems });
+    await sortListItems(listInstance, { sortKey, direction, addingItems });
   };
 
   for (const button of buttons) {

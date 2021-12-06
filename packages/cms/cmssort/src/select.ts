@@ -1,21 +1,15 @@
 import { normalizePropKey } from '$cms/utils/props';
 import { sortListItems } from './sort';
 
-import type { CMSItem, CMSList } from '$cms/cmscore/src';
+import type { CMSList } from '$cms/cmscore/src';
 import type { SortingDirection, SortItemsCallback } from './types';
 
 /**
  * Inits sorting on an `HTMLSelectElement`.
  * @param selectElement The {@link HTMLSelectElement}.
  * @param listInstance The {@link CMSList} instance.
- * @param originalItemsOrder The stored original order of the items.
  */
-export const initHTMLSelect = async (
-  selectElement: HTMLSelectElement,
-  listInstance: CMSList,
-  // TODO: cmscore 1.4.0 introduces its own originalItemsOrder management.
-  originalItemsOrder: CMSItem[]
-) => {
+export const initHTMLSelect = async (selectElement: HTMLSelectElement, listInstance: CMSList) => {
   // Prevent submit events on the form
   const form = selectElement.closest('form');
   form?.addEventListener('submit', handleFormSubmit);
@@ -29,7 +23,7 @@ export const initHTMLSelect = async (
    * In that case, the rendering responsibilities are handled by another controller.
    */
   const sortItems: SortItemsCallback = async (addingItems) => {
-    await sortListItems(listInstance, { originalItemsOrder, direction, sortKey, addingItems });
+    await sortListItems(listInstance, { direction, sortKey, addingItems });
   };
 
   // Store the original CMS Order
