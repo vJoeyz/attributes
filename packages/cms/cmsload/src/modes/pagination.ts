@@ -15,7 +15,7 @@ const { paginationNext: paginationNextCSSClass, paginationPrevious: paginationPr
  * Inits the `Paginate` mode.
  * @param listInstance The {@link CMSList} instance.
  */
-export const initPaginateMode = async (listInstance: CMSList): Promise<void> => {
+export const initPaginationMode = async (listInstance: CMSList): Promise<void> => {
   const settingsData = getPaginationSettings(listInstance);
   if (!settingsData) return;
 

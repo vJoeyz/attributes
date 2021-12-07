@@ -3,7 +3,7 @@ import { addItemsAnimation, addListAnimation } from '$cms/utils/animation';
 import { ATTRIBUTES, queryElement } from './utils/constants';
 import { initRenderAllMode } from './modes/render-all';
 import { initInfiniteMode } from './modes/infinite';
-import { initPaginateMode } from './modes/paginate';
+import { initPaginationMode } from './modes/pagination';
 import { initDefaultMode } from './modes/default';
 
 import type { CMSList } from '$cms/cmscore/src';
@@ -81,7 +81,7 @@ export const initLoadInstance = async (listInstance: CMSList) => {
 
   if (mode === renderAll) await initRenderAllMode(listInstance);
   else if (mode === infinite) initInfiniteMode(listInstance);
-  else if (mode === pagination) await initPaginateMode(listInstance);
+  else if (mode === pagination) await initPaginationMode(listInstance);
   else initDefaultMode(listInstance);
 
   return listInstance;
