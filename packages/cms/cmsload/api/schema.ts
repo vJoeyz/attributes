@@ -21,15 +21,17 @@ import {
 import type { AttributeSchema } from '$utils/types/schema';
 
 export const schema: AttributeSchema = {
-  elements: {
-    [LIST_ELEMENT_KEY]: {
+  elements: [
+    {
+      key: LIST_ELEMENT_KEY,
       description: 'Defines the list to load more items.',
       required: true,
       appliedTo: [`.${CMS_CSS_CLASSES.wrapper}`, `.${CMS_CSS_CLASSES.list}`],
       requiresInstance: true,
       conditions: [],
     },
-    [LOADER_ELEMENT_KEY]: {
+    {
+      key: LOADER_ELEMENT_KEY,
       description: 'Defines an element that will be displayed while the library is loading items in the background.',
       required: false,
       appliedTo: [],
@@ -41,7 +43,8 @@ export const schema: AttributeSchema = {
         },
       ],
     },
-    [ITEMS_COUNT_ELEMENT_KEY]: {
+    {
+      key: ITEMS_COUNT_ELEMENT_KEY,
       description: 'Defines an element where to display the total items of the list.',
       required: false,
       appliedTo: [],
@@ -53,7 +56,8 @@ export const schema: AttributeSchema = {
         },
       ],
     },
-    [SCROLL_ANCHOR_ELEMENT_KEY]: {
+    {
+      key: SCROLL_ANCHOR_ELEMENT_KEY,
       description: 'Defines an element where to scroll the view every time a page in `Pagination` mode is switched.',
       required: false,
       appliedTo: [],
@@ -65,7 +69,8 @@ export const schema: AttributeSchema = {
         },
       ],
     },
-    [PAGE_BUTTON_ELEMENT_KEY]: {
+    {
+      key: PAGE_BUTTON_ELEMENT_KEY,
       description: 'Defines the template element to generate all page buttons for the `Pagination` mode.',
       required: false,
       appliedTo: [],
@@ -81,7 +86,8 @@ export const schema: AttributeSchema = {
         },
       ],
     },
-    [PAGE_DOTS_ELEMENT_KEY]: {
+    {
+      key: PAGE_DOTS_ELEMENT_KEY,
       description: 'Defines the template element to create the page dots separators.',
       required: false,
       appliedTo: [],
@@ -97,10 +103,10 @@ export const schema: AttributeSchema = {
         },
       ],
     },
-  },
-
-  settings: {
-    [MODE_SETTING_KEY]: {
+  ],
+  settings: [
+    {
+      key: MODE_SETTING_KEY,
       description: 'Defines the loading mode.',
       appliedTo: {
         elements: [LIST_ELEMENT_KEY],
@@ -131,8 +137,8 @@ export const schema: AttributeSchema = {
       },
       conditions: [],
     },
-
-    [THRESHOLD_SETTING_KEY]: {
+    {
+      key: THRESHOLD_SETTING_KEY,
       description: 'Defines when new items will load when the user scrolls',
       appliedTo: {
         elements: [LIST_ELEMENT_KEY],
@@ -154,8 +160,8 @@ export const schema: AttributeSchema = {
         },
       ],
     },
-
-    [PAGE_SIBLINGS_SETTING_KEY]: {
+    {
+      key: PAGE_SIBLINGS_SETTING_KEY,
       description:
         'Defines the amount of digits to display either side of the current page. It can be a comma-separated string listing the values in a `Desktop, Tablet, Landscape, Portrait` order.',
       appliedTo: {
@@ -167,8 +173,8 @@ export const schema: AttributeSchema = {
       },
       conditions: [],
     },
-
-    [PAGE_BOUNDARY_SETTING_KEY]: {
+    {
+      key: PAGE_BOUNDARY_SETTING_KEY,
       description:
         'Defines the amount of digits to display at the start and end of a page buttons list. It can be a comma-separated string listing the values in a `Desktop, Tablet, Landscape, Portrait` order.',
       appliedTo: {
@@ -180,8 +186,8 @@ export const schema: AttributeSchema = {
       },
       conditions: [],
     },
-
-    [ANIMATION_SETTING_KEY]: {
+    {
+      key: ANIMATION_SETTING_KEY,
       description: 'Defines the animation to use when appending elements to the list.',
       appliedTo: {
         elements: [LIST_ELEMENT_KEY],
@@ -226,8 +232,8 @@ export const schema: AttributeSchema = {
       },
       conditions: [],
     },
-
-    [EASING_SETTING_KEY]: {
+    {
+      key: EASING_SETTING_KEY,
       description: 'Defines the easing function of the animation.',
       appliedTo: {
         elements: [LIST_ELEMENT_KEY],
@@ -260,8 +266,8 @@ export const schema: AttributeSchema = {
       },
       conditions: [],
     },
-
-    [DURATION_SETTING_KEY]: {
+    {
+      key: DURATION_SETTING_KEY,
       description: 'Defines the duration of the animation in miliseconds.',
       appliedTo: {
         elements: [LIST_ELEMENT_KEY],
@@ -273,8 +279,8 @@ export const schema: AttributeSchema = {
       },
       conditions: [],
     },
-
-    [STAGGER_SETTING_KEY]: {
+    {
+      key: STAGGER_SETTING_KEY,
       description: 'Defines a stagger delay for the items animation in miliseconds.',
       appliedTo: {
         elements: [LIST_ELEMENT_KEY],
@@ -285,8 +291,8 @@ export const schema: AttributeSchema = {
       },
       conditions: [],
     },
-
-    [RESET_IX_SETTING_KEY]: {
+    {
+      key: RESET_IX_SETTING_KEY,
       description:
         "Defines if Webflow's interactions should be restarted after rendering new items. Use it if your Collection List Items use interactions.",
       appliedTo: {
@@ -298,5 +304,5 @@ export const schema: AttributeSchema = {
       },
       conditions: [],
     },
-  },
+  ],
 };

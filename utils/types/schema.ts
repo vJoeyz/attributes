@@ -1,22 +1,17 @@
 export interface AttributeSchema {
-  elements: {
-    /**
-     * Each `ELEMENT_KEY` represents an element reference like `fs-ATTRIBUTE-element="ELEMENT_KEY"`
-     */
-    [ELEMENT_KEY: string]: AttributeElementSchema;
-  };
-  settings: {
-    /**
-     * Each `SETTING_KEY` represents a setting reference like `fs-ATTRIBUTE-SETTING_KEY="SETTING_VALUE"`
-     */
-    [SETTING_KEY: string]: AttributeSettingSchema;
-  };
+  elements: AttributeElementSchema[];
+  settings: AttributeSettingSchema[];
 }
 
 /**
  * Defines the schema for an element attribute (`fs-ATTRIBUTE-element="ELEMENT_KEY"`).
  */
 interface AttributeElementSchema {
+  /**
+   * Represents an element reference like `fs-ATTRIBUTE-element="ELEMENT_KEY"`
+   */
+  key: string;
+
   /**
    * The description of the element.
    */
@@ -77,6 +72,11 @@ type AttributeElementSelectorCondition = AttributeElementCondition & {
  */
 interface AttributeSettingSchema {
   /**
+   * Represents a setting reference like `fs-ATTRIBUTE-SETTING_KEY="SETTING_VALUE"`
+   */
+  key: string;
+
+  /**
    * The description of the setting.
    */
   description: string;
@@ -97,7 +97,7 @@ interface AttributeSettingSchema {
   };
 
   /**
-   * The possible value/values to define.
+   * The possible SETTING_VALUEs to define.
    */
   value: AttributeSettingValuePrimitive | AttributeSettingValueOptions;
 
