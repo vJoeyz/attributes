@@ -2,7 +2,9 @@ import Emittery from 'emittery';
 import { CMSItem } from './CMSItem';
 import { getCollectionElements } from '@finsweet/ts-utils';
 import { getInstanceIndex } from '$utils/attributes';
+import { storePaginationData, setPaginationQueryParams } from './pagination';
 import { renderListItems } from './render';
+import { updateItemsCount } from './items';
 
 import type { Animation } from 'packages/animation/src/types';
 import type { CMSListEvents } from './types';
@@ -30,24 +32,19 @@ export class CMSList extends Emittery<CMSListEvents> {
   public readonly paginationWrapper?: PaginationWrapperElement | null;
 
   /**
-   * The `Next` button.
-   */
-  public readonly paginationNext?: PaginationButtonElement | null;
-
-  /**
    * The `Page Count` element.
    */
   public readonly paginationCount?: PageCountElement | null;
 
   /**
-   * Defines the amount of items per page.
-   */
-  public itemsPerPage: number;
-
-  /**
    * The `Previous` button.
    */
   public paginationPrevious?: PaginationButtonElement | null;
+
+  /**
+   * The `Next` button.
+   */
+  public paginationNext?: PaginationButtonElement | null;
 
   /**
    * An element used as scroll anchor.
@@ -80,9 +77,31 @@ export class CMSList extends Emittery<CMSListEvents> {
   public totalPages: number;
 
   /**
+   * Defines if rendered items should be paginated.
+   */
+  public paginationActive = false;
+
+  /**
    * Defines the current page in `Pagination` mode.
    */
   public currentPage?: number;
+
+  /**
+   * Defines the query key for the paginated pages.
+   * @example '5f7457b3_page'
+   */
+  public pagesQuery?: string;
+
+  /**
+   * Defines an awaitable Promise that resolves once the pagination data (`currentPage` + `pagesQuery`) has been extracted.
+   */
+  public extractingPaginationData?: Promise<void>;
+
+  /**
+   * Defines if the pagination query param should be added to the URL when switching pages.
+   * @example '?5f7457b3_page=1'
+   */
+  public showPaginationQuery = false;
 
   /**
    * An array holding all {@link CMSItem} instances of the list.
@@ -132,6 +151,16 @@ export class CMSList extends Emittery<CMSListEvents> {
   public restartLightbox = false;
 
   /**
+   * Defines the amount of items per page.
+   */
+  public itemsPerPage: number;
+
+  /**
+   * Defines the amount of items per page.
+   */
+  public originalItemsPerPage: number;
+
+  /**
    * A Promise that resolves when the previous rendering task finishes.
    */
   private renderingQueue?: Promise<void>;
@@ -147,7 +176,7 @@ export class CMSList extends Emittery<CMSListEvents> {
      * **Important:** This is not related to the `instanceIndex`, which relates to the number suffix in the attribute:
      * `fs-cmsfilter-element="list-2"` -> `2` is the `instanceIndex`, **not** the `index` of the list on the page.
      */
-    public readonly index?: number
+    public readonly index: number
   ) {
     super();
 
@@ -160,11 +189,12 @@ export class CMSList extends Emittery<CMSListEvents> {
     this.paginationPrevious = getCollectionElements(wrapper, 'previous');
     this.paginationCount = getCollectionElements(wrapper, 'pageCount');
     this.emptyElement = getCollectionElements(wrapper, 'empty');
-
     const collectionItems = getCollectionElements(wrapper, 'items');
 
-    this.itemsPerPage = collectionItems.length;
+    // Pagination
+    this.itemsPerPage = this.originalItemsPerPage = collectionItems.length;
     this.totalPages = 1;
+    storePaginationData(this);
 
     // Items
     const items: CMSItem[] = [];
@@ -180,18 +210,23 @@ export class CMSList extends Emittery<CMSListEvents> {
    * Stores new Collection Items in the instance.
    *
    * @param itemElements The new `Collection Item` elements to store.
+   * @param method Defines the storing method:
+   *
+   * - `unshift`: New items are added to the beginning of the store.
+   * - `push`: New items are added to the end of the store.
+   *
+   *  Defaults to `push`.
    */
-  public async addItems(itemElements: CollectionItemElement[]): Promise<void> {
+  public async addItems(itemElements: CollectionItemElement[], method: 'unshift' | 'push' = 'push'): Promise<void> {
     const { items, list, originalItemsOrder } = this;
 
     if (!list) return;
 
     const newItems = itemElements.map((item) => new CMSItem(item, list));
 
-    items.push(...newItems);
-    originalItemsOrder.push(...newItems);
+    for (const array of [items, originalItemsOrder]) array[method](...newItems);
 
-    this.updateItemsCount();
+    updateItemsCount(this);
 
     await this.emit('shouldnest', newItems);
     await this.emit('shouldcollectprops', newItems);
@@ -273,13 +308,13 @@ export class CMSList extends Emittery<CMSListEvents> {
    *
    * @param targetPage The target page to set.
    *
-   * @param scrollToAnchor Defines if the list should scroll to the anchor element (if existing) when switching pages.
-   * Defaults to `true`.
+   * @param renderItems Defines if the list should be re-render.
+   * If `false`, the rendering responsibilities are handled by another controller.
    *
    * @returns An awaitable Promise that resolves after the list has re-rendered.
    */
-  public async switchPage(targetPage: number, scrollToAnchor = true) {
-    const { currentPage: previousPage } = this;
+  public async switchPage(targetPage: number, renderItems = true) {
+    const { currentPage: previousPage, showPaginationQuery } = this;
 
     if (targetPage === previousPage) return;
 
@@ -287,9 +322,41 @@ export class CMSList extends Emittery<CMSListEvents> {
 
     this.currentPage = targetPage;
 
-    if (scrollToAnchor) this.scrollToAnchor();
+    this.scrollToAnchor();
 
-    if (previousPage) await this.renderItems();
+    if (showPaginationQuery) setPaginationQueryParams(this);
+
+    if (renderItems) await this.renderItems();
+  }
+
+  /**
+   * Inits pagination on the instance.
+   * @param showQuery If `true`, pagination query params will be added to the URL when switching pages.
+   */
+  public initPagination(showQuery?: boolean) {
+    this.paginationActive = true;
+    this.showPaginationQuery = !!showQuery;
+  }
+
+  /**
+   * Adds a missing `PaginationButtonElement` to the list.
+   * @param element A {@link PaginationButtonElement}.
+   * @param elementKey The button element key.
+   */
+  public addPaginationButton(
+    element: PaginationButtonElement,
+    elementKey: 'paginationNext' | 'paginationPrevious',
+    childIndex: number
+  ) {
+    const { paginationWrapper } = this;
+
+    if (!paginationWrapper || this[elementKey] || childIndex < 0) return;
+
+    element.style.display = 'none';
+
+    paginationWrapper.insertBefore(element, paginationWrapper.children[childIndex]);
+
+    this[elementKey] = element;
   }
 
   /**
@@ -308,6 +375,8 @@ export class CMSList extends Emittery<CMSListEvents> {
   }
 
   /**
+   * TODO: Remove this check after `cmscore 1.5.0` has rolled out.
+   *
    * Adds a `Pagination Previous` button to the list.
    * @param element The element to add.
    */
@@ -347,16 +416,7 @@ export class CMSList extends Emittery<CMSListEvents> {
 
     this.itemsCount = element;
 
-    this.updateItemsCount();
-  }
-
-  /**
-   * Updates the `Items Count` element.
-   */
-  public updateItemsCount() {
-    const { itemsCount, items } = this;
-
-    if (itemsCount) itemsCount.textContent = `${items.length}`;
+    updateItemsCount(this);
   }
 
   /**

@@ -17,11 +17,10 @@ type AnchorData = [CMSItem, number, CMSItem | undefined];
  * If not, the list will be animated instead.
  */
 export const renderListItems = async (listInstance: CMSList, addingItems = false) => {
-  const { items, itemsPerPage, currentPage, emptyState: oldEmptyState } = listInstance;
+  const { items, itemsPerPage, paginationActive, currentPage, emptyState: oldEmptyState } = listInstance;
 
   // Collect items and recalculate the total pages
   const validItems: CMSItem[] = [];
-
   const itemsToHide: CMSItem[] = [];
   const itemsToShow: CMSItem[] = [];
 
@@ -32,7 +31,7 @@ export const renderListItems = async (listInstance: CMSList, addingItems = false
     if (valid) {
       validItems.push(item);
 
-      if (!currentPage) {
+      if (!paginationActive || !currentPage) {
         itemsToShow.push(item);
         continue;
       }
