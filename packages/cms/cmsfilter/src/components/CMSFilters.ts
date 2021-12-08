@@ -9,6 +9,7 @@ import { syncFilterKeyResults, updateFilterKeyResults, updateListResults } from 
 import { displayFilterElements } from '../actions/display';
 import { clearFilterData } from '../actions/clear';
 import { importAnimations } from '$utils/import';
+import { checkCMSCoreVersion } from '$cms/utils/versioning';
 
 import type { FormBlockElement } from '@finsweet/ts-utils';
 import type { CMSList } from '$cms/cmscore/src';
@@ -267,7 +268,9 @@ export class CMSFilters {
 
     // Render the items
     if (!addingItems) {
-      if (currentPage) listInstance.currentPage = 1;
+      // TODO: Remove this after `cmscore v1.5.0` has rolled out.
+      if (checkCMSCoreVersion('>=', '1.5.0')) await listInstance.switchPage(1, false);
+      else if (currentPage) listInstance.currentPage = 1;
 
       listInstance.scrollToAnchor();
 
