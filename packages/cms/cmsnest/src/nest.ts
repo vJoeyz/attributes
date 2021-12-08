@@ -38,18 +38,18 @@ export const populateNestedCollections = async (
   const pageCollectionListWrappers = getCollectionListWrappers([getSelector('collection')], page);
 
   // Populate the nested CMS lists only with the correspondent nested items
-  for (const pageCollectionListWrapper of pageCollectionListWrappers) {
-    const pageListInstance = new CMSList(pageCollectionListWrapper);
+  pageCollectionListWrappers.forEach((pageCollectionListWrapper, index) => {
+    const pageListInstance = new CMSList(pageCollectionListWrapper, index);
 
     const collectionId = normalizePropKey(pageListInstance.getAttribute(ATTRIBUTES.collection.key));
-    if (!collectionId) continue;
+    if (!collectionId) return;
 
     const collectionToNest = collectionsToNest.get(collectionId);
     const nestingTarget = nestingTargets.get(collectionId);
-    if (!collectionToNest || !nestingTarget) continue;
+    if (!collectionToNest || !nestingTarget) return;
 
     const nestingTargetParent = nestingTarget.parentElement;
-    if (!nestingTargetParent) continue;
+    if (!nestingTargetParent) return;
 
     const { listInstance, emptyElement } = collectionToNest;
 
@@ -63,7 +63,7 @@ export const populateNestedCollections = async (
       return items;
     }, []);
 
-    if (!itemsToNest.length && !emptyElement) continue;
+    if (!itemsToNest.length && !emptyElement) return;
 
     const newCollectionWrapper = cloneNode(listInstance.wrapper);
     const newCollectionItems = getCollectionElements(newCollectionWrapper, 'items');
@@ -83,5 +83,5 @@ export const populateNestedCollections = async (
 
     nestingTargetParent.insertBefore(newCollectionWrapper, nestingTarget);
     nestingTarget.remove();
-  }
+  });
 };
