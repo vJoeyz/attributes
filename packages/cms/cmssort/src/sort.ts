@@ -1,3 +1,5 @@
+import { checkCMSCoreVersion } from '$cms/utils/versioning';
+
 import type { CMSList } from '$cms/cmscore/src';
 import type { SortingDirection } from './types';
 
@@ -63,7 +65,9 @@ export const sortListItems = async (
 
   // Render the new order
   if (!addingItems) {
-    if (currentPage) listInstance.currentPage = 1;
+    // TODO: Remove this after `cmscore v1.5.0` has rolled out.
+    if (checkCMSCoreVersion('>=', '1.5.0')) await listInstance.switchPage(1, false);
+    else if (currentPage) listInstance.currentPage = 1;
 
     listInstance.scrollToAnchor();
 
