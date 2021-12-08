@@ -51,3 +51,35 @@ export const incrementItemsPerPage = async (
 
   await listInstance.renderItems(true);
 };
+
+/**
+ * Handles the `display` and `href` properties of native pagination buttons (`Previous` & `Next`).
+ * @param listInstance The {@link CMSList} instance.
+ */
+export const handlePaginationButtons = (listInstance: CMSList) => {
+  const { pagesQuery, currentPage, totalPages, paginationNext, paginationPrevious } = listInstance;
+
+  if (!currentPage) return;
+
+  if (paginationPrevious) {
+    paginationPrevious.style.display = currentPage !== 1 ? '' : 'none';
+
+    paginationPrevious.href = `?${pagesQuery}=${currentPage - 1}`;
+  }
+
+  if (paginationNext) {
+    paginationNext.style.display = currentPage !== totalPages ? '' : 'none';
+
+    paginationNext.href = `?${pagesQuery}=${currentPage + 1}`;
+  }
+};
+
+/**
+ * Updates the native `Page Count` element.
+ * @param paginationCount The {@link PageCountElement}.
+ * @param listInstance The {@link CMSList} instance.
+ */
+export const updatePaginationCount = (paginationCount: PageCountElement, { currentPage, totalPages }: CMSList) => {
+  paginationCount.setAttribute('aria-label', `Page ${currentPage} of ${totalPages}`);
+  paginationCount.textContent = `${currentPage} / ${totalPages}`;
+};

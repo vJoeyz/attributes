@@ -2,6 +2,7 @@ import throttle from 'just-throttle';
 import { loadPaginatedItems } from '../actions/load';
 import { getInfiniteThreshold } from '../actions/settings';
 import { incrementItemsPerPage } from '../actions/pagination';
+import { checkCMSCoreVersion } from '$cms/utils/versioning';
 
 import type { CMSList } from '$cms/cmscore/src';
 
@@ -20,7 +21,8 @@ export const initInfiniteMode = async (listInstance: CMSList): Promise<void> => 
 
   if (!list || !paginationNext) return;
 
-  paginationPrevious?.remove();
+  if (paginationPrevious) paginationPrevious.style.display = 'none';
+
   paginationCount?.remove();
 
   const thresholdCoefficient = getInfiniteThreshold(listInstance);
@@ -28,7 +30,9 @@ export const initInfiniteMode = async (listInstance: CMSList): Promise<void> => 
   let isLoading = true;
   let isHandling = false;
 
-  listInstance.currentPage = 1;
+  // TODO: Remove this check after one week
+  if (checkCMSCoreVersion('>=', '1.5.0')) listInstance.initPagination();
+  else listInstance.currentPage = 1;
 
   listInstance.on('renderitems', () => {
     const { validItems, items, itemsPerPage: currentItemsPerPage } = listInstance;
@@ -84,7 +88,7 @@ export const initInfiniteMode = async (listInstance: CMSList): Promise<void> => 
   const conclude = () => {
     window.removeEventListener('scroll', handleScroll);
     paginationNext.removeEventListener('click', handleClicks);
-    paginationNext.remove();
+    paginationNext.style.display = 'none';
     observer.disconnect();
   };
 

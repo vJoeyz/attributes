@@ -1,7 +1,11 @@
 import { parseLoadedPage } from './parse';
 import { readPaginationCount } from './pagination';
+import { extractPaginationQuery } from '$cms/utils/pagination';
+import { checkCMSCoreVersion } from '$cms/utils/versioning';
+import { fetchPageDocument } from '$cms/utils/fetch';
 
 import type { CMSList } from '$cms/cmscore/src';
+import type { PaginationButtonElement } from '@finsweet/ts-utils';
 
 /**
  * Loads all paginated items of a `CMSList` instance.
@@ -10,9 +14,11 @@ import type { CMSList } from '$cms/cmscore/src';
  * @returns Nothing, it mutates the `CMSList` instance.
  */
 export const loadPaginatedItems = async (listInstance: CMSList): Promise<void> => {
-  const { index, paginationNext, paginationCount } = listInstance;
+  const { paginationNext, paginationPrevious, paginationCount, extractingPaginationData } = listInstance;
 
-  if (!paginationNext || typeof index !== 'number') return;
+  if (!paginationNext && !paginationPrevious) return;
+
+  await extractingPaginationData;
 
   const totalPages = paginationCount ? readPaginationCount(paginationCount) : undefined;
 
@@ -27,16 +33,6 @@ export const loadPaginatedItems = async (listInstance: CMSList): Promise<void> =
 };
 
 /**
- * Fetches a page as raw `text/html`.
- * @param href The page URL.
- * @returns A string Promise.
- */
-const fetchRawPage = async (href: string) => {
-  const response = await fetch(href);
-  return response.text();
-};
-
-/**
  * Collects Collection Items from a Collection List's pagination.
  * Loads all pages in a chained sequence until there are no more valid pages to load.
  *
@@ -45,9 +41,11 @@ const fetchRawPage = async (href: string) => {
  * @returns Nothing, it mutates the `CMSList` instance.
  */
 const chainedPagesLoad = async (listInstance: CMSList): Promise<void> => {
-  const { index, paginationNext } = listInstance;
+  const { paginationNext, currentPage } = listInstance;
 
-  if (!paginationNext || typeof index !== 'number') return;
+  if (currentPage && checkCMSCoreVersion('>=', '1.5.0')) await parallelItemsLoad(listInstance, currentPage);
+
+  if (!paginationNext) return;
 
   const { href } = paginationNext;
   const pageLinks: string[] = [href];
@@ -59,10 +57,10 @@ const chainedPagesLoad = async (listInstance: CMSList): Promise<void> => {
   const loadPage = async (href: string) => {
     try {
       // Fetch the page
-      const rawPage = await fetchRawPage(href);
+      const page = await fetchPageDocument(href);
 
       // Check for recursion (action: `all`)
-      const nextPageURL = await parseLoadedPage(rawPage, listInstance);
+      const nextPageURL = await parseLoadedPage(page, listInstance);
 
       if (!nextPageURL || pageLinks.includes(nextPageURL)) return;
 
@@ -86,41 +84,51 @@ const chainedPagesLoad = async (listInstance: CMSList): Promise<void> => {
  * @returns Nothing, it mutates the `CMSList` instance.
  */
 const parallelItemsLoad = async (listInstance: CMSList, totalPages: number) => {
-  const { paginationNext, index } = listInstance;
+  const { paginationNext, paginationPrevious } = listInstance;
 
-  if (!paginationNext || typeof index !== 'number') return;
+  if (!paginationNext && !paginationPrevious) return;
 
-  const { href } = paginationNext;
+  let pagesQuery: string | undefined;
+  let currentPage: number | undefined;
 
-  const { origin, pathname, searchParams } = new URL(href);
+  // TODO: Remove this check after `cmscore 1.5.0` has rolled out.
+  if (checkCMSCoreVersion('>=', '1.5.0')) ({ pagesQuery, currentPage } = listInstance);
+  else {
+    const paginationQuery = extractPaginationQuery((paginationNext || paginationPrevious) as PaginationButtonElement);
+    if (!paginationQuery) return;
 
-  const [pageEntry] = [...searchParams.entries()];
-  if (!pageEntry) return;
+    [pagesQuery] = paginationQuery;
+    currentPage = paginationNext ? paginationQuery[1] - 1 : paginationQuery[1] + 1;
+  }
 
-  const [pageQuery, rawNextPageNumber] = pageEntry;
+  if (!pagesQuery || !currentPage) return;
 
-  const nextPageNumber = parseInt(rawNextPageNumber);
-  const currentPageNumber = nextPageNumber - 1;
+  const { origin, pathname } = window.location;
 
-  if (!currentPageNumber) return;
+  // Previous Pages
+  for (let pageNumber = currentPage - 1; pageNumber >= 1; pageNumber--) {
+    try {
+      const page = await fetchPageDocument(`${origin}${pathname}?${pagesQuery}=${pageNumber}`);
 
+      await parseLoadedPage(page, listInstance, 'unshift');
+    } catch (error) {
+      return;
+    }
+  }
+
+  // Next Pages
   const fetchPromises: Promise<void>[] = [];
 
-  for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
+  for (let pageNumber = currentPage + 1; pageNumber <= totalPages; pageNumber++) {
     fetchPromises[pageNumber] = (async () => {
       const previousPromise = fetchPromises[pageNumber - 1];
 
-      if (pageNumber === currentPageNumber) {
-        await previousPromise;
-        return;
-      }
-
       try {
-        const rawPage = await fetchRawPage(`${origin}${pathname}?${pageQuery}=${pageNumber}`);
+        const page = await fetchPageDocument(`${origin}${pathname}?${pagesQuery}=${pageNumber}`);
 
         await previousPromise;
 
-        await parseLoadedPage(rawPage, listInstance);
+        await parseLoadedPage(page, listInstance);
       } catch (error) {
         await previousPromise;
         return;

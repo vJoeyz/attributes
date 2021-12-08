@@ -1,5 +1,6 @@
 import { loadPaginatedItems } from '../actions/load';
 import { incrementItemsPerPage } from '../actions/pagination';
+import { checkCMSCoreVersion } from '$cms/utils/versioning';
 
 import type { CMSList } from '$cms/cmscore/src';
 
@@ -9,15 +10,19 @@ import type { CMSList } from '$cms/cmscore/src';
  */
 export const initDefaultMode = async (listInstance: CMSList): Promise<void> => {
   const { paginationNext, paginationPrevious, paginationCount, itemsPerPage: originalItemsPerPage } = listInstance;
+
   if (!paginationNext) return;
 
+  if (paginationPrevious) paginationPrevious.style.display = 'none';
+
   paginationCount?.remove();
-  paginationPrevious?.remove();
 
   let isLoading = true;
   let isHandling = false;
 
-  listInstance.currentPage = 1;
+  // TODO: Remove this check after one week
+  if (checkCMSCoreVersion('>=', '1.5.0')) listInstance.initPagination();
+  else listInstance.currentPage = 1;
 
   listInstance.on('renderitems', () => {
     const { validItems, items, itemsPerPage: currentItemsPerPage } = listInstance;
@@ -51,7 +56,7 @@ export const initDefaultMode = async (listInstance: CMSList): Promise<void> => {
    */
   const conclude = () => {
     paginationNext.removeEventListener('click', handleClicks);
-    paginationNext.remove();
+    paginationNext.style.display = 'none';
   };
 
   // Init

@@ -1,35 +1,58 @@
 import { getCollectionElements, getCollectionListWrappers } from '@finsweet/ts-utils';
+import { checkCMSCoreVersion } from '$cms/utils/versioning';
 
 import type { CMSList } from '$cms/cmscore/src';
 
-/**
- * DOM Parser to parse `HTML` strings.
- */
-const domParser = new DOMParser();
-
-export const parseLoadedPage = async (rawPage: string, listInstance: CMSList) => {
-  const { index, paginationPrevious } = listInstance;
-
-  if (typeof index !== 'number') return;
-
-  const page = domParser.parseFromString(rawPage, 'text/html');
+export const parseLoadedPage = async (
+  page: Document,
+  listInstance: CMSList,
+  itemsTarget?: Parameters<CMSList['addItems']>[1]
+) => {
+  const { index, paginationNext, paginationPrevious, originalItemsPerPage } = listInstance;
 
   // Get DOM Elements
   const collectionListWrapper = getCollectionListWrappers([], page)[index];
   if (!collectionListWrapper) return;
 
   // Store and mount the Pagination Previous element, if required
-  if (!paginationPrevious) {
+  if (!paginationPrevious || !paginationNext) {
+    const newPaginationWrapper = getCollectionElements(collectionListWrapper, 'pagination');
     const newPaginationPrevious = getCollectionElements(collectionListWrapper, 'previous');
+    const newPaginationNext = getCollectionElements(collectionListWrapper, 'next');
 
-    if (newPaginationPrevious) listInstance.addPaginationPrevious(newPaginationPrevious);
+    if (newPaginationPrevious) {
+      // TODO: Remove this check after `cmscore v1.5.0` has rolled out
+      if (checkCMSCoreVersion('>=', '1.5.0')) {
+        const childIndex = [...(newPaginationWrapper?.children || [])].indexOf(newPaginationPrevious);
+
+        listInstance.addPaginationButton(newPaginationPrevious, 'paginationPrevious', childIndex);
+      } else listInstance.addPaginationPrevious(newPaginationPrevious);
+    }
+
+    if (newPaginationNext) {
+      // TODO: Remove this check after `cmscore v1.5.0` has rolled out
+      if (checkCMSCoreVersion('>=', '1.5.0')) {
+        let childIndex = [...(newPaginationWrapper?.children || [])].indexOf(newPaginationNext);
+
+        if (!newPaginationPrevious) childIndex += 1;
+
+        listInstance.addPaginationButton(newPaginationNext, 'paginationNext', childIndex);
+      }
+    }
   }
 
   // Store and mount the new items
   const nextPageURL = getCollectionElements(collectionListWrapper, 'next')?.href;
   const collectionItems = getCollectionElements(collectionListWrapper, 'items');
 
-  await listInstance.addItems(collectionItems);
+  const { length: itemsLength } = collectionItems;
+
+  // Make sure the itemsPerPage value is correct
+  if (nextPageURL && originalItemsPerPage !== itemsLength) {
+    listInstance.originalItemsPerPage = listInstance.itemsPerPage = itemsLength;
+  }
+
+  await listInstance.addItems(collectionItems, itemsTarget);
 
   return nextPageURL;
 };

@@ -16,6 +16,7 @@ const {
   pageSiblings: { key: pageSiblingsKey },
   pageBoundary: { key: pageBoundaryKey },
   threshold: { key: thresholdKey },
+  showQuery: { key: showQueryKey, values: showQueryValues },
 } = ATTRIBUTES;
 
 /**
@@ -35,17 +36,20 @@ export const getPaginationSettings = (
       pageSiblings: number;
       pageSiblingsValues: number[];
       hasBreakpoints: boolean;
+      showQueryParams: boolean;
     }
   | undefined => {
   const { paginationWrapper, paginationCount } = listInstance;
 
   if (!paginationWrapper) return;
 
+  // Page Button Template
   const pageButtonTemplate = queryElement<HTMLElement>('pageButton', {
     operator: 'prefixed',
     scope: paginationWrapper,
   });
 
+  // Page Dots Template
   let pageDotsTemplate = queryElement<HTMLElement>('pageDots', { operator: 'prefixed', scope: paginationWrapper });
 
   if (pageDotsTemplate) pageDotsTemplate.remove();
@@ -54,20 +58,25 @@ export const getPaginationSettings = (
     pageDotsTemplate.textContent = '...';
   }
 
+  // Page Boundary
   const rawPageBoundaryValues = listInstance.getAttribute(pageBoundaryKey);
-  const rawPageSiblingsValues = listInstance.getAttribute(pageSiblingsKey);
-
   const pageBoundaryValues = (rawPageBoundaryValues ? extractCommaSeparatedValues(rawPageBoundaryValues) : []).map(
     (value) => parseInt(value)
   );
 
+  // Page Siblings
+  const rawPageSiblingsValues = listInstance.getAttribute(pageSiblingsKey);
   const pageSiblingsValues = (rawPageSiblingsValues ? extractCommaSeparatedValues(rawPageSiblingsValues) : []).map(
     (value) => parseInt(value)
   );
 
+  // Breakpoints for Page Boundary/Siblings
   const [pageBoundary, pageSiblings] = getPageButtonsSettings(pageBoundaryValues, pageSiblingsValues);
 
   const hasBreakpoints = [pageBoundaryValues, pageSiblingsValues].some(({ length }) => length > 1);
+
+  // Query Params
+  const showQueryParams = listInstance.getAttribute(showQueryKey) === showQueryValues.true;
 
   return {
     paginationWrapper,
@@ -79,6 +88,7 @@ export const getPaginationSettings = (
     pageSiblings,
     pageSiblingsValues,
     hasBreakpoints,
+    showQueryParams,
   };
 };
 

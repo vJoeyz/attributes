@@ -45,6 +45,8 @@ export const DURATION_SETTING_KEY = 'duration';
 export const STAGGER_SETTING_KEY = 'stagger';
 export const RESET_IX_SETTING_KEY = 'resetix';
 export const RESET_IX_SETTING_VALUES = { true: 'true' } as const;
+export const SHOW_QUERY_SETTING_KEY = 'showquery';
+export const SHOW_QUERY_SETTING_VALUES = { true: 'true' } as const;
 
 export const ATTRIBUTES = {
   element: {
@@ -138,6 +140,12 @@ export const ATTRIBUTES = {
    * Defines if Webflow should be restarted after loading new items.
    */
   resetIx: { key: `${ATTRIBUTES_PREFIX}-${RESET_IX_SETTING_KEY}`, values: RESET_IX_SETTING_VALUES },
+
+  /**
+   * Defines if the pagination query params should be displayed on the URL.
+   * Only works with {@link MODE_SETTING_VALUES.pagination} mode.
+   */
+  showQuery: { key: `${ATTRIBUTES_PREFIX}-${SHOW_QUERY_SETTING_KEY}`, values: SHOW_QUERY_SETTING_VALUES },
 } as const;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

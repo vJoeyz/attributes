@@ -14,6 +14,7 @@ import {
   PAGE_SIBLINGS_SETTING_KEY,
   RESET_IX_SETTING_KEY,
   SCROLL_ANCHOR_ELEMENT_KEY,
+  SHOW_QUERY_SETTING_KEY,
   STAGGER_SETTING_KEY,
   THRESHOLD_SETTING_KEY,
 } from '../src/utils/constants';
@@ -298,11 +299,32 @@ export const schema: AttributeSchema = {
       appliedTo: {
         elements: [LIST_ELEMENT_KEY],
       },
-
       value: {
         type: 'boolean',
       },
       conditions: [],
+    },
+    {
+      key: SHOW_QUERY_SETTING_KEY,
+      description: 'Defines if the pagination query params should be displayed on the URL.',
+      appliedTo: {
+        elements: [LIST_ELEMENT_KEY],
+      },
+      value: {
+        type: 'boolean',
+      },
+      conditions: [
+        {
+          type: 'settings',
+          element: LIST_ELEMENT_KEY,
+          settings: [
+            {
+              key: MODE_SETTING_KEY,
+              value: MODE_SETTING_VALUES.pagination,
+            },
+          ],
+        },
+      ],
     },
   ],
 };

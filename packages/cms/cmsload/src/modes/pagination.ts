@@ -2,9 +2,10 @@ import debounce from 'just-debounce';
 import { loadPaginatedItems } from '../actions/load';
 import { getPaginationSettings, getPageButtonsSettings } from '../actions/settings';
 import { cloneNode, CMS_CSS_CLASSES, CURRENT_CSS_CLASS, isNotEmpty } from '@finsweet/ts-utils';
+import { handlePaginationButtons, updatePaginationCount } from '../actions/pagination';
+import { checkCMSCoreVersion } from '$cms/utils/versioning';
 import { getSelector } from '../utils/constants';
 
-import type { PageCountElement } from '@finsweet/ts-utils';
 import type { CMSList } from '$cms/cmscore/src';
 import type { PageButtonsData } from '../utils/types';
 
@@ -29,12 +30,15 @@ export const initPaginationMode = async (listInstance: CMSList): Promise<void> =
     pageSiblings,
     pageSiblingsValues,
     hasBreakpoints,
+    showQueryParams,
   } = settingsData;
 
   let pageButtonsData: PageButtonsData | undefined;
 
   if (pageButtonTemplate) {
     const { parentElement } = pageButtonTemplate;
+
+    pageButtonTemplate.remove();
 
     if (parentElement) {
       pageButtonsData = {
@@ -43,13 +47,15 @@ export const initPaginationMode = async (listInstance: CMSList): Promise<void> =
         pageDotsTemplate,
         pageBoundary,
         pageSiblings,
-        renderedElements: new Map([[pageButtonTemplate, 1]]),
+        renderedElements: new Map([]),
       };
     }
   }
 
   // Set initial state
-  await listInstance.switchPage(1, false);
+  // TODO: Remove this check after one week
+  if (checkCMSCoreVersion('>=', '1.5.0')) listInstance.initPagination(showQueryParams);
+  else await listInstance.switchPage(1, false);
 
   //  Listen events
   listInstance.on('renderitems', () => handleElements(listInstance, pageButtonsData, paginationCount));
@@ -151,7 +157,7 @@ const handlePageButtons = (pageButtonsData: PageButtonsData, listInstance: CMSLi
       existingElement?.remove();
 
       // Add the new item
-      newElement = createPageElement(pageButtonsData, targetPage);
+      newElement = createPageElement(pageButtonsData, targetPage, listInstance);
       existingElements[index - 1] = [newElement, targetPage];
 
       if (lastElement) parentElement.insertBefore(newElement, lastElement.nextSibling);
@@ -175,16 +181,21 @@ const handlePageButtons = (pageButtonsData: PageButtonsData, listInstance: CMSLi
  * Creates a new page element.
  * @param pageButtonsData The {@link PageButtonsData} object.
  * @param targetPage The page where it will point to. If no target page is defined, a `Page Dots` element will be returned.
+ * @param listInstance The {@link CMSList} instance.
  * @returns The new element.
  */
-const createPageElement = ({ pageButtonTemplate, pageDotsTemplate }: PageButtonsData, targetPage: number | null) => {
-  let newElement: HTMLElement;
+const createPageElement = (
+  { pageButtonTemplate, pageDotsTemplate }: PageButtonsData,
+  targetPage: number | null,
+  { pagesQuery }: CMSList
+) => {
+  if (!targetPage) return cloneNode(pageDotsTemplate);
 
-  if (targetPage) {
-    newElement = cloneNode(pageButtonTemplate);
-    newElement.classList.remove(CURRENT_CSS_CLASS);
-    newElement.textContent = `${targetPage}`;
-  } else newElement = cloneNode(pageDotsTemplate);
+  const newElement = cloneNode(pageButtonTemplate);
+  newElement.classList.remove(CURRENT_CSS_CLASS);
+  newElement.textContent = `${targetPage}`;
+
+  if (newElement instanceof HTMLAnchorElement && pagesQuery) newElement.href = `?${pagesQuery}=${targetPage}`;
 
   return newElement;
 };
@@ -202,27 +213,6 @@ const updatePageElement = (element: HTMLElement, isCurrentPage: boolean) => {
     element.classList.remove(CURRENT_CSS_CLASS);
     element.removeAttribute('aria-current');
   }
-};
-
-/**
- * Handles the native pagination buttons (`Previous` & `Next`).
- * @param listInstance The {@link CMSList} instance.
- */
-const handlePaginationButtons = (listInstance: CMSList) => {
-  const { currentPage, totalPages } = listInstance;
-
-  listInstance.displayElement('paginationPrevious', currentPage !== 1, false);
-  listInstance.displayElement('paginationNext', currentPage !== totalPages, false);
-};
-
-/**
- * Updates the native `Page Count` element.
- * @param paginationCount The {@link PageCountElement}.
- * @param listInstance The {@link CMSList} instance.
- */
-const updatePaginationCount = (paginationCount: PageCountElement, { currentPage, totalPages }: CMSList) => {
-  paginationCount.setAttribute('aria-label', `Page ${currentPage} of ${totalPages}`);
-  paginationCount.textContent = `${currentPage} / ${totalPages}`;
 };
 
 /**

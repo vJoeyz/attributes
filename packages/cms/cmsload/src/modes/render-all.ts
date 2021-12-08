@@ -12,8 +12,10 @@ export const initRenderAllMode = async (listInstance: CMSList): Promise<void> =>
 
   if (!paginationNext) return;
 
-  paginationNext.remove();
-  paginationPrevious?.remove();
+  paginationNext.style.display = 'none';
+
+  if (paginationPrevious) paginationPrevious.style.display = 'none';
+
   paginationCount?.remove();
 
   await loadPaginatedItems(listInstance);
