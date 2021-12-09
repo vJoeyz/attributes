@@ -57,6 +57,11 @@ export class CMSList extends Emittery<CMSListEvents> {
   public itemsCount?: HTMLElement;
 
   /**
+   * A custom `Initial State` element.
+   */
+  public initialElement?: HTMLElement | null;
+
+  /**
    * A custom `Empty State` element.
    */
   public emptyElement?: HTMLElement | null;
@@ -287,7 +292,14 @@ export class CMSList extends Emittery<CMSListEvents> {
    * @param animate Defaults to `true`.
    */
   public async displayElement(
-    elementKey: 'list' | 'emptyElement' | 'paginationNext' | 'paginationPrevious' | 'loader',
+    elementKey:
+      | 'wrapper'
+      | 'list'
+      | 'emptyElement'
+      | 'initialElement'
+      | 'paginationNext'
+      | 'paginationPrevious'
+      | 'loader',
     show = true,
     animate = true
   ): Promise<void> {
@@ -300,7 +312,10 @@ export class CMSList extends Emittery<CMSListEvents> {
       const { animateIn, animateOut, options } = listAnimation;
 
       await (show ? animateIn : animateOut)(elementToDisplay, options);
-    } else elementToDisplay.style.display = show ? '' : 'none';
+    } else {
+      elementToDisplay.style.display = show ? '' : 'none';
+      elementToDisplay.style.opacity = show ? '1' : '0';
+    }
   }
 
   /**
