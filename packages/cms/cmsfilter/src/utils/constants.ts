@@ -22,6 +22,11 @@ export const ATTRIBUTES = {
       empty: generateDynamicAttibuteValue('empty'),
 
       /**
+       * Defines an optional Initial State element for when there are no applied filters.
+       */
+      initial: generateDynamicAttibuteValue('initial'),
+
+      /**
        * Defines an element that will display all existing results.
        */
       resultsCount: generateDynamicAttibuteValue('results-count'),

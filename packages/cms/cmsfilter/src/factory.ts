@@ -46,6 +46,10 @@ export const createCMSFiltersInstance = (listInstance: CMSList): CMSFilters | un
   const emptyElement = queryElement<HTMLElement>('empty', { instanceIndex });
   if (emptyElement) listInstance.addEmptyElement(emptyElement);
 
+  // Initial State Element
+  const initialElement = queryElement<HTMLElement>('initial', { instanceIndex });
+  if (initialElement) listInstance.initialElement = initialElement;
+
   // Scroll Anchor Element
   if (!listInstance.scrollAnchor) {
     const scrollAnchor = queryElement<HTMLElement>('scrollAnchor', { instanceIndex });

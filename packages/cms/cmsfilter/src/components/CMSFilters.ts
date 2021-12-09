@@ -85,7 +85,7 @@ export class CMSFilters {
   /**
    * Defines if any filter is currently active.
    */
-  private filtersActive = false;
+  private filtersActive?: boolean;
 
   /**
    * Defines if the submit button is visible.
@@ -240,6 +240,27 @@ export class CMSFilters {
   }
 
   /**
+   * Toggles the {@link CMSFilters.filtersActive} state.
+   * If the {@link CMSList.initialElement} is defined, it toggles its visibility accordingly.
+   *
+   * @param filtersAreEmpty `true` if there are currently no filters to apply.
+   * @returns An awaitable Promise.
+   */
+  private async toggleFiltersState(filtersAreEmpty: boolean) {
+    const { listInstance, filtersActive } = this;
+
+    const newActiveState = !filtersAreEmpty;
+    if (filtersActive === newActiveState) return;
+
+    this.filtersActive = newActiveState;
+
+    if (!listInstance.initialElement) return;
+
+    await listInstance.displayElement(newActiveState ? 'initialElement' : 'wrapper', false, false);
+    await listInstance.displayElement(newActiveState ? 'wrapper' : 'initialElement', true, filtersActive !== undefined);
+  }
+
+  /**
    * Mutates each `CMSItem`'s state to define if it should be displayed or not.
    *
    * @param addingItems Defines if new items are being added.
@@ -257,9 +278,10 @@ export class CMSFilters {
     // Abort if no filtering is needed
     const filtersAreEmpty = filtersData.every(({ values }) => !values.size);
 
-    if (filtersAreEmpty && !filtersActive) return;
-
-    this.filtersActive = !filtersAreEmpty;
+    if (filtersAreEmpty && !filtersActive) {
+      await this.toggleFiltersState(filtersAreEmpty);
+      return;
+    }
 
     // Define show/hide of each item based on the match
     for (const item of items) {
@@ -278,7 +300,15 @@ export class CMSFilters {
 
       await Promise.all([
         // Render items
-        listInstance.renderItems(),
+        (async () => {
+          if (filtersAreEmpty) {
+            await this.toggleFiltersState(filtersAreEmpty);
+            await listInstance.renderItems(true);
+          } else {
+            await listInstance.renderItems(true);
+            await this.toggleFiltersState(filtersAreEmpty);
+          }
+        })(),
 
         // Sync the `CMSTags`
         (async () => {
