@@ -1,7 +1,9 @@
-import ClipboardJS from 'clipboard';
 import { findTextNode } from '@finsweet/ts-utils';
 import { ATTRIBUTES, DEFAULT_SUCCESS_DURATION, DEFAULT_SUCCESS_CSS_CLASS, getSelector } from './constants';
 import { getInstanceIndex } from '$utils/attributes';
+import { createClipboardJsInstance } from './factory';
+
+import type ClipboardJS from 'clipboard';
 
 // Constants destructuring
 const {
@@ -109,64 +111,4 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): Clipboard
   }
 
   return destroyCallbacks;
-};
-
-/**
- * Creates a new `ClipboardJS` instance.
- * @param params
- * @returns The `destroy` method.
- */
-const createClipboardJsInstance = ({
-  trigger,
-  textToCopy,
-  target,
-  textNode,
-  originalText,
-  successMessage,
-  successDuration,
-  successClass,
-}: {
-  trigger: HTMLElement;
-  textToCopy?: string | null;
-  target?: Element | null;
-  textNode?: ChildNode;
-  originalText?: string | null;
-  successMessage?: string | null;
-  successDuration: number;
-  successClass: string;
-}) => {
-  const options: ClipboardJS.Options = {};
-
-  if (textToCopy) options.text = () => textToCopy;
-  else if (target) options.target = () => target;
-  else options.text = () => trigger.textContent || '';
-
-  const clipboard = new ClipboardJS(trigger, options);
-
-  let successState = false;
-
-  // Clear selection after copy
-  clipboard.on('success', (event: ClipboardJS.Event) => {
-    event.clearSelection();
-
-    if (successState) return;
-
-    successState = true;
-
-    // Add the success CSS class
-    trigger.classList.add(successClass);
-
-    // Add the success message
-    if (textNode && successMessage) textNode.textContent = successMessage;
-
-    // Reset after duration
-    setTimeout(() => {
-      trigger.classList.remove(successClass);
-      if (textNode) textNode.textContent = originalText || '';
-
-      successState = false;
-    }, successDuration);
-  });
-
-  return clipboard.destroy;
 };
