@@ -1,0 +1,28 @@
+import { ARIA_SELECTED_KEY } from '$utils/a11ty';
+import { CURRENT_CSS_CLASS } from '@finsweet/ts-utils';
+import { populateLabel } from './populate';
+
+import type { OptionData, Settings } from '../utils/types';
+
+/**
+ * Sets the selected state to an option and removes it from a previous one, if existing.
+ * @param settings The instance {@link Settings}.
+ * @param selectedOption The selected {@link OptionData}, if existing.
+ */
+export const updateOptionsState = (settings: Settings, selectedOption?: OptionData) => {
+  const { optionsStore } = settings;
+
+  for (const optionData of optionsStore) {
+    const { element } = optionData;
+
+    const selected = element === selectedOption?.element;
+
+    optionData.selected = selected;
+    element.classList[selected ? 'add' : 'remove'](CURRENT_CSS_CLASS);
+
+    if (selected) element.setAttribute(ARIA_SELECTED_KEY, 'true');
+    else element.removeAttribute(ARIA_SELECTED_KEY);
+  }
+
+  if (selectedOption) populateLabel(settings, selectedOption);
+};
