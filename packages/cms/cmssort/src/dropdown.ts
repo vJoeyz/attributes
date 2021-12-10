@@ -1,7 +1,15 @@
-import { CURRENT_CSS_CLASS, Debug, DROPDOWN_CSS_CLASSES, simulateEvent } from '@finsweet/ts-utils';
+import { CURRENT_CSS_CLASS, Debug, DROPDOWN_CSS_CLASSES } from '@finsweet/ts-utils';
 import { ATTRIBUTES, queryElement } from './constants';
 import { normalizePropKey } from '$cms/utils/props';
+import { closeDropdown } from '$cms/utils/dropdown';
 import { sortListItems } from './sort';
+import {
+  ARIA_HASPOPUP_KEY,
+  ARIA_MULTISELECTABLE_KEY,
+  ARIA_ROLE_KEY,
+  ARIA_ROLE_VALUES,
+  ARIA_SELECTED_KEY,
+} from '$utils/a11ty';
 
 import type { CMSList } from '$cms/cmscore/src';
 import type { Dropdown, DropdownToggle, DropdownList } from '@finsweet/ts-utils';
@@ -107,7 +115,7 @@ const collectDropdownOptions = (dropdownList: DropdownList) => {
   if (!options.length) return;
 
   for (const element of options) {
-    element.setAttribute('role', 'option');
+    element.setAttribute(ARIA_ROLE_KEY, ARIA_ROLE_VALUES.option);
 
     const fieldKey = element.getAttribute(ATTRIBUTES.field.key);
 
@@ -167,9 +175,9 @@ const collectDropdownLabelData = (dropdownToggle: DropdownToggle): DropdownLabel
  * @param dropdownList The {@link DropdownList} element.
  */
 const setDropdownAria = (dropdownToggle: DropdownToggle, dropdownList: DropdownList) => {
-  dropdownToggle.setAttribute('aria-haspopup', 'listbox');
-  dropdownList.setAttribute('role', 'listbox');
-  dropdownList.setAttribute('aria-multiselectable', 'false');
+  dropdownToggle.setAttribute(ARIA_HASPOPUP_KEY, ARIA_ROLE_VALUES.listbox);
+  dropdownList.setAttribute(ARIA_ROLE_KEY, ARIA_ROLE_VALUES.listbox);
+  dropdownList.setAttribute(ARIA_MULTISELECTABLE_KEY, 'false');
 };
 
 /**
@@ -179,21 +187,12 @@ const setDropdownAria = (dropdownToggle: DropdownToggle, dropdownList: DropdownL
 const updateOptionsState = (dropdownOptions: DropdownOptions) => {
   for (const { element, selected } of dropdownOptions) {
     if (selected) {
-      element.setAttribute('aria-selected', 'true');
+      element.setAttribute(ARIA_SELECTED_KEY, 'true');
       element.classList.add(CURRENT_CSS_CLASS);
       continue;
     }
 
-    element.removeAttribute('aria-selected');
+    element.removeAttribute(ARIA_SELECTED_KEY);
     element.classList.remove(CURRENT_CSS_CLASS);
   }
-};
-
-/**
- * Closes the dropdown.
- * @param dropdownToggle A {@link DropdownToggle} element.
- */
-const closeDropdown = (dropdownToggle: DropdownToggle) => {
-  simulateEvent(dropdownToggle, 'mouseup');
-  dropdownToggle.focus();
 };
