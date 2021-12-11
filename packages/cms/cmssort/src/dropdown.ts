@@ -1,7 +1,7 @@
 import { CURRENT_CSS_CLASS, Debug, DROPDOWN_CSS_CLASSES } from '@finsweet/ts-utils';
 import { ATTRIBUTES, queryElement } from './constants';
 import { normalizePropKey } from '$cms/utils/props';
-import { closeDropdown } from '$cms/utils/dropdown';
+import { closeDropdown } from '$utils/dropdowns';
 import { sortListItems } from './sort';
 import {
   ARIA_HASPOPUP_KEY,

@@ -1,4 +1,4 @@
-import { closeDropdown } from '$cms/utils/dropdown';
+import { closeDropdown } from '$utils/dropdowns';
 import { updateOptionsState } from './state';
 
 import type { Settings } from '../utils/types';
