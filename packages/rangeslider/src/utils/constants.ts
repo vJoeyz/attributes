@@ -1,4 +1,5 @@
 import { generateSelectors } from '$utils/attributes';
+import { ARROW_DOWN_KEY, ARROW_LEFT_KEY, ARROW_RIGHT_KEY, ARROW_UP_KEY } from '$utils/keyboard';
 
 export const ATTRIBUTE = 'rangeslider';
 
@@ -88,6 +89,6 @@ export const ATTRIBUTES = {
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 
-export const HANDLE_INCREMENT_KEYS = ['ArrowUp', 'ArrowRight'];
-export const HANDLE_DECREMENT_KEYS = ['ArrowDown', 'ArrowLeft'];
+export const HANDLE_INCREMENT_KEYS = [ARROW_UP_KEY, ARROW_RIGHT_KEY];
+export const HANDLE_DECREMENT_KEYS = [ARROW_DOWN_KEY, ARROW_LEFT_KEY];
 export const HANDLE_KEYS = [...HANDLE_INCREMENT_KEYS, ...HANDLE_DECREMENT_KEYS];
