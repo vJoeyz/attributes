@@ -1,4 +1,5 @@
 import { generateSelectors } from '$utils/attributes';
+import { ARROW_DOWN_KEY, ARROW_UP_KEY, SPACE_KEY, TAB_KEY } from '$utils/keyboard';
 
 export const ATTRIBUTE = 'selectcustom';
 
@@ -43,3 +44,5 @@ export const ATTRIBUTES = {
 } as const;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
+
+export const CONTROL_KEYS = [SPACE_KEY, TAB_KEY, ARROW_UP_KEY, ARROW_DOWN_KEY];

@@ -26,6 +26,7 @@ export const collectSettings = (dropdown: Dropdown) => {
   const optionsList = optionTemplate.parentElement;
   if (!optionsList) return;
 
+  optionTemplate.href = '#';
   optionTemplate.remove();
 
   const optionsStore: OptionsStore = [];

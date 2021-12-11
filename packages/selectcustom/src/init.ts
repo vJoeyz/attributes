@@ -1,31 +1,35 @@
 import { DROPDOWN_CSS_CLASSES } from '@finsweet/ts-utils';
 import { collectSettings } from './actions/settings';
 import { populateOptions } from './actions/populate';
+import { observeElements } from './actions/observe';
 import { getSelector } from './utils/constants';
+import { listenEvents } from './actions/events';
 
 import type { Dropdown } from '@finsweet/ts-utils';
-import { listenEvents } from './actions/events';
 
 /**
  * Inits the attribute.
  */
 export const init = (): void => {
-  const dropdowns = document.querySelectorAll<Dropdown>(
-    `.${DROPDOWN_CSS_CLASSES.dropdown}${getSelector('element', 'dropdown', { operator: 'prefixed' })}`
+  const referenceElements = document.querySelectorAll<HTMLElement>(
+    getSelector('element', 'dropdown', { operator: 'prefixed' })
   );
 
-  for (const dropdown of dropdowns) initCustomSelect(dropdown);
+  for (const referenceElement of referenceElements) initCustomSelect(referenceElement);
 };
 
 /**
  * Inits a new custom select instance.
- * @param dropdown The {@link Dropdown} element.
+ * @param referenceElement The element that has the `dropdown` attribute.
  */
-const initCustomSelect = (dropdown: Dropdown) => {
+const initCustomSelect = (referenceElement: HTMLElement) => {
+  const dropdown = referenceElement.closest<Dropdown>(`.${DROPDOWN_CSS_CLASSES.dropdown}`);
+  if (!dropdown) return;
+
   const settings = collectSettings(dropdown);
   if (!settings) return;
 
   populateOptions(settings);
-
+  observeElements(settings);
   listenEvents(settings);
 };

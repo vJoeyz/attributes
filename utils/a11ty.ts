@@ -13,3 +13,4 @@ export const ARIA_VALUEMAX_KEY = 'aria-valuemax';
 export const ARIA_SELECTED_KEY = 'aria-selected';
 export const ARIA_HASPOPUP_KEY = 'aria-haspopup';
 export const ARIA_MULTISELECTABLE_KEY = 'aria-multiselectable';
+export const ARIA_EXPANDED_KEY = 'aria-expanded';

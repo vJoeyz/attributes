@@ -46,6 +46,7 @@ export const populateOptions = (settings: Settings) => {
       element,
       labelContent,
       selected,
+      focused: false,
     };
 
     if (selected) selectedOption = optionData;

@@ -7,6 +7,7 @@ export interface OptionData {
   element: HTMLAnchorElement;
   labelContent: HTMLElement | null;
   selected: boolean;
+  focused: boolean;
 }
 
 export type OptionsStore = OptionData[];

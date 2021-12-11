@@ -1,5 +1,5 @@
 import { ARIA_SELECTED_KEY } from '$utils/a11ty';
-import { CURRENT_CSS_CLASS } from '@finsweet/ts-utils';
+import { CURRENT_CSS_CLASS, setFormFieldValue } from '@finsweet/ts-utils';
 import { populateLabel } from './populate';
 
 import type { OptionData, Settings } from '../utils/types';
@@ -10,7 +10,9 @@ import type { OptionData, Settings } from '../utils/types';
  * @param selectedOption The selected {@link OptionData}, if existing.
  */
 export const updateOptionsState = (settings: Settings, selectedOption?: OptionData) => {
-  const { optionsStore } = settings;
+  const { selectElement, optionsStore } = settings;
+
+  if (selectedOption) setFormFieldValue(selectElement, selectedOption.value);
 
   for (const optionData of optionsStore) {
     const { element } = optionData;
