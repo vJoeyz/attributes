@@ -1,5 +1,6 @@
 import { DROPDOWN_CSS_CLASSES } from '@finsweet/ts-utils';
 import { queryElement } from '../utils/constants';
+import { setDropdownAria } from './a11ty';
 
 import type { Dropdown, DropdownList, DropdownToggle } from '@finsweet/ts-utils';
 import type { OptionsStore } from '../utils/types';
@@ -25,6 +26,8 @@ export const collectSettings = (dropdown: Dropdown) => {
 
   const optionsList = optionTemplate.parentElement;
   if (!optionsList) return;
+
+  setDropdownAria(dropdownToggle, dropdownList);
 
   optionTemplate.href = '#';
   optionTemplate.remove();
