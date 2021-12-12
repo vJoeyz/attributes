@@ -1,21 +1,27 @@
 import { ARIA_EXPANDED_KEY } from '$utils/a11ty';
+import { populateOptions } from './populate';
+import { toggleResetVisibility } from './state';
 
 import type { Settings } from '../utils/types';
-import { populateOptions } from './populate';
-
 /**
  * Observes when the dropdown list is opened/closed.
  * @param settings The instance {@link Settings}.
  */
-const observeDropdownList = ({ dropdownToggle, dropdownList, optionsStore }: Settings) => {
-  const observer = new MutationObserver(() => {
-    const isOpen = dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true';
-    if (!isOpen) return;
+const observeDropdownList = (settings: Settings) => {
+  const { dropdownToggle, dropdownList, optionsStore, hideInitial } = settings;
 
+  const observer = new MutationObserver(() => {
     const selectedOption = optionsStore.find(({ selected }) => selected);
     if (!selectedOption) return;
 
-    selectedOption.element.focus();
+    const isOpen = dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true';
+
+    if (isOpen) {
+      selectedOption.element.focus();
+      return;
+    }
+
+    if (hideInitial) requestAnimationFrame(() => toggleResetVisibility(!!selectedOption.value, settings));
   });
 
   observer.observe(dropdownList, {

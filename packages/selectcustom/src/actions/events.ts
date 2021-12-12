@@ -74,7 +74,7 @@ const handleTabKeyEvents = (e: KeyboardEvent, { optionsStore }: Settings) => {
  * @param e The Event object.
  * @param settings The instance {@link Settings}.
  */
-const handleArrowKeyEvents = ({ key }: KeyboardEvent, { optionsStore }: Settings) => {
+const handleDropdownListArrowKeyEvents = ({ key }: KeyboardEvent, { optionsStore }: Settings) => {
   const focusedOptionIndex = optionsStore.findIndex(({ focused }) => focused);
   if (focusedOptionIndex < 0) return;
 
@@ -94,7 +94,7 @@ const handleDropdownListKeydownEvents = (e: KeyboardEvent, settings: Settings) =
 
   if (key === SPACE_KEY) handleDropdownListClickEvents(e, settings);
   else if (key === TAB_KEY) handleTabKeyEvents(e, settings);
-  else if (key === ARROW_UP_KEY || key === ARROW_DOWN_KEY) handleArrowKeyEvents(e, settings);
+  else if (key === ARROW_UP_KEY || key === ARROW_DOWN_KEY) handleDropdownListArrowKeyEvents(e, settings);
 };
 
 /**
@@ -110,11 +110,27 @@ const handleDropdownListFocusEvents = (e: FocusEvent, focused: boolean, settings
 };
 
 /**
+ * Handles arrow keys events on the dropdown list.
+ * @param e The Event object.
+ * @param settings The instance {@link Settings}.
+ */
+const handleDropdownToggleArrowKeyEvents = ({ key }: KeyboardEvent, { optionsStore }: Settings) => {
+  if (key !== ARROW_DOWN_KEY) return;
+
+  const firstOption = optionsStore.find(({ hidden }) => !hidden);
+  if (!firstOption) return;
+
+  firstOption.element.focus();
+};
+
+/**
  * Listens for click events on the custom elements.
  * @param settings The instance {@link Settings}.
  */
 export const listenEvents = (settings: Settings) => {
-  const { dropdownList } = settings;
+  const { dropdownToggle, dropdownList } = settings;
+
+  dropdownToggle.addEventListener('keydown', (e) => handleDropdownToggleArrowKeyEvents(e, settings));
 
   dropdownList.addEventListener('click', (e) => handleDropdownListClickEvents(e, settings));
   dropdownList.addEventListener('keydown', (e) => handleDropdownListKeydownEvents(e, settings));

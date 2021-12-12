@@ -1,5 +1,4 @@
 import { cloneNode, findTextNode } from '@finsweet/ts-utils';
-import { queryElement } from '../utils/constants';
 import { updateOptionsState } from './state';
 import { setOptionAria } from './a11ty';
 
@@ -14,6 +13,7 @@ export const populateOptions = (settings: Settings) => {
     optionsStore,
     optionTemplate,
     optionsList,
+    emptyOption,
     selectElement: { value: currentValue, options },
   } = settings;
 
@@ -26,25 +26,26 @@ export const populateOptions = (settings: Settings) => {
 
   // Create new options
   for (const { value, text } of options) {
-    const element = cloneNode(optionTemplate);
+    let element: HTMLAnchorElement | undefined;
 
-    const textNode = queryElement('text', { operator: 'prefixed', scope: element }) || findTextNode(element);
-    if (!textNode) continue;
+    if (!value && emptyOption) element = cloneNode(emptyOption);
+    else {
+      element = cloneNode(optionTemplate);
+
+      const textNode = findTextNode(element) || element;
+      textNode.textContent = text;
+    }
 
     setOptionAria(element);
-
-    textNode.textContent = text;
-
-    const labelContent = queryElement<HTMLElement>('labelContent', { operator: 'prefixed', scope: element });
 
     optionsList.appendChild(element);
 
     const selected = value === currentValue;
 
     const optionData: OptionData = {
+      text,
       value,
       element,
-      labelContent,
       selected,
       focused: false,
     };
@@ -55,13 +56,4 @@ export const populateOptions = (settings: Settings) => {
   }
 
   updateOptionsState(settings, selectedOption);
-};
-
-/**
- * Populates the label with the currently selected option.
- * @param settings The instance {@link Settings}.
- * @param selectedOption The selected {@link OptionData}.
- */
-export const populateLabel = ({ label }: Settings, { element, labelContent }: OptionData) => {
-  label.innerHTML = labelContent ? labelContent.outerHTML : element.innerHTML;
 };

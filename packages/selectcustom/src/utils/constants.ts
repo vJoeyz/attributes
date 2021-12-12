@@ -7,9 +7,10 @@ const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
 
 export const DROPDOWN_ELEMENT_KEY = 'dropdown';
 export const LABEL_ELEMENT_KEY = 'label';
-export const TEXT_ELEMENT_KEY = 'text';
-export const OPTION_TEMPLATE_KEY = 'option-template';
-export const LABEL_CONTENT_KEY = 'label-content';
+export const RESET_OPTION_KEY = 'option-reset';
+
+export const HIDE_INITIAL_SETTING_KEY = 'hideinitial';
+export const HIDE_INITIAL_SETTING_VALUES = { true: 'true' };
 
 export const ATTRIBUTES = {
   element: {
@@ -26,21 +27,16 @@ export const ATTRIBUTES = {
       label: LABEL_ELEMENT_KEY,
 
       /**
-       * Defines the text node that must display an option's text.
+       * Defines an option that will remove the selected value.
        */
-      text: TEXT_ELEMENT_KEY,
-
-      /**
-       * Defines the template element to create new options.
-       */
-      optionTemplate: OPTION_TEMPLATE_KEY,
-
-      /**
-       * Defines the text element that acts as the label content.
-       */
-      labelContent: LABEL_CONTENT_KEY,
+      resetOption: RESET_OPTION_KEY,
     },
   },
+
+  /**
+   * Defines if the reset option should be hidden whenever there isn't an active selection.
+   */
+  hideInitial: { key: `${ATTRIBUTES_PREFIX}-${HIDE_INITIAL_SETTING_KEY}`, values: HIDE_INITIAL_SETTING_VALUES },
 } as const;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

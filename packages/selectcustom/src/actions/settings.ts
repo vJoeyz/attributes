@@ -1,5 +1,5 @@
-import { DROPDOWN_CSS_CLASSES } from '@finsweet/ts-utils';
-import { queryElement } from '../utils/constants';
+import { DROPDOWN_CSS_CLASSES, findTextNode } from '@finsweet/ts-utils';
+import { ATTRIBUTES, getSelector, queryElement } from '../utils/constants';
 import { setDropdownAria } from './a11ty';
 
 import type { Dropdown, DropdownList, DropdownToggle } from '@finsweet/ts-utils';
@@ -9,7 +9,12 @@ import type { OptionsStore } from '../utils/types';
  * Collects the required elements/settings for the setup.
  * @param dropdown The {@link Dropdown} element.
  */
-export const collectSettings = (dropdown: Dropdown) => {
+export const collectSettings = (referenceElement: HTMLElement) => {
+  const optionsStore: OptionsStore = [];
+
+  const dropdown = referenceElement.closest<Dropdown>(`.${DROPDOWN_CSS_CLASSES.dropdown}`);
+  if (!dropdown) return;
+
   const selectElement = dropdown.querySelector('select');
   if (!selectElement) return;
 
@@ -17,22 +22,33 @@ export const collectSettings = (dropdown: Dropdown) => {
   const dropdownList = dropdown.querySelector<DropdownList>(`.${DROPDOWN_CSS_CLASSES.dropdownList}`);
   if (!dropdownToggle || !dropdownList) return;
 
-  const label = queryElement<HTMLElement>('label', { operator: 'prefixed', scope: dropdownToggle }) || dropdownToggle;
+  setDropdownAria(dropdownToggle, dropdownList);
 
-  const optionTemplate =
-    queryElement<HTMLElement>('optionTemplate', { operator: 'prefixed', scope: dropdownList }) ||
-    dropdownList.querySelector('a');
+  const label =
+    queryElement('label', { operator: 'prefixed', scope: dropdownToggle }) ||
+    findTextNode(dropdownToggle) ||
+    dropdownToggle;
+
+  const optionTemplate = dropdownList.querySelector(
+    `a:not(${getSelector('element', 'resetOption', { operator: 'prefixed' })})`
+  );
   if (!(optionTemplate instanceof HTMLAnchorElement)) return;
 
   const optionsList = optionTemplate.parentElement;
   if (!optionsList) return;
 
-  setDropdownAria(dropdownToggle, dropdownList);
+  const rawEmptyOption = queryElement('resetOption', { operator: 'prefixed', scope: dropdownList });
+  const emptyOption = rawEmptyOption instanceof HTMLAnchorElement ? rawEmptyOption : undefined;
 
   optionTemplate.href = '#';
   optionTemplate.remove();
 
-  const optionsStore: OptionsStore = [];
+  if (emptyOption) {
+    emptyOption.href = '#';
+    emptyOption.remove();
+  }
+
+  const hideInitial = referenceElement.getAttribute(ATTRIBUTES.hideInitial.key) === ATTRIBUTES.hideInitial.values.true;
 
   return {
     optionsStore,
@@ -42,5 +58,7 @@ export const collectSettings = (dropdown: Dropdown) => {
     label,
     optionTemplate,
     optionsList,
+    emptyOption,
+    hideInitial,
   };
 };

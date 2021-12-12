@@ -1,6 +1,5 @@
 import { ARIA_SELECTED_KEY } from '$utils/a11ty';
 import { CURRENT_CSS_CLASS, setFormFieldValue } from '@finsweet/ts-utils';
-import { populateLabel } from './populate';
 
 import type { OptionData, Settings } from '../utils/types';
 
@@ -10,9 +9,13 @@ import type { OptionData, Settings } from '../utils/types';
  * @param selectedOption The selected {@link OptionData}, if existing.
  */
 export const updateOptionsState = (settings: Settings, selectedOption?: OptionData) => {
-  const { selectElement, optionsStore } = settings;
+  const { selectElement, optionsStore, label, hideInitial } = settings;
 
-  if (selectedOption) setFormFieldValue(selectElement, selectedOption.value);
+  if (selectedOption) {
+    setFormFieldValue(selectElement, selectedOption.value);
+
+    if (hideInitial) toggleResetVisibility(!!selectedOption.value, settings);
+  }
 
   for (const optionData of optionsStore) {
     const { element } = optionData;
@@ -26,5 +29,18 @@ export const updateOptionsState = (settings: Settings, selectedOption?: OptionDa
     else element.removeAttribute(ARIA_SELECTED_KEY);
   }
 
-  if (selectedOption) populateLabel(settings, selectedOption);
+  if (selectedOption) label.textContent = selectedOption.text;
+};
+
+/**
+ * Toggles the visibility of the reset option.
+ * @param show `true` to show, `false` to hide.
+ * @param settings The instance {@link Settings}.
+ */
+export const toggleResetVisibility = (show: boolean, { optionsStore }: Settings) => {
+  const resetOption = optionsStore.find(({ value }) => !value);
+  if (!resetOption) return;
+
+  resetOption.element.style.display = show ? '' : 'none';
+  resetOption.hidden = !show;
 };
