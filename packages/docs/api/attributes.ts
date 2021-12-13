@@ -150,6 +150,18 @@ export const attributesData: AttributesData = [
     changesetsSrc: 'changesets.json',
   },
   {
+    key: 'selectcustom',
+    title: 'Custom Form Select',
+    description: 'Use a Webflow Dropdown element as a Webflow Form <select> component.',
+    href: 'https://www.finsweet.com/attributes/custom-form-select',
+    baseSrc: 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-selectcustom@1',
+    scriptSrc: 'selectcustom.js',
+    examplesSrc: 'examples.json',
+    loadMode: 'defer',
+    schemaSrc: 'schema.json',
+    changesetsSrc: 'changesets.json',
+  },
+  {
     key: 'sliderdots',
     title: 'Custom slider dots',
     description: 'Populate the native slider dots with any content.',
