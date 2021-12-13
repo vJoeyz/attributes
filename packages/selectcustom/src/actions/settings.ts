@@ -1,5 +1,6 @@
 import { DROPDOWN_CSS_CLASSES, findTextNode } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector, queryElement } from '../utils/constants';
+import { ARIA_CURRENT_KEY } from '$utils/a11ty';
 import { setDropdownAria } from './a11ty';
 
 import type { Dropdown, DropdownList, DropdownToggle } from '@finsweet/ts-utils';
@@ -40,12 +41,12 @@ export const collectSettings = (referenceElement: HTMLElement) => {
   const rawEmptyOption = queryElement('resetOption', { operator: 'prefixed', scope: dropdownList });
   const emptyOption = rawEmptyOption instanceof HTMLAnchorElement ? rawEmptyOption : undefined;
 
-  optionTemplate.href = '#';
-  optionTemplate.remove();
+  for (const element of [optionTemplate, emptyOption]) {
+    if (!element) continue;
 
-  if (emptyOption) {
-    emptyOption.href = '#';
-    emptyOption.remove();
+    element.href = '#';
+    element.removeAttribute(ARIA_CURRENT_KEY);
+    element.remove();
   }
 
   const hideInitial = referenceElement.getAttribute(ATTRIBUTES.hideInitial.key) === ATTRIBUTES.hideInitial.values.true;
