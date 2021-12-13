@@ -9,13 +9,9 @@ import type { OptionData, Settings } from '../utils/types';
  * @param selectedOption The selected {@link OptionData}, if existing.
  */
 export const updateOptionsState = (settings: Settings, selectedOption?: OptionData) => {
-  const { selectElement, optionsStore, label, hideInitial } = settings;
+  const { selectElement, optionsStore, label } = settings;
 
-  if (selectedOption) {
-    setFormFieldValue(selectElement, selectedOption.value);
-
-    if (hideInitial) toggleResetVisibility(!!selectedOption.value, settings);
-  }
+  if (selectedOption) setFormFieldValue(selectElement, selectedOption.value);
 
   for (const optionData of optionsStore) {
     const { element } = optionData;
@@ -41,6 +37,6 @@ export const toggleResetVisibility = (show: boolean, { optionsStore }: Settings)
   const resetOption = optionsStore.find(({ value }) => !value);
   if (!resetOption) return;
 
-  resetOption.element.style.display = show ? '' : 'none';
   resetOption.hidden = !show;
+  resetOption.element.style.display = show ? '' : 'none';
 };

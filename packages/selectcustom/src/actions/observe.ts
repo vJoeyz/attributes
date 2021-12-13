@@ -1,8 +1,10 @@
+import debounce from 'just-debounce';
 import { ARIA_EXPANDED_KEY } from '$utils/a11ty';
 import { populateOptions } from './populate';
 import { toggleResetVisibility } from './state';
 
 import type { Settings } from '../utils/types';
+
 /**
  * Observes when the dropdown list is opened/closed.
  * @param settings The instance {@link Settings}.
@@ -10,7 +12,7 @@ import type { Settings } from '../utils/types';
 const observeDropdownList = (settings: Settings) => {
   const { dropdownToggle, dropdownList, optionsStore, hideInitial } = settings;
 
-  const observer = new MutationObserver(() => {
+  const callback: MutationCallback = debounce(() => {
     const selectedOption = optionsStore.find(({ selected }) => selected);
     if (!selectedOption) return;
 
@@ -21,12 +23,14 @@ const observeDropdownList = (settings: Settings) => {
       return;
     }
 
-    if (hideInitial) requestAnimationFrame(() => toggleResetVisibility(!!selectedOption.value, settings));
-  });
+    if (hideInitial) window.requestAnimationFrame(() => toggleResetVisibility(!!selectedOption.value, settings));
+  }, 20);
+
+  const observer = new MutationObserver(callback);
 
   observer.observe(dropdownList, {
     attributes: true,
-    attributeFilter: ['class'],
+    attributeFilter: ['class', 'style'],
   });
 };
 
