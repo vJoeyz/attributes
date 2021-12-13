@@ -13,7 +13,7 @@ import type { OptionData, Settings } from '../utils/types';
  *
  * @returns The {@link OptionData} object, if found.
  */
-const getOptionTargetData = (e: Event, { optionsStore }: Settings) => {
+const getClickedOptionData = (e: Event, { optionsStore }: Settings) => {
   const { target } = e;
 
   if (!(target instanceof Element)) return;
@@ -37,10 +37,10 @@ const handleDropdownListClickEvents = (e: MouseEvent | KeyboardEvent, settings: 
 
   e.preventDefault();
 
-  const optionData = getOptionTargetData(e, settings);
-  if (!optionData || optionData.selected) return;
+  const optionData = getClickedOptionData(e, settings);
+  if (!optionData) return;
 
-  updateOptionsState(settings, optionData);
+  if (!optionData.selected) updateOptionsState(settings, optionData);
 
   closeDropdown(settings.dropdownToggle);
 };
@@ -103,7 +103,7 @@ const handleDropdownListKeydownEvents = (e: KeyboardEvent, settings: Settings) =
  * @param settings The instance {@link Settings}.
  */
 const handleDropdownListFocusEvents = (e: FocusEvent, focused: boolean, settings: Settings) => {
-  const optionData = getOptionTargetData(e, settings);
+  const optionData = getClickedOptionData(e, settings);
   if (!optionData) return;
 
   optionData.focused = focused;
@@ -124,11 +124,25 @@ const handleDropdownToggleArrowKeyEvents = ({ key }: KeyboardEvent, { optionsSto
 };
 
 /**
+ * Adds two way data binding.
+ * Handles `change` events on the hidden `selectElement` and updates the dropdown.
+ * @param settings The instance {@link Settings}.
+ */
+const handleSelectChangeEvents = (settings: Settings) => {
+  const { selectElement, optionsStore } = settings;
+
+  const selectedOption = optionsStore.find(({ value }) => value === selectElement.value);
+  if (!selectedOption) return;
+
+  updateOptionsState(settings, selectedOption);
+};
+
+/**
  * Listens for click events on the custom elements.
  * @param settings The instance {@link Settings}.
  */
 export const listenEvents = (settings: Settings) => {
-  const { dropdownToggle, dropdownList } = settings;
+  const { dropdownToggle, dropdownList, selectElement } = settings;
 
   dropdownToggle.addEventListener('keydown', (e) => handleDropdownToggleArrowKeyEvents(e, settings));
 
@@ -136,4 +150,6 @@ export const listenEvents = (settings: Settings) => {
   dropdownList.addEventListener('keydown', (e) => handleDropdownListKeydownEvents(e, settings));
   dropdownList.addEventListener('focusin', (e) => handleDropdownListFocusEvents(e, true, settings));
   dropdownList.addEventListener('focusout', (e) => handleDropdownListFocusEvents(e, false, settings));
+
+  selectElement.addEventListener('change', () => handleSelectChangeEvents(settings));
 };
