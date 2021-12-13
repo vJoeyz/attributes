@@ -1,5 +1,5 @@
 import { cloneNode, findTextNode } from '@finsweet/ts-utils';
-import { updateOptionsState } from './state';
+import { toggleResetVisibility, updateOptionsState } from './state';
 import { setOptionAria } from './a11ty';
 
 import type { OptionData, Settings } from '../utils/types';
@@ -14,6 +14,7 @@ export const populateOptions = (settings: Settings) => {
     optionTemplate,
     optionsList,
     emptyOption,
+    hideInitial,
     selectElement: { value: currentValue, options },
   } = settings;
 
@@ -56,4 +57,6 @@ export const populateOptions = (settings: Settings) => {
   }
 
   updateOptionsState(settings, selectedOption);
+
+  if (hideInitial) toggleResetVisibility(!!selectedOption?.value, settings);
 };
