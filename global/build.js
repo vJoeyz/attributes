@@ -1,9 +1,6 @@
-import dotenv from 'dotenv';
 import esbuild from 'esbuild';
 import { writeFileSync, readFileSync } from 'fs';
 import { pathToFileURL } from 'url';
-
-dotenv.config({ path: '../../.env' });
 
 const production = process.env.NODE_ENV === 'production';
 
