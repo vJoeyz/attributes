@@ -1,9 +1,10 @@
-import { ATTRIBUTES, getSelector } from './constants';
+import type { CollectionItemElement } from '@finsweet/ts-utils';
+
+import type { CMSCore } from '$cms/cmscore/src/types';
 import { normalizePropKey } from '$cms/utils/props';
 
-import type { CollectionItemElement } from '@finsweet/ts-utils';
+import { ATTRIBUTES, getSelector } from './constants';
 import type { CollectionsToNest, NestingTargets } from './types';
-import type { CMSCore } from '$cms/cmscore/src/types';
 
 // Constants
 const {

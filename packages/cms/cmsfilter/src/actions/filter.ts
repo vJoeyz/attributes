@@ -1,9 +1,9 @@
-import { restartHighlight } from './highlight';
+import type { CMSItem } from '$cms/cmscore/src';
+
 import { normalizeDate } from '../utils/dates';
 import { normalizeNumber } from '../utils/numbers';
-
-import type { CMSItem } from '$cms/cmscore/src';
 import type { FiltersData } from '../utils/types';
+import { restartHighlight } from './highlight';
 
 /**
  * Assesses if an item should be displayed/hidden based on the filters.

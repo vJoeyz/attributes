@@ -1,12 +1,12 @@
+import type { AttributeExamples } from '$global/types/examples';
+
 import { attributesData } from '../../api/attributes';
 import { ATTRIBUTES } from '../utils/constants';
+import { initCollapseOptions } from './collapse-options';
 import { initCopyExampleButtons } from './copy-examples';
 import { initCopyScriptButton } from './copy-script';
 import { initCodeHighlight } from './highlight';
 import { initTitles } from './titles';
-import { initCollapseOptions } from './collapse-options';
-
-import type { AttributeExamples } from '$global/types/examples';
 
 /**
  * Init

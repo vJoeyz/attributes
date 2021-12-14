@@ -1,5 +1,7 @@
-import { getInstanceIndex } from '$global/helpers/instances';
 import { getAllParents } from '@finsweet/ts-utils';
+
+import { getInstanceIndex } from '$global/helpers/instances';
+
 import { ATTRIBUTES, getSelector, UNTRANSFORM_CLASS, UNTRANSFORM_STYLES } from './constants';
 
 // Constants destructuring

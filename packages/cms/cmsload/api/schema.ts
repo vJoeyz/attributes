@@ -1,4 +1,7 @@
 import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
+
+import type { AttributeSchema } from '$global/types/schema';
+
 import {
   ANIMATION_SETTING_KEY,
   DURATION_SETTING_KEY,
@@ -18,8 +21,6 @@ import {
   STAGGER_SETTING_KEY,
   THRESHOLD_SETTING_KEY,
 } from '../src/utils/constants';
-
-import type { AttributeSchema } from '$global/types/schema';
 
 export const schema: AttributeSchema = {
   elements: [

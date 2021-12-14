@@ -1,4 +1,5 @@
 import { Debug } from '@finsweet/ts-utils';
+
 import { ATTRIBUTES } from '../constants/attributes';
 import { GlobalAttributeParams } from '../types/global';
 

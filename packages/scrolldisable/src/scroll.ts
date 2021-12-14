@@ -1,5 +1,5 @@
-import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 import { isScrollable } from '@finsweet/ts-utils';
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 
 const { body } = document;
 

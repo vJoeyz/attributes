@@ -1,8 +1,8 @@
 import { CURRENT_CSS_CLASS, Debug, DROPDOWN_CSS_CLASSES } from '@finsweet/ts-utils';
-import { ATTRIBUTES, queryElement } from './constants';
+import type { Dropdown, DropdownToggle, DropdownList } from '@finsweet/ts-utils';
+
+import type { CMSList } from '$cms/cmscore/src';
 import { normalizePropKey } from '$cms/utils/props';
-import { closeDropdown } from '$global/helpers/dropdowns';
-import { sortListItems } from './sort';
 import {
   ARIA_HASPOPUP_KEY,
   ARIA_MULTISELECTABLE_KEY,
@@ -10,9 +10,10 @@ import {
   ARIA_ROLE_VALUES,
   ARIA_SELECTED_KEY,
 } from '$global/constants/a11ty';
+import { closeDropdown } from '$global/helpers/dropdowns';
 
-import type { CMSList } from '$cms/cmscore/src';
-import type { Dropdown, DropdownToggle, DropdownList } from '@finsweet/ts-utils';
+import { ATTRIBUTES, queryElement } from './constants';
+import { sortListItems } from './sort';
 import type { DropdownLabelData, DropdownOption, DropdownOptions, SortingDirection, SortItemsCallback } from './types';
 
 const { dropdownToggle: dropdownToggleCSSClass, dropdownList: dropdownListCSSClass } = DROPDOWN_CSS_CLASSES;

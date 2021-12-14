@@ -1,8 +1,8 @@
 import { cloneNode, findTextNode } from '@finsweet/ts-utils';
-import { toggleResetVisibility, updateOptionsState } from './state';
-import { setOptionAria } from './a11ty';
 
 import type { OptionData, Settings } from '../utils/types';
+import { setOptionAria } from './a11ty';
+import { toggleResetVisibility, updateOptionsState } from './state';
 
 /**
  * Populates the custom options based on the `HTMLSelectElement`'s options.

@@ -1,6 +1,6 @@
 // Import ESBuild
-import esbuild from 'esbuild';
 import dotenv from 'dotenv';
+import esbuild from 'esbuild';
 
 dotenv.config({ path: '../../.env' });
 

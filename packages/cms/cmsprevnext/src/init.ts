@@ -1,9 +1,10 @@
 import { removeTrailingSlash } from '@finsweet/ts-utils';
-import { importCMSCore } from '$global/import/cmscore';
-import { collectElements } from './collect';
-import { getSelector } from './constants';
 
 import type { CMSItem } from '$cms/cmscore/src';
+import { importCMSCore } from '$global/import/cmscore';
+
+import { collectElements } from './collect';
+import { getSelector } from './constants';
 
 /**
  * Inits the attribute.

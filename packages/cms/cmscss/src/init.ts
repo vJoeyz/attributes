@@ -1,8 +1,8 @@
-import { getSelector } from './constants';
-import { importCMSCore } from '$global/import/cmscore';
-import { addCSSClasses } from './classes';
-
 import type { CMSList } from '$cms/cmscore/src';
+import { importCMSCore } from '$global/import/cmscore';
+
+import { addCSSClasses } from './classes';
+import { getSelector } from './constants';
 
 /**
  * Inits the attribute.

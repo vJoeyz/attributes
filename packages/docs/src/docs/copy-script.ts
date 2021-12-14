@@ -1,6 +1,7 @@
-import { queryElement } from '../utils/constants';
-import { init } from '@finsweet/attributes-copyclip/src/init';
 import { ATTRIBUTES as COPYCLIP_ATTRIBUTES } from '@finsweet/attributes-copyclip/src/constants';
+import { init } from '@finsweet/attributes-copyclip/src/init';
+
+import { queryElement } from '../utils/constants';
 
 /**
  * Inits the `Copy Example` functionality.

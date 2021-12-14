@@ -1,8 +1,9 @@
-import { getSelector, queryElement } from './constants';
 import { TABS_CSS_CLASSES, CURRENT_CSS_CLASS } from '@finsweet/ts-utils';
+import type { TabsMenuElement, TabsContentElement, TabLinkElement, TabPaneElement } from '@finsweet/ts-utils';
 
 import type { CMSItem } from '$cms/cmscore/src';
-import type { TabsMenuElement, TabsContentElement, TabLinkElement, TabPaneElement } from '@finsweet/ts-utils';
+
+import { getSelector, queryElement } from './constants';
 import type { PopulateData } from './types';
 
 // Constants destructuring

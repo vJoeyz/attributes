@@ -1,4 +1,8 @@
 import { extractCommaSeparatedValues, getCurrentBreakpoint } from '@finsweet/ts-utils';
+import type { PaginationWrapperElement } from '@finsweet/ts-utils';
+
+import type { CMSList } from '$cms/cmscore/src';
+
 import {
   ATTRIBUTES,
   BREAKPOINTS_INDEX,
@@ -7,9 +11,6 @@ import {
   DEFAULT_PAGE_SIBLINGS,
   queryElement,
 } from '../utils/constants';
-
-import type { PaginationWrapperElement } from '@finsweet/ts-utils';
-import type { CMSList } from '$cms/cmscore/src';
 
 // Constants
 const {

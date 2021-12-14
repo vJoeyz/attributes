@@ -1,11 +1,12 @@
-import { parseLoadedPage } from './parse';
-import { readPaginationCount } from './pagination';
-import { extractPaginationQuery } from '$cms/utils/pagination';
-import { checkCMSCoreVersion } from '$cms/utils/versioning';
-import { fetchPageDocument } from '$cms/utils/fetch';
+import type { PaginationButtonElement } from '@finsweet/ts-utils';
 
 import type { CMSList } from '$cms/cmscore/src';
-import type { PaginationButtonElement } from '@finsweet/ts-utils';
+import { fetchPageDocument } from '$cms/utils/fetch';
+import { extractPaginationQuery } from '$cms/utils/pagination';
+import { checkCMSCoreVersion } from '$cms/utils/versioning';
+
+import { readPaginationCount } from './pagination';
+import { parseLoadedPage } from './parse';
 
 /**
  * Loads all paginated items of a `CMSList` instance.

@@ -1,5 +1,7 @@
-import { getInstanceIndex } from '$global/helpers/instances';
 import { getCollectionElements } from '@finsweet/ts-utils';
+
+import { getInstanceIndex } from '$global/helpers/instances';
+
 import { ATTRIBUTES, getSelector, queryElement } from './constants';
 
 /**

@@ -1,9 +1,10 @@
 import debounce from 'just-debounce';
+
 import { ARIA_EXPANDED_KEY } from '$global/constants/a11ty';
-import { populateOptions } from './populate';
-import { toggleResetVisibility } from './state';
 
 import type { Settings } from '../utils/types';
+import { populateOptions } from './populate';
+import { toggleResetVisibility } from './state';
 
 /**
  * Observes when the dropdown list is opened/closed.

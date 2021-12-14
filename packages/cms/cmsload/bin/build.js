@@ -1,8 +1,8 @@
 // Import ESBuild
-import esbuild from 'esbuild';
 import dotenv from 'dotenv';
-import { dirname } from 'path';
+import esbuild from 'esbuild';
 import { writeFileSync, readFileSync } from 'fs';
+import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 dotenv.config({ path: '../../../.env' });

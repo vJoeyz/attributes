@@ -1,6 +1,11 @@
+import { isKeyOf, FORM_CSS_CLASSES } from '@finsweet/ts-utils';
+import type { FormBlockElement } from '@finsweet/ts-utils';
+
+import type { CMSList } from '$cms/cmscore/src';
+import { addListAnimation } from '$cms/utils/animation';
+
 import { CMSFilters } from './components/CMSFilters';
 import { CMSTags } from './components/CMSTags';
-import { isKeyOf, FORM_CSS_CLASSES } from '@finsweet/ts-utils';
 import {
   ATTRIBUTES,
   DEFAULT_ACTIVE_CSS_CLASS,
@@ -9,10 +14,6 @@ import {
   queryElement,
   TAG_FORMATS,
 } from './utils/constants';
-import { addListAnimation } from '$cms/utils/animation';
-
-import type { CMSList } from '$cms/cmscore/src';
-import type { FormBlockElement } from '@finsweet/ts-utils';
 
 // Constants destructuring
 const {

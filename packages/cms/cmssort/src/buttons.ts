@@ -1,10 +1,11 @@
+import type { MapEntries } from '@finsweet/ts-utils';
+
+import type { CMSList } from '$cms/cmscore/src';
 import { normalizePropKey } from '$cms/utils/props';
+
 import { ATTRIBUTES } from './constants';
 import { sortListItems } from './sort';
-
 import type { ButtonState, ButtonsState, CSSClasses, SortingDirection, SortItemsCallback } from './types';
-import type { CMSList } from '$cms/cmscore/src';
-import type { MapEntries } from '@finsweet/ts-utils';
 
 // Constants destructuring
 const {

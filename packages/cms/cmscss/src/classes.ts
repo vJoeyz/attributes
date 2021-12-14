@@ -1,6 +1,6 @@
-import { ATTRIBUTES } from './constants';
-
 import type { CMSItem } from '$cms/cmscore/src';
+
+import { ATTRIBUTES } from './constants';
 
 /**
  * Constants

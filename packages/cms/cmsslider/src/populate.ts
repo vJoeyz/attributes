@@ -1,7 +1,8 @@
 import { SLIDER_CSS_CLASSES } from '@finsweet/ts-utils';
-
 import type { SlideElement, SliderMaskElement } from '@finsweet/ts-utils';
+
 import type { CMSItem } from '$cms/cmscore/src';
+
 import type { PopulateData } from './types';
 
 // Constants destructuring

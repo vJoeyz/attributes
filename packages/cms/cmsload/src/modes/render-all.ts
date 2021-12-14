@@ -1,6 +1,6 @@
-import { loadPaginatedItems } from '../actions/load';
-
 import type { CMSList } from '$cms/cmscore/src';
+
+import { loadPaginatedItems } from '../actions/load';
 
 /**
  * Inits the `Render All` mode.

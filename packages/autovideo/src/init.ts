@@ -1,4 +1,5 @@
 import { Debug } from '@finsweet/ts-utils';
+
 import { VideoStore } from './types';
 
 /**

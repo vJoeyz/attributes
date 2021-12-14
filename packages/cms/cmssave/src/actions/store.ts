@@ -1,4 +1,5 @@
-import {} from 'nanostores';
+import 'nanostores';
+
 import { LOCALSTORAGE_KEY } from '../utils/constants';
 import { CMSSaveStore } from '../utils/types';
 

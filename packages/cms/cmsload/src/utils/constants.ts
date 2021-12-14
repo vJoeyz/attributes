@@ -1,6 +1,6 @@
-import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory/selectors';
-
 import type { WebflowBreakpoint } from '@finsweet/ts-utils';
+
+import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory/selectors';
 
 export const ATTRIBUTE = 'cmsload';
 

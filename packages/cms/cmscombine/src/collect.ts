@@ -1,6 +1,6 @@
-import { ATTRIBUTES } from './constants';
-
 import type { CMSList } from '$cms/cmscore/src';
+
+import { ATTRIBUTES } from './constants';
 import type { CombineData } from './types';
 
 /**

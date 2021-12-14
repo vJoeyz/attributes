@@ -1,4 +1,3 @@
-import { CMSList } from '.';
 import {
   CMS_CSS_CLASSES,
   Debug,
@@ -6,8 +5,9 @@ import {
   getCollectionListWrappers,
   isNotEmpty,
 } from '@finsweet/ts-utils';
-
 import type { CollectionListWrapperElement } from '@finsweet/ts-utils';
+
+import { CMSList } from '.';
 
 /**
  * Creates a new `CMSList` for each unique `Collection List Wrapper` that matches the selectors on the current document.

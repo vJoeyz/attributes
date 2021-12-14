@@ -1,9 +1,9 @@
 import { Debug, isNotEmpty } from '@finsweet/ts-utils';
-import { ATTRIBUTES } from './utils/constants';
+
+import { adjustValueToStep } from './actions/values';
 import { Fill } from './components/Fill';
 import { Handle } from './components/Handle';
-import { adjustValueToStep } from './actions/values';
-
+import { ATTRIBUTES } from './utils/constants';
 import type { HandleInstances, RangeSliderSettings } from './utils/types';
 
 /**

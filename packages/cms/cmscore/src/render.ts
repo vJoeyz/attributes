@@ -1,8 +1,8 @@
-import { restartWebflowModules } from './webflow';
 import { wait } from '@finsweet/ts-utils';
-import { CMSItem } from '.';
 
+import { CMSItem } from '.';
 import type { CMSList } from '.';
+import { restartWebflowModules } from './webflow';
 
 /**
  * Defines: [The item to render, The index where to render it, The item to use as anchor]

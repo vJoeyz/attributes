@@ -1,4 +1,5 @@
 import type { FormField } from '@finsweet/ts-utils';
+
 import type { MATCHES, MODES, TAG_FORMATS } from './constants';
 
 /**

@@ -1,5 +1,4 @@
 import { queryElement } from '../utils/constants';
-
 import type { TagData, TagFormat } from '../utils/types';
 
 /**

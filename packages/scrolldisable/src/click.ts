@@ -1,5 +1,5 @@
-import { disableScrolling, enableScrolling, findFirstScrollableElement, isScrollingDisabled } from './scroll';
 import { ATTRIBUTES, getSelector } from './constants';
+import { disableScrolling, enableScrolling, findFirstScrollableElement, isScrollingDisabled } from './scroll';
 
 /**
  * Inits listening for click triggers.

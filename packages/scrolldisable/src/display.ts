@@ -1,5 +1,6 @@
-import debounce from 'just-debounce';
 import { isVisible, NAVBAR_CSS_CLASSES } from '@finsweet/ts-utils';
+import debounce from 'just-debounce';
+
 import { ATTRIBUTES, getSelector, NAV_MEDIAS } from './constants';
 import { disableScrolling, enableScrolling, findFirstScrollableElement } from './scroll';
 

@@ -1,5 +1,4 @@
 import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
-
 import type { FormField } from '@finsweet/ts-utils';
 
 /**

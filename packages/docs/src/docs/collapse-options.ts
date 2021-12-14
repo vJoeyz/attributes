@@ -1,5 +1,6 @@
-import { OPTIONS_TRIGGER_SELECTOR, queryElement } from '../utils/constants';
 import { simulateEvent } from '@finsweet/ts-utils';
+
+import { OPTIONS_TRIGGER_SELECTOR, queryElement } from '../utils/constants';
 
 /**
  * Enables the `Collapse All` floating button.

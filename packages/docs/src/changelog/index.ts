@@ -1,9 +1,10 @@
 import { init as cmsloadInit } from '$cms/cmsload/src/init';
+
 import { attributesData } from '../../api/attributes';
-import { getAttributeChangesets } from './fetch';
 import { createChangesetElement } from './dom';
-import { initAttributeSelect } from './select';
+import { getAttributeChangesets } from './fetch';
 import { hideLoader } from './loader';
+import { initAttributeSelect } from './select';
 
 /**
  * Init

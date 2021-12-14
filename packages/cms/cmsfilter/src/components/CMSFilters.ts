@@ -1,20 +1,21 @@
-import debounce from 'just-debounce';
-import { assessFilter } from '../actions/filter';
-import { getQueryParams, setQueryParams } from '../actions/query';
-import { handleFilterInput } from '../actions/input';
-import { ATTRIBUTES } from '../utils/constants';
 import { isFormField, isVisible, sameValues } from '@finsweet/ts-utils';
-import { collectFiltersData, collectFiltersElements } from '../actions/collect';
-import { syncFilterKeyResults, updateFilterKeyResults, updateListResults } from '../actions/results';
-import { displayFilterElements } from '../actions/display';
-import { clearFilterData } from '../actions/clear';
+import type { FormBlockElement } from '@finsweet/ts-utils';
+import debounce from 'just-debounce';
+
+import type { CMSList } from '$cms/cmscore/src';
 import { checkCMSCoreVersion } from '$cms/utils/versioning';
 import { importAnimations } from '$global/import/animation';
 
-import type { FormBlockElement } from '@finsweet/ts-utils';
-import type { CMSList } from '$cms/cmscore/src';
-import type { CMSTags } from './CMSTags';
+import { clearFilterData } from '../actions/clear';
+import { collectFiltersData, collectFiltersElements } from '../actions/collect';
+import { displayFilterElements } from '../actions/display';
+import { assessFilter } from '../actions/filter';
+import { handleFilterInput } from '../actions/input';
+import { getQueryParams, setQueryParams } from '../actions/query';
+import { syncFilterKeyResults, updateFilterKeyResults, updateListResults } from '../actions/results';
+import { ATTRIBUTES } from '../utils/constants';
 import type { FilterElement } from '../utils/types';
+import type { CMSTags } from './CMSTags';
 
 // Constants
 const {

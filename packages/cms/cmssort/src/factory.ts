@@ -1,14 +1,15 @@
-import { ATTRIBUTES, DEFAULT_ASC_CLASS, DEFAULT_DESC_CLASS, getSelector, queryElement } from './constants';
 import { DROPDOWN_CSS_CLASSES } from '@finsweet/ts-utils';
+import type { Dropdown } from '@finsweet/ts-utils';
+
+import type { CMSList } from '$cms/cmscore/src';
 import { addListAnimation } from '$cms/utils/animation';
+
+import { initButtons } from './buttons';
+import { ATTRIBUTES, DEFAULT_ASC_CLASS, DEFAULT_DESC_CLASS, getSelector, queryElement } from './constants';
+import { initDropdown } from './dropdown';
 import { listenListEvents } from './events';
 import { initHTMLSelect } from './select';
-import { initDropdown } from './dropdown';
-import { initButtons } from './buttons';
-
 import type { CSSClasses } from './types';
-import type { CMSList } from '$cms/cmscore/src';
-import type { Dropdown } from '@finsweet/ts-utils';
 
 // Constants destructuring
 const {

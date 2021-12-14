@@ -1,8 +1,9 @@
-import { fetchPageDocument } from '$cms/utils/fetch';
 import { getCollectionElements, getCollectionListWrappers } from '@finsweet/ts-utils';
+import type { PaginationButtonElement } from '@finsweet/ts-utils';
+
+import { fetchPageDocument } from '$cms/utils/fetch';
 
 import type { CMSList } from '.';
-import type { PaginationButtonElement } from '@finsweet/ts-utils';
 
 const { location, history } = window;
 

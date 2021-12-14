@@ -1,4 +1,5 @@
 import { Debug } from '@finsweet/ts-utils';
+
 import { ATTRIBUTES } from './constants';
 import { HAS_COMPONENT_TEMPLATE_REGEX, IS_EXTERNAL_COMPONENT_REGEX, TRAILING_SLASH_REGEX } from './regex';
 
