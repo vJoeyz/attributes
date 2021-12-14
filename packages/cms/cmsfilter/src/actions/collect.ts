@@ -1,7 +1,3 @@
-import { ATTRIBUTES, getSelector, MATCHES, MODES, queryElement, TAG_FORMATS } from '../utils/constants';
-import { normalizePropKey } from '$cms/utils/props';
-import { ensureUniqueFormFieldId } from '../utils/a11ty';
-import { handleFilterInput } from './input';
 import {
   extractCommaSeparatedValues,
   FORM_CSS_CLASSES,
@@ -10,9 +6,14 @@ import {
   isKeyOf,
   sameValues,
 } from '@finsweet/ts-utils';
-
 import type { FormBlockElement } from '@finsweet/ts-utils';
+
+import { normalizePropKey } from '$cms/utils/props';
+
+import { ensureUniqueFormFieldId } from '../utils/a11ty';
+import { ATTRIBUTES, getSelector, MATCHES, MODES, queryElement, TAG_FORMATS } from '../utils/constants';
 import type { FilterData, FilterElement, FiltersData, ResetButtonsData } from '../utils/types';
+import { handleFilterInput } from './input';
 
 // Constants
 const {

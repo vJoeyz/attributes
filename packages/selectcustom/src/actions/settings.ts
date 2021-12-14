@@ -1,10 +1,11 @@
 import { DROPDOWN_CSS_CLASSES, findTextNode } from '@finsweet/ts-utils';
-import { ATTRIBUTES, getSelector, queryElement } from '../utils/constants';
-import { ARIA_CURRENT_KEY, TABINDEX_KEY } from '$utils/a11ty';
-import { setDropdownAria } from './a11ty';
-
 import type { Dropdown, DropdownList, DropdownToggle } from '@finsweet/ts-utils';
+
+import { ARIA_CURRENT_KEY, TABINDEX_KEY } from '$global/constants/a11ty';
+
+import { ATTRIBUTES, getSelector, queryElement } from '../utils/constants';
 import type { OptionsStore } from '../utils/types';
+import { setDropdownAria } from './a11ty';
 
 /**
  * Collects the required elements/settings for the setup.

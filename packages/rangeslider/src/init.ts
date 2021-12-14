@@ -1,12 +1,12 @@
+import { getHiddenParent, isVisible } from '@finsweet/ts-utils';
 import debounce from 'just-debounce';
+
+import { getClientX } from './actions/events';
+import { getSettings } from './actions/settings';
 import { adjustValueToStep, getClosestValidHandle } from './actions/values';
+import type { Handle } from './components/Handle';
 import { createFillInstance, createHandleInstances } from './factory';
 import { getSelector } from './utils/constants';
-import { getSettings } from './actions/settings';
-import { getClientX } from './actions/events';
-import { getHiddenParent, isVisible } from '@finsweet/ts-utils';
-
-import type { Handle } from './components/Handle';
 import type { HandleInstances } from './utils/types';
 
 /**

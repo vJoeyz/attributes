@@ -1,8 +1,8 @@
-import { loadPaginatedItems } from '../actions/load';
-import { incrementItemsPerPage } from '../actions/pagination';
+import type { CMSList } from '$cms/cmscore/src';
 import { checkCMSCoreVersion } from '$cms/utils/versioning';
 
-import type { CMSList } from '$cms/cmscore/src';
+import { loadPaginatedItems } from '../actions/load';
+import { incrementItemsPerPage } from '../actions/pagination';
 
 /**
  * Inits the default mode.

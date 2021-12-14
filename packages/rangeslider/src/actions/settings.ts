@@ -1,4 +1,5 @@
 import { Debug, isFormField } from '@finsweet/ts-utils';
+
 import { ATTRIBUTES, getSelector, queryElement } from '../utils/constants';
 import { getDecimalPrecision } from './values';
 

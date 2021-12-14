@@ -1,10 +1,10 @@
-import { ATTRIBUTES } from '../utils/constants';
-import { toggleHighlight } from './highlight';
-import { syncFilterKeyResults, updateFilterKeyResults, updateListResults } from './results';
-import { displayFilterElements } from './display';
+import type { CMSItem, CMSList } from '$cms/cmscore/src';
 
 import type { CMSFilters } from '../components/CMSFilters';
-import type { CMSItem, CMSList } from '$cms/cmscore/src';
+import { ATTRIBUTES } from '../utils/constants';
+import { displayFilterElements } from './display';
+import { toggleHighlight } from './highlight';
+import { syncFilterKeyResults, updateFilterKeyResults, updateListResults } from './results';
 
 const {
   field: { key: fieldKey },

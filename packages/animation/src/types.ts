@@ -1,4 +1,5 @@
 import type { AnimationListOptions, MotionKeyframesDefinition } from 'motion';
+
 import type { easings } from './functions';
 
 export interface AnimationProps {

@@ -1,9 +1,10 @@
-import { ATTRIBUTES, getSelector } from './constants';
 import { TABS_CSS_CLASSES } from '@finsweet/ts-utils';
+import type { TabsElement } from '@finsweet/ts-utils';
 
 import type { CMSList } from '$cms/cmscore/src';
+
+import { ATTRIBUTES, getSelector } from './constants';
 import type { PopulateData } from './types';
-import type { TabsElement } from '@finsweet/ts-utils';
 
 /**
  * Collects the source lists and the Tabs target to populate.

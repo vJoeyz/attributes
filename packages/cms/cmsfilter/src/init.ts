@@ -1,11 +1,12 @@
-import { createCMSFiltersInstance, createCMSTagsInstance } from './factory';
-import { listenListEvents } from './actions/events';
-import { getSelector } from './utils/constants';
 import { isNotEmpty } from '@finsweet/ts-utils';
-import { importCMSCore } from '$utils/import';
-import { CMSFilters } from './components/CMSFilters';
 
 import type { CMSList } from '$cms/cmscore/src';
+import { importCMSCore } from '$global/import/cmscore';
+
+import { listenListEvents } from './actions/events';
+import { CMSFilters } from './components/CMSFilters';
+import { createCMSFiltersInstance, createCMSTagsInstance } from './factory';
+import { getSelector } from './utils/constants';
 
 /**
  * Inits the attribute.

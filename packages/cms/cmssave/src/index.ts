@@ -1,7 +1,10 @@
-import { assessScript, initAttributes } from '$utils/attributes';
-import { importAnimations, importCMSCore } from '$utils/import';
-import { ATTRIBUTE } from './utils/constants';
+import { assessScript } from '$global/factory/assess';
+import { initAttributes } from '$global/factory/init';
+import { importAnimations } from '$global/import/animation';
+import { importCMSCore } from '$global/import/cmscore';
+
 import { init } from './init';
+import { ATTRIBUTE } from './utils/constants';
 
 /**
  * Init

@@ -1,5 +1,7 @@
-import { assessScript, initAttributes } from '$utils/attributes';
-import { importCMSCore } from '$utils/import';
+import { assessScript } from '$global/factory/assess';
+import { initAttributes } from '$global/factory/init';
+import { importCMSCore } from '$global/import/cmscore';
+
 import { init } from './init';
 
 /**

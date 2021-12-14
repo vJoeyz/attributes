@@ -1,10 +1,11 @@
 import throttle from 'just-throttle';
-import { loadPaginatedItems } from '../actions/load';
-import { getInfiniteThreshold } from '../actions/settings';
-import { incrementItemsPerPage } from '../actions/pagination';
-import { checkCMSCoreVersion } from '$cms/utils/versioning';
 
 import type { CMSList } from '$cms/cmscore/src';
+import { checkCMSCoreVersion } from '$cms/utils/versioning';
+
+import { loadPaginatedItems } from '../actions/load';
+import { incrementItemsPerPage } from '../actions/pagination';
+import { getInfiniteThreshold } from '../actions/settings';
 
 /**
  * Inits the infinite mode.

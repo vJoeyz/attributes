@@ -1,4 +1,4 @@
-import { getInstanceIndex } from '$utils/attributes';
+import { getInstanceIndex } from '$global/helpers/instances';
 import { isFormField, simulateEvent } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector, queryElement } from './constants';
 

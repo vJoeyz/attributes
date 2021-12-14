@@ -1,4 +1,6 @@
-import { assessScript, initAttributes } from '$utils/attributes';
+import { assessScript } from '$global/factory/assess';
+import { initAttributes } from '$global/factory/init';
+
 import { init } from './init';
 
 /**

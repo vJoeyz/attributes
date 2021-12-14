@@ -1,8 +1,8 @@
-import { getSelector } from './constants';
-import { importCMSCore } from '$utils/import';
-import { initListSorting } from './factory';
-
 import type { CMSList } from '$cms/cmscore/src';
+import { importCMSCore } from '$global/import/cmscore';
+
+import { getSelector } from './constants';
+import { initListSorting } from './factory';
 
 /**
  * Inits the attribute.

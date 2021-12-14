@@ -1,4 +1,5 @@
-import { getInstanceIndex } from '$utils/attributes';
+import { getInstanceIndex } from '$global/helpers/instances';
+
 import { ATTRIBUTES, getSelector } from './constants';
 
 /**

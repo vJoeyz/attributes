@@ -15,6 +15,7 @@
     "packages\\cms\\cmsload",
     "packages\\cms\\cmsnest",
     "packages\\cms\\cmsprevnext",
+    "packages\\cms\\cmssave",
     "packages\\cms\\cmsselect",
     "packages\\cms\\cmsslider",
     "packages\\cms\\cmssort",
@@ -48,11 +49,14 @@
   },
   "homepage": "https://github.com/finsweet/attributes#readme",
   "scripts": {
-    "dev:cms": "npm run dev -w=packages\\cms\\cmscombine -w=packages\\cms\\cmscore -w=packages\\cms\\cmscss -w=packages\\cms\\cmsfilter -w=packages\\cms\\cmsload -w=packages\\cms\\cmsnest -w=packages\\cms\\cmspagination -w=packages\\cms\\cmsprevnext -w=packages\\cms\\cmsselect -w=packages\\cms\\cmsslider -w=packages\\cms\\cmssort -w=packages\\cms\\cmstabs",
-    "build:cms": "npm run build -w=packages\\cms\\cmscombine -w=packages\\cms\\cmscore -w=packages\\cms\\cmscss -w=packages\\cms\\cmsfilter -w=packages\\cms\\cmsload -w=packages\\cms\\cmsnest -w=packages\\cms\\cmspagination -w=packages\\cms\\cmsprevnext -w=packages\\cms\\cmsselect -w=packages\\cms\\cmsslider -w=packages\\cms\\cmssort -w=packages\\cms\\cmstabs"
+    "lint": "eslint . && prettier --check .",
+    "format": "prettier --write .",
+    "dev:cms": "npm run dev -w=packages\\cms\\cmscombine -w=packages\\cms\\cmscore -w=packages\\cms\\cmscss -w=packages\\cms\\cmsfilter -w=packages\\cms\\cmsload -w=packages\\cms\\cmsnest -w=packages\\cms\\cmspagination -w=packages\\cms\\cmsprevnext -w=packages\\cms\\cmssave -w=packages\\cms\\cmsselect -w=packages\\cms\\cmsslider -w=packages\\cms\\cmssort -w=packages\\cms\\cmstabs",
+    "build:cms": "npm run build -w=packages\\cms\\cmscombine -w=packages\\cms\\cmscore -w=packages\\cms\\cmscss -w=packages\\cms\\cmsfilter -w=packages\\cms\\cmsload -w=packages\\cms\\cmsnest -w=packages\\cms\\cmspagination -w=packages\\cms\\cmsprevnext -w=packages\\cms\\cmssave -w=packages\\cms\\cmsselect -w=packages\\cms\\cmsslider -w=packages\\cms\\cmssort -w=packages\\cms\\cmstabs"
   },
   "devDependencies": {
     "@finsweet/eslint-config": "^1.1.2",
+    "@trivago/prettier-plugin-sort-imports": "^3.1.1",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
     "cross-env": "^7.0.3",

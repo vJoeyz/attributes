@@ -1,11 +1,12 @@
 import { Debug } from '@finsweet/ts-utils';
-import { importCMSCore } from '$utils/import';
-import { getSelector } from './constants';
-import { populateNestedCollections } from './nest';
-import { getCollectionsToNest } from './collect';
 
 import type { CMSList } from '$cms/cmscore/src';
 import type { CMSCore } from '$cms/cmscore/src/types';
+import { importCMSCore } from '$global/import/cmscore';
+
+import { getCollectionsToNest } from './collect';
+import { getSelector } from './constants';
+import { populateNestedCollections } from './nest';
 
 /**
  * Inits the attribute.

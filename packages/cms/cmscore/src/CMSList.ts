@@ -1,13 +1,4 @@
-import Emittery from 'emittery';
-import { CMSItem } from './CMSItem';
 import { getCollectionElements } from '@finsweet/ts-utils';
-import { getInstanceIndex } from '$utils/attributes';
-import { storePaginationData, setPaginationQueryParams } from './pagination';
-import { renderListItems } from './render';
-import { updateItemsCount } from './items';
-
-import type { Animation } from 'packages/animation/src/types';
-import type { CMSListEvents } from './types';
 import type {
   CollectionListWrapperElement,
   CollectionListElement,
@@ -16,6 +7,16 @@ import type {
   PaginationWrapperElement,
   PageCountElement,
 } from '@finsweet/ts-utils';
+import Emittery from 'emittery';
+import type { Animation } from 'packages/animation/src/types';
+
+import { getInstanceIndex } from '$global/helpers/instances';
+
+import { CMSItem } from './CMSItem';
+import { updateItemsCount } from './items';
+import { storePaginationData, setPaginationQueryParams } from './pagination';
+import { renderListItems } from './render';
+import type { CMSListEvents } from './types';
 
 /**
  * Instance of a Collection List.

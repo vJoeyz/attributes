@@ -1,7 +1,8 @@
-import { ATTRIBUTES, getSelector } from '../utils/constants';
 import { CopyJSONButton } from '@finsweet/ts-utils';
 
-import type { AttributeExamples } from '$utils/types/examples';
+import type { AttributeExamples } from '$global/types/examples';
+
+import { ATTRIBUTES, getSelector } from '../utils/constants';
 
 // Constants destructuring
 const {

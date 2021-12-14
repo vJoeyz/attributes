@@ -1,4 +1,4 @@
-import { generateDynamicAttibuteValue, generateSelectors } from '$utils/attributes';
+import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory/selectors';
 
 const ATTRIBUTES_PREFIX = 'fs-untransform';
 

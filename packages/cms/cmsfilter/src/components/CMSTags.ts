@@ -1,10 +1,11 @@
 import { cloneNode, Debug } from '@finsweet/ts-utils';
-import { ATTRIBUTES, getSelector, queryElement } from '../utils/constants';
-import { hasRemoveTrigger, updateTagText } from '../actions/tags';
-import { CMSFilters } from './CMSFilters';
 
-import type { FilterData, TagData, TagFormat, TagsData } from '../utils/types';
 import type { CMSList } from '$cms/cmscore/src';
+
+import { hasRemoveTrigger, updateTagText } from '../actions/tags';
+import { ATTRIBUTES, getSelector, queryElement } from '../utils/constants';
+import type { FilterData, TagData, TagFormat, TagsData } from '../utils/types';
+import { CMSFilters } from './CMSFilters';
 
 export class CMSTags {
   private readonly wrapper: HTMLElement;

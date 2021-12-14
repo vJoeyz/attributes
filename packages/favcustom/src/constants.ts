@@ -1,4 +1,4 @@
-import { generateSelectors } from '$utils/attributes';
+import { generateSelectors } from '$global/factory/selectors';
 
 const ATTRIBUTES_PREFIX = 'fs-favcustom';
 

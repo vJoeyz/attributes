@@ -1,11 +1,11 @@
 import { restartWebflow, RICH_TEXT_BLOCK_CSS_CLASS } from '@finsweet/ts-utils';
+import type { RichTextBlockElement } from '@finsweet/ts-utils';
+
+import { getComponentHTML } from './components';
 import { ATTRIBUTES, getSelector } from './constants';
 import { getValidParagraphs, unescapeHTML } from './helpers';
 import { HAS_COMPONENT_TEMPLATE_REGEX, IS_HTML_OPENING_TAG_REGEX } from './regex';
-import { getComponentHTML } from './components';
 import { sanitizeHTML } from './sanitize';
-
-import type { RichTextBlockElement } from '@finsweet/ts-utils';
 
 // Types
 interface Params {

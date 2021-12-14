@@ -1,9 +1,9 @@
-import { getSelector, queryElement } from './constants';
-import { importCMSCore } from '$utils/import';
+import type { CMSList } from '$cms/cmscore/src';
+import { importCMSCore } from '$global/import/cmscore';
+
 import { collectCombineData } from './collect';
 import { combineItemsToTarget } from './combine';
-
-import type { CMSList } from '$cms/cmscore/src';
+import { getSelector, queryElement } from './constants';
 import type { CombineData } from './types';
 
 /**

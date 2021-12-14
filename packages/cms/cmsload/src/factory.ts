@@ -1,12 +1,13 @@
 import { COMMERCE_CSS_CLASSES, LIGHTBOX_CSS_CLASSES } from '@finsweet/ts-utils';
-import { addItemsAnimation, addListAnimation } from '$cms/utils/animation';
-import { ATTRIBUTES, queryElement } from './utils/constants';
-import { initRenderAllMode } from './modes/render-all';
-import { initInfiniteMode } from './modes/infinite';
-import { initPaginationMode } from './modes/pagination';
-import { initDefaultMode } from './modes/default';
 
 import type { CMSList } from '$cms/cmscore/src';
+import { addItemsAnimation, addListAnimation } from '$cms/utils/animation';
+
+import { initDefaultMode } from './modes/default';
+import { initInfiniteMode } from './modes/infinite';
+import { initPaginationMode } from './modes/pagination';
+import { initRenderAllMode } from './modes/render-all';
+import { ATTRIBUTES, queryElement } from './utils/constants';
 
 // Constants
 const {

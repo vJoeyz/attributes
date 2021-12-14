@@ -1,5 +1,4 @@
 import { createAnimation } from './factory';
-
 import type { AnimationsObject } from './types';
 
 // Constants

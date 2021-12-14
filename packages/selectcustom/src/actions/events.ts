@@ -1,9 +1,9 @@
-import { ARROW_DOWN_KEY, ARROW_UP_KEY, SPACE_KEY, TAB_KEY } from '$utils/keyboard';
-import { closeDropdown } from '$utils/dropdowns';
-import { CONTROL_KEYS } from '../utils/constants';
-import { updateOptionsState } from './state';
+import { ARROW_DOWN_KEY, ARROW_UP_KEY, SPACE_KEY, TAB_KEY } from '$global/constants/keyboard';
+import { closeDropdown } from '$global/helpers/dropdowns';
 
+import { CONTROL_KEYS } from '../utils/constants';
 import type { Settings } from '../utils/types';
+import { updateOptionsState } from './state';
 
 /**
  * Returns the {@link OptionData} of an event target.

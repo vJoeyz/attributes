@@ -1,10 +1,10 @@
-# `cmsload` Attribute
+# `cmssave` Attribute
 
-Set up load more functionality in Webflow CMS. User click, infinite, pagination, and render-all options available.
+Save Webflow CMS Items.
 
 ## CDN Import
 
 ```html
 <!-- [Attributes by Finsweet] CMS Load -->
-<script async src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmsload@1/cmsload.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmssave@1/cmssave.js"></script>
 ```

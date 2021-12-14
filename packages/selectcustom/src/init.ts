@@ -1,8 +1,8 @@
-import { collectSettings } from './actions/settings';
-import { populateOptions } from './actions/populate';
-import { observeElements } from './actions/observe';
-import { getSelector } from './utils/constants';
 import { listenEvents } from './actions/events';
+import { observeElements } from './actions/observe';
+import { populateOptions } from './actions/populate';
+import { collectSettings } from './actions/settings';
+import { getSelector } from './utils/constants';
 
 /**
  * Inits the attribute.

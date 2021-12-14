@@ -1,6 +1,6 @@
+import type { CMSList } from '$cms/cmscore/src';
 import { checkCMSCoreVersion } from '$cms/utils/versioning';
 
-import type { CMSList } from '$cms/cmscore/src';
 import type { SortingDirection } from './types';
 
 /**

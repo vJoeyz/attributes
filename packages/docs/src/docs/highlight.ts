@@ -1,5 +1,6 @@
 import hljs from 'highlight.js/lib/core';
 import xml from 'highlight.js/lib/languages/xml';
+
 import { queryElement } from '../utils/constants';
 
 hljs.registerLanguage('xml', xml);

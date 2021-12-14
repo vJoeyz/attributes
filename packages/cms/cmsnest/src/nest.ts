@@ -1,11 +1,12 @@
 import { cloneNode, getCollectionElements, getCollectionListWrappers } from '@finsweet/ts-utils';
-import { ATTRIBUTES, getSelector } from './constants';
-import { normalizePropKey } from '$cms/utils/props';
-import { getNestingTargets } from './collect';
-
 import type { CollectionItemElement } from '@finsweet/ts-utils';
+
 import type { CMSItem } from '$cms/cmscore/src';
 import type { CMSCore } from '$cms/cmscore/src/types';
+import { normalizePropKey } from '$cms/utils/props';
+
+import { getNestingTargets } from './collect';
+import { ATTRIBUTES, getSelector } from './constants';
 import type { CollectionsToNest } from './types';
 
 // Types

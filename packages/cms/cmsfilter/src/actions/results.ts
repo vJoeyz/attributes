@@ -1,4 +1,5 @@
 import type { CMSList } from '$cms/cmscore/src';
+
 import type { CMSFilters } from '../components/CMSFilters';
 import type { FilterElement } from '../utils/types';
 

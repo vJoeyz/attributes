@@ -1,7 +1,7 @@
-import { normalizePropKey } from '$cms/utils/props';
-import { sortListItems } from './sort';
-
 import type { CMSList } from '$cms/cmscore/src';
+import { normalizePropKey } from '$cms/utils/props';
+
+import { sortListItems } from './sort';
 import type { SortingDirection, SortItemsCallback } from './types';
 
 /**

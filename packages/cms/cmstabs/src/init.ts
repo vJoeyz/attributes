@@ -1,10 +1,11 @@
-import { getSelector } from './constants';
 import { restartWebflow } from '@finsweet/ts-utils';
-import { populateTabsFromLists } from './populate';
-import { importCMSCore } from '$utils/import';
-import { collectPopulateData } from './collect';
 
 import type { CMSList } from '$cms/cmscore/src';
+import { importCMSCore } from '$global/import/cmscore';
+
+import { collectPopulateData } from './collect';
+import { getSelector } from './constants';
+import { populateTabsFromLists } from './populate';
 
 /**
  * Inits the attribute.

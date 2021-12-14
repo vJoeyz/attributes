@@ -1,5 +1,6 @@
+import type { AttributeChangesets } from '$global/types/changesets';
+
 import type { AttributesData } from '../utils/types';
-import type { AttributeChangesets } from '$utils/types/changesets';
 
 /**
  * Fetches the changesets of a specific Attribute package.
