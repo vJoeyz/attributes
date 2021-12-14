@@ -1,5 +1,5 @@
-import { assessScript, initAttributes } from '$utils/attributes';
-import { importAnimations, importCMSCore } from '$utils/import';
+import { assessScript, initAttributes } from 'global/attributes';
+import { importAnimations, importCMSCore } from 'global/import';
 import { ATTRIBUTE } from './utils/constants';
 import { init } from './init';
 

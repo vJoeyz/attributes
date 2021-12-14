@@ -1,4 +1,4 @@
-import { generateDynamicAttibuteValue, generateSelectors } from '$utils/attributes';
+import { generateDynamicAttibuteValue, generateSelectors } from 'global/attributes';
 
 const ATTRIBUTES_PREFIX = 'fs-cmsslider';
 

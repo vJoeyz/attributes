@@ -1,4 +1,4 @@
-import { assessScript, initAttributes } from '$utils/attributes';
+import { assessScript, initAttributes } from 'global/attributes';
 import { ATTRIBUTE } from './utils/constants';
 import { init } from './init';
 

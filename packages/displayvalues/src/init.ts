@@ -1,5 +1,5 @@
 import { getFormFieldValue, isFormField } from '@finsweet/ts-utils';
-import { getInstanceIndex } from '$utils/attributes';
+import { getInstanceIndex } from 'global/attributes';
 import { ATTRIBUTES, getSelector } from './constants';
 
 import type { FormField } from '@finsweet/ts-utils';

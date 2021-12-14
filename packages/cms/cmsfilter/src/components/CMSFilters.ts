@@ -8,7 +8,7 @@ import { collectFiltersData, collectFiltersElements } from '../actions/collect';
 import { syncFilterKeyResults, updateFilterKeyResults, updateListResults } from '../actions/results';
 import { displayFilterElements } from '../actions/display';
 import { clearFilterData } from '../actions/clear';
-import { importAnimations } from '$utils/import';
+import { importAnimations } from 'global/import';
 import { checkCMSCoreVersion } from '$cms/utils/versioning';
 
 import type { FormBlockElement } from '@finsweet/ts-utils';

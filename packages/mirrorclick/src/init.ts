@@ -1,4 +1,4 @@
-import { getInstanceIndex } from '$utils/attributes';
+import { getInstanceIndex } from 'global/attributes';
 import { ATTRIBUTES, getSelector } from './constants';
 
 // Constants  destructuring

@@ -1,4 +1,4 @@
-import { generateSelectors } from '$utils/attributes';
+import { generateSelectors } from 'global/attributes';
 
 const ATTRIBUTES_PREFIX = 'fs-cmsprevnext';
 

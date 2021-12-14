@@ -1,6 +1,6 @@
 import { cloneNode, SliderNavElement, SLIDER_CSS_CLASSES } from '@finsweet/ts-utils';
 import { ATTRIBUTES, DEFAULT_ACTIVE_CSS_CLASS, getSelector, queryElement } from './constants';
-import { getInstanceIndex } from '$utils/attributes';
+import { getInstanceIndex } from 'global/attributes';
 
 import type { SliderElement, SlideElement, SliderDotElement } from '@finsweet/ts-utils';
 

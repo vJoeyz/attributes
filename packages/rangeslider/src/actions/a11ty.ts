@@ -1,4 +1,4 @@
-import { ARIA_LABELLEDBY_KEY, ARIA_LABEL_KEY, ARIA_ROLE_KEY, ARIA_ROLE_VALUES, TABINDEX_KEY } from '$utils/a11ty';
+import { ARIA_LABELLEDBY_KEY, ARIA_LABEL_KEY, ARIA_ROLE_KEY, ARIA_ROLE_VALUES, TABINDEX_KEY } from 'global/a11ty';
 
 /**
  * Sets the required `a11ty` attributes to a `Handle` element.

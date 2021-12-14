@@ -1,5 +1,5 @@
 import { getSelector } from './constants';
-import { importCMSCore } from '$utils/import';
+import { importCMSCore } from 'global/import';
 import { addCSSClasses } from './classes';
 
 import type { CMSList } from '$cms/cmscore/src';

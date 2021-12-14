@@ -2,7 +2,7 @@ import { restartWebflow } from '@finsweet/ts-utils';
 import { getSelector } from './constants';
 import { populateSliderFromLists } from './populate';
 import { mutateSliderMask } from './helpers';
-import { importCMSCore } from '$utils/import';
+import { importCMSCore } from 'global/import';
 import { collectPopulateData } from './collect';
 
 import type { CMSList } from '$cms/cmscore/src';

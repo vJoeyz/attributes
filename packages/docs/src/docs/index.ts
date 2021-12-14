@@ -6,7 +6,7 @@ import { initCodeHighlight } from './highlight';
 import { initTitles } from './titles';
 import { initCollapseOptions } from './collapse-options';
 
-import type { AttributeExamples } from '$utils/types/examples';
+import type { AttributeExamples } from 'global/types/examples';
 
 /**
  * Init
