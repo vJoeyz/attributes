@@ -3,7 +3,7 @@ import { closeDropdown } from '$utils/dropdowns';
 import { CONTROL_KEYS } from '../utils/constants';
 import { updateOptionsState } from './state';
 
-import type { OptionData, Settings } from '../utils/types';
+import type { Settings } from '../utils/types';
 
 /**
  * Returns the {@link OptionData} of an event target.
@@ -50,23 +50,12 @@ const handleDropdownListClickEvents = (e: MouseEvent | KeyboardEvent, settings: 
  * @param e The Event object.
  * @param settings The instance {@link Settings}.
  */
-const handleTabKeyEvents = (e: KeyboardEvent, { optionsStore }: Settings) => {
+const handleTabKeyEvents = (e: KeyboardEvent, { dropdownToggle }: Settings) => {
   const { shiftKey } = e;
 
-  const focusedOptionIndex = optionsStore.findIndex(({ focused }) => focused);
-  if (focusedOptionIndex < 0) return;
+  if (shiftKey) e.preventDefault();
 
-  const lastIndex = optionsStore.length - 1;
-
-  let nextOption: OptionData | undefined;
-
-  if (shiftKey && focusedOptionIndex === 0) nextOption = optionsStore[lastIndex];
-  else if (!shiftKey && focusedOptionIndex === lastIndex) [nextOption] = optionsStore;
-
-  if (!nextOption) return;
-
-  e.preventDefault();
-  nextOption.element.focus();
+  closeDropdown(dropdownToggle, shiftKey);
 };
 
 /**

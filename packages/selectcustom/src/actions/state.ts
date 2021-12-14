@@ -1,4 +1,4 @@
-import { ARIA_SELECTED_KEY } from '$utils/a11ty';
+import { ARIA_SELECTED_KEY, TABINDEX_KEY } from '$utils/a11ty';
 import { CURRENT_CSS_CLASS, setFormFieldValue } from '@finsweet/ts-utils';
 
 import type { OptionData, Settings } from '../utils/types';
@@ -23,6 +23,8 @@ export const updateOptionsState = (settings: Settings, selectedOption?: OptionDa
 
     if (selected) element.setAttribute(ARIA_SELECTED_KEY, 'true');
     else element.removeAttribute(ARIA_SELECTED_KEY);
+
+    element.setAttribute(TABINDEX_KEY, selected ? '0' : '-1');
   }
 
   if (selectedOption) label.textContent = selectedOption.text;

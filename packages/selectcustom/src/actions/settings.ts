@@ -1,6 +1,6 @@
 import { DROPDOWN_CSS_CLASSES, findTextNode } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector, queryElement } from '../utils/constants';
-import { ARIA_CURRENT_KEY } from '$utils/a11ty';
+import { ARIA_CURRENT_KEY, TABINDEX_KEY } from '$utils/a11ty';
 import { setDropdownAria } from './a11ty';
 
 import type { Dropdown, DropdownList, DropdownToggle } from '@finsweet/ts-utils';
@@ -45,6 +45,7 @@ export const collectSettings = (referenceElement: HTMLElement) => {
     if (!element) continue;
 
     element.href = '#';
+    element.setAttribute(TABINDEX_KEY, '-1');
     element.removeAttribute(ARIA_CURRENT_KEY);
     element.remove();
   }

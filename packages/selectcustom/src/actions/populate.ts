@@ -15,7 +15,7 @@ export const populateOptions = (settings: Settings) => {
     optionsList,
     emptyOption,
     hideInitial,
-    selectElement: { value: currentValue, options },
+    selectElement: { options, value: currentValue },
   } = settings;
 
   // Clear existing options

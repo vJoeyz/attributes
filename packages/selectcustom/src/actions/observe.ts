@@ -13,7 +13,8 @@ const observeDropdownList = (settings: Settings) => {
   const { dropdownToggle, dropdownList, optionsStore, hideInitial } = settings;
 
   const callback: MutationCallback = debounce(() => {
-    const selectedOption = optionsStore.find(({ selected }) => selected);
+    const selectedOption =
+      optionsStore.find(({ selected, hidden }) => selected && !hidden) || optionsStore.find(({ hidden }) => !hidden);
     if (!selectedOption) return;
 
     const isOpen = dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true';
