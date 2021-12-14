@@ -15,6 +15,7 @@
     "packages\\cms\\cmsload",
     "packages\\cms\\cmsnest",
     "packages\\cms\\cmsprevnext",
+    "packages\\cms\\cmssave",
     "packages\\cms\\cmsselect",
     "packages\\cms\\cmsslider",
     "packages\\cms\\cmssort",

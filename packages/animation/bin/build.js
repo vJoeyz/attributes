@@ -1,32 +1,17 @@
-// Import ESBuild
-import dotenv from 'dotenv';
-import esbuild from 'esbuild';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-dotenv.config({ path: '../../.env' });
+import {
+  generateChangesetsJSON,
+  generateExamplesJSON,
+  generateScript,
+  generateSchemaJSON,
+} from '../../../global/build.js';
 
-const production = process.env.NODE_ENV === 'production';
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-/**
- * Default Settings
- * @type {esbuild.BuildOptions}
- */
-const defaultSettings = {
-  bundle: true,
-  minify: production,
-  sourcemap: false,
-  target: production ? 'es6' : 'esnext',
-};
-
-// Files building
-esbuild.build({
-  ...defaultSettings,
-  entryPoints: ['src/index.ts'],
-  outfile: `${production ? '' : process.env.CUSTOM_BUILD_DIRECTORY || ''}/animation.js`,
-});
-
-esbuild.build({
-  ...defaultSettings,
-  entryPoints: ['src/functions.ts'],
-  outfile: `${production ? '' : process.env.CUSTOM_BUILD_DIRECTORY || ''}/functions.js`,
-  format: 'esm',
-});
+generateScript('src/index.ts', 'animation');
+generateScript('src/functions.ts', 'functions');
+generateExamplesJSON(__dirname);
+generateSchemaJSON(__dirname);
+generateChangesetsJSON(__dirname);
