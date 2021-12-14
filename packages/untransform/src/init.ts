@@ -1,4 +1,4 @@
-import { getInstanceIndex } from 'global/attributes';
+import { getInstanceIndex } from '$global/helpers/instances';
 import { getAllParents } from '@finsweet/ts-utils';
 import { ATTRIBUTES, getSelector, UNTRANSFORM_CLASS, UNTRANSFORM_STYLES } from './constants';
 

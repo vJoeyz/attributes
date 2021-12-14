@@ -1,4 +1,4 @@
-import { generateDynamicAttibuteValue, generateSelectors } from 'global/attributes';
+import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory/selectors';
 
 import type { WebflowBreakpoint } from '@finsweet/ts-utils';
 

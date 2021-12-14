@@ -1,5 +1,5 @@
 import debounce from 'just-debounce';
-import { ARIA_EXPANDED_KEY } from 'global/a11ty';
+import { ARIA_EXPANDED_KEY } from '$global/constants/a11ty';
 import { populateOptions } from './populate';
 import { toggleResetVisibility } from './state';
 

@@ -1,4 +1,4 @@
-import { generateSelectors } from 'global/attributes';
+import { generateSelectors } from '$global/factory/selectors';
 
 export const ATTRIBUTE = 'ATTRIBUTE_KEY';
 

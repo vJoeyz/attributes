@@ -1,5 +1,5 @@
 import { getSelector } from './utils/constants';
-import { importCMSCore } from 'global/import';
+import { importCMSCore } from '$global/import/cmscore';
 import { initSaveSourceInstance } from './factory';
 
 import type { CMSList } from '$cms/cmscore/src';

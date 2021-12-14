@@ -1,5 +1,5 @@
 import { Debug } from '@finsweet/ts-utils';
-import { importCMSCore } from 'global/import';
+import { importCMSCore } from '$global/import/cmscore';
 import { getSelector } from './constants';
 import { populateNestedCollections } from './nest';
 import { getCollectionsToNest } from './collect';

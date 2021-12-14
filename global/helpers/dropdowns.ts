@@ -1,4 +1,5 @@
 import { simulateEvent } from '@finsweet/ts-utils';
+
 import type { DropdownToggle } from '@finsweet/ts-utils';
 
 /**

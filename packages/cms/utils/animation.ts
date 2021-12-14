@@ -1,6 +1,6 @@
 import { DEFAULT_LIST_ANIMATION_DURATION } from './constants';
-import { importAnimations } from 'global/import';
 import { getObjectKeys, isKeyOf } from '@finsweet/ts-utils';
+import { importAnimations } from '$global/import/animation';
 
 import type { CMSList } from '$cms/cmscore/src';
 

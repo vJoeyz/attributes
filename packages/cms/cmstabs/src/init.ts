@@ -1,7 +1,7 @@
 import { getSelector } from './constants';
 import { restartWebflow } from '@finsweet/ts-utils';
 import { populateTabsFromLists } from './populate';
-import { importCMSCore } from 'global/import';
+import { importCMSCore } from '$global/import/cmscore';
 import { collectPopulateData } from './collect';
 
 import type { CMSList } from '$cms/cmscore/src';

@@ -1,9 +1,9 @@
 import { findTextNode } from '@finsweet/ts-utils';
 import { ATTRIBUTES, DEFAULT_SUCCESS_DURATION, DEFAULT_SUCCESS_CSS_CLASS, getSelector } from './constants';
-import { getInstanceIndex } from 'global/attributes';
 import { createClipboardJsInstance } from './factory';
 
 import type ClipboardJS from 'clipboard';
+import { getInstanceIndex } from '$global/helpers/instances';
 
 // Constants destructuring
 const {

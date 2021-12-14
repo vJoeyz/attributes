@@ -1,4 +1,4 @@
-import { generateSelectors } from 'global/attributes';
+import { generateSelectors } from '$global/factory/selectors';
 
 const ATTRIBUTES_PREFIX = 'fs-cmsnest';
 

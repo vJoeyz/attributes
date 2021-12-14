@@ -1,5 +1,5 @@
 import { getSelector, queryElement } from './constants';
-import { importCMSCore } from 'global/import';
+import { importCMSCore } from '$global/import/cmscore';
 import { collectCombineData } from './collect';
 import { combineItemsToTarget } from './combine';
 

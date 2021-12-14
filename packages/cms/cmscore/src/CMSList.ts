@@ -1,7 +1,7 @@
 import Emittery from 'emittery';
 import { CMSItem } from './CMSItem';
+import { getInstanceIndex } from '$global/helpers/instances';
 import { getCollectionElements } from '@finsweet/ts-utils';
-import { getInstanceIndex } from 'global/attributes';
 import { storePaginationData, setPaginationQueryParams } from './pagination';
 import { renderListItems } from './render';
 import { updateItemsCount } from './items';

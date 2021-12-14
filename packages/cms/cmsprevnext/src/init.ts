@@ -1,5 +1,5 @@
 import { removeTrailingSlash } from '@finsweet/ts-utils';
-import { importCMSCore } from 'global/import';
+import { importCMSCore } from '$global/import/cmscore';
 import { collectElements } from './collect';
 import { getSelector } from './constants';
 

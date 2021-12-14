@@ -1,32 +1,4 @@
-import { Debug, extractNumberSuffix } from '@finsweet/ts-utils';
-import { ATTRIBUTES } from './constants';
-import { GlobalAttributeParams } from './types/global';
-
-/**
- * Makes sure the window object is defined.
- */
-export const initAttributes = () => {
-  window.fsAttributes ||= {
-    cms: {},
-  };
-};
-
-/**
- * Checks the global params of the Attribute `<script>`.
- * @param script The `<script>` element.
- * @returns The {@link GlobalAttributeParams}.
- */
-export const assessScript = (script: HTMLOrSVGScriptElement | null): GlobalAttributeParams => {
-  const { preventLoad, debugMode } = ATTRIBUTES;
-
-  // Check if the Attribute should not be automatically loaded
-  const preventsLoad = typeof script?.getAttribute(preventLoad.key) === 'string';
-
-  // Check if Debug Mode is activated
-  if (typeof script?.getAttribute(debugMode.key) === 'string') Debug.activateAlerts();
-
-  return { preventsLoad };
-};
+import type { AttributeOperator, AttributeStaticValue, AttributeValue } from '$global/types/selectors';
 
 /**
  * Creates a dynamic attribute value.
@@ -38,18 +10,9 @@ export const generateDynamicAttibuteValue = (value: string) => {
 };
 
 /**
- * Specific types for `generateSelectors`.
- */
-type AttributeStaticValue = string;
-type AttributeDynamicValue = ReturnType<typeof generateDynamicAttibuteValue>;
-type AttributeValue = AttributeStaticValue | AttributeDynamicValue;
-type AttributeOperator = 'prefixed' | 'suffixed' | 'contains';
-
-/**
  * @returns A `getSelector` callback for the passed `attributes` object.
  * @param attributes An object containing all attribute keys and values.
  */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const generateSelectors = <
   Attributes extends {
     [name: string]: {
@@ -133,17 +96,4 @@ export const generateSelectors = <
   };
 
   return [getSelector, queryElement] as const;
-};
-
-/**
- * Gets the instance index of an element attribute.
- * @example An element with the `fs-copyclip-element="trigger-1"` attribute will return `1` as the instance index.
- * @param element The element to extract the instance index.
- * @param attributeKey The attribute key that holds the instance index.
- */
-export const getInstanceIndex = (element: Element, attributeKey: string): number | undefined => {
-  const elementValue = element.getAttribute(attributeKey);
-  const instanceIndex = elementValue ? extractNumberSuffix(elementValue) : undefined;
-
-  return instanceIndex;
 };

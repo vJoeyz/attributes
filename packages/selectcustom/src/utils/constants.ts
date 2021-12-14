@@ -1,5 +1,5 @@
-import { generateSelectors } from 'global/attributes';
-import { ARROW_DOWN_KEY, ARROW_UP_KEY, SPACE_KEY, TAB_KEY } from 'global/keyboard';
+import { generateSelectors } from '$global/factory/selectors';
+import { ARROW_DOWN_KEY, ARROW_UP_KEY, SPACE_KEY, TAB_KEY } from '$global/constants/keyboard';
 
 export const ATTRIBUTE = 'selectcustom';
 

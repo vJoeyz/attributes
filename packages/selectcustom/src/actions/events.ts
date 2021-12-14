@@ -1,5 +1,5 @@
-import { ARROW_DOWN_KEY, ARROW_UP_KEY, SPACE_KEY, TAB_KEY } from 'global/keyboard';
-import { closeDropdown } from 'global/dropdowns';
+import { ARROW_DOWN_KEY, ARROW_UP_KEY, SPACE_KEY, TAB_KEY } from '$global/constants/keyboard';
+import { closeDropdown } from '$global/helpers/dropdowns';
 import { CONTROL_KEYS } from '../utils/constants';
 import { updateOptionsState } from './state';
 
