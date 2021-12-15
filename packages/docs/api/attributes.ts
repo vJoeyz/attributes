@@ -237,7 +237,8 @@ export const attributesData: AttributesData = [
   {
     key: 'untransform',
     title: 'Fixed position untransform',
-    description: 'Disable transform properties of all parents of an item to assure "position: fixed;" works correctly.',
+    description:
+      'Move a `position: fixed` element ouside of its stacking context to avoid unwanted behaviors because of transformed parents.',
     href: 'https://www.finsweet.com/attributes/fixed-position-untransform',
     baseSrc: 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-untransform@1',
     scriptSrc: 'untransform.js',
