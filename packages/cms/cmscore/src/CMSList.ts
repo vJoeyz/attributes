@@ -70,7 +70,7 @@ export class CMSList extends Emittery<CMSListEvents> {
   /**
    * Defines if the `Empty State` is currently active (no valid elements to show).
    */
-  public emptyState?: boolean;
+  public emptyState = false;
 
   /**
    * A custom loader element.
@@ -266,15 +266,14 @@ export class CMSList extends Emittery<CMSListEvents> {
    * Recalculates the list object model based on the current props of the items
    * and triggers de correspondent mutations.
    *
-   * @param addingItems Defines if new items are being added.
-   * If `true`, the items will be animated.
-   * If `false`, the list will be animated instead.
+   * @param animateItems Defines if the rendered items should be animated.
+   * @param animateList Defines if the list should be animated.
    */
-  public async renderItems(addingItems?: boolean): Promise<void> {
+  public async renderItems(animateItems?: boolean, animateList?: boolean): Promise<void> {
     await this.renderingQueue;
 
     return new Promise(async (resolve) => {
-      const queueItem = renderListItems(this, addingItems);
+      const queueItem = renderListItems(this, animateItems, animateList);
 
       this.renderingQueue = queueItem;
 
@@ -388,23 +387,6 @@ export class CMSList extends Emittery<CMSListEvents> {
     wrapper.insertBefore(element, list?.nextSibling || null);
 
     this.emptyElement = element;
-  }
-
-  /**
-   * TODO: Remove this check after `cmscore 1.5.0` has rolled out.
-   *
-   * Adds a `Pagination Previous` button to the list.
-   * @param element The element to add.
-   */
-  public addPaginationPrevious(element: PaginationButtonElement) {
-    const { paginationPrevious, paginationNext } = this;
-
-    if (paginationPrevious) return;
-
-    element.style.display = 'none';
-    paginationNext?.parentElement?.prepend(element);
-
-    this.paginationPrevious = element;
   }
 
   /**
