@@ -1,6 +1,12 @@
 import { generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTES_PREFIX = 'fs-cmsnest';
+export const ATTRIBUTE = 'cmsnest';
+
+const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
+
+export const LIST_ELEMENT_KEY = 'list';
+export const COLLECTION_SETTING_KEY = 'collection';
+export const EMPTY_SETTING_KEY = 'empty';
 
 export const ATTRIBUTES = {
   element: {
@@ -9,19 +15,19 @@ export const ATTRIBUTES = {
       /**
        * Defines a list to be combined into the target.
        */
-      list: 'list',
+      list: LIST_ELEMENT_KEY,
     },
   },
 
   /**
    * Defines a Collection List that will be nested inside the target list element.
    */
-  collection: { key: `${ATTRIBUTES_PREFIX}-collection` },
+  collection: { key: `${ATTRIBUTES_PREFIX}-${COLLECTION_SETTING_KEY}` },
 
   /**
    * Defines an `Empty State` element.
    */
-  empty: { key: `${ATTRIBUTES_PREFIX}-empty` },
+  empty: { key: `${ATTRIBUTES_PREFIX}-${EMPTY_SETTING_KEY}` },
 } as const;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

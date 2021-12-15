@@ -5,11 +5,9 @@ import type { CMSItem } from '$cms/cmscore/src';
 import type { CMSCore } from '$cms/cmscore/src/types';
 import { normalizePropKey } from '$cms/utils/props';
 
-import { getNestingTargets } from './collect';
-import { ATTRIBUTES, getSelector } from './constants';
-import type { CollectionsToNest } from './types';
-
-// Types
+import { ATTRIBUTES, getSelector } from '../utils/constants';
+import type { NestSources } from '../utils/types';
+import { getNestTargets } from './collect';
 
 // Constants
 const domParser = new DOMParser();
@@ -17,18 +15,18 @@ const domParser = new DOMParser();
 /**
  * Fetches each Collection Item's Template Page, checks which nested items belong to it, and appends the nested collection only containing the correspondent items.
  * @param cmsItem A `CMSItem` instance.
- * @param collectionsToNest The `CollectionsToNest` `Map`.
+ * @param nestSources The {@link NestSources} object.
  */
 export const populateNestedCollections = async (
   { element, href }: CMSItem,
-  collectionsToNest: CollectionsToNest,
+  nestSources: NestSources,
   { CMSList }: CMSCore
 ): Promise<void> => {
   if (!href) return;
 
-  // Get the nesting targets
-  const nestingTargets = getNestingTargets(element);
-  if (!nestingTargets.size) return;
+  // Get the nest targets
+  const nestTargets = getNestTargets(element);
+  if (!nestTargets.size) return;
 
   // Fetch the `Collection Item`'s Template Page
   const response = await fetch(href);
@@ -45,14 +43,14 @@ export const populateNestedCollections = async (
     const collectionId = normalizePropKey(pageListInstance.getAttribute(ATTRIBUTES.collection.key));
     if (!collectionId) return;
 
-    const collectionToNest = collectionsToNest.get(collectionId);
-    const nestingTarget = nestingTargets.get(collectionId);
-    if (!collectionToNest || !nestingTarget) return;
+    const nestSource = nestSources.get(collectionId);
+    const nestTarget = nestTargets.get(collectionId);
+    if (!nestSource || !nestTarget) return;
 
-    const nestingTargetParent = nestingTarget.parentElement;
-    if (!nestingTargetParent) return;
+    const nestTargetParent = nestTarget.parentElement;
+    if (!nestTargetParent) return;
 
-    const { listInstance, emptyElement } = collectionToNest;
+    const { listInstance, emptyElement } = nestSource;
 
     const itemsToNest = pageListInstance.items.reduce<CollectionItemElement[]>((items, { href }) => {
       if (!href) return items;
@@ -68,6 +66,7 @@ export const populateNestedCollections = async (
 
     const newCollectionWrapper = cloneNode(listInstance.wrapper);
     const newCollectionItems = getCollectionElements(newCollectionWrapper, 'items');
+    newCollectionWrapper.style.display = '';
 
     if (itemsToNest.length) {
       for (const newCollectionItem of newCollectionItems) {
@@ -79,10 +78,13 @@ export const populateNestedCollections = async (
       const newCollectionList = getCollectionElements(newCollectionWrapper, 'list');
       newCollectionList?.remove();
 
-      newCollectionWrapper.appendChild(cloneNode(emptyElement));
+      const newEmptyElement = cloneNode(emptyElement);
+      newEmptyElement.style.display = '';
+
+      newCollectionWrapper.appendChild(newEmptyElement);
     }
 
-    nestingTargetParent.insertBefore(newCollectionWrapper, nestingTarget);
-    nestingTarget.remove();
+    nestTargetParent.insertBefore(newCollectionWrapper, nestTarget);
+    nestTarget.remove();
   });
 };
