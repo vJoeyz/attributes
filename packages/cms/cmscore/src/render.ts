@@ -12,11 +12,10 @@ type AnchorData = [CMSItem, number, CMSItem | undefined];
 /**
  * Shows / hides the list items based on their properties.
  * @param listInstance The {@link CMSList} instance.
- * @param addingItems Defines if new items are being added.
- * If yes, the items will be animated.
- * If not, the list will be animated instead.
+ * @param animateItems Defines if the rendered items should be animated.
+ * @param animateList Defines if the list should be animated.
  */
-export const renderListItems = async (listInstance: CMSList, addingItems = false) => {
+export const renderListItems = async (listInstance: CMSList, animateItems = false, animateList = true) => {
   const { items, itemsPerPage, paginationActive, currentPage, emptyState: oldEmptyState } = listInstance;
 
   // Collect items and recalculate the total pages
@@ -59,14 +58,14 @@ export const renderListItems = async (listInstance: CMSList, addingItems = false
   });
 
   // Animate the list
-  const animateList = !addingItems || (oldEmptyState && !newEmptyState);
+  const shouldAnimateList = (animateList && !animateItems) || oldEmptyState !== newEmptyState;
 
-  if (animateList) await listInstance.displayElement(oldEmptyState ? 'emptyElement' : 'list', false);
+  if (shouldAnimateList) await listInstance.displayElement(oldEmptyState ? 'emptyElement' : 'list', false);
 
   // Render the items
   await Promise.all([
-    ...hideItems(itemsToHide, listInstance, addingItems),
-    ...showItems(itemsToAnchor, listInstance, addingItems),
+    ...hideItems(itemsToHide, listInstance, animateItems),
+    ...showItems(itemsToAnchor, listInstance, animateItems),
   ]);
 
   // Emit events
@@ -76,7 +75,7 @@ export const renderListItems = async (listInstance: CMSList, addingItems = false
   await restartWebflowModules(itemsToShow, listInstance);
 
   // Animate the list
-  if (animateList) await listInstance.displayElement(newEmptyState ? 'emptyElement' : 'list');
+  if (shouldAnimateList) await listInstance.displayElement(newEmptyState ? 'emptyElement' : 'list');
 };
 
 /**
