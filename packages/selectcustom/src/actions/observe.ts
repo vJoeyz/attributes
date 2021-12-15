@@ -14,14 +14,17 @@ const observeDropdownList = (settings: Settings) => {
   const { dropdownToggle, dropdownList, optionsStore, hideInitial } = settings;
 
   const callback: MutationCallback = debounce(() => {
-    const selectedOption =
-      optionsStore.find(({ selected, hidden }) => selected && !hidden) || optionsStore.find(({ hidden }) => !hidden);
-    if (!selectedOption) return;
+    const selectedOption = optionsStore.find(({ selected }) => selected);
+    const firstNonHiddenOption = optionsStore.find(({ hidden }) => !hidden);
+
+    if (!selectedOption || !firstNonHiddenOption) return;
 
     const isOpen = dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true';
 
     if (isOpen) {
-      selectedOption.element.focus();
+      if (selectedOption.hidden) firstNonHiddenOption.element.focus();
+      else selectedOption.element.focus();
+
       return;
     }
 
