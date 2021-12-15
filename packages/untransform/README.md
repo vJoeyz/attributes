@@ -1,6 +1,6 @@
 # `untransform` Attribute
 
-Untransform all parents of a fixed element to prevent unwanted positioning behaviors.
+Move a `position: fixed` element ouside of its stacking context to avoid unwanted behaviors because of transformed parents.
 
 ## CDN Import
 
