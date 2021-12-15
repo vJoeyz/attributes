@@ -3,7 +3,6 @@ import type { FormBlockElement } from '@finsweet/ts-utils';
 import debounce from 'just-debounce';
 
 import type { CMSList } from '$cms/cmscore/src';
-import { checkCMSCoreVersion } from '$cms/utils/versioning';
 import { importAnimations } from '$global/import/animation';
 
 import { clearFilterData } from '../actions/clear';
@@ -274,7 +273,7 @@ export class CMSFilters {
     this.debouncedApplyFilters = undefined;
 
     const { listInstance, filtersData, filtersActive, highlightResults, tagsInstance, showQueryParams } = this;
-    const { items, currentPage } = listInstance;
+    const { items, initialElement } = listInstance;
 
     // Abort if no filtering is needed
     const filtersAreEmpty = filtersData.every(({ values }) => !values.size);
@@ -289,34 +288,32 @@ export class CMSFilters {
       item.valid = assessFilter(item, filtersData, filtersAreEmpty, highlightResults);
     }
 
+    if (addingItems) return;
+
     // Render the items
-    if (!addingItems) {
-      // TODO: Remove this after `cmscore v1.5.0` has rolled out.
-      if (checkCMSCoreVersion('>=', '1.5.0')) await listInstance.switchPage(1, false);
-      else if (currentPage) listInstance.currentPage = 1;
+    await listInstance.switchPage(1, false);
 
-      listInstance.scrollToAnchor();
+    listInstance.scrollToAnchor();
 
-      if (showQueryParams) setQueryParams(filtersData);
+    if (showQueryParams) setQueryParams(filtersData);
 
-      await Promise.all([
-        // Render items
-        (async () => {
-          if (filtersAreEmpty) {
-            await this.toggleFiltersState(filtersAreEmpty);
-            await listInstance.renderItems(true);
-          } else {
-            await listInstance.renderItems(true);
-            await this.toggleFiltersState(filtersAreEmpty);
-          }
-        })(),
+    await Promise.all([
+      // Render items
+      (async () => {
+        if (filtersAreEmpty) {
+          await this.toggleFiltersState(filtersAreEmpty);
+          await listInstance.renderItems(false, !initialElement);
+        } else {
+          await listInstance.renderItems(false, !initialElement);
+          await this.toggleFiltersState(filtersAreEmpty);
+        }
+      })(),
 
-        // Sync the `CMSTags`
-        (async () => {
-          if (syncTags) await tagsInstance?.syncTags();
-        })(),
-      ]);
-    }
+      // Sync the `CMSTags`
+      (async () => {
+        if (syncTags) await tagsInstance?.syncTags();
+      })(),
+    ]);
   }
 
   /**
