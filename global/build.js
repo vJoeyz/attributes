@@ -19,12 +19,14 @@ export const defaultBuildSettings = {
  * Generates the main script.
  * @param {string} entryPoint
  * @param {string} fileName
+ * @param {boolean} [format]
  */
-export const generateScript = (entryPoint, fileName) => {
+export const generateScript = (entryPoint, fileName, format) => {
   esbuild.build({
     ...defaultBuildSettings,
     entryPoints: [entryPoint],
     outfile: `${production ? '' : process.env.CUSTOM_BUILD_DIRECTORY || ''}/${fileName}.js`,
+    format,
   });
 };
 

@@ -8,5 +8,5 @@ dotenv.config({ path: '../../../.env' });
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-generateScript('src/index.ts', 'cmscore');
+generateScript('src/index.ts', 'cmscore', 'esm');
 generateChangesetsJSON(__dirname);
