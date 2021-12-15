@@ -14,7 +14,7 @@ dotenv.config({ path: '../../.env' });
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 generateScript('src/index.ts', 'animation');
-generateScript('src/functions.ts', 'functions');
+generateScript('src/functions.ts', 'functions', 'esm');
 generateExamplesJSON(__dirname);
 generateSchemaJSON(__dirname);
 generateChangesetsJSON(__dirname);
