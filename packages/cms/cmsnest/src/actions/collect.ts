@@ -3,8 +3,8 @@ import type { CollectionItemElement } from '@finsweet/ts-utils';
 import type { CMSCore } from '$cms/cmscore/src/types';
 import { normalizePropKey } from '$cms/utils/props';
 
-import { ATTRIBUTES, getSelector } from './constants';
-import type { CollectionsToNest, NestingTargets } from './types';
+import { ATTRIBUTES, getSelector } from '../utils/constants';
+import type { NestSources, NestTargets } from '../utils/types';
 
 // Constants
 const {
@@ -16,8 +16,8 @@ const {
  * Queries the existing CMS Collections on the page that will be nested inside the main list instance.
  * @returns A `Map` with the `collectionKey` as the keys and `CMSList` instances as the values.
  */
-export const getCollectionsToNest = ({ createCMSListInstances }: CMSCore): CollectionsToNest => {
-  const collectionsToNest: CollectionsToNest = new Map();
+export const getNestSources = ({ createCMSListInstances }: CMSCore): NestSources => {
+  const nestSources: NestSources = new Map();
 
   const listInstances = createCMSListInstances([getSelector('collection')]);
 
@@ -26,14 +26,13 @@ export const getCollectionsToNest = ({ createCMSListInstances }: CMSCore): Colle
     if (!collectionId) continue;
 
     const emptyElement = document.querySelector<HTMLElement>(`[${emptyKey}^="${collectionId}"]`);
-    if (emptyElement) emptyElement.remove();
+    if (emptyElement) emptyElement.style.display = 'none';
+    listInstance.wrapper.style.display = 'none';
 
-    listInstance.wrapper.remove();
-
-    collectionsToNest.set(collectionId, { listInstance, emptyElement });
+    nestSources.set(collectionId, { listInstance, emptyElement });
   }
 
-  return collectionsToNest;
+  return nestSources;
 };
 
 /**
@@ -41,16 +40,16 @@ export const getCollectionsToNest = ({ createCMSListInstances }: CMSCore): Colle
  * @param itemElement The `CollectionItemElement`.
  * @returns A `Map` with the `collectionKey` as the keys and `HTMLElement` targets as the values.
  */
-export const getNestingTargets = (itemElement: CollectionItemElement) => {
-  const nestingTargets: NestingTargets = new Map();
-  const nestingTargetElements = itemElement.querySelectorAll<HTMLElement>(getSelector('collection'));
+export const getNestTargets = (itemElement: CollectionItemElement) => {
+  const nestTargets: NestTargets = new Map();
+  const nestTargetElements = itemElement.querySelectorAll<HTMLElement>(getSelector('collection'));
 
-  for (const target of nestingTargetElements) {
+  for (const target of nestTargetElements) {
     const collectionId = normalizePropKey(target.getAttribute(collectionKey));
     if (!collectionId) continue;
 
-    nestingTargets.set(collectionId, target);
+    nestTargets.set(collectionId, target);
   }
 
-  return nestingTargets;
+  return nestTargets;
 };
