@@ -102,7 +102,10 @@ const checkFilterValidity = (
         }
 
         // Single Prop Value
-        else if (filterElements.some(({ type }) => type !== 'checkbox' && type !== 'radio') || filterKeys.length > 1) {
+        else if (
+          filterElements.some(({ type }) => !['checkbox', 'radio', 'select-one'].includes(type)) ||
+          filterKeys.length > 1
+        ) {
           isValid = propValue.toLowerCase().includes(filterValue.toLowerCase());
         }
 
