@@ -20,7 +20,7 @@ export const initCollapseOptions = () => {
   const expandedToggles: Set<Element> = new Set();
 
   const displayTrigger = (display = true) => {
-    collapseAllDropdownsTrigger.style.display = display ? '' : 'none';
+    collapseAllDropdownsTrigger.style.display = display ? 'flex' : 'none';
   };
 
   displayTrigger(false);
