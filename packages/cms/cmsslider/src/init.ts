@@ -1,6 +1,7 @@
 import { restartWebflow } from '@finsweet/ts-utils';
 
 import type { CMSList } from '$cms/cmscore/src';
+import { checkCMSCoreVersion } from '$cms/utils/versioning';
 import { importCMSCore } from '$global/import/cmscore';
 
 import { collectPopulateData } from './collect';
@@ -21,35 +22,59 @@ export const init = async (): Promise<CMSList[]> => {
   const populateData = collectPopulateData(listInstances);
 
   // Populate the sliders
-  const restoreMaskCallbacks = populateData.map((data) => {
-    const { listInstances, slider } = data;
+  // TODO: Remove this check once `cmscore v1.5.5` rolls out
+  let restoreMaskCallbacks: (() => void)[] = [];
 
-    const createSlidesFromItems = populateSliderFromLists(data);
+  if (checkCMSCoreVersion('>=', '1.5.5')) {
+    for (const data of populateData) {
+      const { listInstances } = data;
 
-    // Listen events
-    for (const listInstance of listInstances) {
-      listInstance.restartWebflow = true;
+      const createSlidesFromItems = populateSliderFromLists(data);
 
-      listInstance.items = [];
+      // Listen events
+      for (const listInstance of listInstances) {
+        listInstance.restartSliders = true;
 
-      let restoreMask: (() => void) | undefined;
-
-      listInstance.on('renderitems', (newItems) => {
         listInstance.items = [];
 
-        createSlidesFromItems?.(newItems);
+        listInstance.on('additems', async (newItems) => {
+          listInstance.items = [];
 
-        restoreMask = mutateSliderMask(slider);
-      });
-
-      listInstance.on('additems', async () => {
-        restoreMask?.();
-        restoreMask = undefined;
-      });
+          createSlidesFromItems?.(newItems);
+        });
+      }
     }
+  } else {
+    restoreMaskCallbacks = populateData.map((data) => {
+      const { listInstances, slider } = data;
 
-    return mutateSliderMask(slider);
-  });
+      const createSlidesFromItems = populateSliderFromLists(data);
+
+      // Listen events
+      for (const listInstance of listInstances) {
+        listInstance.restartWebflow = true;
+
+        listInstance.items = [];
+
+        let restoreMask: (() => void) | undefined;
+
+        listInstance.on('renderitems', (newItems) => {
+          listInstance.items = [];
+
+          createSlidesFromItems?.(newItems);
+
+          restoreMask = mutateSliderMask(slider);
+        });
+
+        listInstance.on('additems', async () => {
+          restoreMask?.();
+          restoreMask = undefined;
+        });
+      }
+
+      return mutateSliderMask(slider);
+    });
+  }
 
   await restartWebflow();
 
