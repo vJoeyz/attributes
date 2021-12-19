@@ -76,7 +76,7 @@ export const init = async (): Promise<CMSList[]> => {
     });
   }
 
-  await restartWebflow();
+  await restartWebflow(['slider']);
 
   // Remove the Masks mutations
   for (const restoreMaskCallback of restoreMaskCallbacks) restoreMaskCallback();
