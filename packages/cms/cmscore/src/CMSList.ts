@@ -157,6 +157,16 @@ export class CMSList extends Emittery<CMSListEvents> {
   public restartLightbox = false;
 
   /**
+   * Defines if the Webflow `slider` module must be restarted when rendering items.
+   */
+  public restartSliders = false;
+
+  /**
+   * Defines if the Webflow `tabs` module must be restarted when rendering items.
+   */
+  public restartTabs = false;
+
+  /**
    * Defines the amount of items per page.
    */
   public itemsPerPage: number;
