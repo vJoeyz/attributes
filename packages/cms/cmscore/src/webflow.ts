@@ -13,9 +13,25 @@ import type { CMSItem, CMSList } from '.';
  */
 export const restartWebflowModules = async (
   renderedItems: CMSItem[],
-  { items, restartWebflow: mustRestartWebflow, restartIx, restartCommerce, restartLightbox }: CMSList
+  {
+    items,
+    restartWebflow: mustRestartWebflow,
+    restartIx,
+    restartCommerce,
+    restartLightbox,
+    restartSliders,
+    restartTabs,
+  }: CMSList
 ) => {
-  if (!mustRestartWebflow && !restartIx && !restartCommerce && !restartLightbox) return;
+  const modulesRelationship: [boolean, WebflowModule][] = [
+    [restartIx, 'ix2'],
+    [restartCommerce, 'commerce'],
+    [restartLightbox, 'lightbox'],
+    [restartSliders, 'slider'],
+    [restartTabs, 'tabs'],
+  ];
+
+  if (!mustRestartWebflow && !modulesRelationship.some(([mustRestart]) => mustRestart)) return;
   if (!renderedItems.some(({ needsWebflowRestart }) => needsWebflowRestart)) return;
 
   for (const item of items) {
@@ -29,11 +45,11 @@ export const restartWebflowModules = async (
     return;
   }
 
-  const modulesToRestart: WebflowModule[] = [];
+  const modulesToRestart = modulesRelationship.reduce<WebflowModule[]>((modulesToRestart, [mustRestart, module]) => {
+    if (mustRestart) modulesToRestart.push(module);
 
-  if (restartIx) modulesToRestart.push('ix2');
-  if (restartCommerce) modulesToRestart.push('commerce');
-  if (restartLightbox) modulesToRestart.push('lightbox');
+    return modulesToRestart;
+  }, []);
 
   await restartWebflow(modulesToRestart);
 };
