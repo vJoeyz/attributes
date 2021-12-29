@@ -20,11 +20,9 @@ export const updateOptionsState = (settings: Settings, selectedOption?: OptionDa
     const selected = element === selectedOption?.element;
 
     optionData.selected = selected;
+
     element.classList[selected ? 'add' : 'remove'](CURRENT_CSS_CLASS);
-
-    if (selected) element.setAttribute(ARIA_SELECTED_KEY, 'true');
-    else element.removeAttribute(ARIA_SELECTED_KEY);
-
+    element.setAttribute(ARIA_SELECTED_KEY, `${selected}`);
     element.setAttribute(TABINDEX_KEY, selected ? '0' : '-1');
   }
 
