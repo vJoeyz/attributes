@@ -1,6 +1,11 @@
 import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTES_PREFIX = 'fs-mirrorinput';
+const ATTRIBUTE = 'mirrorinput';
+
+const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
+
+export const TRIGGER_ELEMENT_KEY = 'trigger';
+export const TARGET_ELEMENT_KEY = 'target';
 
 export const ATTRIBUTES = {
   /**
@@ -12,12 +17,12 @@ export const ATTRIBUTES = {
       /**
        * Defines the element as the trigger of the event.
        */
-      trigger: 'trigger',
+      trigger: TRIGGER_ELEMENT_KEY,
 
       /**
        * Defines the element as the target to mirror the fired event.
        */
-      target: generateDynamicAttibuteValue('target'),
+      target: generateDynamicAttibuteValue(TARGET_ELEMENT_KEY),
     },
   },
 } as const;
