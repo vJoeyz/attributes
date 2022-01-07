@@ -1,6 +1,14 @@
 import { generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTES_PREFIX = 'fs-cmsprevnext';
+const ATTRIBUTE = 'cmsprevnext';
+
+const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
+
+export const LIST_ELEMENT_KEY = 'list';
+export const PREVIOUS_ELEMENT_KEY = 'previous';
+export const PREVIOUS_EMPTY_ELEMENT_KEY = 'previous-empty';
+export const NEXT_ELEMENT_KEY = 'next';
+export const NEXT_EMPTY_ELEMENT_KEY = 'next-empty';
 
 export const ATTRIBUTES = {
   element: {
@@ -9,27 +17,27 @@ export const ATTRIBUTES = {
       /**
        * Defines a list to be combined into the target.
        */
-      list: 'list',
+      list: LIST_ELEMENT_KEY,
 
       /**
        * Defines the `Previous` placeholder target.
        */
-      previous: 'previous',
+      previous: PREVIOUS_ELEMENT_KEY,
 
       /**
        * Defines the `Previous` Empty State.
        */
-      previousEmpty: 'previous-empty',
+      previousEmpty: PREVIOUS_EMPTY_ELEMENT_KEY,
 
       /**
        * Defines the `Next` placeholder target.
        */
-      next: 'next',
+      next: NEXT_ELEMENT_KEY,
 
       /**
        * Defines the `Next` Empty State.
        */
-      nextEmpty: 'next-empty',
+      nextEmpty: NEXT_EMPTY_ELEMENT_KEY,
     },
   },
 } as const;

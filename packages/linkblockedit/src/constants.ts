@@ -1,6 +1,11 @@
 import { generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTES_PREFIX = 'fs-linkblockedit';
+const ATTRIBUTE = 'linkblockedit';
+
+const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
+
+export const PARENT_ELEMENT_KEY = 'parent';
+export const SELECTOR_SETTING_KEY = 'selector';
 
 export const ATTRIBUTES = {
   element: {
@@ -9,14 +14,14 @@ export const ATTRIBUTES = {
       /**
        * Defines the parent element that will act as the `Link Block`.
        */
-      parent: 'parent',
+      parent: PARENT_ELEMENT_KEY,
     },
   },
 
   /**
    * Defines a global selector to query multiple `parent` elements.
    */
-  selector: { key: `${ATTRIBUTES_PREFIX}-selector` },
+  selector: { key: `${ATTRIBUTES_PREFIX}-${SELECTOR_SETTING_KEY}` },
 } as const;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

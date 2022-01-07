@@ -1,6 +1,14 @@
 import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTES_PREFIX = 'fs-sliderdots';
+const ATTRIBUTE = 'sliderdots';
+
+const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
+
+export const SLIDER_ELEMENT_KEY = 'slider';
+export const CONTENT_ELEMENT_KEY = 'content';
+export const SLIDER_NAV_ELEMENT_KEY = 'slider-nav';
+export const ACTIVE_SETTING_KEY = 'active';
+export const REMOVE_SETTING_KEY = 'remove';
 
 export const ATTRIBUTES = {
   element: {
@@ -9,30 +17,30 @@ export const ATTRIBUTES = {
       /**
        * Defines a slider to instantiate.
        */
-      slider: generateDynamicAttibuteValue('slider'),
+      slider: generateDynamicAttibuteValue(SLIDER_ELEMENT_KEY),
 
       /**
        * Defines the content to be added to the slider dot.
        */
-      content: generateDynamicAttibuteValue('content'),
+      content: generateDynamicAttibuteValue(CONTENT_ELEMENT_KEY),
 
       /**
        * Defines a custom Slide Nav.
        */
-      sliderNav: generateDynamicAttibuteValue('slider-nav'),
+      sliderNav: generateDynamicAttibuteValue(SLIDER_NAV_ELEMENT_KEY),
     },
   },
 
   /**
    * Defines the `active` CSS class. Defaults to {@link DEFAULT_ACTIVE_CSS_CLASS}.
    */
-  active: { key: `${ATTRIBUTES_PREFIX}-active` },
+  active: { key: `${ATTRIBUTES_PREFIX}-${ACTIVE_SETTING_KEY}` },
 
   /**
    * Defines if the content should be removed or just duplicated.
    */
   remove: {
-    key: `${ATTRIBUTES_PREFIX}-remove`,
+    key: `${ATTRIBUTES_PREFIX}-${REMOVE_SETTING_KEY}`,
     values: { true: 'true' },
   },
 } as const;

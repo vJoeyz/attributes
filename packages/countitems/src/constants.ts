@@ -1,6 +1,11 @@
 import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTES_PREFIX = 'fs-countitems';
+const ATTRIBUTE = 'countitems';
+
+const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
+
+export const LIST_ELEMENT_KEY = 'list';
+export const VALUE_ELEMENT_KEY = 'value';
 
 export const ATTRIBUTES = {
   element: {
@@ -9,12 +14,12 @@ export const ATTRIBUTES = {
       /**
        * Defines the CMS list or list-wrapper.
        */
-      list: 'list',
+      list: LIST_ELEMENT_KEY,
 
       /**
        * Defines the element that will display the amount of CMS items.
        */
-      value: generateDynamicAttibuteValue('value'),
+      value: generateDynamicAttibuteValue(VALUE_ELEMENT_KEY),
     },
   },
 } as const;
