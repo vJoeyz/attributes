@@ -16,7 +16,12 @@ export const schema: AttributeSchema = {
       key: TARGET_ELEMENT_KEY,
       description: 'Defines the element as the target to mirror the fired event.',
       appliedTo: [],
-      conditions: [],
+      conditions: [
+        {
+          type: 'exists',
+          element: TRIGGER_ELEMENT_KEY,
+        },
+      ],
       requiresInstance: true,
       required: true,
     },

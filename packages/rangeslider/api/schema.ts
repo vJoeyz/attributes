@@ -28,7 +28,12 @@ export const schema: AttributeSchema = {
       key: TRACK_ELEMENT_KEY,
       description: 'Defines the track of the slider.',
       appliedTo: [],
-      conditions: [],
+      conditions: [
+        {
+          type: 'isChildOf',
+          element: WRAPPER_ELEMENT_KEY,
+        },
+      ],
       required: true,
       requiresInstance: true,
     },
@@ -36,7 +41,12 @@ export const schema: AttributeSchema = {
       key: FILL_ELEMENT_KEY,
       description: 'Defines the fill of the slider.',
       appliedTo: [],
-      conditions: [],
+      conditions: [
+        {
+          type: 'isChildOf',
+          element: TRACK_ELEMENT_KEY,
+        },
+      ],
       required: true,
       requiresInstance: true,
     },
@@ -44,16 +54,30 @@ export const schema: AttributeSchema = {
       key: HANDLE_ELEMENT_KEY,
       description: 'Defines a handle of the slider.',
       appliedTo: [],
-      conditions: [],
+      conditions: [
+        {
+          type: 'isChildOf',
+          element: TRACK_ELEMENT_KEY,
+        },
+      ],
       required: true,
       requiresInstance: true,
     },
     {
       key: DISPLAY_VALUE_ELEMENT_KEY,
       description: "Defines an element to display a Handle's value.",
-      appliedTo: [],
-      conditions: [],
-      required: true,
+      appliedTo: ['p', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+      conditions: [
+        {
+          type: 'exists',
+          element: TRACK_ELEMENT_KEY,
+        },
+        {
+          type: 'exists',
+          element: HANDLE_ELEMENT_KEY,
+        },
+      ],
+      required: false,
       requiresInstance: true,
     },
   ],
@@ -61,7 +85,9 @@ export const schema: AttributeSchema = {
     {
       key: MIN_SETTING_KEY,
       description: 'Defines the minimum value of the range.',
-      appliedTo: {},
+      appliedTo: {
+        elements: [WRAPPER_ELEMENT_KEY],
+      },
       conditions: [],
       value: {
         type: 'int',
@@ -71,17 +97,9 @@ export const schema: AttributeSchema = {
     {
       key: MAX_SETTING_KEY,
       description: 'Defines the maximum value of the range.',
-      appliedTo: {},
-      conditions: [],
-      value: {
-        type: 'int',
-        default: '0',
+      appliedTo: {
+        elements: [WRAPPER_ELEMENT_KEY],
       },
-    },
-    {
-      key: START_SETTING_KEY,
-      description: 'Defines the start value of a handle.',
-      appliedTo: {},
       conditions: [],
       value: {
         type: 'int',
@@ -91,7 +109,21 @@ export const schema: AttributeSchema = {
     {
       key: STEP_SETTING_KEY,
       description: 'Defines the step of the values.',
-      appliedTo: {},
+      appliedTo: {
+        elements: [WRAPPER_ELEMENT_KEY],
+      },
+      conditions: [],
+      value: {
+        type: 'int',
+        default: '0',
+      },
+    },
+    {
+      key: START_SETTING_KEY,
+      description: 'Defines the start value of a handle.',
+      appliedTo: {
+        elements: [HANDLE_ELEMENT_KEY],
+      },
       conditions: [],
       value: {
         type: 'int',
@@ -101,7 +133,9 @@ export const schema: AttributeSchema = {
     {
       key: FORMAT_DISPLAY_SETTING_KEY,
       description: "Defines if the Handles' value display should be formatted.",
-      appliedTo: {},
+      appliedTo: {
+        elements: [WRAPPER_ELEMENT_KEY],
+      },
       conditions: [],
       value: {
         type: 'boolean',
@@ -111,7 +145,9 @@ export const schema: AttributeSchema = {
     {
       key: UPDATE_ACTION_SETTING_KEY,
       description: 'Defines when should the <input> elements be updated.',
-      appliedTo: {},
+      appliedTo: {
+        elements: [WRAPPER_ELEMENT_KEY],
+      },
       conditions: [],
       value: {
         type: 'options',

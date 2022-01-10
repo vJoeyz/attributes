@@ -1,3 +1,5 @@
+import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
+
 import type { AttributeSchema } from '$global/types/schema';
 
 import { LIST_ELEMENT_KEY, COLLECTION_SETTING_KEY, EMPTY_SETTING_KEY } from './../src/utils/constants';
@@ -8,7 +10,7 @@ export const schema: AttributeSchema = {
       key: LIST_ELEMENT_KEY,
       description: 'Defines a list to be combined into the target.',
       conditions: [],
-      appliedTo: [],
+      appliedTo: [`.${CMS_CSS_CLASSES.wrapper}`, `.${CMS_CSS_CLASSES.list}`],
       required: true,
       requiresInstance: true,
     },

@@ -6,6 +6,7 @@ import {
   SLIDER_NAV_ELEMENT_KEY,
   ACTIVE_SETTING_KEY,
   REMOVE_SETTING_KEY,
+  DEFAULT_ACTIVE_CSS_CLASS,
 } from './../src/constants';
 
 export const schema: AttributeSchema = {
@@ -15,41 +16,55 @@ export const schema: AttributeSchema = {
       description: 'Defines a slider to instantiate.',
       required: true,
       requiresInstance: true,
-      appliedTo: [],
+      appliedTo: ['.w-slider'],
       conditions: [],
     },
     {
       key: CONTENT_ELEMENT_KEY,
       description: 'Defines the content to be added to the slider dot.',
       required: true,
-      requiresInstance: true,
+      requiresInstance: false,
       appliedTo: [],
-      conditions: [],
+      conditions: [
+        {
+          type: 'isChildOf',
+          element: SLIDER_ELEMENT_KEY,
+        },
+      ],
     },
     {
       key: SLIDER_NAV_ELEMENT_KEY,
       description: 'Defines a custom Slide Nav.',
-      required: true,
+      required: false,
       requiresInstance: true,
       appliedTo: [],
-      conditions: [],
+      conditions: [
+        {
+          type: 'exists',
+          element: SLIDER_ELEMENT_KEY,
+        },
+      ],
     },
   ],
   settings: [
     {
       key: ACTIVE_SETTING_KEY,
       description: 'Defines the `active` CSS class',
-      appliedTo: {},
+      appliedTo: {
+        elements: [CONTENT_ELEMENT_KEY],
+      },
       conditions: [],
       value: {
         type: 'string',
-        default: '',
+        default: DEFAULT_ACTIVE_CSS_CLASS,
       },
     },
     {
       key: REMOVE_SETTING_KEY,
       description: 'Defines if the content should be removed or just duplicated.',
-      appliedTo: {},
+      appliedTo: {
+        elements: [CONTENT_ELEMENT_KEY],
+      },
       conditions: [],
       value: {
         type: 'boolean',

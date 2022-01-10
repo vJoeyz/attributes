@@ -1,3 +1,5 @@
+import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
+
 import type { AttributeSchema } from '$global/types/schema';
 
 import {
@@ -37,7 +39,7 @@ export const schema: AttributeSchema = {
       description: 'Defines a list to be filtered.',
       required: true,
       requiresInstance: true,
-      appliedTo: [],
+      appliedTo: [`.${CMS_CSS_CLASSES.list}`, `.${CMS_CSS_CLASSES.wrapper}`],
       conditions: [],
     },
     {
@@ -45,8 +47,13 @@ export const schema: AttributeSchema = {
       description: 'Defines the `Form` that holds the filters.',
       required: true,
       requiresInstance: true,
-      appliedTo: [],
-      conditions: [],
+      appliedTo: ['form'],
+      conditions: [
+        {
+          type: 'exists',
+          element: LIST_ELEMENT_KEY,
+        },
+      ],
     },
     {
       key: EMPTY_ELEMENT_KEY,

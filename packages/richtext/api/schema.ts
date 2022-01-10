@@ -14,7 +14,7 @@ export const schema: AttributeSchema = {
       key: RICH_TEXT_ELEMENT_KEY,
       description: 'Defines a rich text block instance.',
       conditions: [],
-      appliedTo: [],
+      appliedTo: ['div.w-richtext'],
       required: true,
       requiresInstance: false,
     },
@@ -34,7 +34,9 @@ export const schema: AttributeSchema = {
       key: SANITIZE_SETTING_KEY,
       description: 'Defines if the HTML should be sanitized before rendering it.',
       conditions: [],
-      appliedTo: {},
+      appliedTo: {
+        elements: [RICH_TEXT_ELEMENT_KEY],
+      },
       value: {
         type: 'boolean',
         default: 'true',
@@ -44,7 +46,9 @@ export const schema: AttributeSchema = {
       key: RESET_IX_SETTING_KEY,
       description: 'Defines if Webflow should be restarted after loading new items.',
       conditions: [],
-      appliedTo: {},
+      appliedTo: {
+        elements: [RICH_TEXT_ELEMENT_KEY],
+      },
       value: {
         type: 'boolean',
         default: 'true',

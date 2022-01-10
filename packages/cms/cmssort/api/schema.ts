@@ -1,3 +1,5 @@
+import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
+
 import type { AttributeSchema } from '$global/types/schema';
 
 import {
@@ -19,7 +21,7 @@ export const schema: AttributeSchema = {
     {
       key: LIST_ELEMENT_KEY,
       description: 'Defines a list to be combined into the target.',
-      appliedTo: [],
+      appliedTo: [`.${CMS_CSS_CLASSES.list}`, `.${CMS_CSS_CLASSES.wrapper}`],
       conditions: [],
       required: true,
       requiresInstance: true,
@@ -27,8 +29,13 @@ export const schema: AttributeSchema = {
     {
       key: TRIGGER_ELEMENT_KEY,
       description: 'Defines the `Previous` placeholder target.',
-      appliedTo: [],
-      conditions: [],
+      appliedTo: ['select', 'button', 'a'],
+      conditions: [
+        {
+          type: 'exists',
+          element: LIST_ELEMENT_KEY,
+        },
+      ],
       required: true,
       requiresInstance: true,
     },

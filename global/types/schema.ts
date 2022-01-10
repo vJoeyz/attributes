@@ -50,7 +50,7 @@ interface AttributeElementCondition {
   /**
    * Defines the type of the condition.
    */
-  type: 'exists' | 'isChildOf' | 'isParentOf';
+  type: 'exists' | 'isChildOf' | 'isParentOf' | 'isSiblingOf';
 }
 
 type AttributeElementElementCondition = AttributeElementCondition & {

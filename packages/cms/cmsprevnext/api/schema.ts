@@ -1,3 +1,5 @@
+import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
+
 import type { AttributeSchema } from '$global/types/schema';
 
 import {
@@ -14,41 +16,61 @@ export const schema: AttributeSchema = {
       key: LIST_ELEMENT_KEY,
       description: 'Defines a list to be combined into the target.',
       conditions: [],
-      appliedTo: [],
+      appliedTo: [`.${CMS_CSS_CLASSES.wrapper}`, `.${CMS_CSS_CLASSES.list}`],
       required: true,
-      requiresInstance: true,
+      requiresInstance: false,
     },
     {
       key: PREVIOUS_ELEMENT_KEY,
       description: 'Defines the `Previous` placeholder target.',
-      conditions: [],
-      appliedTo: [],
+      conditions: [
+        {
+          type: 'exists',
+          element: LIST_ELEMENT_KEY,
+        },
+      ],
+      appliedTo: ['div'],
       required: true,
-      requiresInstance: true,
+      requiresInstance: false,
     },
     {
       key: PREVIOUS_EMPTY_ELEMENT_KEY,
       description: 'Defines the `Previous` Empty State.',
-      conditions: [],
-      appliedTo: [],
-      required: true,
-      requiresInstance: true,
+      conditions: [
+        {
+          type: 'exists',
+          element: LIST_ELEMENT_KEY,
+        },
+      ],
+      appliedTo: ['div', 'p', 'span', 'button', 'a'],
+      required: false,
+      requiresInstance: false,
     },
     {
       key: NEXT_ELEMENT_KEY,
       description: 'Defines the `Next` placeholder target.',
-      conditions: [],
-      appliedTo: [],
+      conditions: [
+        {
+          type: 'exists',
+          element: LIST_ELEMENT_KEY,
+        },
+      ],
+      appliedTo: ['div'],
       required: true,
-      requiresInstance: true,
+      requiresInstance: false,
     },
     {
       key: NEXT_EMPTY_ELEMENT_KEY,
       description: 'Defines the `Next` Empty State.',
-      conditions: [],
-      appliedTo: [],
-      required: true,
-      requiresInstance: true,
+      conditions: [
+        {
+          type: 'exists',
+          element: LIST_ELEMENT_KEY,
+        },
+      ],
+      appliedTo: ['div', 'p', 'span', 'button', 'a'],
+      required: false,
+      requiresInstance: false,
     },
   ],
   settings: [],
