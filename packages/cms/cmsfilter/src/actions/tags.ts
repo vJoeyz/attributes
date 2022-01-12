@@ -17,11 +17,16 @@ export const updateTagText = (
   let value: string;
 
   if (mode === 'range') value = `[${values.map((value) => value || '--').join(', ')}]`;
-  else if (values[0] === 'true') value = keys;
   else [value] = values;
 
   // Set the new text
-  textNode.textContent = (tagFormat || globalTagsFormat) === 'category' ? `${keys}: ${value}` : value;
+  let textContent: string;
+
+  if (value === 'true') textContent = keys;
+  else if ((tagFormat || globalTagsFormat) === 'category') textContent = `${keys}: ${value}`;
+  else textContent = value;
+
+  textNode.textContent = textContent;
 };
 
 /**
