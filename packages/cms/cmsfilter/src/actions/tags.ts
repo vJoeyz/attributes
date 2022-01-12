@@ -10,11 +10,15 @@ export const updateTagText = (
   { values, textNode, filterData: { originalFilterKeys, mode, tagFormat, tagCategory } }: TagData,
   globalTagsFormat?: TagFormat
 ): void => {
-  // Format the value
-  const value = mode === 'range' ? `[${values.map((value) => value || '--').join(', ')}]` : values[0];
-
   // Capitalize the filter keys and join them
   const keys = tagCategory || originalFilterKeys.join(', ');
+
+  // Format the value
+  let value: string;
+
+  if (mode === 'range') value = `[${values.map((value) => value || '--').join(', ')}]`;
+  else if (values[0] === 'true') value = keys;
+  else [value] = values;
 
   // Set the new text
   textNode.textContent = (tagFormat || globalTagsFormat) === 'category' ? `${keys}: ${value}` : value;
