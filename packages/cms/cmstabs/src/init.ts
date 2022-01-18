@@ -1,7 +1,6 @@
 import { restartWebflow } from '@finsweet/ts-utils';
 
 import type { CMSList } from '$cms/cmscore/src';
-import { checkCMSCoreVersion } from '$cms/utils/versioning';
 import { importCMSCore } from '$global/import/cmscore';
 
 import { collectPopulateData } from './collect';
@@ -28,9 +27,8 @@ export const init = async (): Promise<CMSList[]> => {
 
     // Listen events
     for (const listInstance of listInstances) {
-      // TODO: Remove this check once `cmscore v1.5.5` rolls out
-      if (checkCMSCoreVersion('>=', '1.5.5')) listInstance.restartTabs = true;
-      else listInstance.restartWebflow = true;
+      listInstance.restartTabs = true;
+      listInstance.restartIx = true;
 
       listInstance.items = [];
 
