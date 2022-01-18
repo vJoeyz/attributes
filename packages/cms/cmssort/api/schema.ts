@@ -27,54 +27,103 @@ export const schema: AttributeSchema = {
       requiresInstance: true,
     },
     {
-      key: TRIGGER_ELEMENT_KEY,
-      description: 'Defines the `Previous` placeholder target.',
-      appliedTo: ['select', 'button', 'a'],
+      key: SCROLL_ANCHOR_ELEMENT_KEY,
+      description: 'Defines an element where to scroll the view every time a filter is applied.',
+      appliedTo: [],
+      conditions: [],
+      required: false,
+      requiresInstance: true,
+    },
+  ],
+  fields: [
+    {
+      key: FIELD_SETTING_KEY,
+      description: 'Defines a field key to sort items.',
+      specializations: [
+        {
+          key: 'select-trigger',
+          appliedTo: [
+            {
+              parent: LIST_ELEMENT_KEY,
+              selectors: ['div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'a'],
+            },
+            {
+              parent: null,
+              selectors: ['select'],
+              key: 'element',
+              value: TRIGGER_ELEMENT_KEY,
+            },
+            {
+              parent: 'select',
+              selectors: ['option'],
+              value: `$FIELD-asc`,
+            },
+            {
+              parent: 'select',
+              selectors: ['option'],
+              value: `$FIELD-desc`,
+            },
+          ],
+        },
+        {
+          key: 'button-trigger',
+          appliedTo: [
+            {
+              parent: LIST_ELEMENT_KEY,
+              selectors: ['div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'a'],
+            },
+            {
+              parent: null,
+              selectors: ['button'],
+              key: 'element',
+              value: TRIGGER_ELEMENT_KEY,
+            },
+          ],
+        },
+        {
+          key: 'dropdown-trigger',
+          appliedTo: [
+            {
+              parent: LIST_ELEMENT_KEY,
+              selectors: ['div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'a'],
+            },
+            {
+              parent: null,
+              selectors: ['.w-dropdown'],
+              key: 'element',
+              value: TRIGGER_ELEMENT_KEY,
+            },
+            {
+              parent: '.w-dropdown',
+              selectors: ['div'],
+              value: `$FIELD-asc`,
+            },
+            {
+              parent: '.w-dropdown',
+              selectors: ['div'],
+              value: `$FIELD-desc`,
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  settings: [
+    {
+      key: TYPE_SETTING_KEY,
+      description: 'Defines the type of the values to sort.',
+      appliedTo: {
+        fields: [FIELD_SETTING_KEY],
+      },
       conditions: [
         {
           type: 'exists',
           element: LIST_ELEMENT_KEY,
         },
       ],
-      required: true,
-      requiresInstance: true,
-    },
-    {
-      key: DROPDOWN_LABEL_ELEMENT_KEY,
-      description: 'Defines a Dropdown label.',
-      appliedTo: [],
-      conditions: [],
-      required: true,
-      requiresInstance: true,
-    },
-    {
-      key: SCROLL_ANCHOR_ELEMENT_KEY,
-      description: 'Defines an element where to scroll the view every time a filter is applied.',
-      appliedTo: [],
-      conditions: [],
-      required: true,
-      requiresInstance: true,
-    },
-  ],
-  settings: [
-    {
-      key: FIELD_SETTING_KEY,
-      description: 'Defines a field key to sort items.',
-      appliedTo: {},
-      conditions: [],
       value: {
         type: 'string',
-        default: '',
-      },
-    },
-    {
-      key: TYPE_SETTING_KEY,
-      description: 'Defines the type of the values to sort.',
-      appliedTo: {},
-      conditions: [],
-      value: {
-        type: 'string',
-        default: '',
+        default: 'date',
       },
     },
     {
@@ -90,17 +139,22 @@ export const schema: AttributeSchema = {
     {
       key: DURATION_SETTING_KEY,
       description: 'Defines the duration of the list animation.',
-      appliedTo: {},
+      appliedTo: {
+        elements: [LIST_ELEMENT_KEY],
+      },
       conditions: [],
       value: {
-        type: 'string',
-        default: '',
+        type: 'int',
+        default: '100',
       },
     },
     {
       key: ASC_CLASS_SETTING_KEY,
       description: 'Defines the CSS Class for the `asc` state.',
-      appliedTo: {},
+      appliedTo: {
+        fields: [FIELD_SETTING_KEY],
+        specializations: ['button-trigger'],
+      },
       conditions: [],
       value: {
         type: 'string',
@@ -110,7 +164,10 @@ export const schema: AttributeSchema = {
     {
       key: DESC_CLASS_SETTING_KEY,
       description: 'Defines the CSS Class for the `desc` state.',
-      appliedTo: {},
+      appliedTo: {
+        fields: [FIELD_SETTING_KEY],
+        specializations: ['button-trigger'],
+      },
       conditions: [],
       value: {
         type: 'string',

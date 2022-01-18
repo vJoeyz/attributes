@@ -1,6 +1,46 @@
 export interface AttributeSchema {
   elements: AttributeElementSchema[];
   settings: AttributeSettingSchema[];
+  fields?: AttributeFieldSchema[];
+}
+
+/**
+ * Defines the schema for a CMS Collection or CMS Collection Field
+ */
+interface AttributeFieldSchema {
+  key: string;
+  description: string;
+  specializations: FieldSpecialization[];
+  // appliedTo: string[];
+}
+
+/**
+ * Defines the field specialization (Multiple places in html can have the same field)
+ */
+interface FieldSpecialization {
+  key: string;
+  appliedTo: InstanceFieldSpecialization[];
+}
+
+/**
+ * Defines setting specialization (Settings with multiple fields)
+ */
+interface SettingSpecialization {
+  value: string;
+}
+
+/**
+ * Defines the model for set field specialization in one place of html
+ */
+interface InstanceFieldSpecialization {
+  /** Expected parent where the field belong */
+  parent: string | null;
+  /** Expected selectors where the field can belong */
+  selectors: string[];
+  /** Expected custom key for field */
+  key?: string;
+  /** Expected custom value for field */
+  value?: string;
 }
 
 /**
@@ -43,7 +83,11 @@ interface AttributeElementSchema {
   /**
    * Defines the conditions that this element must match to be valid.
    */
-  conditions: (AttributeElementElementCondition | AttributeElementSelectorCondition)[];
+  conditions: (
+    | AttributeElementElementCondition
+    | AttributeElementSelectorCondition
+    | AttributeSettingSettingsCondition
+  )[];
 }
 
 interface AttributeElementCondition {
@@ -94,12 +138,24 @@ interface AttributeSettingSchema {
      * Defines element selectors.
      */
     selectors?: string[];
+
+    /**
+     * Defines the field selectors
+     */
+    fields?: string[];
+
+    specializations?: string[];
   };
 
   /**
    * The possible SETTING_VALUEs to define.
    */
   value: AttributeSettingValuePrimitive | AttributeSettingValueOptions;
+
+  /**
+   * Possible behaviors to apply to this setting.
+   */
+  specializations?: SettingSpecialization[];
 
   /**
    * The conditions that other elements/settings must match.
@@ -151,7 +207,7 @@ type AttributeSettingMainCondition = (AttributeSettingElementCondition | Attribu
   /**
    * The type of the value.
    */
-  type: 'exists' | 'isChildOf' | 'isParentOf';
+  type: 'exists' | 'isChildOf' | 'isParentOf' | 'isSiblingOf';
 };
 
 type AttributeSettingSettingsCondition = (AttributeSettingElementCondition | AttributeSettingSelectorCondition) & {

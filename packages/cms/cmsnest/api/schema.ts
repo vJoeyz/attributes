@@ -15,17 +15,28 @@ export const schema: AttributeSchema = {
       requiresInstance: true,
     },
   ],
-  settings: [
+  fields: [
     {
       key: COLLECTION_SETTING_KEY,
       description: 'Defines a Collection List that will be nested inside the target list element.',
-      conditions: [],
-      appliedTo: {},
-      value: {
-        type: 'string',
-        default: '',
-      },
+      specializations: [
+        {
+          key: 'default',
+          appliedTo: [
+            {
+              parent: LIST_ELEMENT_KEY,
+              selectors: ['div'],
+            },
+            {
+              parent: null,
+              selectors: [`.${CMS_CSS_CLASSES.list}`],
+            },
+          ],
+        },
+      ],
     },
+  ],
+  settings: [
     {
       key: EMPTY_SETTING_KEY,
       description: 'Defines an `Empty State` element.',

@@ -58,99 +58,185 @@ export const schema: AttributeSchema = {
     {
       key: EMPTY_ELEMENT_KEY,
       description: 'Defines the Empty State element for when there are no filetered elements to show.',
-      required: true,
+      required: false,
       requiresInstance: true,
-      appliedTo: [],
-      conditions: [],
+      appliedTo: ['div'],
+      conditions: [
+        {
+          type: 'exists',
+          element: LIST_ELEMENT_KEY,
+        },
+      ],
     },
     {
       key: INITIAL_ELEMENT_KEY,
       description: 'Defines the initial element to be shown when the filter is first applied.',
-      required: true,
+      required: false,
       requiresInstance: true,
-      appliedTo: [],
-      conditions: [],
+      appliedTo: ['div'],
+      conditions: [
+        {
+          type: 'exists',
+          element: LIST_ELEMENT_KEY,
+        },
+      ],
     },
     {
       key: RESULTS_COUNT_ELEMENT_KEY,
       description: 'Defines an element that will display all existing results.',
-      required: true,
+      required: false,
       requiresInstance: true,
-      appliedTo: [],
-      conditions: [],
+      appliedTo: ['div'],
+      conditions: [
+        {
+          type: 'exists',
+          element: LIST_ELEMENT_KEY,
+        },
+      ],
     },
     {
       key: FILTER_RESULTS_COUNT_ELEMENT_KEY,
       description: 'Defines an element that will display the existing results for a specific filter.',
-      required: true,
+      required: false,
       requiresInstance: true,
-      appliedTo: [],
-      conditions: [],
+      appliedTo: ['div'],
+      conditions: [
+        {
+          type: 'exists',
+          element: LIST_ELEMENT_KEY,
+        },
+      ],
     },
     {
       key: ITEMS_COUNT_ELEMENT_KEY,
       description: 'Defines an element where to display the total items of the list.',
-      required: true,
+      required: false,
       requiresInstance: true,
-      appliedTo: [],
-      conditions: [],
+      appliedTo: ['div'],
+      conditions: [
+        {
+          type: 'exists',
+          element: LIST_ELEMENT_KEY,
+        },
+      ],
     },
     {
       key: TAG_TEMPLATE_ELEMENT_KEY,
       description: 'Defines a tag template element.',
-      required: true,
+      required: false,
       requiresInstance: true,
-      appliedTo: [],
-      conditions: [],
+      appliedTo: ['div', 'button', 'a'],
+      conditions: [
+        {
+          type: 'exists',
+          element: LIST_ELEMENT_KEY,
+        },
+      ],
     },
     {
       key: TAG_TEXT_ELEMENT_KEY,
       description: 'Defines the text node of a tag.',
-      required: true,
-      requiresInstance: true,
-      appliedTo: [],
-      conditions: [],
+      required: false,
+      requiresInstance: false,
+      appliedTo: ['div'],
+      conditions: [
+        {
+          type: 'isChildOf',
+          element: TAG_TEMPLATE_ELEMENT_KEY,
+        },
+      ],
     },
     {
       key: TAG_REMOVE_ELEMENT_KEY,
       description: 'Defines a remove trigger element of a tag.',
-      required: true,
-      requiresInstance: true,
-      appliedTo: [],
-      conditions: [],
+      required: false,
+      requiresInstance: false,
+      appliedTo: ['div', 'a', 'img'],
+      conditions: [
+        {
+          type: 'isChildOf',
+          element: TAG_TEMPLATE_ELEMENT_KEY,
+        },
+      ],
     },
     {
       key: SCROLL_ANCHOR_ELEMENT_KEY,
       description: 'Defines an element where to scroll the view every time a filter is applied.',
-      required: true,
+      required: false,
       requiresInstance: true,
-      appliedTo: [],
-      conditions: [],
+      appliedTo: ['div'],
+      conditions: [
+        {
+          type: 'exists',
+          element: LIST_ELEMENT_KEY,
+        },
+      ],
     },
     {
       key: RESET_ELEMENT_KEY,
       description: 'Defines a button that resets all filters when clicked.',
-      required: true,
+      required: false,
       requiresInstance: true,
-      appliedTo: [],
-      conditions: [],
+      appliedTo: ['button', 'a'],
+      conditions: [
+        {
+          type: 'exists',
+          element: LIST_ELEMENT_KEY,
+        },
+      ],
+    },
+  ],
+  fields: [
+    {
+      key: FIELD_SETTING_KEY,
+      description: 'Defines a field key to group filters.',
+      specializations: [
+        {
+          key: 'default',
+          appliedTo: [
+            {
+              parent: LIST_ELEMENT_KEY,
+              selectors: ['div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'a'],
+            },
+            {
+              parent: FILTERS_ELEMENT_KEY,
+              selectors: ['input', 'select', 'label'],
+            },
+          ],
+        },
+        {
+          key: 'search-field',
+          appliedTo: [
+            {
+              parent: FILTERS_ELEMENT_KEY,
+              selectors: ['input'],
+            },
+          ],
+        },
+        {
+          key: 'toggle-button',
+          appliedTo: [
+            {
+              parent: `${LIST_ELEMENT_KEY} .w-embed`,
+              selectors: ['div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'a'],
+            },
+            {
+              parent: FILTERS_ELEMENT_KEY,
+              selectors: ['input[type="checkbox"]'],
+            },
+          ],
+        },
+      ],
     },
   ],
   settings: [
     {
-      key: FIELD_SETTING_KEY,
-      description: 'Defines a field key to group filters.',
-      appliedTo: {},
-      conditions: [],
-      value: {
-        type: 'string',
-        default: '',
+      key: ACTIVE_CLASS_SETTING_KEY,
+      description: "Defines an active CSS class that will be added to checked checkboxes/radios's parent element.",
+      appliedTo: {
+        elements: [LIST_ELEMENT_KEY],
+        fields: [FIELD_SETTING_KEY],
       },
-    },
-    {
-      key: RESET_SETTING_KEY,
-      description: 'Defines a specific field key to be resetted when clicking a Reset button.',
-      appliedTo: {},
       conditions: [],
       value: {
         type: 'string',
@@ -160,41 +246,42 @@ export const schema: AttributeSchema = {
     {
       key: MATCH_SETTING_KEY,
       description: 'Defines the matching mode.',
-      appliedTo: {},
+      appliedTo: {
+        fields: [FIELD_SETTING_KEY],
+      },
       conditions: [],
       value: {
-        type: 'string',
-        default: '',
+        type: 'options',
+        default: 'any',
+        options: [
+          {
+            value: 'any',
+            description: 'Any of the selected filters have to match in the item for the item to be filtered.',
+          },
+          {
+            value: 'all',
+            description: 'All of the selected filters have to match in the item for the item to be filtered.',
+          },
+        ],
       },
     },
-    {
-      key: RANGE_SETTING_KEY,
-      description: 'Defines a range to filter.',
-      appliedTo: {},
-      conditions: [],
-      value: {
-        type: 'string',
-        default: '',
-      },
-    },
+
     {
       key: TYPE_SETTING_KEY,
       description: 'Defines a specific field type.',
-      appliedTo: {},
-      conditions: [],
-      value: {
-        type: 'string',
-        default: '',
+      appliedTo: {
+        fields: [FIELD_SETTING_KEY],
       },
-    },
-    {
-      key: SHOW_QUERY_SETTING_KEY,
-      description: 'Defines if the filter query params should be displayed on the URL.',
-      appliedTo: {},
       conditions: [],
       value: {
-        type: 'string',
+        type: 'options',
         default: '',
+        options: [
+          {
+            value: 'date',
+            description: 'Indicates that the filter input is in date format',
+          },
+        ],
       },
     },
     {
@@ -208,9 +295,12 @@ export const schema: AttributeSchema = {
       },
     },
     {
-      key: HIGHLIGHT_SETTING_KEY,
-      description: 'Defines if the filter query should highlight the matching item props.',
-      appliedTo: {},
+      key: RANGE_SETTING_KEY,
+      description: 'Defines a range to filter.',
+      appliedTo: {
+        fields: [FIELD_SETTING_KEY],
+      },
+      specializations: [{ value: 'from' }, { value: 'to' }],
       conditions: [],
       value: {
         type: 'string',
@@ -218,9 +308,11 @@ export const schema: AttributeSchema = {
       },
     },
     {
-      key: HIGHLIGHT_CLASS_SETTING_KEY,
-      description: 'Defines the highlight CSS class to be used to highlight elements.',
-      appliedTo: {},
+      key: RESET_SETTING_KEY,
+      description: 'Defines a specific field key to be resetted when clicking a Reset button.',
+      appliedTo: {
+        elements: [RESET_ELEMENT_KEY],
+      },
       conditions: [],
       value: {
         type: 'string',
@@ -228,19 +320,11 @@ export const schema: AttributeSchema = {
       },
     },
     {
-      key: ACTIVE_CLASS_SETTING_KEY,
-      description: "Defines an active CSS class that will be added to checked checkboxes/radios's parent element.",
-      appliedTo: {},
-      conditions: [],
-      value: {
-        type: 'string',
-        default: '',
+      key: SHOW_QUERY_SETTING_KEY,
+      description: 'Defines if the filter query params should be displayed on the URL.',
+      appliedTo: {
+        elements: [LIST_ELEMENT_KEY],
       },
-    },
-    {
-      key: DEBOUNCE_SETTING_KEY,
-      description: 'Defines the debouncing for input events.',
-      appliedTo: {},
       conditions: [],
       value: {
         type: 'string',
@@ -250,7 +334,10 @@ export const schema: AttributeSchema = {
     {
       key: TAG_FORMAT_SETTING_KEY,
       description: 'Defines the format of the tag.',
-      appliedTo: {},
+      appliedTo: {
+        elements: [LIST_ELEMENT_KEY],
+        fields: [FIELD_SETTING_KEY],
+      },
       conditions: [],
       value: {
         type: 'string',
@@ -260,7 +347,47 @@ export const schema: AttributeSchema = {
     {
       key: TAG_CATEGORY_SETTING_KEY,
       description: 'Overrides the key display of a filter when using the `category` tag format.',
-      appliedTo: {},
+      appliedTo: {
+        fields: [FIELD_SETTING_KEY],
+        /** @todo validate tagformat */
+      },
+      conditions: [],
+      value: {
+        type: 'string',
+        default: '',
+      },
+    },
+    {
+      key: DEBOUNCE_SETTING_KEY,
+      description: 'Defines the debouncing for input events.',
+      appliedTo: {
+        elements: [LIST_ELEMENT_KEY],
+        fields: [FIELD_SETTING_KEY],
+      },
+      conditions: [],
+      value: {
+        type: 'string',
+        default: '',
+      },
+    },
+    {
+      key: HIGHLIGHT_SETTING_KEY,
+      description: 'Defines if the filter query should highlight the matching item props.',
+      appliedTo: {
+        fields: [FIELD_SETTING_KEY],
+      },
+      conditions: [],
+      value: {
+        type: 'string',
+        default: '',
+      },
+    },
+    {
+      key: HIGHLIGHT_CLASS_SETTING_KEY,
+      description: 'Defines the highlight CSS class to be used to highlight elements.',
+      appliedTo: {
+        elements: [LIST_ELEMENT_KEY],
+      },
       conditions: [],
       value: {
         type: 'string',
@@ -270,7 +397,9 @@ export const schema: AttributeSchema = {
     {
       key: EASING_SETTING_KEY,
       description: 'Defines the easing function of the list animation.',
-      appliedTo: {},
+      appliedTo: {
+        elements: [LIST_ELEMENT_KEY],
+      },
       conditions: [],
       value: {
         type: 'string',
@@ -280,7 +409,9 @@ export const schema: AttributeSchema = {
     {
       key: DURATION_SETTING_KEY,
       description: 'Defines the duration of the list animation.',
-      appliedTo: {},
+      appliedTo: {
+        elements: [LIST_ELEMENT_KEY],
+      },
       conditions: [],
       value: {
         type: 'string',
