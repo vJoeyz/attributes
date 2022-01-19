@@ -29,7 +29,6 @@ export const init = async (): Promise<CMSList[]> => {
     for (const listInstance of listInstances) {
       listInstance.restartTabs = true;
       listInstance.restartIx = true;
-
       listInstance.items = [];
 
       listInstance.on('renderitems', async (renderedItems) => {
@@ -40,7 +39,7 @@ export const init = async (): Promise<CMSList[]> => {
     }
   }
 
-  await restartWebflow(['tabs']);
+  await restartWebflow(['ix2', 'tabs']);
 
   return listInstances;
 };
