@@ -40,7 +40,7 @@ export const init = async (): Promise<CMSList[]> => {
     }
   }
 
-  await restartWebflow(['slider']);
+  await restartWebflow(['ix2', 'slider']);
 
   return listInstances;
 };
