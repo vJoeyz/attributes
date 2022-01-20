@@ -17,7 +17,7 @@ export const init = async (): Promise<CMSList[]> => {
   const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
   // Collect the combine data
-  const populateData = collectPopulateData(listInstances);
+  const [populateData, restartIx] = collectPopulateData(listInstances);
 
   // Populate the sliders
   for (const data of populateData) {
@@ -28,7 +28,7 @@ export const init = async (): Promise<CMSList[]> => {
     // Listen events
     for (const listInstance of listInstances) {
       listInstance.restartTabs = true;
-      listInstance.restartIx = true;
+      listInstance.restartIx ||= restartIx;
       listInstance.items = [];
 
       listInstance.on('renderitems', async (renderedItems) => {
@@ -39,7 +39,10 @@ export const init = async (): Promise<CMSList[]> => {
     }
   }
 
-  await restartWebflow(['ix2', 'tabs']);
+  const modulesToRestart: Parameters<typeof restartWebflow>['0'] = ['tabs'];
+  if (restartIx) modulesToRestart.push('ix2');
+
+  await restartWebflow(modulesToRestart);
 
   return listInstances;
 };
