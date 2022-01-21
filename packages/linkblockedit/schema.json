@@ -1,1 +1,1 @@
-{"elements":[],"settings":[]}
+{"elements":[{"key":"parent","description":"Defines the parent element that will act as the `Link Block`.","required":true,"requiresInstance":false,"appliedTo":[],"conditions":[]}],"settings":[{"key":"selector","description":"Defines a global selector to query multiple `parent` elements.","appliedTo":{},"conditions":[],"value":{"type":"string","default":""}}]}

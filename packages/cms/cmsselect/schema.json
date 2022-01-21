@@ -1,1 +1,1 @@
-{"elements":[],"settings":[]}
+{"elements":[{"key":"text-value","description":"Defines the elements as the source to populate the target.","appliedTo":["p"],"conditions":[{"type":"isChildOf","selector":".w-dyn-item"}],"required":true,"requiresInstance":true},{"key":"select","description":"Defines the element as the target to be populated.","appliedTo":["select"],"conditions":[{"type":"exists","element":"text-value"}],"required":true,"requiresInstance":true}],"settings":[]}

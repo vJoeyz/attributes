@@ -1,1 +1,1 @@
-{"elements":[],"settings":[]}
+{"elements":[{"key":"src","description":"Defines an `<img>` element which `src` will be set as the favicon.","appliedTo":["img"],"conditions":[],"required":true,"requiresInstance":false}],"settings":[{"key":"src","description":"Defines the URL source of the image to be set as the favicon.","appliedTo":{"elements":["src"]},"conditions":[],"value":{"type":"string"}}]}

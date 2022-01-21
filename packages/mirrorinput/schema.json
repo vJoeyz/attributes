@@ -1,1 +1,1 @@
-{"elements":[],"settings":[]}
+{"elements":[{"key":"trigger","description":"Defines the element as the trigger of the event.","required":true,"requiresInstance":true,"conditions":[],"appliedTo":["input","select","textarea"]},{"key":"target","description":"Defines the element as the target to mirror the fired event.","required":true,"requiresInstance":true,"conditions":[{"type":"exists","element":"trigger"}],"appliedTo":["input","select","textarea"]}],"settings":[]}
