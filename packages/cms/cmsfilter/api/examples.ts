@@ -252,10 +252,12 @@ export const examples: AttributeExamples = [
             namespace: '',
             comb: '',
             styleLess:
-              'position: absolute; left: 0%; top: 0%; right: 0%; bottom: 0%; display: block; width: 100%; height: 100%; margin-top: 0rem; margin-left: 0rem; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-left-radius: 0rem; border-top-right-radius: 0rem; border-bottom-left-radius: 0rem; border-bottom-right-radius: 0rem;',
+              'position: absolute; left: 0%; top: 0%; right: 0%; bottom: 0%; display: block; width: 100%; height: 100%; margin-top: 0rem; margin-left: 0rem; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-left-radius: 0rem; border-top-right-radius: 0rem; border-bottom-left-radius: 0rem; border-bottom-right-radius: 0rem; box-shadow: 1px 1px 3px 0 transparent;',
             variants: {
-              'main_redirected-focus': {
-                styleLess: 'box-shadow: 0 0 0 3px hsla(213.33333333333331, 0.00%, 0.00%, 1.00);',
+              'main_redirected-focus': { styleLess: 'box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */;' },
+              'main_redirected-focus-visible': {
+                styleLess:
+                  'box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */; outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
               },
             },
             children: [],
@@ -538,14 +540,16 @@ export const examples: AttributeExamples = [
             namespace: '',
             comb: '',
             styleLess:
-              'width: 1.25rem; height: 1.25rem; margin-top: 0rem; margin-right: 0.75rem; margin-left: 0rem; flex-grow: 0; flex-shrink: 0; flex-basis: auto; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00);',
+              'width: 1.25rem; height: 1.25rem; margin-top: 0rem; margin-right: 0.75rem; margin-left: 0rem; flex-grow: 0; flex-shrink: 0; flex-basis: auto; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); box-shadow: 1px 1px 3px 0 transparent;',
             variants: {
               'main_redirected-checked': {
                 styleLess:
                   'border-top-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-right-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-bottom-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-left-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00);',
               },
-              'main_redirected-focus': {
-                styleLess: 'box-shadow: 0 0 0 4px hsla(24.235294117647058, 0.00%, 0.00%, 0.20);',
+              'main_redirected-focus': { styleLess: 'box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */;' },
+              'main_redirected-focus-visible': {
+                styleLess:
+                  'box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */; outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
               },
             },
             children: [],
@@ -571,7 +575,7 @@ export const examples: AttributeExamples = [
             namespace: '',
             comb: '',
             styleLess:
-              'width: 1.5rem; height: 1.5rem; margin-left: 2rem; flex-grow: 0; flex-shrink: 0; flex-basis: auto;',
+              'width: 1.5rem; height: 1.5rem; margin-left: 1.5rem; flex-grow: 0; flex-shrink: 0; flex-basis: auto;',
             variants: {},
             children: [],
             selector: null,
@@ -791,14 +795,16 @@ export const examples: AttributeExamples = [
             namespace: '',
             comb: '',
             styleLess:
-              'width: 1.25rem; height: 1.25rem; margin-top: 0rem; margin-right: 0.75rem; margin-left: 0rem; flex-grow: 0; flex-shrink: 0; flex-basis: auto; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00);',
+              'width: 1.25rem; height: 1.25rem; margin-top: 0rem; margin-right: 0.75rem; margin-left: 0rem; flex-grow: 0; flex-shrink: 0; flex-basis: auto; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); box-shadow: 1px 1px 3px 0 transparent;',
             variants: {
               'main_redirected-checked': {
                 styleLess:
                   'border-top-color: hsla(0, 0.00%, 94.00%, 1.00); border-right-color: hsla(0, 0.00%, 94.00%, 1.00); border-bottom-color: hsla(0, 0.00%, 94.00%, 1.00); border-left-color: hsla(0, 0.00%, 94.00%, 1.00);',
               },
-              'main_redirected-focus': {
-                styleLess: 'box-shadow: 0 0 0 4px hsla(24.235294117647058, 0.00%, 0.00%, 0.20);',
+              'main_redirected-focus': { styleLess: 'box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */;' },
+              'main_redirected-focus-visible': {
+                styleLess:
+                  'box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */; outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
               },
             },
             children: [],
@@ -1031,11 +1037,15 @@ export const examples: AttributeExamples = [
             namespace: '',
             comb: '',
             styleLess:
-              'position: absolute; left: 0%; top: 0%; right: 0%; bottom: 0%; display: block; width: 100%; height: 100%; margin-top: 0rem; margin-left: 0rem; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-left-radius: 0rem; border-top-right-radius: 0rem; border-bottom-left-radius: 0rem; border-bottom-right-radius: 0rem;',
+              'position: absolute; left: 0%; top: 0%; right: 0%; bottom: 0%; display: block; width: 100%; height: 100%; margin-top: 0rem; margin-left: 0rem; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-left-radius: 0rem; border-top-right-radius: 0rem; border-bottom-left-radius: 0rem; border-bottom-right-radius: 0rem; box-shadow: 1px 1px 3px 0 transparent;',
             variants: {
               'main_redirected-focus': {
                 styleLess:
-                  'border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; box-shadow: 0 0 0 3px hsla(213.33333333333331, 0.00%, 0.00%, 1.00);',
+                  'border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */;',
+              },
+              'main_redirected-focus-visible': {
+                styleLess:
+                  'box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */; outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
               },
             },
             children: [],
@@ -1355,6 +1365,24 @@ export const examples: AttributeExamples = [
             selector: null,
           },
           {
+            _id: '2021d45a-a0fa-6938-6ee9-52638f5cf36b',
+            fake: false,
+            type: 'class',
+            name: 'fs-radio_button-5',
+            namespace: '',
+            comb: '',
+            styleLess:
+              'position: absolute; left: 0%; top: 0%; right: 0%; bottom: 0%; display: block; width: 100%; height: 100%; margin-top: 0rem; margin-right: 0rem; margin-left: 0rem; border-top-style: solid; border-top-width: 2px; border-top-color: black; border-right-style: solid; border-right-width: 2px; border-right-color: black; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: black; border-left-style: solid; border-left-width: 2px; border-left-color: black; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; opacity: 1;',
+            variants: {
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
+            },
+            children: [],
+            selector: null,
+          },
+          {
             _id: '712266f8-d0d1-20f4-e4c2-77e74e06684d',
             fake: false,
             type: 'class',
@@ -1417,19 +1445,6 @@ export const examples: AttributeExamples = [
                   'border-top-color: hsla(0, 0.00%, 41.33%, 1.00); border-right-color: hsla(0, 0.00%, 41.33%, 1.00); border-bottom-color: hsla(0, 0.00%, 41.33%, 1.00); border-left-color: hsla(0, 0.00%, 41.33%, 1.00); color: hsla(0, 0.00%, 41.33%, 1.00);',
               },
             },
-            children: [],
-            selector: null,
-          },
-          {
-            _id: '2021d45a-a0fa-6938-6ee9-52638f5cf36b',
-            fake: false,
-            type: 'class',
-            name: 'fs-radio_button-5',
-            namespace: '',
-            comb: '',
-            styleLess:
-              'position: absolute; left: 0%; top: 0%; right: 0%; bottom: 0%; display: block; width: 100%; height: 100%; margin-top: 0rem; margin-right: 0rem; margin-left: 0rem; border-top-style: solid; border-top-width: 2px; border-top-color: black; border-right-style: solid; border-right-width: 2px; border-right-color: black; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: black; border-left-style: solid; border-left-width: 2px; border-left-color: black; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; opacity: 1;',
-            variants: { main_focus: { styleLess: 'box-shadow: 0 0 0 3px black;' } },
             children: [],
             selector: null,
           },
@@ -1885,15 +1900,16 @@ export const examples: AttributeExamples = [
             namespace: '',
             comb: '',
             styleLess:
-              'position: absolute; left: auto; top: 0%; right: 0%; bottom: auto; display: block; width: 1.25rem; height: 1.25rem; margin-top: 1rem; margin-right: 1rem; margin-left: 0rem; border-top-style: solid; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-style: solid; border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-style: solid; border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00);',
+              'position: absolute; left: auto; top: 0%; right: 0%; bottom: auto; display: block; width: 1.25rem; height: 1.25rem; margin-top: 1rem; margin-right: 1rem; margin-left: 0rem; border-top-style: solid; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-style: solid; border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-style: solid; border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); box-shadow: 1px 1px 3px 0 transparent;',
             variants: {
-              'main_redirected-focus': {
-                styleLess:
-                  'border-top-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-right-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-bottom-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-left-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); box-shadow: 0 0 0 4px hsla(24.235294117647058, 0.00%, 0.00%, 0.20);',
-              },
+              'main_redirected-focus': { styleLess: 'box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */;' },
               'main_redirected-checked': {
                 styleLess:
                   'border-top-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-right-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-bottom-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-left-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); background-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00);',
+              },
+              'main_redirected-focus-visible': {
+                styleLess:
+                  'box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */; outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
               },
             },
             children: [],
@@ -2208,12 +2224,14 @@ export const examples: AttributeExamples = [
             namespace: '',
             comb: '',
             styleLess:
-              'position: absolute; left: 0%; top: 0%; right: 0%; bottom: auto; display: block; width: 100%; height: 100%; margin-top: 0rem; margin-left: 0rem; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-left-radius: 0rem; border-top-right-radius: 0rem; border-bottom-left-radius: 0rem; border-bottom-right-radius: 0rem; opacity: 1;',
+              'position: absolute; left: 0%; top: 0%; right: 0%; bottom: auto; display: block; width: 100%; height: 100%; margin-top: 0rem; margin-left: 0rem; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-left-radius: 0rem; border-top-right-radius: 0rem; border-bottom-left-radius: 0rem; border-bottom-right-radius: 0rem; box-shadow: 1px 1px 3px 0 transparent; opacity: 1;',
             variants: {
-              'main_redirected-focus': {
-                styleLess: 'box-shadow: 0 0 0 3px hsla(213.33333333333331, 0.00%, 0.00%, 1.00);',
-              },
+              'main_redirected-focus': { styleLess: 'box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */;' },
               'main_redirected-checked': { styleLess: 'background-color: transparent; background-image: none;' },
+              'main_redirected-focus-visible': {
+                styleLess:
+                  'box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */; outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
@@ -2495,14 +2513,16 @@ export const examples: AttributeExamples = [
             namespace: '',
             comb: '',
             styleLess:
-              'width: 1.25rem; height: 1.25rem; margin-top: 0rem; margin-right: 0.75rem; margin-left: 0rem; flex-grow: 0; flex-shrink: 0; flex-basis: auto; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00);',
+              'width: 1.25rem; height: 1.25rem; margin-top: 0rem; margin-right: 0.75rem; margin-left: 0rem; flex-grow: 0; flex-shrink: 0; flex-basis: auto; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); box-shadow: 1px 1px 3px 0 transparent;',
             variants: {
               'main_redirected-checked': {
                 styleLess:
                   'border-top-color: hsla(24.235294117647058, 0.00%, 100.00%, 1.00); border-right-color: hsla(24.235294117647058, 0.00%, 100.00%, 1.00); border-bottom-color: hsla(24.235294117647058, 0.00%, 100.00%, 1.00); border-left-color: hsla(24.235294117647058, 0.00%, 100.00%, 1.00); background-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); background-size: 0.75rem;',
               },
-              'main_redirected-focus': {
-                styleLess: 'box-shadow: 0 0 0 4px hsla(24.235294117647058, 0.00%, 0.00%, 0.20);',
+              'main_redirected-focus': { styleLess: 'box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */;' },
+              'main_redirected-focus-visible': {
+                styleLess:
+                  'box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */; outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
               },
             },
             children: [],
@@ -2748,14 +2768,16 @@ export const examples: AttributeExamples = [
             namespace: '',
             comb: '',
             styleLess:
-              'width: 1.25rem; height: 1.25rem; margin-top: 0rem; margin-right: 0.75rem; margin-left: 0rem; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00);',
+              'width: 1.25rem; height: 1.25rem; margin-top: 0rem; margin-right: 0.75rem; margin-left: 0rem; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); box-shadow: 1px 1px 3px 0 transparent;',
             variants: {
               'main_redirected-checked': {
                 styleLess:
                   'border-top-color: hsla(0, 0.00%, 100.00%, 1.00); border-right-color: hsla(0, 0.00%, 100.00%, 1.00); border-bottom-color: hsla(0, 0.00%, 100.00%, 1.00); border-left-color: hsla(0, 0.00%, 100.00%, 1.00); background-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); background-size: 0.75rem;',
               },
-              'main_redirected-focus': {
-                styleLess: 'box-shadow: 0 0 0 4px hsla(24.235294117647058, 0.00%, 0.00%, 0.20);',
+              'main_redirected-focus': { styleLess: 'box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */;' },
+              'main_redirected-focus-visible': {
+                styleLess:
+                  'box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */; outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
               },
             },
             children: [],
@@ -2988,15 +3010,19 @@ export const examples: AttributeExamples = [
             namespace: '',
             comb: '',
             styleLess:
-              'position: absolute; left: 0%; top: 0%; right: 0%; bottom: 0%; display: block; width: 100%; height: 100%; margin-top: 0rem; margin-left: 0rem; border-top-style: none; border-top-width: 1px; border-top-color: black; border-right-style: none; border-right-width: 1px; border-right-color: black; border-bottom-style: none; border-bottom-width: 1px; border-bottom-color: black; border-left-style: none; border-left-width: 1px; border-left-color: black; border-top-left-radius: 0rem; border-top-right-radius: 0rem; border-bottom-left-radius: 0rem; border-bottom-right-radius: 0rem;',
+              'position: absolute; left: 0%; top: 0%; right: 0%; bottom: 0%; display: block; width: 100%; height: 100%; margin-top: 0rem; margin-left: 0rem; border-top-style: none; border-top-width: 1px; border-top-color: black; border-right-style: none; border-right-width: 1px; border-right-color: black; border-bottom-style: none; border-bottom-width: 1px; border-bottom-color: black; border-left-style: none; border-left-width: 1px; border-left-color: black; border-top-left-radius: 0rem; border-top-right-radius: 0rem; border-bottom-left-radius: 0rem; border-bottom-right-radius: 0rem; box-shadow: 1px 1px 3px 0 transparent;',
             variants: {
               'main_redirected-focus': {
                 styleLess:
-                  'border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-left-radius: 0rem; border-top-right-radius: 0rem; border-bottom-left-radius: 0rem; border-bottom-right-radius: 0rem; box-shadow: 0 0 0 3px hsla(213.33333333333331, 0.00%, 0.00%, 1.00);',
+                  'border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-left-radius: 0rem; border-top-right-radius: 0rem; border-bottom-left-radius: 0rem; border-bottom-right-radius: 0rem; box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */;',
               },
               'main_redirected-checked': {
                 styleLess:
                   'border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; background-color: transparent; background-image: none;',
+              },
+              'main_redirected-focus-visible': {
+                styleLess:
+                  'box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */; outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
               },
             },
             children: [],
@@ -3343,6 +3369,24 @@ export const examples: AttributeExamples = [
             selector: null,
           },
           {
+            _id: '93d7677f-cbe2-be10-37e8-99944f8cdba8',
+            fake: false,
+            type: 'class',
+            name: 'fs-checkbox_button-5',
+            namespace: '',
+            comb: '',
+            styleLess:
+              'position: absolute; left: 0%; top: 0%; right: 0%; bottom: 0%; display: block; width: 100%; height: 100%; margin-top: 0rem; margin-right: 0rem; margin-bottom: 0rem; margin-left: 0rem; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;',
+            variants: {
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
+            },
+            children: [],
+            selector: null,
+          },
+          {
             _id: '4bbe923b-8872-d8e6-1e57-3cdf0822e089',
             fake: false,
             type: 'class',
@@ -3376,19 +3420,6 @@ export const examples: AttributeExamples = [
             comb: '',
             styleLess: 'position: relative; z-index: 2; width: 4rem; margin-bottom: 0.5rem;',
             variants: {},
-            children: [],
-            selector: null,
-          },
-          {
-            _id: '93d7677f-cbe2-be10-37e8-99944f8cdba8',
-            fake: false,
-            type: 'class',
-            name: 'fs-checkbox_button-5',
-            namespace: '',
-            comb: '',
-            styleLess:
-              'position: absolute; left: 0%; top: 0%; right: 0%; bottom: 0%; display: block; width: 100%; height: 100%; margin-top: 0rem; margin-right: 0rem; margin-bottom: 0rem; margin-left: 0rem; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;',
-            variants: { main_focus: { styleLess: 'box-shadow: 0 0 0 3px black;' } },
             children: [],
             selector: null,
           },
@@ -3850,13 +3881,14 @@ export const examples: AttributeExamples = [
             styleLess:
               'position: absolute; left: auto; top: 0%; right: 0%; bottom: auto; display: block; width: 1.25rem; height: 1.25rem; margin-top: 1rem; margin-right: 1rem; margin-left: 0rem; border-top-style: solid; border-top-width: 2px; border-top-color: black; border-right-style: solid; border-right-width: 2px; border-right-color: black; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: black; border-left-style: solid; border-left-width: 2px; border-left-color: black;',
             variants: {
-              'main_redirected-focus': {
-                styleLess:
-                  'border-top-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-right-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-bottom-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-left-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); box-shadow: 0 0 0 4px hsla(24.235294117647058, 0.00%, 0.00%, 0.20);',
-              },
+              'main_redirected-focus': { styleLess: 'box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */;' },
               'main_redirected-checked': {
                 styleLess:
                   'border-top-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-right-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-bottom-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-left-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); background-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); background-size: 0.75rem;',
+              },
+              'main_redirected-focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
               },
             },
             children: [],
@@ -4026,7 +4058,12 @@ export const examples: AttributeExamples = [
             comb: '',
             styleLess:
               'position: absolute; left: 0%; top: 0%; right: 0%; bottom: 0%; display: block; width: 100%; height: 100%; margin-top: 0rem; margin-left: 0rem; border-top-left-radius: 999rem; border-top-right-radius: 999rem; border-bottom-left-radius: 999rem; border-bottom-right-radius: 999rem;',
-            variants: { main_focus: { styleLess: 'box-shadow: 0 0 0 2px black;' } },
+            variants: {
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
+            },
             children: [],
             selector: null,
           },
@@ -4385,7 +4422,12 @@ export const examples: AttributeExamples = [
             comb: '',
             styleLess:
               'position: absolute; left: 0%; top: 0%; right: 0%; bottom: 0%; display: block; width: 100%; height: 100%; margin-top: 0rem; margin-left: 0rem;',
-            variants: { main_focus: { styleLess: 'box-shadow: 0 0 0 2px black;' } },
+            variants: {
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
+            },
             children: [],
             selector: null,
           },
@@ -4831,7 +4873,12 @@ export const examples: AttributeExamples = [
             comb: '',
             styleLess:
               'position: absolute; left: 0%; top: 0%; right: 0%; bottom: 0%; display: block; width: 100%; height: 100%; margin-top: 0rem; margin-left: 0rem; border-top-left-radius: 0rem; border-top-right-radius: 0rem; border-bottom-left-radius: 0rem; border-bottom-right-radius: 0rem;',
-            variants: { main_focus: { styleLess: 'box-shadow: 0 0 0 2px black;' } },
+            variants: {
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
+            },
             children: [],
             selector: null,
           },
@@ -5136,30 +5183,6 @@ export const examples: AttributeExamples = [
       payload: {
         nodes: [
           {
-            _id: '328cfd16-a931-1b57-53f2-fd20f5ba12df',
-            tag: 'div',
-            classes: ['46d436ed-ea3d-559f-c215-2c1abb08b9de'],
-            children: ['328cfd16-a931-1b57-53f2-fd20f5ba12e0', '328cfd16-a931-1b57-53f2-fd20f5ba12e2'],
-            type: 'Block',
-            data: {
-              tag: 'div',
-              xattr: [
-                { name: 'role', value: 'group' },
-                { name: 'aria-label', value: 'add description here' },
-              ],
-              text: false,
-            },
-          },
-          {
-            _id: '328cfd16-a931-1b57-53f2-fd20f5ba12e0',
-            tag: 'label',
-            classes: ['4bbe923b-8872-d8e6-1e57-3cdf0822e089'],
-            children: ['328cfd16-a931-1b57-53f2-fd20f5ba12e1'],
-            type: 'FormBlockLabel',
-            data: { form: { type: 'label' } },
-          },
-          { _id: '328cfd16-a931-1b57-53f2-fd20f5ba12e1', text: true, v: 'Choose options:' },
-          {
             _id: '328cfd16-a931-1b57-53f2-fd20f5ba12e2',
             tag: 'div',
             classes: ['83441fe3-4a21-3e20-4823-e39633cb1232'],
@@ -5242,30 +5265,6 @@ export const examples: AttributeExamples = [
         ],
         styles: [
           {
-            _id: '46d436ed-ea3d-559f-c215-2c1abb08b9de',
-            fake: false,
-            type: 'class',
-            name: 'fs-checkbox_group',
-            namespace: '',
-            comb: '',
-            styleLess: '',
-            variants: {},
-            children: [],
-            selector: null,
-          },
-          {
-            _id: '4bbe923b-8872-d8e6-1e57-3cdf0822e089',
-            fake: false,
-            type: 'class',
-            name: 'fs-checkbox_label',
-            namespace: '',
-            comb: '',
-            styleLess: 'margin-bottom: 1rem;',
-            variants: {},
-            children: [],
-            selector: null,
-          },
-          {
             _id: '83441fe3-4a21-3e20-4823-e39633cb1232',
             fake: false,
             type: 'class',
@@ -5299,14 +5298,16 @@ export const examples: AttributeExamples = [
             namespace: '',
             comb: '',
             styleLess:
-              'width: 1.25rem; height: 1.25rem; margin-top: 0rem; margin-right: 0.5rem; margin-left: 0rem; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00);',
+              'width: 1.25rem; height: 1.25rem; margin-top: 0rem; margin-right: 0.5rem; margin-left: 0rem; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); box-shadow: 1px 1px 3px 0 transparent;',
             variants: {
               'main_redirected-checked': {
                 styleLess:
                   'border-top-color: hsla(0, 0.00%, 100.00%, 1.00); border-right-color: hsla(0, 0.00%, 100.00%, 1.00); border-bottom-color: hsla(0, 0.00%, 100.00%, 1.00); border-left-color: hsla(0, 0.00%, 100.00%, 1.00); background-color: hsla(24.235294117647058, 100.00%, 50.00%, 1.00); background-size: 0.75rem;',
               },
-              'main_redirected-focus': {
-                styleLess: 'box-shadow: 0 0 0 4px hsla(24.235294117647058, 0.00%, 0.00%, 0.20);',
+              'main_redirected-focus': { styleLess: 'box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */;' },
+              'main_redirected-focus-visible': {
+                styleLess:
+                  'box-shadow: none /* 0 0 3px 1px rgba(56, 152, 236, 1) */; outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
               },
             },
             children: [],
@@ -5400,7 +5401,7 @@ export const examples: AttributeExamples = [
             variants: {
               main_focus: {
                 styleLess:
-                  'border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); box-shadow: 0 0 0 2px black;',
+                  'border-top-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-right-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-bottom-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-left-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00);',
               },
             },
             children: [],
@@ -5487,10 +5488,7 @@ export const examples: AttributeExamples = [
             styleLess:
               'height: 3.75rem; margin-bottom: 0rem; padding-right: 0rem; padding-left: 3rem; border-top-style: none; border-top-width: 1px; border-top-color: black; border-right-style: none; border-right-width: 1px; border-right-color: black; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: black; border-left-style: none; border-left-width: 1px; border-left-color: black; background-image: @img_61c1b96da8240efef26f0533; background-position: 0px 50%; background-size: 2.25rem; background-repeat: no-repeat; font-size: 1rem;',
             variants: {
-              main_focus: {
-                styleLess:
-                  'border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); box-shadow: 0 0 0 2px black;',
-              },
+              main_focus: { styleLess: 'border-bottom-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00);' },
             },
             children: [],
             selector: null,
@@ -5723,6 +5721,24 @@ export const examples: AttributeExamples = [
             selector: null,
           },
           {
+            _id: 'eab98c53-cfee-4222-4395-182305d3a538',
+            fake: false,
+            type: 'class',
+            name: 'fs-dropdown_toggle-1',
+            namespace: '',
+            comb: '',
+            styleLess:
+              'padding-top: 1rem; padding-right: 3rem; padding-bottom: 1rem; padding-left: 1.25rem; border-top-style: solid; border-top-width: 2px; border-top-color: black; border-right-style: solid; border-right-width: 2px; border-right-color: black; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: black; border-left-style: solid; border-left-width: 2px; border-left-color: black; border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem; border-bottom-left-radius: 0.25rem; border-bottom-right-radius: 0.25rem; font-weight: 500;',
+            variants: {
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
+            },
+            children: [],
+            selector: null,
+          },
+          {
             _id: '891ea9a5-7725-2dbf-7feb-87ba89d94f2a',
             fake: false,
             type: 'class',
@@ -5735,19 +5751,6 @@ export const examples: AttributeExamples = [
                 styleLess: 'background-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00);',
               },
             },
-            children: [],
-            selector: null,
-          },
-          {
-            _id: 'eab98c53-cfee-4222-4395-182305d3a538',
-            fake: false,
-            type: 'class',
-            name: 'fs-dropdown_toggle-1',
-            namespace: '',
-            comb: '',
-            styleLess:
-              'padding-top: 1rem; padding-right: 3rem; padding-bottom: 1rem; padding-left: 1.25rem; border-top-style: solid; border-top-width: 2px; border-top-color: black; border-right-style: solid; border-right-width: 2px; border-right-color: black; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: black; border-left-style: solid; border-left-width: 2px; border-left-color: black; border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem; border-bottom-left-radius: 0.25rem; border-bottom-right-radius: 0.25rem; font-weight: 500;',
-            variants: { main_focus: { styleLess: 'box-shadow: 0 0 0 2px black;' } },
             children: [],
             selector: null,
           },
@@ -6253,6 +6256,24 @@ export const examples: AttributeExamples = [
             selector: null,
           },
           {
+            _id: 'f0cc6e65-afb0-6b45-5775-b8a44f5f6ad3',
+            fake: false,
+            type: 'class',
+            name: 'fs-dropdown_toggle-2',
+            namespace: '',
+            comb: '',
+            styleLess:
+              'display: flex; padding-top: 1rem; padding-right: 1.25rem; padding-bottom: 1rem; flex-direction: row; justify-content: space-between; align-items: center; border-top-style: solid; border-top-width: 2px; border-top-color: transparent; border-right-style: solid; border-right-width: 2px; border-right-color: transparent; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: transparent; border-left-style: solid; border-left-width: 2px; border-left-color: transparent; background-color: hsla(0, 0.00%, 94.00%, 1.00); font-weight: 500;',
+            variants: {
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
+            },
+            children: [],
+            selector: null,
+          },
+          {
             _id: '927e7bc7-99aa-92b0-dbca-e375ec4988dd',
             fake: false,
             type: 'class',
@@ -6316,19 +6337,6 @@ export const examples: AttributeExamples = [
             comb: '',
             styleLess: 'width: 100%; margin-left: 0rem;',
             variants: {},
-            children: [],
-            selector: null,
-          },
-          {
-            _id: 'f0cc6e65-afb0-6b45-5775-b8a44f5f6ad3',
-            fake: false,
-            type: 'class',
-            name: 'fs-dropdown_toggle-2',
-            namespace: '',
-            comb: '',
-            styleLess:
-              'display: flex; padding-top: 1rem; padding-right: 1.25rem; padding-bottom: 1rem; flex-direction: row; justify-content: space-between; align-items: center; border-top-style: solid; border-top-width: 2px; border-top-color: transparent; border-right-style: solid; border-right-width: 2px; border-right-color: transparent; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: transparent; border-left-style: solid; border-left-width: 2px; border-left-color: transparent; background-color: hsla(0, 0.00%, 94.00%, 1.00); font-weight: 500;',
-            variants: { main_focus: { styleLess: 'box-shadow: 0 0 0 3px black;' } },
             children: [],
             selector: null,
           },
@@ -6595,7 +6603,7 @@ export const examples: AttributeExamples = [
             _id: 'ff721c93-4ea4-ab9c-896f-b952fe0c874a',
             tag: 'nav',
             classes: ['0dc6e8a4-f8e9-235d-1b63-a27612424772'],
-            children: ['038f7697-3710-66e4-fc7d-c444d851636f', '4111acec-1a89-28ee-82bd-af891c2c24e6'],
+            children: ['038f7697-3710-66e4-fc7d-c444d851636f', '887dee75-3e18-db48-1f42-2b8300d32a78'],
             type: 'DropdownList',
             data: { tag: 'nav', dropdown: { type: 'list' } },
           },
@@ -6626,14 +6634,14 @@ export const examples: AttributeExamples = [
             },
           },
           {
-            _id: '4111acec-1a89-28ee-82bd-af891c2c24e6',
+            _id: '887dee75-3e18-db48-1f42-2b8300d32a78',
             tag: 'a',
-            classes: ['ce1506ab-e276-4ff1-4b97-2b35006e1c68'],
-            children: ['4111acec-1a89-28ee-82bd-af891c2c24e7'],
+            classes: ['e4e252fe-14e9-15a4-6156-73cb210f2abf'],
+            children: ['887dee75-3e18-db48-1f42-2b8300d32a79'],
             type: 'DropdownLink',
             data: { dropdown: { type: 'link' }, link: { mode: 'external' }, attr: { href: '#' } },
           },
-          { _id: '4111acec-1a89-28ee-82bd-af891c2c24e7', text: true, v: 'Select link' },
+          { _id: '887dee75-3e18-db48-1f42-2b8300d32a79', text: true, v: 'Select link' },
         ],
         styles: [
           {
@@ -6658,7 +6666,10 @@ export const examples: AttributeExamples = [
             styleLess:
               'padding-top: 0.75rem; padding-right: 4rem; padding-bottom: 0.75rem; padding-left: 1rem; border-top-style: solid; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-style: solid; border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-style: solid; border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem; border-bottom-left-radius: 0.25rem; border-bottom-right-radius: 0.25rem;',
             variants: {
-              main_focus: { styleLess: 'box-shadow: 0 0 0 2px hsla(213.33333333333331, 0.00%, 0.00%, 1.00);' },
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
@@ -6717,24 +6728,23 @@ export const examples: AttributeExamples = [
             selector: null,
           },
           {
-            _id: 'ce1506ab-e276-4ff1-4b97-2b35006e1c68',
+            _id: 'e4e252fe-14e9-15a4-6156-73cb210f2abf',
             fake: false,
             type: 'class',
-            name: 'fs-select_link-5',
+            name: 'fs-select_link-1',
             namespace: '',
             comb: '',
             styleLess:
               'padding-top: 0.75rem; padding-right: 1rem; padding-bottom: 0.75rem; padding-left: 1rem; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: hsla(0, 0.00%, 90.67%, 1.00); background-color: hsla(0, 0.00%, 100.00%, 1.00);',
             variants: {
               main_current: {
-                styleLess:
-                  'border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); background-color: hsla(0, 0.00%, 94.00%, 1.00); color: hsla(0, 0.00%, 41.33%, 1.00);',
-              },
-              main_focus: {
-                styleLess:
-                  'border-top-style: solid; border-top-width: 2px; border-top-color: black; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: black;',
+                styleLess: 'background-color: hsla(0, 0.00%, 94.00%, 1.00); color: hsla(0, 0.00%, 41.33%, 1.00);',
               },
               main_hover: { styleLess: 'opacity: 0.7;' },
+              'main_focus-visible': {
+                styleLess:
+                  'z-index: 1; outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
@@ -6988,7 +6998,7 @@ export const examples: AttributeExamples = [
             _id: '33897353-938d-d6ca-9418-e24b3d417a71',
             tag: 'nav',
             classes: ['0a223287-d2de-3989-3d93-ad39735e7151'],
-            children: ['33897353-938d-d6ca-9418-e24b3d417a72', '57a12c5d-ffd3-32bb-6701-bf9aa32fe03d'],
+            children: ['33897353-938d-d6ca-9418-e24b3d417a72', 'c60c35cf-5254-274b-dbf3-a44730341c6d'],
             type: 'DropdownList',
             data: { tag: 'nav', dropdown: { type: 'list' } },
           },
@@ -7019,22 +7029,22 @@ export const examples: AttributeExamples = [
             },
           },
           {
-            _id: '57a12c5d-ffd3-32bb-6701-bf9aa32fe03d',
+            _id: 'c60c35cf-5254-274b-dbf3-a44730341c6d',
             tag: 'a',
             classes: ['2058bb17-d0c6-a55a-3a67-b38ee5e78b03'],
-            children: ['57a12c5d-ffd3-32bb-6701-bf9aa32fe03e'],
+            children: ['c60c35cf-5254-274b-dbf3-a44730341c6e'],
             type: 'Link',
             data: { button: false, block: 'inline', link: { mode: 'external' }, attr: { href: '#' } },
           },
           {
-            _id: '57a12c5d-ffd3-32bb-6701-bf9aa32fe03e',
+            _id: 'c60c35cf-5254-274b-dbf3-a44730341c6e',
             tag: 'div',
             classes: ['842826fb-0350-d599-fbf3-88f3e9598d5b'],
-            children: ['57a12c5d-ffd3-32bb-6701-bf9aa32fe03f'],
+            children: ['c60c35cf-5254-274b-dbf3-a44730341c6f'],
             type: 'Block',
             data: { text: true, tag: 'div' },
           },
-          { _id: '57a12c5d-ffd3-32bb-6701-bf9aa32fe03f', text: true, v: 'Select Link' },
+          { _id: 'c60c35cf-5254-274b-dbf3-a44730341c6f', text: true, v: 'Select Link' },
         ],
         styles: [
           {
@@ -7059,7 +7069,10 @@ export const examples: AttributeExamples = [
             styleLess:
               'display: flex; padding-top: 0.75rem; padding-right: 4rem; padding-bottom: 0.75rem; padding-left: 1rem; flex-direction: row; justify-content: flex-start; align-items: center; border-top-style: solid; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-style: solid; border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-style: solid; border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem; border-bottom-left-radius: 0.25rem; border-bottom-right-radius: 0.25rem;',
             variants: {
-              main_focus: { styleLess: 'box-shadow: 0 0 0 2px hsla(213.33333333333331, 0.00%, 0.00%, 1.00);' },
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
@@ -7125,12 +7138,16 @@ export const examples: AttributeExamples = [
             namespace: '',
             comb: '',
             styleLess:
-              'display: flex; width: 100%; padding-top: 0.5rem; padding-right: 1rem; padding-bottom: 0.5rem; padding-left: 1rem; flex-direction: row; justify-content: flex-start; align-items: center;',
+              'display: flex; width: 100%; padding-top: 0.5rem; padding-right: 1rem; padding-bottom: 0.5rem; padding-left: 1rem; flex-direction: row; justify-content: flex-start; align-items: center; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: hsla(0, 0.00%, 94.00%, 1.00);',
             variants: {
               main_current: {
                 styleLess: 'background-color: hsla(0, 0.00%, 94.00%, 1.00); color: hsla(0, 0.00%, 41.33%, 1.00);',
               },
               main_hover: { styleLess: 'opacity: 0.7;' },
+              'main_focus-visible': {
+                styleLess:
+                  'position: relative; z-index: 1; outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
@@ -7410,7 +7427,7 @@ export const examples: AttributeExamples = [
             _id: '96f987ff-584b-2d45-3e68-cb1e064f1775',
             tag: 'nav',
             classes: ['c91badb9-369a-db65-44be-d80824f0b386'],
-            children: ['96f987ff-584b-2d45-3e68-cb1e064f1776', '7b058680-4a12-f8de-3788-6d7c2f356a55'],
+            children: ['96f987ff-584b-2d45-3e68-cb1e064f1776', '76180001-f9e6-6a2c-fe51-4461013090f3'],
             type: 'DropdownList',
             data: { tag: 'nav', dropdown: { type: 'list' } },
           },
@@ -7441,14 +7458,14 @@ export const examples: AttributeExamples = [
             },
           },
           {
-            _id: '7b058680-4a12-f8de-3788-6d7c2f356a55',
+            _id: '76180001-f9e6-6a2c-fe51-4461013090f3',
             tag: 'a',
             classes: ['4ad0ef35-adb0-afc6-96d8-841aac6cb8d2'],
-            children: ['7b058680-4a12-f8de-3788-6d7c2f356a56'],
+            children: ['76180001-f9e6-6a2c-fe51-4461013090f4'],
             type: 'DropdownLink',
             data: { dropdown: { type: 'link' }, link: { mode: 'external' }, attr: { href: '#' } },
           },
-          { _id: '7b058680-4a12-f8de-3788-6d7c2f356a56', text: true, v: 'Select link' },
+          { _id: '76180001-f9e6-6a2c-fe51-4461013090f4', text: true, v: 'Select link' },
         ],
         styles: [
           {
@@ -7473,7 +7490,10 @@ export const examples: AttributeExamples = [
             styleLess:
               'display: flex; padding-top: 0.75rem; padding-right: 4rem; padding-bottom: 0.75rem; padding-left: 1rem; flex-direction: row; justify-content: flex-start; align-items: center; border-top-style: solid; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-style: solid; border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-style: solid; border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem; border-bottom-left-radius: 0.25rem; border-bottom-right-radius: 0.25rem;',
             variants: {
-              main_focus: { styleLess: 'box-shadow: 0 0 0 2px hsla(213.33333333333331, 0.00%, 0.00%, 1.00);' },
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
@@ -7554,14 +7574,13 @@ export const examples: AttributeExamples = [
               'padding-top: 0.75rem; padding-right: 1rem; padding-bottom: 0.75rem; padding-left: 1rem; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: hsla(0, 0.00%, 90.67%, 1.00); background-color: hsla(0, 0.00%, 100.00%, 1.00);',
             variants: {
               main_current: {
-                styleLess:
-                  'border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); background-color: hsla(0, 0.00%, 94.00%, 1.00); color: hsla(0, 0.00%, 41.33%, 1.00);',
-              },
-              main_focus: {
-                styleLess:
-                  'border-top-style: solid; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00);',
+                styleLess: 'background-color: hsla(0, 0.00%, 94.00%, 1.00); color: hsla(0, 0.00%, 41.33%, 1.00);',
               },
               main_hover: { styleLess: 'opacity: 0.7;' },
+              'main_focus-visible': {
+                styleLess:
+                  'z-index: 1; outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
@@ -7808,7 +7827,7 @@ export const examples: AttributeExamples = [
             _id: 'e738039f-b819-768b-09f6-c01eb948588e',
             tag: 'nav',
             classes: ['c906277c-ddfb-c064-8c7d-f2944a8075b0'],
-            children: ['e738039f-b819-768b-09f6-c01eb948588f', '5ec53ea3-4d45-a679-5fb3-b64fe65d4517'],
+            children: ['e738039f-b819-768b-09f6-c01eb948588f', '79719265-b0b6-dd6b-2963-710226b23353'],
             type: 'DropdownList',
             data: { tag: 'nav', dropdown: { type: 'list' } },
           },
@@ -7839,14 +7858,14 @@ export const examples: AttributeExamples = [
             },
           },
           {
-            _id: '5ec53ea3-4d45-a679-5fb3-b64fe65d4517',
+            _id: '79719265-b0b6-dd6b-2963-710226b23353',
             tag: 'a',
             classes: ['1046054a-17d9-e13d-63b6-bc4757dc0c23'],
-            children: ['5ec53ea3-4d45-a679-5fb3-b64fe65d4518'],
+            children: ['79719265-b0b6-dd6b-2963-710226b23354'],
             type: 'DropdownLink',
             data: { dropdown: { type: 'link' }, link: { mode: 'external' }, attr: { href: '#' } },
           },
-          { _id: '5ec53ea3-4d45-a679-5fb3-b64fe65d4518', text: true, v: 'Select link' },
+          { _id: '79719265-b0b6-dd6b-2963-710226b23354', text: true, v: 'Select link' },
         ],
         styles: [
           {
@@ -7871,7 +7890,10 @@ export const examples: AttributeExamples = [
             styleLess:
               'display: flex; padding-top: 0.75rem; padding-right: 4rem; padding-bottom: 0.75rem; padding-left: 1rem; flex-direction: row; justify-content: flex-start; align-items: center; border-top-style: solid; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-style: solid; border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-style: solid; border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem; border-bottom-left-radius: 0.25rem; border-bottom-right-radius: 0.25rem;',
             variants: {
-              main_focus: { styleLess: 'box-shadow: 0 0 0 2px hsla(213.33333333333331, 0.00%, 0.00%, 1.00);' },
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
@@ -7953,14 +7975,13 @@ export const examples: AttributeExamples = [
               'padding-top: 0.75rem; padding-right: 1rem; padding-bottom: 0.75rem; padding-left: 1rem; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: hsla(0, 0.00%, 90.67%, 1.00); background-color: hsla(0, 0.00%, 100.00%, 1.00);',
             variants: {
               main_current: {
-                styleLess:
-                  'border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); background-color: hsla(0, 0.00%, 94.00%, 1.00); color: hsla(0, 0.00%, 41.33%, 1.00);',
-              },
-              main_focus: {
-                styleLess:
-                  'border-top-style: solid; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00);',
+                styleLess: 'background-color: hsla(0, 0.00%, 94.00%, 1.00); color: hsla(0, 0.00%, 41.33%, 1.00);',
               },
               main_hover: { styleLess: 'opacity: 0.7;' },
+              'main_focus-visible': {
+                styleLess:
+                  'z-index: 1; outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
@@ -8200,7 +8221,7 @@ export const examples: AttributeExamples = [
             children: [
               'bd95b674-83a3-269c-204f-39fdfb7ff477',
               '0551affb-e2f6-07d0-a1b5-5fe14e6b4525',
-              'ab66883e-78a6-e078-f515-ae5e57785893',
+              '3cb66baa-04ab-41a5-a704-cd866c9683cb',
             ],
             type: 'DropdownList',
             data: { tag: 'nav', dropdown: { type: 'list' } },
@@ -8270,16 +8291,34 @@ export const examples: AttributeExamples = [
           },
           { _id: '0551affb-e2f6-07d0-a1b5-5fe14e6b4528', text: true, v: 'Reset' },
           {
-            _id: 'ab66883e-78a6-e078-f515-ae5e57785893',
+            _id: '3cb66baa-04ab-41a5-a704-cd866c9683cb',
             tag: 'a',
             classes: ['ce1506ab-e276-4ff1-4b97-2b35006e1c68'],
-            children: ['ab66883e-78a6-e078-f515-ae5e57785894'],
+            children: ['3cb66baa-04ab-41a5-a704-cd866c9683cc'],
             type: 'DropdownLink',
             data: { dropdown: { type: 'link' }, link: { mode: 'external' }, attr: { href: '#' } },
           },
-          { _id: 'ab66883e-78a6-e078-f515-ae5e57785894', text: true, v: 'Select link' },
+          { _id: '3cb66baa-04ab-41a5-a704-cd866c9683cc', text: true, v: 'Select link' },
         ],
         styles: [
+          {
+            _id: '95753a1b-c0bf-4ef6-3a0c-bf7bedad0b15',
+            fake: false,
+            type: 'class',
+            name: 'fs-select_link-block-5',
+            namespace: '',
+            comb: '',
+            styleLess:
+              'display: flex; width: 100%; padding-top: 0.5rem; padding-right: 1rem; padding-bottom: 0.5rem; padding-left: 1rem; flex-direction: row; justify-content: flex-start; align-items: center; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: hsla(0, 0.00%, 94.00%, 1.00); border-top-left-radius: 0rem; border-top-right-radius: 0rem; border-bottom-left-radius: 0rem; border-bottom-right-radius: 0rem; font-weight: 500;',
+            variants: {
+              'main_focus-visible': {
+                styleLess:
+                  'position: relative; z-index: 2; outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
+            },
+            children: [],
+            selector: null,
+          },
           {
             _id: '4381d9b9-95b8-f57f-68d5-d1be24e5e5da',
             fake: false,
@@ -8293,6 +8332,28 @@ export const examples: AttributeExamples = [
             selector: null,
           },
           {
+            _id: 'ce1506ab-e276-4ff1-4b97-2b35006e1c68',
+            fake: false,
+            type: 'class',
+            name: 'fs-select_link-5',
+            namespace: '',
+            comb: '',
+            styleLess:
+              'padding-top: 0.75rem; padding-right: 1rem; padding-bottom: 0.75rem; padding-left: 1rem; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: hsla(0, 0.00%, 90.67%, 1.00); background-color: hsla(0, 0.00%, 100.00%, 1.00);',
+            variants: {
+              main_current: {
+                styleLess: 'background-color: hsla(0, 0.00%, 94.00%, 1.00); color: hsla(0, 0.00%, 41.33%, 1.00);',
+              },
+              main_hover: { styleLess: 'opacity: 0.7;' },
+              'main_focus-visible': {
+                styleLess:
+                  'z-index: 1; outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
+            },
+            children: [],
+            selector: null,
+          },
+          {
             _id: '8005d32a-435e-3435-6171-926495d46369',
             fake: false,
             type: 'class',
@@ -8301,23 +8362,10 @@ export const examples: AttributeExamples = [
             comb: '',
             styleLess:
               'padding-top: 0.75rem; padding-right: 4rem; padding-bottom: 0.75rem; padding-left: 1rem; border-top-style: solid; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-style: solid; border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-style: solid; border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem; border-bottom-left-radius: 0.25rem; border-bottom-right-radius: 0.25rem;',
-            variants: { main_focus: { styleLess: 'box-shadow: 0 0 0 2px black;' } },
-            children: [],
-            selector: null,
-          },
-          {
-            _id: '95753a1b-c0bf-4ef6-3a0c-bf7bedad0b15',
-            fake: false,
-            type: 'class',
-            name: 'fs-select_link-block-5',
-            namespace: '',
-            comb: '',
-            styleLess:
-              'display: flex; width: 100%; padding-top: 0.5rem; padding-right: 1rem; padding-bottom: 0.5rem; padding-left: 1rem; flex-direction: row; justify-content: flex-start; align-items: center; border-top-left-radius: 0rem; border-top-right-radius: 0rem; border-bottom-left-radius: 0rem; border-bottom-right-radius: 0rem; font-weight: 500;',
             variants: {
-              main_focus: {
+              'main_focus-visible': {
                 styleLess:
-                  'border-top-style: solid; border-top-width: 2px; border-top-color: black; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00);',
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
               },
             },
             children: [],
@@ -8348,29 +8396,6 @@ export const examples: AttributeExamples = [
                 styleLess:
                   'margin-top: 1rem; border-top-style: solid; border-top-width: 2px; border-top-color: black; border-right-style: solid; border-right-width: 2px; border-right-color: black; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: black; border-left-style: solid; border-left-width: 2px; border-left-color: black; border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem; border-bottom-left-radius: 0.25rem; border-bottom-right-radius: 0.25rem; background-color: hsla(0, 0.00%, 100.00%, 1.00);',
               },
-            },
-            children: [],
-            selector: null,
-          },
-          {
-            _id: 'ce1506ab-e276-4ff1-4b97-2b35006e1c68',
-            fake: false,
-            type: 'class',
-            name: 'fs-select_link-5',
-            namespace: '',
-            comb: '',
-            styleLess:
-              'padding-top: 0.75rem; padding-right: 1rem; padding-bottom: 0.75rem; padding-left: 1rem; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: hsla(0, 0.00%, 90.67%, 1.00); background-color: hsla(0, 0.00%, 100.00%, 1.00);',
-            variants: {
-              main_current: {
-                styleLess:
-                  'border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); background-color: hsla(0, 0.00%, 94.00%, 1.00); color: hsla(0, 0.00%, 41.33%, 1.00);',
-              },
-              main_focus: {
-                styleLess:
-                  'border-top-style: solid; border-top-width: 2px; border-top-color: black; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: black;',
-              },
-              main_hover: { styleLess: 'opacity: 0.7;' },
             },
             children: [],
             selector: null,
@@ -8688,7 +8713,7 @@ export const examples: AttributeExamples = [
             children: [
               'a436ef6a-a81a-9d6c-fb07-e180a2c19473',
               'a436ef6a-a81a-9d6c-fb07-e180a2c19474',
-              '4ee57300-567c-f20c-72d5-e8bb01bce99a',
+              'cf17ddf0-629f-4341-5f9f-1d966850e40b',
             ],
             type: 'Block',
             data: { text: false, tag: 'div' },
@@ -8758,29 +8783,16 @@ export const examples: AttributeExamples = [
           },
           { _id: 'a436ef6a-a81a-9d6c-fb07-e180a2c19477', text: true, v: 'Reset' },
           {
-            _id: '4ee57300-567c-f20c-72d5-e8bb01bce99a',
+            _id: 'cf17ddf0-629f-4341-5f9f-1d966850e40b',
             tag: 'a',
             classes: ['94521f20-b9ba-dacb-9fc3-11a735e33c41'],
-            children: ['4ee57300-567c-f20c-72d5-e8bb01bce99b'],
+            children: ['cf17ddf0-629f-4341-5f9f-1d966850e40c'],
             type: 'DropdownLink',
             data: { dropdown: { type: 'link' }, link: { mode: 'external' }, attr: { href: '#' } },
           },
-          { _id: '4ee57300-567c-f20c-72d5-e8bb01bce99b', text: true, v: 'Select link' },
+          { _id: 'cf17ddf0-629f-4341-5f9f-1d966850e40c', text: true, v: 'Select link' },
         ],
         styles: [
-          {
-            _id: '1b6f4efa-5f80-d251-28ad-5cac191693c8',
-            fake: false,
-            type: 'class',
-            name: 'fs-select_toggle-6',
-            namespace: '',
-            comb: '',
-            styleLess:
-              'padding-top: 0.75rem; padding-right: 4rem; padding-bottom: 0.75rem; padding-left: 1rem; border-top-style: solid; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-style: solid; border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-style: solid; border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem; border-bottom-left-radius: 0.25rem; border-bottom-right-radius: 0.25rem;',
-            variants: { main_focus: { styleLess: 'box-shadow: 0 0 0 2px black;' } },
-            children: [],
-            selector: null,
-          },
           {
             _id: '0a8d3494-8571-9ddf-456a-ab4da125f0a0',
             fake: false,
@@ -8794,6 +8806,28 @@ export const examples: AttributeExamples = [
             selector: null,
           },
           {
+            _id: '94521f20-b9ba-dacb-9fc3-11a735e33c41',
+            fake: false,
+            type: 'class',
+            name: 'fs-select_link-6',
+            namespace: '',
+            comb: '',
+            styleLess:
+              'padding-top: 0.5rem; padding-right: 1rem; padding-bottom: 0.5rem; padding-left: 1rem; border-top-style: solid; border-top-width: 1px; border-top-color: hsla(0, 0.00%, 94.00%, 1.00);',
+            variants: {
+              main_current: {
+                styleLess: 'background-color: hsla(0, 0.00%, 94.00%, 1.00); color: hsla(0, 0.00%, 41.33%, 1.00);',
+              },
+              main_hover: { styleLess: 'opacity: 0.7;' },
+              'main_focus-visible': {
+                styleLess:
+                  'z-index: 1; outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
+            },
+            children: [],
+            selector: null,
+          },
+          {
             _id: '3ba9e491-0fc0-77bd-11b8-5a681aed3151',
             fake: false,
             type: 'class',
@@ -8802,6 +8836,24 @@ export const examples: AttributeExamples = [
             comb: '',
             styleLess: '',
             variants: {},
+            children: [],
+            selector: null,
+          },
+          {
+            _id: '6802dadd-1373-c977-3e9c-9f1a6ffa42ab',
+            fake: false,
+            type: 'class',
+            name: 'fs-select_link-block-6',
+            namespace: '',
+            comb: '',
+            styleLess:
+              'display: flex; width: 100%; padding-top: 0.5rem; padding-right: 1rem; padding-bottom: 0.5rem; padding-left: 1rem; flex-direction: row; justify-content: flex-start; align-items: center; border-top-left-radius: 0rem; border-top-right-radius: 0rem; border-bottom-left-radius: 0rem; border-bottom-right-radius: 0rem; font-weight: 500;',
+            variants: {
+              'main_focus-visible': {
+                styleLess:
+                  'position: relative; z-index: 2; outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
+            },
             children: [],
             selector: null,
           },
@@ -8867,28 +8919,6 @@ export const examples: AttributeExamples = [
             selector: null,
           },
           {
-            _id: '94521f20-b9ba-dacb-9fc3-11a735e33c41',
-            fake: false,
-            type: 'class',
-            name: 'fs-select_link-6',
-            namespace: '',
-            comb: '',
-            styleLess:
-              'padding-top: 0.5rem; padding-right: 1rem; padding-bottom: 0.5rem; padding-left: 1rem; border-top-style: solid; border-top-width: 1px; border-top-color: hsla(0, 0.00%, 94.00%, 1.00);',
-            variants: {
-              main_focus: {
-                styleLess:
-                  'border-top-style: solid; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-style: none; border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-style: none; border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00);',
-              },
-              main_current: {
-                styleLess: 'background-color: hsla(0, 0.00%, 94.00%, 1.00); color: hsla(0, 0.00%, 41.33%, 1.00);',
-              },
-              main_hover: { styleLess: 'opacity: 0.7;' },
-            },
-            children: [],
-            selector: null,
-          },
-          {
             _id: '0941c4a8-661d-c4e5-c6e1-953f4d205e4b',
             fake: false,
             type: 'class',
@@ -8901,18 +8931,18 @@ export const examples: AttributeExamples = [
             selector: null,
           },
           {
-            _id: '6802dadd-1373-c977-3e9c-9f1a6ffa42ab',
+            _id: '1b6f4efa-5f80-d251-28ad-5cac191693c8',
             fake: false,
             type: 'class',
-            name: 'fs-select_link-block-6',
+            name: 'fs-select_toggle-6',
             namespace: '',
             comb: '',
             styleLess:
-              'display: flex; width: 100%; padding-top: 0.5rem; padding-right: 1rem; padding-bottom: 0.5rem; padding-left: 1rem; flex-direction: row; justify-content: flex-start; align-items: center; border-top-left-radius: 0rem; border-top-right-radius: 0rem; border-bottom-left-radius: 0rem; border-bottom-right-radius: 0rem; font-weight: 500;',
+              'padding-top: 0.75rem; padding-right: 4rem; padding-bottom: 0.75rem; padding-left: 1rem; border-top-style: solid; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-style: solid; border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-style: solid; border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem; border-bottom-left-radius: 0.25rem; border-bottom-right-radius: 0.25rem;',
             variants: {
-              main_focus: {
+              'main_focus-visible': {
                 styleLess:
-                  'border-top-style: solid; border-top-width: 2px; border-top-color: black; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00);',
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
               },
             },
             children: [],
@@ -9166,7 +9196,7 @@ export const examples: AttributeExamples = [
           {
             _id: '7bb1e291-0d1c-50bc-c6f1-929fb6fa9401',
             tag: 'div',
-            classes: ['2f7a8b26-1041-4745-b6b4-022a6cbdedf1'],
+            classes: ['2f7a8b26-1041-4745-b6b4-022a6cbdedf1', '93427dab-78be-9592-d972-53a68befcf07'],
             children: ['a2977663-94aa-6941-427b-80b2a262dcf1', 'ec27883d-a4cf-d470-8325-3d704be4aec0'],
             type: 'Block',
             data: { text: false, tag: 'div' },
@@ -9265,7 +9295,23 @@ export const examples: AttributeExamples = [
             styleLess:
               'display: grid; min-height: 3rem; align-items: center; grid-auto-flow: column; grid-auto-columns: auto; grid-column-gap: 1rem; grid-row-gap: 1rem; grid-template-columns: auto; grid-template-rows: auto;',
             variants: { small: { styleLess: 'grid-auto-flow: row;' } },
-            children: ['c6514955-8cfb-82a3-ae39-47b62dcb9415', '42b1d054-985b-6c06-6efd-7bdd59a8626a'],
+            children: [
+              'c6514955-8cfb-82a3-ae39-47b62dcb9415',
+              '42b1d054-985b-6c06-6efd-7bdd59a8626a',
+              '93427dab-78be-9592-d972-53a68befcf07',
+            ],
+            selector: null,
+          },
+          {
+            _id: '93427dab-78be-9592-d972-53a68befcf07',
+            fake: false,
+            type: 'class',
+            name: 'is-sort',
+            namespace: '',
+            comb: '&',
+            styleLess: '',
+            variants: { medium: { styleLess: 'justify-items: start; align-items: start; grid-auto-flow: row;' } },
+            children: [],
             selector: null,
           },
           {
@@ -9277,7 +9323,12 @@ export const examples: AttributeExamples = [
             comb: '',
             styleLess:
               'display: flex; padding-top: 0.75rem; padding-right: 1.5rem; padding-bottom: 0.75rem; padding-left: 3rem; flex-direction: row; justify-content: flex-start; align-items: center; border-top-style: solid; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-style: solid; border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-style: solid; border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem; border-bottom-left-radius: 0.25rem; border-bottom-right-radius: 0.25rem; background-color: hsla(208.00000000000003, 0.00%, 100.00%, 1.00); background-image: @img_61c1bc99151e6a3fa048f807; background-position: 12px 50%; background-size: 1.75rem; background-repeat: no-repeat; color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); font-weight: 500;',
-            variants: { main_focus: { styleLess: 'box-shadow: 0 0 0 2px black;' } },
+            variants: {
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
+            },
             children: ['f0cb1e6c-eba2-bf75-6e56-a58530b2f31b', '8836587a-32b7-f87d-ddcb-32bdcf5e9382'],
             selector: null,
           },
@@ -9290,7 +9341,7 @@ export const examples: AttributeExamples = [
             comb: '',
             styleLess:
               'position: relative; display: grid; padding-top: 0.5rem; padding-right: 0.5rem; padding-bottom: 0.5rem; padding-left: 0.5rem; justify-content: start; justify-items: start; align-items: center; grid-auto-flow: column; grid-auto-columns: auto; grid-column-gap: 1rem; grid-row-gap: 1rem; grid-template-columns: auto; grid-template-rows: auto; border-top-style: dashed; border-top-width: 1px; border-top-color: hsla(0, 0.00%, 82.00%, 1.00); border-right-style: dashed; border-right-width: 1px; border-right-color: hsla(0, 0.00%, 82.00%, 1.00); border-bottom-style: dashed; border-bottom-width: 1px; border-bottom-color: hsla(0, 0.00%, 82.00%, 1.00); border-left-style: dashed; border-left-width: 1px; border-left-color: hsla(0, 0.00%, 82.00%, 1.00); border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem; border-bottom-left-radius: 0.5rem; border-bottom-right-radius: 0.5rem;',
-            variants: {},
+            variants: { medium: { styleLess: 'grid-auto-flow: row;' } },
             children: [],
             selector: null,
           },
@@ -9344,28 +9395,6 @@ export const examples: AttributeExamples = [
           },
           {
             cdnUrl:
-              'https://uploads-ssl.webflow.com/61a217e3c4ddde2ee352a50e/61c1be4ad3b84eb223d4ccfe_arrow-down-1-black.svg',
-            siteId: '61a217e3c4ddde2ee352a50e',
-            width: 150,
-            isHD: false,
-            height: 150,
-            fileName: '61c1be4ad3b84eb223d4ccfe_arrow-down-1-black.svg',
-            createdOn: '2021-12-21T11:45:14.473Z',
-            origFileName: 'arrow-down-1-black.svg',
-            alt: 'sort ascending icon\n',
-            fileHash: '4aa4031340f2ba82b590f293bf1fef9e',
-            variants: [],
-            mimeType: 'image/svg+xml',
-            s3Url:
-              'https://s3.amazonaws.com/webflow-prod-assets/61a217e3c4ddde2ee352a50e/61c1be4ad3b84eb223d4ccfe_arrow-down-1-black.svg',
-            thumbUrl:
-              'https://uploads-ssl.webflow.com/61a217e3c4ddde2ee352a50e/61c1be4ad3b84eb223d4ccfe_arrow-down-1-black.svg',
-            _id: '61c1be4ad3b84eb223d4ccfe',
-            updatedOn: '2021-12-21T11:45:14.473Z',
-            fileSize: 676,
-          },
-          {
-            cdnUrl:
               'https://uploads-ssl.webflow.com/61a217e3c4ddde2ee352a50e/61c1bdc29a97c152c498f5e1_arrow-up-1-black.svg',
             siteId: '61a217e3c4ddde2ee352a50e',
             width: 150,
@@ -9385,6 +9414,28 @@ export const examples: AttributeExamples = [
             _id: '61c1bdc29a97c152c498f5e1',
             updatedOn: '2021-12-21T11:42:58.707Z',
             fileSize: 679,
+          },
+          {
+            cdnUrl:
+              'https://uploads-ssl.webflow.com/61a217e3c4ddde2ee352a50e/61c1be4ad3b84eb223d4ccfe_arrow-down-1-black.svg',
+            siteId: '61a217e3c4ddde2ee352a50e',
+            width: 150,
+            isHD: false,
+            height: 150,
+            fileName: '61c1be4ad3b84eb223d4ccfe_arrow-down-1-black.svg',
+            createdOn: '2021-12-21T11:45:14.473Z',
+            origFileName: 'arrow-down-1-black.svg',
+            alt: 'sort ascending icon\n',
+            fileHash: '4aa4031340f2ba82b590f293bf1fef9e',
+            variants: [],
+            mimeType: 'image/svg+xml',
+            s3Url:
+              'https://s3.amazonaws.com/webflow-prod-assets/61a217e3c4ddde2ee352a50e/61c1be4ad3b84eb223d4ccfe_arrow-down-1-black.svg',
+            thumbUrl:
+              'https://uploads-ssl.webflow.com/61a217e3c4ddde2ee352a50e/61c1be4ad3b84eb223d4ccfe_arrow-down-1-black.svg',
+            _id: '61c1be4ad3b84eb223d4ccfe',
+            updatedOn: '2021-12-21T11:45:14.473Z',
+            fileSize: 676,
           },
         ],
         ix1: [],
@@ -9409,7 +9460,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'c0a12d79-9e30-c6b2-f5f9-e10d39ec5ab9',
             tag: 'div',
-            classes: ['2f7a8b26-1041-4745-b6b4-022a6cbdedf1'],
+            classes: ['2f7a8b26-1041-4745-b6b4-022a6cbdedf1', '93427dab-78be-9592-d972-53a68befcf07'],
             children: ['c0a12d79-9e30-c6b2-f5f9-e10d39ec5aba', '4ca1a6f2-b279-f99e-9597-7d3462f4fb76'],
             type: 'Block',
             data: { text: false, tag: 'div' },
@@ -9508,7 +9559,23 @@ export const examples: AttributeExamples = [
             styleLess:
               'display: grid; min-height: 3rem; align-items: center; grid-auto-flow: column; grid-auto-columns: auto; grid-column-gap: 1rem; grid-row-gap: 1rem; grid-template-columns: auto; grid-template-rows: auto;',
             variants: { small: { styleLess: 'grid-auto-flow: row;' } },
-            children: ['c6514955-8cfb-82a3-ae39-47b62dcb9415', '42b1d054-985b-6c06-6efd-7bdd59a8626a'],
+            children: [
+              'c6514955-8cfb-82a3-ae39-47b62dcb9415',
+              '42b1d054-985b-6c06-6efd-7bdd59a8626a',
+              '93427dab-78be-9592-d972-53a68befcf07',
+            ],
+            selector: null,
+          },
+          {
+            _id: '93427dab-78be-9592-d972-53a68befcf07',
+            fake: false,
+            type: 'class',
+            name: 'is-sort',
+            namespace: '',
+            comb: '&',
+            styleLess: '',
+            variants: { medium: { styleLess: 'justify-items: start; align-items: start; grid-auto-flow: row;' } },
+            children: [],
             selector: null,
           },
           {
@@ -9520,7 +9587,12 @@ export const examples: AttributeExamples = [
             comb: '',
             styleLess:
               'display: flex; padding-top: 0.5rem; padding-right: 1.5rem; padding-bottom: 0.5rem; padding-left: 0rem; flex-direction: row; justify-content: flex-start; align-items: center; background-color: transparent; background-image: @img_61cb04a9cd5dc450dc85c3a9; background-position: 100% 50%; background-size: 1.5rem; background-repeat: no-repeat; color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); font-weight: 500;',
-            variants: { main_focus: { styleLess: 'box-shadow: 0 0 0 2px black;' } },
+            variants: {
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
+            },
             children: ['15bbde81-4236-2c40-aab4-d643eb3479da', '40c3c944-56af-51ff-6bf4-15a384a5293f'],
             selector: null,
           },
@@ -9533,7 +9605,7 @@ export const examples: AttributeExamples = [
             comb: '',
             styleLess:
               'position: relative; display: grid; padding-top: 0.5rem; padding-right: 0.5rem; padding-bottom: 0.5rem; padding-left: 0.5rem; justify-content: start; justify-items: start; align-items: center; grid-auto-flow: column; grid-auto-columns: auto; grid-column-gap: 1rem; grid-row-gap: 1rem; grid-template-columns: auto; grid-template-rows: auto; border-top-style: dashed; border-top-width: 1px; border-top-color: hsla(0, 0.00%, 82.00%, 1.00); border-right-style: dashed; border-right-width: 1px; border-right-color: hsla(0, 0.00%, 82.00%, 1.00); border-bottom-style: dashed; border-bottom-width: 1px; border-bottom-color: hsla(0, 0.00%, 82.00%, 1.00); border-left-style: dashed; border-left-width: 1px; border-left-color: hsla(0, 0.00%, 82.00%, 1.00); border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem; border-bottom-left-radius: 0.5rem; border-bottom-right-radius: 0.5rem;',
-            variants: {},
+            variants: { medium: { styleLess: 'grid-auto-flow: row;' } },
             children: [],
             selector: null,
           },
@@ -9578,28 +9650,6 @@ export const examples: AttributeExamples = [
         assets: [
           {
             cdnUrl:
-              'https://uploads-ssl.webflow.com/61a217e3c4ddde2ee352a50e/61cb04a9cd5dc450dc85c3a9_arrow-up-down-2-black.svg',
-            siteId: '61a217e3c4ddde2ee352a50e',
-            width: 150,
-            isHD: false,
-            height: 150,
-            fileName: '61cb04a9cd5dc450dc85c3a9_arrow-up-down-2-black.svg',
-            createdOn: '2021-12-28T12:35:53.627Z',
-            origFileName: 'arrow-up-down-2-black.svg',
-            alt: 'sort icon\n',
-            fileHash: '33f26be789f503d356fbf21cf4b9a39e',
-            variants: [],
-            mimeType: 'image/svg+xml',
-            s3Url:
-              'https://s3.amazonaws.com/webflow-prod-assets/61a217e3c4ddde2ee352a50e/61cb04a9cd5dc450dc85c3a9_arrow-up-down-2-black.svg',
-            thumbUrl:
-              'https://uploads-ssl.webflow.com/61a217e3c4ddde2ee352a50e/61cb04a9cd5dc450dc85c3a9_arrow-up-down-2-black.svg',
-            _id: '61cb04a9cd5dc450dc85c3a9',
-            updatedOn: '2021-12-28T12:35:53.627Z',
-            fileSize: 1133,
-          },
-          {
-            cdnUrl:
               'https://uploads-ssl.webflow.com/61a217e3c4ddde2ee352a50e/61c1bfbc711a1dac016f152a_arrow-down-2-black.svg',
             siteId: '61a217e3c4ddde2ee352a50e',
             width: 150,
@@ -9619,6 +9669,28 @@ export const examples: AttributeExamples = [
             _id: '61c1bfbc711a1dac016f152a',
             updatedOn: '2021-12-21T11:51:24.805Z',
             fileSize: 783,
+          },
+          {
+            cdnUrl:
+              'https://uploads-ssl.webflow.com/61a217e3c4ddde2ee352a50e/61cb04a9cd5dc450dc85c3a9_arrow-up-down-2-black.svg',
+            siteId: '61a217e3c4ddde2ee352a50e',
+            width: 150,
+            isHD: false,
+            height: 150,
+            fileName: '61cb04a9cd5dc450dc85c3a9_arrow-up-down-2-black.svg',
+            createdOn: '2021-12-28T12:35:53.627Z',
+            origFileName: 'arrow-up-down-2-black.svg',
+            alt: 'sort icon\n',
+            fileHash: '33f26be789f503d356fbf21cf4b9a39e',
+            variants: [],
+            mimeType: 'image/svg+xml',
+            s3Url:
+              'https://s3.amazonaws.com/webflow-prod-assets/61a217e3c4ddde2ee352a50e/61cb04a9cd5dc450dc85c3a9_arrow-up-down-2-black.svg',
+            thumbUrl:
+              'https://uploads-ssl.webflow.com/61a217e3c4ddde2ee352a50e/61cb04a9cd5dc450dc85c3a9_arrow-up-down-2-black.svg',
+            _id: '61cb04a9cd5dc450dc85c3a9',
+            updatedOn: '2021-12-28T12:35:53.627Z',
+            fileSize: 1133,
           },
           {
             cdnUrl:
@@ -9798,6 +9870,10 @@ export const examples: AttributeExamples = [
                   'border-top-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-right-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-bottom-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); border-left-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00); background-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00);',
               },
               medium: { styleLess: 'width: 2rem; height: 2rem;' },
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
@@ -10042,6 +10118,18 @@ export const examples: AttributeExamples = [
         ],
         styles: [
           {
+            _id: 'f4024028-1d9e-552c-0d1d-54bcf2e2a244',
+            fake: false,
+            type: 'class',
+            name: 'fs-rangeslider_input-2',
+            namespace: '',
+            comb: '',
+            styleLess: 'display: none;',
+            variants: {},
+            children: [],
+            selector: null,
+          },
+          {
             _id: 'f4024028-1d9e-552c-0d1d-54bcf2e2a242',
             fake: false,
             type: 'class',
@@ -10053,19 +10141,11 @@ export const examples: AttributeExamples = [
             variants: {
               main_focus: { styleLess: 'background-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00);' },
               medium: { styleLess: 'width: 2rem; height: 2rem;' },
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
-            children: [],
-            selector: null,
-          },
-          {
-            _id: 'f4024028-1d9e-552c-0d1d-54bcf2e2a244',
-            fake: false,
-            type: 'class',
-            name: 'fs-rangeslider_input-2',
-            namespace: '',
-            comb: '',
-            styleLess: 'display: none;',
-            variants: {},
             children: [],
             selector: null,
           },
@@ -10083,6 +10163,18 @@ export const examples: AttributeExamples = [
             selector: null,
           },
           {
+            _id: 'fedf30cd-8bfb-d116-b246-0c408841593b',
+            fake: false,
+            type: 'class',
+            name: 'fs-rangeslider_handle-text-2',
+            namespace: '',
+            comb: '',
+            styleLess: 'position: relative; font-size: 1.25rem; text-align: center;',
+            variants: {},
+            children: [],
+            selector: null,
+          },
+          {
             _id: '928e102c-df97-9d68-e119-75da634bda77',
             fake: false,
             type: 'class',
@@ -10094,19 +10186,11 @@ export const examples: AttributeExamples = [
             variants: {
               main_focus: { styleLess: 'background-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00);' },
               medium: { styleLess: 'width: 2rem; height: 2rem;' },
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
-            children: [],
-            selector: null,
-          },
-          {
-            _id: 'fedf30cd-8bfb-d116-b246-0c408841593b',
-            fake: false,
-            type: 'class',
-            name: 'fs-rangeslider_handle-text-2',
-            namespace: '',
-            comb: '',
-            styleLess: 'position: relative; font-size: 1.25rem; text-align: center;',
-            variants: {},
             children: [],
             selector: null,
           },
@@ -10361,6 +10445,10 @@ export const examples: AttributeExamples = [
             variants: {
               main_focus: { styleLess: 'background-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00);' },
               medium: { styleLess: 'width: 2rem; height: 2rem;' },
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
@@ -10389,6 +10477,10 @@ export const examples: AttributeExamples = [
             variants: {
               main_focus: { styleLess: 'background-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00);' },
               medium: { styleLess: 'width: 2rem; height: 2rem;' },
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
@@ -10618,6 +10710,10 @@ export const examples: AttributeExamples = [
             variants: {
               main_focus: { styleLess: 'background-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00);' },
               medium: { styleLess: 'width: 2rem; height: 2rem;' },
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
@@ -10646,6 +10742,10 @@ export const examples: AttributeExamples = [
             variants: {
               main_focus: { styleLess: 'background-color: hsla(254.08450704225356, 100.00%, 55.13%, 1.00);' },
               medium: { styleLess: 'width: 2rem; height: 2rem;' },
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
@@ -10788,7 +10888,11 @@ export const examples: AttributeExamples = [
             styleLess:
               'display: grid; min-height: 3rem; align-items: center; grid-auto-flow: column; grid-auto-columns: auto; grid-column-gap: 1rem; grid-row-gap: 1rem; grid-template-columns: auto; grid-template-rows: auto;',
             variants: { small: { styleLess: 'grid-auto-flow: row;' } },
-            children: ['c6514955-8cfb-82a3-ae39-47b62dcb9415', '42b1d054-985b-6c06-6efd-7bdd59a8626a'],
+            children: [
+              'c6514955-8cfb-82a3-ae39-47b62dcb9415',
+              '42b1d054-985b-6c06-6efd-7bdd59a8626a',
+              '93427dab-78be-9592-d972-53a68befcf07',
+            ],
             selector: null,
           },
           {
@@ -10814,7 +10918,10 @@ export const examples: AttributeExamples = [
               'display: flex; padding-top: 0.25rem; padding-right: 0.4rem; padding-bottom: 0.25rem; padding-left: 1rem; flex-direction: row; justify-content: center; align-items: center; border-top-style: solid; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-style: solid; border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-style: solid; border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-top-left-radius: 999rem; border-top-right-radius: 999rem; border-bottom-left-radius: 999rem; border-bottom-right-radius: 999rem; text-decoration: none;',
             variants: {
               main_hover: { styleLess: 'opacity: 0.7;' },
-              main_focus: { styleLess: 'box-shadow: 0 0 0 2px black;' },
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
@@ -10953,7 +11060,11 @@ export const examples: AttributeExamples = [
             styleLess:
               'display: grid; min-height: 3rem; align-items: center; grid-auto-flow: column; grid-auto-columns: auto; grid-column-gap: 1rem; grid-row-gap: 1rem; grid-template-columns: auto; grid-template-rows: auto;',
             variants: { small: { styleLess: 'grid-auto-flow: row;' } },
-            children: ['c6514955-8cfb-82a3-ae39-47b62dcb9415', '42b1d054-985b-6c06-6efd-7bdd59a8626a'],
+            children: [
+              'c6514955-8cfb-82a3-ae39-47b62dcb9415',
+              '42b1d054-985b-6c06-6efd-7bdd59a8626a',
+              '93427dab-78be-9592-d972-53a68befcf07',
+            ],
             selector: null,
           },
           {
@@ -10979,7 +11090,10 @@ export const examples: AttributeExamples = [
               'display: flex; padding-right: 0rem; padding-left: 1rem; flex-direction: row; justify-content: center; align-items: center; border-top-style: solid; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-style: solid; border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-style: solid; border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem; border-bottom-left-radius: 0.25rem; border-bottom-right-radius: 0.25rem; text-decoration: none;',
             variants: {
               main_hover: { styleLess: 'opacity: 0.7;' },
-              main_focus: { styleLess: 'box-shadow: 0 0 0 2px black;' },
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
@@ -11130,7 +11244,11 @@ export const examples: AttributeExamples = [
             styleLess:
               'display: grid; min-height: 3rem; align-items: center; grid-auto-flow: column; grid-auto-columns: auto; grid-column-gap: 1rem; grid-row-gap: 1rem; grid-template-columns: auto; grid-template-rows: auto;',
             variants: { small: { styleLess: 'grid-auto-flow: row;' } },
-            children: ['c6514955-8cfb-82a3-ae39-47b62dcb9415', '42b1d054-985b-6c06-6efd-7bdd59a8626a'],
+            children: [
+              'c6514955-8cfb-82a3-ae39-47b62dcb9415',
+              '42b1d054-985b-6c06-6efd-7bdd59a8626a',
+              '93427dab-78be-9592-d972-53a68befcf07',
+            ],
             selector: null,
           },
           {
@@ -11154,7 +11272,12 @@ export const examples: AttributeExamples = [
             comb: '',
             styleLess:
               'position: relative; display: flex; padding-top: 0.5rem; padding-right: 1rem; padding-bottom: 0.5rem; padding-left: 1rem; flex-direction: row; justify-content: center; align-items: center; border-top-style: solid; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-style: solid; border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-style: solid; border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem; border-bottom-left-radius: 0.25rem; border-bottom-right-radius: 0.25rem; text-decoration: none;',
-            variants: { main_focus: { styleLess: 'box-shadow: 0 0 0 2px black;' } },
+            variants: {
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
+            },
             children: [],
             selector: null,
           },
@@ -11289,7 +11412,10 @@ export const examples: AttributeExamples = [
               'display: flex; padding-top: 0.25rem; padding-right: 1rem; padding-bottom: 0.25rem; padding-left: 0.5rem; flex-direction: row; justify-content: center; align-items: center; border-top-style: solid; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-style: solid; border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-style: solid; border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-top-left-radius: 999rem; border-top-right-radius: 999rem; border-bottom-left-radius: 999rem; border-bottom-right-radius: 999rem; text-decoration: none;',
             variants: {
               main_hover: { styleLess: 'opacity: 0.7;' },
-              main_focus: { styleLess: 'box-shadow: 0 0 0 2px black;' },
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
@@ -11420,7 +11546,10 @@ export const examples: AttributeExamples = [
               'display: flex; padding-top: 0.25rem; padding-right: 0.3rem; padding-bottom: 0.25rem; padding-left: 1rem; flex-direction: row; justify-content: center; align-items: center; border-top-style: solid; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-style: solid; border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-style: solid; border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-top-left-radius: 999rem; border-top-right-radius: 999rem; border-bottom-left-radius: 999rem; border-bottom-right-radius: 999rem; text-decoration: none;',
             variants: {
               main_hover: { styleLess: 'opacity: 0.7;' },
-              main_focus: { styleLess: 'box-shadow: 0 0 0 2px black;' },
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
@@ -11553,10 +11682,13 @@ export const examples: AttributeExamples = [
             namespace: '',
             comb: '',
             styleLess:
-              'display: flex; padding-top: 0.75rem; padding-right: 0rem; padding-bottom: 0.75rem; padding-left: 0rem; flex-direction: row; justify-content: center; align-items: center; text-decoration: none;',
+              'display: flex; padding-top: 0.25rem; padding-right: 0rem; padding-bottom: 0.25rem; padding-left: 0rem; flex-direction: row; justify-content: center; align-items: center; text-decoration: none;',
             variants: {
               main_hover: { styleLess: 'opacity: 0.7;' },
-              main_focus: { styleLess: 'box-shadow: 0 0 0 2px black;' },
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
@@ -11670,7 +11802,10 @@ export const examples: AttributeExamples = [
               'display: flex; padding-top: 0.5rem; padding-right: 0.5rem; padding-bottom: 0.5rem; padding-left: 0.5rem; flex-direction: row; justify-content: center; align-items: center; border-top-style: solid; border-top-width: 2px; border-top-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-right-style: solid; border-right-width: 2px; border-right-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-left-style: solid; border-left-width: 2px; border-left-color: hsla(213.33333333333331, 0.00%, 0.00%, 1.00); border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem; border-bottom-left-radius: 0.5rem; border-bottom-right-radius: 0.5rem; text-decoration: none;',
             variants: {
               main_hover: { styleLess: 'opacity: 0.7;' },
-              main_focus: { styleLess: 'box-shadow: 0 0 0 2px black;' },
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
@@ -11848,10 +11983,13 @@ export const examples: AttributeExamples = [
             namespace: '',
             comb: '',
             styleLess:
-              'display: flex; padding-top: 0.75rem; padding-right: 0rem; padding-bottom: 0.75rem; padding-left: 0rem; flex-direction: row; justify-content: center; align-items: center; text-decoration: none;',
+              'display: flex; padding-top: 0.25rem; padding-right: 0rem; padding-bottom: 0.25rem; padding-left: 0rem; flex-direction: row; justify-content: center; align-items: center; text-decoration: none;',
             variants: {
               main_hover: { styleLess: 'opacity: 0.7;' },
-              main_focus: { styleLess: 'box-shadow: 0 0 0 2px black;' },
+              'main_focus-visible': {
+                styleLess:
+                  'outline-color: hsla(0, 0.00%, 60.67%, 1.00); outline-offset: 4px; outline-style: solid; outline-width: 2px;',
+              },
             },
             children: [],
             selector: null,
