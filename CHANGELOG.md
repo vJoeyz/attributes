@@ -9,7 +9,7 @@ It can include changes like:
 - New dependencies / devDependencies installed.
 - Etc...
 
-For package-specific changes, refer to the `.changesets` folder inside every packages.
+For package-specific changes, refer to the `.changesets` folder inside every package.
 
 ## Unreleased
 
