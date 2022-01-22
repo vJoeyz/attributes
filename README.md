@@ -90,11 +90,11 @@ Identifiers never can be use alone like elements. There are the following cases:
 
 We can deduce the following rules:
 
-An identifier must have specializations. Can use the same appliedTo.
+An identifier must have specializations. Can use the same `appliedTo`.
 
-It can be of type suffix, to add '-asc’ and '-desc’ for cmssort case.
+It can be of type suffix, to add `-asc` and `-desc` for `cmssort` case.
 
-It can be childOf, to have elements childOf Filter UI and childOf Collection list together.
+It can be `childOf`, to have elements `childOf` Filter UI and `childOf` Collection list together.
 
 ### Cases not covered by specification
 
