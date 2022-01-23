@@ -1,7 +1,6 @@
 import { restartWebflow } from '@finsweet/ts-utils';
 
 import type { CMSList } from '$cms/cmscore/src';
-import { checkCMSCoreVersion } from '$cms/utils/versioning';
 import { importCMSCore } from '$global/import/cmscore';
 
 import { collectPopulateData } from './collect';
@@ -18,7 +17,7 @@ export const init = async (): Promise<CMSList[]> => {
   const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
   // Collect the combine data
-  const populateData = collectPopulateData(listInstances);
+  const [populateData, restartIx] = collectPopulateData(listInstances);
 
   // Populate the sliders
   for (const data of populateData) {
@@ -28,10 +27,8 @@ export const init = async (): Promise<CMSList[]> => {
 
     // Listen events
     for (const listInstance of listInstances) {
-      // TODO: Remove this check once `cmscore v1.5.5` rolls out
-      if (checkCMSCoreVersion('>=', '1.5.5')) listInstance.restartTabs = true;
-      else listInstance.restartWebflow = true;
-
+      listInstance.restartTabs = true;
+      listInstance.restartIx ||= restartIx;
       listInstance.items = [];
 
       listInstance.on('renderitems', async (renderedItems) => {
@@ -42,7 +39,10 @@ export const init = async (): Promise<CMSList[]> => {
     }
   }
 
-  await restartWebflow(['tabs']);
+  const modulesToRestart: Parameters<typeof restartWebflow>['0'] = ['tabs'];
+  if (restartIx) modulesToRestart.push('ix2');
+
+  await restartWebflow(modulesToRestart);
 
   return listInstances;
 };

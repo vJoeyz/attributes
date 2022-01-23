@@ -8,6 +8,9 @@ export const LIST_ELEMENT_KEY = 'list';
 export const TABS_ELEMENT_KEY = 'tabs';
 export const TAB_LINK_ELEMENT_KEY = 'tab-link';
 
+export const RESET_IX_SETTING_KEY = 'resetix';
+export const RESET_IX_SETTING_VALUES = { true: 'true' } as const;
+
 export const ATTRIBUTES = {
   element: {
     key: `${ATTRIBUTES_PREFIX}-element`,
@@ -28,6 +31,11 @@ export const ATTRIBUTES = {
       tabLink: TAB_LINK_ELEMENT_KEY,
     },
   },
+
+  /**
+   * Defines if Webflow should be restarted after populating the tabs.
+   */
+  resetIx: { key: `${ATTRIBUTES_PREFIX}-${RESET_IX_SETTING_KEY}`, values: RESET_IX_SETTING_VALUES },
 } as const;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
