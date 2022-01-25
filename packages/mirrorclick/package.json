@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-mirrorclick",
-  "version": "1.3.0",
+  "version": "1.3.0-beta.0",
   "description": "Mirrors click events between two elements.",
   "main": "mirrorclick.js",
   "files": [
