@@ -1,6 +1,12 @@
 import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTES_PREFIX = 'fs-displayvalues';
+export const ATTRIBUTE = 'displayvalues';
+
+export const SOURCE_ELEMENT_KEY = 'source';
+export const TARGET_ELEMENT_KEY = 'target';
+export const PLACEHOLDER_SETTING_KEY = 'placeholder';
+
+const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
 
 export const ATTRIBUTES = {
   element: {
@@ -9,19 +15,19 @@ export const ATTRIBUTES = {
       /**
        * Defines the element as the source of the event.
        */
-      source: 'source',
+      source: SOURCE_ELEMENT_KEY,
 
       /**
        * Defines the element as the target to display the source value.
        */
-      target: generateDynamicAttibuteValue('target'),
+      target: generateDynamicAttibuteValue(TARGET_ELEMENT_KEY),
     },
   },
 
   /**
    * Defines a placeholder text to display when no value exists.
    */
-  placeholder: { key: `${ATTRIBUTES_PREFIX}-placeholder` },
+  placeholder: { key: `${ATTRIBUTES_PREFIX}-${PLACEHOLDER_SETTING_KEY}` },
 } as const;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

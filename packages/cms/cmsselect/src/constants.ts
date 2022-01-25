@@ -1,6 +1,11 @@
 import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTES_PREFIX = 'fs-cmsselect';
+export const ATTRIBUTE = 'cmsselect';
+
+const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
+
+export const TEXT_VALUE_ELEMENT_KEY = 'text-value';
+export const SELECT_ELEMENT_KEY = 'select';
 
 export const ATTRIBUTES = {
   element: {
@@ -9,12 +14,12 @@ export const ATTRIBUTES = {
       /**
        * Defines the elements as the source to populate the target.
        */
-      textValue: generateDynamicAttibuteValue('text-value'),
+      textValue: generateDynamicAttibuteValue(TEXT_VALUE_ELEMENT_KEY),
 
       /**
        * Defines the element as the target to be populated.
        */
-      select: 'select',
+      select: SELECT_ELEMENT_KEY,
     },
   },
 } as const;

@@ -69,6 +69,16 @@ export const schema: AttributeSchema = {
           type: 'exists',
           element: LIST_ELEMENT_KEY,
         },
+        {
+          type: 'settings',
+          element: LIST_ELEMENT_KEY,
+          settings: [
+            {
+              key: MODE_SETTING_KEY,
+              value: MODE_SETTING_VALUES.pagination,
+            },
+          ],
+        },
       ],
     },
     {
@@ -86,6 +96,16 @@ export const schema: AttributeSchema = {
           type: 'isChildOf',
           selector: `.${CMS_CSS_CLASSES.paginationWrapper}`,
         },
+        {
+          type: 'settings',
+          element: LIST_ELEMENT_KEY,
+          settings: [
+            {
+              key: MODE_SETTING_KEY,
+              value: MODE_SETTING_VALUES.pagination,
+            },
+          ],
+        },
       ],
     },
     {
@@ -102,6 +122,16 @@ export const schema: AttributeSchema = {
         {
           type: 'isChildOf',
           selector: `.${CMS_CSS_CLASSES.paginationWrapper}`,
+        },
+        {
+          type: 'settings',
+          element: LIST_ELEMENT_KEY,
+          settings: [
+            {
+              key: MODE_SETTING_KEY,
+              value: MODE_SETTING_VALUES.pagination,
+            },
+          ],
         },
       ],
     },
@@ -173,7 +203,18 @@ export const schema: AttributeSchema = {
         type: 'commaSeparatedFloat',
         default: '1',
       },
-      conditions: [],
+      conditions: [
+        {
+          type: 'settings',
+          element: LIST_ELEMENT_KEY,
+          settings: [
+            {
+              key: MODE_SETTING_KEY,
+              value: MODE_SETTING_VALUES.pagination,
+            },
+          ],
+        },
+      ],
     },
     {
       key: PAGE_BOUNDARY_SETTING_KEY,
@@ -186,7 +227,18 @@ export const schema: AttributeSchema = {
         type: 'commaSeparatedFloat',
         default: '1',
       },
-      conditions: [],
+      conditions: [
+        {
+          type: 'settings',
+          element: LIST_ELEMENT_KEY,
+          settings: [
+            {
+              key: MODE_SETTING_KEY,
+              value: MODE_SETTING_VALUES.pagination,
+            },
+          ],
+        },
+      ],
     },
     {
       key: ANIMATION_SETTING_KEY,

@@ -1,1 +1,1 @@
-{"elements":[],"settings":[]}
+{"elements":[{"key":"list","description":"Defines the CMS list or list-wrapper.","required":true,"requiresInstance":true,"appliedTo":[".w-dyn-list",".w-dyn-items"],"conditions":[]},{"key":"value","description":"Defines the element that will display the amount of CMS items.","required":true,"requiresInstance":true,"appliedTo":["p","span","div","h1","h2","h3","h4","h5","h6","a"],"conditions":[{"type":"exists","element":"list"}]}],"settings":[]}

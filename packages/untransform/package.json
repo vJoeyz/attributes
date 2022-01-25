@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-untransform",
-  "version": "1.2.0",
+  "version": "1.3.0-beta.0",
   "description": "Move a `position: fixed` element ouside of its stacking context to avoid unwanted behaviors because of transformed parents.",
   "main": "untransform.js",
   "files": [

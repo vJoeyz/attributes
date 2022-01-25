@@ -25,7 +25,7 @@ export const generateScript = (entryPoint, fileName, format) => {
   esbuild.build({
     ...defaultBuildSettings,
     entryPoints: [entryPoint],
-    outfile: `${production ? '' : process.env.CUSTOM_BUILD_DIRECTORY || ''}/${fileName}.js`,
+    outfile: `${production ? './' : process.env.CUSTOM_BUILD_DIRECTORY || ''}/${fileName}.js`,
     format,
   });
 };

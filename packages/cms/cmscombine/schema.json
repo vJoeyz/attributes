@@ -1,1 +1,1 @@
-{"elements":[],"settings":[]}
+{"elements":[{"key":"list","description":"Defines a list to be combined into the target.","conditions":[],"appliedTo":[".w-dyn-list",".w-dyn-items"],"required":true,"requiresInstance":true},{"key":"items-count","description":"Defines an element where to display the total items of the list.","conditions":[{"type":"exists","element":"list"}],"appliedTo":["p","span","div"],"required":false,"requiresInstance":true}],"settings":[]}

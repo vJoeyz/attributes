@@ -1,6 +1,19 @@
 import { generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTES_PREFIX = 'fs-scrolldisable';
+export const ATTRIBUTE = 'scrolldisable';
+
+const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
+
+export const WHEN_VISIBLE_ELEMENT_KEY = 'when-visible';
+export const ENABLE_ELEMENT_KEY = 'enable';
+export const DISABLE_ELEMENT_KEY = 'disable';
+export const TOGGLE_ELEMENT_KEY = 'toggle';
+export const NAV_ELEMENT_KEY = 'smart-nav';
+export const PRESERVE_ELEMENT_KEY = 'preserve';
+
+export const SCROLLBAR_SETTING_KEY = 'scrollbar';
+export const MEDIA_SETTING_KEY = 'media';
+export const GAP_SETTING_KEY = 'gap';
 
 export const ATTRIBUTES = {
   /**
@@ -12,33 +25,33 @@ export const ATTRIBUTES = {
       /**
        * Scrolling will be disabled/enabled when this element becomes visible/hidden.
        */
-      whenVisible: 'when-visible',
+      whenVisible: WHEN_VISIBLE_ELEMENT_KEY,
 
       /**
        * Scrolling will be enabled when this element is clicked.
        */
-      enable: 'enable',
+      enable: ENABLE_ELEMENT_KEY,
 
       /**
        * Scrolling will be disabled when this element is clicked.
        */
-      disable: 'disable',
+      disable: DISABLE_ELEMENT_KEY,
 
       /**
        * Scrolling will be disabled/enabled when this element is clicked.
        */
-      toggle: 'toggle',
+      toggle: TOGGLE_ELEMENT_KEY,
 
       /**
        * Specific for `Navbar` components.
        * Scrolling will be disabled/enabled when the `Nav Menu` is open/closed.
        */
-      nav: 'smart-nav',
+      nav: NAV_ELEMENT_KEY,
 
       /**
        * Applied on elements that must preserve scrolling when the page's scrolling is disabled.
        */
-      preserve: 'preserve',
+      preserve: PRESERVE_ELEMENT_KEY,
     },
   },
 
@@ -46,7 +59,7 @@ export const ATTRIBUTES = {
    * Defines the behavior of the scrollbar gap when disabling scrolling.
    */
   scrollbar: {
-    key: `${ATTRIBUTES_PREFIX}-scrollbar`,
+    key: `${ATTRIBUTES_PREFIX}-${SCROLLBAR_SETTING_KEY}`,
     values: {
       /**
        * The scrollbar gap will be reserved.
@@ -63,13 +76,13 @@ export const ATTRIBUTES = {
   /**
    * Used to define a media query that restricts when an element acts as a trigger.
    */
-  matchMedia: { key: `${ATTRIBUTES_PREFIX}-media` },
+  matchMedia: { key: `${ATTRIBUTES_PREFIX}-${MEDIA_SETTING_KEY}` },
 
   /**
    * Defines if the scrollbar gap must be reserved when disabling scrolling.
    * It's set to the `<script>` tag, `true` by default.
    */
-  gap: { key: `${ATTRIBUTES_PREFIX}-gap`, values: { true: 'true', false: 'false' } },
+  gap: { key: `${ATTRIBUTES_PREFIX}-${GAP_SETTING_KEY}`, values: { true: 'true', false: 'false' } },
 } as const;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

@@ -1,6 +1,14 @@
 import { generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTES_PREFIX = 'fs-richtext';
+export const ATTRIBUTE = 'richtext';
+
+const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
+
+export const RICH_TEXT_ELEMENT_KEY = 'rich-text';
+export const COMPONENT_SETTING_KEY = 'component';
+export const SANITIZE_SETTING_KEY = 'sanitize';
+export const RESET_IX_SETTING_KEY = 'reset-ix';
+export const GLOBAL_SELECTOR_SETTING_KEY = 'selector';
 
 export const ATTRIBUTES = {
   element: {
@@ -9,29 +17,29 @@ export const ATTRIBUTES = {
       /**
        * Defines a rich text block instance.
        */
-      richText: 'rich-text',
+      richText: RICH_TEXT_ELEMENT_KEY,
     },
   },
 
   /**
    * Defines a custom component.
    */
-  component: { key: `${ATTRIBUTES_PREFIX}-component` },
+  component: { key: `${ATTRIBUTES_PREFIX}-${COMPONENT_SETTING_KEY}` },
 
   /**
    * Defines if the HTML should be sanitized before rendering it.
    */
-  sanitize: { key: `${ATTRIBUTES_PREFIX}-sanitize`, values: { true: 'true' } },
+  sanitize: { key: `${ATTRIBUTES_PREFIX}-${SANITIZE_SETTING_KEY}`, values: { true: 'true' } },
 
   /**
    * Defines if Webflow should be restarted after loading new items.
    */
-  resetIx: { key: `${ATTRIBUTES_PREFIX}-resetix`, values: { true: 'true' } },
+  resetIx: { key: `${ATTRIBUTES_PREFIX}-${RESET_IX_SETTING_KEY}`, values: { true: 'true' } },
 
   /**
    * Defines a global selector for RTB elements.
    */
-  globalSelector: { key: `${ATTRIBUTES_PREFIX}-selector` },
+  globalSelector: { key: `${ATTRIBUTES_PREFIX}-${GLOBAL_SELECTOR_SETTING_KEY}` },
 } as const;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

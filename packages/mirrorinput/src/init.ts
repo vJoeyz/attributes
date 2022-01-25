@@ -1,5 +1,7 @@
+import { isFormField, setFormFieldValue } from '@finsweet/ts-utils';
+
 import { getInstanceIndex } from '$global/helpers/instances';
-import { isFormField, simulateEvent } from '@finsweet/ts-utils';
+
 import { ATTRIBUTES, getSelector, queryElement } from './constants';
 
 /**
@@ -22,16 +24,14 @@ export const init = (): void => {
     if (
       mirrorTarget instanceof HTMLInputElement &&
       (mirrorTarget.type === 'checkbox' || mirrorTarget.type === 'radio') &&
-      (<HTMLInputElement>mirrorTrigger).checked !== mirrorTarget.checked
+      (mirrorTrigger as HTMLInputElement).checked !== mirrorTarget.checked
     ) {
-      mirrorTarget.checked = !mirrorTarget.checked;
+      setFormFieldValue(mirrorTarget, !mirrorTarget.checked);
 
-      simulateEvent(mirrorTarget, ['input', 'change', 'click']);
       return;
     }
 
     // If must update the `value` property
-    mirrorTarget.value = mirrorTrigger.value;
-    simulateEvent(mirrorTarget, ['input', 'change']);
+    setFormFieldValue(mirrorTarget, mirrorTrigger.value);
   });
 };

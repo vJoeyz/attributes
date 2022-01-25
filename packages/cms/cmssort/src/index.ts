@@ -3,6 +3,7 @@ import { initAttributes } from '$global/factory/init';
 import { importAnimations } from '$global/import/animation';
 import { importCMSCore } from '$global/import/cmscore';
 
+import { ATTRIBUTE } from './constants';
 import { init } from './init';
 
 /**
@@ -16,7 +17,7 @@ const { preventsLoad } = assessScript(currentScript);
 importCMSCore();
 importAnimations();
 
-if (preventsLoad) window.fsAttributes['cmssort'] = { init };
+if (preventsLoad) window.fsAttributes[ATTRIBUTE] = { init };
 else {
   window.Webflow ||= [];
   window.Webflow.push(init);

@@ -1,6 +1,11 @@
 import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTES_PREFIX = 'fs-cmscombine';
+export const ATTRIBUTE = 'cmscombine';
+
+const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
+
+export const LIST_ELEMENT_KEY = 'list';
+export const ITEMS_COUNT_ELEMENT_KEY = 'items-count';
 
 export const ATTRIBUTES = {
   element: {
@@ -9,12 +14,12 @@ export const ATTRIBUTES = {
       /**
        * Defines a list to be combined into the target.
        */
-      list: generateDynamicAttibuteValue('list'),
+      list: generateDynamicAttibuteValue(LIST_ELEMENT_KEY),
 
       /**
        * Defines an element where to display the total items of the list.
        */
-      itemsCount: generateDynamicAttibuteValue('items-count'),
+      itemsCount: generateDynamicAttibuteValue(ITEMS_COUNT_ELEMENT_KEY),
     },
   },
 } as const;

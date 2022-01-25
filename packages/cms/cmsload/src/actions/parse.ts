@@ -1,7 +1,6 @@
 import { getCollectionElements, getCollectionListWrappers } from '@finsweet/ts-utils';
 
 import type { CMSList } from '$cms/cmscore/src';
-import { checkCMSCoreVersion } from '$cms/utils/versioning';
 
 export const parseLoadedPage = async (
   page: Document,
@@ -21,23 +20,17 @@ export const parseLoadedPage = async (
     const newPaginationNext = getCollectionElements(collectionListWrapper, 'next');
 
     if (newPaginationPrevious) {
-      // TODO: Remove this check after `cmscore v1.5.0` has rolled out
-      if (checkCMSCoreVersion('>=', '1.5.0')) {
-        const childIndex = [...(newPaginationWrapper?.children || [])].indexOf(newPaginationPrevious);
+      const childIndex = [...(newPaginationWrapper?.children || [])].indexOf(newPaginationPrevious);
 
-        listInstance.addPaginationButton(newPaginationPrevious, 'paginationPrevious', childIndex);
-      } else listInstance.addPaginationPrevious(newPaginationPrevious);
+      listInstance.addPaginationButton(newPaginationPrevious, 'paginationPrevious', childIndex);
     }
 
     if (newPaginationNext) {
-      // TODO: Remove this check after `cmscore v1.5.0` has rolled out
-      if (checkCMSCoreVersion('>=', '1.5.0')) {
-        let childIndex = [...(newPaginationWrapper?.children || [])].indexOf(newPaginationNext);
+      let childIndex = [...(newPaginationWrapper?.children || [])].indexOf(newPaginationNext);
 
-        if (!newPaginationPrevious) childIndex += 1;
+      if (!newPaginationPrevious) childIndex += 1;
 
-        listInstance.addPaginationButton(newPaginationNext, 'paginationNext', childIndex);
-      }
+      listInstance.addPaginationButton(newPaginationNext, 'paginationNext', childIndex);
     }
   }
 

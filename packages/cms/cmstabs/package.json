@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-cmstabs",
-  "version": "1.3.3",
+  "version": "1.4.0-beta.0",
   "description": "Convert the native Webflow tabs component to CMS tabs",
   "main": "cmstabs.js",
   "files": [
