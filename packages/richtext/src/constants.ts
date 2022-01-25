@@ -1,6 +1,6 @@
 import { generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTE = 'richtext';
+export const ATTRIBUTE = 'richtext';
 
 const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
 

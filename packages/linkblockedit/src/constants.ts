@@ -1,6 +1,6 @@
 import { generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTE = 'linkblockedit';
+export const ATTRIBUTE = 'linkblockedit';
 
 const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
 

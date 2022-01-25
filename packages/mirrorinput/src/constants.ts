@@ -1,6 +1,6 @@
 import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTE = 'mirrorinput';
+export const ATTRIBUTE = 'mirrorinput';
 
 const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
 

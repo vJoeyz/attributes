@@ -1,6 +1,6 @@
 import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTE = 'displayvalues';
+export const ATTRIBUTE = 'displayvalues';
 
 export const SOURCE_ELEMENT_KEY = 'source';
 export const TARGET_ELEMENT_KEY = 'target';

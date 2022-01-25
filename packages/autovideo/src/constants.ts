@@ -1,6 +1,6 @@
 import { generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTE = 'autovideo';
+export const ATTRIBUTE = 'autovideo';
 
 const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
 

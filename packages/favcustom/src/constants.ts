@@ -1,6 +1,6 @@
 import { generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTE = 'favcustom';
+export const ATTRIBUTE = 'favcustom';
 
 const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
 

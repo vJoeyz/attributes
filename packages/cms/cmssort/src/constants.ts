@@ -1,6 +1,6 @@
 import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTE = 'cmssort';
+export const ATTRIBUTE = 'cmssort';
 
 const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
 

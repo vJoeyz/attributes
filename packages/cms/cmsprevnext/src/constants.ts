@@ -1,6 +1,6 @@
 import { generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTE = 'cmsprevnext';
+export const ATTRIBUTE = 'cmsprevnext';
 
 const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
 

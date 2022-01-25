@@ -1,6 +1,6 @@
 import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTE = 'copyclip';
+export const ATTRIBUTE = 'copyclip';
 
 const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
 

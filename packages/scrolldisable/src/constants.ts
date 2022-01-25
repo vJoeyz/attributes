@@ -1,6 +1,6 @@
 import { generateSelectors } from '$global/factory/selectors';
 
-const ATTRIBUTE = 'scrolldisable';
+export const ATTRIBUTE = 'scrolldisable';
 
 const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
 
