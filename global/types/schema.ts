@@ -11,7 +11,6 @@ interface AttributeFieldSchema {
   key: string;
   description: string;
   specializations: FieldSpecialization[];
-  // appliedTo: string[];
 }
 
 /**
@@ -83,11 +82,7 @@ interface AttributeElementSchema {
   /**
    * Defines the conditions that this element must match to be valid.
    */
-  conditions: (
-    | AttributeElementElementCondition
-    | AttributeElementSelectorCondition
-    | AttributeSettingSettingsCondition
-  )[];
+  conditions: (AttributeElementElementCondition | AttributeElementSelectorCondition | AttributeSettingCondition)[];
 }
 
 interface AttributeElementCondition {
@@ -160,7 +155,7 @@ interface AttributeSettingSchema {
   /**
    * The conditions that other elements/settings must match.
    */
-  conditions: (AttributeSettingMainCondition | AttributeSettingSettingsCondition)[];
+  conditions: (AttributeSettingMainCondition | AttributeSettingCondition)[];
 }
 
 interface AttributeSettingValue {
@@ -210,7 +205,7 @@ type AttributeSettingMainCondition = (AttributeSettingElementCondition | Attribu
   type: 'exists' | 'isChildOf' | 'isParentOf' | 'isSiblingOf';
 };
 
-type AttributeSettingSettingsCondition = (AttributeSettingElementCondition | AttributeSettingSelectorCondition) & {
+type AttributeSettingCondition = (AttributeSettingElementCondition | AttributeSettingSelectorCondition) & {
   /**
    * The type of the value.
    */
