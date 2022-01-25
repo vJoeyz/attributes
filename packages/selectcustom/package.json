@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-selectcustom",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "Create custom Select Dropdown components inside Webflow.",
   "main": "selectcustom.js",
   "files": [

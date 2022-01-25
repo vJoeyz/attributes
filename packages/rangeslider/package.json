@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-rangeslider",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Build a custom Range Slider Form component natively in Webflow.",
   "main": "rangeslider.js",
   "files": [
