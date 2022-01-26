@@ -16,3 +16,4 @@ export const ARIA_MULTISELECTABLE_KEY = 'aria-multiselectable';
 export const ARIA_EXPANDED_KEY = 'aria-expanded';
 export const ARIA_CURRENT_KEY = 'aria-current';
 export const ARIA_ACTIVEDESCENDANT_KEY = 'aria-activedescendant';
+export const ARIA_PRESSED_KEY = 'aria-pressed';

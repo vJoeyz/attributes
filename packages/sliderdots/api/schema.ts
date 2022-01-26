@@ -7,7 +7,7 @@ import {
   ACTIVE_SETTING_KEY,
   REMOVE_SETTING_KEY,
   DEFAULT_ACTIVE_CSS_CLASS,
-} from './../src/constants';
+} from '../src/utils/constants';
 
 export const schema: AttributeSchema = {
   elements: [

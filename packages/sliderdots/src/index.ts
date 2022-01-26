@@ -1,8 +1,8 @@
 import { assessScript } from '$global/factory/assess';
 import { initAttributes } from '$global/factory/init';
 
-import { ATTRIBUTE } from './constants';
 import { init } from './init';
+import { ATTRIBUTE } from './utils/constants';
 
 /**
  * Init
