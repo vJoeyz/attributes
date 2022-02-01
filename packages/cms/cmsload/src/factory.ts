@@ -23,8 +23,6 @@ const {
   resetIx: { key: resetIxKey, values: resetIxValues },
 } = ATTRIBUTES;
 
-const { Webflow } = window;
-
 /**
  * Gets the base config and inits a `mode` for a `CMSList` instance.
  * @param listInstance The {@link CMSList} instance.
@@ -33,16 +31,16 @@ const { Webflow } = window;
 export const initLoadInstance = async (listInstance: CMSList) => {
   const instanceIndex = listInstance.getInstanceIndex(elementKey);
   const { items } = listInstance;
+  const { Webflow } = window;
+  const webflowReady = !!Webflow && 'require' in Webflow;
 
   // Get animation config
   addItemsAnimation(listInstance, { animationKey, durationKey, easingKey, staggerKey });
-
   addListAnimation(listInstance, { durationKey, easingKey });
 
   // Get commerce config
   const restartCommerce =
-    !!Webflow &&
-    'require' in Webflow &&
+    webflowReady &&
     !!Webflow.require('commerce') &&
     items.some(({ element }) => element.querySelector(`.${COMMERCE_CSS_CLASSES.addToCartForm}`));
 
@@ -50,8 +48,7 @@ export const initLoadInstance = async (listInstance: CMSList) => {
 
   // Get lightbox config
   const restartLightbox =
-    !!Webflow &&
-    'require' in Webflow &&
+    webflowReady &&
     !!Webflow.require('lightbox') &&
     items.some(({ element }) => element.querySelector(`.${LIGHTBOX_CSS_CLASSES.trigger}`));
 
