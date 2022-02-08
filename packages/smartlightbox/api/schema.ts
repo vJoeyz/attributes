@@ -1,8 +1,8 @@
 import type { AttributeSchema } from '$global/types/schema';
 
 import {
-  TRIGGER_ON_ELEMENT_KEY,
-  TRIGGER_OFF_ELEMENT_KEY,
+  TRIGGER_OPEN_ELEMENT_KEY,
+  TRIGGER_CLOSE_ELEMENT_KEY,
   TRIGGER_TOGGLE_ELEMENT_KEY,
   LIGHTBOX_ELEMENT_KEY,
   WAIT_SETTING_KEY,
@@ -19,22 +19,22 @@ export const schema: AttributeSchema = {
       conditions: [
         {
           type: 'isParentOf',
-          element: TRIGGER_ON_ELEMENT_KEY,
+          element: TRIGGER_OPEN_ELEMENT_KEY,
         },
       ],
       appliedTo: [],
     },
     {
-      key: TRIGGER_ON_ELEMENT_KEY,
-      description: 'Defines the trigger that untransforms all parents of the fixed element.',
+      key: TRIGGER_OPEN_ELEMENT_KEY,
+      description: 'Defines the trigger that appends the `lightbox` element as a direct child of the `<body>`.',
       required: true,
       requiresInstance: true,
       conditions: [],
       appliedTo: [],
     },
     {
-      key: TRIGGER_OFF_ELEMENT_KEY,
-      description: 'Defines the trigger that returns the transforms to all parents of the fixed element.',
+      key: TRIGGER_CLOSE_ELEMENT_KEY,
+      description: 'Defines the trigger that returns the `lightbox` to its previous position.',
       required: true,
       requiresInstance: true,
       conditions: [],
@@ -42,7 +42,7 @@ export const schema: AttributeSchema = {
     },
     {
       key: TRIGGER_TOGGLE_ELEMENT_KEY,
-      description: 'Defines a trigger that toggles `on/off` the untransforms.',
+      description: 'Defines a trigger that toggles the open/close actions.',
       required: true,
       requiresInstance: true,
       conditions: [],
@@ -52,7 +52,7 @@ export const schema: AttributeSchema = {
   settings: [
     {
       key: WAIT_SETTING_KEY,
-      description: 'Defines the timeout to wait before triggering the `off` state.',
+      description: 'Defines the timeout to wait before triggering the `close` state.',
       conditions: [],
       appliedTo: {},
       value: {
