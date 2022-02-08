@@ -1,15 +1,15 @@
 import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory/selectors';
 
-export const ATTRIBUTE = 'untransform';
+export const ATTRIBUTE = 'smartlightbox';
 
 const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
 
-export const TRIGGER_ON_ELEMENT_KEY = 'trigger-on';
-export const TRIGGER_OFF_ELEMENT_KEY = 'trigger-off';
+export const TRIGGER_ON_ELEMENT_KEY = 'trigger-open';
+export const TRIGGER_OFF_ELEMENT_KEY = 'trigger-close';
 export const TRIGGER_TOGGLE_ELEMENT_KEY = 'trigger-toggle';
-export const FIXED_ELEMENT_KEY = 'fixed';
+export const LIGHTBOX_ELEMENT_KEY = 'lightbox';
 
-export const TIMEOUT_SETTING_KEY = 'timeout';
+export const WAIT_SETTING_KEY = 'wait';
 
 export const ATTRIBUTES = {
   element: {
@@ -34,14 +34,14 @@ export const ATTRIBUTES = {
        * Defines the element that has `position: fixed`.
        * If not defined, the `triggerOn` element is used {@link ATTRIBUTES.element.values.on}
        */
-      fixed: generateDynamicAttibuteValue(FIXED_ELEMENT_KEY),
+      lightbox: generateDynamicAttibuteValue(LIGHTBOX_ELEMENT_KEY),
     },
   },
 
   /**
    * Defines the timeout to wait before triggering the `off` state.
    */
-  timeout: { key: `${ATTRIBUTES_PREFIX}-${TIMEOUT_SETTING_KEY}` },
+  wait: { key: `${ATTRIBUTES_PREFIX}-${WAIT_SETTING_KEY}` },
 } as const;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

@@ -13,7 +13,7 @@ dotenv.config({ path: '../../.env' });
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-generateScript('src/index.ts', 'untransform');
+generateScript('src/index.ts', 'smartlightbox');
 generateExamplesJSON(__dirname);
 generateSchemaJSON(__dirname);
 generateChangesetsJSON(__dirname);
