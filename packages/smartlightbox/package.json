@@ -1,10 +1,10 @@
 {
-  "name": "@finsweet/attributes-untransform",
-  "version": "1.3.0-beta.0",
-  "description": "Move a `position: fixed` element ouside of its stacking context to avoid unwanted behaviors because of transformed parents.",
-  "main": "untransform.js",
+  "name": "@finsweet/attributes-smartlightbox",
+  "version": "1.4.1",
+  "description": "Change the position of an opened lightbox to prevent unwanted `z-index`, `fixed` positioning, and `transform` issues.",
+  "main": "smartlightbox.js",
   "files": [
-    "untransform.js",
+    "smartlightbox.js",
     "examples.json",
     "schema.json",
     "changesets.json"
@@ -21,7 +21,9 @@
   },
   "keywords": [
     "webflow",
-    "un transform",
+    "fixed",
+    "lightbox",
+    "untransform",
     "attributes",
     "no code"
   ],

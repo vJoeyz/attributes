@@ -1,4 +1,4 @@
-import { getFixedElement } from './actions/collect';
+import { getLightboxElement } from './actions/collect';
 import { moveElementToBody } from './actions/move';
 import { ATTRIBUTES, getSelector } from './utils/constants';
 
@@ -34,15 +34,15 @@ export const init = (): void => {
     if ((onTrigger && restoreUntransformedElement) || (offTrigger && !restoreUntransformedElement)) return;
 
     // Get the timeout value
-    const timeoutValue = trigger.getAttribute(ATTRIBUTES.timeout.key);
+    const timeoutValue = trigger.getAttribute(ATTRIBUTES.wait.key);
     const timeout = timeoutValue ? parseInt(timeoutValue) : undefined;
 
     // ON
     if (onTrigger) {
-      const fixedElement = getFixedElement(onTrigger);
-      if (!fixedElement) return;
+      const lightboxElement = getLightboxElement(onTrigger);
+      if (!lightboxElement) return;
 
-      restoreUntransformedElement = moveElementToBody(fixedElement, timeout);
+      restoreUntransformedElement = moveElementToBody(lightboxElement, timeout);
 
       return;
     }

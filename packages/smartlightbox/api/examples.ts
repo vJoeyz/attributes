@@ -2,24 +2,24 @@ import type { AttributeExamples } from '$global/types/examples';
 
 export const examples: AttributeExamples = [
   {
-    title: 'Untransform Issue with modal popup fixed',
-    description: 'Untransform all parents of an element to assure position: fixed works correctly.',
+    title: 'Transform issue with fixed position lightbox',
+    description:
+      "The lightbox that has position fixed works as intended because it's 'smartly' moved in the DOM. When opened, it becomes a direct child of the Body.",
     data: {
       type: '@webflow/XscpData',
       payload: {
         nodes: [
           {
-            _id: '97baaec4-0cce-92dd-0ac4-45842d843d7c',
+            _id: 'a7e39585-8c35-b811-c15c-800b46ce351c',
             tag: 'div',
-            classes: ['b315de61-7200-6001-8399-236db51d8492'],
+            classes: [],
             children: [
               '83c935a5-eed8-d5f1-5d8c-549e8ee4018c',
-              '73fe6c1e-3823-3bb9-950e-32d395d50b14',
-              '4784adf9-a7a2-4683-b5fc-4dafee3ac3e5',
-              'a45b32d5-4840-c4d3-a68d-12376fb4c435',
+              '58369f60-fb4a-51a9-5d47-cff08c72004e',
+              'c734ab58-14b3-f744-efb3-bd4680caef5b',
             ],
             type: 'Block',
-            data: { tag: 'div', text: false },
+            data: { tag: 'div' },
           },
           {
             _id: '83c935a5-eed8-d5f1-5d8c-549e8ee4018c',
@@ -39,7 +39,7 @@ export const examples: AttributeExamples = [
           {
             _id: '83c935a5-eed8-d5f1-5d8c-549e8ee4018d',
             text: true,
-            v: 'Issue without fs-untransform (click on open modal to see):',
+            v: 'Issue without fs-smartlightbox applied (click on open modal to see):',
           },
           {
             _id: '24b8f9d8-3f4c-0645-5e15-b9a824f15000',
@@ -52,12 +52,20 @@ export const examples: AttributeExamples = [
           {
             _id: '7fb058e3-ea2d-b078-775d-7ea962daeb14',
             text: true,
-            v: 'The popup that has position fixed gets stuck inside the list because of the interaction.',
+            v: 'The lightbox that has position fixed gets stuck inside the parent wrapper of the list.',
+          },
+          {
+            _id: '58369f60-fb4a-51a9-5d47-cff08c72004e',
+            tag: 'div',
+            classes: ['ce352128-35a6-8b6a-af9d-6543931881a5', 'fcbe7559-0206-1da1-8587-0e4a69387b48'],
+            children: ['73fe6c1e-3823-3bb9-950e-32d395d50b14'],
+            type: 'Block',
+            data: { tag: 'div', text: false },
           },
           {
             _id: '73fe6c1e-3823-3bb9-950e-32d395d50b14',
             tag: 'div',
-            classes: ['f5a012b5-2940-b60b-34d0-4b0d20a5b0ab'],
+            classes: ['3561704c-a69c-bd6f-eeb7-2e3f2fed9dbe'],
             children: ['73fe6c1e-3823-3bb9-950e-32d395d50b15'],
             type: 'Block',
             data: { tag: 'div', text: false },
@@ -65,7 +73,7 @@ export const examples: AttributeExamples = [
           {
             _id: '73fe6c1e-3823-3bb9-950e-32d395d50b15',
             tag: 'div',
-            classes: ['c70f10ca-4412-69b7-71d7-4e78ee9d7620'],
+            classes: ['6821dd27-e0dd-8e6a-776d-e1feb0aded75'],
             children: [
               '13aa2864-e453-c966-fbf7-90f3c092be73',
               'c8f5fffa-42c2-f6e2-1187-5254a797ad30',
@@ -78,7 +86,7 @@ export const examples: AttributeExamples = [
           {
             _id: '13aa2864-e453-c966-fbf7-90f3c092be73',
             tag: 'div',
-            classes: ['ad80815a-e8b0-bfb4-c9ca-c12708c8477b'],
+            classes: ['cedfcdde-cc03-cf43-d0ec-7a8bcd75d2b3'],
             children: ['ee43a016-58d1-494b-a4f0-4ac1d311888e', '3d2f0c79-7619-7ccd-99b2-1708881a28ad'],
             type: 'Block',
             data: { tag: 'div', text: false },
@@ -86,7 +94,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'ee43a016-58d1-494b-a4f0-4ac1d311888e',
             tag: 'img',
-            classes: ['88b75fea-4fca-78c6-c6d4-674875bb5d01'],
+            classes: ['b0d30947-4899-a541-4aeb-3db9af1b4de9'],
             children: [],
             type: 'Image',
             data: {
@@ -103,7 +111,7 @@ export const examples: AttributeExamples = [
           {
             _id: '3d2f0c79-7619-7ccd-99b2-1708881a28ad',
             tag: 'div',
-            classes: ['8034441e-ed05-9ce1-e95f-a5aa503e9ca9'],
+            classes: ['847c3da1-6762-c385-3765-9ba209cd3878'],
             children: [
               '3d2f0c79-7619-7ccd-99b2-1708881a28ae',
               '3d2f0c79-7619-7ccd-99b2-1708881a28b0',
@@ -116,7 +124,7 @@ export const examples: AttributeExamples = [
           {
             _id: '3d2f0c79-7619-7ccd-99b2-1708881a28ae',
             tag: 'div',
-            classes: ['0e29d3bf-a1e7-070f-1027-cb020bcf887c'],
+            classes: ['078e2599-511a-a010-a8d0-a04a77579607'],
             children: ['3d2f0c79-7619-7ccd-99b2-1708881a28af'],
             type: 'Block',
             data: { text: true, tag: 'div', dyn: { bind: {} } },
@@ -138,7 +146,7 @@ export const examples: AttributeExamples = [
           {
             _id: '3d2f0c79-7619-7ccd-99b2-1708881a28b2',
             tag: 'div',
-            classes: ['61773ca7-c880-cab6-b2b0-0aa782ad024b'],
+            classes: ['f278254f-9d17-58f9-905c-0d2dff2562d0'],
             children: ['3d2f0c79-7619-7ccd-99b2-1708881a28b3'],
             type: 'Block',
             data: { text: true, tag: 'div' },
@@ -177,7 +185,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'c8f5fffa-42c2-f6e2-1187-5254a797ad30',
             tag: 'div',
-            classes: ['ad80815a-e8b0-bfb4-c9ca-c12708c8477b'],
+            classes: ['cedfcdde-cc03-cf43-d0ec-7a8bcd75d2b3'],
             children: ['c8f5fffa-42c2-f6e2-1187-5254a797ad31', 'c8f5fffa-42c2-f6e2-1187-5254a797ad32'],
             type: 'Block',
             data: { tag: 'div', text: false },
@@ -185,7 +193,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'c8f5fffa-42c2-f6e2-1187-5254a797ad31',
             tag: 'img',
-            classes: ['88b75fea-4fca-78c6-c6d4-674875bb5d01'],
+            classes: ['b0d30947-4899-a541-4aeb-3db9af1b4de9'],
             children: [],
             type: 'Image',
             data: {
@@ -202,7 +210,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'c8f5fffa-42c2-f6e2-1187-5254a797ad32',
             tag: 'div',
-            classes: ['8034441e-ed05-9ce1-e95f-a5aa503e9ca9'],
+            classes: ['847c3da1-6762-c385-3765-9ba209cd3878'],
             children: [
               'c8f5fffa-42c2-f6e2-1187-5254a797ad33',
               'c8f5fffa-42c2-f6e2-1187-5254a797ad35',
@@ -215,7 +223,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'c8f5fffa-42c2-f6e2-1187-5254a797ad33',
             tag: 'div',
-            classes: ['0e29d3bf-a1e7-070f-1027-cb020bcf887c'],
+            classes: ['078e2599-511a-a010-a8d0-a04a77579607'],
             children: ['c8f5fffa-42c2-f6e2-1187-5254a797ad34'],
             type: 'Block',
             data: { text: true, tag: 'div', dyn: { bind: {} } },
@@ -267,7 +275,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'ab1a2d06-6eb3-8d11-542e-a52acb64e195',
             tag: 'div',
-            classes: ['61773ca7-c880-cab6-b2b0-0aa782ad024b'],
+            classes: ['f278254f-9d17-58f9-905c-0d2dff2562d0'],
             children: ['ab1a2d06-6eb3-8d11-542e-a52acb64e196'],
             type: 'Block',
             data: { text: true, tag: 'div' },
@@ -276,7 +284,7 @@ export const examples: AttributeExamples = [
           {
             _id: '1242d57e-f701-ae43-9e16-edf82adcf501',
             tag: 'div',
-            classes: ['ad80815a-e8b0-bfb4-c9ca-c12708c8477b'],
+            classes: ['cedfcdde-cc03-cf43-d0ec-7a8bcd75d2b3'],
             children: ['1242d57e-f701-ae43-9e16-edf82adcf502', '1242d57e-f701-ae43-9e16-edf82adcf503'],
             type: 'Block',
             data: { tag: 'div', text: false },
@@ -284,7 +292,7 @@ export const examples: AttributeExamples = [
           {
             _id: '1242d57e-f701-ae43-9e16-edf82adcf502',
             tag: 'img',
-            classes: ['88b75fea-4fca-78c6-c6d4-674875bb5d01'],
+            classes: ['b0d30947-4899-a541-4aeb-3db9af1b4de9'],
             children: [],
             type: 'Image',
             data: {
@@ -301,7 +309,7 @@ export const examples: AttributeExamples = [
           {
             _id: '1242d57e-f701-ae43-9e16-edf82adcf503',
             tag: 'div',
-            classes: ['8034441e-ed05-9ce1-e95f-a5aa503e9ca9'],
+            classes: ['847c3da1-6762-c385-3765-9ba209cd3878'],
             children: [
               '1242d57e-f701-ae43-9e16-edf82adcf504',
               '1242d57e-f701-ae43-9e16-edf82adcf506',
@@ -314,7 +322,7 @@ export const examples: AttributeExamples = [
           {
             _id: '1242d57e-f701-ae43-9e16-edf82adcf504',
             tag: 'div',
-            classes: ['0e29d3bf-a1e7-070f-1027-cb020bcf887c'],
+            classes: ['078e2599-511a-a010-a8d0-a04a77579607'],
             children: ['1242d57e-f701-ae43-9e16-edf82adcf505'],
             type: 'Block',
             data: { text: true, tag: 'div', dyn: { bind: {} } },
@@ -336,7 +344,7 @@ export const examples: AttributeExamples = [
           {
             _id: '1abd904b-6ab4-a9c6-112f-9dc0b28fb292',
             tag: 'div',
-            classes: ['61773ca7-c880-cab6-b2b0-0aa782ad024b'],
+            classes: ['f278254f-9d17-58f9-905c-0d2dff2562d0'],
             children: ['1abd904b-6ab4-a9c6-112f-9dc0b28fb293'],
             type: 'Block',
             data: { text: true, tag: 'div' },
@@ -375,7 +383,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'c6290d28-b684-ee1f-3f6e-e2c9984f954a',
             tag: 'div',
-            classes: ['ad80815a-e8b0-bfb4-c9ca-c12708c8477b'],
+            classes: ['cedfcdde-cc03-cf43-d0ec-7a8bcd75d2b3'],
             children: ['c6290d28-b684-ee1f-3f6e-e2c9984f954b', 'c6290d28-b684-ee1f-3f6e-e2c9984f954c'],
             type: 'Block',
             data: { tag: 'div', text: false },
@@ -383,7 +391,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'c6290d28-b684-ee1f-3f6e-e2c9984f954b',
             tag: 'img',
-            classes: ['88b75fea-4fca-78c6-c6d4-674875bb5d01'],
+            classes: ['b0d30947-4899-a541-4aeb-3db9af1b4de9'],
             children: [],
             type: 'Image',
             data: {
@@ -400,7 +408,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'c6290d28-b684-ee1f-3f6e-e2c9984f954c',
             tag: 'div',
-            classes: ['8034441e-ed05-9ce1-e95f-a5aa503e9ca9'],
+            classes: ['847c3da1-6762-c385-3765-9ba209cd3878'],
             children: [
               'c6290d28-b684-ee1f-3f6e-e2c9984f954d',
               'c6290d28-b684-ee1f-3f6e-e2c9984f954f',
@@ -413,7 +421,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'c6290d28-b684-ee1f-3f6e-e2c9984f954d',
             tag: 'div',
-            classes: ['0e29d3bf-a1e7-070f-1027-cb020bcf887c'],
+            classes: ['078e2599-511a-a010-a8d0-a04a77579607'],
             children: ['c6290d28-b684-ee1f-3f6e-e2c9984f954e'],
             type: 'Block',
             data: { text: true, tag: 'div', dyn: { bind: {} } },
@@ -435,7 +443,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'c2f3d61a-8ef4-dd67-246c-0d011887e1d5',
             tag: 'div',
-            classes: ['61773ca7-c880-cab6-b2b0-0aa782ad024b'],
+            classes: ['f278254f-9d17-58f9-905c-0d2dff2562d0'],
             children: ['c2f3d61a-8ef4-dd67-246c-0d011887e1d6'],
             type: 'Block',
             data: { text: true, tag: 'div' },
@@ -472,14 +480,18 @@ export const examples: AttributeExamples = [
           },
           { _id: '4e651c20-afb0-893d-ddb1-d3c703f15455', text: true, v: 'Close Modal' },
           {
+            _id: 'c734ab58-14b3-f744-efb3-bd4680caef5b',
+            tag: 'div',
+            classes: ['ce352128-35a6-8b6a-af9d-6543931881a5', '04e4b0c7-4f3d-17b5-bb60-1ce884c38f50'],
+            children: ['4784adf9-a7a2-4683-b5fc-4dafee3ac3e5', 'ca18a7c4-b7f1-2739-7a75-017a515f50f7'],
+            type: 'Block',
+            data: { tag: 'div', text: false },
+          },
+          {
             _id: '4784adf9-a7a2-4683-b5fc-4dafee3ac3e5',
             tag: 'div',
             classes: [],
-            children: [
-              '41a44675-5743-ac66-01d6-47b4b8932fe6',
-              'a1c813cd-f867-6490-610d-508872b0ded8',
-              '68032ab7-4249-6dc4-3765-84aa467f5933',
-            ],
+            children: ['41a44675-5743-ac66-01d6-47b4b8932fe6', '0833d378-efea-2b68-8851-51caf0553ace'],
             type: 'Block',
             data: { text: true, tag: 'div' },
           },
@@ -487,16 +499,16 @@ export const examples: AttributeExamples = [
             _id: '41a44675-5743-ac66-01d6-47b4b8932fe6',
             tag: 'span',
             classes: ['f1d114fe-9f51-3fb7-7ae7-0ca241f20a11'],
-            children: ['4784adf9-a7a2-4683-b5fc-4dafee3ac3e6'],
+            children: ['4784adf9-a7a2-4683-b5fc-4dafee3ac3e6', 'b3205c93-809d-9fc3-0efb-444cec00bf8f'],
             type: 'Span',
           },
           {
             _id: '4784adf9-a7a2-4683-b5fc-4dafee3ac3e6',
             text: true,
-            v: 'Fixed with fs-untransform (click on open modal to see):',
+            v: 'Issue with fs-smartlightbox applied (click on open modal to see):',
           },
           {
-            _id: 'a1c813cd-f867-6490-610d-508872b0ded8',
+            _id: 'b3205c93-809d-9fc3-0efb-444cec00bf8f',
             tag: 'br',
             classes: [],
             children: [],
@@ -504,21 +516,22 @@ export const examples: AttributeExamples = [
             data: { sym: { inst: 'LineBreak' } },
           },
           {
-            _id: '68032ab7-4249-6dc4-3765-84aa467f5933',
-            tag: 'span',
-            classes: [],
-            children: ['94ec5465-48a4-b52f-0684-5bcda49950bc'],
-            type: 'Span',
+            _id: '0833d378-efea-2b68-8851-51caf0553ace',
+            text: true,
+            v: "The lightbox that has position fixed works as intended because it's 'smartly' moved in the DOM. When opened, it becomes a direct child of the Body.",
           },
           {
-            _id: '94ec5465-48a4-b52f-0684-5bcda49950bc',
-            text: true,
-            v: 'The pop up with position fixed opens normally.',
+            _id: 'ca18a7c4-b7f1-2739-7a75-017a515f50f7',
+            tag: 'div',
+            classes: ['ce352128-35a6-8b6a-af9d-6543931881a5', 'fcbe7559-0206-1da1-8587-0e4a69387b48'],
+            children: ['a45b32d5-4840-c4d3-a68d-12376fb4c435'],
+            type: 'Block',
+            data: { tag: 'div', text: false },
           },
           {
             _id: 'a45b32d5-4840-c4d3-a68d-12376fb4c435',
             tag: 'div',
-            classes: ['c70f10ca-4412-69b7-71d7-4e78ee9d7620'],
+            classes: ['3a1638d6-c178-9aa5-a4ef-f6a2bdabd9d5'],
             children: [
               'a45b32d5-4840-c4d3-a68d-12376fb4c436',
               'a45b32d5-4840-c4d3-a68d-12376fb4c443',
@@ -531,7 +544,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'a45b32d5-4840-c4d3-a68d-12376fb4c436',
             tag: 'div',
-            classes: ['ad80815a-e8b0-bfb4-c9ca-c12708c8477b'],
+            classes: ['cedfcdde-cc03-cf43-d0ec-7a8bcd75d2b3'],
             children: ['a45b32d5-4840-c4d3-a68d-12376fb4c437', 'a45b32d5-4840-c4d3-a68d-12376fb4c438'],
             type: 'Block',
             data: { tag: 'div', text: false },
@@ -539,7 +552,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'a45b32d5-4840-c4d3-a68d-12376fb4c437',
             tag: 'img',
-            classes: ['88b75fea-4fca-78c6-c6d4-674875bb5d01'],
+            classes: ['b0d30947-4899-a541-4aeb-3db9af1b4de9'],
             children: [],
             type: 'Image',
             data: {
@@ -556,7 +569,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'a45b32d5-4840-c4d3-a68d-12376fb4c438',
             tag: 'div',
-            classes: ['8034441e-ed05-9ce1-e95f-a5aa503e9ca9'],
+            classes: ['84463f6e-8c44-0874-ea28-a75c25e1ca82'],
             children: [
               'a45b32d5-4840-c4d3-a68d-12376fb4c439',
               'a45b32d5-4840-c4d3-a68d-12376fb4c43b',
@@ -569,7 +582,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'a45b32d5-4840-c4d3-a68d-12376fb4c439',
             tag: 'div',
-            classes: ['0e29d3bf-a1e7-070f-1027-cb020bcf887c'],
+            classes: ['078e2599-511a-a010-a8d0-a04a77579607'],
             children: ['a45b32d5-4840-c4d3-a68d-12376fb4c43a'],
             type: 'Block',
             data: { text: true, tag: 'div', dyn: { bind: {} } },
@@ -591,10 +604,10 @@ export const examples: AttributeExamples = [
           {
             _id: 'a45b32d5-4840-c4d3-a68d-12376fb4c43d',
             tag: 'div',
-            classes: ['61773ca7-c880-cab6-b2b0-0aa782ad024b'],
+            classes: ['f278254f-9d17-58f9-905c-0d2dff2562d0'],
             children: ['a45b32d5-4840-c4d3-a68d-12376fb4c43e'],
             type: 'Block',
-            data: { text: true, tag: 'div', xattr: [{ name: 'fs-untransform-element', value: 'trigger-on' }] },
+            data: { text: true, tag: 'div', xattr: [{ name: 'fs-smartlightbox-element', value: 'trigger-open' }] },
           },
           { _id: 'a45b32d5-4840-c4d3-a68d-12376fb4c43e', text: true, v: 'Open Modal' },
           {
@@ -603,7 +616,7 @@ export const examples: AttributeExamples = [
             classes: ['b315de61-7200-6001-8399-236db51d848e'],
             children: ['e208b036-d6b7-a1c0-79d8-05eb13e93032'],
             type: 'Block',
-            data: { tag: 'div', xattr: [{ name: 'fs-untransform-element', value: 'fixed' }], text: false },
+            data: { tag: 'div', xattr: [{ name: 'fs-smartlightbox-element', value: 'lightbox' }], text: false },
           },
           {
             _id: 'e208b036-d6b7-a1c0-79d8-05eb13e93032',
@@ -622,7 +635,7 @@ export const examples: AttributeExamples = [
             data: {
               button: true,
               link: { mode: 'external', url: '#' },
-              xattr: [{ name: 'fs-untransform-element', value: 'trigger-off' }],
+              xattr: [{ name: 'fs-smartlightbox-element', value: 'trigger-close' }],
               block: '',
             },
           },
@@ -630,7 +643,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'a45b32d5-4840-c4d3-a68d-12376fb4c443',
             tag: 'div',
-            classes: ['ad80815a-e8b0-bfb4-c9ca-c12708c8477b'],
+            classes: ['cedfcdde-cc03-cf43-d0ec-7a8bcd75d2b3'],
             children: ['a45b32d5-4840-c4d3-a68d-12376fb4c444', 'a45b32d5-4840-c4d3-a68d-12376fb4c445'],
             type: 'Block',
             data: { tag: 'div', text: false },
@@ -638,7 +651,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'a45b32d5-4840-c4d3-a68d-12376fb4c444',
             tag: 'img',
-            classes: ['88b75fea-4fca-78c6-c6d4-674875bb5d01'],
+            classes: ['b0d30947-4899-a541-4aeb-3db9af1b4de9'],
             children: [],
             type: 'Image',
             data: {
@@ -655,7 +668,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'a45b32d5-4840-c4d3-a68d-12376fb4c445',
             tag: 'div',
-            classes: ['8034441e-ed05-9ce1-e95f-a5aa503e9ca9'],
+            classes: ['847c3da1-6762-c385-3765-9ba209cd3878'],
             children: [
               'a45b32d5-4840-c4d3-a68d-12376fb4c446',
               'a45b32d5-4840-c4d3-a68d-12376fb4c448',
@@ -668,7 +681,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'a45b32d5-4840-c4d3-a68d-12376fb4c446',
             tag: 'div',
-            classes: ['0e29d3bf-a1e7-070f-1027-cb020bcf887c'],
+            classes: ['078e2599-511a-a010-a8d0-a04a77579607'],
             children: ['a45b32d5-4840-c4d3-a68d-12376fb4c447'],
             type: 'Block',
             data: { text: true, tag: 'div', dyn: { bind: {} } },
@@ -690,10 +703,10 @@ export const examples: AttributeExamples = [
           {
             _id: 'f597e0d0-6634-e2f2-f809-e3bbd801fb8f',
             tag: 'div',
-            classes: ['61773ca7-c880-cab6-b2b0-0aa782ad024b'],
+            classes: ['f278254f-9d17-58f9-905c-0d2dff2562d0'],
             children: ['f597e0d0-6634-e2f2-f809-e3bbd801fb90'],
             type: 'Block',
-            data: { text: true, tag: 'div', xattr: [{ name: 'fs-untransform-element', value: 'trigger-on' }] },
+            data: { text: true, tag: 'div', xattr: [{ name: 'fs-smartlightbox-element', value: 'trigger-open' }] },
           },
           { _id: 'f597e0d0-6634-e2f2-f809-e3bbd801fb90', text: true, v: 'Open Modal' },
           {
@@ -702,7 +715,7 @@ export const examples: AttributeExamples = [
             classes: ['b315de61-7200-6001-8399-236db51d848e'],
             children: ['3361bb13-9fe3-3cc2-285e-fff8654a36d1'],
             type: 'Block',
-            data: { tag: 'div', xattr: [{ name: 'fs-untransform-element', value: 'fixed' }], text: false },
+            data: { tag: 'div', xattr: [{ name: 'fs-smartlightbox-element', value: 'lightbox' }], text: false },
           },
           {
             _id: '3361bb13-9fe3-3cc2-285e-fff8654a36d1',
@@ -721,7 +734,7 @@ export const examples: AttributeExamples = [
             data: {
               button: true,
               link: { mode: 'external', url: '#' },
-              xattr: [{ name: 'fs-untransform-element', value: 'trigger-off' }],
+              xattr: [{ name: 'fs-smartlightbox-element', value: 'trigger-close' }],
               block: '',
             },
           },
@@ -729,7 +742,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'a45b32d5-4840-c4d3-a68d-12376fb4c450',
             tag: 'div',
-            classes: ['ad80815a-e8b0-bfb4-c9ca-c12708c8477b'],
+            classes: ['cedfcdde-cc03-cf43-d0ec-7a8bcd75d2b3'],
             children: ['a45b32d5-4840-c4d3-a68d-12376fb4c451', 'a45b32d5-4840-c4d3-a68d-12376fb4c452'],
             type: 'Block',
             data: { tag: 'div', text: false },
@@ -737,7 +750,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'a45b32d5-4840-c4d3-a68d-12376fb4c451',
             tag: 'img',
-            classes: ['88b75fea-4fca-78c6-c6d4-674875bb5d01'],
+            classes: ['b0d30947-4899-a541-4aeb-3db9af1b4de9'],
             children: [],
             type: 'Image',
             data: {
@@ -754,7 +767,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'a45b32d5-4840-c4d3-a68d-12376fb4c452',
             tag: 'div',
-            classes: ['8034441e-ed05-9ce1-e95f-a5aa503e9ca9'],
+            classes: ['879a8345-6b76-0b2c-686b-6e17978f52f9'],
             children: [
               'a45b32d5-4840-c4d3-a68d-12376fb4c453',
               'a45b32d5-4840-c4d3-a68d-12376fb4c455',
@@ -767,7 +780,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'a45b32d5-4840-c4d3-a68d-12376fb4c453',
             tag: 'div',
-            classes: ['0e29d3bf-a1e7-070f-1027-cb020bcf887c'],
+            classes: ['078e2599-511a-a010-a8d0-a04a77579607'],
             children: ['a45b32d5-4840-c4d3-a68d-12376fb4c454'],
             type: 'Block',
             data: { text: true, tag: 'div', dyn: { bind: {} } },
@@ -789,10 +802,10 @@ export const examples: AttributeExamples = [
           {
             _id: 'a5386be7-fb2f-9f3b-1997-ea80ac785ad9',
             tag: 'div',
-            classes: ['61773ca7-c880-cab6-b2b0-0aa782ad024b'],
+            classes: ['f278254f-9d17-58f9-905c-0d2dff2562d0'],
             children: ['a5386be7-fb2f-9f3b-1997-ea80ac785ada'],
             type: 'Block',
-            data: { text: true, tag: 'div', xattr: [{ name: 'fs-untransform-element', value: 'trigger-on' }] },
+            data: { text: true, tag: 'div', xattr: [{ name: 'fs-smartlightbox-element', value: 'trigger-open' }] },
           },
           { _id: 'a5386be7-fb2f-9f3b-1997-ea80ac785ada', text: true, v: 'Open Modal' },
           {
@@ -801,7 +814,7 @@ export const examples: AttributeExamples = [
             classes: ['b315de61-7200-6001-8399-236db51d848e'],
             children: ['03dc124d-54a6-9c1d-b250-7c512521a4d4'],
             type: 'Block',
-            data: { tag: 'div', xattr: [{ name: 'fs-untransform-element', value: 'fixed' }], text: false },
+            data: { tag: 'div', xattr: [{ name: 'fs-smartlightbox-element', value: 'lightbox' }], text: false },
           },
           {
             _id: '03dc124d-54a6-9c1d-b250-7c512521a4d4',
@@ -820,7 +833,7 @@ export const examples: AttributeExamples = [
             data: {
               button: true,
               link: { mode: 'external', url: '#' },
-              xattr: [{ name: 'fs-untransform-element', value: 'trigger-off' }],
+              xattr: [{ name: 'fs-smartlightbox-element', value: 'trigger-close' }],
               block: '',
             },
           },
@@ -828,7 +841,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'a45b32d5-4840-c4d3-a68d-12376fb4c45d',
             tag: 'div',
-            classes: ['ad80815a-e8b0-bfb4-c9ca-c12708c8477b'],
+            classes: ['cedfcdde-cc03-cf43-d0ec-7a8bcd75d2b3'],
             children: ['a45b32d5-4840-c4d3-a68d-12376fb4c45e', 'a45b32d5-4840-c4d3-a68d-12376fb4c45f'],
             type: 'Block',
             data: { tag: 'div', text: false },
@@ -836,7 +849,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'a45b32d5-4840-c4d3-a68d-12376fb4c45e',
             tag: 'img',
-            classes: ['88b75fea-4fca-78c6-c6d4-674875bb5d01'],
+            classes: ['e5077cec-3270-b19d-0d11-9650928dca38'],
             children: [],
             type: 'Image',
             data: {
@@ -853,7 +866,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'a45b32d5-4840-c4d3-a68d-12376fb4c45f',
             tag: 'div',
-            classes: ['8034441e-ed05-9ce1-e95f-a5aa503e9ca9'],
+            classes: ['847c3da1-6762-c385-3765-9ba209cd3878'],
             children: [
               'a45b32d5-4840-c4d3-a68d-12376fb4c460',
               'a45b32d5-4840-c4d3-a68d-12376fb4c462',
@@ -866,7 +879,7 @@ export const examples: AttributeExamples = [
           {
             _id: 'a45b32d5-4840-c4d3-a68d-12376fb4c460',
             tag: 'div',
-            classes: ['0e29d3bf-a1e7-070f-1027-cb020bcf887c'],
+            classes: ['078e2599-511a-a010-a8d0-a04a77579607'],
             children: ['a45b32d5-4840-c4d3-a68d-12376fb4c461'],
             type: 'Block',
             data: { text: true, tag: 'div', dyn: { bind: {} } },
@@ -888,10 +901,10 @@ export const examples: AttributeExamples = [
           {
             _id: '05311242-3db5-d585-0089-149ddd6e1f44',
             tag: 'div',
-            classes: ['61773ca7-c880-cab6-b2b0-0aa782ad024b'],
+            classes: ['f278254f-9d17-58f9-905c-0d2dff2562d0'],
             children: ['05311242-3db5-d585-0089-149ddd6e1f45'],
             type: 'Block',
-            data: { text: true, tag: 'div', xattr: [{ name: 'fs-untransform-element', value: 'trigger-on' }] },
+            data: { text: true, tag: 'div', xattr: [{ name: 'fs-smartlightbox-element', value: 'trigger-open' }] },
           },
           { _id: '05311242-3db5-d585-0089-149ddd6e1f45', text: true, v: 'Open Modal' },
           {
@@ -900,7 +913,7 @@ export const examples: AttributeExamples = [
             classes: ['b315de61-7200-6001-8399-236db51d848e'],
             children: ['2e984d0b-ccde-2a2c-d697-a72b35a7c078'],
             type: 'Block',
-            data: { tag: 'div', xattr: [{ name: 'fs-untransform-element', value: 'fixed' }], text: false },
+            data: { tag: 'div', xattr: [{ name: 'fs-smartlightbox-element', value: 'lightbox' }], text: false },
           },
           {
             _id: '2e984d0b-ccde-2a2c-d697-a72b35a7c078',
@@ -919,7 +932,7 @@ export const examples: AttributeExamples = [
             data: {
               button: true,
               link: { mode: 'external', url: '#' },
-              xattr: [{ name: 'fs-untransform-element', value: 'trigger-off' }],
+              xattr: [{ name: 'fs-smartlightbox-element', value: 'trigger-close' }],
               block: '',
             },
           },
@@ -939,10 +952,10 @@ export const examples: AttributeExamples = [
             selector: null,
           },
           {
-            _id: '88b75fea-4fca-78c6-c6d4-674875bb5d01',
+            _id: 'e5077cec-3270-b19d-0d11-9650928dca38',
             fake: false,
             type: 'class',
-            name: 'countitem_image',
+            name: 'fs-smartlightbox_image',
             namespace: '',
             comb: '',
             styleLess: '',
@@ -951,36 +964,34 @@ export const examples: AttributeExamples = [
             selector: null,
           },
           {
-            _id: 'b315de61-7200-6001-8399-236db51d848e',
+            _id: '84463f6e-8c44-0874-ea28-a75c25e1ca82',
             fake: false,
             type: 'class',
-            name: 'untransform_modal',
+            name: 'fs-smartlightbox_card-block',
             namespace: '',
             comb: '',
-            styleLess:
-              'position: fixed; left: 0%; top: 0%; right: 0%; bottom: 0%; z-index: 999; display: none; flex-direction: column; justify-content: center; align-items: center; background-color: hsla(254.08450704225356, 100.00%, 58.24%, 0.80);',
+            styleLess: '',
             variants: {},
             children: [],
             selector: null,
           },
           {
-            _id: '0e29d3bf-a1e7-070f-1027-cb020bcf887c',
+            _id: 'b0d30947-4899-a541-4aeb-3db9af1b4de9',
             fake: false,
             type: 'class',
-            name: 'countitem_heading',
+            name: 'fs-smartlightbox_image',
             namespace: '',
             comb: '',
-            styleLess:
-              'max-width: 180px; color: hsla(253.3333333333333, 0.00%, 6.67%, 1.00); font-size: 1.2rem; line-height: 1.4; font-weight: 500;',
+            styleLess: '',
             variants: {},
             children: [],
             selector: null,
           },
           {
-            _id: '8034441e-ed05-9ce1-e95f-a5aa503e9ca9',
+            _id: '847c3da1-6762-c385-3765-9ba209cd3878',
             fake: false,
             type: 'class',
-            name: 'countitem_card-block',
+            name: 'fs-smartlightbox_card-block',
             namespace: '',
             comb: '',
             styleLess:
@@ -990,10 +1001,48 @@ export const examples: AttributeExamples = [
             selector: null,
           },
           {
-            _id: '61773ca7-c880-cab6-b2b0-0aa782ad024b',
+            _id: '078e2599-511a-a010-a8d0-a04a77579607',
             fake: false,
             type: 'class',
-            name: 'countitem_link',
+            name: 'fs-smartlightbox_heading',
+            namespace: '',
+            comb: '',
+            styleLess:
+              'max-width: 180px; color: hsla(253.3333333333333, 0.00%, 6.67%, 1.00); font-size: 1.2rem; line-height: 1.4; font-weight: 500;',
+            variants: {},
+            children: [],
+            selector: null,
+          },
+          {
+            _id: 'cedfcdde-cc03-cf43-d0ec-7a8bcd75d2b3',
+            fake: false,
+            type: 'class',
+            name: 'fs-smartlightbox_card',
+            namespace: '',
+            comb: '',
+            styleLess: 'width: 100%; background-color: hsla(0, 0.00%, 100.00%, 1.00); text-decoration: none;',
+            variants: {},
+            children: [],
+            selector: null,
+          },
+          {
+            _id: 'b315de61-7200-6001-8399-236db51d848e',
+            fake: false,
+            type: 'class',
+            name: 'fs-smartlightbox_modal',
+            namespace: '',
+            comb: '',
+            styleLess:
+              'position: fixed; left: 0%; top: 0%; right: 0%; bottom: 0%; z-index: 999; display: none; flex-direction: column; justify-content: center; align-items: center; background-color: hsla(254.08450704225356, 100.00%, 58.24%, 0.80);',
+            variants: {},
+            children: [],
+            selector: null,
+          },
+          {
+            _id: 'f278254f-9d17-58f9-905c-0d2dff2562d0',
+            fake: false,
+            type: 'class',
+            name: 'fs-smartlightbox_link',
             namespace: '',
             comb: '',
             styleLess:
@@ -1003,26 +1052,17 @@ export const examples: AttributeExamples = [
             selector: null,
           },
           {
-            _id: 'ad80815a-e8b0-bfb4-c9ca-c12708c8477b',
+            _id: 'b00cd7a1-89f3-03c2-3a0b-a69a68e52666',
             fake: false,
             type: 'class',
-            name: 'countitem_card',
+            name: 'fs-smartlightbox_button-close',
             namespace: '',
             comb: '',
-            styleLess: 'width: 100%; background-color: hsla(0, 0.00%, 100.00%, 1.00); text-decoration: none;',
-            variants: {},
-            children: [],
-            selector: null,
-          },
-          {
-            _id: 'f5a012b5-2940-b60b-34d0-4b0d20a5b0ab',
-            fake: false,
-            type: 'class',
-            name: 'countitem_wrapper',
-            namespace: '',
-            comb: '',
-            styleLess: 'width: 100%;',
-            variants: {},
+            styleLess:
+              'padding-top: 0.6rem; padding-right: 2rem; padding-bottom: 0.65rem; padding-left: 2rem; border-top-left-radius: 500px; border-top-right-radius: 500px; border-bottom-left-radius: 500px; border-bottom-right-radius: 500px; background-color: hsla(254.08450704225356, 100.00%, 58.24%, 1.00); color: hsla(0, 0.00%, 100.00%, 1.00); text-align: center;',
+            variants: {
+              main_hover: { styleLess: 'background-color: hsla(254.08450704225356, 100.00%, 61.16%, 1.00);' },
+            },
             children: [],
             selector: null,
           },
@@ -1030,7 +1070,7 @@ export const examples: AttributeExamples = [
             _id: 'b315de61-7200-6001-8399-236db51d848d',
             fake: false,
             type: 'class',
-            name: 'untransform_modal-content',
+            name: 'fs-smartlightbox_modal-content',
             namespace: '',
             comb: '',
             styleLess:
@@ -1040,10 +1080,56 @@ export const examples: AttributeExamples = [
             selector: null,
           },
           {
-            _id: 'c70f10ca-4412-69b7-71d7-4e78ee9d7620',
+            _id: 'ce352128-35a6-8b6a-af9d-6543931881a5',
             fake: false,
             type: 'class',
-            name: 'countitem_list',
+            name: 'margin-top',
+            namespace: '',
+            comb: '',
+            styleLess: 'margin-right: 0rem; margin-bottom: 0rem; margin-left: 0rem;',
+            variants: {
+              medium: { styleLess: 'margin-right: 0rem; margin-bottom: 0rem; margin-left: 0rem;' },
+              small: { styleLess: 'margin-right: 0rem; margin-bottom: 0rem; margin-left: 0rem;' },
+              tiny: { styleLess: 'margin-right: 0rem; margin-bottom: 0rem; margin-left: 0rem;' },
+            },
+            children: [
+              'a83c92dc-a270-d927-b19f-6d7c2084855c',
+              '24db07fd-a3c9-7891-41f8-c3614a32607a',
+              'ccd73eb0-2912-e3d4-f417-ecc5bab61c6b',
+              'fcbe7559-0206-1da1-8587-0e4a69387b48',
+              '04e4b0c7-4f3d-17b5-bb60-1ce884c38f50',
+            ],
+            selector: null,
+          },
+          {
+            _id: '3561704c-a69c-bd6f-eeb7-2e3f2fed9dbe',
+            fake: false,
+            type: 'class',
+            name: 'fs-smartlightbox_wrapper',
+            namespace: '',
+            comb: '',
+            styleLess: 'width: 100%;',
+            variants: {},
+            children: [],
+            selector: null,
+          },
+          {
+            _id: '04e4b0c7-4f3d-17b5-bb60-1ce884c38f50',
+            fake: false,
+            type: 'class',
+            name: 'margin-huge',
+            namespace: '',
+            comb: '&',
+            styleLess: '',
+            variants: {},
+            children: [],
+            selector: null,
+          },
+          {
+            _id: '6821dd27-e0dd-8e6a-776d-e1feb0aded75',
+            fake: false,
+            type: 'class',
+            name: 'fs-smartlightbox_list',
             namespace: '',
             comb: '',
             styleLess:
@@ -1056,29 +1142,37 @@ export const examples: AttributeExamples = [
             selector: null,
           },
           {
-            _id: 'b00cd7a1-89f3-03c2-3a0b-a69a68e52666',
+            _id: '3a1638d6-c178-9aa5-a4ef-f6a2bdabd9d5',
             fake: false,
             type: 'class',
-            name: 'fs-untransform_button-close',
+            name: 'fs-smartlightbox_list',
             namespace: '',
             comb: '',
-            styleLess:
-              'padding-top: 0.6rem; padding-right: 2rem; padding-bottom: 0.65rem; padding-left: 2rem; border-top-left-radius: 500px; border-top-right-radius: 500px; border-bottom-left-radius: 500px; border-bottom-right-radius: 500px; background-color: hsla(254.08450704225356, 100.00%, 58.24%, 1.00); color: hsla(0, 0.00%, 100.00%, 1.00); text-align: center;',
-            variants: {
-              main_hover: { styleLess: 'background-color: hsla(254.08450704225356, 100.00%, 61.16%, 1.00);' },
-            },
+            styleLess: '',
+            variants: {},
             children: [],
             selector: null,
           },
           {
-            _id: 'b315de61-7200-6001-8399-236db51d8492',
+            _id: 'fcbe7559-0206-1da1-8587-0e4a69387b48',
             fake: false,
             type: 'class',
-            name: 'untransform_list-wrapper',
+            name: 'margin-medium',
+            namespace: '',
+            comb: '&',
+            styleLess: '',
+            variants: {},
+            children: [],
+            selector: null,
+          },
+          {
+            _id: '879a8345-6b76-0b2c-686b-6e17978f52f9',
+            fake: false,
+            type: 'class',
+            name: 'fs-smartlightbox_card-block',
             namespace: '',
             comb: '',
-            styleLess:
-              'display: grid; grid-auto-columns: 1fr; grid-row-gap: 2rem; grid-template-columns: 1fr; grid-template-rows: auto;',
+            styleLess: '',
             variants: {},
             children: [],
             selector: null,
@@ -1182,11 +1276,11 @@ export const examples: AttributeExamples = [
               createdOn: 1633434574727,
             },
             {
-              id: 'i-129',
+              id: 'i-142',
               interactionTypeId: 'MOUSE_CLICK_INTERACTION',
-              eventIds: ['e-253', 'e-254'],
-              target: '61460a269f104044c1f9674e|a45b32d5-4840-c4d3-a68d-12376fb4c43d',
-              createdOn: 1634466120278,
+              eventIds: ['e-279', 'e-280'],
+              target: '61460a269f104044c1f9674e|3d2f0c79-7619-7ccd-99b2-1708881a28b2',
+              createdOn: 1644315330471,
             },
             {
               id: 'i-127',
@@ -1209,70 +1303,28 @@ export const examples: AttributeExamples = [
               target: '61460a269f104044c1f9674e|a45b32d5-4840-c4d3-a68d-12376fb4c43d',
               createdOn: 1633435161082,
             },
+            {
+              id: 'i-129',
+              interactionTypeId: 'MOUSE_CLICK_INTERACTION',
+              eventIds: ['e-253', 'e-254'],
+              target: '61460a269f104044c1f9674e|a45b32d5-4840-c4d3-a68d-12376fb4c43d',
+              createdOn: 1634466120278,
+            },
           ],
           events: [
             {
-              id: 'e-240',
+              id: 'e-280',
               name: '',
               animationType: 'preset',
-              eventTypeId: 'SCROLL_OUT_OF_VIEW',
+              eventTypeId: 'MOUSE_SECOND_CLICK',
               action: null,
               mediaQueries: ['main', 'medium', 'small', 'tiny'],
               target: {
-                id: '61460a269f104044c1f9674e|a45b32d5-4840-c4d3-a68d-12376fb4c435',
-                appliesTo: 'ELEMENT',
-                styleBlockIds: [],
-              },
-              targets: [
-                {
-                  id: '61460a269f104044c1f9674e|a45b32d5-4840-c4d3-a68d-12376fb4c435',
-                  appliesTo: 'ELEMENT',
-                  styleBlockIds: [],
-                },
-              ],
-              config: {
-                loop: false,
-                playInReverse: false,
-                scrollOffsetValue: 0,
-                scrollOffsetUnit: '%',
-                delay: null,
-                direction: null,
-                effectIn: null,
-              },
-              createdOn: 1633435161082,
-            },
-            {
-              id: 'e-249',
-              name: '',
-              animationType: 'custom',
-              eventTypeId: 'MOUSE_CLICK',
-              action: {
-                id: '',
-                actionTypeId: 'GENERAL_START_ACTION',
-                instant: true,
-                config: {
-                  delay: 0,
-                  easing: '',
-                  duration: 0,
-                  actionListId: 'a-79',
-                  affectedElements: {},
-                  playInReverse: false,
-                  autoStopEventId: 'e-250',
-                },
-              },
-              mediaQueries: ['main', 'medium', 'small', 'tiny'],
-              target: {
-                id: '61460a269f104044c1f9674e|718e30da-297f-12a6-17ea-3fa1d96af809',
                 appliesTo: 'CLASS',
-                styleBlockIds: ['b00cd7a1-89f3-03c2-3a0b-a69a68e52666'],
+                styleBlockIds: ['f278254f-9d17-58f9-905c-0d2dff2562d0'],
+                id: '61460a269f104044c1f9674e|3d2f0c79-7619-7ccd-99b2-1708881a28b2',
               },
-              targets: [
-                {
-                  id: '61460a269f104044c1f9674e|718e30da-297f-12a6-17ea-3fa1d96af809',
-                  appliesTo: 'CLASS',
-                  styleBlockIds: ['b00cd7a1-89f3-03c2-3a0b-a69a68e52666'],
-                },
-              ],
+              targets: [],
               config: {
                 loop: false,
                 playInReverse: false,
@@ -1282,37 +1334,7 @@ export const examples: AttributeExamples = [
                 direction: null,
                 effectIn: null,
               },
-              createdOn: 1633435299155,
-            },
-            {
-              id: 'e-228',
-              name: '',
-              animationType: 'preset',
-              eventTypeId: 'SCROLL_OUT_OF_VIEW',
-              action: null,
-              mediaQueries: ['main', 'medium', 'small', 'tiny'],
-              target: {
-                id: '61460a269f104044c1f9674e|73fe6c1e-3823-3bb9-950e-32d395d50b15',
-                appliesTo: 'ELEMENT',
-                styleBlockIds: [],
-              },
-              targets: [
-                {
-                  id: '61460a269f104044c1f9674e|73fe6c1e-3823-3bb9-950e-32d395d50b15',
-                  appliesTo: 'ELEMENT',
-                  styleBlockIds: [],
-                },
-              ],
-              config: {
-                loop: false,
-                playInReverse: false,
-                scrollOffsetValue: 0,
-                scrollOffsetUnit: '%',
-                delay: null,
-                direction: null,
-                effectIn: null,
-              },
-              createdOn: 1633434574734,
+              createdOn: 1644315330474,
             },
             {
               id: 'e-253',
@@ -1358,41 +1380,6 @@ export const examples: AttributeExamples = [
               createdOn: 1634466120285,
             },
             {
-              id: 'e-239',
-              name: '',
-              animationType: 'preset',
-              eventTypeId: 'SCROLL_INTO_VIEW',
-              action: {
-                id: '',
-                actionTypeId: 'SLIDE_EFFECT',
-                instant: false,
-                config: { actionListId: 'SLIDE_EFFECT', autoStopEventId: 'e-240' },
-              },
-              mediaQueries: ['main', 'medium', 'small', 'tiny'],
-              target: {
-                id: '61460a269f104044c1f9674e|a45b32d5-4840-c4d3-a68d-12376fb4c435',
-                appliesTo: 'ELEMENT',
-                styleBlockIds: [],
-              },
-              targets: [
-                {
-                  id: '61460a269f104044c1f9674e|a45b32d5-4840-c4d3-a68d-12376fb4c435',
-                  appliesTo: 'ELEMENT',
-                  styleBlockIds: [],
-                },
-              ],
-              config: {
-                loop: false,
-                playInReverse: false,
-                scrollOffsetValue: 0,
-                scrollOffsetUnit: '%',
-                delay: 0,
-                direction: 'LEFT',
-                effectIn: true,
-              },
-              createdOn: 1633435161082,
-            },
-            {
               id: 'e-227',
               name: '',
               animationType: 'preset',
@@ -1428,22 +1415,35 @@ export const examples: AttributeExamples = [
               createdOn: 1633434574730,
             },
             {
-              id: 'e-242',
+              id: 'e-249',
               name: '',
-              animationType: 'preset',
-              eventTypeId: 'MOUSE_SECOND_CLICK',
-              action: null,
+              animationType: 'custom',
+              eventTypeId: 'MOUSE_CLICK',
+              action: {
+                id: '',
+                actionTypeId: 'GENERAL_START_ACTION',
+                instant: true,
+                config: {
+                  delay: 0,
+                  easing: '',
+                  duration: 0,
+                  actionListId: 'a-79',
+                  affectedElements: {},
+                  playInReverse: false,
+                  autoStopEventId: 'e-250',
+                },
+              },
               mediaQueries: ['main', 'medium', 'small', 'tiny'],
               target: {
-                id: '61460a269f104044c1f9674e|a45b32d5-4840-c4d3-a68d-12376fb4c43d',
+                id: '61460a269f104044c1f9674e|718e30da-297f-12a6-17ea-3fa1d96af809',
                 appliesTo: 'CLASS',
-                styleBlockIds: ['93bc9e4e-4e56-3357-e334-a051cb3a352c'],
+                styleBlockIds: ['b00cd7a1-89f3-03c2-3a0b-a69a68e52666'],
               },
               targets: [
                 {
-                  id: '61460a269f104044c1f9674e|a45b32d5-4840-c4d3-a68d-12376fb4c43d',
+                  id: '61460a269f104044c1f9674e|718e30da-297f-12a6-17ea-3fa1d96af809',
                   appliesTo: 'CLASS',
-                  styleBlockIds: ['93bc9e4e-4e56-3357-e334-a051cb3a352c'],
+                  styleBlockIds: ['b00cd7a1-89f3-03c2-3a0b-a69a68e52666'],
                 },
               ],
               config: {
@@ -1455,7 +1455,109 @@ export const examples: AttributeExamples = [
                 direction: null,
                 effectIn: null,
               },
+              createdOn: 1633435299155,
+            },
+            {
+              id: 'e-239',
+              name: '',
+              animationType: 'preset',
+              eventTypeId: 'SCROLL_INTO_VIEW',
+              action: {
+                id: '',
+                actionTypeId: 'SLIDE_EFFECT',
+                instant: false,
+                config: { actionListId: 'SLIDE_EFFECT', autoStopEventId: 'e-240' },
+              },
+              mediaQueries: ['main', 'medium', 'small', 'tiny'],
+              target: {
+                id: '61460a269f104044c1f9674e|a45b32d5-4840-c4d3-a68d-12376fb4c435',
+                appliesTo: 'ELEMENT',
+                styleBlockIds: [],
+              },
+              targets: [
+                {
+                  id: '61460a269f104044c1f9674e|a45b32d5-4840-c4d3-a68d-12376fb4c435',
+                  appliesTo: 'ELEMENT',
+                  styleBlockIds: [],
+                },
+              ],
+              config: {
+                loop: false,
+                playInReverse: false,
+                scrollOffsetValue: 0,
+                scrollOffsetUnit: '%',
+                delay: 0,
+                direction: 'LEFT',
+                effectIn: true,
+              },
               createdOn: 1633435161082,
+            },
+            {
+              id: 'e-279',
+              name: '',
+              animationType: 'custom',
+              eventTypeId: 'MOUSE_CLICK',
+              action: {
+                id: '',
+                actionTypeId: 'GENERAL_START_ACTION',
+                config: {
+                  delay: 0,
+                  easing: '',
+                  duration: 0,
+                  actionListId: 'a-80',
+                  affectedElements: {},
+                  playInReverse: false,
+                  autoStopEventId: 'e-280',
+                },
+                instant: true,
+              },
+              mediaQueries: ['main', 'medium', 'small', 'tiny'],
+              target: {
+                appliesTo: 'CLASS',
+                styleBlockIds: ['f278254f-9d17-58f9-905c-0d2dff2562d0'],
+                id: '61460a269f104044c1f9674e|3d2f0c79-7619-7ccd-99b2-1708881a28b2',
+              },
+              targets: [],
+              config: {
+                loop: false,
+                playInReverse: false,
+                scrollOffsetValue: null,
+                scrollOffsetUnit: null,
+                delay: null,
+                direction: null,
+                effectIn: null,
+              },
+              createdOn: 1644315330473,
+            },
+            {
+              id: 'e-250',
+              name: '',
+              animationType: 'preset',
+              eventTypeId: 'MOUSE_SECOND_CLICK',
+              action: null,
+              mediaQueries: ['main', 'medium', 'small', 'tiny'],
+              target: {
+                id: '61460a269f104044c1f9674e|718e30da-297f-12a6-17ea-3fa1d96af809',
+                appliesTo: 'CLASS',
+                styleBlockIds: ['b00cd7a1-89f3-03c2-3a0b-a69a68e52666'],
+              },
+              targets: [
+                {
+                  id: '61460a269f104044c1f9674e|718e30da-297f-12a6-17ea-3fa1d96af809',
+                  appliesTo: 'CLASS',
+                  styleBlockIds: ['b00cd7a1-89f3-03c2-3a0b-a69a68e52666'],
+                },
+              ],
+              config: {
+                loop: false,
+                playInReverse: false,
+                scrollOffsetValue: null,
+                scrollOffsetUnit: null,
+                delay: null,
+                direction: null,
+                effectIn: null,
+              },
+              createdOn: 1633435299160,
             },
             {
               id: 'e-254',
@@ -1488,22 +1590,82 @@ export const examples: AttributeExamples = [
               createdOn: 1634466120294,
             },
             {
-              id: 'e-250',
+              id: 'e-240',
+              name: '',
+              animationType: 'preset',
+              eventTypeId: 'SCROLL_OUT_OF_VIEW',
+              action: null,
+              mediaQueries: ['main', 'medium', 'small', 'tiny'],
+              target: {
+                id: '61460a269f104044c1f9674e|a45b32d5-4840-c4d3-a68d-12376fb4c435',
+                appliesTo: 'ELEMENT',
+                styleBlockIds: [],
+              },
+              targets: [
+                {
+                  id: '61460a269f104044c1f9674e|a45b32d5-4840-c4d3-a68d-12376fb4c435',
+                  appliesTo: 'ELEMENT',
+                  styleBlockIds: [],
+                },
+              ],
+              config: {
+                loop: false,
+                playInReverse: false,
+                scrollOffsetValue: 0,
+                scrollOffsetUnit: '%',
+                delay: null,
+                direction: null,
+                effectIn: null,
+              },
+              createdOn: 1633435161082,
+            },
+            {
+              id: 'e-228',
+              name: '',
+              animationType: 'preset',
+              eventTypeId: 'SCROLL_OUT_OF_VIEW',
+              action: null,
+              mediaQueries: ['main', 'medium', 'small', 'tiny'],
+              target: {
+                id: '61460a269f104044c1f9674e|73fe6c1e-3823-3bb9-950e-32d395d50b15',
+                appliesTo: 'ELEMENT',
+                styleBlockIds: [],
+              },
+              targets: [
+                {
+                  id: '61460a269f104044c1f9674e|73fe6c1e-3823-3bb9-950e-32d395d50b15',
+                  appliesTo: 'ELEMENT',
+                  styleBlockIds: [],
+                },
+              ],
+              config: {
+                loop: false,
+                playInReverse: false,
+                scrollOffsetValue: 0,
+                scrollOffsetUnit: '%',
+                delay: null,
+                direction: null,
+                effectIn: null,
+              },
+              createdOn: 1633434574734,
+            },
+            {
+              id: 'e-242',
               name: '',
               animationType: 'preset',
               eventTypeId: 'MOUSE_SECOND_CLICK',
               action: null,
               mediaQueries: ['main', 'medium', 'small', 'tiny'],
               target: {
-                id: '61460a269f104044c1f9674e|718e30da-297f-12a6-17ea-3fa1d96af809',
+                id: '61460a269f104044c1f9674e|a45b32d5-4840-c4d3-a68d-12376fb4c43d',
                 appliesTo: 'CLASS',
-                styleBlockIds: ['b00cd7a1-89f3-03c2-3a0b-a69a68e52666'],
+                styleBlockIds: ['93bc9e4e-4e56-3357-e334-a051cb3a352c'],
               },
               targets: [
                 {
-                  id: '61460a269f104044c1f9674e|718e30da-297f-12a6-17ea-3fa1d96af809',
+                  id: '61460a269f104044c1f9674e|a45b32d5-4840-c4d3-a68d-12376fb4c43d',
                   appliesTo: 'CLASS',
-                  styleBlockIds: ['b00cd7a1-89f3-03c2-3a0b-a69a68e52666'],
+                  styleBlockIds: ['93bc9e4e-4e56-3357-e334-a051cb3a352c'],
                 },
               ],
               config: {
@@ -1515,7 +1677,7 @@ export const examples: AttributeExamples = [
                 direction: null,
                 effectIn: null,
               },
-              createdOn: 1633435299160,
+              createdOn: 1633435161082,
             },
             {
               id: 'e-241',
@@ -1564,7 +1726,7 @@ export const examples: AttributeExamples = [
           actionLists: [
             {
               id: 'a-80',
-              title: '[untransform] Open Modal',
+              title: '[smartlightbox] Open Modal',
               actionItemGroups: [
                 {
                   actionItems: [
@@ -1594,7 +1756,7 @@ export const examples: AttributeExamples = [
             },
             {
               id: 'a-79',
-              title: '[untransform] Close Modal',
+              title: '[smartlightbox] Close Modal',
               actionItemGroups: [
                 {
                   actionItems: [

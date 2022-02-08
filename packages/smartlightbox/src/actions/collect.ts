@@ -6,12 +6,12 @@ import { ATTRIBUTES, getSelector } from '../utils/constants';
  * Queries the correspondent fixed element of a specific trigger.
  * @param trigger The trigger element.
  */
-export const getFixedElement = (trigger: Element) => {
+export const getLightboxElement = (trigger: Element) => {
   const instanceIndex = getInstanceIndex(trigger, ATTRIBUTES.element.key);
 
-  const fixedElementSelector = getSelector('element', 'fixed', { instanceIndex });
-  const fixedElement =
-    trigger.parentElement?.querySelector(fixedElementSelector) || document.querySelector(fixedElementSelector);
+  const lightboxSelector = getSelector('element', 'lightbox', { instanceIndex });
+  const lightboxElement =
+    trigger.parentElement?.querySelector(lightboxSelector) || document.querySelector(lightboxSelector);
 
-  return fixedElement;
+  return lightboxElement;
 };
