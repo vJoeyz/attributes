@@ -10,5 +10,6 @@ export const unescapeHTML = (rawHTML: string): string => {
     .replace(/(&amp;)/g, '&')
     .replace(/(&quot;)/g, '"')
     .replace(/(&#96;)/g, '`')
-    .replace(/(&#x27;)/g, "'");
+    .replace(/(&#x27;)/g, "'")
+    .replace(/(<br>)/g, '\n');
 };
