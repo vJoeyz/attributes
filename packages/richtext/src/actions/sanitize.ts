@@ -1,7 +1,7 @@
 /// <reference types="@types/dompurify" />
 import { Debug } from '@finsweet/ts-utils';
 
-const DOMPURIFY_SRC = 'https://cdn.jsdelivr.net/npm/dompurify@2/dist/purify.es.min.js';
+import { DOMPURIFY_SRC } from '../utils/constants';
 
 let DOMPurify: DOMPurify.DOMPurifyI | undefined;
 

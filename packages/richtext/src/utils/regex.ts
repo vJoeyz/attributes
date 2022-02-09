@@ -1,5 +1,5 @@
 /**
- * Matches when a string is wrapped between double brackets.
+ * Matches when a string is wrapped between mustache delimiters.
  * @example ```
  * {{component-name}}
  * {{component-name="/page-path"}}
@@ -36,3 +36,9 @@ export const IS_HTML_OPENING_TAG_REGEX = /^\&lt\;.*?\&gt\;$/;
  * @example https://www.finsweet.com/
  */
 export const TRAILING_SLASH_REGEX = /\/+$/;
+
+/**
+ * Matches the mustache delimiters in the component template.
+ * @example {{component-name="/page-path"}} // Will match the {{ }} delimiters
+ */
+export const MUSTACHE_DELIMITERS_REGEX = /(\{\{)|(\}\})/g;
