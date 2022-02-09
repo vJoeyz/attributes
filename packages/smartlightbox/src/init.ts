@@ -20,12 +20,12 @@ export const init = (): void => {
     const onTrigger =
       !restoreUntransformedElement && toggleTrigger
         ? toggleTrigger
-        : target.closest(getSelector('element', 'on', { operator: 'prefixed' }));
+        : target.closest(getSelector('element', 'open', { operator: 'prefixed' }));
 
     const offTrigger =
       restoreUntransformedElement && toggleTrigger
         ? toggleTrigger
-        : target.closest(getSelector('element', 'off', { operator: 'prefixed' }));
+        : target.closest(getSelector('element', 'close', { operator: 'prefixed' }));
 
     const trigger = onTrigger || offTrigger;
 
