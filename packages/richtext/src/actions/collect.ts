@@ -1,22 +1,8 @@
 import { HTML_EMBED_CSS_CLASS } from '@finsweet/ts-utils';
 
-import { IGNORE_LINE_PREFIX } from './constants';
-import { HAS_COMPONENT_TEMPLATE_REGEX, HAS_HTML_OPENING_TAG_REGEX } from './regex';
-
-/**
- * Replaces escaped HTML symbols with their original value.
- * @param rawHTML The raw HTML to unescape.
- */
-export const unescapeHTML = (rawHTML: string): string => {
-  return rawHTML
-    .replace(/(&nbsp;)/g, ' ')
-    .replace(/(&lt;)/g, '<')
-    .replace(/(&gt;)/g, '>')
-    .replace(/(&amp;)/g, '&')
-    .replace(/(&quot;)/g, '"')
-    .replace(/(&#96;)/g, '`')
-    .replace(/(&#x27;)/g, "'");
-};
+import { IGNORE_LINE_PREFIX } from '../utils/constants';
+import { HAS_COMPONENT_TEMPLATE_REGEX, HAS_HTML_OPENING_TAG_REGEX } from '../utils/regex';
+import { TextElement } from '../utils/types';
 
 /**
  * Queries all the valid paragraphs.
@@ -24,10 +10,10 @@ export const unescapeHTML = (rawHTML: string): string => {
  * @returns All the valid paragraphs.
  * @param element The Rich Text Block element.
  */
-export const getValidParagraphs = (element: Element): HTMLParagraphElement[] => {
-  const paragraphs = [...element.querySelectorAll('p')];
+export const getValidTextElements = (element: Element): TextElement[] => {
+  const textElements = [...element.querySelectorAll<TextElement>('h1, h2, h3, h4, h5, h6, p, blockquote, li')];
 
-  const filteredParagraphs = paragraphs.filter((paragraph) => {
+  const filteredParagraphs = textElements.filter((paragraph) => {
     const { innerHTML } = paragraph;
     if (!innerHTML) return false;
 

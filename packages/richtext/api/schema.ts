@@ -5,8 +5,7 @@ import {
   COMPONENT_SETTING_KEY,
   SANITIZE_SETTING_KEY,
   RESET_IX_SETTING_KEY,
-  GLOBAL_SELECTOR_SETTING_KEY,
-} from './../src/constants';
+} from '../src/utils/constants';
 
 export const schema: AttributeSchema = {
   elements: [
@@ -52,16 +51,6 @@ export const schema: AttributeSchema = {
       value: {
         type: 'boolean',
         default: 'true',
-      },
-    },
-    {
-      key: GLOBAL_SELECTOR_SETTING_KEY,
-      description: 'Defines a global selector for RTB elements.',
-      conditions: [],
-      appliedTo: {},
-      value: {
-        type: 'string',
-        default: '',
       },
     },
   ],

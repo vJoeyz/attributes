@@ -1,12 +1,19 @@
 import { Debug } from '@finsweet/ts-utils';
 
-import { ATTRIBUTES } from './constants';
-import { HAS_COMPONENT_TEMPLATE_REGEX, IS_EXTERNAL_COMPONENT_REGEX, TRAILING_SLASH_REGEX } from './regex';
+import { ATTRIBUTES } from '../utils/constants';
+import {
+  HAS_COMPONENT_TEMPLATE_REGEX,
+  IS_EXTERNAL_COMPONENT_REGEX,
+  MUSTACHE_DELIMITERS_REGEX,
+  TRAILING_SLASH_REGEX,
+} from '../utils/regex';
 
 /**
  * Memoizes the queried components.
  */
 const componentsStore: Array<{ element: HTMLElement; componentKey: string; source?: string }> = [];
+
+const { origin, href: currentHref } = window.location;
 
 /**
  *
@@ -18,36 +25,48 @@ const componentsStore: Array<{ element: HTMLElement; componentKey: string; sourc
  * ```
  */
 export const getComponentHTML = async (rawHTML: string): Promise<string | undefined> => {
-  let component: HTMLElement | null | undefined;
-
   const [componentDefinition] = rawHTML.match(HAS_COMPONENT_TEMPLATE_REGEX) || [];
   if (!componentDefinition) return;
 
-  const rawComponentKey = componentDefinition.replace('{{', '').replace('}}', '').trim();
+  const rawComponentKey = componentDefinition.replace(MUSTACHE_DELIMITERS_REGEX, '').trim();
 
   const isExternal = IS_EXTERNAL_COMPONENT_REGEX.test(rawComponentKey);
 
-  if (!isExternal) component = await queryComponent(rawComponentKey);
-  else {
-    const [componentKey] = rawComponentKey.split('="');
-    const [rawSource] = rawComponentKey.match(IS_EXTERNAL_COMPONENT_REGEX) || [];
-
-    if (!componentKey || !rawSource) return;
-
-    const { origin, href: currentHref } = window.location;
-
-    let source = rawSource.replace('="', '').replace('"', '').trim();
-
-    if (source.startsWith('/')) source = origin.replace(TRAILING_SLASH_REGEX, '') + source;
-
-    const { href: sourceHref } = new URL(source);
-
-    const validSource = currentHref !== sourceHref;
-
-    component = await queryComponent(componentKey, validSource ? source : undefined);
+  if (!isExternal) {
+    const component = await queryComponent(rawComponentKey);
+    return component?.outerHTML;
   }
 
-  if (component) return component.outerHTML;
+  const [componentKey] = rawComponentKey.split('="');
+  const [rawSource] = rawComponentKey.match(IS_EXTERNAL_COMPONENT_REGEX) || [];
+
+  if (!componentKey || !rawSource) return;
+
+  const source = parseComponentSource(rawSource);
+  const component = await queryComponent(componentKey, source);
+
+  return component?.outerHTML;
+};
+
+/**
+ * Extracts an external source from a component key.
+ * @param rawSource The component's source.
+ * @example
+ * {{component-name="https://example.com/page-path"}} // Will return https://example.com/page-path
+ * {{component-name="/page-path"}} // Will also return https://example.com/page-path
+ *
+ * @returns The source, if valid.
+ */
+const parseComponentSource = (rawSource: string) => {
+  let source = rawSource.replace('="', '').replace('"', '').trim();
+
+  if (source.startsWith('/')) source = origin.replace(TRAILING_SLASH_REGEX, '') + source;
+
+  const { href: sourceHref } = new URL(source);
+
+  const validSource = currentHref !== sourceHref;
+
+  if (validSource) return source;
 };
 
 /**

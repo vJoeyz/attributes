@@ -8,7 +8,6 @@ export const RICH_TEXT_ELEMENT_KEY = 'rich-text';
 export const COMPONENT_SETTING_KEY = 'component';
 export const SANITIZE_SETTING_KEY = 'sanitize';
 export const RESET_IX_SETTING_KEY = 'reset-ix';
-export const GLOBAL_SELECTOR_SETTING_KEY = 'selector';
 
 export const ATTRIBUTES = {
   element: {
@@ -35,13 +34,10 @@ export const ATTRIBUTES = {
    * Defines if Webflow should be restarted after loading new items.
    */
   resetIx: { key: `${ATTRIBUTES_PREFIX}-${RESET_IX_SETTING_KEY}`, values: { true: 'true' } },
-
-  /**
-   * Defines a global selector for RTB elements.
-   */
-  globalSelector: { key: `${ATTRIBUTES_PREFIX}-${GLOBAL_SELECTOR_SETTING_KEY}` },
 } as const;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 
 export const IGNORE_LINE_PREFIX = '&lt;!-- fs-richtext-ignore --&gt;';
+
+export const DOMPURIFY_SRC = 'https://cdn.jsdelivr.net/npm/dompurify@2/dist/purify.es.min.js';
