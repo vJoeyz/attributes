@@ -23,6 +23,7 @@ type FsAttributesBase = {
 
 type FsAttributesInit = {
   [key: string]: {
+    version?: string;
     init?: () => unknown | Promise<unknown>;
     loaded?: Promise<unknown>;
     loading?: Promise<unknown>;

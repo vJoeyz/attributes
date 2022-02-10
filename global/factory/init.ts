@@ -56,5 +56,5 @@ const initLoadPromises = (fsAttributes: FsAttributes) => {
  */
 const runExistingCallbacks = (fsAttributes: FsAttributes) => {
   const existingCallbacks = Array.isArray(window.fsAttributes) ? (window.fsAttributes as FsAttributesCallback[]) : [];
-  for (const callback of existingCallbacks) fsAttributes.push(callback);
+  fsAttributes.push(...existingCallbacks);
 };
