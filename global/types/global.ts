@@ -5,8 +5,12 @@ import type { CMSList } from '$cms/cmscore/src';
 import type { CMSCoreImport } from '$cms/cmscore/src/types';
 import type { CMSFilters } from '$cms/cmsfilter/src/components/CMSFilters';
 
-type FsAttributes = {
+export type FsAttributesCallback = [string, (value: unknown) => void];
+
+type FsAttributesBase = {
   animationImport?: AnimationImport;
+
+  push: (...args: FsAttributesCallback[]) => void;
 
   cms: {
     coreVersion?: string;
@@ -17,18 +21,24 @@ type FsAttributes = {
   };
 };
 
-type FsInitMethods = {
+type FsAttributesInit = {
   [key: string]: {
     init?: () => unknown | Promise<unknown>;
+    loaded?: Promise<unknown>;
+    loading?: Promise<unknown>;
+    resolve?: (value: unknown) => void;
   };
 };
+
+export type FsAttributes = FsAttributesBase & FsAttributesInit;
 
 /**
  * Window object.
  */
 declare global {
   interface Window {
-    fsAttributes: FsAttributes & FsInitMethods;
+    fsAttributes: FsAttributes;
+    FsAttributes: FsAttributes;
   }
 }
 
