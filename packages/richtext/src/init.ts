@@ -3,7 +3,7 @@ import type { RichTextBlockElement } from '@finsweet/ts-utils';
 
 import { getValidTextElements } from './actions/collect';
 import { parseTextElement } from './actions/parse';
-import { ATTRIBUTES, getSelector } from './utils/constants';
+import { ATTRIBUTE, ATTRIBUTES, getSelector } from './utils/constants';
 
 // Constants
 const {
@@ -14,12 +14,16 @@ const {
 /**
  * Inits the attribute.
  */
-export const init = (): void => {
-  const rtbElements = document.querySelectorAll<RichTextBlockElement>(
-    `.${RICH_TEXT_BLOCK_CSS_CLASS}${getSelector('element', 'richText', { operator: 'prefixed' })}`
-  );
+export const init = async (): Promise<void> => {
+  const rtbElements = [
+    ...document.querySelectorAll<RichTextBlockElement>(
+      `.${RICH_TEXT_BLOCK_CSS_CLASS}${getSelector('element', 'richText', { operator: 'prefixed' })}`
+    ),
+  ];
 
-  for (const rtbElement of rtbElements) initRtbElement(rtbElement);
+  await Promise.all(rtbElements.map(initRtbElement));
+
+  window.fsAttributes[ATTRIBUTE].resolve?.(rtbElements);
 };
 
 /**
