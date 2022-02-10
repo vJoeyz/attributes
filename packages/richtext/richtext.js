@@ -316,10 +316,12 @@
     sanitize: { key: sanitizeKey, values: sanitizeValues },
     resetIx: { key: resetIxKey, values: resetIxValues }
   } = ATTRIBUTES2;
-  var init = () => {
-    const rtbElements = document.querySelectorAll(`.${RICH_TEXT_BLOCK_CSS_CLASS}${getSelector2("element", "richText", { operator: "prefixed" })}`);
-    for (const rtbElement of rtbElements)
-      initRtbElement(rtbElement);
+  var init = async () => {
+    const rtbElements = [
+      ...document.querySelectorAll(`.${RICH_TEXT_BLOCK_CSS_CLASS}${getSelector2("element", "richText", { operator: "prefixed" })}`)
+    ];
+    await Promise.all(rtbElements.map(initRtbElement));
+    window.fsAttributes[ATTRIBUTE].resolve?.(rtbElements);
   };
   var initRtbElement = async (element) => {
     const sanitize = element.getAttribute(sanitizeKey) === sanitizeValues.true;
