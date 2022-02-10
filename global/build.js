@@ -11,8 +11,9 @@ const production = process.env.NODE_ENV === 'production';
 export const defaultBuildSettings = {
   bundle: true,
   minify: production,
-  sourcemap: false,
+  sourcemap: !production,
   target: production ? 'es6' : 'esnext',
+  watch: !production,
 };
 
 /**
@@ -25,7 +26,7 @@ export const generateScript = (entryPoint, fileName, format) => {
   esbuild.build({
     ...defaultBuildSettings,
     entryPoints: [entryPoint],
-    outfile: `${production ? './' : process.env.CUSTOM_BUILD_DIRECTORY || ''}/${fileName}.js`,
+    outfile: `./${fileName}.js`,
     format,
   });
 };
@@ -35,6 +36,8 @@ export const generateScript = (entryPoint, fileName, format) => {
  * @param {string} __dirname
  */
 export const generateExamplesJSON = (__dirname) => {
+  if (!production) return;
+
   esbuild.buildSync({
     ...defaultBuildSettings,
     entryPoints: ['api/examples.ts'],
@@ -52,6 +55,8 @@ export const generateExamplesJSON = (__dirname) => {
  * @param {string} __dirname
  */
 export const generateSchemaJSON = (__dirname) => {
+  if (!production) return;
+
   esbuild.buildSync({
     ...defaultBuildSettings,
     entryPoints: ['api/schema.ts'],
@@ -69,6 +74,8 @@ export const generateSchemaJSON = (__dirname) => {
  * @param {string} __dirname
  */
 export const generateChangesetsJSON = (__dirname) => {
+  if (!production) return;
+
   esbuild.buildSync({
     ...defaultBuildSettings,
     entryPoints: ['api/changesets.ts'],

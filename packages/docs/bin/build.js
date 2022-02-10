@@ -1,12 +1,9 @@
-import dotenv from 'dotenv';
 import esbuild from 'esbuild';
 import { writeFileSync } from 'fs';
 import { dirname } from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';
 
 import { defaultBuildSettings, generateChangesetsJSON, generateScript } from '../../../global/build.js';
-
-dotenv.config({ path: '../../.env' });
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
