@@ -1,1 +1,344 @@
-(()=>{var K=Object.defineProperty;var U=(e,t,r)=>t in e?K(e,t,{enumerable:!0,configurable:!0,writable:!0,value:r}):e[t]=r;var A=(e,t,r)=>(U(e,typeof t!="symbol"?t+"":t,r),r);var p=(e,t,r)=>new Promise((i,n)=>{var o=s=>{try{a(r.next(s))}catch(l){n(l)}},c=s=>{try{a(r.throw(s))}catch(l){n(l)}},a=s=>s.done?i(s.value):Promise.resolve(s.value).then(o,c);a((r=r.apply(e,t)).next())});var u=class{static activateAlerts(){this.alertsActivated=!0}static alert(t,r){if(this.alertsActivated&&window.alert(t),r==="error")throw new Error(t)}};A(u,"alertsActivated",!1);var y="w-richtext",M="w-embed";var T=()=>document.documentElement.getAttribute("data-wf-site");var x=e=>p(void 0,null,function*(){var r,i,n;let{Webflow:t}=window;if(!(!t||!("destroy"in t)||!("ready"in t)||!("require"in t))&&!(e&&!e.length)){if(e||(t.destroy(),t.ready()),!e||e.includes("ix2")){let o=t.require("ix2");if(o){let{store:c,actions:a}=o,{eventState:s}=c.getState().ixSession,l=Object.entries(s);e||o.destroy(),o.init(),yield Promise.all(l.map(f=>c.dispatch(a.eventStateChanged(...f))))}}if(!e||e.includes("commerce")){let o=t.require("commerce"),c=T();o&&c&&(o.destroy(),o.init({siteId:c,apiUrl:"https://render.webflow.com"}))}return(e==null?void 0:e.includes("lightbox"))&&((r=t.require("lightbox"))==null||r.ready()),(e==null?void 0:e.includes("slider"))&&((i=t.require("slider"))==null||i.redraw()),(e==null?void 0:e.includes("tabs"))&&((n=t.require("tabs"))==null||n.redraw()),new Promise(o=>t.push(()=>o(void 0)))}});var L="fs-attributes",I={preventLoad:{key:`${L}-preventload`},debugMode:{key:`${L}-debug`}};var C=e=>{let{preventLoad:t,debugMode:r}=I,i=typeof(e==null?void 0:e.getAttribute(t.key))=="string";return typeof(e==null?void 0:e.getAttribute(r.key))=="string"&&u.activateAlerts(),{preventsLoad:i}};var R=()=>{window.fsAttributes||(window.fsAttributes={cms:{}})};var h=e=>{let t=(i,n,o)=>{let c=e[i],{key:a,values:s}=c,l;if(!n)return`[${a}]`;let f=s==null?void 0:s[n];if(typeof f=="string"?l=f:l=f(o&&"instanceIndex"in o?o.instanceIndex:void 0),!(o==null?void 0:o.operator))return`[${a}="${l}"]`;switch(o.operator){case"prefixed":return`[${a}^="${l}"]`;case"suffixed":return`[${a}$="${l}"]`;case"contains":return`[${a}*="${l}"]`}};return[t,(i,n)=>{let o=t("element",i,n);return((n==null?void 0:n.scope)||document).querySelector(o)}]};var w="richtext",S=`fs-${w}`,F="rich-text",W="component",z="sanitize",Y="reset-ix",E={element:{key:`${S}-element`,values:{richText:F}},component:{key:`${S}-${W}`},sanitize:{key:`${S}-${z}`,values:{true:"true"}},resetIx:{key:`${S}-${Y}`,values:{true:"true"}}},[O,Re]=h(E),g="&lt;!-- fs-richtext-ignore --&gt;",P="https://cdn.jsdelivr.net/npm/dompurify@2/dist/purify.es.min.js";var m=/\{\{.*?\}\}/,_=/\=\".*?\"/,N=/\&lt\;.*?\&gt\;/,H=/^\&lt\;.*?\&gt\;$/,v=/\/+$/,k=/(\{\{)|(\}\})/g;var G=e=>[...e.querySelectorAll("h1, h2, h3, h4, h5, h6, p, blockquote, li")].filter(i=>{let{innerHTML:n}=i;if(!n)return!1;let o=n.includes(g),c=m.test(n),a=N.test(n),s=i.closest(`.${M}`);return o?(i.innerHTML=n.replace(g,""),!1):(a||c)&&!s});var $=[],{origin:j,href:J}=window.location,D=e=>p(void 0,null,function*(){let[t]=e.match(m)||[];if(!t)return;let r=t.replace(k,"").trim();if(!_.test(r)){let s=yield X(r);return s==null?void 0:s.outerHTML}let[n]=r.split('="'),[o]=r.match(_)||[];if(!n||!o)return;let c=Z(o),a=yield X(n,c);return a==null?void 0:a.outerHTML}),Z=e=>{let t=e.replace('="',"").replace('"',"").trim();t.startsWith("/")&&(t=j.replace(v,"")+t);let{href:r}=new URL(t);if(J!==r)return t},X=(e,t)=>p(void 0,null,function*(){let r=$.find(o=>o.componentKey===e&&o.source===t);if(r)return r.element;let i;if(t)try{let c=yield(yield fetch(t)).text();i=new DOMParser().parseFromString(c,"text/html")}catch(o){u.alert(`[${t}] is not a valid source.`,"error");return}let n=(i||document).querySelector(`[${E.component.key}="${e}"]`);return n||u.alert(`No components were found with the [${e}] key.`,"info"),n&&($.push({element:n,componentKey:e,source:t}),n.remove()),n});var B=e=>e.replace(/(&nbsp;)/g," ").replace(/(&lt;)/g,"<").replace(/(&gt;)/g,">").replace(/(&amp;)/g,"&").replace(/(&quot;)/g,'"').replace(/(&#96;)/g,"`").replace(/(&#x27;)/g,"'");var d,Q=()=>p(void 0,null,function*(){if(d)return d;try{return d=(yield import(P)).default,d}catch(e){u.alert("There was an issue while importing DOMPurify.","info");return}}),V=e=>p(void 0,null,function*(){let t=yield Q();return t?t.sanitize(e):""});var q=(e,t)=>p(void 0,null,function*(){let{innerHTML:r}=e;if(m.test(r)){let c=yield D(r);c&&(e.outerHTML=c);return}let n=e.tagName==="P"&&H.test(r.trim()),o=B(r);e[n?"outerHTML":"innerHTML"]=t?yield V(o):o});var{sanitize:{key:ee,values:te},resetIx:{key:re,values:oe}}=E,b=()=>{let e=document.querySelectorAll(`.${y}${O("element","richText",{operator:"prefixed"})}`);for(let t of e)ne(t)},ne=e=>p(void 0,null,function*(){let t=e.getAttribute(ee)===te.true,r=e.getAttribute(re)===oe.true,i=G(e);yield Promise.all(i.map(n=>q(n,t))),r&&(yield x(["ix2"]))});R();var{currentScript:ie}=document,{preventsLoad:se}=C(ie);se?window.fsAttributes[w]={init:b}:(window.Webflow||(window.Webflow=[]),window.Webflow.push(b));})();
+(() => {
+  var __defProp = Object.defineProperty;
+  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __publicField = (obj, key, value) => {
+    __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+    return value;
+  };
+
+  // ../../node_modules/@finsweet/ts-utils/dist/components/Debug.js
+  var Debug = class {
+    static activateAlerts() {
+      this.alertsActivated = true;
+    }
+    static alert(text, type) {
+      if (this.alertsActivated)
+        window.alert(text);
+      if (type === "error")
+        throw new Error(text);
+    }
+  };
+  __publicField(Debug, "alertsActivated", false);
+
+  // ../../node_modules/@finsweet/ts-utils/dist/webflow/css.js
+  var RICH_TEXT_BLOCK_CSS_CLASS = "w-richtext";
+  var HTML_EMBED_CSS_CLASS = "w-embed";
+
+  // ../../node_modules/@finsweet/ts-utils/dist/webflow/getSiteId.js
+  var getSiteId = () => document.documentElement.getAttribute("data-wf-site");
+
+  // ../../node_modules/@finsweet/ts-utils/dist/webflow/restartWebflow.js
+  var restartWebflow = async (modules) => {
+    const { Webflow } = window;
+    if (!Webflow || !("destroy" in Webflow) || !("ready" in Webflow) || !("require" in Webflow))
+      return;
+    if (modules && !modules.length)
+      return;
+    if (!modules) {
+      Webflow.destroy();
+      Webflow.ready();
+    }
+    if (!modules || modules.includes("ix2")) {
+      const ix2 = Webflow.require("ix2");
+      if (ix2) {
+        const { store, actions } = ix2;
+        const { eventState } = store.getState().ixSession;
+        const stateEntries = Object.entries(eventState);
+        if (!modules)
+          ix2.destroy();
+        ix2.init();
+        await Promise.all(stateEntries.map((state) => store.dispatch(actions.eventStateChanged(...state))));
+      }
+    }
+    if (!modules || modules.includes("commerce")) {
+      const commerce = Webflow.require("commerce");
+      const siteId = getSiteId();
+      if (commerce && siteId) {
+        commerce.destroy();
+        commerce.init({ siteId, apiUrl: "https://render.webflow.com" });
+      }
+    }
+    if (modules?.includes("lightbox"))
+      Webflow.require("lightbox")?.ready();
+    if (modules?.includes("slider"))
+      Webflow.require("slider")?.redraw();
+    if (modules?.includes("tabs"))
+      Webflow.require("tabs")?.redraw();
+    return new Promise((resolve) => Webflow.push(() => resolve(void 0)));
+  };
+
+  // ../../global/factory/selectors.ts
+  var generateSelectors = (attributes) => {
+    const getSelector3 = (name, valueKey, params) => {
+      const attribute = attributes[name];
+      const { key: attributeKey, values } = attribute;
+      let attributeValue;
+      if (!valueKey)
+        return `[${attributeKey}]`;
+      const value = values?.[valueKey];
+      if (typeof value === "string")
+        attributeValue = value;
+      else
+        attributeValue = value(params && "instanceIndex" in params ? params.instanceIndex : void 0);
+      if (!params?.operator)
+        return `[${attributeKey}="${attributeValue}"]`;
+      switch (params.operator) {
+        case "prefixed":
+          return `[${attributeKey}^="${attributeValue}"]`;
+        case "suffixed":
+          return `[${attributeKey}$="${attributeValue}"]`;
+        case "contains":
+          return `[${attributeKey}*="${attributeValue}"]`;
+      }
+    };
+    const queryElement3 = (elementKey, params) => {
+      const selector = getSelector3("element", elementKey, params);
+      return (params?.scope || document).querySelector(selector);
+    };
+    return [getSelector3, queryElement3];
+  };
+
+  // ../../global/constants/attributes.ts
+  var ATTRIBUTES_PREFIX = "fs-attributes";
+  var ATTRIBUTES = {
+    preventLoad: { key: `${ATTRIBUTES_PREFIX}-preventload` },
+    debugMode: { key: `${ATTRIBUTES_PREFIX}-debug` },
+    src: { key: "src", values: { finsweet: "@finsweet/attributes" } },
+    dev: { key: `${ATTRIBUTES_PREFIX}-dev` }
+  };
+  var [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
+
+  // ../../global/factory/assess.ts
+  var assessScript = (script) => {
+    const { preventLoad, debugMode } = ATTRIBUTES;
+    const preventsLoad2 = typeof script?.getAttribute(preventLoad.key) === "string";
+    if (typeof script?.getAttribute(debugMode.key) === "string")
+      Debug.activateAlerts();
+    return { preventsLoad: preventsLoad2 };
+  };
+
+  // ../../global/factory/init.ts
+  var initAttributes = () => {
+    if (window.fsAttributes && !Array.isArray(window.fsAttributes))
+      return;
+    const fsAttributes = {
+      cms: {},
+      push(...args) {
+        for (const [attributeName, callback] of args)
+          this[attributeName]?.loading?.then(callback);
+      }
+    };
+    initLoadPromises(fsAttributes);
+    runExistingCallbacks(fsAttributes);
+    window.fsAttributes = fsAttributes;
+    window.FsAttributes = window.fsAttributes;
+  };
+  var initLoadPromises = (fsAttributes) => {
+    const srcSelector = getSelector("src", "finsweet", { operator: "contains" });
+    const devSelector = getSelector("dev");
+    const scripts = [...document.querySelectorAll(`script${srcSelector}, script${devSelector}`)];
+    const attributes = scripts.reduce((acc, script) => {
+      const attributeName = script.getAttribute(ATTRIBUTES.dev.key) || script.src.match(/[\w-. ]+(?=(\.js)$)/)?.[0];
+      if (attributeName && !acc.includes(attributeName))
+        acc.push(attributeName);
+      return acc;
+    }, []);
+    for (const attributeName of attributes) {
+      fsAttributes[attributeName] = {};
+      const attribute = fsAttributes[attributeName];
+      attribute.loading = new Promise((resolve) => {
+        attribute.resolve = (value) => {
+          resolve(value);
+          delete attribute.resolve;
+        };
+      });
+    }
+  };
+  var runExistingCallbacks = (fsAttributes) => {
+    const existingCallbacks = Array.isArray(window.fsAttributes) ? window.fsAttributes : [];
+    for (const callback of existingCallbacks)
+      fsAttributes.push(callback);
+  };
+
+  // src/utils/constants.ts
+  var ATTRIBUTE = "richtext";
+  var ATTRIBUTES_PREFIX2 = `fs-${ATTRIBUTE}`;
+  var RICH_TEXT_ELEMENT_KEY = "rich-text";
+  var COMPONENT_SETTING_KEY = "component";
+  var SANITIZE_SETTING_KEY = "sanitize";
+  var RESET_IX_SETTING_KEY = "reset-ix";
+  var ATTRIBUTES2 = {
+    element: {
+      key: `${ATTRIBUTES_PREFIX2}-element`,
+      values: {
+        richText: RICH_TEXT_ELEMENT_KEY
+      }
+    },
+    component: { key: `${ATTRIBUTES_PREFIX2}-${COMPONENT_SETTING_KEY}` },
+    sanitize: { key: `${ATTRIBUTES_PREFIX2}-${SANITIZE_SETTING_KEY}`, values: { true: "true" } },
+    resetIx: { key: `${ATTRIBUTES_PREFIX2}-${RESET_IX_SETTING_KEY}`, values: { true: "true" } }
+  };
+  var [getSelector2, queryElement2] = generateSelectors(ATTRIBUTES2);
+  var IGNORE_LINE_PREFIX = "&lt;!-- fs-richtext-ignore --&gt;";
+  var DOMPURIFY_SRC = "https://cdn.jsdelivr.net/npm/dompurify@2/dist/purify.es.min.js";
+
+  // src/utils/regex.ts
+  var HAS_COMPONENT_TEMPLATE_REGEX = /\{\{.*?\}\}/;
+  var IS_EXTERNAL_COMPONENT_REGEX = /\=\".*?\"/;
+  var HAS_HTML_OPENING_TAG_REGEX = /\&lt\;.*?\&gt\;/;
+  var IS_HTML_OPENING_TAG_REGEX = /^\&lt\;.*?\&gt\;$/;
+  var TRAILING_SLASH_REGEX = /\/+$/;
+  var MUSTACHE_DELIMITERS_REGEX = /(\{\{)|(\}\})/g;
+
+  // src/actions/collect.ts
+  var getValidTextElements = (element) => {
+    const textElements = [...element.querySelectorAll("h1, h2, h3, h4, h5, h6, p, blockquote, li")];
+    const filteredParagraphs = textElements.filter((paragraph) => {
+      const { innerHTML } = paragraph;
+      if (!innerHTML)
+        return false;
+      const mustIgnore = innerHTML.includes(IGNORE_LINE_PREFIX);
+      const hasComponent = HAS_COMPONENT_TEMPLATE_REGEX.test(innerHTML);
+      const hasTag = HAS_HTML_OPENING_TAG_REGEX.test(innerHTML);
+      const isEmbed = paragraph.closest(`.${HTML_EMBED_CSS_CLASS}`);
+      if (mustIgnore) {
+        paragraph.innerHTML = innerHTML.replace(IGNORE_LINE_PREFIX, "");
+        return false;
+      }
+      return (hasTag || hasComponent) && !isEmbed;
+    });
+    return filteredParagraphs;
+  };
+
+  // src/actions/components.ts
+  var componentsStore = [];
+  var { origin, href: currentHref } = window.location;
+  var getComponentHTML = async (rawHTML) => {
+    const [componentDefinition] = rawHTML.match(HAS_COMPONENT_TEMPLATE_REGEX) || [];
+    if (!componentDefinition)
+      return;
+    const rawComponentKey = componentDefinition.replace(MUSTACHE_DELIMITERS_REGEX, "").trim();
+    const isExternal = IS_EXTERNAL_COMPONENT_REGEX.test(rawComponentKey);
+    if (!isExternal) {
+      const component2 = await queryComponent(rawComponentKey);
+      return component2?.outerHTML;
+    }
+    const [componentKey] = rawComponentKey.split('="');
+    const [rawSource] = rawComponentKey.match(IS_EXTERNAL_COMPONENT_REGEX) || [];
+    if (!componentKey || !rawSource)
+      return;
+    const source = parseComponentSource(rawSource);
+    const component = await queryComponent(componentKey, source);
+    return component?.outerHTML;
+  };
+  var parseComponentSource = (rawSource) => {
+    let source = rawSource.replace('="', "").replace('"', "").trim();
+    if (source.startsWith("/"))
+      source = origin.replace(TRAILING_SLASH_REGEX, "") + source;
+    const { href: sourceHref } = new URL(source);
+    const validSource = currentHref !== sourceHref;
+    if (validSource)
+      return source;
+  };
+  var queryComponent = async (componentKey, source) => {
+    const storedComponent = componentsStore.find((data) => data.componentKey === componentKey && data.source === source);
+    if (storedComponent)
+      return storedComponent.element;
+    let externalDocument;
+    if (source) {
+      try {
+        const response = await fetch(source);
+        const data = await response.text();
+        const parser = new DOMParser();
+        externalDocument = parser.parseFromString(data, "text/html");
+      } catch (error) {
+        Debug.alert(`[${source}] is not a valid source.`, "error");
+        return;
+      }
+    }
+    const element = (externalDocument || document).querySelector(`[${ATTRIBUTES2.component.key}="${componentKey}"]`);
+    if (!element)
+      Debug.alert(`No components were found with the [${componentKey}] key.`, "info");
+    if (element) {
+      componentsStore.push({
+        element,
+        componentKey,
+        source
+      });
+      element.remove();
+    }
+    return element;
+  };
+
+  // src/actions/html.ts
+  var unescapeHTML = (rawHTML) => {
+    return rawHTML.replace(/(&nbsp;)/g, " ").replace(/(&lt;)/g, "<").replace(/(&gt;)/g, ">").replace(/(&amp;)/g, "&").replace(/(&quot;)/g, '"').replace(/(&#96;)/g, "`").replace(/(&#x27;)/g, "'");
+  };
+
+  // src/actions/sanitize.ts
+  var DOMPurify;
+  var importDOMPurify = async () => {
+    if (DOMPurify)
+      return DOMPurify;
+    try {
+      const module = await import(DOMPURIFY_SRC);
+      DOMPurify = module.default;
+      return DOMPurify;
+    } catch (error) {
+      Debug.alert("There was an issue while importing DOMPurify.", "info");
+      return;
+    }
+  };
+  var sanitizeHTML = async (rawHTML) => {
+    const DOMPurify2 = await importDOMPurify();
+    if (!DOMPurify2)
+      return "";
+    return DOMPurify2.sanitize(rawHTML);
+  };
+
+  // src/actions/parse.ts
+  var parseTextElement = async (textElement, sanitize) => {
+    const { innerHTML } = textElement;
+    const isComponent = HAS_COMPONENT_TEMPLATE_REGEX.test(innerHTML);
+    if (isComponent) {
+      const componentHTML = await getComponentHTML(innerHTML);
+      if (componentHTML)
+        textElement.outerHTML = componentHTML;
+      return;
+    }
+    const isTag = textElement.tagName === "P" && IS_HTML_OPENING_TAG_REGEX.test(innerHTML.trim());
+    const unescapedHTML = unescapeHTML(innerHTML);
+    textElement[isTag ? "outerHTML" : "innerHTML"] = sanitize ? await sanitizeHTML(unescapedHTML) : unescapedHTML;
+  };
+
+  // src/init.ts
+  var {
+    sanitize: { key: sanitizeKey, values: sanitizeValues },
+    resetIx: { key: resetIxKey, values: resetIxValues }
+  } = ATTRIBUTES2;
+  var init = () => {
+    const rtbElements = document.querySelectorAll(`.${RICH_TEXT_BLOCK_CSS_CLASS}${getSelector2("element", "richText", { operator: "prefixed" })}`);
+    for (const rtbElement of rtbElements)
+      initRtbElement(rtbElement);
+  };
+  var initRtbElement = async (element) => {
+    const sanitize = element.getAttribute(sanitizeKey) === sanitizeValues.true;
+    const resetIx = element.getAttribute(resetIxKey) === resetIxValues.true;
+    const textElements = getValidTextElements(element);
+    await Promise.all(textElements.map((textElement) => parseTextElement(textElement, sanitize)));
+    if (resetIx)
+      await restartWebflow(["ix2"]);
+  };
+
+  // src/index.ts
+  initAttributes();
+  var { currentScript } = document;
+  var { preventsLoad } = assessScript(currentScript);
+  if (preventsLoad)
+    window.fsAttributes[ATTRIBUTE] = { init };
+  else {
+    window.Webflow ||= [];
+    window.Webflow.push(init);
+  }
+})();
+//# sourceMappingURL=richtext.js.map
