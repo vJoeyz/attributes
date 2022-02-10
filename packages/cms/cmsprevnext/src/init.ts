@@ -1,26 +1,26 @@
 import { removeTrailingSlash } from '@finsweet/ts-utils';
 
-import type { CMSItem } from '$cms/cmscore/src';
+import type { CMSItem, CMSList } from '$cms/cmscore/src';
 import { importCMSCore } from '$global/import/cmscore';
 
 import { collectElements } from './collect';
-import { getSelector } from './constants';
+import { ATTRIBUTE, getSelector } from './constants';
 
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<void> => {
+export const init = async (): Promise<CMSList[]> => {
   const cmsCore = await importCMSCore();
-  if (!cmsCore) return;
+  if (!cmsCore) return [];
 
   let previousPlaceholderFilled = false;
   let nextPlaceholderFilled = false;
 
   const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
-  if (!listInstances.length) return;
+  if (!listInstances.length) return [];
 
   const elements = collectElements();
-  if (!elements) return;
+  if (!elements) return [];
 
   const { previousPlaceholder, nextPlaceholder, previousEmptyElement, nextEmptyElement } = elements;
 
@@ -83,4 +83,8 @@ export const init = async (): Promise<void> => {
 
     listInstance.wrapper.style.display = 'none';
   }
+
+  window.fsAttributes[ATTRIBUTE].resolve?.(listInstances);
+
+  return listInstances;
 };
