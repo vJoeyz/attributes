@@ -20,6 +20,7 @@
     "packages/cms/cmsslider",
     "packages/cms/cmssort",
     "packages/cms/cmstabs",
+    "packages/codehighlight",
     "packages/components",
     "packages/copyclip",
     "packages/countitems",
