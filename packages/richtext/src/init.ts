@@ -14,7 +14,7 @@ const {
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<void> => {
+export const init = async (): Promise<HTMLDivElement[]> => {
   const rtbElements = [
     ...document.querySelectorAll<RichTextBlockElement>(
       `.${RICH_TEXT_BLOCK_CSS_CLASS}${getSelector('element', 'richText', { operator: 'prefixed' })}`
@@ -24,6 +24,8 @@ export const init = async (): Promise<void> => {
   await Promise.all(rtbElements.map(initRtbElement));
 
   window.fsAttributes[ATTRIBUTE].resolve?.(rtbElements);
+
+  return rtbElements;
 };
 
 /**
