@@ -6,7 +6,7 @@ import { ATTRIBUTE, ATTRIBUTES, getSelector } from './utils/constants';
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<void> => {
+export const init = async (): Promise<(HTMLElement | undefined)[]> => {
   await window.fsAttributes[RICH_TEXT_ATTRIBUTE]?.loading;
 
   const referenceElements = [
@@ -23,6 +23,8 @@ export const init = async (): Promise<void> => {
   const codeElements = referenceElements.map(initHighlight);
 
   window.fsAttributes[ATTRIBUTE].resolve?.(codeElements);
+
+  return codeElements;
 };
 
 /**

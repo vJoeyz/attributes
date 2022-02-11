@@ -1,7 +1,7 @@
 {
   "name": "@finsweet/attributes-codehighlight",
   "version": "1.0.0",
-  "description": "ATTRIBUTE_DESCRIPTION.",
+  "description": "Syntax highlighting for your Webflow sites.",
   "main": "codehighlight.js",
   "files": [
     "codehighlight.js",
