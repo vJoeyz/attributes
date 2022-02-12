@@ -1,33 +1,13 @@
-import { ATTRIBUTES, queryElement } from './constants';
-
-// Types
-interface Params {
-  linkHref: string;
-}
+import { ATTRIBUTE, queryElement } from './constants';
 
 /**
  * Inits setting a custom favicon to the current page.
- *
- * Auto init:
- * @param params The current `<script>` element.
- *
- * Programatic init:
- * @param params.linkHref Defines the URL source of the image to be set as the favicon.
  */
-export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
-  let linkHref: string | null | undefined;
-
-  // Get the params
-  if (params instanceof HTMLScriptElement || params instanceof SVGScriptElement) {
-    linkHref = params.getAttribute(ATTRIBUTES.src.key);
-  } else if (params) {
-    linkHref = params.linkHref;
-  }
-
+export const init = (): string | undefined => {
   // Get the element's src, if existing.
   const srcElement = queryElement('src');
   const elementSrc = srcElement instanceof HTMLImageElement ? srcElement.src : undefined;
-  if (elementSrc) linkHref = elementSrc;
+  const linkHref = elementSrc;
 
   if (!linkHref) return;
 
@@ -39,4 +19,8 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
 
   // Append the new one
   document.head.appendChild(linkElement);
+
+  window.fsAttributes[ATTRIBUTE].resolve?.(linkHref);
+
+  return linkHref;
 };
