@@ -4,7 +4,7 @@ import type { CMSList } from '$cms/cmscore/src';
 import { importCMSCore } from '$global/import/cmscore';
 
 import { collectPopulateData } from './collect';
-import { getSelector } from './constants';
+import { ATTRIBUTE, getSelector } from './constants';
 import { populateSliderFromLists } from './populate';
 
 /**
@@ -44,6 +44,8 @@ export const init = async (): Promise<CMSList[]> => {
   if (restartIx) modulesToRestart.push('ix2');
 
   await restartWebflow(modulesToRestart);
+
+  window.fsAttributes[ATTRIBUTE].resolve?.(listInstances);
 
   return listInstances;
 };
