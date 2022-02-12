@@ -1,18 +1,23 @@
 import { assessScript } from '$global/factory/assess';
 import { initAttributes } from '$global/factory/init';
 
-import { ATTRIBUTE } from './constants';
+import { version } from '../package.json';
 import { init } from './init';
+import { ATTRIBUTE } from './utils/constants';
 
 /**
  * Init
  */
 initAttributes();
 
-const { currentScript } = document;
-const { preventsLoad } = assessScript(currentScript);
+window.fsAttributes[ATTRIBUTE] ||= {};
 
-if (preventsLoad) window.fsAttributes[ATTRIBUTE] = { init };
+const { preventsLoad } = assessScript();
+const attribute = window.fsAttributes[ATTRIBUTE];
+
+attribute.version = version;
+
+if (preventsLoad) attribute.init = init;
 else {
   window.Webflow ||= [];
   window.Webflow.push(init);

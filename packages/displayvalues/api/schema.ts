@@ -1,6 +1,6 @@
 import type { AttributeSchema } from '$global/types/schema';
 
-import { SOURCE_ELEMENT_KEY, TARGET_ELEMENT_KEY, PLACEHOLDER_SETTING_KEY } from './../src/constants';
+import { SOURCE_ELEMENT_KEY, TARGET_ELEMENT_KEY, PLACEHOLDER_SETTING_KEY } from './../src/utils/constants';
 
 export const schema: AttributeSchema = {
   elements: [
