@@ -11,7 +11,6 @@ export const TOGGLE_ELEMENT_KEY = 'toggle';
 export const NAV_ELEMENT_KEY = 'smart-nav';
 export const PRESERVE_ELEMENT_KEY = 'preserve';
 
-export const SCROLLBAR_SETTING_KEY = 'scrollbar';
 export const MEDIA_SETTING_KEY = 'media';
 export const GAP_SETTING_KEY = 'gap';
 
@@ -52,24 +51,6 @@ export const ATTRIBUTES = {
        * Applied on elements that must preserve scrolling when the page's scrolling is disabled.
        */
       preserve: PRESERVE_ELEMENT_KEY,
-    },
-  },
-
-  /**
-   * Defines the behavior of the scrollbar gap when disabling scrolling.
-   */
-  scrollbar: {
-    key: `${ATTRIBUTES_PREFIX}-${SCROLLBAR_SETTING_KEY}`,
-    values: {
-      /**
-       * The scrollbar gap will be reserved.
-       */
-      keep: 'keep',
-
-      /**
-       * The scrollbar gap will be removed and all content will be stretched.
-       */
-      hide: 'hide',
     },
   },
 
