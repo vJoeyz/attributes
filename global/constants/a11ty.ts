@@ -3,6 +3,7 @@ export const ARIA_ROLE_VALUES = {
   slider: 'slider',
   listbox: 'listbox',
   option: 'option',
+  columnheader: 'columnheader',
 } as const;
 export const TABINDEX_KEY = 'tabindex';
 export const ARIA_LABEL_KEY = 'aria-label';
@@ -17,3 +18,8 @@ export const ARIA_EXPANDED_KEY = 'aria-expanded';
 export const ARIA_CURRENT_KEY = 'aria-current';
 export const ARIA_ACTIVEDESCENDANT_KEY = 'aria-activedescendant';
 export const ARIA_PRESSED_KEY = 'aria-pressed';
+export const ARIA_SORT_KEY = 'aria-sort';
+export const ARIA_SORT_VALUES = {
+  ascending: 'ascending',
+  descending: 'descending',
+} as const;
