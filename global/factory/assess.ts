@@ -9,14 +9,15 @@ import { GlobalAttributeParams } from '../types/global';
  * @returns The {@link GlobalAttributeParams}.
  */
 
-export const assessScript = (script: HTMLOrSVGScriptElement | null): GlobalAttributeParams => {
+export const assessScript = (): GlobalAttributeParams => {
+  const { currentScript } = document;
   const { preventLoad, debugMode } = ATTRIBUTES;
 
   // Check if the Attribute should not be automatically loaded
-  const preventsLoad = typeof script?.getAttribute(preventLoad.key) === 'string';
+  const preventsLoad = typeof currentScript?.getAttribute(preventLoad.key) === 'string';
 
   // Check if Debug Mode is activated
-  if (typeof script?.getAttribute(debugMode.key) === 'string') Debug.activateAlerts();
+  if (typeof currentScript?.getAttribute(debugMode.key) === 'string') Debug.activateAlerts();
 
   return { preventsLoad };
 };

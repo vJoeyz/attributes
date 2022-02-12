@@ -3,7 +3,7 @@ import { importCMSCore } from '$global/import/cmscore';
 
 import { collectCombineData } from './collect';
 import { combineItemsToTarget } from './combine';
-import { getSelector, queryElement } from './constants';
+import { ATTRIBUTE, getSelector, queryElement } from './constants';
 import type { CombineData } from './types';
 
 /**
@@ -19,6 +19,8 @@ export const init = async (): Promise<CMSList[]> => {
 
   // Combine the lists
   const combineLists = await Promise.all(combineData.map(initListsCombine));
+
+  window.fsAttributes[ATTRIBUTE].resolve?.(combineLists);
 
   return combineLists;
 };

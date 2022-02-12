@@ -2,17 +2,21 @@ import { listenEvents } from './actions/events';
 import { observeElements } from './actions/observe';
 import { populateOptions } from './actions/populate';
 import { collectSettings } from './actions/settings';
-import { getSelector } from './utils/constants';
+import { ATTRIBUTE, getSelector } from './utils/constants';
 
 /**
  * Inits the attribute.
  */
-export const init = (): void => {
+export const init = (): NodeListOf<HTMLElement> => {
   const referenceElements = document.querySelectorAll<HTMLElement>(
     getSelector('element', 'dropdown', { operator: 'prefixed' })
   );
 
   for (const referenceElement of referenceElements) initCustomSelect(referenceElement);
+
+  window.fsAttributes[ATTRIBUTE].resolve?.(referenceElements);
+
+  return referenceElements;
 };
 
 /**

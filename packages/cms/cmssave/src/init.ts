@@ -2,7 +2,7 @@ import type { CMSList } from '$cms/cmscore/src';
 import { importCMSCore } from '$global/import/cmscore';
 
 import { initSaveSourceInstance } from './factory';
-import { getSelector } from './utils/constants';
+import { ATTRIBUTE, getSelector } from './utils/constants';
 
 /**
  * Inits the attribute.
@@ -20,6 +20,8 @@ export const init = async (): Promise<CMSList[]> => {
 
   // Init the modes
   await Promise.all(sourceListInstances.map(initSaveSourceInstance));
+
+  window.fsAttributes[ATTRIBUTE].resolve?.(sourceListInstances);
 
   return sourceListInstances;
 };

@@ -1,58 +1,51 @@
-import { HIGHLIGHTJS_VERISON } from '../utils/constants';
+import { HIGHLIGHTJS_CUSTOM_THEMES, HIGHLIGHTJS_SCRIPT_URL, HIGHLIGHTJS_THEME_URL } from '../utils/constants';
 
 let hljsImport: Promise<unknown>;
+let hljsThemeImport: Promise<unknown>;
 
 /**
  * Dynamically imports highlightJS.
- * @param theme The theme name.
  * @returns An awaitable {@link Promise}.
  */
-export const importHighlightJS = async (theme: string | null) => {
+export const importHighlightJS = async () => {
   if (hljsImport) return hljsImport;
 
   const script = document.createElement('script');
-  script.setAttribute(
-    'src',
-    `//cdn.jsdelivr.net/gh/highlightjs/cdn-release@${HIGHLIGHTJS_VERISON}/build/highlight.min.js`
-  );
-
-  let link: HTMLLinkElement | undefined;
-
-  if (theme) {
-    link = document.createElement('link');
-
-    link.setAttribute('rel', 'stylesheet');
-    link.setAttribute(
-      'href',
-      `//cdn.jsdelivr.net/gh/highlightjs/cdn-release@${HIGHLIGHTJS_VERISON}/build/styles/${theme}.min.css`
-    );
-  }
+  script.setAttribute('src', HIGHLIGHTJS_SCRIPT_URL);
 
   const loadPromise = new Promise((resolve) => {
-    let linkLoaded = !link;
-    let scriptLoaded = false;
-
-    const checkFulfill = () => {
-      if (linkLoaded && scriptLoaded) resolve(undefined);
-    };
-
-    script.onload = () => {
-      scriptLoaded = true;
-      checkFulfill();
-    };
-
-    if (link) {
-      link.onload = () => {
-        linkLoaded = true;
-        checkFulfill();
-      };
-    }
+    script.onload = () => resolve(undefined);
   });
 
   hljsImport = loadPromise;
 
   document.head.append(script);
-  if (link) document.head.append(link);
+
+  return loadPromise;
+};
+
+/**
+ * Dynamically imports a highlightJS theme.
+ * @param theme The theme name.
+ * @returns An awaitable {@link Promise}.
+ */
+export const importHighlightJSTheme = async (theme: string | null) => {
+  if (hljsThemeImport) return hljsThemeImport;
+  if (!theme) return;
+
+  const themeURL = HIGHLIGHTJS_CUSTOM_THEMES[theme] || HIGHLIGHTJS_THEME_URL(theme);
+
+  const link = document.createElement('link');
+  link.setAttribute('rel', 'stylesheet');
+  link.setAttribute('href', themeURL);
+
+  const loadPromise = new Promise((resolve) => {
+    link.onload = () => resolve(undefined);
+  });
+
+  hljsThemeImport = loadPromise;
+
+  document.head.append(link);
 
   return loadPromise;
 };

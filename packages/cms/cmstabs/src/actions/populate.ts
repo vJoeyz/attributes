@@ -3,8 +3,8 @@ import type { TabsMenuElement, TabsContentElement, TabLinkElement, TabPaneElemen
 
 import type { CMSItem } from '$cms/cmscore/src';
 
-import { getSelector, queryElement } from './constants';
-import type { PopulateData } from './types';
+import { getSelector, queryElement } from '../utils/constants';
+import type { PopulateData } from '../utils/types';
 
 // Constants destructuring
 const {

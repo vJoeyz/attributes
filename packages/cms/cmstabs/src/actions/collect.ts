@@ -3,8 +3,8 @@ import type { TabsElement } from '@finsweet/ts-utils';
 
 import type { CMSList } from '$cms/cmscore/src';
 
-import { ATTRIBUTES, getSelector } from './constants';
-import type { PopulateData } from './types';
+import { ATTRIBUTES, getSelector } from '../utils/constants';
+import type { PopulateData } from '../utils/types';
 
 const {
   element: { key: elementKey },

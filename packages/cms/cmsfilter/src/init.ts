@@ -6,7 +6,7 @@ import { importCMSCore } from '$global/import/cmscore';
 import { listenListEvents } from './actions/events';
 import { CMSFilters } from './components/CMSFilters';
 import { createCMSFiltersInstance, createCMSTagsInstance } from './factory';
-import { getSelector } from './utils/constants';
+import { ATTRIBUTE, getSelector } from './utils/constants';
 
 /**
  * Inits the attribute.
@@ -18,6 +18,8 @@ export const init = async (): Promise<CMSFilters[]> => {
   const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
   const filtersInstances = (await Promise.all(listInstances.map(initFilters))).filter(isNotEmpty);
+
+  window.fsAttributes[ATTRIBUTE].resolve?.(filtersInstances);
 
   return filtersInstances;
 };

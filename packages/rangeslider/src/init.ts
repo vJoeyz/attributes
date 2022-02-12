@@ -1,4 +1,4 @@
-import { getHiddenParent, isVisible } from '@finsweet/ts-utils';
+import { getHiddenParent, isNotEmpty, isVisible } from '@finsweet/ts-utils';
 import debounce from 'just-debounce';
 
 import { getClientX } from './actions/events';
@@ -6,18 +6,20 @@ import { getSettings } from './actions/settings';
 import { adjustValueToStep, getClosestValidHandle } from './actions/values';
 import type { Handle } from './components/Handle';
 import { createFillInstance, createHandleInstances } from './factory';
-import { getSelector } from './utils/constants';
+import { ATTRIBUTE, getSelector } from './utils/constants';
 import type { HandleInstances } from './utils/types';
 
 /**
  * Inits the attribute.
  */
-export const init = (): (HandleInstances | undefined)[] => {
+export const init = (): HandleInstances[] => {
   const wrapperElements = [
     ...document.querySelectorAll<HTMLElement>(getSelector('element', 'wrapper', { operator: 'prefixed' })),
   ];
 
-  const handleInstances = wrapperElements.map(initRangeSlider);
+  const handleInstances = wrapperElements.map(initRangeSlider).filter(isNotEmpty);
+
+  window.fsAttributes[ATTRIBUTE].resolve?.(handleInstances);
 
   return handleInstances;
 };

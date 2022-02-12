@@ -2,10 +2,17 @@ import type { MapEntries } from '@finsweet/ts-utils';
 
 import type { CMSList } from '$cms/cmscore/src';
 import { normalizePropKey } from '$cms/utils/props';
+import {
+  ARIA_ROLE_KEY,
+  ARIA_ROLE_VALUES,
+  ARIA_SORT_KEY,
+  ARIA_SORT_VALUES,
+  TABINDEX_KEY,
+} from '$global/constants/a11ty';
 
-import { ATTRIBUTES } from './constants';
-import { sortListItems } from './sort';
-import type { ButtonState, ButtonsState, CSSClasses, SortingDirection, SortItemsCallback } from './types';
+import { sortListItems } from '../actions/sort';
+import { ATTRIBUTES } from '../utils/constants';
+import type { ButtonState, ButtonsState, CSSClasses, SortingDirection, SortItemsCallback } from '../utils/types';
 
 // Constants destructuring
 const {
@@ -99,8 +106,8 @@ const prepareButton = (button: HTMLElement, buttonsState: ButtonsState, globalCS
     },
   };
 
-  button.setAttribute('role', 'columnheader');
-  button.setAttribute('tabindex', '0');
+  button.setAttribute(ARIA_ROLE_KEY, ARIA_ROLE_VALUES.columnheader);
+  button.setAttribute(TABINDEX_KEY, '0');
 
   setAria(button);
 
@@ -124,7 +131,10 @@ const clearClasses = (...[button, { cssClasses }]: MapEntries<ButtonsState>[numb
  * @param direction The direction state of the button.
  */
 const setAria = (button: HTMLElement, direction?: SortingDirection | undefined) => {
-  button.setAttribute('aria-sort', direction ? (direction === 'asc' ? 'ascending' : 'descending') : 'none');
+  button.setAttribute(
+    ARIA_SORT_KEY,
+    direction ? (direction === 'asc' ? ARIA_SORT_VALUES.ascending : ARIA_SORT_VALUES.descending) : 'none'
+  );
 };
 
 /**

@@ -4,12 +4,12 @@ import type { Dropdown } from '@finsweet/ts-utils';
 import type { CMSList } from '$cms/cmscore/src';
 import { addListAnimation } from '$cms/utils/animation';
 
-import { initButtons } from './buttons';
-import { ATTRIBUTES, DEFAULT_ASC_CLASS, DEFAULT_DESC_CLASS, getSelector, queryElement } from './constants';
-import { initDropdown } from './dropdown';
-import { listenListEvents } from './events';
-import { initHTMLSelect } from './select';
-import type { CSSClasses } from './types';
+import { listenListEvents } from './actions/events';
+import { initButtons } from './modes/buttons';
+import { initDropdown } from './modes/dropdown';
+import { initHTMLSelect } from './modes/select';
+import { ATTRIBUTES, DEFAULT_ASC_CLASS, DEFAULT_DESC_CLASS, getSelector, queryElement } from './utils/constants';
+import type { CSSClasses } from './utils/types';
 
 // Constants destructuring
 const {

@@ -7,7 +7,6 @@ import {
   TOGGLE_ELEMENT_KEY,
   NAV_ELEMENT_KEY,
   PRESERVE_ELEMENT_KEY,
-  SCROLLBAR_SETTING_KEY,
   MEDIA_SETTING_KEY,
   GAP_SETTING_KEY,
 } from './../src/constants';
@@ -65,26 +64,6 @@ export const schema: AttributeSchema = {
     },
   ],
   settings: [
-    {
-      key: SCROLLBAR_SETTING_KEY,
-      description: 'Defines the behavior of the scrollbar gap when disabling scrolling.',
-      conditions: [],
-      appliedTo: {},
-      value: {
-        type: 'options',
-        default: 'keep',
-        options: [
-          {
-            value: 'keep',
-            description: 'The scrollbar gap will be reserved.',
-          },
-          {
-            value: 'hide',
-            description: 'The scrollbar gap will be removed and all content will be stretched.',
-          },
-        ],
-      },
-    },
     {
       key: MEDIA_SETTING_KEY,
       description: 'Used to define a media query that restricts when an element acts as a trigger.',

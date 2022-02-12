@@ -1,6 +1,6 @@
 import { getInstanceIndex } from '$global/helpers/instances';
 
-import { ATTRIBUTES, getSelector } from './constants';
+import { ATTRIBUTE, ATTRIBUTES, getSelector } from './constants';
 
 // Constants  destructuring
 const {
@@ -33,4 +33,6 @@ export const init = (): void => {
       else mirrorTarget.click();
     }
   });
+
+  window.fsAttributes[ATTRIBUTE].resolve?.(undefined);
 };

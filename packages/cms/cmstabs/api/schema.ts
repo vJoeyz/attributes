@@ -2,7 +2,7 @@ import { CMS_CSS_CLASSES, TABS_CSS_CLASSES } from '@finsweet/ts-utils';
 
 import type { AttributeSchema } from '$global/types/schema';
 
-import { LIST_ELEMENT_KEY, TABS_ELEMENT_KEY, TAB_LINK_ELEMENT_KEY } from './../src/constants'
+import { LIST_ELEMENT_KEY, TABS_ELEMENT_KEY, TAB_LINK_ELEMENT_KEY } from '../src/utils/constants';
 
 export const schema: AttributeSchema = {
   elements: [

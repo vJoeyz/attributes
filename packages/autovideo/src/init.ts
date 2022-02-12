@@ -1,5 +1,6 @@
 import { Debug } from '@finsweet/ts-utils';
 
+import { ATTRIBUTE } from './constants';
 import { VideoStore } from './types';
 
 /**
@@ -38,4 +39,6 @@ export const init = (): void => {
     videoStore.set(video, null);
     observer.observe(video);
   }
+
+  window.fsAttributes[ATTRIBUTE].resolve?.(videoStore);
 };

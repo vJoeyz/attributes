@@ -1,6 +1,6 @@
 import { getLightboxElement } from './actions/collect';
 import { moveElementToBody } from './actions/move';
-import { ATTRIBUTES, getSelector } from './utils/constants';
+import { ATTRIBUTE, ATTRIBUTES, getSelector } from './utils/constants';
 
 // State
 let restoreUntransformedElement: (() => void) | undefined;
@@ -55,4 +55,6 @@ export const init = (): void => {
       restoreUntransformedElement = undefined;
     }, timeout);
   });
+
+  window.fsAttributes[ATTRIBUTE].resolve?.(undefined);
 };

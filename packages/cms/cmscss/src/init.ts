@@ -2,7 +2,7 @@ import type { CMSList } from '$cms/cmscore/src';
 import { importCMSCore } from '$global/import/cmscore';
 
 import { addCSSClasses } from './classes';
-import { getSelector } from './constants';
+import { ATTRIBUTE, getSelector } from './constants';
 
 /**
  * Inits the attribute.
@@ -15,6 +15,8 @@ export const init = async (): Promise<CMSList[]> => {
 
   // Combine the lists
   await Promise.all(listInstances.map(initListsCSS));
+
+  window.fsAttributes[ATTRIBUTE].resolve?.(listInstances);
 
   return listInstances;
 };
