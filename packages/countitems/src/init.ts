@@ -2,12 +2,12 @@ import { getCollectionElements } from '@finsweet/ts-utils';
 
 import { getInstanceIndex } from '$global/helpers/instances';
 
-import { ATTRIBUTES, getSelector, queryElement } from './constants';
+import { ATTRIBUTE, ATTRIBUTES, getSelector, queryElement } from './constants';
 
 /**
  * Inits list items count.
  */
-export const init = (): void => {
+export const init = (): NodeListOf<Element> => {
   const listReferences = document.querySelectorAll(getSelector('element', 'list', { operator: 'prefixed' }));
 
   for (const listReference of listReferences) {
@@ -22,4 +22,8 @@ export const init = (): void => {
 
     valueTarget.textContent = `${collectionItemsCount}`;
   }
+
+  window.fsAttributes[ATTRIBUTE].resolve?.(listReferences);
+
+  return listReferences;
 };
