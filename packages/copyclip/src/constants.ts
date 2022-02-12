@@ -62,12 +62,6 @@ export const ATTRIBUTES = {
    * If applied to the `<script>` tag, all elements will inherit this attribute.
    */
   successClass: { key: `${ATTRIBUTES_PREFIX}-${SUCESSS_CLASS_SETTING_KEY}` },
-
-  /**
-   * Defines a selector for instantiating all queried elements as triggers.
-   * Only applicable to the `<script>` tag.
-   */
-  globalSelector: { key: `${ATTRIBUTES_PREFIX}-${SELECTOR_SETTING_KEY}` },
 } as const;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

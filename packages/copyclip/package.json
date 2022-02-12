@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-copyclip",
-  "version": "1.3.0-beta.0",
+  "version": "1.3.0",
   "description": "Set any element to copy a string value to the clipboard when clicking on it.",
   "main": "copyclip.js",
   "files": [
@@ -35,6 +35,6 @@
   },
   "homepage": "https://www.finsweet.com/attributes",
   "dependencies": {
-    "clipboard": "^2.0.8"
+    "clipboard": "^2.0.10"
   }
 }

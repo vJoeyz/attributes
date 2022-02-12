@@ -3,67 +3,23 @@ import type ClipboardJS from 'clipboard';
 
 import { getInstanceIndex } from '$global/helpers/instances';
 
-import { ATTRIBUTES, DEFAULT_SUCCESS_DURATION, DEFAULT_SUCCESS_CSS_CLASS, getSelector } from './constants';
+import { ATTRIBUTES, DEFAULT_SUCCESS_DURATION, DEFAULT_SUCCESS_CSS_CLASS, getSelector, ATTRIBUTE } from './constants';
 import { createClipboardJsInstance } from './factory';
 
 // Constants destructuring
 const {
   element: { key: elementKey },
   text: { key: textKey },
-  globalSelector: { key: globalSelectorKey },
   successMessage: { key: successMessageKey },
   successDuration: { key: successDurationKey },
   successClass: { key: successClassKey },
 } = ATTRIBUTES;
 
-// Types
-interface Params {
-  selector?: string;
-  targetSelector?: string;
-  text?: string;
-  successMessage?: string;
-  successDuration?: string;
-  successClass?: string;
-}
-
 /**
  * Inits the copy to clipboard functionality.
- *
- * Auto init:
- * @param params The current `<script>` element.
- *
- * Programatic init:
- * @param params.selector A valid CSS selector to query all the triggers.
- * @param params.targetSelector A valid CSS selector to query the target element to copy.
- * @param params.text The text to copy.
- * @param params.successMessage The message that will be displayed on success.
- * @param params.successDuration The duration of the success state.
  */
-export const init = (params?: HTMLOrSVGScriptElement | Params | null): ClipboardJS['destroy'][] => {
-  let globalSelector: string | null | undefined = null;
-  let globalTargetSelector: string | null | undefined = null;
-  let globalText: string | null | undefined = null;
-  let globalSuccessMessage: string | null | undefined = null;
-  let globalSuccessDuration: string | null | undefined = null;
-  let globalSuccessClass: string | null | undefined = null;
-
-  if (params instanceof HTMLScriptElement || params instanceof SVGScriptElement) {
-    globalSelector = params.getAttribute(globalSelectorKey);
-    globalSuccessMessage = params.getAttribute(successMessageKey);
-    globalSuccessDuration = params.getAttribute(successDurationKey);
-    globalSuccessClass = params.getAttribute(successClassKey);
-  } else if (params) {
-    globalSelector = params.selector;
-    globalTargetSelector = params.targetSelector;
-    globalText = params.text;
-    globalSuccessMessage = params.successMessage;
-    globalSuccessDuration = params.successDuration;
-    globalSuccessClass = params.successClass;
-  }
-
-  const copyTriggers = document.querySelectorAll(
-    `${getSelector('element', 'trigger', { operator: 'prefixed' })}${globalSelector ? `, ${globalSelector}` : ''}`
-  );
+export const init = (): [NodeListOf<Element>, ClipboardJS['destroy'][]] => {
+  const copyTriggers = document.querySelectorAll(getSelector('element', 'trigger', { operator: 'prefixed' }));
 
   const destroyCallbacks: ClipboardJS['destroy'][] = [];
 
@@ -71,14 +27,10 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): Clipboard
     if (!(trigger instanceof HTMLElement)) continue;
 
     // Get attributes
-    const textToCopy = trigger.getAttribute(textKey) || globalText;
-    const successMessage = trigger.getAttribute(successMessageKey) || globalSuccessMessage;
-    const successDuration = +(
-      trigger.getAttribute(successDurationKey) ||
-      globalSuccessDuration ||
-      DEFAULT_SUCCESS_DURATION
-    );
-    const successClass = trigger.getAttribute(successClassKey) || globalSuccessClass || DEFAULT_SUCCESS_CSS_CLASS;
+    const textToCopy = trigger.getAttribute(textKey);
+    const successMessage = trigger.getAttribute(successMessageKey);
+    const successDuration = +(trigger.getAttribute(successDurationKey) || DEFAULT_SUCCESS_DURATION);
+    const successClass = trigger.getAttribute(successClassKey) || DEFAULT_SUCCESS_CSS_CLASS;
 
     // Get the instance index
     const instanceIndex = getInstanceIndex(trigger, elementKey);
@@ -88,9 +40,7 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): Clipboard
       getSelector('element', 'sibling', { operator: 'prefixed' })
     );
 
-    const target =
-      siblingTarget ||
-      document.querySelector(globalTargetSelector || getSelector('element', 'target', { instanceIndex }));
+    const target = siblingTarget || document.querySelector(getSelector('element', 'target', { instanceIndex }));
 
     // Store the text node and the original text
     const textNode = findTextNode(trigger);
@@ -111,5 +61,7 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): Clipboard
     );
   }
 
-  return destroyCallbacks;
+  window.fsAttributes[ATTRIBUTE].resolve?.([copyTriggers, destroyCallbacks]);
+
+  return [copyTriggers, destroyCallbacks];
 };
