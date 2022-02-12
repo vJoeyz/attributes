@@ -126,6 +126,18 @@ export const attributesData: AttributesData = [
     changesetsSrc: 'changesets.json',
   },
   {
+    key: 'codehighlight',
+    title: 'Code Highlight',
+    description: 'Display code with syntax highlighting.',
+    href: 'https://www.finsweet.com/attributes/code-highlight',
+    baseSrc: 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-codehighlight@1',
+    scriptSrc: 'codehighlight.js',
+    examplesSrc: 'examples.json',
+    loadMode: 'async',
+    schemaSrc: 'schema.json',
+    changesetsSrc: 'changesets.json',
+  },
+  {
     key: 'copyclip',
     title: 'Copy to clipboard',
     description: 'Set any element to copy a string value to the clipboard when clicking on it.',
