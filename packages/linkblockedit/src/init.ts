@@ -1,42 +1,24 @@
-import { ATTRIBUTES, getSelector } from './constants';
+import { ARIA_LABEL_KEY, ARIA_ROLE_KEY, ARIA_ROLE_VALUES, TABINDEX_KEY } from '$global/constants/a11ty';
 
-interface Params {
-  selector?: string;
-}
+import { ATTRIBUTE, getSelector } from './constants';
 
 /**
  * Inits editor friendly link blocks.
- *
- * Auto init:
- * @param params The current `<script>` element.
- *
- * Programatic init:
- * @param params.selector An optional valid CSS selector for querying the elements.
  */
-export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
-  let globalSelector: string | null | undefined;
-
-  if (params instanceof HTMLScriptElement || params instanceof SVGScriptElement) {
-    globalSelector = params.getAttribute(ATTRIBUTES.selector.key);
-  } else if (params) {
-    globalSelector = params.selector;
-  }
-
-  const elements = document.querySelectorAll<HTMLElement>(
-    `${getSelector('element', 'parent')}${globalSelector ? `, ${globalSelector}` : ''}`
-  );
+export const init = (): NodeListOf<HTMLElement> => {
+  const elements = document.querySelectorAll<HTMLElement>(getSelector('element', 'parent'));
 
   // Make the elements accessible
   for (const element of elements) {
     const anchorElement = element.querySelector('a');
 
     if (anchorElement && anchorElement.href) {
-      element.setAttribute('role', 'link');
-      element.setAttribute('tabindex', '0');
+      element.setAttribute(ARIA_ROLE_KEY, ARIA_ROLE_VALUES.link);
+      element.setAttribute(TABINDEX_KEY, '0');
 
-      anchorElement.setAttribute('tabindex', '-1');
+      anchorElement.setAttribute(TABINDEX_KEY, '-1');
 
-      if (anchorElement.textContent) element.setAttribute('aria-label', anchorElement.textContent);
+      if (anchorElement.textContent) element.setAttribute(ARIA_LABEL_KEY, anchorElement.textContent);
     }
   }
 
@@ -56,4 +38,8 @@ export const init = (params?: HTMLOrSVGScriptElement | Params | null): void => {
 
     return false;
   });
+
+  window.fsAttributes[ATTRIBUTE].resolve?.(elements);
+
+  return elements;
 };

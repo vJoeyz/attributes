@@ -4,6 +4,7 @@ export const ARIA_ROLE_VALUES = {
   listbox: 'listbox',
   option: 'option',
   columnheader: 'columnheader',
+  link: 'link',
 } as const;
 export const TABINDEX_KEY = 'tabindex';
 export const ARIA_LABEL_KEY = 'aria-label';
