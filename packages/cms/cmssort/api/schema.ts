@@ -14,7 +14,7 @@ import {
   ASC_CLASS_SETTING_KEY,
   DESC_CLASS_SETTING_KEY,
   REVERSE_SETTING_KEY,
-} from './../src/constants';
+} from '../src/utils/constants';
 
 export const schema: AttributeSchema = {
   elements: [

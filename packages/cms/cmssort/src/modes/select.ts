@@ -1,8 +1,8 @@
 import type { CMSList } from '$cms/cmscore/src';
 import { normalizePropKey } from '$cms/utils/props';
 
-import { sortListItems } from './sort';
-import type { SortingDirection, SortItemsCallback } from './types';
+import { sortListItems } from '../actions/sort';
+import type { SortingDirection, SortItemsCallback } from '../utils/types';
 
 /**
  * Inits sorting on an `HTMLSelectElement`.

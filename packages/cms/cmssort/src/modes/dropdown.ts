@@ -12,9 +12,15 @@ import {
 } from '$global/constants/a11ty';
 import { closeDropdown } from '$global/helpers/dropdowns';
 
-import { ATTRIBUTES, queryElement } from './constants';
-import { sortListItems } from './sort';
-import type { DropdownLabelData, DropdownOption, DropdownOptions, SortingDirection, SortItemsCallback } from './types';
+import { sortListItems } from '../actions/sort';
+import { ATTRIBUTES, queryElement } from '../utils/constants';
+import type {
+  DropdownLabelData,
+  DropdownOption,
+  DropdownOptions,
+  SortingDirection,
+  SortItemsCallback,
+} from '../utils/types';
 
 const { dropdownToggle: dropdownToggleCSSClass, dropdownList: dropdownListCSSClass } = DROPDOWN_CSS_CLASSES;
 

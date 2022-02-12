@@ -1,7 +1,7 @@
 import type { CMSList } from '$cms/cmscore/src';
 
-import { ATTRIBUTES } from './constants';
-import type { SortItemsCallback } from './types';
+import { ATTRIBUTES } from '../utils/constants';
+import type { SortItemsCallback } from '../utils/types';
 
 // Constants destructuring
 const {
