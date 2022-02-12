@@ -1,13 +1,14 @@
 {
   "name": "@finsweet/attributes-codehighlight",
-  "version": "1.0.0",
+  "version": "1.1.2",
   "description": "Syntax highlighting for your Webflow sites.",
   "main": "codehighlight.js",
   "files": [
     "codehighlight.js",
     "examples.json",
     "schema.json",
-    "changesets.json"
+    "changesets.json",
+    "themes"
   ],
   "type": "module",
   "sideEffects": false,

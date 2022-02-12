@@ -30,3 +30,12 @@ export const ATTRIBUTES = {
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 
 export const HIGHLIGHTJS_VERISON = '11.4.0';
+
+export const HIGHLIGHTJS_SCRIPT_URL = `//cdn.jsdelivr.net/gh/highlightjs/cdn-release@${HIGHLIGHTJS_VERISON}/build/highlight.min.js`;
+
+export const HIGHLIGHTJS_THEME_URL = (theme: string) =>
+  `//cdn.jsdelivr.net/gh/highlightjs/cdn-release@${HIGHLIGHTJS_VERISON}/build/styles/${theme}.min.css`;
+
+export const HIGHLIGHTJS_CUSTOM_THEMES: Record<string, string> = {
+  webflow: 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-codehighlight@1/themes/webflow.css',
+};

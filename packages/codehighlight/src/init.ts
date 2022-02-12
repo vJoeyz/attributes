@@ -1,6 +1,6 @@
 import { ATTRIBUTE as RICH_TEXT_ATTRIBUTE } from 'packages/richtext/src/utils/constants';
 
-import { importHighlightJS } from './actions/import';
+import { importHighlightJS, importHighlightJSTheme } from './actions/import';
 import { ATTRIBUTE, ATTRIBUTES, getSelector } from './utils/constants';
 
 /**
@@ -18,7 +18,8 @@ export const init = async (): Promise<(HTMLElement | undefined)[]> => {
     return theme;
   }, null);
 
-  await importHighlightJS(theme);
+  importHighlightJSTheme(theme);
+  await importHighlightJS();
 
   const codeElements = referenceElements.map(initHighlight);
 

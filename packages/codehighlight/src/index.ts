@@ -2,6 +2,7 @@ import { assessScript } from '$global/factory/assess';
 import { initAttributes } from '$global/factory/init';
 
 import { version } from '../package.json';
+import { importHighlightJS } from './actions/import';
 import { init } from './init';
 import { ATTRIBUTE } from './utils/constants';
 
@@ -9,6 +10,7 @@ import { ATTRIBUTE } from './utils/constants';
  * Init
  */
 initAttributes();
+importHighlightJS();
 
 window.fsAttributes[ATTRIBUTE] ||= {};
 
