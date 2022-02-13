@@ -21,7 +21,7 @@ export const init = async (): Promise<(HTMLElement | undefined)[]> => {
   importHighlightJSTheme(theme);
   await importHighlightJS();
 
-  const codeElements = referenceElements.map(initHighlight);
+  const codeElements = initHighlight(referenceElements);
 
   window.fsAttributes[ATTRIBUTE].resolve?.(codeElements);
 
@@ -30,14 +30,20 @@ export const init = async (): Promise<(HTMLElement | undefined)[]> => {
 
 /**
  * Inits the code highlighting.
- * @param referenceElement The reference element that holds the `<code>` tag.
- * @returns The `<code>` element.
+ * @param referenceElements The reference elements that hold the `<code>` tags.
+ * @returns The highlighted `<code>` elements.
  */
-const initHighlight = (referenceElement: HTMLElement) => {
-  const codeElement = referenceElement.tagName === 'CODE' ? referenceElement : referenceElement.querySelector('code');
-  if (!codeElement) return;
+const initHighlight = (referenceElements: HTMLElement[]) => {
+  const codeElements = referenceElements.reduce<HTMLElement[]>((acc, referenceElement) => {
+    const elements =
+      referenceElement.tagName === 'CODE' ? [referenceElement] : referenceElement.querySelectorAll('code');
 
-  window.hljs.highlightElement(codeElement);
+    acc.push(...elements);
 
-  return codeElement;
+    return acc;
+  }, []);
+
+  for (const codeElement of codeElements) window.hljs.highlightElement(codeElement);
+
+  return codeElements;
 };
