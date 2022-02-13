@@ -134,6 +134,7 @@ const showItems = (itemsToAnchor: AnchorData[], { list, itemsAnimation }: CMSLis
           };
 
           prepareIn(element, settings);
+          iOSReRenderImages(element);
           resolveRendering();
 
           if (stagger) await wait(stagger * actionIndex);
@@ -143,6 +144,7 @@ const showItems = (itemsToAnchor: AnchorData[], { list, itemsAnimation }: CMSLis
           if (anchorElement) list.insertBefore(element, anchorElement.nextSibling);
           else list.prepend(element);
 
+          iOSReRenderImages(element);
           resolveRendering();
         }
 
@@ -154,4 +156,16 @@ const showItems = (itemsToAnchor: AnchorData[], { list, itemsAnimation }: CMSLis
 
     item.currentIndex = newIndex;
   });
+};
+
+/**
+ * Re-renders images to fix Safari issues with [srcset] attributes.
+ * @param element The Collection List Item element.
+ */
+const iOSReRenderImages = (element: HTMLDivElement) => {
+  if (!/apple/i.test(navigator.vendor)) return;
+
+  const images = element.querySelectorAll('img');
+
+  for (const image of images) image.outerHTML = image.outerHTML;
 };
