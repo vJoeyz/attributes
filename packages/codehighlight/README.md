@@ -8,3 +8,8 @@ Syntax highlighting for your Webflow sites.
 <!-- [Attributes by Finsweet] Code Highlight -->
 <script defer src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-codehighlight@1/codehighlight.js"></script>
 ```
+
+```html
+<!-- [Attributes by Finsweet] Code Highlight Webflow Theme -->
+<script defer src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-codehighlight@1/themes/webflow.css"></script>
+```
