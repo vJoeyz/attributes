@@ -1,4 +1,4 @@
-import { init as cmsloadInit } from '$cms/cmsload/src/init';
+import type { CMSList } from '$cms/cmscore/src';
 
 import { attributesData } from '../../api/attributes';
 import { createChangesetElement } from './dom';
@@ -9,39 +9,40 @@ import { initAttributeSelect } from './select';
 /**
  * Init
  */
-window.Webflow ||= [];
-window.Webflow.push(async () => {
-  const listInstances = await cmsloadInit();
+window.fsAttributes = window.fsAttributes || [];
+window.fsAttributes.push([
+  'cmsload',
+  async (listInstances) => {
+    const [listInstance] = listInstances as CMSList[];
+    if (!listInstance) return;
 
-  const [listInstance] = listInstances;
-  if (!listInstance) return;
+    const [{ element: templateElement }] = listInstance.items;
 
-  const [{ element: templateElement }] = listInstance.items;
+    listInstance.clearItems?.(true);
 
-  listInstance.clearItems?.(true);
+    const addSelectOption = initAttributeSelect();
 
-  const addSelectOption = initAttributeSelect();
+    await Promise.all(
+      attributesData.map(async (attributeData) => {
+        const { title } = attributeData;
 
-  await Promise.all(
-    attributesData.map(async (attributeData) => {
-      const { title } = attributeData;
+        addSelectOption(title);
 
-      addSelectOption(title);
+        const changesets = await getAttributeChangesets(attributeData);
+        if (!changesets) return;
 
-      const changesets = await getAttributeChangesets(attributeData);
-      if (!changesets) return;
+        const newElements: HTMLDivElement[] = [];
 
-      const newElements: HTMLDivElement[] = [];
+        for (const changeset of changesets) {
+          const newElement = createChangesetElement(attributeData, changeset, templateElement);
 
-      for (const changeset of changesets) {
-        const newElement = createChangesetElement(attributeData, changeset, templateElement);
+          newElements.push(newElement);
+        }
 
-        newElements.push(newElement);
-      }
+        await listInstance.addItems(newElements);
+      })
+    );
 
-      await listInstance.addItems(newElements);
-    })
-  );
-
-  hideLoader();
-});
+    hideLoader();
+  },
+]);

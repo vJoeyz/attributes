@@ -1,5 +1,4 @@
-import { ATTRIBUTES as COPYCLIP_ATTRIBUTES } from '@finsweet/attributes-copyclip/src/constants';
-import { init } from '@finsweet/attributes-copyclip/src/init';
+import { ATTRIBUTE as COPYCLIP_ATTRIBUTE, ATTRIBUTES as COPYCLIP_ATTRIBUTES } from 'packages/copyclip/src/constants';
 
 import { queryElement } from '../utils/constants';
 
@@ -11,9 +10,13 @@ export const initCopyScriptButton = (copyCode: string): void => {
   const element = queryElement<HTMLAnchorElement>('copyScript');
   if (!element) return;
 
-  element.setAttribute(COPYCLIP_ATTRIBUTES.element.key, 'click');
-  element.setAttribute(COPYCLIP_ATTRIBUTES.text.key, copyCode);
-  element.setAttribute(COPYCLIP_ATTRIBUTES.successMessage.key, 'Copied!');
+  for (const [key, value] of [
+    [COPYCLIP_ATTRIBUTES.element.key, COPYCLIP_ATTRIBUTES.element.values.trigger],
+    [COPYCLIP_ATTRIBUTES.text.key, copyCode],
+    [COPYCLIP_ATTRIBUTES.successMessage.key, 'Copied!'],
+  ]) {
+    element.setAttribute(key, value);
+  }
 
-  init();
+  window.fsAttributes[COPYCLIP_ATTRIBUTE].init?.();
 };

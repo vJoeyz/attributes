@@ -1,9 +1,9 @@
-import hljs from 'highlight.js/lib/core';
-import xml from 'highlight.js/lib/languages/xml';
+import {
+  ATTRIBUTE as CODEHIGHLIGHT_ATTRIBUTE,
+  ATTRIBUTES as CODEHIGHLIGHT_ATTRIBUTES,
+} from 'packages/codehighlight/src/utils/constants';
 
 import { queryElement } from '../utils/constants';
-
-hljs.registerLanguage('xml', xml);
 
 /**
  * Inits rendering and highlighting the Attribute import script.
@@ -19,9 +19,11 @@ export const initCodeHighlight = (copyCode: string) => {
   preElement.appendChild(codeElement);
   embedElement.appendChild(preElement);
 
+  embedElement.setAttribute(CODEHIGHLIGHT_ATTRIBUTES.element.key, CODEHIGHLIGHT_ATTRIBUTES.element.values.code);
+
   codeElement.innerHTML = copyCode.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt');
 
-  hljs.highlightElement(codeElement);
+  window.fsAttributes[CODEHIGHLIGHT_ATTRIBUTE].init?.();
 
   return codeElement;
 };
