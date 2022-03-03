@@ -13,6 +13,7 @@ import {
   MODE_SETTING_VALUES,
   PAGE_BOUNDARY_SETTING_KEY,
   PAGE_BUTTON_ELEMENT_KEY,
+  PAGE_COUNT_ELEMENT_KEY,
   PAGE_DOTS_ELEMENT_KEY,
   PAGE_SIBLINGS_SETTING_KEY,
   RESET_IX_SETTING_KEY,
@@ -48,6 +49,19 @@ export const schema: AttributeSchema = {
     {
       key: ITEMS_COUNT_ELEMENT_KEY,
       description: 'Defines an element where to display the total items of the list.',
+      required: false,
+      appliedTo: [],
+      requiresInstance: true,
+      conditions: [
+        {
+          type: 'exists',
+          element: LIST_ELEMENT_KEY,
+        },
+      ],
+    },
+    {
+      key: PAGE_COUNT_ELEMENT_KEY,
+      description: 'Defines an element where to display the amount of items per page.',
       required: false,
       appliedTo: [],
       requiresInstance: true,

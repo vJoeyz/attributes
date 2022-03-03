@@ -1,7 +1,6 @@
 import throttle from 'just-throttle';
 
 import type { CMSList } from '$cms/cmscore/src';
-import { checkCMSCoreVersion } from '$cms/utils/versioning';
 
 import { loadPaginatedItems } from '../actions/load';
 import { incrementItemsPerPage } from '../actions/pagination';
@@ -31,9 +30,7 @@ export const initInfiniteMode = async (listInstance: CMSList): Promise<void> => 
   let isLoading = true;
   let isHandling = false;
 
-  // TODO: Remove this check after one week
-  if (checkCMSCoreVersion('>=', '1.5.0')) listInstance.initPagination();
-  else listInstance.currentPage = 1;
+  listInstance.initPagination();
 
   listInstance.on('renderitems', () => {
     const { validItems, items, itemsPerPage: currentItemsPerPage } = listInstance;
