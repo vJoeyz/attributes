@@ -1,6 +1,7 @@
 import type { PartialAttributeChangesets } from '$global/types/changesets';
 
 export const changesets: PartialAttributeChangesets = [
+  { version: 'v1.6.0', date: '03 March 2022' },
   { version: 'v1.5.7', date: '13 February 2022' },
   { version: 'v1.5.6', date: '19 January 2022' },
   { version: 'v1.5.5', date: '19 December 2021' },

@@ -58,6 +58,11 @@ export class CMSList extends Emittery<CMSListEvents> {
   public itemsCount?: HTMLElement;
 
   /**
+   * An element that displays the amount of items per page.
+   */
+  public pageCount?: HTMLElement;
+
+  /**
    * A custom `Initial State` element.
    */
   public initialElement?: HTMLElement | null;
@@ -242,8 +247,6 @@ export class CMSList extends Emittery<CMSListEvents> {
 
     for (const array of [items, originalItemsOrder]) array[method](...newItems);
 
-    updateItemsCount(this);
-
     await this.emit('shouldnest', newItems);
     await this.emit('shouldcollectprops', newItems);
     await this.emit('shouldsort', newItems);
@@ -418,13 +421,29 @@ export class CMSList extends Emittery<CMSListEvents> {
    * @param element The element to add.
    */
   public addItemsCount(element: HTMLElement) {
-    const { itemsCount } = this;
-
-    if (itemsCount) return;
+    if (this.itemsCount) return;
 
     this.itemsCount = element;
 
-    updateItemsCount(this);
+    const update = () => updateItemsCount(element, this.items.length);
+
+    update();
+    this.on('additems', update);
+  }
+
+  /**
+   * Adds an `Page Count` element to the list.
+   * @param element The element to add.
+   */
+  public addPageCount(element: HTMLElement) {
+    if (this.pageCount) return;
+
+    this.pageCount = element;
+
+    const update = () => updateItemsCount(element, Math.min(this.itemsPerPage, this.validItems.length));
+
+    update();
+    this.on('renderitems', update);
   }
 
   /**
