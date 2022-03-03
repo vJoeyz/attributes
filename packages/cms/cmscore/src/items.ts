@@ -1,9 +1,8 @@
-import { CMSList } from '.';
-
 /**
- * Updates the {@link CMSList.itemsCount} element with the total amount of items.
- * @param listInstance A {@link CMSList} instance.
+ * Updates an element's content with an items count.
+ * @param element The element to update.
+ * @count The items count value.
  */
-export const updateItemsCount = ({ itemsCount, items }: CMSList) => {
-  if (itemsCount) itemsCount.textContent = `${items.length}`;
+export const updateItemsCount = (element: HTMLElement, count: number) => {
+  element.textContent = `${count}`;
 };

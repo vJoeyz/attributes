@@ -2,7 +2,6 @@ import { cloneNode, CMS_CSS_CLASSES, CURRENT_CSS_CLASS, isNotEmpty } from '@fins
 import debounce from 'just-debounce';
 
 import type { CMSList } from '$cms/cmscore/src';
-import { checkCMSCoreVersion } from '$cms/utils/versioning';
 
 import { loadPaginatedItems } from '../actions/load';
 import { handlePaginationButtons, updatePaginationCount } from '../actions/pagination';
@@ -54,9 +53,7 @@ export const initPaginationMode = async (listInstance: CMSList): Promise<void> =
   }
 
   // Set initial state
-  // TODO: Remove this check after one week
-  if (checkCMSCoreVersion('>=', '1.5.0')) listInstance.initPagination(showQueryParams);
-  else await listInstance.switchPage(1, false);
+  listInstance.initPagination(showQueryParams);
 
   //  Listen events
   listInstance.on('renderitems', () => handleElements(listInstance, pageButtonsData, paginationCount));

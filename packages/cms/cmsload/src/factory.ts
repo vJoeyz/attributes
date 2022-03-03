@@ -2,6 +2,7 @@ import { COMMERCE_CSS_CLASSES, LIGHTBOX_CSS_CLASSES } from '@finsweet/ts-utils';
 
 import type { CMSList } from '$cms/cmscore/src';
 import { addItemsAnimation, addListAnimation } from '$cms/utils/animation';
+import { checkCMSCoreVersion } from '$cms/utils/versioning';
 
 import { initDefaultMode } from './modes/default';
 import { initInfiniteMode } from './modes/infinite';
@@ -66,6 +67,13 @@ export const initLoadInstance = async (listInstance: CMSList) => {
   if (!listInstance.itemsCount) {
     const itemsCount = queryElement<HTMLElement>('itemsCount', { instanceIndex });
     if (itemsCount) listInstance.addItemsCount(itemsCount);
+  }
+
+  // Get page count element
+  if (!listInstance.pageCount) {
+    const pageCount = queryElement<HTMLElement>('pageCount', { instanceIndex });
+    // TODO: Remove this check after 1 week
+    if (pageCount && checkCMSCoreVersion('>=', '1.6.0')) listInstance.addPageCount(pageCount);
   }
 
   // Get scroll anchor

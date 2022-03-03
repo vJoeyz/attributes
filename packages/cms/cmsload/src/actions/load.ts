@@ -1,9 +1,5 @@
-import type { PaginationButtonElement } from '@finsweet/ts-utils';
-
 import type { CMSList } from '$cms/cmscore/src';
 import { fetchPageDocument } from '$cms/utils/fetch';
-import { extractPaginationQuery } from '$cms/utils/pagination';
-import { checkCMSCoreVersion } from '$cms/utils/versioning';
 
 import { readPaginationCount } from './pagination';
 import { parseLoadedPage } from './parse';
@@ -44,7 +40,7 @@ export const loadPaginatedItems = async (listInstance: CMSList): Promise<void> =
 const chainedPagesLoad = async (listInstance: CMSList): Promise<void> => {
   const { paginationNext, currentPage } = listInstance;
 
-  if (currentPage && checkCMSCoreVersion('>=', '1.5.0')) await parallelItemsLoad(listInstance, currentPage);
+  if (currentPage) await parallelItemsLoad(listInstance, currentPage);
 
   if (!paginationNext) return;
 
@@ -89,19 +85,7 @@ const parallelItemsLoad = async (listInstance: CMSList, totalPages: number) => {
 
   if (!paginationNext && !paginationPrevious) return;
 
-  let pagesQuery: string | undefined;
-  let currentPage: number | undefined;
-
-  // TODO: Remove this check after `cmscore 1.5.0` has rolled out.
-  if (checkCMSCoreVersion('>=', '1.5.0')) ({ pagesQuery, currentPage } = listInstance);
-  else {
-    const paginationQuery = extractPaginationQuery((paginationNext || paginationPrevious) as PaginationButtonElement);
-    if (!paginationQuery) return;
-
-    [pagesQuery] = paginationQuery;
-    currentPage = paginationNext ? paginationQuery[1] - 1 : paginationQuery[1] + 1;
-  }
-
+  const { pagesQuery, currentPage } = listInstance;
   if (!pagesQuery || !currentPage) return;
 
   const { origin, pathname } = window.location;
