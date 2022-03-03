@@ -58,9 +58,9 @@ export class CMSList extends Emittery<CMSListEvents> {
   public itemsCount?: HTMLElement;
 
   /**
-   * An element that displays the amount of items per page.
+   * An element that displays the amount of visible items.
    */
-  public pageCount?: HTMLElement;
+  public visibleCount?: HTMLElement;
 
   /**
    * A custom `Initial State` element.
@@ -432,13 +432,13 @@ export class CMSList extends Emittery<CMSListEvents> {
   }
 
   /**
-   * Adds an `Page Count` element to the list.
+   * Adds a `Visible Count` element to the list.
    * @param element The element to add.
    */
-  public addPageCount(element: HTMLElement) {
-    if (this.pageCount) return;
+  public addVisibleCount(element: HTMLElement) {
+    if (this.visibleCount) return;
 
-    this.pageCount = element;
+    this.visibleCount = element;
 
     const update = () => updateItemsCount(element, Math.min(this.itemsPerPage, this.validItems.length));
 
@@ -473,6 +473,7 @@ export class CMSList extends Emittery<CMSListEvents> {
    */
   public getInstanceIndex(key: string): number | undefined {
     const { wrapper, list } = this;
+
     return getInstanceIndex(wrapper, key) || (list ? getInstanceIndex(list, key) : undefined);
   }
 }
