@@ -9,7 +9,7 @@ const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
 export const LIST_ELEMENT_KEY = 'list';
 export const LOADER_ELEMENT_KEY = 'loader';
 export const ITEMS_COUNT_ELEMENT_KEY = 'items-count';
-export const PAGE_COUNT_ELEMENT_KEY = 'page-count';
+export const VISIBLE_COUNT_ELEMENT_KEY = 'visible-count';
 export const SCROLL_ANCHOR_ELEMENT_KEY = 'scroll-anchor';
 export const PAGE_BUTTON_ELEMENT_KEY = 'page-button';
 export const PAGE_DOTS_ELEMENT_KEY = 'page-dots';
@@ -69,9 +69,9 @@ export const ATTRIBUTES = {
       itemsCount: generateDynamicAttibuteValue(ITEMS_COUNT_ELEMENT_KEY),
 
       /**
-       * Defines an element where to display the amount of items per page.
+       * Defines an element where to display the amount of visible items.
        */
-      pageCount: generateDynamicAttibuteValue(PAGE_COUNT_ELEMENT_KEY),
+      visibleCount: generateDynamicAttibuteValue(VISIBLE_COUNT_ELEMENT_KEY),
 
       /**
        * Defines an element where to scroll the view every time a page in `Pagination` mode is switched.

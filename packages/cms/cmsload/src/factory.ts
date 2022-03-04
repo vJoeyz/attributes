@@ -70,10 +70,10 @@ export const initLoadInstance = async (listInstance: CMSList) => {
   }
 
   // Get page count element
-  if (!listInstance.pageCount) {
-    const pageCount = queryElement<HTMLElement>('pageCount', { instanceIndex });
+  if (!listInstance.visibleCount) {
+    const visibleCount = queryElement<HTMLElement>('visibleCount', { instanceIndex });
     // TODO: Remove this check after 1 week
-    if (pageCount && checkCMSCoreVersion('>=', '1.6.0')) listInstance.addPageCount(pageCount);
+    if (visibleCount && checkCMSCoreVersion('>=', '1.6.1')) listInstance.addVisibleCount(visibleCount);
   }
 
   // Get scroll anchor
