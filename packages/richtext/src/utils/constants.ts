@@ -7,7 +7,7 @@ const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
 export const RICH_TEXT_ELEMENT_KEY = 'rich-text';
 export const COMPONENT_SETTING_KEY = 'component';
 export const SANITIZE_SETTING_KEY = 'sanitize';
-export const RESET_IX_SETTING_KEY = 'reset-ix';
+export const RESET_IX_SETTING_KEY = 'resetix';
 
 export const ATTRIBUTES = {
   element: {
