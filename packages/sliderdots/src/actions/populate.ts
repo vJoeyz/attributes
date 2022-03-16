@@ -27,6 +27,8 @@ export const populateSliderDots = (slider: SliderElement, customSliderNav: HTMLE
     const dot = dots[index];
     if (!dot) return;
 
+    dot.style.display = 'none';
+
     const customDotElement = queryElement<HTMLElement>('content', { operator: 'prefixed', scope: slide });
     if (!customDotElement) return;
 

@@ -27,7 +27,7 @@ export const createSliderDots = async (slider: SliderElement) => {
   const instanceIndex = getInstanceIndex(slider, elementKey);
 
   const sliderNav = slider.querySelector<SliderNavElement>(`.${SLIDER_CSS_CLASSES.sliderNav}`);
-  const customSliderNav = queryElement<HTMLElement>('sliderNav', { instanceIndex });
+  const customSliderNav = queryElement<HTMLElement>('sliderNav', { instanceIndex }) || sliderNav;
 
   if (!sliderNav || !customSliderNav) return;
 
