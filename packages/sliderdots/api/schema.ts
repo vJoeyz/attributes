@@ -34,7 +34,8 @@ export const schema: AttributeSchema = {
     },
     {
       key: SLIDER_NAV_ELEMENT_KEY,
-      description: 'Defines a custom Slide Nav.',
+      description:
+        "Defines a custom Slider Nav. If this attribute is not added, the Slider's original Nav will be used instead.",
       required: false,
       requiresInstance: true,
       appliedTo: [],
