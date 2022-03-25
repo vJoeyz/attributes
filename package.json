@@ -57,24 +57,24 @@
     "build:cms": "npm run build -w=packages/cms/cmscombine -w=packages/cms/cmscore -w=packages/cms/cmscss -w=packages/cms/cmsfilter -w=packages/cms/cmsload -w=packages/cms/cmsnest -w=packages/cms/cmspagination -w=packages/cms/cmsprevnext -w=packages/cms/cmssave -w=packages/cms/cmsselect -w=packages/cms/cmsslider -w=packages/cms/cmssort -w=packages/cms/cmstabs"
   },
   "devDependencies": {
-    "@finsweet/eslint-config": "^1.1.2",
-    "@trivago/prettier-plugin-sort-imports": "^3.1.1",
-    "@typescript-eslint/eslint-plugin": "^5.10.1",
-    "@typescript-eslint/parser": "^5.10.1",
+    "@finsweet/eslint-config": "^1.1.4",
+    "@trivago/prettier-plugin-sort-imports": "^3.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.16.0",
+    "@typescript-eslint/parser": "^5.16.0",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.14.13",
-    "eslint": "^8.7.0",
-    "eslint-config-prettier": "^8.3.0",
+    "esbuild": "^0.14.27",
+    "eslint": "^8.11.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "prettier": "^2.5.1",
+    "prettier": "^2.6.1",
     "serve": "^13.0.2",
-    "typescript": "^4.5.5"
+    "typescript": "^4.6.3"
   },
   "dependencies": {
-    "@finsweet/ts-utils": "^0.31.2",
-    "emittery": "^0.10.0",
+    "@finsweet/ts-utils": "^0.31.3",
+    "emittery": "^0.10.1",
     "just-debounce": "^1.1.0",
     "just-throttle": "^4.0.1",
-    "nanostores": "^0.5.8"
+    "nanostores": "^0.5.12"
   }
 }
