@@ -1,4 +1,4 @@
-import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
+import { COLLECTION_ITEM, TEXT_ELEMENT, SELECT } from '$global/constants/webflow-selectors';
 
 import type { AttributeSchema } from '$global/types/schema';
 
@@ -9,26 +9,28 @@ export const schema: AttributeSchema = {
     {
       key: TEXT_VALUE_ELEMENT_KEY,
       description: 'Defines the elements as the source to populate the target.',
-      appliedTo: ['p'],
+      appliedTo: [TEXT_ELEMENT],
       conditions: [
         {
           type: 'isChildOf',
-          selector: `.${CMS_CSS_CLASSES.item}`,
+          selector: COLLECTION_ITEM,
         },
       ],
+      multiplesInInstance: true,
       required: true,
       requiresInstance: true,
     },
     {
       key: SELECT_ELEMENT_KEY,
       description: 'Defines the element as the target to be populated.',
-      appliedTo: ['select'],
+      appliedTo: [SELECT],
       conditions: [
         {
           type: 'exists',
           element: TEXT_VALUE_ELEMENT_KEY,
         },
       ],
+      multiplesInInstance: false,
       required: true,
       requiresInstance: true,
     },

@@ -38,7 +38,7 @@ export const ATTRIBUTES = {
   },
 
   /**
-   * Defines the text that will be success to the clipboard.
+   * Defines the text that will be copied to the clipboard.
    */
   text: { key: `${ATTRIBUTES_PREFIX}-${TEXT_SETTING_KEY}` },
 

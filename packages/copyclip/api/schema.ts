@@ -1,3 +1,12 @@
+import {
+  BUTTON,
+  LINK_BLOCK,
+  TEXT_LINK,
+  DIV_BLOCK,
+  TEXT_BLOCK,
+  PARAGRAPH,
+  HEADING,
+} from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
 import {
@@ -20,7 +29,8 @@ export const schema: AttributeSchema = {
       description: 'Defines an element to act as the copy trigger.',
       required: true,
       requiresInstance: true,
-      appliedTo: ['button', 'div', 'a'],
+      multiplesInInstance: true,
+      appliedTo: [BUTTON, LINK_BLOCK, TEXT_LINK, DIV_BLOCK],
       conditions: [],
     },
     {
@@ -28,7 +38,8 @@ export const schema: AttributeSchema = {
       description: 'Defines an element to act as the copy target.',
       required: false,
       requiresInstance: true,
-      appliedTo: ['p', 'span', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a'],
+      multiplesInInstance: false,
+      appliedTo: [TEXT_BLOCK, PARAGRAPH, HEADING],
       conditions: [
         {
           type: 'exists',
@@ -41,7 +52,8 @@ export const schema: AttributeSchema = {
       description: 'Defines a sibling element to act as the copy target.',
       required: false,
       requiresInstance: false,
-      appliedTo: ['p', 'span', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a'],
+      appliedTo: [TEXT_BLOCK, PARAGRAPH, HEADING],
+      multiplesInInstance: false,
       conditions: [
         {
           type: 'isSiblingOf',
@@ -53,7 +65,7 @@ export const schema: AttributeSchema = {
   settings: [
     {
       key: TEXT_SETTING_KEY,
-      description: 'Defines the text that will be success to the clipboard.',
+      description: 'Defines the text that will be copied to the clipboard.',
       appliedTo: {
         elements: [TRIGGER_ELEMENT_KEY],
       },

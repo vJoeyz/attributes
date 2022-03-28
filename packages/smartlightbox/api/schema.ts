@@ -1,3 +1,4 @@
+import { DIV_BLOCK, LIGHTBOX, LINK_BLOCK, TEXT_LINK, BUTTON } from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
 import {
@@ -22,7 +23,8 @@ export const schema: AttributeSchema = {
           element: TRIGGER_OPEN_ELEMENT_KEY,
         },
       ],
-      appliedTo: [],
+      appliedTo: [DIV_BLOCK, LIGHTBOX],
+      multiplesInInstance: false,
     },
     {
       key: TRIGGER_OPEN_ELEMENT_KEY,
@@ -30,7 +32,8 @@ export const schema: AttributeSchema = {
       required: true,
       requiresInstance: true,
       conditions: [],
-      appliedTo: [],
+      appliedTo: [BUTTON, DIV_BLOCK, TEXT_LINK, LINK_BLOCK],
+      multiplesInInstance: false,
     },
     {
       key: TRIGGER_CLOSE_ELEMENT_KEY,
@@ -38,7 +41,8 @@ export const schema: AttributeSchema = {
       required: true,
       requiresInstance: true,
       conditions: [],
-      appliedTo: [],
+      appliedTo: [BUTTON, DIV_BLOCK, TEXT_LINK, LINK_BLOCK],
+      multiplesInInstance: false,
     },
     {
       key: TRIGGER_TOGGLE_ELEMENT_KEY,
@@ -46,7 +50,8 @@ export const schema: AttributeSchema = {
       required: true,
       requiresInstance: true,
       conditions: [],
-      appliedTo: [],
+      appliedTo: [BUTTON, DIV_BLOCK, TEXT_LINK, LINK_BLOCK],
+      multiplesInInstance: false,
     },
   ],
   settings: [

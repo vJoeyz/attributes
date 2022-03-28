@@ -1,5 +1,12 @@
-import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
-
+import {
+  COLLECTION_LIST,
+  COLLECTION_LIST_WRAPPER,
+  DIV_BLOCK,
+  LINK_BLOCK,
+  TEXT_ELEMENT,
+  TEXT_LINK,
+  BUTTON,
+} from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
 import {
@@ -16,8 +23,9 @@ export const schema: AttributeSchema = {
       key: LIST_ELEMENT_KEY,
       description: 'Defines a list to be combined into the target.',
       conditions: [],
-      appliedTo: [`.${CMS_CSS_CLASSES.wrapper}`, `.${CMS_CSS_CLASSES.list}`],
+      appliedTo: [COLLECTION_LIST, COLLECTION_LIST_WRAPPER],
       required: true,
+      multiplesInInstance: false,
       requiresInstance: false,
     },
     {
@@ -29,7 +37,8 @@ export const schema: AttributeSchema = {
           element: LIST_ELEMENT_KEY,
         },
       ],
-      appliedTo: ['div'],
+      multiplesInInstance: false,
+      appliedTo: [DIV_BLOCK],
       required: true,
       requiresInstance: false,
     },
@@ -42,7 +51,8 @@ export const schema: AttributeSchema = {
           element: LIST_ELEMENT_KEY,
         },
       ],
-      appliedTo: ['div', 'p', 'span', 'button', 'a'],
+      multiplesInInstance: false,
+      appliedTo: [DIV_BLOCK, TEXT_ELEMENT, BUTTON, LINK_BLOCK, TEXT_LINK],
       required: false,
       requiresInstance: false,
     },
@@ -55,7 +65,8 @@ export const schema: AttributeSchema = {
           element: LIST_ELEMENT_KEY,
         },
       ],
-      appliedTo: ['div'],
+      multiplesInInstance: false,
+      appliedTo: [DIV_BLOCK],
       required: true,
       requiresInstance: false,
     },
@@ -68,7 +79,8 @@ export const schema: AttributeSchema = {
           element: LIST_ELEMENT_KEY,
         },
       ],
-      appliedTo: ['div', 'p', 'span', 'button', 'a'],
+      appliedTo: [DIV_BLOCK, TEXT_ELEMENT, BUTTON, LINK_BLOCK, TEXT_LINK],
+      multiplesInInstance: false,
       required: false,
       requiresInstance: false,
     },

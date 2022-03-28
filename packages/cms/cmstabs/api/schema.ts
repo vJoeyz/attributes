@@ -1,36 +1,43 @@
-import { CMS_CSS_CLASSES, TABS_CSS_CLASSES } from '@finsweet/ts-utils';
-
+import {
+  COLLECTION_LIST,
+  COLLECTION_LIST_WRAPPER,
+  DIV_BLOCK,
+  TABS,
+  TEXT_BLOCK,
+} from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
-import { LIST_ELEMENT_KEY, TABS_ELEMENT_KEY, TAB_LINK_ELEMENT_KEY } from '../src/utils/constants';
+import { LIST_ELEMENT_KEY, TABS_ELEMENT_KEY, TAB_LINK_ELEMENT_KEY, RESET_IX_SETTING_KEY } from '../src/utils/constants';
 
 export const schema: AttributeSchema = {
   elements: [
     {
       key: LIST_ELEMENT_KEY,
       description: 'Defines a list to be included into the target tabs.',
-      appliedTo: [`.${CMS_CSS_CLASSES.list}`, `.${CMS_CSS_CLASSES.wrapper}`],
+      appliedTo: [COLLECTION_LIST, COLLECTION_LIST_WRAPPER],
       conditions: [],
+      multiplesInInstance: false,
       required: true,
       requiresInstance: true,
     },
     {
       key: TABS_ELEMENT_KEY,
       description: 'Defines the target tabs where all lists will be included into.',
-      appliedTo: [`.${TABS_CSS_CLASSES.tabs}`],
+      appliedTo: [TABS],
       conditions: [
         {
           type: 'exists',
           element: LIST_ELEMENT_KEY,
         },
       ],
+      multiplesInInstance: false,
       required: true,
       requiresInstance: true,
     },
     {
       key: TAB_LINK_ELEMENT_KEY,
       description: 'Defines the content that will be placed inside the generated `Tab Link` in the `Tabs Menu`.',
-      appliedTo: ['div', 'p'],
+      appliedTo: [DIV_BLOCK, TEXT_BLOCK],
       conditions: [
         {
           type: 'isChildOf',
@@ -41,9 +48,23 @@ export const schema: AttributeSchema = {
           element: TABS_ELEMENT_KEY,
         },
       ],
+      multiplesInInstance: false,
       required: true,
       requiresInstance: true,
     },
   ],
-  settings: [],
+  settings: [
+    {
+      key: RESET_IX_SETTING_KEY,
+      description: 'Defines if Webflow should be restarted after populating the tabs.',
+      appliedTo: {
+        elements: [TABS_ELEMENT_KEY],
+      },
+      conditions: [],
+      value: {
+        type: 'boolean',
+        default: 'true',
+      },
+    },
+  ],
 };

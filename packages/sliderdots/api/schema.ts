@@ -1,3 +1,13 @@
+import {
+  SLIDER,
+  DIV_BLOCK,
+  TEXT_BLOCK,
+  BUTTON,
+  LINK_BLOCK,
+  EMBED_CODE,
+  IMAGE,
+  SLIDER_NAV,
+} from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
 import {
@@ -16,7 +26,8 @@ export const schema: AttributeSchema = {
       description: 'Defines a slider to instantiate.',
       required: true,
       requiresInstance: true,
-      appliedTo: ['.w-slider'],
+      multiplesInInstance: false,
+      appliedTo: [SLIDER],
       conditions: [],
     },
     {
@@ -24,7 +35,8 @@ export const schema: AttributeSchema = {
       description: 'Defines the content to be added to the slider dot.',
       required: true,
       requiresInstance: false,
-      appliedTo: [],
+      multiplesInInstance: false,
+      appliedTo: [DIV_BLOCK, TEXT_BLOCK, BUTTON, LINK_BLOCK, EMBED_CODE, IMAGE],
       conditions: [
         {
           type: 'isChildOf',
@@ -38,7 +50,8 @@ export const schema: AttributeSchema = {
         "Defines a custom Slider Nav. If this attribute is not added, the Slider's original Nav will be used instead.",
       required: false,
       requiresInstance: true,
-      appliedTo: [],
+      multiplesInInstance: false,
+      appliedTo: [SLIDER_NAV],
       conditions: [
         {
           type: 'exists',
@@ -64,7 +77,7 @@ export const schema: AttributeSchema = {
       key: REMOVE_SETTING_KEY,
       description: 'Defines if the content should be removed or just duplicated.',
       appliedTo: {
-        elements: [CONTENT_ELEMENT_KEY],
+        elements: [CONTENT_ELEMENT_KEY, SLIDER_ELEMENT_KEY],
       },
       conditions: [],
       value: {

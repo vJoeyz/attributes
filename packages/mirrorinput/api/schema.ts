@@ -1,3 +1,4 @@
+import { FORM_INPUT } from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
 import { TRIGGER_ELEMENT_KEY, TARGET_ELEMENT_KEY } from './../src/constants';
@@ -10,7 +11,8 @@ export const schema: AttributeSchema = {
       required: true,
       requiresInstance: true,
       conditions: [],
-      appliedTo: ['input', 'select', 'textarea'],
+      appliedTo: [FORM_INPUT],
+      multiplesInInstance: false,
     },
     {
       key: TARGET_ELEMENT_KEY,
@@ -23,7 +25,8 @@ export const schema: AttributeSchema = {
           element: TRIGGER_ELEMENT_KEY,
         },
       ],
-      appliedTo: ['input', 'select', 'textarea'],
+      appliedTo: [FORM_INPUT],
+      multiplesInInstance: false,
     },
   ],
   settings: [],

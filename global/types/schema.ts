@@ -4,10 +4,27 @@ export interface AttributeSchema {
   fields?: AttributeFieldSchema[];
 }
 
+export interface DOMSelector {
+  label: string;
+  selectors: string[];
+}
+
+export interface ElementSelector {
+  element: string;
+  type: 'element';
+}
+
+export interface SelectorSelector {
+  selector: DOMSelector;
+  type: 'selector';
+}
+
+export type ParentSelector = (ElementSelector | SelectorSelector)[];
+
 /**
  * Defines the schema for a CMS Collection or CMS Collection Field
  */
-interface AttributeFieldSchema {
+export interface AttributeFieldSchema {
   key: string;
   description: string;
   specializations: FieldSpecialization[];
@@ -16,9 +33,10 @@ interface AttributeFieldSchema {
 /**
  * Defines the field specialization (Multiple places in html can have the same field)
  */
-interface FieldSpecialization {
+export interface FieldSpecialization {
+  label: string;
   key: string;
-  appliedTo: InstanceFieldSpecialization[];
+  appliedTo: InstanceFieldSpecializationAppliedTo[];
 }
 
 /**
@@ -28,24 +46,34 @@ interface SettingSpecialization {
   value: string;
 }
 
+type FieldSpecializationTypes = 'element' | 'link' | 'component';
+
 /**
  * Defines the model for set field specialization in one place of html
  */
-interface InstanceFieldSpecialization {
+export interface InstanceFieldSpecializationAppliedTo {
   /** Expected parent where the field belong */
-  parent: string | null;
+  parent: ParentSelector | null;
   /** Expected selectors where the field can belong */
-  selectors: string[];
+  selectors: DOMSelector[];
   /** Expected custom key for field */
   key?: string;
   /** Expected custom value for field */
   value?: string;
+  /** Specialization type  */
+  type: FieldSpecializationTypes;
 }
+
+type AttributeSchemaElementConditions = (
+  | AttributeElementElementCondition
+  | AttributeElementSelectorCondition
+  | AttributeSettingCondition
+)[];
 
 /**
  * Defines the schema for an element attribute (`fs-ATTRIBUTE-element="ELEMENT_KEY"`).
  */
-interface AttributeElementSchema {
+export interface AttributeElementSchema {
   /**
    * Represents an element reference like `fs-ATTRIBUTE-element="ELEMENT_KEY"`
    */
@@ -71,7 +99,7 @@ interface AttributeElementSchema {
    *
    * If the array is empty, it means that this attribute can be applied to any element on the page.
    */
-  appliedTo: string[];
+  appliedTo: DOMSelector[];
 
   /**
    * Defines if this element requires an instance like `element-1` | `element-2`.
@@ -80,10 +108,17 @@ interface AttributeElementSchema {
   requiresInstance: boolean;
 
   /**
+   * Defines is element is not unique in HTML. Used when element use same key and can be duplicated.
+   */
+  multiplesInInstance: boolean;
+
+  /**
    * Defines the conditions that this element must match to be valid.
    */
-  conditions: (AttributeElementElementCondition | AttributeElementSelectorCondition | AttributeSettingCondition)[];
+  conditions: AttributeSchemaElementConditions;
 }
+
+// type ConditionsTypes = 'exists' | 'isChildOf' | 'isParentOf' | 'isSiblingOf' | 'link' | 'style';
 
 interface AttributeElementCondition {
   /**
@@ -103,13 +138,36 @@ type AttributeElementSelectorCondition = AttributeElementCondition & {
   /**
    * Defines an element selector.
    */
-  selector?: string;
+  selector?: DOMSelector;
 };
+
+type AttributeSchemaSettingConditions = (AttributeSettingMainCondition | AttributeSettingCondition)[];
+
+interface AttributeSchemaSettingAppliedTo {
+  /**
+   * Defines `ELEMENT_KEY`s from the schema.
+   */
+  elements?: string[];
+  /**
+   * Defines element selectors.
+   */
+  selectors?: DOMSelector[];
+
+  /**
+   * Defines the field selectors
+   */
+  fields?: string[];
+
+  /**
+   * Defines applied to specificy specialization
+   */
+  specializations?: string[];
+}
 
 /**
  * Defines the schema for a setting attribute (`fs-ATTRIBUTE-SETTING_KEY="VALUE"`).
  */
-interface AttributeSettingSchema {
+export interface AttributeSettingSchema {
   /**
    * Represents a setting reference like `fs-ATTRIBUTE-SETTING_KEY="SETTING_VALUE"`
    */
@@ -123,24 +181,7 @@ interface AttributeSettingSchema {
   /**
    * Defines where this attribute can be applied.
    */
-  appliedTo: {
-    /**
-     * Defines `ELEMENT_KEY`s from the schema.
-     */
-    elements?: string[];
-
-    /**
-     * Defines element selectors.
-     */
-    selectors?: string[];
-
-    /**
-     * Defines the field selectors
-     */
-    fields?: string[];
-
-    specializations?: string[];
-  };
+  appliedTo: AttributeSchemaSettingAppliedTo;
 
   /**
    * The possible SETTING_VALUEs to define.
@@ -155,7 +196,7 @@ interface AttributeSettingSchema {
   /**
    * The conditions that other elements/settings must match.
    */
-  conditions: (AttributeSettingMainCondition | AttributeSettingCondition)[];
+  conditions: AttributeSchemaSettingConditions;
 }
 
 interface AttributeSettingValue {
