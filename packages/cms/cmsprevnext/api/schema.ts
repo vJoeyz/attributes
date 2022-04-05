@@ -33,8 +33,12 @@ export const schema: AttributeSchema = {
       description: 'Defines the `Previous` placeholder target.',
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
+        },
+        {
+          condition: 'hasLink',
         },
       ],
       multiplesInInstance: false,
@@ -47,7 +51,8 @@ export const schema: AttributeSchema = {
       description: 'Defines the `Previous` Empty State.',
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],
@@ -61,7 +66,8 @@ export const schema: AttributeSchema = {
       description: 'Defines the `Next` placeholder target.',
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],
@@ -75,7 +81,8 @@ export const schema: AttributeSchema = {
       description: 'Defines the `Next` Empty State.',
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],

@@ -21,7 +21,8 @@ export const schema: AttributeSchema = {
       multiplesInInstance: false,
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],

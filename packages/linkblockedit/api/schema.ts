@@ -11,24 +11,15 @@ export const schema: AttributeSchema = {
       required: true,
       requiresInstance: false,
       appliedTo: [DIV_BLOCK],
+      multiplesInInstance: false,
       conditions: [
         {
-          type: 'isParentOf',
+          condition: 'isParentOf',
+          type: 'selector',
           selector: [TEXT_BLOCK, BUTTON],
         },
       ],
     },
   ],
-  settings: [
-    // {
-    //   key: SELECTOR_SETTING_KEY,
-    //   description: 'Defines a global selector to query multiple `parent` elements.',
-    //   appliedTo: {},
-    //   conditions: [],
-    //   value: {
-    //     type: 'string',
-    //     default: '',
-    //   },
-    // },
-  ],
+  settings: [],
 };

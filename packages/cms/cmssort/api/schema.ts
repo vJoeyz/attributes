@@ -11,6 +11,7 @@ import {
   BUTTON,
   DROPDOWN,
   DIV_BLOCK,
+  DROPDOWN_ITEM,
 } from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
@@ -160,7 +161,7 @@ export const schema: AttributeSchema = {
                   selector: DROPDOWN,
                 },
               ],
-              selectors: [DIV_BLOCK],
+              selectors: [DROPDOWN_ITEM],
               value: `$FIELD-asc`,
               type: 'element',
             },
@@ -171,7 +172,7 @@ export const schema: AttributeSchema = {
                   selector: DROPDOWN,
                 },
               ],
-              selectors: [DIV_BLOCK],
+              selectors: [DROPDOWN_ITEM],
               value: `$FIELD-desc`,
               type: 'element',
             },
@@ -189,7 +190,8 @@ export const schema: AttributeSchema = {
       },
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],
@@ -250,7 +252,7 @@ export const schema: AttributeSchema = {
       key: REVERSE_SETTING_KEY,
       description: 'Defines if a button should trigger `desc` sorting on first click.',
       appliedTo: {
-        specializations: [BUTTON_TRIGGER_KEY]
+        specializations: [BUTTON_TRIGGER_KEY],
       },
       conditions: [],
       value: {

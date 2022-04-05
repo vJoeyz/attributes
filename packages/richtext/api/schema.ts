@@ -1,4 +1,4 @@
-import { RICH_TEXT_BLOCK } from '$global/constants/webflow-selectors';
+import { ANY_ELEMENT, RICH_TEXT_BLOCK } from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
 import {
@@ -18,6 +18,25 @@ export const schema: AttributeSchema = {
       required: true,
       multiplesInInstance: true,
       requiresInstance: false,
+    },
+  ],
+  fields: [
+    {
+      key: 'component',
+      description: 'Defines a custom component.',
+      specializations: [
+        {
+          label: 'Default',
+          key: 'default',
+          appliedTo: [
+            {
+              parent: null,
+              selectors: [ANY_ELEMENT],
+              type: 'component',
+            },
+          ],
+        },
+      ],
     },
   ],
   settings: [

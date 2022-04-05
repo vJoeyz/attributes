@@ -64,12 +64,6 @@ export interface InstanceFieldSpecializationAppliedTo {
   type: FieldSpecializationTypes;
 }
 
-type AttributeSchemaElementConditions = (
-  | AttributeElementElementCondition
-  | AttributeElementSelectorCondition
-  | AttributeSettingCondition
-)[];
-
 /**
  * Defines the schema for an element attribute (`fs-ATTRIBUTE-element="ELEMENT_KEY"`).
  */
@@ -115,43 +109,24 @@ export interface AttributeElementSchema {
   /**
    * Defines the conditions that this element must match to be valid.
    */
-  conditions: AttributeSchemaElementConditions;
+  conditions: AttributeSchemaConditions;
 }
 
 // type ConditionsTypes = 'exists' | 'isChildOf' | 'isParentOf' | 'isSiblingOf' | 'link' | 'style';
 
-interface AttributeElementCondition {
-  /**
-   * Defines the type of the condition.
-   */
-  type: 'exists' | 'isChildOf' | 'isParentOf' | 'isSiblingOf';
-}
+export type AttributeSchemaCondition =
+  | AttributeMainCondition
+  | AttributeSettingCondition
+  | AttributeLinkCondition
+  | AttributeStyleCondition;
 
-type AttributeElementElementCondition = AttributeElementCondition & {
-  /**
-   * Defines an `ELEMENT_KEY` from the schema.
-   */
-  element?: string;
-};
-
-type AttributeElementSelectorCondition = AttributeElementCondition & {
-  /**
-   * Defines an element selector.
-   */
-  selector?: DOMSelector;
-};
-
-type AttributeSchemaSettingConditions = (AttributeSettingMainCondition | AttributeSettingCondition)[];
+export type AttributeSchemaConditions = AttributeSchemaCondition[];
 
 interface AttributeSchemaSettingAppliedTo {
   /**
    * Defines `ELEMENT_KEY`s from the schema.
    */
   elements?: string[];
-  /**
-   * Defines element selectors.
-   */
-  selectors?: DOMSelector[];
 
   /**
    * Defines the field selectors
@@ -186,7 +161,7 @@ export interface AttributeSettingSchema {
   /**
    * The possible SETTING_VALUEs to define.
    */
-  value: AttributeSettingValuePrimitive | AttributeSettingValueOptions;
+  value: AttributeValue;
 
   /**
    * Possible behaviors to apply to this setting.
@@ -196,7 +171,7 @@ export interface AttributeSettingSchema {
   /**
    * The conditions that other elements/settings must match.
    */
-  conditions: AttributeSchemaSettingConditions;
+  conditions: AttributeSchemaConditions;
 }
 
 interface AttributeSettingValue {
@@ -206,14 +181,19 @@ interface AttributeSettingValue {
   default?: string;
 }
 
-type AttributeSettingValuePrimitive = AttributeSettingValue & {
+export type AttributeSettingValuePrimitive = AttributeSettingValue & {
   /**
    * The type of the value.
    */
   type: 'string' | 'boolean' | 'int' | 'float' | 'commaSeparatedFloat' | 'commaSeparatedInt' | 'commaSeparatedString';
 };
 
-type AttributeSettingValueOptions = AttributeSettingValue & {
+export interface AttributeSettingValueOptionsOption {
+  value: string;
+  description: string;
+}
+
+export type AttributeSettingValueOptions = AttributeSettingValue & {
   /**
    * The type of the value.
    */
@@ -222,45 +202,71 @@ type AttributeSettingValueOptions = AttributeSettingValue & {
   /**
    *
    */
-  options: Array<{ value: string; description: string }>;
+  options: Array<AttributeSettingValueOptionsOption>;
 };
 
-interface AttributeSettingElementCondition {
+export type AttributeValue = AttributeSettingValuePrimitive | AttributeSettingValueOptions;
+
+export interface AttributeElementCondition {
   /**
    * Defines an `ELEMENT_KEY` from the schema.
    */
-  element?: string;
+  type: 'element';
+  element: string;
 }
 
-interface AttributeSettingSelectorCondition {
+export interface AttributeSelectorCondition {
   /**
    * Defines an element selector.
    */
-  selector?: string;
+  type: 'selector';
+  selector: DOMSelector[];
 }
 
-type AttributeSettingMainCondition = (AttributeSettingElementCondition | AttributeSettingSelectorCondition) & {
+export type AttributeMainCondition = (AttributeElementCondition | AttributeSelectorCondition) & {
   /**
    * The type of the value.
    */
-  type: 'exists' | 'isChildOf' | 'isParentOf' | 'isSiblingOf';
+  condition: 'exists' | 'isChildOf' | 'isParentOf' | 'isSiblingOf';
 };
 
-type AttributeSettingCondition = (AttributeSettingElementCondition | AttributeSettingSelectorCondition) & {
+export type AttributeSettingCondition = AttributeElementCondition & {
   /**
    * The type of the value.
    */
-  type: 'settings';
+  condition: 'settings';
 
-  settings: Array<{
-    /**
-     * Defines a `SETTING_KEY` from the schema.
-     */
-    key: string;
-
-    /**
-     * Defines a setting value from the schema.
-     */
-    value: string;
-  }>;
+  settings: Array<AttributeSettingConditionSetting>;
 };
+
+export type AttributeLinkCondition = {
+  condition: 'hasLink';
+};
+
+export type AttributeStyleCondition = {
+  condition: 'hasStyle';
+  styles: AttributeStyleConditionStyles[];
+};
+
+export interface AttributeStyleConditionStyles {
+  property: string;
+  value: string | number;
+}
+
+export type ConditionTypes =
+  | AttributeSettingCondition['condition']
+  | AttributeMainCondition['condition']
+  | AttributeStyleCondition['condition']
+  | AttributeLinkCondition['condition'];
+
+export interface AttributeSettingConditionSetting {
+  /**
+   * Defines a `SETTING_KEY` from the schema.
+   */
+  key: string;
+
+  /**
+   * Defines a setting value from the schema.
+   */
+  value: string;
+}

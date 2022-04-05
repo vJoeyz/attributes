@@ -15,17 +15,5 @@ export const schema: AttributeSchema = {
       requiresInstance: false,
     },
   ],
-  settings: [
-    // {
-    //   key: SRC_SETTING_KEY,
-    //   description: 'Defines the URL source of the image to be set as the favicon.',
-    //   appliedTo: {
-    //     elements: [SRC_ELEMENT_KEY],
-    //   },
-    //   conditions: [],
-    //   value: {
-    //     type: 'string',
-    //   },
-    // },
-  ],
+  settings: [],
 };

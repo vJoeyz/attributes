@@ -1,3 +1,4 @@
+import { EMBED_CODE, PARENT_WRAPPER, PRE_CODE } from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
 import { CODE_ELEMENT_KEY, THEME_SETTING_KEY } from './../src/utils/constants';
@@ -7,10 +8,16 @@ export const schema: AttributeSchema = {
     {
       key: CODE_ELEMENT_KEY,
       description: 'Defines a `<code>` element that holds the code to be highlighted.',
-      appliedTo: [],
-      conditions: [],
+      appliedTo: [PRE_CODE, EMBED_CODE, PARENT_WRAPPER],
+      conditions: [
+        {
+          condition: 'exists',
+          type: 'selector',
+          selector: [PRE_CODE],
+        },
+      ],
       requiresInstance: false,
-      multiplesInInstance: true,
+      multiplesInInstance: false,
       required: true,
     },
   ],

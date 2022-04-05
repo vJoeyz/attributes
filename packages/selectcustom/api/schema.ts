@@ -19,8 +19,9 @@ export const schema: AttributeSchema = {
       multiplesInInstance: true,
       conditions: [
         {
-          type: 'isParentOf',
-          selector: SELECT,
+          condition: 'isParentOf',
+          type: 'selector',
+          selector: [SELECT],
         },
       ],
     },
@@ -33,7 +34,8 @@ export const schema: AttributeSchema = {
       multiplesInInstance: false,
       conditions: [
         {
-          type: 'isChildOf',
+          condition: 'isChildOf',
+          type: 'element',
           element: DROPDOWN_ELEMENT_KEY,
         },
       ],
@@ -47,7 +49,8 @@ export const schema: AttributeSchema = {
       appliedTo: [LINK_BLOCK, TEXT_LINK],
       conditions: [
         {
-          type: 'isChildOf',
+          condition: 'isChildOf',
+          type: 'element',
           element: DROPDOWN_ELEMENT_KEY,
         },
       ],

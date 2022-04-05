@@ -39,7 +39,8 @@ export const schema: AttributeSchema = {
       appliedTo: [DIV_BLOCK, TEXT_BLOCK, BUTTON, LINK_BLOCK, EMBED_CODE, IMAGE],
       conditions: [
         {
-          type: 'isChildOf',
+          condition: 'isChildOf',
+          type: 'element',
           element: SLIDER_ELEMENT_KEY,
         },
       ],
@@ -54,7 +55,8 @@ export const schema: AttributeSchema = {
       appliedTo: [SLIDER_NAV],
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: SLIDER_ELEMENT_KEY,
         },
       ],

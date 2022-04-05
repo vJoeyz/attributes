@@ -32,8 +32,18 @@ export const schema: AttributeSchema = {
       appliedTo: [DIV_BLOCK],
       conditions: [
         {
-          type: 'isChildOf',
+          condition: 'isChildOf',
+          type: 'element',
           element: WRAPPER_ELEMENT_KEY,
+        },
+        {
+          condition: 'hasStyle',
+          styles: [
+            {
+              property: 'position',
+              value: 'relative',
+            },
+          ],
         },
       ],
       required: true,
@@ -46,8 +56,18 @@ export const schema: AttributeSchema = {
       appliedTo: [DIV_BLOCK],
       conditions: [
         {
-          type: 'isChildOf',
+          condition: 'isChildOf',
+          type: 'element',
           element: TRACK_ELEMENT_KEY,
+        },
+        {
+          condition: 'hasStyle',
+          styles: [
+            {
+              property: 'position',
+              value: 'absolute',
+            },
+          ],
         },
       ],
       required: true,
@@ -60,8 +80,18 @@ export const schema: AttributeSchema = {
       appliedTo: [DIV_BLOCK],
       conditions: [
         {
-          type: 'isChildOf',
+          condition: 'isChildOf',
+          type: 'element',
           element: TRACK_ELEMENT_KEY,
+        },
+        {
+          condition: 'hasStyle',
+          styles: [
+            {
+              property: 'position',
+              value: 'absolute',
+            },
+          ],
         },
       ],
       required: true,
@@ -74,11 +104,13 @@ export const schema: AttributeSchema = {
       appliedTo: [TEXT_BLOCK, PARAGRAPH, HEADING],
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: TRACK_ELEMENT_KEY,
         },
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: HANDLE_ELEMENT_KEY,
         },
       ],

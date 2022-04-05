@@ -31,7 +31,8 @@ export const schema: AttributeSchema = {
       appliedTo: [TEXT_BLOCK, PARAGRAPH, HEADING],
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],

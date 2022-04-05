@@ -19,7 +19,8 @@ export const schema: AttributeSchema = {
       description: 'Defines an element where to display the total items of the list.',
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],

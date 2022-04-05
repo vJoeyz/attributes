@@ -1,5 +1,4 @@
 import { COLLECTION_ITEM, TEXT_ELEMENT, SELECT } from '$global/constants/webflow-selectors';
-
 import type { AttributeSchema } from '$global/types/schema';
 
 import { TEXT_VALUE_ELEMENT_KEY, SELECT_ELEMENT_KEY } from './../src/constants';
@@ -12,8 +11,9 @@ export const schema: AttributeSchema = {
       appliedTo: [TEXT_ELEMENT],
       conditions: [
         {
-          type: 'isChildOf',
-          selector: COLLECTION_ITEM,
+          condition: 'isChildOf',
+          type: 'selector',
+          selector: [COLLECTION_ITEM],
         },
       ],
       multiplesInInstance: true,
@@ -26,7 +26,8 @@ export const schema: AttributeSchema = {
       appliedTo: [SELECT],
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: TEXT_VALUE_ELEMENT_KEY,
         },
       ],

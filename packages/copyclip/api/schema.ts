@@ -36,13 +36,14 @@ export const schema: AttributeSchema = {
     {
       key: TARGET_ELEMENT_KEY,
       description: 'Defines an element to act as the copy target.',
-      required: false,
+      required: true,
       requiresInstance: true,
       multiplesInInstance: false,
       appliedTo: [TEXT_BLOCK, PARAGRAPH, HEADING],
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: TRIGGER_ELEMENT_KEY,
         },
       ],
@@ -56,7 +57,8 @@ export const schema: AttributeSchema = {
       multiplesInInstance: false,
       conditions: [
         {
-          type: 'isSiblingOf',
+          condition: 'isSiblingOf',
+          type: 'element',
           element: TRIGGER_ELEMENT_KEY,
         },
       ],
@@ -109,18 +111,6 @@ export const schema: AttributeSchema = {
       value: {
         type: 'string',
         default: DEFAULT_SUCCESS_CSS_CLASS,
-      },
-    },
-    {
-      key: SELECTOR_SETTING_KEY,
-      description: 'Defines a selector for instantiating all queried elements as triggers.',
-      appliedTo: {
-        elements: [TRIGGER_ELEMENT_KEY],
-      },
-      conditions: [],
-      value: {
-        type: 'string',
-        default: '',
       },
     },
   ],

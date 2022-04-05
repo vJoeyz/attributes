@@ -72,7 +72,8 @@ export const schema: AttributeSchema = {
       multiplesInInstance: false,
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],
@@ -86,7 +87,8 @@ export const schema: AttributeSchema = {
       appliedTo: [BUTTON, LINK_BLOCK, TEXT_LINK],
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],
@@ -100,7 +102,8 @@ export const schema: AttributeSchema = {
       appliedTo: [TEXT_BLOCK],
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],
@@ -114,7 +117,8 @@ export const schema: AttributeSchema = {
       appliedTo: [TEXT_BLOCK],
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],
@@ -128,7 +132,8 @@ export const schema: AttributeSchema = {
       appliedTo: [DIV_BLOCK],
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],
@@ -142,7 +147,8 @@ export const schema: AttributeSchema = {
       appliedTo: [DIV_BLOCK],
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],
@@ -156,7 +162,8 @@ export const schema: AttributeSchema = {
       appliedTo: [DIV_BLOCK, BUTTON, LINK_BLOCK, TEXT_BLOCK, TEXT_LINK],
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],
@@ -170,7 +177,8 @@ export const schema: AttributeSchema = {
       appliedTo: [TEXT_BLOCK],
       conditions: [
         {
-          type: 'isChildOf',
+          condition: 'isChildOf',
+          type: 'element',
           element: TAG_TEMPLATE_ELEMENT_KEY,
         },
       ],
@@ -184,7 +192,8 @@ export const schema: AttributeSchema = {
       appliedTo: [DIV_BLOCK, LINK_BLOCK, TEXT_BLOCK, IMAGE],
       conditions: [
         {
-          type: 'isChildOf',
+          condition: 'isChildOf',
+          type: 'element',
           element: TAG_TEMPLATE_ELEMENT_KEY,
         },
       ],
@@ -198,7 +207,8 @@ export const schema: AttributeSchema = {
       appliedTo: [DIV_BLOCK],
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],

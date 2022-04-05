@@ -26,7 +26,8 @@ export const schema: AttributeSchema = {
       appliedTo: [TABS],
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],
@@ -40,15 +41,12 @@ export const schema: AttributeSchema = {
       appliedTo: [DIV_BLOCK, TEXT_BLOCK],
       conditions: [
         {
-          type: 'isChildOf',
-          element: LIST_ELEMENT_KEY,
-        },
-        {
-          type: 'exists',
+          condition: 'isChildOf',
+          type: 'element',
           element: TABS_ELEMENT_KEY,
         },
       ],
-      multiplesInInstance: false,
+      multiplesInInstance: true,
       required: true,
       requiresInstance: true,
     },

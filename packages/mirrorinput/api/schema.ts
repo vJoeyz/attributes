@@ -21,7 +21,8 @@ export const schema: AttributeSchema = {
       requiresInstance: true,
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: TRIGGER_ELEMENT_KEY,
         },
       ],

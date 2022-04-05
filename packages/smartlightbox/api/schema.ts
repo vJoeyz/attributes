@@ -19,7 +19,8 @@ export const schema: AttributeSchema = {
       requiresInstance: true,
       conditions: [
         {
-          type: 'isParentOf',
+          condition: 'isParentOf',
+          type: 'element',
           element: TRIGGER_OPEN_ELEMENT_KEY,
         },
       ],
@@ -59,7 +60,9 @@ export const schema: AttributeSchema = {
       key: WAIT_SETTING_KEY,
       description: 'Defines the timeout to wait before triggering the `close` state.',
       conditions: [],
-      appliedTo: {},
+      appliedTo: {
+        elements: [LIGHTBOX_ELEMENT_KEY],
+      },
       value: {
         type: 'int',
         default: '0',

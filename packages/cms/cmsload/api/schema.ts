@@ -56,7 +56,8 @@ export const schema: AttributeSchema = {
       requiresInstance: true,
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],
@@ -70,7 +71,8 @@ export const schema: AttributeSchema = {
       requiresInstance: true,
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],
@@ -84,7 +86,8 @@ export const schema: AttributeSchema = {
       requiresInstance: true,
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],
@@ -98,11 +101,13 @@ export const schema: AttributeSchema = {
       requiresInstance: true,
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
         {
-          type: 'settings',
+          condition: 'settings',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
           settings: [
             {
@@ -122,15 +127,18 @@ export const schema: AttributeSchema = {
       requiresInstance: false,
       conditions: [
         {
-          type: 'isChildOf',
+          condition: 'isChildOf',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
         {
-          type: 'isChildOf',
-          selector: PAGINATION_WRAPPER,
+          condition: 'isChildOf',
+          type: 'selector',
+          selector: [PAGINATION_WRAPPER],
         },
         {
-          type: 'settings',
+          condition: 'settings',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
           settings: [
             {
@@ -150,15 +158,18 @@ export const schema: AttributeSchema = {
       requiresInstance: false,
       conditions: [
         {
-          type: 'isChildOf',
+          type: 'element',
+          condition: 'isChildOf',
           element: LIST_ELEMENT_KEY,
         },
         {
-          type: 'isChildOf',
-          selector: PAGINATION_WRAPPER,
+          type: 'selector',
+          condition: 'isChildOf',
+          selector: [PAGINATION_WRAPPER],
         },
         {
-          type: 'settings',
+          type: 'element',
+          condition: 'settings',
           element: LIST_ELEMENT_KEY,
           settings: [
             {
@@ -215,7 +226,8 @@ export const schema: AttributeSchema = {
       },
       conditions: [
         {
-          type: 'settings',
+          condition: 'settings',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
           settings: [
             {
@@ -239,7 +251,8 @@ export const schema: AttributeSchema = {
       },
       conditions: [
         {
-          type: 'settings',
+          condition: 'settings',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
           settings: [
             {
@@ -263,7 +276,8 @@ export const schema: AttributeSchema = {
       },
       conditions: [
         {
-          type: 'settings',
+          condition: 'settings',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
           settings: [
             {
@@ -404,7 +418,8 @@ export const schema: AttributeSchema = {
       },
       conditions: [
         {
-          type: 'settings',
+          condition: 'settings',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
           settings: [
             {

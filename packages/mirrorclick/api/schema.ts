@@ -1,4 +1,4 @@
-import { DIV_BLOCK, TEXT_BLOCK, BUTTON, TEXT_LINK, LINK_BLOCK, ANY_ELEMENT } from '$global/constants/webflow-selectors';
+import { DIV_BLOCK, BUTTON, TEXT_LINK, LINK_BLOCK, ANY_ELEMENT } from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
 import { TRIGGER_ELEMENT_KEY, TARGET_ELEMENT_KEY, DELAY_SETTING_KEY } from '../src/constants';
@@ -21,7 +21,8 @@ export const schema: AttributeSchema = {
       multiplesInInstance: true,
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: TRIGGER_ELEMENT_KEY,
         },
       ],
@@ -38,11 +39,13 @@ export const schema: AttributeSchema = {
       },
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: TRIGGER_ELEMENT_KEY,
         },
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: TARGET_ELEMENT_KEY,
         },
       ],

@@ -93,7 +93,7 @@ export const SELECT: DOMSelector = {
 };
 
 export const SELECT_OPTION: DOMSelector = {
-  label: 'Option',
+  label: 'Select Option',
   selectors: ['select.w-select option'],
 };
 export const INPUT: DOMSelector = {
@@ -133,12 +133,17 @@ export const SLIDER: DOMSelector = {
 
 export const SLIDER_NAV: DOMSelector = {
   label: 'Slider Nav',
-  selectors: [`${SLIDER_CSS_CLASSES.sliderNav}`],
+  selectors: [`.${SLIDER_CSS_CLASSES.sliderNav}`],
 };
 
 export const DROPDOWN: DOMSelector = {
   label: 'Dropdown',
   selectors: [`.${DROPDOWN_CSS_CLASSES.dropdown}`],
+};
+
+export const DROPDOWN_ITEM: DOMSelector = {
+  label: 'Dropdown Item',
+  selectors: [`.${DROPDOWN_CSS_CLASSES.dropdown} a`],
 };
 
 export const TABS: DOMSelector = {
@@ -172,8 +177,18 @@ export const ANY_ELEMENT: DOMSelector = {
   selectors: ['*'],
 };
 
+export const PRE_CODE: DOMSelector = {
+  label: 'Code block',
+  selectors: ['pre code'],
+};
+
+export const PARENT_WRAPPER: DOMSelector = {
+  ...ANY_ELEMENT,
+  label: 'Parent Wrapper',
+};
+
 export const NAVBAR: DOMSelector = {
-  label: 'NavBar',
+  label: 'Nav Bar',
   selectors: ['.w-nav'],
 };
 
