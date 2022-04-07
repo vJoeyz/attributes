@@ -13,7 +13,7 @@ import { handleFilterInput } from '../actions/input';
 import { getQueryParams, setQueryParams } from '../actions/query';
 import { syncFilterKeyResults, updateFilterKeyResults, updateListResults } from '../actions/results';
 import { ATTRIBUTES } from '../utils/constants';
-import type { FilterElement } from '../utils/types';
+import type { FilterElement, FiltersData } from '../utils/types';
 import type { CMSTags } from './CMSTags';
 
 // Constants
@@ -50,27 +50,22 @@ export class CMSFilters {
   /**
    * The filters data.
    */
-  public readonly filtersData;
+  public filtersData!: FiltersData;
 
   /**
    * Defines if any filter element that must be hidden when empty exists.
    */
-  public readonly hideEmptyFilters;
-
-  /**
-   * Defines if the filters query must be printed in the Address bar.
-   */
-  private readonly showQueryParams;
+  public hideEmptyFilters!: boolean;
 
   /**
    * Defines if any filter element has a results display element.
    */
-  public readonly showFilterResults;
+  public showFilterResults!: boolean;
 
   /**
    * Defines if any filter element must highlight its matching results.
    */
-  public readonly highlightResults;
+  public highlightResults!: boolean;
 
   /**
    * The debounced `applyFilters` action, based on the user's debouncing settings.
@@ -96,6 +91,31 @@ export class CMSFilters {
    * Defines a {@link CMSTags} instance.
    */
   private tagsInstance?: CMSTags;
+
+  /**
+   * Defines if the filters query must be printed in the Address bar.
+   */
+  private readonly showQueryParams;
+
+  /**
+   * Defines the global active CSS class to apply on active filters.
+   */
+  private readonly activeCSSClass: string;
+
+  /**
+   * Defines the global debouncing to apply on filters.
+   */
+  private readonly debouncing: number;
+
+  /**
+   * Defines if all results should be highlighted.
+   */
+  private readonly highlightAll: boolean;
+
+  /**
+   * Defines the global highlight CSS class to appy on highlighted elements.
+   */
+  private readonly highlightCSSClass: string;
 
   constructor(
     /**
@@ -125,23 +145,16 @@ export class CMSFilters {
   ) {
     const { form, submitButton, resetButtonsData } = collectFiltersElements(formBlock);
 
-    this.submitButtonVisible = !!submitButton && isVisible(submitButton);
-
-    const filtersData = collectFiltersData(form, activeCSSClass, debouncing, highlightAll, highlightCSSClass);
-
-    this.filtersData = filtersData;
-
-    this.showFilterResults = filtersData.some(({ elements }) => elements.some(({ resultsElement }) => resultsElement));
-
-    this.hideEmptyFilters = filtersData.some(({ elements }) => elements.some(({ hideEmpty }) => hideEmpty));
-
-    this.highlightResults = filtersData.some(({ highlight }) => highlight);
-
     this.form = form;
     this.submitButton = submitButton;
     this.resetButtonsData = resetButtonsData;
     this.resultsElement = resultsElement;
     this.showQueryParams = showQueryParams;
+    this.activeCSSClass = activeCSSClass;
+    this.debouncing = debouncing;
+    this.highlightAll = highlightAll;
+    this.highlightCSSClass = highlightCSSClass;
+    this.submitButtonVisible = !!submitButton && isVisible(submitButton);
 
     this.init();
   }
@@ -151,6 +164,8 @@ export class CMSFilters {
    */
   private async init() {
     const { listInstance, hideEmptyFilters, showFilterResults } = this;
+
+    this.storeFiltersData();
 
     for (const item of listInstance.items) item.collectProps({ fieldKey, rangeKey, typeKey });
 
@@ -349,5 +364,22 @@ export class CMSFilters {
     this.tagsInstance = tagsInstance;
 
     await tagsInstance.syncTags();
+  }
+
+  /**
+   * Stores the data of all filters.
+   * @returns The stored {@link FiltersData}.
+   */
+  public storeFiltersData() {
+    const { form, activeCSSClass, debouncing, highlightAll, highlightCSSClass } = this;
+
+    const filtersData = collectFiltersData(form, activeCSSClass, debouncing, highlightAll, highlightCSSClass);
+
+    this.filtersData = filtersData;
+    this.showFilterResults = filtersData.some(({ elements }) => elements.some(({ resultsElement }) => resultsElement));
+    this.hideEmptyFilters = filtersData.some(({ elements }) => elements.some(({ hideEmpty }) => hideEmpty));
+    this.highlightResults = filtersData.some(({ highlight }) => highlight);
+
+    return filtersData;
   }
 }
