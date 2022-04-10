@@ -199,7 +199,9 @@ interface CMSList {
 
   /**
    * Clears all stored {@link CMSItem} instances from the list.
-   * @param removeElements If `true`, the {@link CMSItem.element} nodes will be removed from the DOM.
+   *
+   * @param removeElements Defines if the {@link CMSItem.element} nodes should be removed from the DOM.
+   * Defaults to `true`.
    */
   clearItems(removeElements?: boolean): void;
 
