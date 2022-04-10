@@ -16,7 +16,6 @@
  * @prop {number} rate
  * @prop {number} count
  */
-
 window.fsAttributes = window.fsAttributes || [];
 window.fsAttributes.push([
   'cmsload',
