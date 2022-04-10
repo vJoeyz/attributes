@@ -21,14 +21,15 @@ type FsAttributesBase = {
   };
 };
 
+export interface FsAttributeInit<T = unknown> {
+  version?: string;
+  init?: () => T | Promise<T>;
+  loading?: Promise<T>;
+  resolve?: (value: T) => void;
+}
+
 type FsAttributesInit = {
-  [key: string]: {
-    version?: string;
-    init?: () => unknown | Promise<unknown>;
-    loaded?: Promise<unknown>;
-    loading?: Promise<unknown>;
-    resolve?: (value: unknown) => void;
-  };
+  [key: string]: FsAttributeInit;
 };
 
 export type FsAttributes = FsAttributesBase & FsAttributesInit;
