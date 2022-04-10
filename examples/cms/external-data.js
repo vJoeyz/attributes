@@ -16,6 +16,10 @@
  * @prop {number} rate
  * @prop {number} count
  */
+
+/**
+ * Populate CMS Data from an external API.
+ */
 window.fsAttributes = window.fsAttributes || [];
 window.fsAttributes.push([
   'cmsload',
