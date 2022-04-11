@@ -22,7 +22,11 @@ export const schema: AttributeSchema = {
     {
       key: LIST_ELEMENT_KEY,
       description: 'Defines a list to be combined into the target.',
-      conditions: [],
+      conditions: [
+        {
+          condition: 'hasLink',
+        },
+      ],
       appliedTo: [COLLECTION_LIST, COLLECTION_LIST_WRAPPER],
       required: true,
       multiplesInInstance: false,
@@ -36,9 +40,6 @@ export const schema: AttributeSchema = {
           condition: 'exists',
           type: 'element',
           element: LIST_ELEMENT_KEY,
-        },
-        {
-          condition: 'hasLink',
         },
       ],
       multiplesInInstance: false,

@@ -42,7 +42,7 @@ export interface FieldSpecialization {
 /**
  * Defines setting specialization (Settings with multiple fields)
  */
-interface SettingSpecialization {
+export interface SettingSpecialization {
   value: string;
 }
 

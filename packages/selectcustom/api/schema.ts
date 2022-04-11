@@ -43,7 +43,7 @@ export const schema: AttributeSchema = {
     {
       key: RESET_OPTION_KEY,
       description: 'Defines an option that will remove the selected value.',
-      required: true,
+      required: false,
       requiresInstance: true,
       multiplesInInstance: false,
       appliedTo: [LINK_BLOCK, TEXT_LINK],
