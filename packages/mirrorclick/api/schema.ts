@@ -1,3 +1,4 @@
+import { DIV_BLOCK, BUTTON, TEXT_LINK, LINK_BLOCK, ANY_ELEMENT } from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
 import { TRIGGER_ELEMENT_KEY, TARGET_ELEMENT_KEY, DELAY_SETTING_KEY } from '../src/constants';
@@ -7,18 +8,21 @@ export const schema: AttributeSchema = {
     {
       key: TRIGGER_ELEMENT_KEY,
       description: ' Defines the element as the trigger of the event.',
-      appliedTo: [],
+      appliedTo: [BUTTON, TEXT_LINK, LINK_BLOCK, DIV_BLOCK],
       conditions: [],
       requiresInstance: true,
+      multiplesInInstance: false,
       required: true,
     },
     {
       key: TARGET_ELEMENT_KEY,
       description: 'Defines the element as the target to mirror the fired event.',
-      appliedTo: [],
+      appliedTo: [DIV_BLOCK, ANY_ELEMENT],
+      multiplesInInstance: true,
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: TRIGGER_ELEMENT_KEY,
         },
       ],
@@ -35,11 +39,13 @@ export const schema: AttributeSchema = {
       },
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: TRIGGER_ELEMENT_KEY,
         },
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: TARGET_ELEMENT_KEY,
         },
       ],

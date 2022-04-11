@@ -1,3 +1,13 @@
+import {
+  BUTTON,
+  TEXT_LINK,
+  LINK_BLOCK,
+  DIV_BLOCK,
+  ANY_ELEMENT,
+  NAVBAR,
+  SECTION,
+  RICH_TEXT_BLOCK,
+} from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
 import {
@@ -19,7 +29,8 @@ export const schema: AttributeSchema = {
       required: true,
       requiresInstance: false,
       conditions: [],
-      appliedTo: ['div', 'button', 'span', 'a'],
+      appliedTo: [BUTTON, TEXT_LINK, LINK_BLOCK, DIV_BLOCK],
+      multiplesInInstance: false,
     },
     {
       key: ENABLE_ELEMENT_KEY,
@@ -27,7 +38,8 @@ export const schema: AttributeSchema = {
       required: true,
       requiresInstance: false,
       conditions: [],
-      appliedTo: ['div', 'button', 'span', 'a'],
+      appliedTo: [BUTTON, TEXT_LINK, LINK_BLOCK, DIV_BLOCK],
+      multiplesInInstance: false,
     },
     {
       key: TOGGLE_ELEMENT_KEY,
@@ -35,7 +47,8 @@ export const schema: AttributeSchema = {
       required: true,
       requiresInstance: false,
       conditions: [],
-      appliedTo: ['div', 'button', 'span', 'a'],
+      appliedTo: [BUTTON, TEXT_LINK, LINK_BLOCK, DIV_BLOCK],
+      multiplesInInstance: false,
     },
     {
       key: WHEN_VISIBLE_ELEMENT_KEY,
@@ -43,7 +56,8 @@ export const schema: AttributeSchema = {
       required: false,
       requiresInstance: false,
       conditions: [],
-      appliedTo: [],
+      appliedTo: [DIV_BLOCK, ANY_ELEMENT],
+      multiplesInInstance: true,
     },
     {
       key: NAV_ELEMENT_KEY,
@@ -52,7 +66,8 @@ export const schema: AttributeSchema = {
       required: false,
       requiresInstance: false,
       conditions: [],
-      appliedTo: [],
+      appliedTo: [NAVBAR],
+      multiplesInInstance: false,
     },
     {
       key: PRESERVE_ELEMENT_KEY,
@@ -60,7 +75,8 @@ export const schema: AttributeSchema = {
       required: false,
       requiresInstance: false,
       conditions: [],
-      appliedTo: [],
+      appliedTo: [DIV_BLOCK, RICH_TEXT_BLOCK, SECTION],
+      multiplesInInstance: false,
     },
   ],
   settings: [
@@ -68,7 +84,9 @@ export const schema: AttributeSchema = {
       key: MEDIA_SETTING_KEY,
       description: 'Used to define a media query that restricts when an element acts as a trigger.',
       conditions: [],
-      appliedTo: {},
+      appliedTo: {
+        elements: [ENABLE_ELEMENT_KEY, DISABLE_ELEMENT_KEY, TOGGLE_ELEMENT_KEY, WHEN_VISIBLE_ELEMENT_KEY],
+      },
       value: {
         type: 'string',
         default: '',
@@ -78,10 +96,12 @@ export const schema: AttributeSchema = {
       key: GAP_SETTING_KEY,
       description: 'Defines if the scrollbar gap must be reserved when disabling scrolling.',
       conditions: [],
-      appliedTo: {},
+      appliedTo: {
+        elements: [ENABLE_ELEMENT_KEY, DISABLE_ELEMENT_KEY, TOGGLE_ELEMENT_KEY, WHEN_VISIBLE_ELEMENT_KEY],
+      },
       value: {
         type: 'boolean',
-        default: 'true',
+        default: 'false',
       },
     },
   ],

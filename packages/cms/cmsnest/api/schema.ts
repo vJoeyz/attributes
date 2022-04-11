@@ -1,8 +1,12 @@
-import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
-
+import {
+  COLLECTION_LIST,
+  COLLECTION_LIST_WRAPPER,
+  COLLECTION_ITEM,
+  DIV_BLOCK,
+} from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
-import { LIST_ELEMENT_KEY, COLLECTION_SETTING_KEY, EMPTY_SETTING_KEY } from './../src/utils/constants';
+import { LIST_ELEMENT_KEY, COLLECTION_SETTING_KEY } from './../src/utils/constants';
 
 export const schema: AttributeSchema = {
   elements: [
@@ -10,9 +14,10 @@ export const schema: AttributeSchema = {
       key: LIST_ELEMENT_KEY,
       description: 'Defines a list to be combined into the target.',
       conditions: [],
-      appliedTo: [`.${CMS_CSS_CLASSES.wrapper}`, `.${CMS_CSS_CLASSES.list}`],
+      multiplesInInstance: true,
+      appliedTo: [COLLECTION_LIST, COLLECTION_LIST_WRAPPER],
       required: true,
-      requiresInstance: true,
+      requiresInstance: false,
     },
   ],
   fields: [
@@ -21,31 +26,27 @@ export const schema: AttributeSchema = {
       description: 'Defines a Collection List that will be nested inside the target list element.',
       specializations: [
         {
-          key: 'default',
+          label: 'Collection',
+          key: 'collection',
           appliedTo: [
             {
-              parent: LIST_ELEMENT_KEY,
-              selectors: ['div'],
-            },
-            {
-              parent: null,
-              selectors: [`.${CMS_CSS_CLASSES.list}`],
+              parent: [
+                {
+                  type: 'element',
+                  element: 'list',
+                },
+                {
+                  type: 'selector',
+                  selector: COLLECTION_ITEM,
+                },
+              ],
+              selectors: [DIV_BLOCK],
+              type: 'link',
             },
           ],
         },
       ],
     },
   ],
-  settings: [
-    {
-      key: EMPTY_SETTING_KEY,
-      description: 'Defines an `Empty State` element.',
-      conditions: [],
-      appliedTo: {},
-      value: {
-        type: 'string',
-        default: '',
-      },
-    },
-  ],
+  settings: [],
 };

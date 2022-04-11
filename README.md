@@ -20,7 +20,19 @@ Use `npm run build` to build for production.
 
 ### Elements
 
-Elements are represented by instance unique identifier, use only once to set specific behavior into DOM element.
+Elements are represented by identifier, use to set specific behavior into DOM element.
+
+It could be many elements with the same unique identifier in the same instance with direct or indirect correlation.
+
+Examples of elements with same identifier with direct correlaction:
+
+`fs-cmscombine-element="list"`
+
+Examples of elements with the same identifier without direct correlation:
+
+`fs-cmsnest-element="list"`
+
+Examples of other elements with unique identifer:
 
 - Main Examples:
 
@@ -31,9 +43,7 @@ Elements are represented by instance unique identifier, use only once to set spe
   - `fs-cmsload-element="page-button"` - Define the button for load more. Only for pagination.
   - `fs-untransform-element="trigger-on"` - Define the trigger to enable untransform in modal.
 
-Those functionalities are consolidated for element behavior. There will be multiple elements with same value only in multiples instances.
-
-_**Conflicts**: cmsload → Button Trigger → Use the same element more than once in page. Its possible to have to change specification to handle multiples elements once._
+Those functionalities are consolidated for element behavior.
 
 ### Settings
 
@@ -100,13 +110,21 @@ It can be `childOf`, to have elements `childOf` Filter UI and `childOf` Collecti
 
 #### Not classified cases
 
-- `cmscombine` → List → It will not validate if there are more than one element with the same value. All queries validators for elements use querySelector.
+
 
 - `cmsfilter` → Filter → It will not validate if there are more than one form with input elements. It will only check for single element filter existence.
 
-- `cmsfilter` → Will not validate start checked:checked.
+- `cmsfilter` → Will not validate start checked for checkbox.
 
-- `cmsfilter` → Will not validate start checked: radio
+- `cmsfilter` → Will not validate start checked for radio
+
+- `cmsfilter` → Will not validate submit button.
+
+- `cmsfilter` → Will not validate multiples reset buttons.
+
+- `cmsfilter` → Will not validate settings for second reset button.
+
+- `cmsload` → Will not validate native webflow validation enabled.
 
 - `cmsnest` → List → It will not validate link to CMS Page. I will only check for list element.
 
@@ -114,4 +132,14 @@ It can be `childOf`, to have elements `childOf` Filter UI and `childOf` Collecti
 
 - `cmsnest` → List link → It will not validate if setup link for CMS Collection Page.
 
-- `cmsload` → Triggers → It will not validate multiple trigger buttons. Elements are validated only once by Instance.
+- `cmsprevnext` - Link in collection
+
+- `range-slider` - Track, Fill e Handle style.
+
+#### Issues
+
+Comment on
+/**
+ * Defines the text that will be success to the clipboard.
+ */
+Text

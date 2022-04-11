@@ -1,3 +1,4 @@
+import { ANY_ELEMENT, RICH_TEXT_BLOCK } from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
 import {
@@ -13,9 +14,29 @@ export const schema: AttributeSchema = {
       key: RICH_TEXT_ELEMENT_KEY,
       description: 'Defines a rich text block instance.',
       conditions: [],
-      appliedTo: ['div.w-richtext'],
+      appliedTo: [RICH_TEXT_BLOCK],
       required: true,
+      multiplesInInstance: true,
       requiresInstance: false,
+    },
+  ],
+  fields: [
+    {
+      key: 'component',
+      description: 'Defines a custom component.',
+      specializations: [
+        {
+          label: 'Default',
+          key: 'default',
+          appliedTo: [
+            {
+              parent: null,
+              selectors: [ANY_ELEMENT],
+              type: 'component',
+            },
+          ],
+        },
+      ],
     },
   ],
   settings: [

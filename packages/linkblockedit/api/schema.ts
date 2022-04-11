@@ -1,6 +1,7 @@
+import { DIV_BLOCK, TEXT_BLOCK, BUTTON } from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
-import { PARENT_ELEMENT_KEY, SELECTOR_SETTING_KEY } from '../src/constants';
+import { PARENT_ELEMENT_KEY } from '../src/constants';
 
 export const schema: AttributeSchema = {
   elements: [
@@ -9,20 +10,16 @@ export const schema: AttributeSchema = {
       description: 'Defines the parent element that will act as the `Link Block`.',
       required: true,
       requiresInstance: false,
-      appliedTo: [],
-      conditions: [],
+      appliedTo: [DIV_BLOCK],
+      multiplesInInstance: false,
+      conditions: [
+        {
+          condition: 'isParentOf',
+          type: 'selector',
+          selector: [TEXT_BLOCK, BUTTON],
+        },
+      ],
     },
   ],
-  settings: [
-    {
-      key: SELECTOR_SETTING_KEY,
-      description: 'Defines a global selector to query multiple `parent` elements.',
-      appliedTo: {},
-      conditions: [],
-      value: {
-        type: 'string',
-        default: '',
-      },
-    },
-  ],
+  settings: [],
 };

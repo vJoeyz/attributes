@@ -1,0 +1,77 @@
+<script lang="ts">
+  import { resetInputForm } from '@src/services/Attributes/AttributesService';
+
+  import {
+    schemaForm,
+    schemaData,
+    VALIDATE_MODES,
+    validatingMode,
+    schemaSettingsInstance,
+    schemaSettingsStandalone,
+    schemaSettingsKey,
+    isSubmitted,
+  } from '@src/stores';
+
+  function clearForm() {
+    $validatingMode = VALIDATE_MODES.VALIDATING;
+
+    const schemaSettings =  {
+      key: $schemaSettingsKey || '',
+      standalone: $schemaSettingsStandalone,
+      instance: $schemaSettingsInstance,
+    };
+
+    $schemaForm = resetInputForm(
+      $schemaForm,
+      $schemaData,
+      schemaSettings,
+    );
+
+    setTimeout(() => {
+      const container = document.getElementById('wizard-internal');
+      if (container) {
+        container.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      }
+    }, 100);
+
+    setTimeout(function() {
+      $validatingMode = VALIDATE_MODES.READY;
+    }, 1000);
+
+
+    $isSubmitted = false;
+  }
+</script>
+
+<button on:click={clearForm} data-testid="reset">
+  Reset
+</button>
+
+<style>
+  button {
+    display: block;
+    position: relative;
+    left: 0%;
+    top: auto;
+    right: 0%;
+    bottom: 0%;
+    z-index: 99;
+    width: 100%;
+    max-width: 10rem;
+    margin-left: 1rem;
+    padding: 0.75rem 2rem;
+    border-radius: 0.375rem;
+    background-color: #111;
+    color: #9b9b9b;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    outline: none;
+    border: 0;
+    cursor: pointer;
+  }
+</style>

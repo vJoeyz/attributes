@@ -1,5 +1,18 @@
-import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
-
+import {
+  COLLECTION_LIST,
+  COLLECTION_LIST_WRAPPER,
+  HEADING,
+  LINK_BLOCK,
+  PARAGRAPH,
+  SELECT,
+  SELECT_OPTION,
+  TEXT_BLOCK,
+  TEXT_LINK,
+  BUTTON,
+  DROPDOWN,
+  DIV_BLOCK,
+  DROPDOWN_ITEM,
+} from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
 import {
@@ -8,22 +21,24 @@ import {
   DROPDOWN_LABEL_ELEMENT_KEY,
   SCROLL_ANCHOR_ELEMENT_KEY,
   FIELD_SETTING_KEY,
-  TYPE_SETTING_KEY,
-  EASING_SETTING_KEY,
+  TYPE_SETTING_KEY, // EASING_SETTING_KEY,
   DURATION_SETTING_KEY,
   ASC_CLASS_SETTING_KEY,
   DESC_CLASS_SETTING_KEY,
   REVERSE_SETTING_KEY,
 } from '../src/utils/constants';
 
+const BUTTON_TRIGGER_KEY = 'button-trigger';
+
 export const schema: AttributeSchema = {
   elements: [
     {
       key: LIST_ELEMENT_KEY,
       description: 'Defines a list to be combined into the target.',
-      appliedTo: [`.${CMS_CSS_CLASSES.list}`, `.${CMS_CSS_CLASSES.wrapper}`],
+      appliedTo: [COLLECTION_LIST, COLLECTION_LIST_WRAPPER],
       conditions: [],
       required: true,
+      multiplesInInstance: false,
       requiresInstance: true,
     },
     {
@@ -31,6 +46,16 @@ export const schema: AttributeSchema = {
       description: 'Defines an element where to scroll the view every time a filter is applied.',
       appliedTo: [],
       conditions: [],
+      multiplesInInstance: false,
+      required: false,
+      requiresInstance: true,
+    },
+    {
+      key: DROPDOWN_LABEL_ELEMENT_KEY,
+      description: 'Defines a Dropdown label.',
+      appliedTo: [],
+      conditions: [],
+      multiplesInInstance: false,
       required: false,
       requiresInstance: true,
     },
@@ -41,67 +66,115 @@ export const schema: AttributeSchema = {
       description: 'Defines a field key to sort items.',
       specializations: [
         {
+          label: 'Select Trigger',
           key: 'select-trigger',
           appliedTo: [
             {
-              parent: LIST_ELEMENT_KEY,
-              selectors: ['div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'a'],
+              parent: [
+                {
+                  type: 'element',
+                  element: LIST_ELEMENT_KEY,
+                },
+              ],
+              selectors: [TEXT_BLOCK, HEADING, PARAGRAPH, TEXT_LINK],
+              type: 'element',
             },
             {
               parent: null,
-              selectors: ['select'],
+              selectors: [SELECT],
               key: 'element',
               value: TRIGGER_ELEMENT_KEY,
+              type: 'element',
             },
             {
-              parent: 'select',
-              selectors: ['option'],
+              parent: [
+                {
+                  type: 'selector',
+                  selector: SELECT,
+                },
+              ],
+              selectors: [SELECT_OPTION],
+              type: 'element',
               value: `$FIELD-asc`,
             },
             {
-              parent: 'select',
-              selectors: ['option'],
+              parent: [
+                {
+                  type: 'selector',
+                  selector: SELECT,
+                },
+              ],
+              selectors: [SELECT_OPTION],
+              type: 'element',
               value: `$FIELD-desc`,
             },
           ],
         },
         {
-          key: 'button-trigger',
+          label: 'Button Trigger',
+          key: BUTTON_TRIGGER_KEY,
           appliedTo: [
             {
-              parent: LIST_ELEMENT_KEY,
-              selectors: ['div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'a'],
+              parent: [
+                {
+                  type: 'element',
+                  element: LIST_ELEMENT_KEY,
+                },
+              ],
+              selectors: [TEXT_BLOCK, HEADING, PARAGRAPH, TEXT_LINK],
+              type: 'element',
             },
             {
               parent: null,
-              selectors: ['button'],
+              selectors: [BUTTON, TEXT_LINK, LINK_BLOCK],
               key: 'element',
               value: TRIGGER_ELEMENT_KEY,
+              type: 'element',
             },
           ],
         },
         {
+          label: 'Dropdown Trigger',
           key: 'dropdown-trigger',
           appliedTo: [
             {
-              parent: LIST_ELEMENT_KEY,
-              selectors: ['div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'a'],
+              parent: [
+                {
+                  type: 'element',
+                  element: LIST_ELEMENT_KEY,
+                },
+              ],
+              selectors: [TEXT_BLOCK, HEADING, PARAGRAPH, TEXT_LINK],
+              type: 'element',
             },
             {
               parent: null,
-              selectors: ['.w-dropdown'],
+              selectors: [DROPDOWN],
               key: 'element',
               value: TRIGGER_ELEMENT_KEY,
+              type: 'element',
             },
             {
-              parent: '.w-dropdown',
-              selectors: ['div'],
+              parent: [
+                {
+                  type: 'selector',
+                  selector: DROPDOWN,
+                },
+              ],
+              selectors: [DROPDOWN_ITEM],
               value: `$FIELD-asc`,
+              type: 'element',
             },
             {
-              parent: '.w-dropdown',
-              selectors: ['div'],
+              parent: [
+                {
+                  type: 'selector',
+                  selector: DROPDOWN,
+                },
+              ],
+              selectors: [DROPDOWN_ITEM],
               value: `$FIELD-desc`,
+              type: 'element',
             },
           ],
         },
@@ -117,7 +190,8 @@ export const schema: AttributeSchema = {
       },
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],
@@ -126,16 +200,16 @@ export const schema: AttributeSchema = {
         default: 'date',
       },
     },
-    {
-      key: EASING_SETTING_KEY,
-      description: 'Defines the easing function of the list animation.',
-      appliedTo: {},
-      conditions: [],
-      value: {
-        type: 'string',
-        default: '',
-      },
-    },
+    // {
+    //   key: EASING_SETTING_KEY,
+    //   description: 'Defines the easing function of the list animation.',
+    //   appliedTo: {},
+    //   conditions: [],
+    //   value: {
+    //     type: 'string',
+    //     default: '',
+    //   },
+    // },
     {
       key: DURATION_SETTING_KEY,
       description: 'Defines the duration of the list animation.',
@@ -153,7 +227,7 @@ export const schema: AttributeSchema = {
       description: 'Defines the CSS Class for the `asc` state.',
       appliedTo: {
         fields: [FIELD_SETTING_KEY],
-        specializations: ['button-trigger'],
+        specializations: [BUTTON_TRIGGER_KEY],
       },
       conditions: [],
       value: {
@@ -166,7 +240,7 @@ export const schema: AttributeSchema = {
       description: 'Defines the CSS Class for the `desc` state.',
       appliedTo: {
         fields: [FIELD_SETTING_KEY],
-        specializations: ['button-trigger'],
+        specializations: [BUTTON_TRIGGER_KEY],
       },
       conditions: [],
       value: {
@@ -177,7 +251,9 @@ export const schema: AttributeSchema = {
     {
       key: REVERSE_SETTING_KEY,
       description: 'Defines if a button should trigger `desc` sorting on first click.',
-      appliedTo: {},
+      appliedTo: {
+        specializations: [BUTTON_TRIGGER_KEY],
+      },
       conditions: [],
       value: {
         type: 'boolean',

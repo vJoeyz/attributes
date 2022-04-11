@@ -1,3 +1,4 @@
+import { DIV_BLOCK, LIGHTBOX, LINK_BLOCK, TEXT_LINK, BUTTON } from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
 import {
@@ -18,11 +19,13 @@ export const schema: AttributeSchema = {
       requiresInstance: true,
       conditions: [
         {
-          type: 'isParentOf',
+          condition: 'isParentOf',
+          type: 'element',
           element: TRIGGER_OPEN_ELEMENT_KEY,
         },
       ],
-      appliedTo: [],
+      appliedTo: [DIV_BLOCK, LIGHTBOX],
+      multiplesInInstance: false,
     },
     {
       key: TRIGGER_OPEN_ELEMENT_KEY,
@@ -30,7 +33,8 @@ export const schema: AttributeSchema = {
       required: true,
       requiresInstance: true,
       conditions: [],
-      appliedTo: [],
+      appliedTo: [BUTTON, DIV_BLOCK, TEXT_LINK, LINK_BLOCK],
+      multiplesInInstance: false,
     },
     {
       key: TRIGGER_CLOSE_ELEMENT_KEY,
@@ -38,7 +42,8 @@ export const schema: AttributeSchema = {
       required: true,
       requiresInstance: true,
       conditions: [],
-      appliedTo: [],
+      appliedTo: [BUTTON, DIV_BLOCK, TEXT_LINK, LINK_BLOCK],
+      multiplesInInstance: false,
     },
     {
       key: TRIGGER_TOGGLE_ELEMENT_KEY,
@@ -46,7 +51,8 @@ export const schema: AttributeSchema = {
       required: true,
       requiresInstance: true,
       conditions: [],
-      appliedTo: [],
+      appliedTo: [BUTTON, DIV_BLOCK, TEXT_LINK, LINK_BLOCK],
+      multiplesInInstance: false,
     },
   ],
   settings: [
@@ -54,7 +60,9 @@ export const schema: AttributeSchema = {
       key: WAIT_SETTING_KEY,
       description: 'Defines the timeout to wait before triggering the `close` state.',
       conditions: [],
-      appliedTo: {},
+      appliedTo: {
+        elements: [LIGHTBOX_ELEMENT_KEY],
+      },
       value: {
         type: 'int',
         default: '0',

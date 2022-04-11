@@ -1,5 +1,18 @@
-import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
-
+import {
+  COLLECTION_LIST,
+  COLLECTION_LIST_WRAPPER,
+  EMBED_CODE,
+  TEXT_BLOCK,
+  IMAGE,
+  GIF,
+  LOTTIE_ANIMATION,
+  PAGINATION_WRAPPER,
+  DIV_BLOCK,
+  LINK_BLOCK,
+  TEXT_LINK,
+  TEXT_ELEMENT,
+  BUTTON,
+} from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
 import {
@@ -29,7 +42,8 @@ export const schema: AttributeSchema = {
       key: LIST_ELEMENT_KEY,
       description: 'Defines the list to load more items.',
       required: true,
-      appliedTo: [`.${CMS_CSS_CLASSES.wrapper}`, `.${CMS_CSS_CLASSES.list}`],
+      appliedTo: [COLLECTION_LIST, COLLECTION_LIST_WRAPPER],
+      multiplesInInstance: false,
       requiresInstance: true,
       conditions: [],
     },
@@ -37,11 +51,13 @@ export const schema: AttributeSchema = {
       key: LOADER_ELEMENT_KEY,
       description: 'Defines an element that will be displayed while the library is loading items in the background.',
       required: false,
-      appliedTo: [],
+      appliedTo: [IMAGE, GIF, EMBED_CODE, LOTTIE_ANIMATION],
+      multiplesInInstance: false,
       requiresInstance: true,
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],
@@ -50,11 +66,13 @@ export const schema: AttributeSchema = {
       key: ITEMS_COUNT_ELEMENT_KEY,
       description: 'Defines an element where to display the total items of the list.',
       required: false,
-      appliedTo: [],
+      appliedTo: [TEXT_BLOCK],
+      multiplesInInstance: false,
       requiresInstance: true,
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],
@@ -63,11 +81,13 @@ export const schema: AttributeSchema = {
       key: VISIBLE_COUNT_ELEMENT_KEY,
       description: 'Defines an element where to display the amount of visible items.',
       required: false,
-      appliedTo: [],
+      appliedTo: [TEXT_BLOCK],
+      multiplesInInstance: false,
       requiresInstance: true,
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],
@@ -76,15 +96,18 @@ export const schema: AttributeSchema = {
       key: SCROLL_ANCHOR_ELEMENT_KEY,
       description: 'Defines an element where to scroll the view every time a page in `Pagination` mode is switched.',
       required: false,
-      appliedTo: [],
+      appliedTo: [DIV_BLOCK],
+      multiplesInInstance: false,
       requiresInstance: true,
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
         {
-          type: 'settings',
+          condition: 'settings',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
           settings: [
             {
@@ -99,19 +122,23 @@ export const schema: AttributeSchema = {
       key: PAGE_BUTTON_ELEMENT_KEY,
       description: 'Defines the template element to generate all page buttons for the `Pagination` mode.',
       required: false,
-      appliedTo: [],
+      appliedTo: [BUTTON, LINK_BLOCK, TEXT_LINK],
+      multiplesInInstance: false,
       requiresInstance: false,
       conditions: [
         {
-          type: 'isChildOf',
+          condition: 'isChildOf',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
         {
-          type: 'isChildOf',
-          selector: `.${CMS_CSS_CLASSES.paginationWrapper}`,
+          condition: 'isChildOf',
+          type: 'selector',
+          selector: [PAGINATION_WRAPPER],
         },
         {
-          type: 'settings',
+          condition: 'settings',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
           settings: [
             {
@@ -126,19 +153,23 @@ export const schema: AttributeSchema = {
       key: PAGE_DOTS_ELEMENT_KEY,
       description: 'Defines the template element to create the page dots separators.',
       required: false,
-      appliedTo: [],
+      appliedTo: [DIV_BLOCK, TEXT_ELEMENT],
+      multiplesInInstance: false,
       requiresInstance: false,
       conditions: [
         {
-          type: 'isChildOf',
+          type: 'element',
+          condition: 'isChildOf',
           element: LIST_ELEMENT_KEY,
         },
         {
-          type: 'isChildOf',
-          selector: `.${CMS_CSS_CLASSES.paginationWrapper}`,
+          type: 'selector',
+          condition: 'isChildOf',
+          selector: [PAGINATION_WRAPPER],
         },
         {
-          type: 'settings',
+          type: 'element',
+          condition: 'settings',
           element: LIST_ELEMENT_KEY,
           settings: [
             {
@@ -195,7 +226,8 @@ export const schema: AttributeSchema = {
       },
       conditions: [
         {
-          type: 'settings',
+          condition: 'settings',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
           settings: [
             {
@@ -219,7 +251,8 @@ export const schema: AttributeSchema = {
       },
       conditions: [
         {
-          type: 'settings',
+          condition: 'settings',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
           settings: [
             {
@@ -243,7 +276,8 @@ export const schema: AttributeSchema = {
       },
       conditions: [
         {
-          type: 'settings',
+          condition: 'settings',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
           settings: [
             {
@@ -368,6 +402,7 @@ export const schema: AttributeSchema = {
       },
       value: {
         type: 'boolean',
+        default: 'true',
       },
       conditions: [],
     },
@@ -379,10 +414,12 @@ export const schema: AttributeSchema = {
       },
       value: {
         type: 'boolean',
+        default: 'true',
       },
       conditions: [
         {
-          type: 'settings',
+          condition: 'settings',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
           settings: [
             {

@@ -1,0 +1,34 @@
+import MissingFieldSettingError from './MissingFieldSettingError';
+import type { ParentSelector } from '@src/global/types/schema';
+import SchemaSelector from '@src/services/Selector/SchemaSelector';
+
+describe('Missing field settings error.', () => {
+
+
+  test('Missing field setting with specialization', () => {
+
+
+    const attribute = new SchemaSelector('fs-cmsfilter-range', 'from', true);
+    const field = new SchemaSelector('fs-cmsfilter-field', 'products', true);
+
+
+    const error = new MissingFieldSettingError(attribute, field);
+
+    expect(error.stripHTML())
+      .toEqual('The attribute fs-cmsfilter-range="from" was not found. Add attribute fs-cmsfilter-range="from" to any element with fs-cmsfilter-field="products".');
+
+  });
+
+  test('Missing field without specialization', () => {
+
+
+    const attribute = new SchemaSelector('fs-cmsfilter-active', 'my-class', true);
+    const field = new SchemaSelector('fs-cmsfilter-field', 'products', true);
+
+    const error = new MissingFieldSettingError(attribute, field);
+
+    expect(error.stripHTML())
+      .toEqual('The attribute fs-cmsfilter-active="my-class" was not found. Add attribute fs-cmsfilter-active="my-class" to any element with fs-cmsfilter-field="products".');
+
+  });
+});
