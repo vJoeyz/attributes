@@ -86,9 +86,9 @@ export const initLoadInstance = async (listInstance: CMSList) => {
   const mode = listInstance.getAttribute(modeKey);
 
   if (mode === renderAll) await initRenderAllMode(listInstance);
-  else if (mode === infinite) initInfiniteMode(listInstance);
+  else if (mode === infinite) await initInfiniteMode(listInstance);
   else if (mode === pagination) await initPaginationMode(listInstance);
-  else initDefaultMode(listInstance);
+  else await initDefaultMode(listInstance);
 
   return listInstance;
 };

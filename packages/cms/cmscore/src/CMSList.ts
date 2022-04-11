@@ -125,6 +125,16 @@ export class CMSList extends Emittery<CMSListEvents> {
   public originalItemsOrder: CMSItem[];
 
   /**
+   * Defines the amount of items per page.
+   */
+  public itemsPerPage: number;
+
+  /**
+   * Defines the original amount of items per page.
+   */
+  public originalItemsPerPage: number;
+
+  /**
    * An array holding all valid {@link CMSItem} instances of the list.
    * Items are set to valid/invalid by `cmsfilter` when performing any filter query.
    */
@@ -172,19 +182,9 @@ export class CMSList extends Emittery<CMSListEvents> {
   public restartTabs = false;
 
   /**
-   * Defines the amount of items per page.
-   */
-  public itemsPerPage: number;
-
-  /**
-   * Defines the amount of items per page.
-   */
-  public originalItemsPerPage: number;
-
-  /**
    * A Promise that resolves when the previous rendering task finishes.
    */
-  private renderingQueue?: Promise<void>;
+  private renderingQueue?: Promise<CMSItem[]>;
 
   constructor(
     /**
@@ -266,9 +266,11 @@ export class CMSList extends Emittery<CMSListEvents> {
 
   /**
    * Clears all stored {@link CMSItem} instances from the list.
-   * @param removeElements If `true`, the {@link CMSItem.element} nodes will be removed from the DOM.
+   *
+   * @param removeElements Defines if the {@link CMSItem.element} nodes should be removed from the DOM.
+   * Defaults to `true`.
    */
-  public clearItems(removeElements?: boolean) {
+  public clearItems(removeElements = true) {
     if (removeElements) for (const { element } of this.items) element.remove();
 
     this.items = [];
@@ -281,17 +283,19 @@ export class CMSList extends Emittery<CMSListEvents> {
    *
    * @param animateItems Defines if the rendered items should be animated.
    * @param animateList Defines if the list should be animated.
+   *
+   * @returns The rendered items.
    */
-  public async renderItems(animateItems?: boolean, animateList?: boolean): Promise<void> {
+  public async renderItems(animateItems?: boolean, animateList?: boolean) {
     await this.renderingQueue;
 
-    return new Promise(async (resolve) => {
+    return new Promise<CMSItem[]>(async (resolve) => {
       const queueItem = renderListItems(this, animateItems, animateList);
 
       this.renderingQueue = queueItem;
 
-      await queueItem;
-      resolve();
+      const renderedItems = await queueItem;
+      resolve(renderedItems);
     });
   }
 
@@ -300,9 +304,8 @@ export class CMSList extends Emittery<CMSListEvents> {
    * If the `listAnimation` exists, it uses that animation.
    *
    * @param elementKey The element to show/hide.
-   *
-   * @param show Defaults to `true`.
-   * @param animate Defaults to `true`.
+   * @param show The action to perform, `true` to show, `false` to hide. Defaults to `true`.
+   * @param animate Defines if the transition should be animated. Defaults to `true`.
    */
   public async displayElement(
     elementKey:
@@ -336,8 +339,8 @@ export class CMSList extends Emittery<CMSListEvents> {
    *
    * @param targetPage The target page to set.
    *
-   * @param renderItems Defines if the list should be re-render.
-   * If `false`, the rendering responsibilities are handled by another controller.
+   * @param renderItems Defines if the list should be re-rendered.
+   * If `false`, the rendering responsibilities should be handled by another controller.
    *
    * @returns An awaitable Promise that resolves after the list has re-rendered.
    */
@@ -469,7 +472,9 @@ export class CMSList extends Emittery<CMSListEvents> {
 
   /**
    * Gets the instance of the list for a specific attribute key.
-   * @param key The attribute key.
+   * @param key The attribute key. Example: `fs-cmsfilter-element`.
+   *
+   * @example 'fs-cmsfilter-element="list-2"' // Returns 2.
    */
   public getInstanceIndex(key: string): number | undefined {
     const { wrapper, list } = this;

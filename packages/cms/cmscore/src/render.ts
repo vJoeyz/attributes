@@ -76,6 +76,8 @@ export const renderListItems = async (listInstance: CMSList, animateItems = fals
 
   // Animate the list
   if (shouldAnimateList) await listInstance.displayElement(newEmptyState ? 'emptyElement' : 'list');
+
+  return itemsToShow;
 };
 
 /**
