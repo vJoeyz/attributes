@@ -1,0 +1,129 @@
+<script lang="ts">
+  import Attribute from '@src/components/Layout/Attribute.svelte';
+  import AttributeItem from '@src/components/Layout/AttributeItem.svelte';
+  import AttributeSettings from '@src/components/Layout/AttributeSettings.svelte';
+  import AttributeKey from '@src/components/Layout/AttributeKey.svelte';
+  import AttributeItemHeader from '@src/components/Layout/AttributeItemHeader.svelte';
+  import AttributeCheckbox from '@src/components/Layout/AttributeCheckbox.svelte';
+  import AttributeItemContainer from '@src/components/Layout/AttributeItemContainer.svelte';
+  import AttributeContainer from '@src/components/Layout/AttributeContainer.svelte';
+  import AttributeLabel from '@src/components/Layout/AttributeLabel.svelte';
+  import AttributeText from '@src/components/Layout/AttributeText.svelte';
+  import AttributeToggle from '@src/components/Layout/AttributeToggle.svelte';
+  import AttributeSelector from '@src/components/Layout/AttributeSelector.svelte';
+  import AttributeFieldAdd from '@src/components/Layout/AttributeFieldAdd.svelte';
+  import AttributeFieldDel from '@src/components/Layout/AttributeFieldDel.svelte';
+  import FieldSpecialization from '@src/components/Field/Specialization/FieldSpecialization.svelte';
+  import AttributeRequired from '@src/components/Layout/AttributeRequired.svelte';
+  import FieldSettings from '@src/components/Schema/FieldSetting.svelte';
+  import InputValidation from '../Layout/InputValidation.svelte';
+  import type { FieldUI } from '@src/services/UI/UIService';
+  import type { SchemaInputField } from '@src/types/Input.types';
+
+  import {
+    schemaFormActions,
+    schemaForm,
+    toggleAttributeSelector,
+  } from '@src/stores';
+
+  export let addField: any;
+  export let deleteField: any;
+  export let field: FieldUI;
+  export let fieldInstance: SchemaInputField;
+
+  export let changeFieldIdentifier: any;
+  export let changeFieldElement: any;
+
+  let hasSettings = field?.settings?.length > 0 || false;
+
+  let localSpecialization = fieldInstance && fieldInstance.specialization;
+
+  let isChecked = true;
+  let isRequired = true;
+
+
+  let selectorId = `field-${field.key}-${fieldInstance.index}`;
+  let isOpenSelector = $toggleAttributeSelector === selectorId;
+
+  function toggleSelector() {
+    if (!isOpenSelector) {
+      $toggleAttributeSelector = selectorId;
+      return;
+    }
+
+    $toggleAttributeSelector = null;
+    isOpenSelector = false;
+  }
+
+  $: if ($schemaForm) {
+    fieldInstance = schemaFormActions.findField(field.key, fieldInstance.index);
+    localSpecialization = fieldInstance && fieldInstance.specialization;
+  }
+
+  $: if ($toggleAttributeSelector) {
+    isOpenSelector = $toggleAttributeSelector === selectorId;
+  }
+
+</script>
+
+<Attribute>
+  <AttributeItem id={selectorId} checked={isChecked}>
+    <AttributeItemHeader>
+      <AttributeCheckbox
+        onCheck={() => {}}
+        isChecked={isChecked}
+        isRequired={isRequired}
+        key={field.key}
+      />
+      <AttributeItemContainer>
+        <AttributeContainer>
+          <AttributeLabel toggleSelector={toggleSelector}>
+            <AttributeKey>
+              {field.key}
+            </AttributeKey>
+            <AttributeText>
+              {field.description}
+              {#if fieldInstance && fieldInstance.index === 'field-1'}
+                <AttributeRequired/>
+              {/if}
+            </AttributeText>
+          </AttributeLabel>
+          <AttributeToggle isOpen={isOpenSelector} toggleSelector={toggleSelector}/>
+
+          {#if fieldInstance && fieldInstance.index !== 'field-1'}
+            <AttributeFieldDel deleteField={() => deleteField(fieldInstance && fieldInstance.index || '')}/>
+          {/if}
+
+          <AttributeFieldAdd addField={addField}/>
+        </AttributeContainer>
+        {#if isOpenSelector}
+          <AttributeSelector type="field" name={field.key} value={undefined} specialization={localSpecialization}/>
+        {/if}
+      </AttributeItemContainer>
+
+    </AttributeItemHeader>
+    {#if fieldInstance && fieldInstance.validation}
+      {#each fieldInstance.validation.messages as inputMessage}
+        <InputValidation
+          status={fieldInstance.validation.status}
+          message={inputMessage.message}
+          type={inputMessage.type}
+        />
+      {/each}
+    {/if}
+    <FieldSpecialization
+      identifier={fieldInstance.identifier}
+      changeFieldElement={changeFieldElement}
+      changeFieldIdentifier={changeFieldIdentifier}
+      specializations={field.specializations}
+      fieldIndex={fieldInstance}
+    />
+  </AttributeItem>
+  {#if hasSettings}
+    <AttributeSettings>
+      {#each field.settings as setting}
+        <FieldSettings fieldKey={field.key} fieldIndex={fieldInstance.index} setting={setting}/>
+      {/each}
+    </AttributeSettings>
+  {/if}
+</Attribute>

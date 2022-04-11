@@ -1,3 +1,4 @@
+import { DIV_BLOCK, HEADING, PARAGRAPH, TEXT_BLOCK } from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
 import {
@@ -19,66 +20,103 @@ export const schema: AttributeSchema = {
     {
       key: WRAPPER_ELEMENT_KEY,
       description: 'Defines a range slider instance element.',
-      appliedTo: [],
+      appliedTo: [DIV_BLOCK],
       conditions: [],
       required: true,
       requiresInstance: true,
+      multiplesInInstance: false,
     },
     {
       key: TRACK_ELEMENT_KEY,
       description: 'Defines the track of the slider.',
-      appliedTo: [],
+      appliedTo: [DIV_BLOCK],
       conditions: [
         {
-          type: 'isChildOf',
+          condition: 'isChildOf',
+          type: 'element',
           element: WRAPPER_ELEMENT_KEY,
+        },
+        {
+          condition: 'hasStyle',
+          styles: [
+            {
+              property: 'position',
+              value: 'relative',
+            },
+          ],
         },
       ],
       required: true,
       requiresInstance: true,
+      multiplesInInstance: false,
     },
     {
       key: FILL_ELEMENT_KEY,
       description: 'Defines the fill of the slider.',
-      appliedTo: [],
+      appliedTo: [DIV_BLOCK],
       conditions: [
         {
-          type: 'isChildOf',
+          condition: 'isChildOf',
+          type: 'element',
           element: TRACK_ELEMENT_KEY,
+        },
+        {
+          condition: 'hasStyle',
+          styles: [
+            {
+              property: 'position',
+              value: 'absolute',
+            },
+          ],
         },
       ],
       required: true,
       requiresInstance: true,
+      multiplesInInstance: false,
     },
     {
       key: HANDLE_ELEMENT_KEY,
       description: 'Defines a handle of the slider.',
-      appliedTo: [],
+      appliedTo: [DIV_BLOCK],
       conditions: [
         {
-          type: 'isChildOf',
+          condition: 'isChildOf',
+          type: 'element',
           element: TRACK_ELEMENT_KEY,
+        },
+        {
+          condition: 'hasStyle',
+          styles: [
+            {
+              property: 'position',
+              value: 'absolute',
+            },
+          ],
         },
       ],
       required: true,
       requiresInstance: true,
+      multiplesInInstance: false,
     },
     {
       key: DISPLAY_VALUE_ELEMENT_KEY,
       description: "Defines an element to display a Handle's value.",
-      appliedTo: ['p', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+      appliedTo: [TEXT_BLOCK, PARAGRAPH, HEADING],
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: TRACK_ELEMENT_KEY,
         },
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: HANDLE_ELEMENT_KEY,
         },
       ],
       required: false,
       requiresInstance: true,
+      multiplesInInstance: false,
     },
   ],
   settings: [

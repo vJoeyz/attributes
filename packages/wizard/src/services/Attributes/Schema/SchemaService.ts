@@ -1,0 +1,180 @@
+import SchemaSelector from '@src/services/Selector/SchemaSelector';
+import type {
+  AttributeSchema,
+  AttributeElementSchema,
+  AttributeSettingSchema,
+  AttributeFieldSchema,
+  AttributeSettingCondition,
+} from '@src/global/types/schema';
+import type {
+  SchemaSettings,
+  SCHEMA_ITEM_TYPES,
+} from '@src/types/Schema.types';
+import type { SchemaInput } from '@src/types/Input.types';
+
+/**
+ * Create the SchemaSelector for elements
+ *
+ * @param element key of the element
+ * @param schemaSettings schema settings
+ * @param requiresInstance boolean if the element requires an instance
+ * @returns
+ */
+export function createElementSelector(
+  element: string,
+  schemaSettings: SchemaSettings,
+  requiresInstance: boolean
+): SchemaSelector {
+  const { key, instance } = schemaSettings;
+
+  const selectorAttr = `fs-${key}-element`;
+  const selectorValue = instance > 1 && requiresInstance ? `${element}-${instance}` : element;
+
+  return new SchemaSelector(selectorAttr, selectorValue, instance === 1);
+}
+
+/**
+ * Create the ISchemaAttribute for settings
+ *
+ * @param setting key of the setting
+ * @param option value of the setting
+ * @param key schema setting key
+ * @returns
+ */
+export function createSettingSelector(setting: string, option: string | null, key: string): SchemaSelector {
+  const selectorAttr = `fs-${key}-${setting}`;
+  const selectorValue = option || '';
+
+  return new SchemaSelector(selectorAttr, selectorValue);
+}
+
+/**
+ * Get Schema Item from the AttributeSchema by SCHEMA_ITEM_TYPES type and schema item key.
+ *
+ * @param schema AttributeSchema
+ * @param type elements | settings
+ * @param schemaItemKey key of the elements or settings
+ * @returns
+ */
+export function getSchemaItem(
+  schema: AttributeSchema,
+  type: SCHEMA_ITEM_TYPES,
+  schemaItemKey: string
+): AttributeElementSchema | AttributeSettingSchema | AttributeFieldSchema {
+  // Find items of the schema type
+  const attributesByType = schema[type];
+
+  if (!attributesByType) {
+    throw new Error(`Missing attribute type ${type} in schema`);
+  }
+
+  // Find items by schema item key
+  const attributeElement = (attributesByType as unknown as { key: string }[]).find(
+    (attribute) => attribute.key === schemaItemKey
+  );
+
+  if (!attributeElement) {
+    throw new Error(`Missing ${type} with key ${schemaItemKey} in schema`);
+  }
+
+  // return as Field
+  if (type === 'fields') {
+    return attributeElement as AttributeFieldSchema;
+  }
+
+  // return as Element
+  if (type === 'elements') {
+    return attributeElement as AttributeElementSchema;
+  }
+
+  // return as Setting
+  return attributeElement as AttributeSettingSchema;
+}
+
+/**
+ * Handle AttributeSchema for elements and settings by AttributeElementSchema or AttributeSettingSchema
+ */
+export function createSchemaSelectorFromItem(
+  schemaItem: AttributeElementSchema | AttributeSettingSchema | AttributeFieldSchema,
+  schemaType: string,
+  schemaKey: string,
+  schemaSettings: SchemaSettings,
+  option: string | null = null
+) {
+  switch (schemaType) {
+    case 'elements': {
+      const { requiresInstance } = schemaItem as AttributeElementSchema;
+      return createElementSelector(schemaKey, schemaSettings, requiresInstance);
+    }
+
+    case 'settings':
+    case 'fields': {
+      return createSettingSelector(schemaKey, option, schemaSettings.key);
+    }
+
+    default: {
+      throw new Error(`Unknown schema type ${schemaType}`);
+    }
+  }
+}
+
+/**
+ * Find the schema AttributeElementSchema or AttributeSettingSchema
+ * by the schema key and schema item key and return the schema selector
+ */
+export function createSchemaSelectorFromSchema(
+  schema: AttributeSchema,
+  schemaType: 'elements' | 'settings' | 'fields',
+  schemaKey: string | undefined,
+  schemaSettings: SchemaSettings,
+  option?: string | null
+) {
+  if (!schemaKey) {
+    throw new Error('Missing schema Key');
+  }
+  const schemaItem = getSchemaItem(schema, schemaType, schemaKey);
+
+  if (!schemaItem) {
+    throw new Error(`Missing schema element ${schemaType} ${schemaKey}`);
+  }
+
+  return createSchemaSelectorFromItem(schemaItem, schemaType, schemaKey, schemaSettings, option);
+}
+
+/**
+ * Check if AttributeSettingSchema match the schema settings condition.
+ */
+export function checkSettingCondition(elementOrSetting: AttributeSettingSchema | AttributeElementSchema, form: SchemaInput[]): boolean {
+  let localEnable = true;
+
+  if (!elementOrSetting || !elementOrSetting.conditions || elementOrSetting.conditions.length === 0) {
+    return localEnable;
+  }
+
+  const conditions = elementOrSetting.conditions.filter((condition) => condition.condition === 'settings');
+
+  if (!conditions || conditions.length === 0) {
+    return localEnable;
+  }
+
+  conditions.forEach((condition) => {
+    const conditionsSettings = (condition as AttributeSettingCondition).settings;
+
+    conditionsSettings.forEach((conditionSetting: { key: string; value: string }) => {
+      const settingInForm = form.find(
+        (item) =>
+          (item.type === 'elementSetting' || item.type === 'fieldSetting') &&
+          item.setting == conditionSetting.key &&
+          item.option === conditionSetting.value &&
+          item.enable === true
+      );
+
+
+      if (!settingInForm) {
+        localEnable = false;
+      }
+    });
+  });
+
+  return localEnable;
+}

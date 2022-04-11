@@ -1,5 +1,4 @@
-import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
-
+import { COLLECTION_LIST, TEXT_ELEMENT } from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
 import { LIST_ELEMENT_KEY, ITEMS_COUNT_ELEMENT_KEY } from './../src/constants';
@@ -10,7 +9,8 @@ export const schema: AttributeSchema = {
       key: LIST_ELEMENT_KEY,
       description: 'Defines a list to be combined into the target.',
       conditions: [],
-      appliedTo: [`.${CMS_CSS_CLASSES.wrapper}`, `.${CMS_CSS_CLASSES.list}`],
+      appliedTo: [COLLECTION_LIST],
+      multiplesInInstance: true,
       required: true,
       requiresInstance: true,
     },
@@ -19,11 +19,13 @@ export const schema: AttributeSchema = {
       description: 'Defines an element where to display the total items of the list.',
       conditions: [
         {
-          type: 'exists',
+          condition: 'exists',
+          type: 'element',
           element: LIST_ELEMENT_KEY,
         },
       ],
-      appliedTo: ['p', 'span', 'div'],
+      appliedTo: [TEXT_ELEMENT],
+      multiplesInInstance: false,
       required: false,
       requiresInstance: true,
     },

@@ -1,3 +1,4 @@
+import { DROPDOWN, LINK_BLOCK, SELECT, TEXT_BLOCK, TEXT_LINK } from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
 import {
@@ -14,18 +15,27 @@ export const schema: AttributeSchema = {
       description: 'Defines a dropdown element.',
       required: true,
       requiresInstance: true,
-      appliedTo: ['.w-dropdown'],
-      conditions: [],
+      appliedTo: [DROPDOWN],
+      multiplesInInstance: true,
+      conditions: [
+        {
+          condition: 'isParentOf',
+          type: 'selector',
+          selector: [SELECT],
+        },
+      ],
     },
     {
       key: LABEL_ELEMENT_KEY,
       description: 'Defines the label that displays the currently selected option.',
       required: false,
       requiresInstance: true,
-      appliedTo: ['div'],
+      appliedTo: [TEXT_BLOCK],
+      multiplesInInstance: false,
       conditions: [
         {
-          type: 'isChildOf',
+          condition: 'isChildOf',
+          type: 'element',
           element: DROPDOWN_ELEMENT_KEY,
         },
       ],
@@ -33,12 +43,14 @@ export const schema: AttributeSchema = {
     {
       key: RESET_OPTION_KEY,
       description: 'Defines an option that will remove the selected value.',
-      required: true,
+      required: false,
       requiresInstance: true,
-      appliedTo: ['w-dropdown a'],
+      multiplesInInstance: false,
+      appliedTo: [LINK_BLOCK, TEXT_LINK],
       conditions: [
         {
-          type: 'exists',
+          condition: 'isChildOf',
+          type: 'element',
           element: DROPDOWN_ELEMENT_KEY,
         },
       ],
