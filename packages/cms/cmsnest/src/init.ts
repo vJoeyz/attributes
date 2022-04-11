@@ -14,8 +14,6 @@ export const init = async (): Promise<CMSList[]> => {
   // Create the list instances
   const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
-  for (const listInstance of listInstances) initListNesting(listInstance, cmsCore);
-
   await Promise.all(listInstances.map((listInstance) => initListNesting(listInstance, cmsCore)));
 
   window.fsAttributes[ATTRIBUTE].resolve?.(listInstances);
