@@ -5,7 +5,12 @@ import type { CMSList } from '$cms/cmscore/src';
 import type { CMSCoreImport } from '$cms/cmscore/src/types';
 import type { CMSFilters } from '$cms/cmsfilter/src/components/CMSFilters';
 
-export type FsAttributesCallback = [string, (value: unknown) => void];
+export type FsAttributesCallback =
+  | [
+      'cmsload' | 'cmsnest' | 'cmscombine' | 'cmsprevnext' | 'cmsslider' | 'cmssort' | 'cmstabs',
+      (value: CMSList[]) => void
+    ]
+  | ['cmsfilter', (value: CMSFilters[]) => void];
 
 type FsAttributesBase = {
   animationImport?: AnimationImport;

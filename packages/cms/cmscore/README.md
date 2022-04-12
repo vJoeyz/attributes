@@ -20,39 +20,39 @@ The [`CMSList` instance](#cmslist-properties) has a few properties and methods t
 
 Each individual Collection Item is stored as a [`CMSItem` instance](#cmsitem-properties), which also has some methods and properties.
 
-### `CMSList` Properties
+### `CMSList` instance
 
 ```typescript
 interface CMSList {
   /**
    * The `Collection List Wrapper` element.
    */
-  wrapper: CollectionListWrapperElement,
+  wrapper: HTMLDivElement;
 
   /**
    * The `Collection List` element.
    */
-  list?: CollectionListElement | null;
+  list?: HTMLDivElement | null;
 
   /**
    * The `Pagination` wrapper element.
    */
-  paginationWrapper?: PaginationWrapperElement | null;
+  paginationWrapper?: HTMLDivElement | null;
 
   /**
    * The `Page Count` element.
    */
-  paginationCount?: PageCountElement | null;
+  paginationCount?: HTMLDivElement | null;
 
   /**
    * The `Previous` button.
    */
-  paginationPrevious?: PaginationButtonElement | null;
+  paginationPrevious?: HTMLAnchorElement | null;
 
   /**
    * The `Next` button.
    */
-  paginationNext?: PaginationButtonElement | null;
+  paginationNext?: HTMLAnchorElement | null;
 
   /**
    * An element used as scroll anchor.
@@ -114,7 +114,7 @@ interface CMSList {
    * Defines if the pagination query param should be added to the URL when switching pages.
    * @example '?5f7457b3_page=1'
    */
-  showPaginationQuery = false;
+  showPaginationQuery: boolean;
 
   /**
    * An array holding all {@link CMSItem} instances of the list.
@@ -126,7 +126,7 @@ interface CMSList {
    */
   originalItemsOrder: CMSItem[];
 
-   /**
+  /**
    * Defines the amount of items per page.
    */
   itemsPerPage: number;
@@ -146,39 +146,33 @@ interface CMSList {
    * Defines if the entire `window.Webflow` instance must be restarted when rendering items.
    * If set, individual modules ('ix2', 'commerce', 'lightbox') will also be restarted.
    */
-  restartWebflow = false;
+  restartWebflow: boolean;
 
   /**
    * Defines if the Webflow `ix2` module must be restarted when rendering items.
    */
-  restartIx = false;
+  restartIx: boolean;
 
   /**
    * Defines if the Webflow `commerce` module must be restarted when rendering items.
    */
-  restartCommerce = false;
+  restartCommerce: boolean;
 
   /**
    * Defines if the Webflow `lightbox` module must be restarted when rendering items.
    */
-  restartLightbox = false;
+  restartLightbox: boolean;
 
   /**
    * Defines if the Webflow `slider` module must be restarted when rendering items.
    */
-  restartSliders = false;
+  restartSliders: boolean;
 
   /**
    * Defines if the Webflow `tabs` module must be restarted when rendering items.
    */
-  restartTabs = false;
-}
-```
+  restartTabs: boolean;
 
-### `CMSList` methods
-
-```typescript
-interface CMSList {
   /**
    * Stores new Collection Items in the instance.
    *
@@ -270,19 +264,19 @@ interface CMSList {
 }
 ```
 
-### `CMSItem` properties
+### `CMSItem` instance
 
 ````typescript
 interface CMSItem {
   /**
    * The `Collection Item` element.
    */
-  element: CollectionItemElement;
+  element: HTMLDivElement;
 
   /**
    * The `Collection List` parent element.
    */
-  list: CollectionListElement;
+  list: HTMLDivElement;
 
   /**
    * The element's current index in the rendered list.
@@ -319,6 +313,13 @@ interface CMSItem {
    * Defines if the item needs a Webflow modules restart.
    */
   needsWebflowRestart: boolean;
+
+  /**
+   * Collects the props from child elements and stores them.
+   * @param attributeKeys The attribute keys to use to collect the props.
+   * @returns Nothing, it mutates the passed `CMSItem` instances.
+   */
+  collectProps({ fieldKey, typeKey, rangeKey }: { fieldKey: string; typeKey?: string; rangeKey?: string }): void;
 }
 
 interface CMSItemProps {
@@ -369,16 +370,3 @@ interface CMSItemProps {
   };
 }
 ````
-
-### `CMSItem` methods
-
-```typescript
-interface CMSItem {
-  /**
-   * Collects the props from child elements and stores them.
-   * @param attributeKeys The attribute keys to use to collect the props.
-   * @returns Nothing, it mutates the passed `CMSItem` instances.
-   */
-  collectProps({ fieldKey, typeKey, rangeKey }: { fieldKey: string; typeKey?: string; rangeKey?: string }): void;
-}
-```
