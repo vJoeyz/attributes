@@ -2,7 +2,11 @@
 export function clickOutside(node: Node) {
 
   const handleClick = (event: MouseEvent) => {
-    if (node && !node.contains(event.target as Node | null) && !event.defaultPrevented) {
+
+    const composedPath = event.composedPath();
+    const target = composedPath[0];
+
+    if (node && !node.contains(target as Node | null) && !event.defaultPrevented) {
 
       event.stopPropagation();
       node.dispatchEvent(
