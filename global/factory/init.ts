@@ -1,4 +1,5 @@
 import { ATTRIBUTES, getSelector } from '$global/constants/attributes';
+import { importSupport } from '$global/import/support';
 import type { FsAttributes, FsAttributesCallback } from '$global/types/global';
 
 /**
@@ -19,6 +20,8 @@ export const initAttributes = () => {
 
   window.fsAttributes = fsAttributes;
   window.FsAttributes = window.fsAttributes;
+
+  importSupport();
 };
 
 /**
