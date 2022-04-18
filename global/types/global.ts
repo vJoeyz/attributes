@@ -14,6 +14,7 @@ export type FsAttributesCallback =
 
 type FsAttributesBase = {
   animationImport?: AnimationImport;
+  supportImport?: Promise<boolean>;
 
   push: (...args: FsAttributesCallback[]) => void;
 
@@ -26,7 +27,8 @@ type FsAttributesBase = {
   };
 };
 
-export interface FsAttributeInit<T = unknown> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface FsAttributeInit<T = any> {
   version?: string;
   init?: () => T | Promise<T>;
   loading?: Promise<T>;
