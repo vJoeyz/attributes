@@ -5,7 +5,7 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
-import css from 'rollup-plugin-css-only';
+// import css from 'rollup-plugin-css-only';
 import alias from '@rollup/plugin-alias';
 import path from 'path'
 import { svelteSVG } from "rollup-plugin-svelte-svg";
@@ -60,11 +60,12 @@ export default {
       compilerOptions: {
         // enable run-time checks when not in production
         dev: !production
-      }
+      },
+      emitCss: false,
     }),
     // we'll extract any component CSS out into
     // a separate file - better for performance
-    css({ output: 'bundle.css' }),
+    // css({ output: 'bundle.css' }),
 
     // If you have external dependencies installed from
     // npm, you'll most likely need these plugins. In
