@@ -2,7 +2,7 @@ import { Selector } from 'testcafe';
 
 
 
-const wizardWrapper = Selector('[data-id="wizard-wrapper"]').shadowRoot();
+const wizardWrapper = Selector('[data-id="fs-attributes-support"]').shadowRoot();
 
 
 /**

@@ -2,11 +2,12 @@
   import SelectDisplay from '@src/components/Field/Specialization/Form/Select/SelectDisplay.svelte';
   import SelectDropdown from '@src/components/Field/Specialization/Form/Select/SelectDropdown.svelte';
   import SelectOption from '@src/components/Field/Specialization/Form/Select/SelectOption.svelte';
+  import type { FieldSpecialization } from '@src/global/types/schema';
+  import type { SchemaInputField, FieldChangeSpecialization } from '@src/types/Input.types';
 
-  export let options: any[];
-  // export let onSelect: any;
-  export let fieldIndex: any;
-  export let changeFieldElement: any;
+  export let options: FieldSpecialization[];
+  export let fieldInput: SchemaInputField;
+  export let changeFieldElement: FieldChangeSpecialization;
 
   let isOpen: boolean = false;
 
@@ -22,15 +23,15 @@
 
   function onSelect(element: string) {
     return function() {
-      changeFieldElement(fieldIndex.index, element);
+      changeFieldElement(fieldInput.index, element);
       forceClose();
     }
   }
 
-  let specialization = fieldIndex.specialization || 'Select an option';
+  let specialization = fieldInput.specialization || 'Select an option';
 
   $: {
-    specialization = fieldIndex.specialization || 'Select an option';
+    specialization = fieldInput.specialization || 'Select an option';
   }
 
 </script>
@@ -41,9 +42,7 @@
   {#if isOpen}
   <SelectDropdown forceClose={forceClose}>
     {#each options as option (option.key)}
-    <SelectOption onSelect={onSelect(option.key)} selected={specialization === option.key}>{option.key}</SelectOption>
-    <!-- <SelectOption>Option 2</SelectOption>
-    <SelectOption>Option 3</SelectOption> -->
+      <SelectOption onSelect={onSelect(option.key)} selected={specialization === option.key}>{option.key}</SelectOption>
     {/each}
   </SelectDropdown>
   {/if}

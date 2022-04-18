@@ -24,7 +24,6 @@
       type="text"
       {isTouched}
       {isValid}
-      label="Text:"
       bind:value={attributeValue}
     />
   </InputController>

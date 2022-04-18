@@ -1,19 +1,20 @@
 <script lang="ts">
   import ElementSpecialization from './ElementSpecialization.svelte';
   import IdentifierSpecialization from './IdentifierSpecialization.svelte';
+  import type { FieldChangeSpecialization, FieldChangeIdentifier, SchemaInputField } from '@src/types/Input.types';
+  import type { FieldSpecialization } from '@src/global/types/schema';
 
-  export let specializations: any;
-  export let changeFieldIdentifier: any;
-  export let changeFieldElement: any;
-  export let fieldIndex: any;
-  export let identifier: string;
+  export let specializations: FieldSpecialization[];
+  export let changeFieldIdentifier: FieldChangeIdentifier;
+  export let changeFieldElement: FieldChangeSpecialization;
+  export let fieldIndex: SchemaInputField;
+  //export let identifier: string;
 </script>
 
 <div class="tool_field-wrapper">
   <div class="tool_field-row">
     <IdentifierSpecialization
-      identifier={identifier}
-      fieldIndex={fieldIndex}
+      fieldInput={fieldIndex}
       changeFieldIdentifier={changeFieldIdentifier}
     />
   </div>
@@ -21,7 +22,7 @@
     <div class="tool_field-row">
       <ElementSpecialization
         specializations={specializations}
-        fieldIndex={fieldIndex}
+        fieldInput={fieldIndex}
         changeFieldElement={changeFieldElement}
       />
     </div>

@@ -1,27 +1,26 @@
 <script lang="ts">
-  export let changeFieldIdentifier: any;
-  export let fieldIndex: any;
-  export let identifier: string | null;
+  import type { FieldChangeIdentifier, SchemaInputField } from '@src/types/Input.types';
+
+  export let changeFieldIdentifier: FieldChangeIdentifier;
+  export let fieldInput: SchemaInputField;
 
   let currentValue: string;
 
-  if (identifier) {
-    currentValue = identifier;
-  }
-  // = identifier;
+  currentValue = fieldInput.identifier;
 
   function onInput(event: any) {
     const value = event.target.value;
-    changeFieldIdentifier(fieldIndex.index, value);
     currentValue = value;
+    changeFieldIdentifier(fieldInput.index, value);
   }
 
   $: {
-
-    if (identifier === '') {
+    if (fieldInput.identifier === '') {
       currentValue = '';
     }
   }
+
+
 
 </script>
 
