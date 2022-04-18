@@ -42,7 +42,7 @@ interface CMSFilters {
   /**
    * Defines the `Form Block` element that hold all filters.
    */
-  readonly formBlock: FormBlockElement;
+  readonly formBlock: HTMLDivElement;
 
   /**
    * Defines a {@link CMSList} instance. See `cmscore` docs for more info.
@@ -67,7 +67,7 @@ interface CMSFilters {
   /**
    * A `<input type="submit">` button.
    */
-  readonly submitButton: any;
+  readonly submitButton?: HTMLInputElement;
 
   /**
    * The filters data.
@@ -203,7 +203,7 @@ interface FilterElement {
   /**
    * Defines the element that holds the filter value.
    */
-  element: FormField;
+  element: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
 
   /**
    * The filter value.

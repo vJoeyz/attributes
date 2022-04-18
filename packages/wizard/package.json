@@ -1,7 +1,9 @@
 {
-  "name": "svelte-app",
-  "version": "1.0.0",
-  "private": true,
+  "name": "@finsweet/attributes-support",
+  "version": "1.0.0-beta.0",
+  "files": [
+    "public/build/bundle.js"
+  ],
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
