@@ -2,9 +2,10 @@
   import ExternalLink from '@src/components/Layout/Icons/external-link.svg';
 </script>
 
+<!-- svelte-ignore a11y-invalid-attribute -->
 <a href="#" class="tool_tutorial-link">
   <div>Watch tutorial</div>
-  <ExternalLink/>
+  <ExternalLink />
 </a>
 
 <style>
