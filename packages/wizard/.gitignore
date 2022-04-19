@@ -4,6 +4,6 @@ bin/error-messages.txt
 coverage
 screenshots
 /node_modules/
-
+support.js
 .DS_Store
 yarn-error.log
