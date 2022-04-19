@@ -44,7 +44,7 @@
     const data = await request.json();
 
     const attributesWithLoadPromises = data.map(async (attribute: Attribute): Promise<AttributeLoaded> => {
-      const schemaFile = `${attribute.baseSrc}/${attribute.schemaSrc}`.replace('@1', '@beta');
+      const schemaFile = `${attribute.baseSrc}/${attribute.schemaSrc}`;
       const scriptFile = `${attribute.baseSrc}/${attribute.scriptSrc}`;
 
       const loaded = await isScriptLoaded(scriptFile);
