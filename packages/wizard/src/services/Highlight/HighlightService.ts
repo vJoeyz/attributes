@@ -15,7 +15,7 @@ import type {
   FieldSpecialization,
   InstanceFieldSpecializationAppliedTo,
   DOMSelector,
-} from '@src/global/types/schema';
+} from '@global/types/schema';
 
 const highlightStyle: HighlightBackupStyle = {
   ['backgroundColor']: {

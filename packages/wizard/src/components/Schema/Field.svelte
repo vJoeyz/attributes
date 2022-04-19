@@ -18,7 +18,7 @@
   import FieldSettings from '@src/components/Schema/FieldSetting.svelte';
   import InputValidation from '../Layout/InputValidation.svelte';
   import type { FieldUI } from '@src/services/UI/UIService';
-  import type { SchemaInputField } from '@src/types/Input.types';
+  import type { SchemaInputField, FieldChangeSpecialization, FieldChangeIdentifier } from '@src/types/Input.types';
 
   import {
     schemaFormActions,
@@ -26,13 +26,13 @@
     toggleAttributeSelector,
   } from '@src/stores';
 
-  export let addField: any;
-  export let deleteField: any;
+  export let addField: () => void;
+  export let deleteField: (fieldIndex: string) => void;
   export let field: FieldUI;
   export let fieldInstance: SchemaInputField;
 
-  export let changeFieldIdentifier: any;
-  export let changeFieldElement: any;
+  export let changeFieldIdentifier: FieldChangeSpecialization;
+  export let changeFieldElement: FieldChangeIdentifier;
 
   let hasSettings = field?.settings?.length > 0 || false;
 
@@ -112,10 +112,9 @@
       {/each}
     {/if}
     <FieldSpecialization
-      identifier={fieldInstance.identifier}
+      specializations={field.specializations}
       changeFieldElement={changeFieldElement}
       changeFieldIdentifier={changeFieldIdentifier}
-      specializations={field.specializations}
       fieldIndex={fieldInstance}
     />
   </AttributeItem>

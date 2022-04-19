@@ -1,6 +1,6 @@
 import AbstractSchemaError from '@src/services/Errors/AbstractSchemaError';
 import type { SchemaSelector } from '@src/types/Schema.types';
-import type { AttributeStyleConditionStyles } from '@src/global/types/schema';
+import type { AttributeStyleConditionStyles } from '@global/types/schema';
 
 export default class AttributeIsNotParentOfElementError extends AbstractSchemaError {
   type = 'conditions-hasStyles';

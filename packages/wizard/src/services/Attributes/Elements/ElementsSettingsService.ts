@@ -9,7 +9,7 @@ import conditionsService from '@src/services/Attributes/Conditions/ConditionsSer
 import valuesService from '@src/services/Attributes/Values/ValuesService';
 import AbstractSchemaError from '@src/services/Errors/AbstractSchemaError';
 import type { SchemaInputElementSetting, InputChannel  } from '@src/types/Input.types';
-import type { AttributeElementSchema, AttributeSchema, AttributeSettingSchema } from '@src/global/types/schema';
+import type { AttributeElementSchema, AttributeSchema, AttributeSettingSchema } from '@global/types/schema';
 import type { SchemaSettings, ElementItemSelector } from '@src/types/Schema.types';
 
 

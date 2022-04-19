@@ -1,7 +1,7 @@
 import App from './App.svelte';
 
 const section = document.createElement('section');
-section.setAttribute('data-id', 'wizard-wrapper');
+section.setAttribute('data-id', 'fs-attributes-support');
 
 document.body.appendChild(section);
 
