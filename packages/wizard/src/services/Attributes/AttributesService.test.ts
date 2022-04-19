@@ -2,7 +2,7 @@ import { validateElement } from './Elements/ElementsService';
 import { validateElementSetting } from './Elements/ElementsSettingsService';
 import { validateFieldSetting } from './Fields/FieldsSettingsService';
 import { validateField } from './Fields/FieldsService';
-import type { AttributeSchema } from '@src/global/types/schema';
+import type { AttributeSchema } from '@global/types/schema';
 import type { SchemaInput } from '@src/types/Input.types';
 
 jest.mock('./Elements/ElementsService', () => ({

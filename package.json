@@ -35,7 +35,8 @@
     "packages/scrolldisable",
     "packages/selectcustom",
     "packages/sliderdots",
-    "packages/untransform"
+    "packages/untransform",
+    "packages/wizard"
   ],
   "repository": {
     "type": "git",

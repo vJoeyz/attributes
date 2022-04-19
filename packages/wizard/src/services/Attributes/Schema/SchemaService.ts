@@ -5,7 +5,7 @@ import type {
   AttributeSettingSchema,
   AttributeFieldSchema,
   AttributeSettingCondition,
-} from '@src/global/types/schema';
+} from '@global/types/schema';
 import type {
   SchemaSettings,
   SCHEMA_ITEM_TYPES,

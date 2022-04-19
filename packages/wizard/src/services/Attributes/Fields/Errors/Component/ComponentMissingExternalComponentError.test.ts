@@ -1,5 +1,5 @@
 import ComponentMissingExternalComponentError from './ComponentMissingExternalComponentError';
-import type { ParentSelector } from '@src/global/types/schema';
+import type { ParentSelector } from '@global/types/schema';
 import SchemaSelector from '@src/services/Selector/SchemaSelector';
 
 describe('Missing component on external page error.', () => {

@@ -1,4 +1,4 @@
-import type { AttributeSchemaCondition, DOMSelector, AttributeElementSchema } from "@src/global/types/schema";
+import type { AttributeSchemaCondition, DOMSelector, AttributeElementSchema } from '@global/types/schema';
 
 export type SCHEMA_ITEM_TYPES =  'settings' | 'elements' | 'fields';
 

@@ -12,7 +12,7 @@ import type {
   AttributeSchemaConditions,
   AttributeSettingCondition,
   AttributeSettingConditionSetting
-} from '@src/global/types/schema';
+} from '@global/types/schema';
 
 export function hasSettings(
   elementSelector: SchemaSelector,

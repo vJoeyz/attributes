@@ -1,5 +1,5 @@
 import type { ItemError } from "@src/types/Error.types";
-import type { DOMSelector, ElementSelector, ParentSelector, SelectorSelector  } from "@src/global/types/schema";
+import type { DOMSelector, ElementSelector, ParentSelector, SelectorSelector  } from '@global/types/schema';
 import type { AppliedToSelector } from "@src/types/Schema.types";
 
 export default class AbstractSchemaError extends Error implements ItemError {

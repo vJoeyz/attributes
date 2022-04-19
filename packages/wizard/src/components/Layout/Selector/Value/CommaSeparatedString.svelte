@@ -24,7 +24,6 @@
       type="text"
       {isTouched}
       {isValid}
-      label="Comma separated text:"
       bind:value={attributeValue}
     />
   </InputController>

@@ -25,7 +25,6 @@
       step="0.01"
       {isTouched}
       {isValid}
-      label="Float:"
       bind:value={attributeValue}
     />
   </InputController>

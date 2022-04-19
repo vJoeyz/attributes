@@ -4,7 +4,7 @@ import SettingNotMatchError from './Errors/SettingNotMatchError';
 import SchemaSelector from '@src/services/Selector/SchemaSelector';
 import CMS_LOAD from '@src/schemas/cms-load';
 import type { ItemError } from '@src/types/Error.types';
-import type { AttributeElementSchema, AttributeSchemaCondition } from '@src/global/types/schema';
+import type { AttributeElementSchema, AttributeSchemaCondition } from '@global/types/schema';
 
 describe('Test if settings match', () => {
 

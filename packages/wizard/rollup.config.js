@@ -5,8 +5,9 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
-import css from 'rollup-plugin-css-only';
+// import css from 'rollup-plugin-css-only';
 import alias from '@rollup/plugin-alias';
+import copy from 'rollup-plugin-copy'
 import path from 'path'
 import { svelteSVG } from "rollup-plugin-svelte-svg";
 
@@ -38,10 +39,10 @@ function serve() {
 export default {
   input: 'src/main.ts',
   output: {
-    sourcemap: true,
+    sourcemap: !production,
     format: 'iife',
     name: 'app',
-    file: 'public/build/bundle.js'
+    file: 'public/build/support.js'
   },
   plugins: [
     alias({
@@ -60,11 +61,12 @@ export default {
       compilerOptions: {
         // enable run-time checks when not in production
         dev: !production
-      }
+      },
+      emitCss: false,
     }),
     // we'll extract any component CSS out into
     // a separate file - better for performance
-    css({ output: 'bundle.css' }),
+    // css({ output: 'bundle.css' }),
 
     // If you have external dependencies installed from
     // npm, you'll most likely need these plugins. In
@@ -91,7 +93,13 @@ export default {
 
     // If we're building for production (npm run build
     // instead of npm run dev), minify
-    production && terser()
+    production && terser(),
+    production && copy({
+      targets: [
+        { src: 'public/build/support.js', dest: '.' },
+      ],
+      hook: 'closeBundle',
+    })
   ],
   watch: {
     clearScreen: false
