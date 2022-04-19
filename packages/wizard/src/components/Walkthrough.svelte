@@ -11,29 +11,6 @@
   import type { AttributeSchema } from '@global/types/schema';
   import type { Attribute, AttributeLoaded } from '@src/types/Schema.types';
 
-  import CMS_COMBINE from '@src/schemas/cms-combine';
-  import CMS_FILTER from '@src/schemas/cms-filter';
-  import CMS_LOAD from '@src/schemas/cms-load';
-  import CMS_NEST from '@src/schemas/cms-nest';
-  import CMS_PREV_NEXT from '@src/schemas/cms-previous-next';
-  import CMS_SELECT from '@src/schemas/cms-select';
-  import CMS_SLIDER from '@src/schemas/cms-slider';
-  import CMS_SORT from '@src/schemas/cms-sort';
-  import CMS_TABS from '@src/schemas/cms-tabs';
-  import COPY_CLIP from '@src/schemas/copy-clip';
-  import COUNT_ITEMS from '@src/schemas/count-items';
-  import CUSTOM_FAVICON from '@src/schemas/custom-favicon';
-  import CUSTOM_SELECT from '@src/schemas/custom-select';
-  import SLIDER_DOTS from '@src/schemas/slider-dots';
-  import DISABLE_SCROLLING from '@src/schemas/disable-scrolling';
-  import LINK_BLOCK_EDIT from '@src/schemas/link-block-edit';
-  import MIRROR_CLICK from '@src/schemas/mirror-click';
-  import MIRROR_INPUT from '@src/schemas/mirror-input';
-  import RICH_TEXT from '@src/schemas/rich-text';
-  import RANGE_SLIDER from '@src/schemas/range-slider';
-  import CODE_HIGHLIGHT from '@src/schemas/code-highlight';
-  import SMART_LIGHTBOX from '@src/schemas/smart-lightbox';
-
   import { isScriptLoaded } from '@src/services/Attributes/Script/ScriptService'
 
   import {
@@ -50,49 +27,7 @@
     isValidating,
   } from '@src/stores';
 
-  interface StaticSchema {
-    [key: string]: AttributeSchema;
-  }
-
-  const staticSchema: StaticSchema = {
-    cmscombine: CMS_COMBINE,
-    cmsfilter: CMS_FILTER,
-    cmsload: CMS_LOAD,
-    cmsnest: CMS_NEST,
-    cmsprevnext: CMS_PREV_NEXT,
-    cmsselect: CMS_SELECT,
-    cmsslider: CMS_SLIDER,
-    cmssort: CMS_SORT,
-    cmstabs: CMS_TABS,
-    copyclip: COPY_CLIP,
-    countitems: COUNT_ITEMS,
-    favcustom: CUSTOM_FAVICON,
-    selectcustom: CUSTOM_SELECT,
-    sliderdots: SLIDER_DOTS,
-    scrolldisable: DISABLE_SCROLLING,
-    linkblockedit: LINK_BLOCK_EDIT,
-    mirrorclick: MIRROR_CLICK,
-    mirrorinput: MIRROR_INPUT,
-    richtext: RICH_TEXT,
-    rangeslider: RANGE_SLIDER,
-    codehighlight: CODE_HIGHLIGHT,
-    smartlightbox: SMART_LIGHTBOX,
-  };
-
-  async function loadStaticSchema(key: string) {
-
-    schemaData.set(staticSchema[key]);
-
-    await new Promise((resolve) => {
-      setTimeout(resolve, 1000);
-    });
-    $schemaMode = SCHEMA_MODES.READY;
-
-  }
-
   async function loadSchema(inputFile: string) {
-
-
     const request = await fetch(inputFile);
     const data: AttributeSchema = await request.json();
 
@@ -163,22 +98,12 @@
   $: {
     if ($schemaSelected && $isLoadingWalkthrough === false && $isLoadingSchema === true) {
       $schemaData = null;
-
-      if (Object.keys(staticSchema).includes(($schemaSelected as AttributeLoaded).key)) {
-        loadStaticSchema(($schemaSelected as AttributeLoaded).key);
-      } else {
-        loadSchema(($schemaSelected as AttributeLoaded).schemaFile);
-      }
-
+      loadSchema(($schemaSelected as AttributeLoaded).schemaFile);
     }
   }
 
   $: if ($schemaSelected) {
-    if (Object.keys(staticSchema).includes(($schemaSelected as AttributeLoaded).key)) {
-      loadStaticSchema(($schemaSelected as AttributeLoaded).key);
-    } else {
-      loadSchema(($schemaSelected as AttributeLoaded).schemaFile);
-    }
+    loadSchema(($schemaSelected as AttributeLoaded).schemaFile);
   }
 
 
