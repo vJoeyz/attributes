@@ -4,7 +4,7 @@ import { elementAppliedTo } from '@src/services/Attributes/AppliedTo/AppliedToSe
 import useElementsConditions from '@src/services/Attributes/Conditions/ConditionsService';
 import AbstractSchemaError from '@src/services/Errors/AbstractSchemaError';
 import { queryAllElements } from '@src/services/DOM/Queries/QueriesService';
-import type { AttributeSchema, AttributeElementSchema } from '@src/global/types/schema';
+import type { AttributeSchema, AttributeElementSchema } from '@global/types/schema';
 import type { SchemaInputElement, InputChannel } from '@src/types/Input.types';
 import type { SchemaSettings } from '@src/types/Schema.types';
 

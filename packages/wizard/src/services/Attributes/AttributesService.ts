@@ -3,7 +3,7 @@ import { validateField } from './Fields/FieldsService';
 import { validateElementSetting } from './Elements/ElementsSettingsService';
 import { validateFieldSetting } from './Fields/FieldsSettingsService';
 import type { SchemaInput } from '@src/types/Input.types';
-import type { AttributeSchema, AttributeElementSchema } from '@src/global/types/schema';
+import type { AttributeSchema, AttributeElementSchema } from '@global/types/schema';
 import type { SchemaSettings } from '@src/types/Schema.types';
 import type { SchemaInputFieldSetting, InputChannel } from '@src/types/Input.types';
 

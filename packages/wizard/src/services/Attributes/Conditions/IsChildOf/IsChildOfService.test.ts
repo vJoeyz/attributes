@@ -1,6 +1,6 @@
 import SchemaSelector from '@src/services/Selector/SchemaSelector';
 import type { ItemError } from '@src/types/Error.types';
-import type { AttributeElementSchema, AttributeSchemaCondition } from '@src/global/types/schema'
+import type { AttributeElementSchema, AttributeSchemaCondition } from '@global/types/schema'
 import { isChildOf } from './IsChildOfService';
 import AttributeIsNotChildrenOfError from './Errors/AttributeIsNotChildrenOfError';
 import CMS_LOAD from '@src/schemas/cms-load';

@@ -8,7 +8,7 @@
   import Loading from '@src/components/Layout/Loading.svelte';
   import Minimize from '@src/components/Layout/Minimize.svelte';
   import Initial from '@src/components/Layout/Initial.svelte';
-  import type { AttributeSchema } from '@src/global/types/schema';
+  import type { AttributeSchema } from '@global/types/schema';
   import type { Attribute, AttributeLoaded } from '@src/types/Schema.types';
 
   import CMS_COMBINE from '@src/schemas/cms-combine';

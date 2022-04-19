@@ -10,7 +10,7 @@ import MissingFieldSettingError from './Errors/MissingFieldSettingError';
 import conditionsService from '@src/services/Attributes/Conditions/ConditionsService';
 import { valueServiceV2 } from '@src/services/Attributes/Values/ValuesService';
 import AbstractSchemaError from '@src/services/Errors/AbstractSchemaError';
-import type { AttributeSchema } from '@src/global/types/schema';
+import type { AttributeSchema } from '@global/types/schema';
 import type {
   SchemaInput,
   InputChannel,
@@ -19,7 +19,7 @@ import type {
   InputValidationMessage
 } from '@src/types/Input.types';
 import type { SchemaSettings } from '@src/types/Schema.types';
-import type { AttributeSettingSchema, SettingSpecialization } from '@src/global/types/schema';
+import type { AttributeSettingSchema, SettingSpecialization } from '@global/types/schema';
 
 export function validateFieldSetting(
   inputSetting: SchemaInputFieldSetting,

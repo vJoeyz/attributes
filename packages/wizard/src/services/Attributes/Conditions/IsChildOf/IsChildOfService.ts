@@ -7,7 +7,7 @@ import {
 } from '@src/services/Attributes/Schema/SchemaService';
 
 import AttributeIsNotChildrenOfError from './Errors/AttributeIsNotChildrenOfError';
-import type { AttributeSchema, AttributeSchemaConditions, AttributeSchemaCondition, AttributeMainCondition, DOMSelector, AttributeElementSchema } from '@src/global/types/schema';
+import type { AttributeSchema, AttributeSchemaConditions, AttributeSchemaCondition, AttributeMainCondition, DOMSelector, AttributeElementSchema } from '@global/types/schema';
 import type { SchemaSelector, SchemaSettings } from '@src/types/Schema.types';
 
 export function isChildOf(

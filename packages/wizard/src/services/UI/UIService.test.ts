@@ -1,5 +1,5 @@
 import uiService from './UIService';
-import type { AttributeSchema } from '@src/global/types/schema';
+import type { AttributeSchema } from '@global/types/schema';
 
 describe('Test UI Service', () => {
 
