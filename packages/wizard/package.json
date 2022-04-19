@@ -1,8 +1,8 @@
 {
   "name": "@finsweet/attributes-support",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.2",
   "files": [
-    "public/build/bundle.js"
+    "support.js"
   ],
   "scripts": {
     "build": "rollup -c",
