@@ -1,7 +1,8 @@
 <script lang="ts">
-  import debounce from '@src/utils/debounce';
+  // import debounce from '@src/utils/debounce';
   import Field from '@src/components/Schema/Field.svelte';
   import type { FieldUI } from '@src/services/UI/UIService';
+  import { scrollInto } from '@src/services/DOM/Utils/Utils';
   import {
     schemaFormActions,
     schemaSettingsInstance
@@ -10,10 +11,9 @@
 
   export let field: FieldUI;
 
-  let timer: NodeJS.Timeout;
+  // let timer: NodeJS.Timeout;
 
   let fields: SchemaInputField[] =  schemaFormActions.getFields();
-
 
   if (fields.length === 0) {
     addField();
@@ -29,14 +29,7 @@
     fields = schemaFormActions.getFields();
 
     if (fields.length > 1) {
-      setTimeout(() => {
-        const lastField = document.querySelector('div.fields > .tool_wizard:last-child');
-        if (lastField) {
-          lastField.scrollIntoView({
-            behavior: 'smooth',
-          });
-        }
-      }, 100);
+      scrollInto('div.fields > .tool_wizard:last-child', 200);
     }
   }
 
@@ -44,14 +37,7 @@
     schemaFormActions.deleteField(field.key, fieldIndex);
     fields = schemaFormActions.getFields();
 
-    setTimeout(() => {
-        const lastField = document.querySelector('div.fields > .tool_wizard:last-child');
-        if (lastField) {
-          lastField.scrollIntoView({
-            behavior: 'smooth',
-          });
-        }
-      }, 100);
+    scrollInto('div.fields > .tool_wizard:last-child', 200);
   }
 
   function changeFieldElement(fieldIndex: string, value: string) {
@@ -60,10 +46,7 @@
   }
 
   function changeFieldIdentifier(fieldIndex: string, value: string) {
-    debounce(timer, () => {
-      schemaFormActions.setFieldValue(field.key, fieldIndex, value);
-      fields = schemaFormActions.getFields();
-    });
+    schemaFormActions.setFieldValue(field.key, fieldIndex, value);
   }
 
   $: {

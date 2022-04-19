@@ -1,7 +1,7 @@
 import { ATTRIBUTES_PREFIX } from '$global/constants/attributes';
 
 const ATTRIBUTES_SUPPORT_QUERY_PARAM = `${ATTRIBUTES_PREFIX}-support`;
-const ATTRIBUTES_SUPPORT_SOURCE = 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-support@1/public/build/bundle.js';
+const ATTRIBUTES_SUPPORT_SOURCE = 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-support@1/support.js';
 
 /**
  * Imports the Attributes Support Wizard and mounts it on the page.

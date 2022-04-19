@@ -36,7 +36,7 @@ import {
   findInvalidAttributes,
   findValidAttributes,
 } from '@src/services/SchemaInput/SchemaInputService';
-import type { AttributeSchema, AttributeElementSchema } from '@src/global/types/schema';
+import type { AttributeSchema, AttributeElementSchema } from '@global/types/schema';
 import type { Attribute, AttributeLoaded } from '@src/types/Schema.types';
 import type { SchemaInput, SchemaInputConfig } from './types/Input.types';
 

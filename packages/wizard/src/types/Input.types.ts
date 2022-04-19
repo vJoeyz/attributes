@@ -66,3 +66,8 @@ export interface InputChannel {
   input: SchemaInput;
   domElement: HTMLElement[] | null;
 }
+
+
+export type FieldChangeSpecialization =  (fieldIndex: string, value: string) => void;
+
+export type FieldChangeIdentifier  = (fieldIndex: string, value: string) => void;

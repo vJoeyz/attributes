@@ -17,6 +17,7 @@
       throw new Error('Missing event');
     }
     try {
+      console.log(typeEvent.target.value);
       validate(typeEvent.target.value);
       isValidInput = true;
       inputValidationMessage = undefined;
@@ -27,7 +28,7 @@
   }
 
   function inputValidate(event: KeyboardEvent & { currentTarget: HTMLInputElement }): void {
-    debounce(timer, () => validateInput(event));
+    validateInput(event)
   }
 </script>
 

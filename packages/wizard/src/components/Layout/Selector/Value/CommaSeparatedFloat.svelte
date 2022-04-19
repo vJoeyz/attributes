@@ -24,7 +24,6 @@
       type="text"
       {isTouched}
       {isValid}
-      label="Comma separated float:"
       pattern="[0-9]+([,\.][0-9]+)?"
       bind:value={attributeValue}
     />

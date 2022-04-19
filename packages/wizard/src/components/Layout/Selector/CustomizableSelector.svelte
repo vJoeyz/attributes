@@ -4,7 +4,7 @@
   import SelectorButton from './SelectorButton.svelte';
   import SelectorCustomAttributeValueText from './SelectorCustomValueText.svelte';
   import SelectorOptions from './SelectorOptions.svelte';
-  import type { AttributeSettingValuePrimitive, AttributeSettingValueOptions } from '@src/global/types/schema';
+  import type { AttributeSettingValuePrimitive, AttributeSettingValueOptions } from '@global/types/schema';
 
   export let label: 'Name' | 'Value';
 

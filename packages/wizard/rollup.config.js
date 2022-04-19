@@ -7,6 +7,7 @@ import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 // import css from 'rollup-plugin-css-only';
 import alias from '@rollup/plugin-alias';
+import copy from 'rollup-plugin-copy'
 import path from 'path'
 import { svelteSVG } from "rollup-plugin-svelte-svg";
 
@@ -41,7 +42,7 @@ export default {
     sourcemap: !production,
     format: 'iife',
     name: 'app',
-    file: 'public/build/bundle.js'
+    file: 'public/build/support.js'
   },
   plugins: [
     alias({
@@ -92,7 +93,13 @@ export default {
 
     // If we're building for production (npm run build
     // instead of npm run dev), minify
-    production && terser()
+    production && terser(),
+    production && copy({
+      targets: [
+        { src: 'public/build/support.js', dest: '.' },
+      ],
+      hook: 'closeBundle',
+    })
   ],
   watch: {
     clearScreen: false

@@ -6,7 +6,7 @@ import {
   createSchemaSelectorFromSchema,
 } from './SchemaService';
 import type { SchemaSelector } from '@src/types/Schema.types';
-import type { AttributeElementSchema, AttributeSchema, AttributeSettingSchema } from '@src/global/types/schema';
+import type { AttributeElementSchema, AttributeSchema, AttributeSettingSchema } from '@global/types/schema';
 import type { SchemaInput } from '@src/types/Input.types';
 import CMS_LOAD from '@src/schemas/cms-load';
 

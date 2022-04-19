@@ -11,7 +11,7 @@ import { isChildOf } from './IsChildOf/IsChildOfService';
 import { isParentOf } from './IsParentOf/isParentOfService';
 import { exists } from './Exists/ExistsService';
 import { hasSettings } from './Settings/SettingsService';
-import type { AttributeElementSchema, AttributeSettingSchema } from '@src/global/types/schema'
+import type { AttributeElementSchema, AttributeSettingSchema } from '@global/types/schema'
 import type { ItemError } from '@src/types/Error.types';
 import CMS_LOAD from '@src/schemas/cms-load';
 

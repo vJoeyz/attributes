@@ -1,5 +1,6 @@
 <script lang="ts">
   import { validateInputForm } from '@src/services/Attributes/AttributesService';
+  import { scrollTo } from '@src/services/DOM/Utils/Utils';
 
   import {
     schemaData,
@@ -34,18 +35,9 @@
       $schemaForm,
       $schemaData,
       schemaSettings,
-      //scriptFile
     );
 
-    setTimeout(() => {
-      const container = document.getElementById('wizard-internal');
-      if (container) {
-        container.scrollTo({
-          top: 0,
-          behavior: 'smooth',
-        });
-      }
-    }, 100);
+    scrollTo('#wizard-internal', 100);
 
     setTimeout(function() {
       $validatingMode = VALIDATE_MODES.READY;

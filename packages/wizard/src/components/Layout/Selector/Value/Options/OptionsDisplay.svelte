@@ -56,6 +56,6 @@
   .toggle {
     position: absolute;
     right: 0.75rem;
-    top: 0.75rem;
+    top: 0.5rem;
   }
 </style>

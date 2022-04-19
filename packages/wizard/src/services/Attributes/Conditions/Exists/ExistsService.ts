@@ -12,7 +12,7 @@ import type {
   AttributeSchemaCondition,
   DOMSelector,
   AttributeElementSchema
-} from '@src/global/types/schema';
+} from '@global/types/schema';
 import type { SchemaSelector, SchemaSettings } from '@src/types/Schema.types';
 
 export function exists(
