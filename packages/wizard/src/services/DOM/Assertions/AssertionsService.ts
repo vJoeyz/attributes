@@ -97,7 +97,7 @@ export function assertElementIsParentOfElement(parentSelector: string, childSele
 
 /**
  *
- * @param selector
+ * @param elements
  * @param parentSelectors
  * @returns
  */

@@ -67,7 +67,7 @@ export function validateFieldSetting(
       }
 
       if (field.domElement) {
-        elementsSameNode(fieldSelector, elements, field.domElement)
+        elementsSameNode(elements, field.domElement)
       }
 
       if (conditions && conditions.length > 0) {

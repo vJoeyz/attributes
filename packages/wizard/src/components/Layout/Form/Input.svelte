@@ -7,17 +7,16 @@
   export let isValid: boolean | undefined;
   export let type: string;
   export let step: string | undefined = undefined;
-  export let disabled: boolean = false;
-  export let onChange: any;
+  export let disabled = false;
+  export let onChange: (value: string) => void;
 
   function typeAction(node: HTMLInputElement) {
     node.type = type;
   }
 
-  function onInput(event: any) {
-
-    onChange(event.target.value)
-
+  function onInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    onChange(input.value)
   }
 
 </script>

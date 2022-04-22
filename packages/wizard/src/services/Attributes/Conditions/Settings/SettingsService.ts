@@ -41,11 +41,9 @@ export function hasSettings(
 /**
  * Assert condition settings is meet by other element in page.
  *
- * @param setting
  * @param elementSelector
  * @param conditionSelector
- * @param schema
- * @param schemaSettings
+ * @param settingSelector
  * @returns
  */
 export default function isSettingMatch(

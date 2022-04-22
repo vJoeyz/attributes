@@ -47,7 +47,7 @@
       const schemaFile = `${attribute.baseSrc}/${attribute.schemaSrc}`;
       const scriptFile = `${attribute.baseSrc}/${attribute.scriptSrc}`;
 
-      const loaded = await isScriptLoaded(scriptFile);
+      const loaded = isScriptLoaded(scriptFile);
 
       return {
         ...attribute,

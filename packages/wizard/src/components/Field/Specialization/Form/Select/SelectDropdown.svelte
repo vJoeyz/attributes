@@ -1,7 +1,7 @@
 <script lang="ts">
   import { clickOutside } from '@src/directives/clickOutside';
 
-  export let forceClose: any;
+  export let forceClose: () => void;
 </script>
 
 <div use:clickOutside on:click_outside={forceClose}>

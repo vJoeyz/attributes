@@ -1,11 +1,11 @@
 <script lang="ts">
   import Checkmark from '@src/components/Layout/Icons/checkmark.svg';
 
-  export let onCheck: any;
+  export let onCheck: ((event: Event) => void) | null;
   export let isRequired: boolean;
   export let isChecked: boolean;
   export let key: string;
-  export let disabled: boolean = false;
+  export let disabled = false;
 </script>
 
 <label class="checkbox-label">

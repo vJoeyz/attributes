@@ -7,7 +7,7 @@
   import Add from '@src/components/Layout/Icons/instances-add.svg';
 
 
-  export let toggleInstances: any;
+  export let toggleInstances: () => void;
   export let isOpen: boolean;
 
   let disabled: boolean = $schemaSelected === null;
@@ -25,7 +25,7 @@
 <button
   data-testid="select-attribute-toggle-instances"
   class="tool_toggle-instance"
-  on:click={!disabled && toggleInstances}
+  on:click={!disabled && toggleInstances || null}
   class:open={isOpen}
 >
   <Add/>

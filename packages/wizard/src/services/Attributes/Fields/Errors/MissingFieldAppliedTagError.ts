@@ -5,7 +5,7 @@ import type { SchemaSelector } from '@src/types/Schema.types';
 export default class MissingFieldAppliedTagError extends AbstractSchemaError {
   type = 'field-selector';
 
-  constructor(attribute: SchemaSelector, parentSelector: ParentSelector | null, selectors: DOMSelector[], foundTag: string) {
+  constructor(attribute: SchemaSelector, parentSelector: ParentSelector | null, selectors: DOMSelector[]) {
     super();
 
     const selectorsLabels = this.selectorsToLabels(selectors, 'or');

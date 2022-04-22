@@ -58,7 +58,7 @@ export function valueServiceV2(
  * @param schemaSelector
  * @param schemaValue
  * @param attributeValue
- * @param appendedSelectors
+ * @param appliedToSelectors
  * @returns
  */
 export default function valueService(

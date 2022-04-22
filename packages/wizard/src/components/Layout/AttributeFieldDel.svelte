@@ -1,7 +1,7 @@
 <script lang="ts">
   import FieldDelete from '@src/components/Layout/Icons/field-delete.svg';
 
-  export let deleteField: any;
+  export let deleteField: () => void;
 </script>
 
 <button class="field_delete" on:click={deleteField}>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let selectAttribute: any;
+  export let selectAttribute: () => void;
   export let isSelected: boolean;
 
 </script>

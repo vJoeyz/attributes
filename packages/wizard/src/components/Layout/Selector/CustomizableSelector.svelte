@@ -10,7 +10,7 @@
 
   export let option: string;
   export let isActive: boolean;
-  export let onChange: any;
+  export let onChange: (value: string) => void;
 
   export let valueType: AttributeSettingValueOptions | AttributeSettingValuePrimitive;
 

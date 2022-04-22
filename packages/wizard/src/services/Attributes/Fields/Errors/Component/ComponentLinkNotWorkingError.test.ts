@@ -1,9 +1,7 @@
 import ComponentLinkNotWorkingError from './ComponentLinkNotWorkingError';
-import type { ParentSelector } from '@global/types/schema';
 import SchemaSelector from '@src/services/Selector/SchemaSelector';
 
 describe('Missing field applied tag error.', () => {
-
 
   test('Field is missing correct html tag with parent.', () => {
 

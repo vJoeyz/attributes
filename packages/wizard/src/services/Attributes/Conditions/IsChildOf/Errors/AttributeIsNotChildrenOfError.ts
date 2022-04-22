@@ -1,6 +1,6 @@
 import type { DOMSelector } from '@global/types/schema';
 import AbstractSchemaError from '@src/services/Errors/AbstractSchemaError';
-import type { SchemaSelector, AppliedToSelector } from '@src/types/Schema.types';
+import type { SchemaSelector } from '@src/types/Schema.types';
 
 export default class AttributeIsNotChildrenOfSelectorError extends AbstractSchemaError {
   type = 'conditions-isChildOf';

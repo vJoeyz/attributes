@@ -89,7 +89,7 @@ export function validateElementSetting(
       );
 
       if (appliedToElement && element.domElement) {
-        elementsSameNode(settingSelector, [appliedToElement], element.domElement);
+        elementsSameNode([appliedToElement], element.domElement);
       }
     }
 

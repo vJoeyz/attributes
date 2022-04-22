@@ -22,15 +22,10 @@ var head = document.getElementsByTagName('head')[0];
 var script = document.createElement('script');
 script.type = 'text/javascript';
 
-script.src = 'https://attributes-guide-13055osf7-mauriciopiber.vercel.app/build/bundle.js';
+script.src = 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-support@1/support.js';
 head.appendChild(script);
 
-var link = document.createElement('link');
-link.rel = "stylesheet";
-link.type = "text/css";
-link.href = "https://attributes-guide-13055osf7-mauriciopiber.vercel.app/build/bundle.css";
 
-document.head.appendChild(link);
 
 ```
 

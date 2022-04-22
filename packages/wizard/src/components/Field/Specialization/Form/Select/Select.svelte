@@ -9,7 +9,7 @@
   export let fieldInput: SchemaInputField;
   export let changeFieldElement: FieldChangeSpecialization;
 
-  let isOpen: boolean = false;
+  let isOpen = false;
 
   function toggleOptions() {
     isOpen = !isOpen;

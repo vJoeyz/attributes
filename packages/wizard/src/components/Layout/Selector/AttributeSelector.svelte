@@ -24,11 +24,11 @@
   export let fieldKey: string | null = null;
   export let identifier: string | null = null;
   export let specialization: string | null = null;
-  export let value: string = '';
+  export let value = '';
 
   export let type: SchemaInputType;
   export let isActive: boolean | undefined = undefined;
-  export let onChange: any | undefined = undefined;
+  export let onChange: ((value: string) => void) | undefined = undefined;
   export let valueType: AttributeValue | undefined = undefined;
   export let forceStatic = false;
 

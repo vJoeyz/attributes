@@ -13,12 +13,12 @@
   export let value: AttributeSettingValuePrimitive | AttributeSettingValueOptions;
   export let option: string;
   export let isActive: boolean;
-  export let onChange: any;
+  export let onChange: (value: string) => void;
 </script>
 
 <div class="selector__options">
   {#if value.type === 'options'}
-    <Options onChange={onChange} isActive={isActive} bind:attributeValue={option} {value} {id} />
+    <Options onChange={onChange} isActive={isActive} bind:attributeValue={option} {value} />
   {:else if value.type === 'string'}
     <String onChange={onChange} isActive={isActive} bind:attributeValue={option} {value} {id} />
   {:else if value.type === 'commaSeparatedString'}

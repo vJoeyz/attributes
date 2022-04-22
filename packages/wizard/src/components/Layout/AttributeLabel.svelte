@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let toggleSelector: any | null;
+  export let toggleSelector: (() => void) | null;
 </script>
 <div class="attribute_label" on:click={toggleSelector}>
   <slot/>

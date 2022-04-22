@@ -14,7 +14,7 @@
     SCHEMA_MODES,
   } from '@src/stores';
 
-  let isOpen: boolean = false;
+  let isOpen = false;
   let selectTitle: string | null = $schemaSelected && $schemaSelected.title || null;
   let onPageSchemas: AttributeLoaded[];
   let notOnPageSchemas: AttributeLoaded[];
@@ -47,7 +47,7 @@
   class="tool_selector"
   data-testid="select-attributes"
 >
-  <SelectDisplay onClick={!isOpen && toggleOptions} isOpen={isOpen}>
+  <SelectDisplay onClick={!isOpen && toggleOptions || null} isOpen={isOpen}>
     {#if selectTitle}
       {selectTitle}
     {:else}

@@ -1,13 +1,8 @@
 import MissingFieldSettingError from './MissingFieldSettingError';
-import type { ParentSelector } from '@global/types/schema';
 import SchemaSelector from '@src/services/Selector/SchemaSelector';
 
 describe('Missing field settings error.', () => {
-
-
   test('Missing field setting with specialization', () => {
-
-
     const attribute = new SchemaSelector('fs-cmsfilter-range', 'from', true);
     const field = new SchemaSelector('fs-cmsfilter-field', 'products', true);
 

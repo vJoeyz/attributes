@@ -29,7 +29,7 @@ describe('Missing field applied tag error.', () => {
     ]
 
 
-    const error = new MissingFieldAppliedTagError(attribute, parent, selectors, 'div');
+    const error = new MissingFieldAppliedTagError(attribute, parent, selectors);
 
     expect(error.stripHTML())
       .toEqual('The attribute fs-cmsfilter-field="products" in list>Div Block was found on the page but not in the correct element. Add or move fs-cmsfilter-field="products" to the Checkbox Label.');
@@ -49,7 +49,7 @@ describe('Missing field applied tag error.', () => {
     ]
 
 
-    const error = new MissingFieldAppliedTagError(attribute, null, selectors, 'div');
+    const error = new MissingFieldAppliedTagError(attribute, null, selectors);
 
     expect(error.stripHTML())
       .toEqual('The attribute fs-cmsfilter-field="products" was found on the page but not in the correct element. Add or move fs-cmsfilter-field="products" to the Checkbox Label.');

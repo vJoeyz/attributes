@@ -1,7 +1,7 @@
 <script lang="ts">
   export let id: string;
-  export let disabled: boolean = false;
-  export let checked: boolean = false;
+  export let disabled = false;
+  export let checked = false;
 
   import {
     isSubmitted

@@ -1,8 +1,8 @@
 <script lang="ts">
   import ArrowToggle from '@src/components/Layout/Icons/ArrowToggle.svelte';
 
-  export let toggleDropdown: any;
-  export let isOpen: boolean = false;
+  export let toggleDropdown: () => void;
+  export let isOpen = false;
 </script>
 
 <div class="tool_select-display" on:click={toggleDropdown} class:open={isOpen} data-testid="field-specialization">

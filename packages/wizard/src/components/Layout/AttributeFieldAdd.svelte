@@ -2,7 +2,7 @@
 
   import FieldAdd from '@src/components/Layout/Icons/field-add.svg';
 
-  export let addField: any;
+  export let addField: () => void;
 </script>
 
 <button class="field_add" on:click={addField} data-testid="add-field">

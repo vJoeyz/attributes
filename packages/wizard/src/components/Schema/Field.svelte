@@ -55,7 +55,6 @@
 
   $: if ($schemaForm) {
     fieldInput = schemaFormActions.findField(field.key, fieldInput.index);
-    console.log(fieldInput);
   }
 
   $: if ($toggleAttributeSelector) {
@@ -68,7 +67,7 @@
   <AttributeItem id={selectorId} checked={isChecked}>
     <AttributeItemHeader>
       <AttributeCheckbox
-        onCheck={() => {}}
+        onCheck={null}
         isChecked={isChecked}
         isRequired={isRequired}
         key={field.key}

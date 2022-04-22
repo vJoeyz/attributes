@@ -3,7 +3,7 @@ import {
   createSchemaSelectorFromItem,
   createSchemaSelectorFromSchema,
 } from '@src/services/Attributes/Schema/SchemaService';
-import { validateDOMSelectors, currentSelector } from './SpecializationService';
+import { validateDOMSelectors } from './SpecializationService';
 import AbstractSchemaError from '@src/services/Errors/AbstractSchemaError';
 // ui errors
 import MissingFieldIdentifierError from './Errors/UI/MissingFieldIdentifierError';
@@ -35,6 +35,8 @@ import type {
 } from '@global/types/schema';
 import type { SchemaSettings, SchemaSelector } from '@src/types/Schema.types';
 import type { InputChannel, SchemaInputField, InputValidationMessage } from '@src/types/Input.types';
+
+type FieldValidatorResponse = HTMLElement | InputValidationMessage | null;
 
 export async function validateField(
   fieldInput: SchemaInputField,
@@ -75,7 +77,8 @@ export async function validateField(
       appliedTo
     } = specialization;
 
-    const appliedPromises = appliedTo.map(async (applied: InstanceFieldSpecializationAppliedTo) => {
+    const appliedPromises = appliedTo.map(
+      async (applied: InstanceFieldSpecializationAppliedTo): Promise<FieldValidatorResponse> => {
 
       const { parent, selectors, key, value, type } = applied;
 
@@ -107,7 +110,10 @@ export async function validateField(
     const fieldPromises = await Promise.all(appliedPromises);
 
 
-    const fieldErrors = fieldPromises.filter((fieldApplied: any) => fieldApplied && fieldApplied.message) as InputValidationMessage[];
+    const fieldErrors = fieldPromises.filter(
+      (fieldApplied: FieldValidatorResponse) =>
+        fieldApplied && Object.prototype.hasOwnProperty.call(fieldApplied, 'message')
+    ) as InputValidationMessage[];
 
     if (fieldErrors.length > 0) {
       return {
@@ -251,7 +257,7 @@ export async function validateSpecializationApplyTo(
 
     if (value.indexOf('=') !== -1) {
 
-      const [_, href] = value.split('=');
+      const href = value.split('=')[1];
 
       let page;
 
@@ -300,7 +306,7 @@ export async function validateSpecializationApplyTo(
         instanceField,
         parent,
         selectors,
-        currentSelector(element)
+        // currentSelector(element)
       );
     }
   }

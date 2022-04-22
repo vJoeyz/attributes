@@ -24,7 +24,7 @@
 
   let schemaInput = schemaFormActions.findElementSetting(parent, setting.key);
 
-  let isChecked: boolean = !!schemaInput;
+  let isChecked = !!schemaInput;
 
   function onCheck(event: Event) {
 

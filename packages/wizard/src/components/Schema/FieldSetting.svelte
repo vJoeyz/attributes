@@ -25,7 +25,7 @@
 
   let schemaInput: SchemaInputFieldSetting | undefined = schemaFormActions.findFieldSetting(fieldKey, fieldIndex, setting.key);
 
-  let isChecked: boolean = !!schemaInput;
+  let isChecked = !!schemaInput;
 
   function onCheck(event: Event) {
     const input = event.target as HTMLInputElement;

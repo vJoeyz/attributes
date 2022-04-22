@@ -8,8 +8,11 @@
 
   currentValue = fieldInput.identifier;
 
-  function onInput(event: any) {
-    const value = event.target.value;
+  function onInput(event: Event) {
+
+    const input = event.target as HTMLInputElement;
+
+    const value = input.value;
     currentValue = value;
     changeFieldIdentifier(fieldInput.index, value);
   }

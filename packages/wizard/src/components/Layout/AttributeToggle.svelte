@@ -1,6 +1,6 @@
 <script lang="ts">
   import ArrowToggle from '@src/components/Layout/Icons/ArrowToggle.svelte';
-  export let toggleSelector: any | null;
+  export let toggleSelector: (() => void) | null;
   export let isOpen: boolean;
 </script>
 

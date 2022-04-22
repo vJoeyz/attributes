@@ -9,7 +9,7 @@
   export let attributeValue: string;
   export let id: string;
   export let isActive: boolean;
-  export let onChange: any;
+  export let onChange: (value: string) => void;
   attributeValue = attributeValue || value.default || '';
 
 </script>

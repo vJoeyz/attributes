@@ -1,6 +1,5 @@
 import type { ItemError } from "@src/types/Error.types";
 import type { DOMSelector, ElementSelector, ParentSelector, SelectorSelector  } from '@global/types/schema';
-import type { AppliedToSelector } from "@src/types/Schema.types";
 
 export default class AbstractSchemaError extends Error implements ItemError {
   public type: string;
@@ -13,9 +12,8 @@ export default class AbstractSchemaError extends Error implements ItemError {
     Object.setPrototypeOf(this, AbstractSchemaError.prototype);
   }
 
-
   stripHTML() {
-    return this.message.replace(/<[^>]*>?/gm, '');;
+    return this.message.replace(/<[^>]*>?/gm, '');
   }
 
   selectorsToLabels(selectors: DOMSelector[], joinWord = 'or') {
