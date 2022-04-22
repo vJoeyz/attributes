@@ -14,7 +14,7 @@
   import AttributeText from '@src/components/Layout/AttributeText.svelte';
   import AttributeRequired from '@src/components/Layout/AttributeRequired.svelte';
   import AttributeToggle from '@src/components/Layout/AttributeToggle.svelte';
-  import AttributeSelector from '@src/components/Layout/AttributeSelector.svelte';
+  import AttributeSelector from '@src/components/Layout/Selector/AttributeSelector.svelte';
   import InputValidation from '../Layout/InputValidation.svelte';
   import { checkSettingCondition } from '@src/services/Attributes/Schema/SchemaService';
   import {
@@ -132,7 +132,11 @@
           <AttributeToggle isOpen={isOpenSelector} toggleSelector={toggleSelector} />
         </AttributeContainer>
         {#if isOpenSelector}
-          <AttributeSelector type="element" name={element.key} value={undefined}/>
+          <AttributeSelector
+            type="element"
+            key={element.key}
+            value={undefined}
+          />
         {/if}
       </AttributeItemContainer>
 

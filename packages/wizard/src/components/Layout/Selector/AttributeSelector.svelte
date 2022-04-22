@@ -1,16 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import ExternalLink from '@src/components/Layout/Icons/external-link.svg';
-  import Selector from './Selector/Selector.svelte';
-  import CustomizableSelector from './Selector/CustomizableSelector.svelte';
-  import {
-    createHighlight,
-    enableHighlight,
-    disableHighlight,
-  } from '@src/services/Highlight/HighlightService';
-  import type { AttributeValue } from '@global/types/schema';
-  import type { Highlight } from '@src/types/Highlight.types';
-  import type { SchemaInputType } from '@src/types/Input.types';
+  import Selector from './Selector.svelte';
+  import CustomizableSelector from './CustomizableSelector.svelte';
   import {
     schemaSettingsKey,
     schemaSettingsInstance,
@@ -18,14 +10,25 @@
     schemaSelected,
     schemaData,
   } from '@src/stores';
+  import {
+    createHighlight,
+    enableHighlight,
+    disableHighlight,
+  } from '@src/services/Highlight/HighlightService';
 
-  export let name: string;
+  import type { AttributeValue } from '@global/types/schema';
+  import type { Highlight } from '@src/types/Highlight.types';
+  import type { SchemaInputType } from '@src/types/Input.types';
+
+  export let key: string;
+  export let fieldKey: string | null = null;
+  export let identifier: string | null = null;
+  export let specialization: string | null = null;
   export let value: string = '';
+
   export let type: SchemaInputType;
   export let isActive: boolean | undefined = undefined;
   export let onChange: any | undefined = undefined;
-  export let specialization: string | undefined = undefined;
-
   export let valueType: AttributeValue | undefined = undefined;
   export let forceStatic = false;
 
@@ -33,7 +36,7 @@
   let selectorValue: string;
   let highlight: Highlight;
 
-  let docs: string = $schemaSelected && `${$schemaSelected.href}#${name}` || '';
+  let docs: string = $schemaSelected && `${$schemaSelected.href}#${key}` || '';
 
 
   onMount(async () => {
@@ -44,7 +47,7 @@
     };
 
     if ($schemaData) {
-      highlight = createHighlight(name, type, specialization || null, $schemaData, schemaSettings);
+      highlight = createHighlight(fieldKey || key, type, identifier, specialization, $schemaData, schemaSettings);
     }
   });
 
@@ -52,16 +55,20 @@
 
     switch (type) {
       case 'element':
-      case 'field':
-
         selectorName = `fs-${$schemaSettingsKey}-element`;
-        selectorValue = instances > 1 && `${name}-${instances}` || name;
-
+        selectorValue = instances > 1 && `${key}-${instances}` || key;
+        break;
+      case 'field':
+        selectorName = `fs-${$schemaSettingsKey}-${key}`;
+        selectorValue = value;
         break;
       case 'elementSetting':
       case 'fieldSetting':
-        selectorName = `fs-${$schemaSettingsKey}-${name}`;
+        selectorName = `fs-${$schemaSettingsKey}-${key}`;
 
+        if (value === 'true') {
+          selectorValue = value;
+        }
         break;
 
       default:
@@ -86,6 +93,10 @@
     createSelector($schemaSettingsInstance);
   }
 
+  $: if (value) {
+    createSelector($schemaSettingsInstance);
+  }
+
   $: if (specialization) {
     const schemaSettings = {
       key: $schemaSettingsKey || '',
@@ -94,7 +105,7 @@
     };
 
     if ($schemaData) {
-      highlight = createHighlight(name, type, specialization, $schemaData, schemaSettings);
+      highlight = createHighlight(fieldKey || key, type, identifier, specialization, $schemaData, schemaSettings);
     }
   }
 
@@ -108,10 +119,10 @@
 >
 
   <div class="attribute-selector-interface" >
-    <div class="attribute-selector-block">
+    <div class="attribute-selector-block" data-testid="name">
       <Selector label="Name" selector={selectorName}/>
     </div>
-    <div class="attribute-selector-block">
+    <div class="attribute-selector-block" data-testid="value">
       {#if (type === 'fieldSetting' || type === 'elementSetting') && !forceStatic
         && valueType !== undefined && valueType.type !== 'boolean'
         && isActive !== undefined
@@ -124,7 +135,7 @@
           option={value}
         />
       {:else}
-        <Selector label="Value" selector={!valueType && selectorValue || value || 'true'}/>
+        <Selector label="Value" selector={selectorValue}/>
       {/if}
     </div>
     <a class="attribute-selector-docs" target="_blank" href={docs}>
@@ -191,7 +202,5 @@
     display: inline-block;
     width: 1rem;
     margin-left: 0.5rem;
-
   }
-
 </style>

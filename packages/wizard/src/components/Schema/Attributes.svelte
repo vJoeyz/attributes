@@ -1,6 +1,6 @@
 <script>
   import Header from '@src/components/Layout/Header.svelte';
-  import ElementV2 from '@src/components/Schema/Element.svelte';
+  import Element from '@src/components/Schema/Element.svelte';
   import FieldsList from '@src/components/Schema/FieldsList.svelte';
   import Results from '@src/components/Layout/Results/Results.svelte';
 
@@ -26,7 +26,7 @@
   <Results/>
   {#if requiredElements.length > 0}
     {#each requiredElements as element}
-      <ElementV2 element={element}/>
+      <Element element={element}/>
     {/each}
   {/if}
   <div class="fields">
@@ -42,7 +42,7 @@
       <div>Aditional Elements</div>
     </Header>
     {#each nonRequiredElements as element}
-      <ElementV2 element={element}/>
+      <Element element={element}/>
     {/each}
   {/if}
   </div>

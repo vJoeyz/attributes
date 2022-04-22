@@ -3,7 +3,7 @@
   import SelectorCustomValue from './SelectorCustomValue.svelte';
   import SelectorButton from './SelectorButton.svelte';
   import SelectorCustomAttributeValueText from './SelectorCustomValueText.svelte';
-  import SelectorOptions from './SelectorOptions.svelte';
+  import SelectorEditable from './SelectorEditable.svelte';
   import type { AttributeSettingValuePrimitive, AttributeSettingValueOptions } from '@global/types/schema';
 
   export let label: 'Name' | 'Value';
@@ -21,7 +21,7 @@
 </SelectorCustomAttribute>
 <SelectorCustomValue>
   <SelectorCustomAttributeValueText>
-    <SelectorOptions
+    <SelectorEditable
       onChange={onChange}
       isActive={isActive}
       id="selector"

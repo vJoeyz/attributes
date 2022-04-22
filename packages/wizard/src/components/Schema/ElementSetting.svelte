@@ -9,7 +9,7 @@
   import AttributeLabel from '@src/components/Layout/AttributeLabel.svelte';
   import AttributeText from '@src/components/Layout/AttributeText.svelte';
   import AttributeToggle from '@src/components/Layout/AttributeToggle.svelte';
-  import AttributeSelector from '@src/components/Layout/AttributeSelector.svelte';
+  import AttributeSelector from '@src/components/Layout/Selector/AttributeSelector.svelte';
   import InputValidation from '@src/components/Layout/InputValidation.svelte';
   import { schemaForm, schemaFormActions, schemaSettingsInstance, toggleAttributeSelector } from '@src/stores';
   import type { AttributeSettingSchema } from '@global/types/schema';
@@ -134,7 +134,7 @@
       {#if isOpenSelector}
         <AttributeSelector
           type="elementSetting"
-          name={setting.key}
+          key={setting.key}
           valueType={setting.value}
           value={schemaInput && schemaInput.option || ''}
           isActive={!!schemaInput && schemaInput.enable}

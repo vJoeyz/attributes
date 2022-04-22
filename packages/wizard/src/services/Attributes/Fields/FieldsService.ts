@@ -165,7 +165,7 @@ export async function validateField(
 }
 
 
-export function getParentByParentSelector(
+export function getParentElement(
   parent: ParentSelector | null,
   schema: AttributeSchema,
   settings: SchemaSettings,
@@ -272,7 +272,7 @@ export async function validateSpecializationApplyTo(
     }
   }
 
-  const parentSelectors: HTMLElement | null = getParentByParentSelector(parent, schema, settings);
+  const parentSelectors: HTMLElement | null = getParentElement(parent, schema, settings);
 
 
   const instanceField =  Object.assign(Object.create(Object.getPrototypeOf(field)), field)

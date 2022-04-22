@@ -1,4 +1,4 @@
-<div class="selector-value-text">
+<div class="selector-value-text" data-testid="selector-value">
   <slot/>
 </div>
 

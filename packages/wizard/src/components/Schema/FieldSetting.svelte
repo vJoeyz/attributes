@@ -8,7 +8,7 @@
   import AttributeLabel from '@src/components/Layout/AttributeLabel.svelte';
   import AttributeText from '@src/components/Layout/AttributeText.svelte';
   import AttributeToggle from '@src/components/Layout/AttributeToggle.svelte';
-  import AttributeSelector from '@src/components/Layout/AttributeSelector.svelte'
+  import AttributeSelector from '@src/components/Layout/Selector/AttributeSelector.svelte'
   import InputValidation from '@src/components/Layout/InputValidation.svelte';
   import { checkSettingCondition } from '@src/services/Attributes/Schema/SchemaService';
   import { schemaForm, schemaFormActions, toggleAttributeSelector } from '@src/stores';
@@ -17,6 +17,7 @@
   export let setting: AttributeSettingSchema;
   export let fieldKey: string;
   export let fieldIndex: string;
+  export let identifier: string;
 
   let option: string = schemaFormActions.getFieldSettingOption(fieldKey, fieldIndex, setting.key) || '';
 
@@ -127,7 +128,9 @@
       {#if isOpenSelector && setting.specializations === undefined}
         <AttributeSelector
           type="fieldSetting"
-          name={setting.key}
+          key={setting.key}
+          fieldKey={fieldKey}
+          identifier={identifier}
           valueType={setting.value}
           value={schemaInput && schemaInput.option || ''}
           isActive={!!schemaInput && schemaInput.enable}
@@ -136,14 +139,16 @@
       {:else if isOpenSelector && setting.specializations}
         {#each setting.specializations as specilization}
             <AttributeSelector
-            type="fieldSetting"
-            forceStatic
-            name={setting.key}
-            valueType={setting.value}
-            value={specilization.value}
-            isActive={!!schemaInput && schemaInput.enable}
-            onChange={onChange}
-          />
+              type="fieldSetting"
+              identifier={identifier}
+              fieldKey={fieldKey}
+              forceStatic
+              key={setting.key}
+              valueType={setting.value}
+              value={specilization.value}
+              isActive={!!schemaInput && schemaInput.enable}
+              onChange={onChange}
+            />
         {/each}
       {/if}
     </AttributeItemContainer>
