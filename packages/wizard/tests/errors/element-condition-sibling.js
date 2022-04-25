@@ -32,5 +32,5 @@ test('Element not sibling of', async t => {
   await assertErrorIsOnReport('element-copy-sibling', 'conditions-isSiblingOf');
   await assertErrorIsOnAttribute('element-copy-sibling', 'conditions-isSiblingOf');
 
-  await writeFileValidationMessage('Attribute element condition isSiblingOf not match', 'element-copy-sibling');
+  await writeFileValidationMessage('Element attribute incorrect location - Not a sibling', 'element-copy-sibling');
 });

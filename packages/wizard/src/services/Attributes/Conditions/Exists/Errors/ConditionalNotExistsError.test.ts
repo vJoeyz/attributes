@@ -22,11 +22,12 @@ describe('Test Conditional Exists Error', () => {
     const error = new ConditionalNotExistsError(attributeSelector, conditionalSelector, appliedTo);
     expect(error.stripHTML())
     .toEqual(
-      'The attribute fs-cmsload-element="loader" was found but is missing the attribute dependency. Add fs-cmsload-element="list" to Collection List or Collection List Wrapper on the page.'
+      'The attribute fs-cmsload-element="loader" is found, but is missing a required attribute in the setup. Add fs-cmsload-element="list" to a Collection List.'
     )
   });
 
 
+  /** @TODO create testcafe */
   test('Test Element Schema Conditional selector not found', () => {
 
     const attributeSelector = new SchemaSelector('fs-cmsload-element', 'loader', true);
@@ -43,7 +44,7 @@ describe('Test Conditional Exists Error', () => {
     const error = new ConditionalNotExistsError(attributeSelector, null, appliedTo);
     expect(error.stripHTML())
     .toEqual(
-      'The attribute fs-cmsload-element="loader" was found but is missing the attribute dependency. Add Collection List or Collection List Wrapper on the page.'
+      'The attribute fs-cmsload-element="loader" is found, but is missing a required component in the setup. Add Collection List.'
     )
   });
 
@@ -63,7 +64,7 @@ describe('Test Conditional Exists Error', () => {
     const error = new ConditionalNotExistsError(attributeSelector, conditionalSelector, appliedTo);
     expect(error.stripHTML())
     .toEqual(
-      'The attribute fs-mirrorclick-delay="0" was found but is missing the attribute dependency. Add fs-mirrorclick-element="target" to Div Block or Any element on the page.'
+      'The attribute fs-mirrorclick-delay="0" is found, but is missing a required attribute in the setup. Add fs-mirrorclick-element="target" to a Div Block or any element on the page.'
     )
 
   })

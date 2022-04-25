@@ -36,5 +36,5 @@ test('Element not child of selector', async t => {
   await assertErrorIsOnReport('element-page-button', 'conditions-isChildOf');
   await assertErrorIsOnAttribute('element-page-button', 'conditions-isChildOf');
 
-  await writeFileValidationMessage('Attribute element condition isChildOf not match', 'element-page-button');
+  await writeFileValidationMessage('Element attribute incorrect location - Not a child', 'element-page-button');
 });

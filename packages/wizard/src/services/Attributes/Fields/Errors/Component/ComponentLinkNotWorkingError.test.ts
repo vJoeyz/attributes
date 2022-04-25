@@ -11,7 +11,7 @@ describe('Missing field applied tag error.', () => {
     const error = new ComponentLinkNotWorkingError(attribute);
 
     expect(error.stripHTML())
-      .toEqual('Link for fs-richtext-component="my-component=http://google.com" not working. Check if link to other page was correct provided in the UI or if the page really exists.');
+      .toEqual('Link for fs-richtext-component="my-component=http://google.com" is not working. Check if the link to the external page is published and correctly entered in the attribute value.');
 
   });
 

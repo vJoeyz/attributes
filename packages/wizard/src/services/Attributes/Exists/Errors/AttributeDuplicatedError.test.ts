@@ -10,7 +10,7 @@ describe('Test Error - Attribute duplicated', () => {
     const error = new AttributeDuplicatedError(attributeSelector);
     expect(error.stripHTML())
     .toEqual(
-      'The attribute fs-cmsload-element="list" was found but it is duplicated on page. Remove the duplicated attributes from the page.'
+      'The attribute fs-cmsload-element="list" is found duplicated on the page. Remove the duplicated attributes from the page.'
     )
   });
 

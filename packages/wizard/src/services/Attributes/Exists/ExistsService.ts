@@ -17,7 +17,7 @@ export function elementSettingExists(elementSelector: SchemaSelector, appliedTo:
 
     const elementSelectors = appliedTo.map((value: ElementItemSelector) => value.elementAttribute.appliedTo).flat();
 
-    throw new AttributeNotFoundError(elementSelector, elementSelectors);
+    throw new AttributeNotFoundError(elementSelector, elementSelectors, true);
 
   }
 }
@@ -25,7 +25,7 @@ export function elementSettingExists(elementSelector: SchemaSelector, appliedTo:
 
 export function elementExists(elementSelector: SchemaSelector, elements: HTMLElement[], appliedTo: DOMSelector[]) {
   if (elements.length <= 0) {
-    throw new AttributeNotFoundError(elementSelector, appliedTo);
+    throw new AttributeNotFoundError(elementSelector, appliedTo, false);
   }
   return true;
 }

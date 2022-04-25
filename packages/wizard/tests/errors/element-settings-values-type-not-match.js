@@ -35,5 +35,5 @@ test('Element Setting - Value type not match', async t => {
   await assertErrorIsOnReport('element-setting-duration', 'setting-type-of-value-not-match');
   await assertErrorIsOnAttribute('element-setting-duration', 'setting-type-of-value-not-match');
 
-  await writeFileValidationMessage('Attribute setting not match type', 'element-setting-duration');
+  await writeFileValidationMessage('Option attribute incorrect value format', 'element-setting-duration');
 });

@@ -15,7 +15,7 @@ describe('Test Error - Attribute condition setting not match', () => {
 
     expect(error.stripHTML())
     .toEqual(
-      'The attribute fs-customselect-element="fill" was found but not match required style. In the element with this attribute, set property "position" as "absolute".'
+      'The attribute fs-customselect-element="fill" is found, but does not match the required style. Set the css property of this element to "position: absolute".'
     )
   });
 });

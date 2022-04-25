@@ -17,7 +17,9 @@ export default class AbstractSchemaError extends Error implements ItemError {
   }
 
   selectorsToLabels(selectors: DOMSelector[], joinWord = 'or') {
-    const selectorsLabels = this.wrapSelectors(selectors);
+
+    const displaySelectors = selectors.filter((selector: DOMSelector) => selector.label !== 'Collection List Wrapper');
+    const selectorsLabels = this.wrapSelectors(displaySelectors);
     const labelsText = this.listToSentence(selectorsLabels, joinWord);
     return labelsText;
   }
@@ -29,6 +31,7 @@ export default class AbstractSchemaError extends Error implements ItemError {
       }
 
       if (parentItem.type === 'selector') {
+
         return this.toLabel(parentItem.selector.label);
       }
 
@@ -46,7 +49,10 @@ export default class AbstractSchemaError extends Error implements ItemError {
     return selectors.map((selector: DOMSelector | string) => {
 
       if ((<DOMSelector>selector).label) {
-        return this.toLabel((<DOMSelector>selector).label)
+
+        const label = (<DOMSelector>selector).label === 'Any element' && 'any element on the page' || (<DOMSelector>selector).label;
+
+        return this.toLabel(label)
       }
 
       const stringSelector = selector as string;

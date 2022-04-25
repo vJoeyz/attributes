@@ -29,5 +29,5 @@ test('Field Link - Find the referencial page, link but link not working', async 
   await assertErrorIsOnReport('field-collection-field-1', 'field-link-nested-collection-link-not-working');
   await assertErrorIsOnAttribute('field-collection-field-1', 'field-link-nested-collection-link-not-working');
 
-  await writeFileValidationMessage('CMS Nest - Link - Find referencial page, collection and link but link not working', 'field-collection-field-1');
+  await writeFileValidationMessage('Link to Collection Item’s page not working - CMS Nest', 'field-collection-field-1');
 });

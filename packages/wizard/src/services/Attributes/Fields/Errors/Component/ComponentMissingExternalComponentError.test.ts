@@ -5,11 +5,10 @@ describe('Missing component on external page error.', () => {
 
   test('Field is missing component on external page.', () => {
     const attribute = new SchemaSelector('fs-richtext-component', 'my-component=http://google.com')
-    const component = new SchemaSelector('fs-richtext-component', 'my-component');
 
-    const error = new ComponentMissingExternalComponentError(attribute, component);
+    const error = new ComponentMissingExternalComponentError(attribute);
 
     expect(error.stripHTML())
-      .toEqual('External component for fs-richtext-component="my-component=http://google.com" not found. Add attribute fs-richtext-component="my-component" on external page component to make it work.');
+      .toEqual('The attribute fs-richtext-component="my-component=http://google.com" is not found on the external page. Add this attribute on the external page component.');
   });
 });

@@ -12,7 +12,7 @@ export default class MissingFieldSettingError extends AbstractSchemaError {
     const fieldId = this.toAttribute(field.getPrettierSelector());
 
     this.message = [
-      this.toHighlight(`The attribute ${attributeId} was not found.`),
+      this.toHighlight(`The attribute ${attributeId} is not found.`),
       `Add attribute ${attributeId} to any element with ${fieldId}.`
     ].join(' ');
 

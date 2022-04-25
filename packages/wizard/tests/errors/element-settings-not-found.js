@@ -29,5 +29,5 @@ test('Element setting not found in page', async t => {
   await assertErrorIsOnReport('element-setting-animation', 'attribute-not-found');
   await assertErrorIsOnAttribute('element-setting-animation', 'attribute-not-found');
 
-  await writeFileValidationMessage('Attribute setting not found', 'element-setting-animation');
+  await writeFileValidationMessage('Option attribute not found', 'element-setting-animation');
 });

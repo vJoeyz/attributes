@@ -27,8 +27,8 @@ export default class AttributeIsNotParentOfElementError extends AbstractSchemaEr
     }).join(' and ');
 
     this.message = [
-      this.toHighlight(`The attribute ${attributeId} was found but not in the correct location.`),
-      `Move the attribute ${attributeId} as sibling of ${selectors}.`
+      this.toHighlight(`The attribute ${attributeId} is found, but not in the correct location.`),
+      `Move ${attributeId} to be a sibling of a ${selectors}.`
     ].join(' ');
 
     Object.setPrototypeOf(this, AttributeIsNotParentOfElementError.prototype);

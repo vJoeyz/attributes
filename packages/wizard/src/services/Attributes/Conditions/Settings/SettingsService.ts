@@ -67,7 +67,6 @@ export default function isSettingMatch(
 
     throw new SettingNotMatchError(
       elementSelector,
-      conditionSelector,
       currentSelector,
       settingSelector
     );

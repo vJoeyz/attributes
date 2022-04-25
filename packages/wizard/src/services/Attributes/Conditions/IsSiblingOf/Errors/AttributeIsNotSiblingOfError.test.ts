@@ -31,7 +31,7 @@ describe('Test Error - Attribute not found', () => {
     const error = new AttributeIsNotSiblingOfError(attributeSelector, isSiblingOfConditions);
     expect(error.stripHTML())
     .toEqual(
-      'The attribute fs-copyclip-element="copy-sibling" was found but not in the correct location. Move the attribute fs-copyclip-element="copy-sibling" as sibling of Button, Link Block, Text Link or Div Block with the attribute fs-copyclip-element="click".'
+      'The attribute fs-copyclip-element="copy-sibling" is found, but not in the correct location. Move fs-copyclip-element="copy-sibling" to be a sibling of a Button, Link Block, Text Link or Div Block with the attribute fs-copyclip-element="click".'
     )
   });
 
@@ -50,7 +50,7 @@ describe('Test Error - Attribute not found', () => {
     const error = new AttributeIsNotSiblingOfError(attributeSelector, [isSiblingOfConditions]);
     expect(error.stripHTML())
     .toEqual(
-      'The attribute fs-copyclip-element="copy-sibling" was found but not in the correct location. Move the attribute fs-copyclip-element="copy-sibling" as sibling of Button, Link Block, Text Link or Div Block.'
+      'The attribute fs-copyclip-element="copy-sibling" is found, but not in the correct location. Move fs-copyclip-element="copy-sibling" to be a sibling of a Button, Link Block, Text Link or Div Block.'
     )
   });
 

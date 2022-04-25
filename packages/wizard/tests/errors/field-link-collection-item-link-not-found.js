@@ -30,5 +30,5 @@ test('Field Link - Find the referencial page but no link in collection item', as
   await assertErrorIsOnReport('field-collection-field-1', 'field-link-nested-collection-link-not-found');
   await assertErrorIsOnAttribute('field-collection-field-1', 'field-link-nested-collection-link-not-found');
 
-  await writeFileValidationMessage('CMS Nest - Link - Find referencial page with collection but no link in collection item', 'field-collection-field-1');
+  await writeFileValidationMessage('Link in referenced Collection List on Collection Template not found - CMS Nest', 'field-collection-field-1');
 });

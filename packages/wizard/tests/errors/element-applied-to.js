@@ -25,5 +25,5 @@ test('Element not applied to correct element', async t => {
   await assertErrorIsOnReport('element-list', 'applied-to');
   await assertErrorIsOnAttribute('element-list', 'applied-to');
 
-  await writeFileValidationMessage('Attribute element added in wrong html element', 'element-list');
+  await writeFileValidationMessage('Element attribute added to wrong element', 'element-list');
 });

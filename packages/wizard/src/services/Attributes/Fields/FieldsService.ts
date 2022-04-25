@@ -12,10 +12,12 @@ import MissingFieldSpecializationError from './Errors/UI/MissingFieldSpecializat
 import MissingFieldError from './Errors/MissingFieldError';
 import MissingFieldAppliedTagError from './Errors/MissingFieldAppliedTagError';
 // components
+import ComponentFieldNotFoundError from './Errors/Component/ComponentFieldNotFoundError';
 import ComponentMissingExternalComponentError from './Errors/Component/ComponentMissingExternalComponentError';
 import ComponentLinkNotWorkingError from './Errors/Component/ComponentLinkNotWorkingError';
 
 // links
+import FieldLinkNotFoundError from './Errors/Link/LinkFieldNotFoundError';
 import FieldLinkMainCollectionLinkNotFoundError from './Errors/Link/FieldLinkMainCollectionLinkNotFoundError';
 import FieldLinkMainCollectionLinkNotWorkingError from './Errors/Link/FieldLinkMainCollectionLinkNotWorkingError';
 import FieldLinkMissingNestedCollectionError from './Errors/Link/FieldLinkMissingNestedCollectionError'
@@ -272,7 +274,7 @@ export async function validateSpecializationApplyTo(
       const pageField = page.querySelector(externalSelector);
 
       if (!pageField) {
-        throw new ComponentMissingExternalComponentError(field, field);
+        throw new ComponentMissingExternalComponentError(field);
       }
       return null;
     }
@@ -297,16 +299,24 @@ export async function validateSpecializationApplyTo(
   const element = findElement(parentSelectors, valueSelector || instanceField.getElementSelector());
 
   if (element === null) {
-    throw new MissingFieldError(instanceField, parent);
+
+    switch (type) {
+      case 'link':
+        throw new FieldLinkNotFoundError(instanceField);
+      case 'component':
+        throw new ComponentFieldNotFoundError(instanceField);
+      case 'element':
+        throw new MissingFieldError(instanceField, parent);
+      default:
+        throw new MissingFieldError(instanceField, parent);
+    }
   }
 
   if (selectors.length >= 1) {
     if (!validateDOMSelectors(element, selectors)) {
       throw new MissingFieldAppliedTagError(
         instanceField,
-        parent,
         selectors,
-        // currentSelector(element)
       );
     }
   }

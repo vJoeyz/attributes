@@ -34,5 +34,5 @@ test('Element Setting - Value not match', async t => {
   await assertErrorIsOnReport('element-setting-duration', 'setting-value-not-match');
   await assertErrorIsOnAttribute('element-setting-duration', 'setting-value-not-match');
 
-  await writeFileValidationMessage('Attribute setting not match value in html', 'element-setting-duration');
+  await writeFileValidationMessage('Options in this tool do not match options set on the page - Element Setting', 'element-setting-duration');
 });

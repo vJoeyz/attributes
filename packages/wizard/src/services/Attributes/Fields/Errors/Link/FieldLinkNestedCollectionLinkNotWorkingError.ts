@@ -12,8 +12,8 @@ export default class FieldLinkNestedCollectionLinkNotWorkingError extends Abstra
 
 
     this.message = [
-      `The attribute ${attributeId} was found on the Collection’s CMS Template, but link is not working.`,
-      `Verify the link on the Collection’s CMS Template page.`
+      `The attribute ${attributeId} is found on the Collection’s CMS Template, but the link is not working.`,
+      `Check if the link to the Item’s Template page is correct.`
     ].join(' ');
 
 

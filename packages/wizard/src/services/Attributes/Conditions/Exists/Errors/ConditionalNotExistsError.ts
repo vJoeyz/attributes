@@ -21,18 +21,18 @@ export default class AttributeConditionalNotExistError extends AbstractSchemaErr
 
       this.message = [
         this.toHighlight(
-          `The attribute ${attributeId} was found but is missing the attribute dependency.`
+          `The attribute ${attributeId} is found, but is missing a required attribute in the setup.`
         ),
-        `Add ${conditionalId} to ${selectorsLabels} on the page.`
+        `Add ${conditionalId} to a ${selectorsLabels}.`
       ].join(' ');
     }
 
     if (conditional === null) {
       this.message = [
         this.toHighlight(
-          `The attribute ${attributeId} was found but is missing the attribute dependency.`
+          `The attribute ${attributeId} is found, but is missing a required component in the setup.`
         ),
-        `Add ${selectorsLabels} on the page.`
+        `Add ${selectorsLabels}.`
       ].join(' ');
     }
 

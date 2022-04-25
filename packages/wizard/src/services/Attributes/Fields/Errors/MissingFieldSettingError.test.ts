@@ -10,7 +10,7 @@ describe('Missing field settings error.', () => {
     const error = new MissingFieldSettingError(attribute, field);
 
     expect(error.stripHTML())
-      .toEqual('The attribute fs-cmsfilter-range="from" was not found. Add attribute fs-cmsfilter-range="from" to any element with fs-cmsfilter-field="products".');
+      .toEqual('The attribute fs-cmsfilter-range="from" is not found. Add attribute fs-cmsfilter-range="from" to any element with fs-cmsfilter-field="products".');
 
   });
 
@@ -23,7 +23,7 @@ describe('Missing field settings error.', () => {
     const error = new MissingFieldSettingError(attribute, field);
 
     expect(error.stripHTML())
-      .toEqual('The attribute fs-cmsfilter-active="my-class" was not found. Add attribute fs-cmsfilter-active="my-class" to any element with fs-cmsfilter-field="products".');
+      .toEqual('The attribute fs-cmsfilter-active="my-class" is not found. Add attribute fs-cmsfilter-active="my-class" to any element with fs-cmsfilter-field="products".');
 
   });
 });

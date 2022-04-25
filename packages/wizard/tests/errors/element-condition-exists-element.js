@@ -15,7 +15,7 @@ import {
 } from './../helpers/logs';
 
 fixture`Element Conditions Exists Errors`
-    .page`http://localhost:9000/scenarios/errors/element-condition-exists.html`;
+    .page`http://localhost:9000/scenarios/errors/element-condition-exists-element.html`;
 
 test('Element condition not found in page', async t => {
 
@@ -30,5 +30,5 @@ test('Element condition not found in page', async t => {
   await assertErrorIsOnReport('element-loader', 'conditions-exists');
   await assertErrorIsOnAttribute('element-loader', 'conditions-exists');
 
-  await writeFileValidationMessage('Attribute element condition exist not match', 'element-loader');
+  await writeFileValidationMessage('Element attribute setup requirements not met - element', 'element-loader');
 });

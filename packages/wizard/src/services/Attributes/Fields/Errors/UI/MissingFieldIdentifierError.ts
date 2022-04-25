@@ -8,8 +8,8 @@ export default class MissingFieldIdentifierError extends AbstractSchemaError {
 
 
     this.message = [
-      this.toHighlight(`Field identifier not provided.`),
-      `Please enter an identifier for this field in Checker UI.`
+      this.toHighlight(`Field identifier is not entered in this tool.`),
+      `Enter an indentifier value for this field to check it on the page.`
     ].join(' ');
 
 

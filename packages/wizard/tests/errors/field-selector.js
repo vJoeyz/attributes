@@ -31,7 +31,7 @@ test('Field found in wrong element selector', async t => {
   await assertErrorIsOnReport('field-field-field-1', 'field-selector');
   await assertErrorIsOnAttribute('field-field-field-1', 'field-selector');
 
-  await writeFileValidationMessage('Field - Added in wrong html element', 'field-field-field-1');
+  await writeFileValidationMessage('Field identifier found on wrong element - html element', 'field-field-field-1');
 });
 
 
@@ -49,7 +49,7 @@ test('Field found in wrong element selector with class', async t => {
   await assertErrorIsOnReport('field-field-field-1', 'field-selector');
   await assertErrorIsOnAttribute('field-field-field-1', 'field-selector');
 
-  await writeFileValidationMessage('Field - Added in wrong html element by class', 'field-field-field-1');
+  await writeFileValidationMessage('Field identifier found on wrong element - class', 'field-field-field-1');
 });
 
 
@@ -67,5 +67,5 @@ test('Field found in wrong element selector with type', async t => {
   await assertErrorIsOnReport('field-field-field-1', 'field-selector');
   await assertErrorIsOnAttribute('field-field-field-1', 'field-selector');
 
-  await writeFileValidationMessage('Field - Added in wrong html element by type', 'field-field-field-1');
+  await writeFileValidationMessage('Field identifier found on wrong element - input type', 'field-field-field-1');
 });

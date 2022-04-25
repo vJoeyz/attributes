@@ -29,6 +29,6 @@ test('Element that required link failed due to miss link on page', async t => {
   await assertErrorIsOnReport('element-handle', 'conditions-hasStyles');
   await assertErrorIsOnAttribute('element-handle', 'conditions-hasStyles');
 
-  await writeFileValidationMessage('Attribute element condition has style not match - position relative', 'element-track');
-  await writeFileValidationMessage('Attribute element condition has style not match - position absolute', 'element-handle');
+  await writeFileValidationMessage('Element attribute styles incorrect - position: relative', 'element-track');
+  await writeFileValidationMessage('Element attribute styles incorrect - position: absolute', 'element-handle');
 });

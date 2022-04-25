@@ -56,9 +56,6 @@ export async function validateInputForm(
 
   const elementsAndFieldsChannel: InputChannel[] = await Promise.all(promisesElements);
 
-  console.log(elementsAndFieldsChannel)
-
-
   const promisesSettings = settings
     .map(async (input: SchemaInput) => {
 
@@ -73,8 +70,6 @@ export async function validateInputForm(
       if (!elementChannel) {
         throw new Error('Input error, missing element channel');
       }
-
-      console.log(elementChannel);
 
       return validateElementSetting(input, elementChannel, schema, schemaSettings);
     }
@@ -105,8 +100,6 @@ export async function validateInputForm(
   })
 
   const settingsChannel = await Promise.all(promisesSettings);
-  console.log(settingsChannel);
-
 
   const input = [
     ...elementsAndFieldsChannel.map((attribute: InputChannel) => attribute.input),

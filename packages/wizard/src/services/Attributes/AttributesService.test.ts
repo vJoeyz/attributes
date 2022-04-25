@@ -66,6 +66,13 @@ describe('Use Attributes Validation', () => {
       settings: [],
     };
 
+    const elementListChannel: InputChannel = {
+      input: elementList,
+      domElement: [],
+    }
+
+
+    validateElementMock.mockReturnValue(elementListChannel);
 
     const key = 'cmsload';
 
@@ -142,7 +149,7 @@ describe('Use Attributes Validation', () => {
     }
 
 
-    validateElementMock.mockReturnValueOnce(elementListChannel);
+    validateElementMock.mockReturnValue(elementListChannel);
 
     const schema: AttributeSchema = {
       elements: [],
@@ -160,6 +167,7 @@ describe('Use Attributes Validation', () => {
       standalone,
       instance,
     };
+
 
 
     await validateInputForm(form, schema, schemaSettings);
@@ -213,7 +221,7 @@ describe('Use Attributes Validation', () => {
     }
 
 
-    validateFieldMock.mockReturnValueOnce(fieldNameChannel);
+    validateFieldMock.mockReturnValue(fieldNameChannel);
 
 
     await validateInputForm(form, schema, schemaSettings);
@@ -256,7 +264,7 @@ describe('Use Attributes Validation', () => {
       domElement: [],
     }
 
-    validateFieldMock.mockReturnValueOnce(fieldNameChannel);
+    validateFieldMock.mockReturnValue(fieldNameChannel);
 
     const form: SchemaInput[] = [
       fieldName,
