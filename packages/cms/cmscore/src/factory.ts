@@ -27,7 +27,7 @@ export const createCMSListInstances = (selectors: Parameters<typeof getCollectio
  * @param referenceElement The `Collection List` reference element.
  * @returns A new `CMSList` instance, if instantiation was valid.
  */
-const createCMSListInstance = (referenceElement: HTMLElement): CMSList | undefined => {
+export const createCMSListInstance = (referenceElement: HTMLElement): CMSList | undefined => {
   const wrapper = getCollectionElements(referenceElement, 'wrapper');
 
   if (!wrapper) {

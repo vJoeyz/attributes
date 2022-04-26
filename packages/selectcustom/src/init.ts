@@ -1,3 +1,5 @@
+import { ATTRIBUTE as CMS_SELECT_ATTRIBUTE } from '$cms/cmsselect/src/constants';
+
 import { listenEvents } from './actions/events';
 import { observeElements } from './actions/observe';
 import { populateOptions } from './actions/populate';
@@ -7,7 +9,9 @@ import { ATTRIBUTE, getSelector } from './utils/constants';
 /**
  * Inits the attribute.
  */
-export const init = (): NodeListOf<HTMLElement> => {
+export const init = async (): Promise<NodeListOf<HTMLElement>> => {
+  await window.fsAttributes[CMS_SELECT_ATTRIBUTE]?.loading;
+
   const referenceElements = document.querySelectorAll<HTMLElement>(
     getSelector('element', 'dropdown', { operator: 'prefixed' })
   );
