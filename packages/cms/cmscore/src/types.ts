@@ -1,4 +1,4 @@
-import type { CMSList, CMSItem, createCMSListInstances } from '.';
+import type { CMSList, CMSItem, createCMSListInstances, createCMSListInstance } from '.';
 
 /**
  * `CMSList` Types
@@ -78,6 +78,7 @@ export interface CMSCore {
   CMSList: typeof CMSList;
   CMSItem: typeof CMSItem;
   createCMSListInstances: typeof createCMSListInstances;
+  createCMSListInstance: typeof createCMSListInstance;
 }
 
 export type CMSCoreImport = Promise<CMSCore | undefined>;
