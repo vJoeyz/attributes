@@ -60,20 +60,20 @@
   "devDependencies": {
     "@finsweet/eslint-config": "^1.1.4",
     "@trivago/prettier-plugin-sort-imports": "^3.2.0",
-    "@typescript-eslint/eslint-plugin": "^5.16.0",
-    "@typescript-eslint/parser": "^5.16.0",
+    "@typescript-eslint/eslint-plugin": "^5.21.0",
+    "@typescript-eslint/parser": "^5.21.0",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.14.27",
-    "eslint": "^8.11.0",
+    "esbuild": "^0.14.38",
+    "eslint": "^8.14.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "prettier": "^2.6.1",
+    "prettier": "^2.6.2",
     "serve": "^13.0.2",
     "typescript": "^4.6.3"
   },
   "dependencies": {
-    "@finsweet/ts-utils": "^0.31.3",
-    "emittery": "^0.10.1",
+    "@finsweet/ts-utils": "^0.31.4",
+    "emittery": "^0.10.2",
     "just-debounce": "^1.1.0",
     "just-throttle": "^4.0.1",
     "nanostores": "^0.5.12"
