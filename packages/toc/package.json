@@ -31,5 +31,8 @@
   "bugs": {
     "url": "https://sweetjs.finsweet.com/"
   },
-  "homepage": "https://www.finsweet.com/attributes"
+  "homepage": "https://www.finsweet.com/attributes",
+  "dependencies": {
+    "slugify": "^1.6.5"
+  }
 }

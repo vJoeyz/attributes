@@ -10,7 +10,7 @@ export const CONTENTS_ELEMENT_KEY = 'contents';
 export const LINK_ELEMENT_KEY = 'link';
 export const IX_TRIGGER_ELEMENT_KEY = 'ix-trigger';
 
-export const HEADINGS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] as const;
+export const HEADINGS = ['h2', 'h3', 'h4', 'h5', 'h6'] as const;
 export const HEADING_SETTING_KEY = 'heading';
 export const HEADING_SETTING_VALUES = Object.fromEntries(HEADINGS.map((heading) => [heading, heading])) as {
   [key in Heading]: key;
@@ -49,3 +49,6 @@ export const ATTRIBUTES = {
 } as const;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
+
+export const DEFAULT_INITIAL_HEADING_LEVEL = 2;
+export const ANCHOR_SELECTOR = `${ATTRIBUTES_PREFIX}-anchor`;
