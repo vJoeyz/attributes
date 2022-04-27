@@ -140,7 +140,7 @@
     </div>
     <a class="attribute-selector-docs" target="_blank" href={docs}>
       <div>go to docs</div>
-      <div class="attribute-selector-docs-link" >
+      <div class="attribute-selector-docs-link">
         <ExternalLink/>
       </div>
     </a>
@@ -169,7 +169,6 @@
     grid-row-gap: 0.5rem;
     grid-template-columns: 1fr;
     grid-template-rows: auto;
-    border-radius: 0.375rem;
     background-color: #474747;
     box-sizing: border-box;
   }
@@ -188,7 +187,6 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    border-radius: 0.375rem;
     background-color: rgba(17, 17, 17, 0.2);
     color: #979797;
     font-size: 0.875rem;
@@ -201,6 +199,7 @@
     vertical-align: middle;
     display: inline-block;
     width: 1rem;
+    height: 1rem;
     margin-left: 0.5rem;
   }
 </style>

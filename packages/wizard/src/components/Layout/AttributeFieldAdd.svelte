@@ -21,7 +21,6 @@
     justify-content: center;
     align-items: center;
     flex: 0 0 auto;
-    border-radius: 500px;
     background-color: #1a1a1a;
     max-width: 100%;
     box-sizing: border-box;

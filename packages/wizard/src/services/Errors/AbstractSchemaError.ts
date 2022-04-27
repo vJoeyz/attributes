@@ -61,15 +61,18 @@ export default class AbstractSchemaError extends Error implements ItemError {
   }
 
   toLabel(value: string) {
-    return `<span class="validator-label">${value}</span>`
+    //return `<span class="validator-label">${value}</span>`
+    return value;
   }
 
   toHighlight(value: string) {
-    return `<span class="validator-highlight">${value}</span>`
+    // return `<span class="validator-highlight">${value}</span>`
+    return value;
   }
 
   toAttribute(value: string) {
-    return `<span class="validator-attribute">${value}</span>`
+    // return `<span class="validator-attribute">${value}</span>`
+    return value;
   }
 
   listToSentence(values: string[], joinWord = 'or') {

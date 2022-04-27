@@ -18,7 +18,7 @@
   import FieldSettings from '@src/components/Schema/FieldSetting.svelte';
   import InputValidation from '../Layout/InputValidation.svelte';
   import type { FieldUI } from '@src/services/UI/UIService';
-  import type { SchemaInputField, FieldChangeSpecialization, FieldChangeIdentifier } from '@src/types/Input.types';
+  import type { SchemaInputField, FieldChangeSpecialization, FieldChangeIdentifier, SchemaInputValidation } from '@src/types/Input.types';
 
   import {
     schemaFormActions,
@@ -39,6 +39,8 @@
   let isChecked = true;
   let isRequired = true;
 
+  let fieldStatus: boolean | null = getInputStatus(fieldInput?.validation);
+
 
   let selectorId = `field-${field.key}-${fieldInput.index}`;
   let isOpenSelector = $toggleAttributeSelector === selectorId;
@@ -53,8 +55,19 @@
     isOpenSelector = false;
   }
 
+
+  function getInputStatus(validation: SchemaInputValidation | null | undefined): boolean | null {
+    if (validation === null || validation === undefined) {
+      return null;
+    }
+
+    return validation.status;
+  }
+
+
   $: if ($schemaForm) {
     fieldInput = schemaFormActions.findField(field.key, fieldInput.index);
+    fieldStatus = getInputStatus(fieldInput?.validation);
   }
 
   $: if ($toggleAttributeSelector) {
@@ -64,13 +77,14 @@
 </script>
 
 <Attribute>
-  <AttributeItem id={selectorId} checked={isChecked}>
+  <AttributeItem id={selectorId} checked={isChecked} status={fieldStatus}>
     <AttributeItemHeader>
       <AttributeCheckbox
         onCheck={null}
         isChecked={isChecked}
         isRequired={isRequired}
         key={field.key}
+        status={fieldStatus}
       />
       <AttributeItemContainer>
         <AttributeContainer>

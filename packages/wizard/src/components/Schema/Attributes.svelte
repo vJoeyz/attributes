@@ -24,6 +24,9 @@
    </div>
   </Header>
   <Results/>
+  <Header>
+    <div>Attributes:</div>
+  </Header>
   {#if requiredElements.length > 0}
     {#each requiredElements as element}
       <Element element={element}/>

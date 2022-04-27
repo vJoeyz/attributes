@@ -48,7 +48,6 @@
     border-style: solid;
     border-width: 1px;
     border-color: #000;
-    border-radius: 0.375rem;
     background-color: #1a1a1a;
     color: #bcfd2e;
     font-size: 1rem;

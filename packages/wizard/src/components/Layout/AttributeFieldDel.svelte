@@ -15,7 +15,6 @@
     margin-top: -0.25rem;
     margin-left: 0.5rem;
     flex: 0 0 auto;
-    border-radius: 999rem;
     max-width: 100%;
     display: inline-block;
     cursor: pointer;

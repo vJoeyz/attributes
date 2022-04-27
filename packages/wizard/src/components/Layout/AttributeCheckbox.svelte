@@ -6,6 +6,8 @@
   export let isChecked: boolean;
   export let key: string;
   export let disabled = false;
+
+  export let status: boolean | null;
 </script>
 
 <label class="checkbox-label">
@@ -13,11 +15,13 @@
     class="checkbox-mark"
     class:checked={isChecked}
     class:required={isRequired}
+    class:is-success={status === true}
+    class:is-error={status === false}
   >
     {#if isChecked}
       <Checkmark/>
     {/if}
-</div>
+  </div>
   <input
     value={key}
     disabled={isRequired || disabled}
@@ -59,7 +63,6 @@
     flex: 0 0 auto;
     border-width: 2px;
     border-color: #141414;
-    border-radius: 0.375rem;
     cursor: pointer;
     border-top-style: solid;
     border-bottom-style: solid;
@@ -82,7 +85,16 @@
     border-color: #5c2aff;
     background-color: #5c2aff;
     background-size: 1rem;
-    box-shadow: 0px 0px 3px 1px #3898ec;
+  }
+
+  .checkbox-mark.checked.is-success {
+    border-color: #5cca58;
+    background-color: #5cca58;
+  }
+
+  .checkbox-mark.checked.is-error {
+    border-color: #ee404c;
+    background-color: #ee404c;
   }
 
   .checkbox-mark.required {

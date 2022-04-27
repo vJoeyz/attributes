@@ -25,7 +25,6 @@
     border-style: solid;
     border-width: 1px;
     border-color: #000;
-    border-radius: 0.375rem;
     background-color: #111;
     color: #ccc;
     user-select: none;

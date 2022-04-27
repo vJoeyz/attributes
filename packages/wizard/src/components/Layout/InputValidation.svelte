@@ -6,8 +6,16 @@
   export let type: string | undefined = undefined;
 </script>
 
-<div class="tool_message">
-  <div class="tool_message-block" data-testid="attribute-error" data-error={type}>
+<div
+  class="tool_message"
+>
+  <div
+    class="tool_message-block"
+    data-testid="attribute-error"
+    data-error={type}
+    class:is-success={status === true}
+    class:is-error={status === false}
+  >
     <StatusIcon status={status}/>
     <div>{@html message}</div>
   </div>
@@ -15,9 +23,10 @@
 
 <style>
   .tool_message {
-    padding: 0rem 2rem 2rem;
-    background-color: #252525;
+    padding: 0rem 1.5rem 1rem;
   }
+
+
 
   .tool_message  :global(svg) {
     width: 1.5rem;
@@ -32,31 +41,21 @@
     padding: 0.5rem;
     flex-direction: row;
     justify-content: flex-start;
-    align-items: center;
     border-radius: 0.375rem;
-    background-color: #1a1a1a;
     color: #ccc;
-    font-size: 0.875rem;
+    font-size: 1rem;
     letter-spacing: 0.025rem;
   }
 
-  .tool_message-block :global(.validator-highlight) {
-    font-weight: 700;
+  .tool_message-block.is-success {
+    background-color: rgba(17, 17, 17, 0.3);
   }
 
-  .tool_message-block :global(.validator-label) {
-    font-weight: 700;
+  .tool_message-block.is-error {
+    background-color: rgba(17, 17, 17, 0.3);
   }
 
-  .tool_message-block :global(.validator-attribute) {
-    display: inline-block;
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
-    border-radius: 0.5rem;
-    background-color: #444;
-    color: #e7e7e7;
-    font-size: 0.875rem;
-    box-sizing: border-box;
+  .tool_message-block :global(.icon-status) {
+    height: 100%;
   }
-
 </style>

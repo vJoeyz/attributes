@@ -13,7 +13,7 @@
   span {
     width: 1rem;
     height: 1rem;
-    margin-right: 0.5rem;
+    margin: 0 0.25rem;
   }
 
   span :global(svg) {
