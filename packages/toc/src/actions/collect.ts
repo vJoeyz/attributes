@@ -3,7 +3,7 @@ import {
   CUSTOM_HEADING_REGEXP,
   DEFAULT_INITIAL_HEADING_LEVEL,
   getSelector,
-  ALLOWED_HEADING_TAGS,
+  ALLOWED_HEADINGS_SELECTOR,
   OMIT_HEADING_REGEXP,
 } from '../utils/constants';
 import { extractHeadingLevel } from '../utils/helpers';
@@ -19,7 +19,7 @@ import { identifyHeadingElement } from './identify';
 export const collectHeadingsData = (contentsElement: HTMLElement) => {
   const headingsData: HeadingData[] = [];
 
-  const headingElements = contentsElement.querySelectorAll<HTMLHeadingElement>(ALLOWED_HEADING_TAGS.join(','));
+  const headingElements = contentsElement.querySelectorAll<HTMLHeadingElement>(ALLOWED_HEADINGS_SELECTOR);
 
   for (const headingElement of headingElements) {
     // Get the heading data
