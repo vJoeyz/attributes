@@ -1,3 +1,5 @@
+import { HEADING_LEVEL_REGEXP } from './constants';
+
 /**
  * Extracts the heading level from a heading tag.
  * @param value The heading tag.
@@ -11,7 +13,7 @@
  *
  */
 export const extractHeadingLevel = (value: string) => {
-  const rawLevel = value.match(/\d/)?.[0];
+  const rawLevel = value.match(HEADING_LEVEL_REGEXP)?.[0];
   if (!rawLevel) return;
 
   const level = parseInt(rawLevel);
