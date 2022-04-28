@@ -1,4 +1,11 @@
-import { ANCHOR_SELECTOR, DEFAULT_INITIAL_HEADING_LEVEL, getSelector, HEADINGS } from '../utils/constants';
+import {
+  ANCHOR_SELECTOR,
+  CUSTOM_HEADING_REGEXP,
+  DEFAULT_INITIAL_HEADING_LEVEL,
+  getSelector,
+  ALLOWED_HEADING_TAGS,
+  OMIT_HEADING_REGEXP,
+} from '../utils/constants';
 import { extractHeadingLevel } from '../utils/helpers';
 import type { HeadingData, LinkData } from '../utils/types';
 import { identifyHeadingElement } from './identify';
@@ -11,69 +18,66 @@ import { identifyHeadingElement } from './identify';
  */
 export const collectHeadingsData = (contentsElement: HTMLElement) => {
   const headingsData: HeadingData[] = [];
-  const levelsMemo: HeadingData[] = [];
 
-  const headingElements = contentsElement.querySelectorAll<HTMLHeadingElement>(HEADINGS.join(','));
+  const headingElements = contentsElement.querySelectorAll<HTMLHeadingElement>(ALLOWED_HEADING_TAGS.join(','));
 
   for (const headingElement of headingElements) {
     // Get the heading data
-    const { tagName } = headingElement;
+    const { tagName, textContent } = headingElement;
+    if (!textContent) continue;
 
-    const level = extractHeadingLevel(tagName);
+    const omit = textContent.match(OMIT_HEADING_REGEXP);
+    if (omit) {
+      headingElement.textContent = textContent.replace(OMIT_HEADING_REGEXP, '').trim();
+      continue;
+    }
+
+    const [customTag] = textContent.match(CUSTOM_HEADING_REGEXP) || [];
+    if (customTag) headingElement.textContent = textContent.replace(CUSTOM_HEADING_REGEXP, '').trim();
+
+    const level = extractHeadingLevel(customTag || tagName);
     if (!level) continue;
 
     const id = identifyHeadingElement(headingElement);
+    if (!id) continue;
 
     const headingData: HeadingData = {
       level,
       headingElement,
       id,
-      children: [],
     };
 
     // Get the level memo
-    let levelMemo: HeadingData | undefined;
+    const previousHeading = headingsData[headingsData.length - 1];
 
-    for (let i = levelsMemo.length - 1; i >= 0; i--) {
-      levelMemo = levelsMemo[i];
-
-      if (level > levelMemo.level) break;
-
-      levelsMemo.pop();
-    }
-
-    if (!levelMemo) {
+    if (!previousHeading) {
       headingsData.push(headingData);
-      levelsMemo.push(headingData);
       continue;
     }
 
     // Create a placeholder level memo when a heading level has been skipped
     // Example: the user added an <h5> after an <h3>, he skipped the <h4> level
-    const correspondingLevel = levelMemo.level + 1;
+    const correspondingLevel = previousHeading.level + 1;
 
     if (level > correspondingLevel) {
-      for (let i = 0; i < level - correspondingLevel; i++) {
-        const newLevelMemo: HeadingData = {
-          level: levelMemo.level + 1,
-          children: [],
-        };
-
-        levelsMemo.push(newLevelMemo);
-        levelMemo.children.push(newLevelMemo);
-        levelMemo = newLevelMemo;
+      for (let i = 1; i <= level - correspondingLevel; i++) {
+        headingsData.push({ level: previousHeading.level + i });
       }
     }
 
     // Store the heading data
-    levelMemo.children.push(headingData);
-    if (level > levelMemo.level) levelsMemo.push(headingData);
+    headingsData.push(headingData);
   }
 
   return headingsData;
 };
 
-export const collectLinksData = (linkTemplate: Element) => {
+/**
+ * Collects the template links data.
+ * @param firstLinkTemplate
+ * @returns A {@link LinkData} array.
+ */
+export const collectLinksData = (firstLinkTemplate: Element) => {
   const linksData: LinkData[] = [];
 
   const collectLinkData = (referenceNode: Element) => {
@@ -88,13 +92,10 @@ export const collectLinksData = (linkTemplate: Element) => {
     const previousLevel = linksData[linksData.length - 1]?.level;
     const level = previousLevel ? previousLevel + 1 : DEFAULT_INITIAL_HEADING_LEVEL;
 
-    // const ixTrigger = parentElement.querySelector<HTMLElement>(`:scope > ${ATTRIBUTES.element.values.ixTrigger}`);
-
     linksData.push({
       linkElement,
       level,
       component,
-      // ixTrigger,
     });
 
     // Get next link component
@@ -116,7 +117,7 @@ export const collectLinksData = (linkTemplate: Element) => {
   };
 
   // Init collection
-  const firstLinkComponent = collectLinkData(linkTemplate);
+  const firstLinkComponent = collectLinkData(firstLinkTemplate);
 
   if (!linksData.length || !firstLinkComponent) return;
 
