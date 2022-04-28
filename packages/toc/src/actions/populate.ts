@@ -1,7 +1,9 @@
 import { cloneNode } from '@finsweet/ts-utils';
 
-import { ANCHOR_SELECTOR, queryElement } from '../utils/constants';
-import type { HeadingData, LinkData } from '../utils/types';
+import { ANCHOR_SELECTOR, getSelector, queryElement } from '../utils/constants';
+import type { HeadingData, LinkData, TableData } from '../utils/types';
+
+type LevelMemo = Pick<TableData, 'level' | 'component'>;
 
 /**
  * Populates all links using the headings data.
@@ -10,15 +12,16 @@ import type { HeadingData, LinkData } from '../utils/types';
  * @param tableWrapper
  */
 export const populateLinks = (headingsData: HeadingData[], linksData: LinkData[], tableWrapper: HTMLElement) => {
-  const levelsMemo: LinkData[] = [];
+  const tableData: TableData[] = [];
+  const levelsMemo: LevelMemo[] = [];
 
-  const populate = ({ headingElement, level, id, children }: HeadingData) => {
+  for (const { headingElement, level, id } of headingsData) {
     // Get the corresponding link data
     const linkData = linksData.find((data) => data.level === level);
-    if (!linkData) return;
+    if (!linkData) continue;
 
     // Get the level memo
-    let levelMemo: LinkData | undefined;
+    let levelMemo: LevelMemo | undefined;
 
     for (let i = levelsMemo.length - 1; i >= 0; i--) {
       levelMemo = levelsMemo[i];
@@ -32,10 +35,14 @@ export const populateLinks = (headingsData: HeadingData[], linksData: LinkData[]
     const component = cloneNode(linkData.component);
 
     const referenceNode = queryElement('link', { scope: component });
-    if (!referenceNode) return;
+    if (!referenceNode) continue;
 
     const linkElement = referenceNode.closest('a');
-    if (!linkElement) return;
+    if (!linkElement) continue;
+
+    const ixTrigger = component.querySelector<HTMLElement>(
+      `:scope > ${getSelector('element', 'ixTrigger', { operator: 'prefixed' })}`
+    );
 
     // Populate the link
     if (headingElement) {
@@ -52,19 +59,20 @@ export const populateLinks = (headingsData: HeadingData[], linksData: LinkData[]
 
     // Store the new level memo
     if (!levelMemo || level > levelMemo.level) {
-      levelsMemo.push({
-        level,
-        linkElement,
-        component,
-      });
+      levelsMemo.push({ level, component });
     }
 
-    // Populate the children
-    for (const data of children) populate(data);
-  };
+    tableData.push({
+      component,
+      level,
+      linkElement,
+      headingElement,
+      id,
+      ixTrigger,
+    });
+  }
 
-  // Init populating
-  for (const data of headingsData) populate(data);
+  return tableData;
 };
 
 /**
