@@ -1,19 +1,18 @@
 import { cloneNode } from '@finsweet/ts-utils';
 
-import { ANCHOR_SELECTOR, getSelector, queryElement } from '../utils/constants';
-import type { HeadingData, LinkData, TableData } from '../utils/types';
-
-type LevelMemo = Pick<TableData, 'level' | 'component'>;
+import { TOCItem } from '../components/TOCItem';
+import { getSelector, queryElement } from '../utils/constants';
+import type { HeadingData, LinkData } from '../utils/types';
 
 /**
  * Populates all links using the headings data.
  * @param headingsData
  * @param linksData
- * @param tableWrapper
+ * @param tocWrapper
  */
-export const populateLinks = (headingsData: HeadingData[], linksData: LinkData[], tableWrapper: HTMLElement) => {
-  const tableData: TableData[] = [];
-  const levelsMemo: LevelMemo[] = [];
+export const populateLinks = (headingsData: HeadingData[], linksData: LinkData[], tocWrapper: HTMLElement) => {
+  const tocItems: TOCItem[] = [];
+  const levelsMemo: TOCItem[] = [];
 
   for (const { headingElement, level, id } of headingsData) {
     // Get the corresponding link data
@@ -21,7 +20,7 @@ export const populateLinks = (headingsData: HeadingData[], linksData: LinkData[]
     if (!linkData) continue;
 
     // Get the level memo
-    let levelMemo: LevelMemo | undefined;
+    let levelMemo: TOCItem | undefined;
 
     for (let i = levelsMemo.length - 1; i >= 0; i--) {
       levelMemo = levelsMemo[i];
@@ -31,7 +30,7 @@ export const populateLinks = (headingsData: HeadingData[], linksData: LinkData[]
       levelsMemo.pop();
     }
 
-    const wrapperElement = levelMemo ? levelMemo.component : tableWrapper;
+    const wrapperElement = levelMemo ? levelMemo.component : tocWrapper;
     const component = cloneNode(linkData.component);
 
     const referenceNode = queryElement('link', { scope: component });
@@ -44,47 +43,29 @@ export const populateLinks = (headingsData: HeadingData[], linksData: LinkData[]
       `:scope > ${getSelector('element', 'ixTrigger', { operator: 'prefixed' })}`
     );
 
-    // Populate the link
-    if (headingElement) {
-      referenceNode.textContent = headingElement.textContent;
-      linkElement.href = `#${id}`;
-    } else {
-      linkElement.remove();
-    }
+    const tocItem = new TOCItem({
+      wrapperElement,
+      component,
+      referenceNode,
+      linkElement,
+      ixTrigger,
+      level,
+      headingElement,
+      id,
+    });
 
     // Insert the component
     const levelExists = level === levelMemo?.level;
 
-    insertLinkComponent(wrapperElement, levelExists ? linkElement : component);
+    tocItem.renderLink(levelExists);
 
     // Store the new level memo
     if (!levelMemo || level > levelMemo.level) {
-      levelsMemo.push({ level, component });
+      levelsMemo.push(tocItem);
     }
 
-    tableData.push({
-      component,
-      level,
-      linkElement,
-      headingElement,
-      id,
-      ixTrigger,
-    });
+    tocItems.push(tocItem);
   }
 
-  return tableData;
-};
-
-/**
- * Inserts a link component into the target wrapper element, using the anchor as the reference.
- * @param wrapperElement
- * @param component
- */
-const insertLinkComponent = (wrapperElement: HTMLElement, component: HTMLElement) => {
-  const anchor = [...wrapperElement.childNodes].find(
-    ({ nodeType, nodeValue }) => nodeType === 8 && nodeValue === ANCHOR_SELECTOR
-  );
-
-  if (anchor) wrapperElement.insertBefore(component, anchor);
-  else wrapperElement.append(component);
+  return tocItems;
 };

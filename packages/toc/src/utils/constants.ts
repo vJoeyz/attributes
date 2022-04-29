@@ -1,7 +1,5 @@
 import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory/selectors';
 
-import { Heading } from './types';
-
 export const ATTRIBUTE = 'toc';
 
 const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
@@ -10,11 +8,8 @@ export const CONTENTS_ELEMENT_KEY = 'contents';
 export const LINK_ELEMENT_KEY = 'link';
 export const IX_TRIGGER_ELEMENT_KEY = 'ix-trigger';
 
-export const HEADINGS = ['h2', 'h3', 'h4', 'h5', 'h6'] as const;
-export const HEADING_SETTING_KEY = 'heading';
-export const HEADING_SETTING_VALUES = Object.fromEntries(HEADINGS.map((heading) => [heading, heading])) as {
-  [key in Heading]: key;
-};
+export const OFFSET_TOP_SETTING_KEY = 'offsettop';
+export const OFFSET_BOTTOM_SETTING_KEY = 'offsetbottom';
 
 export const ATTRIBUTES = {
   element: {
@@ -40,11 +35,17 @@ export const ATTRIBUTES = {
   },
 
   /**
-   * Defines the heading level of a link. If not defined anywhere, the base level defaults to `h2`.
+   * Defines a [scroll-margin-top](https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-margin-top) value for the headers.
    */
-  heading: {
-    key: `${ATTRIBUTES_PREFIX}-${HEADING_SETTING_KEY}`,
-    values: HEADING_SETTING_VALUES,
+  scrollMarginTop: {
+    key: `${ATTRIBUTES_PREFIX}-${OFFSET_TOP_SETTING_KEY}`,
+  },
+
+  /**
+   * Defines a [scroll-margin-bottom](https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-margin-bottom) value for the headers.
+   */
+  scrollMarginBottom: {
+    key: `${ATTRIBUTES_PREFIX}-${OFFSET_BOTTOM_SETTING_KEY}`,
   },
 } as const;
 
@@ -52,3 +53,10 @@ export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 
 export const DEFAULT_INITIAL_HEADING_LEVEL = 2;
 export const ANCHOR_SELECTOR = `${ATTRIBUTES_PREFIX}-anchor`;
+
+const ALLOWED_HEADINGS_REGEX = '[2-6]';
+export const ALLOWED_HEADINGS_SELECTOR = 'h2, h3, h4, h5, h6';
+
+export const OMIT_HEADING_REGEXP = new RegExp(`^\\[${ATTRIBUTES_PREFIX}-omit\\]`, 'i');
+export const CUSTOM_HEADING_REGEXP = new RegExp(`^\\[${ATTRIBUTES_PREFIX}-h${ALLOWED_HEADINGS_REGEX}\\]`, 'i');
+export const HEADING_LEVEL_REGEXP = new RegExp(ALLOWED_HEADINGS_REGEX);

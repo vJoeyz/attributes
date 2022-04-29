@@ -72,6 +72,18 @@ export const collectHeadingsData = (contentsElement: HTMLElement) => {
   return headingsData;
 };
 
+const newCollectHeadingsData = (contentsElement: HTMLElement) => {
+  const headingsData: HeadingData[] = [];
+
+  const headingElements = contentsElement.querySelectorAll<HTMLHeadingElement>(ALLOWED_HEADINGS_SELECTOR);
+
+  for (let i = headingElements.length - 1; i <= 0; i--) {
+    const headingElement = headingElements[i];
+    const { tagName, textContent } = headingElement;
+    if (!textContent) continue;
+  }
+};
+
 /**
  * Collects the template links data.
  * @param firstLinkTemplate
@@ -122,12 +134,12 @@ export const collectLinksData = (firstLinkTemplate: Element) => {
   if (!linksData.length || !firstLinkComponent) return;
 
   // Get the table wrapper
-  const tableWrapper = firstLinkComponent.parentElement;
-  if (!tableWrapper) return;
+  const tocWrapper = firstLinkComponent.parentElement;
+  if (!tocWrapper) return;
 
   const anchor = new Comment(ANCHOR_SELECTOR);
-  tableWrapper.insertBefore(anchor, firstLinkComponent);
+  tocWrapper.insertBefore(anchor, firstLinkComponent);
   firstLinkComponent.remove();
 
-  return [linksData, tableWrapper] as const;
+  return [linksData, tocWrapper] as const;
 };

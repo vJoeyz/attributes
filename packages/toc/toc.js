@@ -87,6 +87,17 @@
   };
   __publicField(Debug, "alertsActivated", false);
 
+  // ../../node_modules/@finsweet/ts-utils/dist/webflow/css.js
+  var CURRENT_CSS_CLASS = "w--current";
+
+  // ../../node_modules/@finsweet/ts-utils/dist/helpers/simulateEvent.js
+  var simulateEvent = (target, events) => {
+    if (!Array.isArray(events))
+      events = [events];
+    const eventsSuccess = events.map((event) => target.dispatchEvent(new Event(event, { bubbles: true })));
+    return eventsSuccess.every((success) => success);
+  };
+
   // ../../node_modules/@finsweet/ts-utils/dist/helpers/cloneNode.js
   var cloneNode = (node, deep = true) => node.cloneNode(deep);
 
@@ -96,6 +107,48 @@
     const suffix = parseInt(splitValue[splitValue.length - 1]);
     if (!isNaN(suffix))
       return suffix;
+  };
+
+  // ../../node_modules/@finsweet/ts-utils/dist/helpers/queryElement.js
+  var queryElement = (selector, instance, scope = document) => {
+    const element = scope.querySelector(selector);
+    if (element instanceof instance)
+      return element;
+  };
+
+  // ../../node_modules/@finsweet/ts-utils/dist/helpers/wait.js
+  var wait = (time) => new Promise((resolve) => setTimeout(resolve, time));
+
+  // ../../node_modules/@finsweet/ts-utils/dist/components/Interaction.js
+  var Interaction = class {
+    element;
+    active = false;
+    running = false;
+    runningPromise;
+    duration;
+    constructor({ element, duration }) {
+      this.element = typeof element === "string" ? queryElement(element, HTMLElement) || Debug.alert(`No interaction with the ${element} selector was found.`, "error") : element;
+      this.duration = {
+        first: typeof duration === "number" ? duration : duration?.first ?? 0,
+        second: typeof duration === "number" ? duration : duration?.second ?? 0
+      };
+    }
+    async trigger(click) {
+      if (click === "first" && this.active || click === "second" && !this.active)
+        return false;
+      if (!click)
+        click = this.active ? "second" : "first";
+      simulateEvent(this.element, "click");
+      this.running = true;
+      this.runningPromise = wait(this.duration[click]);
+      await this.runningPromise;
+      this.running = false;
+      this.active = click === "first";
+      return true;
+    }
+    isActive = () => this.active;
+    isRunning = () => this.running;
+    untilFinished = () => this.runningPromise;
   };
 
   // ../../global/factory/selectors.ts
@@ -125,11 +178,11 @@
           return `[${attributeKey}*="${attributeValue}"]`;
       }
     };
-    const queryElement3 = (elementKey, params) => {
+    const queryElement4 = (elementKey, params) => {
       const selector = getSelector3("element", elementKey, params);
       return (params?.scope || document).querySelector(selector);
     };
-    return [getSelector3, queryElement3];
+    return [getSelector3, queryElement4];
   };
 
   // ../../global/constants/attributes.ts
@@ -140,7 +193,7 @@
     src: { key: "src", values: { finsweet: "@finsweet/attributes" } },
     dev: { key: `${ATTRIBUTES_PREFIX}-dev` }
   };
-  var [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
+  var [getSelector, queryElement2] = generateSelectors(ATTRIBUTES);
 
   // ../../global/factory/assess.ts
   var assessScript = () => {
@@ -235,9 +288,8 @@
   var CONTENTS_ELEMENT_KEY = "contents";
   var LINK_ELEMENT_KEY = "link";
   var IX_TRIGGER_ELEMENT_KEY = "ix-trigger";
-  var HEADINGS = ["h2", "h3", "h4", "h5", "h6"];
-  var HEADING_SETTING_KEY = "heading";
-  var HEADING_SETTING_VALUES = Object.fromEntries(HEADINGS.map((heading) => [heading, heading]));
+  var OFFSET_TOP_SETTING_KEY = "offsettop";
+  var OFFSET_BOTTOM_SETTING_KEY = "offsetbottom";
   var ATTRIBUTES2 = {
     element: {
       key: `${ATTRIBUTES_PREFIX2}-element`,
@@ -247,18 +299,25 @@
         ixTrigger: IX_TRIGGER_ELEMENT_KEY
       }
     },
-    heading: {
-      key: `${ATTRIBUTES_PREFIX2}-${HEADING_SETTING_KEY}`,
-      values: HEADING_SETTING_VALUES
+    scrollMarginTop: {
+      key: `${ATTRIBUTES_PREFIX2}-${OFFSET_TOP_SETTING_KEY}`
+    },
+    scrollMarginBottom: {
+      key: `${ATTRIBUTES_PREFIX2}-${OFFSET_BOTTOM_SETTING_KEY}`
     }
   };
-  var [getSelector2, queryElement2] = generateSelectors(ATTRIBUTES2);
+  var [getSelector2, queryElement3] = generateSelectors(ATTRIBUTES2);
   var DEFAULT_INITIAL_HEADING_LEVEL = 2;
   var ANCHOR_SELECTOR = `${ATTRIBUTES_PREFIX2}-anchor`;
+  var ALLOWED_HEADINGS_REGEX = "[2-6]";
+  var ALLOWED_HEADINGS_SELECTOR = "h2, h3, h4, h5, h6";
+  var OMIT_HEADING_REGEXP = new RegExp(`^\\[${ATTRIBUTES_PREFIX2}-omit\\]`, "i");
+  var CUSTOM_HEADING_REGEXP = new RegExp(`^\\[${ATTRIBUTES_PREFIX2}-h${ALLOWED_HEADINGS_REGEX}\\]`, "i");
+  var HEADING_LEVEL_REGEXP = new RegExp(ALLOWED_HEADINGS_REGEX);
 
   // src/utils/helpers.ts
   var extractHeadingLevel = (value) => {
-    const rawLevel = value.match(/\d/)?.[0];
+    const rawLevel = value.match(HEADING_LEVEL_REGEXP)?.[0];
     if (!rawLevel)
       return;
     const level = parseInt(rawLevel);
@@ -283,51 +342,46 @@
   // src/actions/collect.ts
   var collectHeadingsData = (contentsElement) => {
     const headingsData = [];
-    const levelsMemo = [];
-    const headingElements = contentsElement.querySelectorAll(HEADINGS.join(","));
+    const headingElements = contentsElement.querySelectorAll(ALLOWED_HEADINGS_SELECTOR);
     for (const headingElement of headingElements) {
-      const { tagName } = headingElement;
-      const level = extractHeadingLevel(tagName);
+      const { tagName, textContent } = headingElement;
+      if (!textContent)
+        continue;
+      const omit = textContent.match(OMIT_HEADING_REGEXP);
+      if (omit) {
+        headingElement.textContent = textContent.replace(OMIT_HEADING_REGEXP, "").trim();
+        continue;
+      }
+      const [customTag] = textContent.match(CUSTOM_HEADING_REGEXP) || [];
+      if (customTag)
+        headingElement.textContent = textContent.replace(CUSTOM_HEADING_REGEXP, "").trim();
+      const level = extractHeadingLevel(customTag || tagName);
       if (!level)
         continue;
       const id = identifyHeadingElement(headingElement);
+      if (!id)
+        continue;
       const headingData = {
         level,
         headingElement,
-        id,
-        children: []
+        id
       };
-      let levelMemo;
-      for (let i = levelsMemo.length - 1; i >= 0; i--) {
-        levelMemo = levelsMemo[i];
-        if (level > levelMemo.level)
-          break;
-        levelsMemo.pop();
-      }
-      if (!levelMemo) {
+      const previousHeading = headingsData[headingsData.length - 1];
+      if (!previousHeading) {
         headingsData.push(headingData);
-        levelsMemo.push(headingData);
         continue;
       }
-      const correspondingLevel = levelMemo.level + 1;
+      const correspondingLevel = previousHeading.level + 1;
       if (level > correspondingLevel) {
-        for (let i = 0; i < level - correspondingLevel; i++) {
-          const newLevelMemo = {
-            level: levelMemo.level + 1,
-            children: []
-          };
-          levelsMemo.push(newLevelMemo);
-          levelMemo.children.push(newLevelMemo);
-          levelMemo = newLevelMemo;
+        for (let i = 1; i <= level - correspondingLevel; i++) {
+          headingsData.push({ level: previousHeading.level + i });
         }
       }
-      levelMemo.children.push(headingData);
-      if (level > levelMemo.level)
-        levelsMemo.push(headingData);
+      headingsData.push(headingData);
     }
     return headingsData;
   };
-  var collectLinksData = (linkTemplate) => {
+  var collectLinksData = (firstLinkTemplate) => {
     const linksData = [];
     const collectLinkData = (referenceNode) => {
       const linkElement = referenceNode.closest("a");
@@ -355,25 +409,141 @@
       }
       return component;
     };
-    const firstLinkComponent = collectLinkData(linkTemplate);
+    const firstLinkComponent = collectLinkData(firstLinkTemplate);
     if (!linksData.length || !firstLinkComponent)
       return;
-    const tableWrapper = firstLinkComponent.parentElement;
-    if (!tableWrapper)
+    const tocWrapper = firstLinkComponent.parentElement;
+    if (!tocWrapper)
       return;
     const anchor = new Comment(ANCHOR_SELECTOR);
-    tableWrapper.insertBefore(anchor, firstLinkComponent);
+    tocWrapper.insertBefore(anchor, firstLinkComponent);
     firstLinkComponent.remove();
-    return [linksData, tableWrapper];
+    return [linksData, tocWrapper];
+  };
+
+  // src/actions/observe.ts
+  var observeHeadings = (tocItems) => {
+    let targetCache;
+    let dataIndexCache;
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.length)
+        return;
+      const { target } = entries[entries.length - 1];
+      if (target === targetCache)
+        return;
+      targetCache = target;
+      const dataIndex = tocItems.findIndex(({ headingElement }) => headingElement && headingElement === target);
+      if (dataIndex === -1)
+        return;
+      let currentLevel;
+      const halfWindowHeight = window.innerHeight / 2;
+      for (let i = dataIndexCache && dataIndexCache > dataIndex ? dataIndexCache : dataIndex; i >= 0; i--) {
+        const tocItem = tocItems[i];
+        const { headingElement, level } = tocItem;
+        if (!headingElement)
+          continue;
+        if (i > dataIndex || currentLevel && currentLevel <= level) {
+          tocItem.setState(false);
+          continue;
+        }
+        const { top, height } = headingElement.getBoundingClientRect();
+        if (top - height / 2 > halfWindowHeight) {
+          tocItem.setState(false);
+          continue;
+        }
+        if (!currentLevel || level < currentLevel) {
+          tocItem.setState(true);
+          currentLevel = level;
+          continue;
+        }
+      }
+      dataIndexCache = dataIndex;
+    }, {
+      rootMargin: "-50% 0% -50% 0%"
+    });
+    for (const { headingElement } of tocItems) {
+      if (!headingElement)
+        continue;
+      observer.observe(headingElement);
+    }
+  };
+
+  // src/components/TOCItem.ts
+  var TOCItem = class {
+    wrapperElement;
+    referenceNode;
+    component;
+    linkElement;
+    level;
+    headingElement;
+    id;
+    ixTrigger;
+    interaction;
+    currentState;
+    constructor({
+      component,
+      level,
+      linkElement,
+      wrapperElement,
+      headingElement,
+      id,
+      ixTrigger,
+      referenceNode
+    }) {
+      this.wrapperElement = wrapperElement;
+      this.referenceNode = referenceNode;
+      this.component = component;
+      this.linkElement = linkElement;
+      this.level = level;
+      this.headingElement = headingElement;
+      this.id = id;
+      this.ixTrigger = ixTrigger;
+      this.interaction = ixTrigger ? new Interaction({ element: ixTrigger }) : void 0;
+      this.#populateLink();
+    }
+    #populateLink() {
+      const { headingElement, id, referenceNode, linkElement } = this;
+      if (headingElement && id) {
+        referenceNode.textContent = headingElement.textContent;
+        linkElement.href = `#${id}`;
+      } else {
+        linkElement.remove();
+      }
+    }
+    renderLink(levelExists) {
+      const { wrapperElement, component, linkElement } = this;
+      const elementToRender = levelExists ? linkElement : component;
+      const anchor = [...wrapperElement.childNodes].find(({ nodeType, nodeValue }) => nodeType === 8 && nodeValue === ANCHOR_SELECTOR);
+      if (anchor)
+        wrapperElement.insertBefore(elementToRender, anchor);
+      else
+        wrapperElement.append(elementToRender);
+    }
+    setScrollOffset(offsets) {
+      const { headingElement } = this;
+      if (headingElement)
+        Object.assign(headingElement.style, offsets);
+    }
+    setState(active) {
+      const { linkElement, interaction, currentState } = this;
+      console.log("setting state", active, this.headingElement);
+      if (active === currentState)
+        return;
+      linkElement.classList[active ? "add" : "remove"](CURRENT_CSS_CLASS);
+      if (interaction)
+        interaction.trigger(active ? "first" : "second");
+      this.currentState = active;
+    }
   };
 
   // src/actions/populate.ts
-  var populateLinks = (headingsData, linksData, tableWrapper) => {
+  var populateLinks = (headingsData, linksData, tocWrapper) => {
+    const tocItems = [];
     const levelsMemo = [];
-    const populate = ({ headingElement, level, id, children }) => {
+    for (const { headingElement, level, id } of headingsData) {
       const linkData = linksData.find((data) => data.level === level);
       if (!linkData)
-        return;
+        continue;
       let levelMemo;
       for (let i = levelsMemo.length - 1; i >= 0; i--) {
         levelMemo = levelsMemo[i];
@@ -381,57 +551,76 @@
           break;
         levelsMemo.pop();
       }
-      const wrapperElement = levelMemo ? levelMemo.component : tableWrapper;
+      const wrapperElement = levelMemo ? levelMemo.component : tocWrapper;
       const component = cloneNode(linkData.component);
-      const referenceNode = queryElement2("link", { scope: component });
+      const referenceNode = queryElement3("link", { scope: component });
       if (!referenceNode)
-        return;
+        continue;
       const linkElement = referenceNode.closest("a");
       if (!linkElement)
-        return;
-      if (headingElement) {
-        referenceNode.textContent = headingElement.textContent;
-        linkElement.href = `#${id}`;
-      } else {
-        linkElement.remove();
-      }
+        continue;
+      const ixTrigger = component.querySelector(`:scope > ${getSelector2("element", "ixTrigger", { operator: "prefixed" })}`);
+      const tocItem = new TOCItem({
+        wrapperElement,
+        component,
+        referenceNode,
+        linkElement,
+        ixTrigger,
+        level,
+        headingElement,
+        id
+      });
       const levelExists = level === levelMemo?.level;
-      insertLinkComponent(wrapperElement, levelExists ? linkElement : component);
+      tocItem.renderLink(levelExists);
       if (!levelMemo || level > levelMemo.level) {
-        levelsMemo.push({
-          level,
-          linkElement,
-          component
-        });
+        levelsMemo.push(tocItem);
       }
-      for (const data of children)
-        populate(data);
-    };
-    for (const data of headingsData)
-      populate(data);
+      tocItems.push(tocItem);
+    }
+    return tocItems;
   };
-  var insertLinkComponent = (wrapperElement, component) => {
-    const anchor = [...wrapperElement.childNodes].find(({ nodeType, nodeValue }) => nodeType === 8 && nodeValue === ANCHOR_SELECTOR);
-    if (anchor)
-      wrapperElement.insertBefore(component, anchor);
-    else
-      wrapperElement.append(component);
+
+  // src/actions/scroll.ts
+  var setScrollOffsets = (tocWrapper, tocItems, offsets) => {
+    if (!Object.values(offsets).some(Boolean))
+      return;
+    document.documentElement.style.scrollBehavior = "smooth";
+    for (const tocItem of tocItems)
+      tocItem.setScrollOffset(offsets);
+    tocWrapper.addEventListener("click", (e) => {
+      if (e.target instanceof Element && e.target.closest("a"))
+        e.stopPropagation();
+    });
+  };
+  var scrollToAnchor = () => {
+    const { hash } = window.location;
+    if (!hash)
+      return;
+    const id = hash.replace("#", "");
+    const heading = document.querySelector(`${getSelector2("element", "contents", { operator: "prefixed" })} :is(${ALLOWED_HEADINGS_SELECTOR})[id="${id}"]`);
+    if (heading)
+      heading.scrollIntoView({ behavior: "smooth" });
   };
 
   // src/init.ts
-  var init = () => {
+  var init = async () => {
     const contentsElements = document.querySelectorAll(getSelector2("element", "contents", { operator: "prefixed" }));
     for (const contentsElement of contentsElements) {
       const instanceIndex = getInstanceIndex(contentsElement, ATTRIBUTES2.element.key);
-      const linkTemplate = queryElement2("link", { instanceIndex });
+      const linkTemplate = queryElement3("link", { instanceIndex });
       if (!linkTemplate)
         continue;
       const headingsData = collectHeadingsData(contentsElement);
-      const [linksData, tableWrapper] = collectLinksData(linkTemplate) || [];
-      if (!headingsData.length || !linksData?.length || !tableWrapper)
+      const [linksData, tocWrapper] = collectLinksData(linkTemplate) || [];
+      if (!headingsData.length || !linksData?.length || !tocWrapper)
         continue;
-      console.log({ linkTemplate, headingsData, linksData, tableWrapper });
-      populateLinks(headingsData, linksData, tableWrapper);
+      const tocItems = populateLinks(headingsData, linksData, tocWrapper);
+      const scrollMarginTop = contentsElement.getAttribute(ATTRIBUTES2.scrollMarginTop.key) || void 0;
+      const scrollMarginBottom = contentsElement.getAttribute(ATTRIBUTES2.scrollMarginBottom.key) || void 0;
+      setScrollOffsets(tocWrapper, tocItems, { scrollMarginTop, scrollMarginBottom });
+      observeHeadings(tocItems);
+      scrollToAnchor();
+      console.log({ linkTemplate, headingsData, linksData, tocWrapper, tocItems });
     }
   };
 
