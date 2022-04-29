@@ -283,4 +283,17 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
   },
+  {
+    key: 'toc',
+    title: 'Table of Contents',
+    description:
+      'Automatically generate a table of contents based on heading tags. Works with Webflow Rich Text, Webflow "Current" class, and anchor scroll. CMS, static, and all text elements are supported.',
+    href: 'https://www.finsweet.com/attributes/table-of-contents',
+    baseSrc: 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-toc@1',
+    scriptSrc: 'toc.js',
+    examplesSrc: 'examples.json',
+    loadMode: 'defer',
+    schemaSrc: 'schema.json',
+    changesetsSrc: 'changesets.json',
+  },
 ];
