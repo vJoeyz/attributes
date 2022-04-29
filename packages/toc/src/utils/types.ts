@@ -2,6 +2,7 @@ export interface HeadingData {
   level: number;
   headingElement?: HTMLHeadingElement;
   id?: string;
+  headingWrapper?: HTMLDivElement;
 }
 
 export interface LinkData {
@@ -12,8 +13,9 @@ export interface LinkData {
 
 export interface TOCData extends HeadingData, LinkData {
   referenceNode: Element;
-  wrapperElement: HTMLElement;
+  linkWrapper: HTMLElement;
   ixTrigger: HTMLElement | null;
+  anchor: Node;
 }
 
 export type ScrollOffsetStyles = Partial<Pick<HTMLElement['style'], 'scrollMarginTop' | 'scrollMarginBottom'>>;

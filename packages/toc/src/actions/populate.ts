@@ -1,7 +1,7 @@
 import { cloneNode } from '@finsweet/ts-utils';
 
 import { TOCItem } from '../components/TOCItem';
-import { getSelector, queryElement } from '../utils/constants';
+import { ANCHOR_SELECTOR, getSelector, queryElement } from '../utils/constants';
 import type { HeadingData, LinkData } from '../utils/types';
 
 /**
@@ -14,23 +14,22 @@ export const populateLinks = (headingsData: HeadingData[], linksData: LinkData[]
   const tocItems: TOCItem[] = [];
   const levelsMemo: TOCItem[] = [];
 
-  for (const { headingElement, level, id } of headingsData) {
+  for (const headingData of headingsData) {
     // Get the corresponding link data
-    const linkData = linksData.find((data) => data.level === level);
+    const linkData = linksData.find((data) => data.level === headingData.level);
     if (!linkData) continue;
 
     // Get the level memo
-    let levelMemo: TOCItem | undefined;
-
     for (let i = levelsMemo.length - 1; i >= 0; i--) {
-      levelMemo = levelsMemo[i];
-
-      if (level >= levelMemo.level) break;
+      if (headingData.level > levelsMemo[i].level) break;
 
       levelsMemo.pop();
     }
 
-    const wrapperElement = levelMemo ? levelMemo.component : tocWrapper;
+    const levelMemo = levelsMemo[levelsMemo.length - 1];
+
+    // Create the component
+    const linkWrapper = levelMemo?.component || tocWrapper;
     const component = cloneNode(linkData.component);
 
     const referenceNode = queryElement('link', { scope: component });
@@ -39,28 +38,27 @@ export const populateLinks = (headingsData: HeadingData[], linksData: LinkData[]
     const linkElement = referenceNode.closest('a');
     if (!linkElement) continue;
 
+    const anchor = [...linkWrapper.childNodes].find(
+      ({ nodeType, nodeValue }) => nodeType === 8 && nodeValue === ANCHOR_SELECTOR
+    );
+    if (!anchor) continue;
+
     const ixTrigger = component.querySelector<HTMLElement>(
       `:scope > ${getSelector('element', 'ixTrigger', { operator: 'prefixed' })}`
     );
 
     const tocItem = new TOCItem({
-      wrapperElement,
+      linkWrapper,
       component,
       referenceNode,
       linkElement,
       ixTrigger,
-      level,
-      headingElement,
-      id,
+      anchor,
+      ...headingData,
     });
 
-    // Insert the component
-    const levelExists = level === levelMemo?.level;
-
-    tocItem.renderLink(levelExists);
-
     // Store the new level memo
-    if (!levelMemo || level > levelMemo.level) {
+    if (!levelMemo || headingData.level > levelMemo.level) {
       levelsMemo.push(tocItem);
     }
 

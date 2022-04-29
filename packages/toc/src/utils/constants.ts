@@ -10,6 +10,8 @@ export const IX_TRIGGER_ELEMENT_KEY = 'ix-trigger';
 
 export const OFFSET_TOP_SETTING_KEY = 'offsettop';
 export const OFFSET_BOTTOM_SETTING_KEY = 'offsetbottom';
+export const HIDE_URL_HASH_SETTING_KEY = 'hideurlhash';
+export const HIDE_URL_HASH_SETTING_VALUES = { true: 'true' } as const;
 
 export const ATTRIBUTES = {
   element: {
@@ -47,6 +49,11 @@ export const ATTRIBUTES = {
   scrollMarginBottom: {
     key: `${ATTRIBUTES_PREFIX}-${OFFSET_BOTTOM_SETTING_KEY}`,
   },
+
+  /**
+   * Defines if the links hash should be removed from the URL.
+   */
+  hideURLHash: { key: `${ATTRIBUTES_PREFIX}-${HIDE_URL_HASH_SETTING_KEY}`, values: HIDE_URL_HASH_SETTING_VALUES },
 } as const;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
@@ -60,3 +67,4 @@ export const ALLOWED_HEADINGS_SELECTOR = 'h2, h3, h4, h5, h6';
 export const OMIT_HEADING_REGEXP = new RegExp(`^\\[${ATTRIBUTES_PREFIX}-omit\\]`, 'i');
 export const CUSTOM_HEADING_REGEXP = new RegExp(`^\\[${ATTRIBUTES_PREFIX}-h${ALLOWED_HEADINGS_REGEX}\\]`, 'i');
 export const HEADING_LEVEL_REGEXP = new RegExp(ALLOWED_HEADINGS_REGEX);
+export const ZERO_WIDTH_CHARS_REGEXP = /[\u200B-\u200D\uFEFF]/g;

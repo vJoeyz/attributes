@@ -1,49 +1,55 @@
 import { CURRENT_CSS_CLASS, Interaction } from '@finsweet/ts-utils';
 
-import { ANCHOR_SELECTOR } from '../utils/constants';
 import type { ScrollOffsetStyles, TOCData } from '../utils/types';
 
 export class TOCItem implements TOCData {
-  public readonly wrapperElement: HTMLElement;
+  public readonly level: number;
+  public readonly linkWrapper: HTMLElement;
   public readonly referenceNode: Element;
+  public readonly anchor: Node;
   public readonly component: HTMLElement;
   public readonly linkElement: HTMLAnchorElement;
-  public readonly level: number;
-  public readonly headingElement?: HTMLHeadingElement | undefined;
-  public readonly id?: string | undefined;
+  public readonly headingElement?: HTMLHeadingElement;
+  public readonly headingWrapper?: HTMLDivElement;
+  public readonly id?: string;
   public readonly ixTrigger: HTMLElement | null;
 
   private readonly interaction?: Interaction;
+
   private currentState?: boolean;
 
   constructor({
-    component,
     level,
+    component,
     linkElement,
-    wrapperElement,
+    linkWrapper,
     headingElement,
+    headingWrapper,
     id,
     ixTrigger,
     referenceNode,
+    anchor,
   }: TOCData) {
-    this.wrapperElement = wrapperElement;
+    this.level = level;
+    this.linkWrapper = linkWrapper;
     this.referenceNode = referenceNode;
+    this.anchor = anchor;
     this.component = component;
     this.linkElement = linkElement;
-    this.level = level;
     this.headingElement = headingElement;
+    this.headingWrapper = headingWrapper;
     this.id = id;
     this.ixTrigger = ixTrigger;
     this.interaction = ixTrigger ? new Interaction({ element: ixTrigger }) : undefined;
 
-    this.#populateLink();
+    this.#render();
   }
 
   /**
-   * Populates the link element.
+   * Populates and the link in the TOC.
    */
-  #populateLink() {
-    const { headingElement, id, referenceNode, linkElement } = this;
+  #render() {
+    const { headingElement, id, referenceNode, linkElement, linkWrapper, component, anchor } = this;
 
     if (headingElement && id) {
       referenceNode.textContent = headingElement.textContent;
@@ -51,23 +57,8 @@ export class TOCItem implements TOCData {
     } else {
       linkElement.remove();
     }
-  }
 
-  /**
-   * Renders the link in the TOC.
-   * @param levelExists Defines if the current heading level already exists in the TOC.
-   */
-  public renderLink(levelExists: boolean) {
-    const { wrapperElement, component, linkElement } = this;
-
-    const elementToRender = levelExists ? linkElement : component;
-
-    const anchor = [...wrapperElement.childNodes].find(
-      ({ nodeType, nodeValue }) => nodeType === 8 && nodeValue === ANCHOR_SELECTOR
-    );
-
-    if (anchor) wrapperElement.insertBefore(elementToRender, anchor);
-    else wrapperElement.append(elementToRender);
+    linkWrapper.insertBefore(component, anchor);
   }
 
   /**
@@ -75,26 +66,23 @@ export class TOCItem implements TOCData {
    * @param offsets
    */
   public setScrollOffset(offsets: ScrollOffsetStyles) {
-    const { headingElement } = this;
+    const { headingWrapper } = this;
 
-    if (headingElement) Object.assign(headingElement.style, offsets);
+    if (headingWrapper) Object.assign(headingWrapper.style, offsets);
   }
 
   /**
-   * Sets the `active` state to the link and triggers the correspondent interaction, if existing.
-   * @param active Defines if the state is active.
+   * Updates the `active` state of the link and triggers the correspondent interaction, if existing.
    */
-  public setState(active: boolean) {
+  public updateState() {
     const { linkElement, interaction, currentState } = this;
 
-    console.log('setting state', active, this.headingElement);
+    const isActive = linkElement.classList.contains(CURRENT_CSS_CLASS);
 
-    if (active === currentState) return;
+    if (isActive === currentState) return;
 
-    linkElement.classList[active ? 'add' : 'remove'](CURRENT_CSS_CLASS);
+    interaction?.trigger(isActive ? 'first' : 'second');
 
-    if (interaction) interaction.trigger(active ? 'first' : 'second');
-
-    this.currentState = active;
+    this.currentState = isActive;
   }
 }

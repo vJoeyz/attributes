@@ -36,6 +36,7 @@
     "packages/selectcustom",
     "packages/sliderdots",
     "packages/untransform",
+    "packages/toc",
     "packages/wizard"
   ],
   "repository": {

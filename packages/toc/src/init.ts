@@ -1,17 +1,21 @@
 import { restartWebflow } from '@finsweet/ts-utils';
+import { ATTRIBUTE as RICH_TEXT_ATTRIBUTE } from 'packages/richtext/src/utils/constants';
 
 import { getInstanceIndex } from '$global/helpers/instances';
 
 import { collectHeadingsData, collectLinksData } from './actions/collect';
-import { observeContents, observeHeadings } from './actions/observe';
+import { observeLinksState } from './actions/observe';
 import { populateLinks } from './actions/populate';
 import { scrollToAnchor, setScrollOffsets } from './actions/scroll';
-import { ATTRIBUTES, getSelector, queryElement } from './utils/constants';
+import { preventURLHash } from './actions/url';
+import { ATTRIBUTE, ATTRIBUTES, getSelector, queryElement } from './utils/constants';
 
 /**
  * Inits the attribute.
  */
 export const init = async (): Promise<void> => {
+  await window.fsAttributes[RICH_TEXT_ATTRIBUTE]?.loading;
+
   const contentsElements = document.querySelectorAll<HTMLElement>(
     getSelector('element', 'contents', { operator: 'prefixed' })
   );
@@ -35,15 +39,19 @@ export const init = async (): Promise<void> => {
 
     setScrollOffsets(tocWrapper, tocItems, { scrollMarginTop, scrollMarginBottom });
 
-    // Observer
-    observeHeadings(tocItems);
-    // observeContents(contentsElement, tableComponents);
+    // Hide URL Hash
+    const hideURLHash = contentsElement.getAttribute(ATTRIBUTES.hideURLHash.key) === ATTRIBUTES.hideURLHash.values.true;
+    if (hideURLHash) preventURLHash(tocWrapper);
+
+    // Link States
+    observeLinksState(tocWrapper, tocItems);
 
     // URL hash Anchor
     scrollToAnchor();
-
-    // await restartWebflow();
-
-    console.log({ linkTemplate, headingsData, linksData, tocWrapper, tocItems });
   }
+
+  await restartWebflow();
+
+  // TODO: Finish API
+  window.fsAttributes[ATTRIBUTE].resolve?.(undefined);
 };

@@ -8,7 +8,7 @@ import {
 } from '../utils/constants';
 import { extractHeadingLevel } from '../utils/helpers';
 import type { HeadingData, LinkData } from '../utils/types';
-import { identifyHeadingElement } from './identify';
+import { createHeadingWrapper } from './create';
 
 /**
  * Collects the {@link HeadingData} of all heading elements.
@@ -16,13 +16,13 @@ import { identifyHeadingElement } from './identify';
  *
  * @returns A {@link HeadingData} array
  */
-export const collectHeadingsData = (contentsElement: HTMLElement) => {
+export const collectHeadingsData = ({ children }: HTMLElement) => {
   const headingsData: HeadingData[] = [];
+  for (let i = children.length - 1; i >= 0; i--) {
+    const child = children[i];
+    const headingElement = child.closest<HTMLParagraphElement>(ALLOWED_HEADINGS_SELECTOR);
+    if (!headingElement) continue;
 
-  const headingElements = contentsElement.querySelectorAll<HTMLHeadingElement>(ALLOWED_HEADINGS_SELECTOR);
-
-  for (const headingElement of headingElements) {
-    // Get the heading data
     const { tagName, textContent } = headingElement;
     if (!textContent) continue;
 
@@ -38,50 +38,49 @@ export const collectHeadingsData = (contentsElement: HTMLElement) => {
     const level = extractHeadingLevel(customTag || tagName);
     if (!level) continue;
 
-    const id = identifyHeadingElement(headingElement);
-    if (!id) continue;
+    const headingWrapper = createHeadingWrapper(headingElement);
+    if (!headingWrapper) continue;
 
-    const headingData: HeadingData = {
-      level,
-      headingElement,
-      id,
-    };
-
-    // Get the level memo
-    const previousHeading = headingsData[headingsData.length - 1];
-
-    if (!previousHeading) {
-      headingsData.push(headingData);
-      continue;
-    }
+    const { id } = headingWrapper;
 
     // Create a placeholder level memo when a heading level has been skipped
     // Example: the user added an <h5> after an <h3>, he skipped the <h4> level
-    const correspondingLevel = previousHeading.level + 1;
+    const [previousHeadingData] = headingsData;
 
-    if (level > correspondingLevel) {
-      for (let i = 1; i <= level - correspondingLevel; i++) {
-        headingsData.push({ level: previousHeading.level + i });
+    if (previousHeadingData?.level) {
+      const correspondingLevel = previousHeadingData.level - 1;
+
+      if (level < correspondingLevel) {
+        for (let i = 1; i <= correspondingLevel - level; i++) {
+          headingsData.unshift({ level: previousHeadingData.level - i });
+        }
       }
     }
 
-    // Store the heading data
-    headingsData.push(headingData);
-  }
+    // Render the wrapper
+    headingElement.insertAdjacentElement('beforebegin', headingWrapper);
 
+    // Group all lower elements under the wrapper
+    const nextHeading = headingsData.find((headingData) => headingData.level <= level);
+    const { length } = children;
+    const j = i + 1;
+
+    for (let k = j; k <= length; k++) {
+      const element = children[j];
+      if (element === nextHeading?.headingWrapper) break;
+
+      headingWrapper.append(element);
+    }
+
+    // Store the data
+    headingsData.unshift({
+      level,
+      headingElement,
+      headingWrapper,
+      id,
+    });
+  }
   return headingsData;
-};
-
-const newCollectHeadingsData = (contentsElement: HTMLElement) => {
-  const headingsData: HeadingData[] = [];
-
-  const headingElements = contentsElement.querySelectorAll<HTMLHeadingElement>(ALLOWED_HEADINGS_SELECTOR);
-
-  for (let i = headingElements.length - 1; i <= 0; i--) {
-    const headingElement = headingElements[i];
-    const { tagName, textContent } = headingElement;
-    if (!textContent) continue;
-  }
 };
 
 /**
