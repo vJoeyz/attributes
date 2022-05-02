@@ -1,10 +1,4 @@
-import {
-  COLLECTION_LIST,
-  COLLECTION_LIST_WRAPPER,
-  DIV_BLOCK,
-  TABS,
-  TEXT_BLOCK,
-} from '$global/constants/webflow-selectors';
+import { COLLECTION_LIST, DIV_BLOCK, TABS, TEXT_BLOCK } from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
 import { LIST_ELEMENT_KEY, TABS_ELEMENT_KEY, TAB_LINK_ELEMENT_KEY, RESET_IX_SETTING_KEY } from '../src/utils/constants';
@@ -14,7 +8,7 @@ export const schema: AttributeSchema = {
     {
       key: LIST_ELEMENT_KEY,
       description: 'Defines a list to be included into the target tabs.',
-      appliedTo: [COLLECTION_LIST, COLLECTION_LIST_WRAPPER],
+      appliedTo: [COLLECTION_LIST],
       conditions: [],
       multiplesInInstance: false,
       required: true,

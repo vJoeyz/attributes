@@ -1,4 +1,3 @@
-import { assertElementExistsOnPage } from '@src/services/DOM/Assertions/AssertionsService';
 import AttributeDuplicateError from './Errors/AttributeDuplicatedError';
 import AttributeNotFoundError from './Errors/AttributeNotFoundError';
 
@@ -7,19 +6,47 @@ import type { DOMSelector } from '@global/types/schema';
 import DOMForAttributeNotFound from './Errors/DOMForAttributeNotFound';
 
 
-export function elementSettingExists(elementSelector: SchemaSelector, appliedTo: ElementItemSelector[]) {
+export function elementSettingExists(
+  htmlElements: HTMLElement[] | null,
+  elementSelector: SchemaSelector,
+  appliedTo: ElementItemSelector[],
+  isDefault: boolean,
+): boolean {
 
-  try {
+  let elementSettingFound = false;
 
-    assertElementExistsOnPage(elementSelector.getAttributeSelector());
-    return true;
-  } catch {
 
+  htmlElements && htmlElements.forEach((htmlElement: HTMLElement) => {
+
+    if (htmlElement.hasAttribute(elementSelector.getAttribute())) {
+      elementSettingFound = true;
+    }
+  })
+
+  if (isDefault) {
+    return elementSettingFound;
+  }
+
+  if (!elementSettingFound) {
+    const queryElement = document.querySelector<HTMLElement>(elementSelector.getAttributeSelector());
+
+    console.log(queryElement, elementSelector.getAttributeSelector());
+    if (queryElement) {
+      elementSettingFound = true;
+    }
+  }
+
+  if (!elementSettingFound && !isDefault) {
     const elementSelectors = appliedTo.map((value: ElementItemSelector) => value.elementAttribute.appliedTo).flat();
 
     throw new AttributeNotFoundError(elementSelector, elementSelectors, true);
-
   }
+
+  if (!elementSettingFound && isDefault) {
+    return false;
+  }
+
+  return true;
 }
 
 

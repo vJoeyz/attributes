@@ -27,8 +27,6 @@ export function validateFieldSetting(
   schema: AttributeSchema,
   schemaSettings: SchemaSettings
 ): SchemaInput {
-
-
   const settingSchema = getSchemaItem(schema, 'settings', inputSetting.setting) as AttributeSettingSchema;
   const { conditions, value, specializations } = settingSchema;
 
@@ -62,12 +60,12 @@ export function validateFieldSetting(
 
       const elements = Array.from(elementsNode);
 
-      if (elements.length <= 0 || field.domElement === null) {
+      if (elements.length <= 0 || field.domElements === null) {
         throw new MissingFieldSettingError(settingSelector, fieldSelector);
       }
 
-      if (field.domElement) {
-        elementsSameNode(elements, field.domElement)
+      if (field.domElements) {
+        elementsSameNode(elements, field.domElements)
       }
 
       if (conditions && conditions.length > 0) {
@@ -115,3 +113,11 @@ export function validateFieldSetting(
     }
   }
 }
+
+// function validateCustomSetting() {
+
+// }
+
+// function validateDefaultSetting() {
+
+// }

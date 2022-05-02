@@ -4,12 +4,7 @@ import type { DOMSelector } from '../types/schema';
 
 export const COLLECTION_LIST: DOMSelector = {
   label: 'Collection List',
-  selectors: [`.${CMS_CSS_CLASSES.list}`],
-};
-
-export const COLLECTION_LIST_WRAPPER: DOMSelector = {
-  label: 'Collection List Wrapper',
-  selectors: [`.${CMS_CSS_CLASSES.wrapper}`],
+  selectors: [`.${CMS_CSS_CLASSES.list}`, `.${CMS_CSS_CLASSES.wrapper}`],
 };
 
 export const COLLECTION_ITEM: DOMSelector = {
@@ -128,7 +123,7 @@ export const PAGINATION_WRAPPER: DOMSelector = {
 
 export const SLIDER: DOMSelector = {
   label: 'Slider',
-  selectors: [`.${SLIDER_CSS_CLASSES.slide}`],
+  selectors: [`.${SLIDER_CSS_CLASSES.slider}`],
 };
 
 export const SLIDER_NAV: DOMSelector = {

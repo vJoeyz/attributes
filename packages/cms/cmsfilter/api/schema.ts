@@ -1,6 +1,5 @@
 import {
   COLLECTION_LIST,
-  COLLECTION_LIST_WRAPPER,
   FORM,
   FORM_BLOCK,
   DIV_BLOCK,
@@ -60,7 +59,7 @@ export const schema: AttributeSchema = {
       required: true,
       requiresInstance: true,
       multiplesInInstance: false,
-      appliedTo: [COLLECTION_LIST, COLLECTION_LIST_WRAPPER],
+      appliedTo: [COLLECTION_LIST],
       conditions: [],
     },
     {

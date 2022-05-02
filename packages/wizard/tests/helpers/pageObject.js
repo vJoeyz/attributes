@@ -52,6 +52,10 @@ export const selectInstanceSection = wizardWrapper.find('[data-testid="walkthrou
  * Schema
  */
 
+export const getAttribute = (attributeId) => {
+  return wizardWrapper.find(`#${attributeId}`);
+}
+
 export const getItemCheckbox = (attributeId) => {
   return wizardWrapper.find(`#${attributeId} label input[type=checkbox]`);
 }

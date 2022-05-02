@@ -19,7 +19,7 @@ import {
 fixture`Element Setting not found errors`
     .page`http://localhost:9000/scenarios/errors/field-settings-not-found.html`;
 
-test('Element setting not found in page', async t => {
+test('Field setting not found in page', async t => {
 
   await selectAttribute('CMS Filter');
 

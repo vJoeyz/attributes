@@ -10,6 +10,7 @@ import {
   getSelectorValue,
   getSelectorInputValue,
   getSelectorSelectValue,
+  getAttribute,
 } from './pageObject';
 
 
@@ -67,5 +68,20 @@ export async function assertSelectorSelectValue(attributeId, value) {
 
 export async function assertSelectorInputValue(attributeId, value) {
   await t.expect(getSelectorInputValue(attributeId).value).eql(value);
+}
 
+export async function assertStatusEmpty(attributeId) {
+  const element = await getAttribute(attributeId);
+  await t.expect(element.hasClass('is-success')).notOk();
+  await t.expect(element.hasClass('is-error')).notOk();
+}
+
+export async function assertStatusSuccess(attributeId) {
+  const element = await getAttribute(attributeId);
+  await t.expect(element.hasClass('is-success')).ok();
+}
+
+export async function assertStatusError(attributeId) {
+  const element = await getAttribute(attributeId);
+  await t.expect(element.hasClass('is-error')).ok();
 }

@@ -60,7 +60,7 @@ export function validateElement(
     if (error instanceof AbstractSchemaError) {
 
       return {
-        domElement: Array.from(htmlElements),
+        domElements: Array.from(htmlElements),
         input: {
           ...inputElement,
           validation: {
@@ -81,7 +81,7 @@ export function validateElement(
   }
 
   return {
-    domElement: Array.from(htmlElements),
+    domElements: Array.from(htmlElements),
     input: {
       ...inputElement,
       validation: {

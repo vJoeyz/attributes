@@ -1,7 +1,7 @@
 import {
   selectAttribute,
   clickRunCheck,
-  selectItem
+  selectItemAndSelectSetting
 } from './../helpers/actions';
 import {
   assertErrorsCountOnReport,
@@ -19,7 +19,7 @@ test('Element setting found but not applied to right element', async t => {
 
   await selectAttribute('CMS Load');
 
-  await selectItem('element-setting-animation');
+  await selectItemAndSelectSetting('element-setting-animation', 'slide-up');
 
 
   await clickRunCheck();

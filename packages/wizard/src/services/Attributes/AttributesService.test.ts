@@ -68,7 +68,7 @@ describe('Use Attributes Validation', () => {
 
     const elementListChannel: InputChannel = {
       input: elementList,
-      domElement: [],
+      domElements: [],
     }
 
 
@@ -145,7 +145,7 @@ describe('Use Attributes Validation', () => {
 
     const elementListChannel: InputChannel = {
       input: elementList,
-      domElement: [],
+      domElements: [],
     }
 
 
@@ -217,7 +217,7 @@ describe('Use Attributes Validation', () => {
 
     const fieldNameChannel: InputChannel = {
       input: fieldName,
-      domElement: [],
+      domElements: [],
     }
 
 
@@ -261,7 +261,7 @@ describe('Use Attributes Validation', () => {
 
     const fieldNameChannel: InputChannel = {
       input: fieldName,
-      domElement: [],
+      domElements: [],
     }
 
     validateFieldMock.mockReturnValue(fieldNameChannel);

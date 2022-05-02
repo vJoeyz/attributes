@@ -93,18 +93,16 @@
     }
   }
 
-  $: {
+  $: if ($schemaForm) {
     checkIsEnable($schemaForm);
 
-    elementSettingInput = $schemaForm.find(
-      (input: SchemaInput) => input.type === 'elementSetting' && input.setting === setting.key
-    ) as SchemaInputElementSetting;
-
+    elementSettingInput = schemaFormActions.findElementSetting(parent, setting.key);
     elementSettingStatus = getInputStatus(elementSettingInput?.validation);
   }
 
   $: if ($schemaSettingsInstance) {
     elementSettingInput = schemaFormActions.findElementSetting(parent, setting.key);
+    elementSettingStatus = getInputStatus(elementSettingInput?.validation);
 
     if (elementSettingInput && elementSettingInput.enable === false) {
       isChecked = false;

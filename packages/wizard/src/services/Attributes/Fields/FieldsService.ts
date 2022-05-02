@@ -119,7 +119,7 @@ export async function validateField(
 
     if (fieldErrors.length > 0) {
       return {
-        domElement: null,
+        domElements: null,
         input: {
           ...fieldInput,
           validation: {
@@ -131,7 +131,7 @@ export async function validateField(
     }
 
     return {
-      domElement: fieldPromises as HTMLElement[],
+      domElements: fieldPromises as HTMLElement[],
       input: {
         ...fieldInput,
         validation: {
@@ -151,7 +151,7 @@ export async function validateField(
     if (error instanceof AbstractSchemaError) {
 
       return {
-        domElement: null,
+        domElements: null,
         input: {
           ...fieldInput,
           validation: {
