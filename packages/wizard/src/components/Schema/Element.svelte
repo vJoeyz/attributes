@@ -35,8 +35,6 @@
   let isChecked = !!elementInput;
   let elementStatus: boolean | null = getInputStatus(elementInput?.validation);
 
-  console.log('element status', elementStatus);
-
   if (isRequired && !isChecked) {
     isChecked = true;
     schemaFormActions.addElement(element.key);

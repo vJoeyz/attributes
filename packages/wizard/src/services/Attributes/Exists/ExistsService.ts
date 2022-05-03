@@ -29,8 +29,6 @@ export function elementSettingExists(
 
   if (!elementSettingFound) {
     const queryElement = document.querySelector<HTMLElement>(elementSelector.getAttributeSelector());
-
-    console.log(queryElement, elementSelector.getAttributeSelector());
     if (queryElement) {
       elementSettingFound = true;
     }

@@ -46,7 +46,6 @@ export function validateFieldSetting(
 
   const validations = instances.map((instanceConfig: InstanceConfig) => {
 
-    console.log(instanceConfig);
     const settingSelector = createSchemaSelectorFromItem(
       settingSchema,
       'settings',
@@ -54,7 +53,6 @@ export function validateFieldSetting(
       schemaSettings,
       instanceConfig.value
     );
-
 
     const fieldSelector = createSchemaSelectorFromSchema(
       schema,
@@ -174,24 +172,15 @@ function validateDefaultSetting(
   schemaSettings: SchemaSettings
 ) {
 
-  //console.log('default validation');
   const fieldSettingSelector = `${fieldSelector.getElementSelector()}${settingSelector.getAttributeSelector()}`;
 
-  //const elements:
   const elementsNode = Array.from(document.querySelectorAll<HTMLElement>(fieldSettingSelector))
-
-
-  console.log(field.domElements, fieldSettingSelector);
 
   const elements: HTMLElement[] = elementsNode.filter((elementNode: HTMLElement) => {
     return field.domElements && field.domElements.find((channelElement: HTMLElement) => channelElement.contains(elementNode)) || false;
   })
 
   const isElementFound = elements.length > 0;
-
-  console.log(isElementFound);
-
-  //console.log(fieldSettingSelector, elements, field.domElements);
 
   if (field.domElements === null) {
     throw new MissingFieldSettingError(settingSelector, fieldSelector);
