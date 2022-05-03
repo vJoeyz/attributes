@@ -8,10 +8,10 @@
 </script>
 
 <div class="tool_buttons">
-  <CheckButton />
   {#if $isDirty}
     <ResetButton />
   {/if}
+  <CheckButton />
 </div>
 
 

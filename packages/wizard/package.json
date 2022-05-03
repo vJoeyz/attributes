@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-support",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "files": [
     "support.js"
   ],
