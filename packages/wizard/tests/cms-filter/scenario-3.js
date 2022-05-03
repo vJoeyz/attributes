@@ -10,28 +10,12 @@ import {
 } from './../helpers/actions';
 import {
   assertErrorsCountOnReport,
-  assertSuccess,
+  assertErrorIsOnReport,
+  assertErrorIsOnAttribute,
 } from './../helpers/assertions';
-
 
 fixture`CMS Filter - Default values for fields settings`
     .page`http://localhost:9000/scenarios/cms-filter/scenario-3.html`;
-
-// test('CMS Filter - Default values for fields', async t => {
-//   await selectAttribute('CMS Filter');
-
-//   await typeFieldIdentifier('field-field-field-1', 'products');
-//   await selectFieldSpecialization('field-field-field-1', 'checkbox');
-
-//   await selectItem('field-setting-field-field-1-active');
-
-
-//   await clickRunCheck();
-
-//   await assertErrorsCountOnReport(0);
-
-// });
-
 
 
 
@@ -70,8 +54,8 @@ test('CMS Filter - Validate default - with other attribute set - notOk', async t
   await assertErrorsCountOnReport(1);
 
 
-  await assertErrorIsOnReport('element-setting-duration', 'setting-value-not-match');
-  await assertErrorIsOnAttribute('element-setting-duration', 'setting-value-not-match');
+  await assertErrorIsOnReport('field-setting-field-field-1-active', 'setting-value-not-match');
+  await assertErrorIsOnAttribute('field-setting-field-field-1-active', 'setting-value-not-match');
 });
 
 test('CMS Filter - Validate default - Not default value - ok', async t => {
