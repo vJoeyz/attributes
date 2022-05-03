@@ -12,8 +12,7 @@ import { initAttributeSelect } from './select';
 window.fsAttributes = window.fsAttributes || [];
 window.fsAttributes.push([
   'cmsload',
-  async (listInstances) => {
-    const [listInstance] = listInstances as CMSList[];
+  async ([listInstance]: CMSList[]) => {
     if (!listInstance) return;
 
     const [{ element: templateElement }] = listInstance.items;

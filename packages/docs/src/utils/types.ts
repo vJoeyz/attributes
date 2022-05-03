@@ -9,6 +9,7 @@ interface AttributeData {
   loadMode: string;
   schemaSrc: string;
   changesetsSrc: string;
+  readmeSrc: string;
 }
 
 export type AttributesData = AttributeData[];

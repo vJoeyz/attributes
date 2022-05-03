@@ -13,6 +13,7 @@ export const attributesData: AttributesData = [
     loadMode: 'defer',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'cmscombine',
@@ -26,6 +27,7 @@ export const attributesData: AttributesData = [
     loadMode: 'async',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'cmsfilter',
@@ -38,6 +40,7 @@ export const attributesData: AttributesData = [
     loadMode: 'async',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'cmsload',
@@ -51,6 +54,7 @@ export const attributesData: AttributesData = [
     examplesSrc: 'examples.json',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'cmsnest',
@@ -64,6 +68,7 @@ export const attributesData: AttributesData = [
     loadMode: 'async',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'cmsprevnext',
@@ -76,6 +81,7 @@ export const attributesData: AttributesData = [
     loadMode: 'async',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'cmsselect',
@@ -88,6 +94,7 @@ export const attributesData: AttributesData = [
     loadMode: 'async',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'cmsslider',
@@ -100,6 +107,7 @@ export const attributesData: AttributesData = [
     loadMode: 'async',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'cmssort',
@@ -112,6 +120,7 @@ export const attributesData: AttributesData = [
     loadMode: 'async',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'cmstabs',
@@ -124,6 +133,7 @@ export const attributesData: AttributesData = [
     loadMode: 'async',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'codehighlight',
@@ -136,6 +146,7 @@ export const attributesData: AttributesData = [
     loadMode: 'async',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'copyclip',
@@ -148,6 +159,7 @@ export const attributesData: AttributesData = [
     loadMode: 'defer',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'scrolldisable',
@@ -160,6 +172,7 @@ export const attributesData: AttributesData = [
     loadMode: 'defer',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'selectcustom',
@@ -172,6 +185,7 @@ export const attributesData: AttributesData = [
     loadMode: 'defer',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'sliderdots',
@@ -184,6 +198,7 @@ export const attributesData: AttributesData = [
     loadMode: 'defer',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'linkblockedit',
@@ -196,6 +211,7 @@ export const attributesData: AttributesData = [
     loadMode: 'defer',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'mirrorclick',
@@ -208,6 +224,7 @@ export const attributesData: AttributesData = [
     loadMode: 'defer',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'mirrorinput',
@@ -220,6 +237,7 @@ export const attributesData: AttributesData = [
     loadMode: 'defer',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'rangeslider',
@@ -232,6 +250,7 @@ export const attributesData: AttributesData = [
     loadMode: 'defer',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'richtext',
@@ -245,6 +264,7 @@ export const attributesData: AttributesData = [
     loadMode: 'defer',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'smartlightbox',
@@ -258,6 +278,7 @@ export const attributesData: AttributesData = [
     loadMode: 'defer',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'countitems',
@@ -270,6 +291,7 @@ export const attributesData: AttributesData = [
     loadMode: 'defer',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'favcustom',
@@ -282,6 +304,7 @@ export const attributesData: AttributesData = [
     loadMode: 'defer',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
   {
     key: 'toc',
@@ -295,5 +318,6 @@ export const attributesData: AttributesData = [
     loadMode: 'defer',
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
   },
 ];
