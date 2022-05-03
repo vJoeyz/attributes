@@ -128,17 +128,7 @@ export const collectLinksData = (firstLinkTemplate: Element) => {
   };
 
   // Init collection
-  const firstLinkComponent = collectLinkData(firstLinkTemplate);
+  collectLinkData(firstLinkTemplate);
 
-  if (!linksData.length || !firstLinkComponent) return;
-
-  // Get the table wrapper
-  const tocWrapper = firstLinkComponent.parentElement;
-  if (!tocWrapper) return;
-
-  const anchor = new Comment(ANCHOR_SELECTOR);
-  tocWrapper.insertBefore(anchor, firstLinkComponent);
-  firstLinkComponent.remove();
-
-  return [linksData, tocWrapper] as const;
+  return linksData;
 };

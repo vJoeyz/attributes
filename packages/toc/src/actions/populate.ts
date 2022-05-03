@@ -32,7 +32,7 @@ export const populateLinks = (headingsData: HeadingData[], linksData: LinkData[]
     const linkWrapper = levelMemo?.component || tocWrapper;
     const component = cloneNode(linkData.component);
 
-    const referenceNode = queryElement('link', { scope: component });
+    const referenceNode = queryElement('link', { scope: component, operator: 'prefixed' });
     if (!referenceNode) continue;
 
     const linkElement = referenceNode.closest('a');

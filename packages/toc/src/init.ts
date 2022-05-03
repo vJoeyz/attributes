@@ -6,6 +6,7 @@ import { getInstanceIndex } from '$global/helpers/instances';
 import { collectHeadingsData, collectLinksData } from './actions/collect';
 import { observeLinksState } from './actions/observe';
 import { populateLinks } from './actions/populate';
+import { prepareTOC } from './actions/prepare';
 import { scrollToAnchor, setScrollOffsets } from './actions/scroll';
 import { preventURLHash } from './actions/url';
 import { ATTRIBUTE, ATTRIBUTES, getSelector, queryElement } from './utils/constants';
@@ -27,9 +28,12 @@ export const init = async (): Promise<void> => {
     if (!linkTemplate) continue;
 
     const headingsData = collectHeadingsData(contentsElement);
-    const [linksData, tocWrapper] = collectLinksData(linkTemplate) || [];
+    const linksData = collectLinksData(linkTemplate) || [];
 
-    if (!headingsData.length || !linksData?.length || !tocWrapper) continue;
+    if (!headingsData.length || !linksData.length) continue;
+
+    const tocWrapper = prepareTOC(linksData, instanceIndex);
+    if (!tocWrapper) continue;
 
     const tocItems = populateLinks(headingsData, linksData, tocWrapper);
 
@@ -45,10 +49,10 @@ export const init = async (): Promise<void> => {
 
     // Link States
     observeLinksState(tocWrapper, tocItems);
-
-    // URL hash Anchor
-    scrollToAnchor();
   }
+
+  // URL hash Anchor
+  scrollToAnchor();
 
   await restartWebflow();
 
