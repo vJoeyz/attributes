@@ -1,0 +1,25 @@
+import type { TOCItem } from '../components/TOCItem';
+
+/**
+ * Observes when the TOC links' state changes.
+ * @param tocWrapper
+ * @param tocItems
+ */
+export const observeLinksState = (tocWrapper: HTMLElement, tocItems: TOCItem[]) => {
+  const observer = new MutationObserver((mutations) => {
+    for (const { target } of mutations) {
+      if (!(target instanceof HTMLAnchorElement)) continue;
+
+      const tocItem = tocItems.find(({ linkElement }) => linkElement === target);
+      if (!tocItem) continue;
+
+      tocItem.updateState();
+    }
+  });
+
+  observer.observe(tocWrapper, {
+    attributes: true,
+    subtree: true,
+    attributeFilter: ['class'],
+  });
+};

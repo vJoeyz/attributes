@@ -1,0 +1,41 @@
+{
+  "name": "@finsweet/attributes-toc",
+  "version": "1.0.2",
+  "description": "Automatically generate a table of contents based on heading tags. Works with Webflow Rich Text, Webflow \"Current\" class, and anchor scroll. CMS, static, and all text elements are supported.",
+  "main": "toc.js",
+  "files": [
+    "toc.js",
+    "examples.json",
+    "schema.json",
+    "changesets.json"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development node ./bin/build.js",
+    "build": "cross-env NODE_ENV=production node ./bin/build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/finsweet/attributes.git"
+  },
+  "keywords": [
+    "webflow",
+    "attributes",
+    "no code",
+    "table of contents",
+    "toc",
+    "rich text"
+  ],
+  "author": {
+    "name": "Finsweet",
+    "url": "https://www.finsweet.com/"
+  },
+  "bugs": {
+    "url": "https://sweetjs.finsweet.com/"
+  },
+  "homepage": "https://www.finsweet.com/attributes",
+  "dependencies": {
+    "slugify": "^1.6.5"
+  }
+}

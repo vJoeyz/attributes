@@ -1,11 +1,12 @@
 {
   "name": "@finsweet/attributes-docs",
-  "version": "1.7.0",
+  "version": "1.7.2",
   "description": "Attributes documentation custom code.",
   "main": "docs.js",
   "files": [
     "docs.js",
     "changelog.js",
+    "api.js",
     "attributes.json",
     "changesets.json"
   ],
@@ -25,9 +26,9 @@
   },
   "homepage": "https://www.finsweet.com/attributes",
   "dependencies": {
-    "marked": "^4.0.6"
+    "marked": "^4.0.15"
   },
   "devDependencies": {
-    "@types/marked": "^4.0.1"
+    "@types/marked": "^4.0.3"
   }
 }

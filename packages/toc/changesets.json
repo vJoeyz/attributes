@@ -1,0 +1,1 @@
+[{"version":"v1.0.2","date":"30 April 2022","markdown":"- Ensured all headings and links have unique IDs, even if some headings have the same exact text.\r\n"},{"version":"v1.0.1","date":"29 April 2022","markdown":"- Added support to use `fs-richtext` + `fs-toc`.\r\n"},{"version":"v1.0.0","date":"29 April 2022","markdown":"- Created the attribute package.\r\n"}]

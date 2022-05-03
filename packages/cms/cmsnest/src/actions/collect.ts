@@ -42,7 +42,7 @@ export const getNestSources = ({ createCMSListInstances }: CMSCore): NestSources
  */
 export const getNestTargets = (itemElement: CollectionItemElement) => {
   const nestTargets: NestTargets = new Map();
-  const nestTargetElements = itemElement.querySelectorAll<HTMLElement>(getSelector('collection'));
+  const nestTargetElements = itemElement.querySelectorAll<HTMLElement>(`${getSelector('collection')}:not(a)`);
 
   for (const target of nestTargetElements) {
     const collectionId = normalizePropKey(target.getAttribute(collectionKey));
