@@ -7,7 +7,7 @@ describe('Test Error - Field Missing Specialization', () => {
     const error = new MissingFieldSpecializationError();
     expect(error.stripHTML())
     .toEqual(
-      'The Field specialization was not provided. Please enter specialization for this field in Checker UI.'
+      'Field element type is not entered in this tool. Enter a field type for this field to check it on the page.'
     )
   });
 

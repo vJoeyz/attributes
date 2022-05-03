@@ -1,6 +1,5 @@
 import {
   COLLECTION_LIST,
-  COLLECTION_LIST_WRAPPER,
   EMBED_CODE,
   TEXT_BLOCK,
   IMAGE,
@@ -42,7 +41,7 @@ export const schema: AttributeSchema = {
       key: LIST_ELEMENT_KEY,
       description: 'Defines the list to load more items.',
       required: true,
-      appliedTo: [COLLECTION_LIST, COLLECTION_LIST_WRAPPER],
+      appliedTo: [COLLECTION_LIST],
       multiplesInInstance: false,
       requiresInstance: true,
       conditions: [],

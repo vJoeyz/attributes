@@ -58,15 +58,16 @@ export function valueServiceV2(
  * @param schemaSelector
  * @param schemaValue
  * @param attributeValue
- * @param appendedSelectors
+ * @param appliedToSelectors
  * @returns
  */
 export default function valueService(
   schemaSelector: SchemaSelector,
   schemaValue: { type: string; options?: { value: string; description: string }[] },
   attributeValue: string,
-  appliedToSelectors: SchemaSelector[]
+  appliedToSelectors: SchemaSelector[],
 ) {
+
   const { type, options } = schemaValue;
 
   // Find the attribute value in AppliedTo Elements

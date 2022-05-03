@@ -10,19 +10,16 @@ import type { SchemaInputFieldSetting, InputChannel } from '@src/types/Input.typ
 /**
  * Validate attributes schema by user input
  *
- * @param form User Input
+ * @param schemaInput Array of User Input
  * @param schema Attribute Schema
  * @param schemaSettings Attribute Schema Settings
- * @param scriptSrc Script Source
  * @returns
  */
 export async function validateInputForm(
   schemaInput: SchemaInput[],
   schema: AttributeSchema,
   schemaSettings: SchemaSettings,
-  // scriptSrc: string
 ): Promise<SchemaInput[]> {
-
 
   const elementsAndFields = schemaInput.filter(
     (input: SchemaInput) => (input.type === 'element' || input.type === 'field')
@@ -59,8 +56,6 @@ export async function validateInputForm(
 
   const elementsAndFieldsChannel: InputChannel[] = await Promise.all(promisesElements);
 
-
-
   const promisesSettings = settings
     .map(async (input: SchemaInput) => {
 
@@ -75,7 +70,6 @@ export async function validateInputForm(
       if (!elementChannel) {
         throw new Error('Input error, missing element channel');
       }
-
 
       return validateElementSetting(input, elementChannel, schema, schemaSettings);
     }
@@ -106,7 +100,6 @@ export async function validateInputForm(
   })
 
   const settingsChannel = await Promise.all(promisesSettings);
-
 
   const input = [
     ...elementsAndFieldsChannel.map((attribute: InputChannel) => attribute.input),

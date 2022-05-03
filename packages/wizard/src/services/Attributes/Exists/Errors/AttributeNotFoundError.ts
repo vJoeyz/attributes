@@ -5,15 +5,16 @@ import type { SchemaSelector } from '@src/types/Schema.types';
 export default class AttributeNotFoundError extends AbstractSchemaError {
   type = 'attribute-not-found';
 
-  constructor(attribute: SchemaSelector, selectors: DOMSelector[]) {
+  constructor(attribute: SchemaSelector, selectors: DOMSelector[], isSetting: boolean) {
     super();
 
     const selectorsLabels = this.selectorsToLabels(selectors, 'or');
     const attributeId = this.toAttribute(attribute.getPrettierSelector());
+    const isSettingLabel = isSetting ? ' option ' : ' ';
 
     this.message = [
-      this.toHighlight(`The attribute ${attributeId} was not found.`),
-      `Add ${attributeId} to the ${selectorsLabels} on the page.`,
+      this.toHighlight(`The attribute${isSettingLabel}${attributeId} is not found.`),
+      `Add ${attributeId} to the ${selectorsLabels}.`,
     ].join(' ');
 
     Object.setPrototypeOf(this, AttributeNotFoundError.prototype);

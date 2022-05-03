@@ -62,12 +62,12 @@
 
 
 </script>
-{#each fields as fieldInstance (fieldInstance)}
+{#each fields as fieldInput (fieldInput)}
   <Field
     addField={addField}
     deleteField={deleteField}
     field={field}
-    fieldInstance={fieldInstance}
+    fieldInput={fieldInput}
     changeFieldElement={changeFieldElement}
     changeFieldIdentifier={changeFieldIdentifier}
   />

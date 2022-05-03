@@ -140,7 +140,6 @@
     margin-bottom: 0px;
     padding: 0.5rem 1rem;
     border: 1px none #000;
-    border-radius: 0.375rem;
     background-color: #111;
     color: #bcfd2e;
     display: block;

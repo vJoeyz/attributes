@@ -1,7 +1,9 @@
 import {
   selectAttribute,
   clickRunCheck,
-  selectItem
+  selectItem,
+  selectItemAndInputSetting,
+  selectItemAndSelectSetting
 } from './../helpers/actions';
 import {
   assertErrorsCountOnReport,
@@ -19,7 +21,7 @@ test('Element setting not found in page', async t => {
 
   await selectAttribute('CMS Load');
 
-  await selectItem('element-setting-animation');
+  await selectItemAndSelectSetting('element-setting-animation', 'slide-up');
 
 
   await clickRunCheck();
@@ -29,5 +31,5 @@ test('Element setting not found in page', async t => {
   await assertErrorIsOnReport('element-setting-animation', 'attribute-not-found');
   await assertErrorIsOnAttribute('element-setting-animation', 'attribute-not-found');
 
-  await writeFileValidationMessage('Attribute setting not found', 'element-setting-animation');
+  await writeFileValidationMessage('Option attribute not found', 'element-setting-animation');
 });

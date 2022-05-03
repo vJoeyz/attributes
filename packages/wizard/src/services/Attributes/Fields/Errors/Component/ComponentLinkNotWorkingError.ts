@@ -10,8 +10,8 @@ export default class ComponentLinkNotWorkingError extends AbstractSchemaError {
     const attributeId = this.toAttribute(attribute.getPrettierSelector());
 
     this.message = [
-      `Link for ${attributeId} not working.`,
-      `Check if link to other page was correct provided in the UI or if the page really exists.`,
+      `Link for ${attributeId} is not working.`,
+      `Check if the link to the external page is published and correctly entered in the attribute value.`,
     ].join(' ');
     // this.message = `Missing link in nested template page item`;
     // this.tips = ``;

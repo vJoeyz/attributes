@@ -10,8 +10,8 @@ export default class AttributeValueNotMatchTypeError extends AbstractSchemaError
     const attributeId = this.toAttribute(attribute.getAttribute());
 
     this.message = [
-      this.toHighlight(`The value of ${attributeId} is not in the expected format.`),
-      `Please provide a valid ${type}.`
+      this.toHighlight(`The value of ${attributeId} is not in the correct format.`),
+      `Change to valid ${type} format.`
     ].join(' ');
 
     Object.setPrototypeOf(this, AttributeValueNotMatchTypeError.prototype);

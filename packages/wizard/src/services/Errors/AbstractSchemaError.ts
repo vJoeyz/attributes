@@ -1,6 +1,5 @@
 import type { ItemError } from "@src/types/Error.types";
 import type { DOMSelector, ElementSelector, ParentSelector, SelectorSelector  } from '@global/types/schema';
-import type { AppliedToSelector } from "@src/types/Schema.types";
 
 export default class AbstractSchemaError extends Error implements ItemError {
   public type: string;
@@ -13,13 +12,14 @@ export default class AbstractSchemaError extends Error implements ItemError {
     Object.setPrototypeOf(this, AbstractSchemaError.prototype);
   }
 
-
   stripHTML() {
-    return this.message.replace(/<[^>]*>?/gm, '');;
+    return this.message.replace(/<[^>]*>?/gm, '');
   }
 
   selectorsToLabels(selectors: DOMSelector[], joinWord = 'or') {
-    const selectorsLabels = this.wrapSelectors(selectors);
+
+    const displaySelectors = selectors.filter((selector: DOMSelector) => selector.label !== 'Collection List Wrapper');
+    const selectorsLabels = this.wrapSelectors(displaySelectors);
     const labelsText = this.listToSentence(selectorsLabels, joinWord);
     return labelsText;
   }
@@ -31,6 +31,7 @@ export default class AbstractSchemaError extends Error implements ItemError {
       }
 
       if (parentItem.type === 'selector') {
+
         return this.toLabel(parentItem.selector.label);
       }
 
@@ -48,7 +49,10 @@ export default class AbstractSchemaError extends Error implements ItemError {
     return selectors.map((selector: DOMSelector | string) => {
 
       if ((<DOMSelector>selector).label) {
-        return this.toLabel((<DOMSelector>selector).label)
+
+        const label = (<DOMSelector>selector).label === 'Any element' && 'any element on the page' || (<DOMSelector>selector).label;
+
+        return this.toLabel(label)
       }
 
       const stringSelector = selector as string;
@@ -57,15 +61,18 @@ export default class AbstractSchemaError extends Error implements ItemError {
   }
 
   toLabel(value: string) {
-    return `<span class="validator-label">${value}</span>`
+    //return `<span class="validator-label">${value}</span>`
+    return value;
   }
 
   toHighlight(value: string) {
-    return `<span class="validator-highlight">${value}</span>`
+    // return `<span class="validator-highlight">${value}</span>`
+    return value;
   }
 
   toAttribute(value: string) {
-    return `<span class="validator-attribute">${value}</span>`
+    // return `<span class="validator-attribute">${value}</span>`
+    return value;
   }
 
   listToSentence(values: string[], joinWord = 'or') {

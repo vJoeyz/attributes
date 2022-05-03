@@ -21,7 +21,6 @@
     background-attachment: scroll !important;
     margin-left: 0.5rem;
     padding: 0.1rem 0.5rem;
-    border-radius: 0.375rem;
 
     font-size: 0.75rem;
     font-weight: 600;

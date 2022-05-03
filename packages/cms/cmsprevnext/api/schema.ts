@@ -1,6 +1,5 @@
 import {
   COLLECTION_LIST,
-  COLLECTION_LIST_WRAPPER,
   DIV_BLOCK,
   LINK_BLOCK,
   TEXT_ELEMENT,
@@ -27,7 +26,7 @@ export const schema: AttributeSchema = {
           condition: 'hasLink',
         },
       ],
-      appliedTo: [COLLECTION_LIST, COLLECTION_LIST_WRAPPER],
+      appliedTo: [COLLECTION_LIST],
       required: true,
       multiplesInInstance: false,
       requiresInstance: false,

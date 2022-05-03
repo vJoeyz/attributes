@@ -8,8 +8,11 @@
 
   currentValue = fieldInput.identifier;
 
-  function onInput(event: any) {
-    const value = event.target.value;
+  function onInput(event: Event) {
+
+    const input = event.target as HTMLInputElement;
+
+    const value = input.value;
     currentValue = value;
     changeFieldIdentifier(fieldInput.index, value);
   }
@@ -45,7 +48,6 @@
     border-style: solid;
     border-width: 1px;
     border-color: #000;
-    border-radius: 0.375rem;
     background-color: #1a1a1a;
     color: #bcfd2e;
     font-size: 1rem;

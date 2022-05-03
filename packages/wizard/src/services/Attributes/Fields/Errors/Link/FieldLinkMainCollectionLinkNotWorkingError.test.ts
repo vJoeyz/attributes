@@ -7,12 +7,12 @@ describe('Field - Link - Main Collection Link Not Found Error', () => {
   test('Field is missing main link to collection', () => {
 
 
-    const attribute = new SchemaSelector('fs-cmsfilter-field', 'attraction-categories');
+    const attribute = new SchemaSelector('fs-cmsnest-collection', 'attraction-categories');
 
     const error = new FieldLinkMainCollectionLinkNotWorkingError(attribute);
 
     expect(error.stripHTML())
-      .toEqual('The attribute fs-cmsfilter-field="attraction-categories" link was found, but not working Check if link is correctly direction to CMS Collection\'s Item');
+      .toEqual('The attribute fs-cmsnest-collection="attraction-categories" is found, but the url link in the CMS Collection Item is not working. Check if the Link Block or Text Link have the correct link to the Item’s Template page.');
 
   });
 

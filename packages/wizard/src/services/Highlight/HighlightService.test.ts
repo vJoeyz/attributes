@@ -10,7 +10,7 @@ describe('Highlight elements on page', () => {
       key: 'cmsload',
     };
 
-    const response = createHighlight('list', 'element', null, CMS_LOAD, schemaSettings);
+    const response = createHighlight('list', 'element', null, null, CMS_LOAD, schemaSettings);
 
     expect(response.backupStyles.length).toBe(0);
 

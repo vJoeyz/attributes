@@ -20,7 +20,7 @@ describe('Test Error - DOM For Attribute not found', () => {
     const error = new DOMForAttributeNotFound(attributeSelector, appliedTo);
     expect(error.stripHTML())
     .toEqual(
-      'The attribute fs-cmsload-element="list" is missing required element. Add the Collection List or Collection List Wrapper and then add the attribute fs-cmsload-element="list" to it.'
+      'The Collection List is not found on the page. Add a Collection List component and then add fs-cmsload-element="list" to it.'
     );
   });
 

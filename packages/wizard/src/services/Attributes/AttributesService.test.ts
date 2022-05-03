@@ -3,7 +3,7 @@ import { validateElementSetting } from './Elements/ElementsSettingsService';
 import { validateFieldSetting } from './Fields/FieldsSettingsService';
 import { validateField } from './Fields/FieldsService';
 import type { AttributeSchema } from '@global/types/schema';
-import type { SchemaInput } from '@src/types/Input.types';
+import type { InputChannel, SchemaInput, SchemaInputElement, SchemaInputElementSetting, SchemaInputField, SchemaInputFieldSetting } from '@src/types/Input.types';
 
 jest.mock('./Elements/ElementsService', () => ({
   validateElement: jest.fn(),
@@ -39,27 +39,40 @@ describe('Use Attributes Validation', () => {
   });
 
   test('Validate elements', () => {
+
+    const elementList: SchemaInputElement = {
+      type: 'element',
+      element: 'list',
+      validation: null,
+      instance: 1,
+      key: 'cmsload',
+    };
+
+    const elementPageButton: SchemaInputElement = {
+      type: 'element',
+      element: 'page-button',
+      validation: null,
+      instance: 1,
+      key: 'cmsload',
+    };
+
     const form: SchemaInput[] = [
-      {
-        type: 'element',
-        element: 'list',
-        validation: null,
-        instance: 1,
-        key: 'cmsload',
-      },
-      {
-        type: 'element',
-        element: 'page-button',
-        validation: null,
-        instance: 1,
-        key: 'cmsload',
-      },
+      elementList,
+      elementPageButton,
     ];
 
     const schema: AttributeSchema = {
       elements: [],
       settings: [],
     };
+
+    const elementListChannel: InputChannel = {
+      input: elementList,
+      domElements: [],
+    }
+
+
+    validateElementMock.mockReturnValue(elementListChannel);
 
     const key = 'cmsload';
 
@@ -91,36 +104,52 @@ describe('Use Attributes Validation', () => {
     expect(validateElementSettingMock).not.toHaveBeenCalled();
   });
 
-  test('Validate elements with settings', () => {
+  test('Validate elements with settings', async () => {
+
+    const elementList: SchemaInputElement =  {
+      type: 'element',
+      element: 'list',
+      validation: null,
+      instance: 1,
+      key: 'cmsload',
+    };
+
+    const settingMode: SchemaInputElementSetting = {
+      type: 'elementSetting',
+      element: 'list',
+      setting: 'mode',
+      option: 'load-under',
+      enable: true,
+      validation: null,
+      instance: 1,
+      key: 'cmsload',
+    };
+
+    const settingThreshold: SchemaInputElementSetting = {
+      type: 'elementSetting',
+      setting: 'threshold',
+      option: '-20',
+      element: 'list',
+      enable: true,
+      validation: null,
+      instance: 1,
+      key: 'cmsload',
+    };
+
     const form: SchemaInput[] = [
-      {
-        type: 'element',
-        element: 'list',
-        validation: null,
-        instance: 1,
-        key: 'cmsload',
-      },
-      {
-        type: 'elementSetting',
-        element: 'list',
-        setting: 'mode',
-        option: 'load-under',
-        enable: true,
-        validation: null,
-        instance: 1,
-        key: 'cmsload',
-      },
-      {
-        type: 'elementSetting',
-        setting: 'threshold',
-        option: '-20',
-        element: 'list',
-        enable: true,
-        validation: null,
-        instance: 1,
-        key: 'cmsload',
-      },
+      elementList,
+      settingMode,
+      settingThreshold,
     ];
+
+
+    const elementListChannel: InputChannel = {
+      input: elementList,
+      domElements: [],
+    }
+
+
+    validateElementMock.mockReturnValue(elementListChannel);
 
     const schema: AttributeSchema = {
       elements: [],
@@ -140,7 +169,8 @@ describe('Use Attributes Validation', () => {
     };
 
 
-    validateInputForm(form, schema, schemaSettings);
+
+    await validateInputForm(form, schema, schemaSettings);
 
     expect(validateElementMock).toHaveBeenCalled();
 
@@ -152,17 +182,20 @@ describe('Use Attributes Validation', () => {
 
 
   test('Validate fields', async () => {
+
+    const fieldName: SchemaInputField = {
+      type: 'field',
+      field: 'field',
+      index: 'field-0',
+      identifier: 'name',
+      specialization: 'toggle-button',
+      validation: null,
+      instance: 1,
+      key: 'cmsfilter',
+    };
+
     const form: SchemaInput[] = [
-      {
-        type: 'field',
-        field: 'field',
-        index: 'field-0',
-        identifier: 'name',
-        specialization: 'toggle-button',
-        validation: null,
-        instance: 1,
-        key: 'cmsfilter',
-      },
+      fieldName,
     ];
 
     const schema: AttributeSchema = {
@@ -182,6 +215,14 @@ describe('Use Attributes Validation', () => {
       instance,
     };
 
+    const fieldNameChannel: InputChannel = {
+      input: fieldName,
+      domElements: [],
+    }
+
+
+    validateFieldMock.mockReturnValue(fieldNameChannel);
+
 
     await validateInputForm(form, schema, schemaSettings);
 
@@ -194,29 +235,40 @@ describe('Use Attributes Validation', () => {
   });
 
 
-  test('Validate fields with settings', () => {
+  test('Validate fields with settings', async () => {
+    const fieldName: SchemaInputField = {
+      type: 'field',
+      field: 'field',
+      index: 'field-0',
+      identifier: 'name',
+      specialization: 'toggle-button',
+      instance: 1,
+      key: 'cmsload',
+      validation: null,
+    };
+
+    const settingActive: SchemaInputFieldSetting = {
+      type: 'fieldSetting',
+      field: 'field',
+      index: 'field-0',
+      setting: 'activeclass',
+      option: 'my-class',
+      enable: true,
+      validation: null,
+      instance: 1,
+      key: 'cmsload',
+    };
+
+    const fieldNameChannel: InputChannel = {
+      input: fieldName,
+      domElements: [],
+    }
+
+    validateFieldMock.mockReturnValue(fieldNameChannel);
+
     const form: SchemaInput[] = [
-      {
-        type: 'field',
-        field: 'field',
-        index: 'field-0',
-        identifier: 'name',
-        specialization: 'toggle-button',
-        instance: 1,
-        key: 'cmsload',
-        validation: null,
-      },
-      {
-        type: 'fieldSetting',
-        field: 'field',
-        index: 'field-0',
-        setting: 'activeclass',
-        option: 'my-class',
-        enable: true,
-        validation: null,
-        instance: 1,
-        key: 'cmsload',
-      }
+      fieldName,
+      settingActive
     ];
 
     const schema: AttributeSchema = {
@@ -237,7 +289,7 @@ describe('Use Attributes Validation', () => {
     };
 
 
-    validateInputForm(form, schema, schemaSettings);
+    await validateInputForm(form, schema, schemaSettings);
 
     expect(validateElementMock).not.toHaveBeenCalled();
 

@@ -19,7 +19,7 @@ import {
 fixture`Element Setting not found errors`
     .page`http://localhost:9000/scenarios/errors/field-settings-not-found.html`;
 
-test('Element setting not found in page', async t => {
+test('Field setting not found in page', async t => {
 
   await selectAttribute('CMS Filter');
 
@@ -42,5 +42,5 @@ test('Element setting not found in page', async t => {
   await assertErrorIsOnReport('field-setting-field-field-1-active', 'field-setting-not-found');
   await assertErrorIsOnAttribute('field-setting-field-field-1-active', 'field-setting-not-found');
 
-  await writeFileValidationMessage('Field Setting - Not found', 'field-setting-field-field-1-active');
+  await writeFileValidationMessage('Field option not found', 'field-setting-field-field-1-active');
 });

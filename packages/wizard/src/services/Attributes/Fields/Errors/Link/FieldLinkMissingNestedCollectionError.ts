@@ -9,14 +9,13 @@ export default class FieldLinkMissingNestedCollectionError extends AbstractSchem
 
 
     const attributeId = this.toAttribute(attribute.getPrettierSelector());
+    const value = attribute.getValue();
 
     this.message = [
-      `The Nested Collection List for ${attributeId} on the Collection Template page was not found.`,
-      `Add a Nested Collection List on the Collection template Page with the ${attributeId} attribute.`
+      'The Collection List on the Collection Template page is not found.',
+      `Add a “${value}” Collection List on the primary content Collection template page.`,
+      `Add the attribute ${attributeId} to the Collection List element.`
     ].join(' ');
-
-    // this.message = `Missing collection in item collection items`;
-    // this.tips = ``;
 
     Object.setPrototypeOf(this, FieldLinkMissingNestedCollectionError.prototype);
   }

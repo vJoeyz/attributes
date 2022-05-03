@@ -1,6 +1,6 @@
 <script lang="ts">
   import ArrowToggle from '@src/components/Layout/Icons/ArrowToggle.svelte';
-  export let onClick: any;
+  export let onClick: (() => void) | null;
   export let isOpen: boolean;
 </script>
 
@@ -25,7 +25,6 @@
     border-style: solid;
     border-width: 1px;
     border-color: #000;
-    border-radius: 0.375rem;
     background-color: #111;
     color: #ccc;
     user-select: none;

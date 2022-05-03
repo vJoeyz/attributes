@@ -1,8 +1,10 @@
 import {
   getSchemaItem,
   createSchemaSelectorFromSchema,
+  createSchemaSelectorFromItem,
 } from '@src/services/Attributes/Schema/SchemaService';
-import { queryAllElements, queryChildrenOfElements } from '@src/services/DOM/Queries/QueriesService';
+import { queryChildrenOfElements } from '@src/services/DOM/Queries/QueriesService';
+import { getParentElement } from '@src/services/Attributes/Fields/FieldsService';
 import type { HighlightBackupStyle, Highlight } from '@src/types/Highlight.types';
 import type { SchemaSettings } from '@src/types/Schema.types';
 import type { SchemaInputType } from '@src/types/Input.types';
@@ -11,7 +13,6 @@ import type {
   AttributeSettingSchema,
   AttributeFieldSchema,
   AttributeSchema,
-  AttributeSchemaConditions,
   FieldSpecialization,
   InstanceFieldSpecializationAppliedTo,
   DOMSelector,
@@ -36,7 +37,6 @@ const highlightStyle: HighlightBackupStyle = {
 function createElementHighlight(
   key: string,
   schema: AttributeSchema,
-  schemaSettings: SchemaSettings
 ): Highlight {
 
   const schemaItem = getSchemaItem(schema, 'elements', key) as AttributeElementSchema;
@@ -96,6 +96,15 @@ function createFieldHighlight(
   schema: AttributeSchema,
   schemaSettings: SchemaSettings
 ): Highlight {
+
+
+  if (specializationKey === null) {
+    return {
+      elements: [],
+      backupStyles: [],
+    };
+  }
+
   const schemaItem = getSchemaItem(schema, 'fields', key) as AttributeFieldSchema;
 
   const {
@@ -114,45 +123,83 @@ function createFieldHighlight(
     (appliedToEntry: InstanceFieldSpecializationAppliedTo) => appliedToEntry.type !== 'component'
   );
 
+
+  const htmlElements: (HTMLElement | null)[] = appliedToFields.map((appliedTo: InstanceFieldSpecializationAppliedTo) => {
+
+    const { parent, selectors } = appliedTo;
+
+
+    const parentElement = getParentElement(parent, schema, schemaSettings);
+
+    if (parent && parentElement === null) {
+      return null;
+    }
+
+
+    return selectors.map((domSelector: DOMSelector) => {
+
+      const elements: HTMLElement[] = domSelector.selectors.map((selector: string) => {
+        if (parentElement) {
+          return Array.from(parentElement.querySelectorAll<HTMLElement>(selector));
+        }
+        return Array.from(document.querySelectorAll<HTMLElement>(selector));
+      }).flat();
+
+
+      return elements;
+    }).flat();
+  }).flat();
+
+  const elements = htmlElements.filter((element: HTMLElement | null) => element !== null) as HTMLElement[];
+
   return {
-    elements: [],
+    elements: elements,
     backupStyles: [],
   }
 }
 
 function createFieldSettingHighlight(
-  key: string,
-  specialization: string | null,
+  fieldKey: string,
+  identifier: string | null,
   schema: AttributeSchema,
   schemaSettings: SchemaSettings
 ): Highlight {
 
-  const schemaItem = getSchemaItem(schema, 'settings', key) as AttributeSettingSchema;
+  if (!identifier) {
+    return {
+      elements: [],
+      backupStyles: [],
+    }
+  }
+
+  const schemaItem = getSchemaItem(schema, 'fields', fieldKey) as AttributeFieldSchema;
+  const schemaSelector = createSchemaSelectorFromItem(schemaItem, 'fields', schemaItem.key, schemaSettings, identifier);
+  const elements = Array.from(document.querySelectorAll<HTMLElement>(schemaSelector.getElementSelector()));
 
   return {
-    elements: [],
+    elements: elements,
     backupStyles: [],
   }
 }
 
 export function createHighlight(
-  name: string,
+  key: string,
   type: SchemaInputType,
+  identifier: string | null,
   specializationKey: string | null,
   schema: AttributeSchema,
   schemaSettings: SchemaSettings
 ): Highlight {
 
-
   switch (type) {
     case 'element':
-      return createElementHighlight(name, schema, schemaSettings);
+      return createElementHighlight(key, schema);
     case 'elementSetting':
-      return createElementSettingHighlight(name, schema, schemaSettings);
+      return createElementSettingHighlight(key, schema, schemaSettings);
     case 'field':
-      return createFieldHighlight(name, specializationKey, schema, schemaSettings);
+      return createFieldHighlight(key, specializationKey, schema, schemaSettings);
     case 'fieldSetting':
-      return createFieldSettingHighlight(name, specializationKey, schema, schemaSettings);
+      return createFieldSettingHighlight(key, identifier, schema, schemaSettings);
   }
 }
 
@@ -162,8 +209,20 @@ export function enableHighlight(highlight: Highlight): HighlightBackupStyle[] {
   let styles: HighlightBackupStyle[] = [...backupStyles];
 
   styles = applyHighlightElements(elements, backupStyles);
-  // styles = applyHighlightChildrenOfSelectors(childrenOf, backupStyles);
 
+  return styles;
+}
+
+export function applyHighlightElements(elements: HTMLElement[], styles: HighlightBackupStyle[]) {
+  elements.forEach(function (element) {
+    styles = applyHighlightElement(element, styles);
+  });
+  return styles;
+}
+
+export function applyHighlightElement(element: HTMLElement, styles: HighlightBackupStyle[]) {
+  styles = saveStyle(element, styles);
+  highlightElement(element);
   return styles;
 }
 
@@ -195,18 +254,7 @@ function saveStyle(element: HTMLElement, styles: HighlightBackupStyle[]) {
   return styles;
 }
 
-export function applyHighlightElements(elements: HTMLElement[], styles: HighlightBackupStyle[]) {
-  elements.forEach(function (element) {
-    styles = applyHighlightElement(element, styles);
-  });
-  return styles;
-}
 
-export function applyHighlightElement(element: HTMLElement, styles: HighlightBackupStyle[]) {
-  styles = saveStyle(element, styles);
-  highlightElement(element);
-  return styles;
-}
 
 export function rollbackElement(element: HTMLElement, styles: HighlightBackupStyle[]) {
   const backupStyles = styles.shift();

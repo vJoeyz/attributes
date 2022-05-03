@@ -9,6 +9,7 @@ declare module '*.svg' {
 
 
 declare namespace svelte.JSX {
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   interface HTMLAttributes<T> {
     onclick_outside?: () => void
   }

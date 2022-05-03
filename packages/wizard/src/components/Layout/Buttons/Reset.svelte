@@ -56,7 +56,6 @@
     max-width: 10rem;
     margin-left: 1rem;
     padding: 0.75rem 2rem;
-    border-radius: 0.375rem;
     background-color: #111;
     color: #9b9b9b;
     font-size: 1.25rem;

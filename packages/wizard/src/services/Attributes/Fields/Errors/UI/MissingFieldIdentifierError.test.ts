@@ -7,7 +7,7 @@ describe('Test Error - Field Missing Identifier', () => {
     const error = new MissingFieldIdentifierError();
     expect(error.stripHTML())
     .toEqual(
-      'Field identifier not provided. Please enter an identifier for this field in Checker UI.'
+      'Field identifier is not entered in this tool. Enter an indentifier value for this field to check it on the page.'
     )
   });
 

@@ -13,7 +13,7 @@ describe('Test Error - Attribute duplicated', () => {
     const error = new AttributeValueNotMatchTypeError(attributeSelector, expectedType);
     expect(error.stripHTML())
     .toEqual(
-      'The value of fs-cmsload-duration is not in the expected format. Please provide a valid float.'
+      'The value of fs-cmsload-duration is not in the correct format. Change to valid float format.'
     )
   });
 

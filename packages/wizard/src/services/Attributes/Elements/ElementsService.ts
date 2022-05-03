@@ -11,7 +11,7 @@ import type { SchemaSettings } from '@src/types/Schema.types';
 /**
  * Run assertions on item of type Element to check if it meets expectations.
  *
- * @param element
+ * @param inputElement
  * @param schema
  * @param schemaSettings
  * @returns
@@ -60,7 +60,7 @@ export function validateElement(
     if (error instanceof AbstractSchemaError) {
 
       return {
-        domElement: Array.from(htmlElements),
+        domElements: Array.from(htmlElements),
         input: {
           ...inputElement,
           validation: {
@@ -81,7 +81,7 @@ export function validateElement(
   }
 
   return {
-    domElement: Array.from(htmlElements),
+    domElements: Array.from(htmlElements),
     input: {
       ...inputElement,
       validation: {

@@ -52,6 +52,10 @@ export const selectInstanceSection = wizardWrapper.find('[data-testid="walkthrou
  * Schema
  */
 
+export const getAttribute = (attributeId) => {
+  return wizardWrapper.find(`#${attributeId}`);
+}
+
 export const getItemCheckbox = (attributeId) => {
   return wizardWrapper.find(`#${attributeId} label input[type=checkbox]`);
 }
@@ -129,3 +133,21 @@ export const getFieldSpecialization = (attributeId) => {
 export const getFieldSpecializationOptions = (attributeId) => {
   return wizardWrapper.find(`#${attributeId} [data-testid="field-specialization-option"]`);
 }
+
+
+export const getSelectorName = (attributeId) => {
+  return wizardWrapper.find(`#${attributeId} [data-testid="name"] [data-testid="selector-value"]`);
+}
+
+export const getSelectorValue = (attributeId) => {
+
+  return wizardWrapper.find(`#${attributeId} [data-testid="value"] [data-testid="selector-value"]`);
+};
+
+export const getSelectorInputValue = (attributeId) => {
+  return wizardWrapper.find(`#${attributeId} [data-testid="value"] [data-testid="selector-value"] input`);
+};
+
+export const getSelectorSelectValue = (attributeId) => {
+  return wizardWrapper.find(`#${attributeId} [data-testid="value"] [data-testid="selector-value"] [data-testid="settings-select"]`);
+};

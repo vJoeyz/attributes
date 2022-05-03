@@ -1,6 +1,5 @@
 import {
   COLLECTION_LIST,
-  COLLECTION_LIST_WRAPPER,
   HEADING,
   LINK_BLOCK,
   PARAGRAPH,
@@ -10,7 +9,6 @@ import {
   TEXT_LINK,
   BUTTON,
   DROPDOWN,
-  DIV_BLOCK,
   DROPDOWN_ITEM,
 } from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
@@ -35,7 +33,7 @@ export const schema: AttributeSchema = {
     {
       key: LIST_ELEMENT_KEY,
       description: 'Defines a list to be combined into the target.',
-      appliedTo: [COLLECTION_LIST, COLLECTION_LIST_WRAPPER],
+      appliedTo: [COLLECTION_LIST],
       conditions: [],
       required: true,
       multiplesInInstance: false,

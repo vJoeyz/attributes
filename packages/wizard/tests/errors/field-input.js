@@ -26,7 +26,7 @@ test('Field missing identifier error', async t => {
   await assertErrorIsOnReport('field-field-field-1', 'field-identifier');
   await assertErrorIsOnAttribute('field-field-field-1', 'field-identifier');
 
-  await writeFileValidationMessage('Field - Missing identifier', 'field-field-field-1');
+  await writeFileValidationMessage('Field identifier not entered', 'field-field-field-1');
 });
 
 test('Field missing specialization error', async t => {
@@ -42,5 +42,5 @@ test('Field missing specialization error', async t => {
   await assertErrorIsOnReport('field-field-field-1', 'field-specialization');
   await assertErrorIsOnAttribute('field-field-field-1', 'field-specialization');
 
-  await writeFileValidationMessage('Field - Missing specialization', 'field-field-field-1');
+  await writeFileValidationMessage('Field element type not entered', 'field-field-field-1');
 });

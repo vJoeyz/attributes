@@ -12,9 +12,9 @@ export default class AttributeIsNotParentOfElementError extends AbstractSchemaEr
 
     this.message = [
       this.toHighlight(
-        `The attribute ${attributeId} was found but not match required style.`
+        `The attribute ${attributeId} is found, but does not match the required style.`
       ),
-      `In the element with this attribute, set property "${style.property}" as "${style.value}".`
+      `Set the css property of this element to "${style.property}: ${style.value}".`
     ].join(' ');
 
     Object.setPrototypeOf(this, AttributeIsNotParentOfElementError.prototype);

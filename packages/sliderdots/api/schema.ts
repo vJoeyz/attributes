@@ -52,7 +52,7 @@ export const schema: AttributeSchema = {
       required: false,
       requiresInstance: true,
       multiplesInInstance: false,
-      appliedTo: [SLIDER_NAV],
+      appliedTo: [SLIDER_NAV, DIV_BLOCK],
       conditions: [
         {
           condition: 'exists',

@@ -39,5 +39,5 @@ test('Field Setting - Specialization Range', async t => {
   await assertErrorIsOnReport('field-setting-field-field-1-range', 'field-setting-not-found', 2);
   await assertErrorIsOnAttribute('field-setting-field-field-1-range', 'field-setting-not-found', 2);
 
-  await writeFileValidationMessage('Field - Not found - with specialization', 'field-setting-field-field-1-range');
+  await writeFileValidationMessage('Special field type not found', 'field-setting-field-field-1-range');
 });

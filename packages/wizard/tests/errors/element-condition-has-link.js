@@ -27,5 +27,5 @@ test('Element that required link failed due to miss link on page', async t => {
   await assertErrorIsOnReport('element-list', 'conditions-hasLink');
   await assertErrorIsOnAttribute('element-list', 'conditions-hasLink');
 
-  await writeFileValidationMessage('Attribute element condition has link not match', 'element-list');
+  await writeFileValidationMessage('Link reference not found', 'element-list');
 });

@@ -13,7 +13,7 @@ export default class AttributeNotMatchAppliedToError extends AbstractSchemaError
     const attributeId = this.toAttribute(attribute.getPrettierSelector());
 
     this.message = [
-      this.toHighlight(`The attribute ${attributeId} was found, but on the wrong element.`),
+      this.toHighlight(`The attribute ${attributeId} is found, but on the wrong element.`),
       `Move the attribute ${attributeId} to the ${selectorsLabels}.`,
     ].join(' ');
 

@@ -1,32 +1,21 @@
 import AbstractSchemaError from '@src/services/Errors/AbstractSchemaError';
-import type { ParentSelector, DOMSelector } from '@global/types/schema';
+import type { DOMSelector } from '@global/types/schema';
 import type { SchemaSelector } from '@src/types/Schema.types';
 
 export default class MissingFieldAppliedTagError extends AbstractSchemaError {
   type = 'field-selector';
 
-  constructor(attribute: SchemaSelector, parentSelector: ParentSelector | null, selectors: DOMSelector[], foundTag: string) {
+  constructor(attribute: SchemaSelector, selectors: DOMSelector[]) {
     super();
 
     const selectorsLabels = this.selectorsToLabels(selectors, 'or');
 
     const attributeId = this.toAttribute(attribute.getPrettierSelector());
 
-    if (parentSelector) {
-
-      const parentLabels = this.parentToLabels(parentSelector);
-      this.message = [
-        `The attribute ${attributeId} in ${parentLabels} was found on the page but not in the correct element.`,
-        `Add or move ${attributeId} to the ${selectorsLabels}.`,
-      ].join(' ');
-    }
-
-    if (parentSelector === null) {
-      this.message = [
-        `The attribute ${attributeId} was found on the page but not in the correct element.`,
-        `Add or move ${attributeId} to the ${selectorsLabels}.`,
-      ].join(' ');
-    }
+    this.message = [
+      `The attribute ${attributeId} is found, but not on the correct element.`,
+      `Move ${attributeId} to the ${selectorsLabels}.`,
+    ].join(' ');
 
     Object.setPrototypeOf(this, MissingFieldAppliedTagError.prototype);
   }

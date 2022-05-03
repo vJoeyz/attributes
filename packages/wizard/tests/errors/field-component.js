@@ -26,10 +26,10 @@ test('Field missing component on current page', async t => {
 
   await assertErrorsCountOnReport(1);
 
-  await assertErrorIsOnReport('field-component-field-1', 'field-not-found');
-  await assertErrorIsOnAttribute('field-component-field-1', 'field-not-found');
+  await assertErrorIsOnReport('field-component-field-1', 'field-component-not-found');
+  await assertErrorIsOnAttribute('field-component-field-1', 'field-component-not-found');
 
-  await writeFileValidationMessage('Rich Text - Component not found in current page', 'field-component-field-1');
+  await writeFileValidationMessage('Rich Text component not found on page', 'field-component-field-1');
 });
 
 test('Field link to another page not find page', async t => {
@@ -45,7 +45,7 @@ test('Field link to another page not find page', async t => {
   await assertErrorIsOnReport('field-component-field-1', 'field-component-type-link-not-working');
   await assertErrorIsOnAttribute('field-component-field-1', 'field-component-type-link-not-working');
 
-  await writeFileValidationMessage('Rich Text - Link to component in another page not working', 'field-component-field-1');
+  await writeFileValidationMessage('Link to external page not working - Rich Text', 'field-component-field-1');
 });
 
 
@@ -61,5 +61,5 @@ test('Field - Component in external page not found', async t => {
   await assertErrorIsOnReport('field-component-field-1', 'field-component-type-missing-external-component');
   await assertErrorIsOnAttribute('field-component-field-1', 'field-component-type-missing-external-component');
 
-  await writeFileValidationMessage('Rich Text - Component not found in external page', 'field-component-field-1');
+  await writeFileValidationMessage('Component on external page not found - Rich Text', 'field-component-field-1');
 })

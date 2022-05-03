@@ -10,7 +10,7 @@ export default class AttributeValueNotMatchExpectedError extends AbstractSchemaE
     const attributeId = this.toAttribute(attribute.getAttribute());
 
     this.message = [
-      this.toHighlight(`The value of ${attributeId} does not match the provided value.`),
+      this.toHighlight(`The value of ${attributeId} does not match the entered value.`),
       `Change value "${domValue}" to value "${inputValue}".`
     ].join(' ');
     // this.message = `Attribute ${attribute} - Expected value "${inputValue}" not match page attribute "${domValue}"`;

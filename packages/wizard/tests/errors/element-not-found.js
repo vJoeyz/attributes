@@ -24,5 +24,5 @@ test('Element not found in page', async t => {
   await assertErrorIsOnAttribute('element-list', 'attribute-not-found');
 
 
-  await writeFileValidationMessage('Attribute element not found', 'element-list');
+  await writeFileValidationMessage('Element attribute not found', 'element-list');
 });

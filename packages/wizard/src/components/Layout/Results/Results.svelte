@@ -70,17 +70,10 @@
   }
 
   .tool_results-list {
-    display: grid;
-    padding: 1rem 1.5rem;
     justify-content: stretch;
     justify-items: stretch;
     align-items: stretch;
     align-content: stretch;
-    grid-auto-columns: 1fr;
-    grid-column-gap: 1rem;
-    grid-row-gap: 1rem;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
     border-bottom: 1px solid #000;
   }
 </style>

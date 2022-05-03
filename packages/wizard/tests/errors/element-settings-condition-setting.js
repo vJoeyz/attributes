@@ -38,5 +38,5 @@ test('Element setting not found required setting condition', async t => {
   await assertErrorIsOnReport('element-setting-threshold', 'conditions-settings');
   await assertErrorIsOnAttribute('element-setting-threshold', 'conditions-settings');
 
-  await writeFileValidationMessage('Attribute setting condition setting not match', 'element-setting-threshold');
+  await writeFileValidationMessage('Option attribute missing a required option attribute', 'element-setting-threshold');
 });

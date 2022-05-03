@@ -15,8 +15,8 @@ export default class AttributeIsNotChildrenOfSelectorError extends AbstractSchem
     const attributeId = this.toAttribute(attribute.getPrettierSelector());
 
     this.message = [
-      this.toHighlight(`The attribute ${attributeId} was found but not in the correct location.`),
-      `Move attribute ${attributeId} as parent of the ${selectors}`
+      this.toHighlight(`The attribute ${attributeId} is found, but not in the correct location.`),
+      `Move ${attributeId} to be a parent of the ${selectors}`
     ].join(' ');
 
     Object.setPrototypeOf(this, AttributeIsNotChildrenOfSelectorError.prototype);

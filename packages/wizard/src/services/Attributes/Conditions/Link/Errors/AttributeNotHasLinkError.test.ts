@@ -21,7 +21,7 @@ describe('Test Error - Attribute not found', () => {
     const error = new AttributeNotHasLinkError(attributeSelector);
     expect(error.stripHTML())
     .toEqual(
-      'The attribute fs-cmsprevnext-element="list" was found but missing required link to collection item. Add a link to collection item for every element on list.'
+      'The attribute fs-cmsprevnext-element="list" is found, but missing a required link in the Collection Item. Add a Link Block or Text Link to the Collection Item and link it to the Collection Item’s template page.'
     )
   });
 

@@ -2,7 +2,7 @@
 
   import FieldAdd from '@src/components/Layout/Icons/field-add.svg';
 
-  export let addField: any;
+  export let addField: () => void;
 </script>
 
 <button class="field_add" on:click={addField} data-testid="add-field">
@@ -21,7 +21,6 @@
     justify-content: center;
     align-items: center;
     flex: 0 0 auto;
-    border-radius: 500px;
     background-color: #1a1a1a;
     max-width: 100%;
     box-sizing: border-box;

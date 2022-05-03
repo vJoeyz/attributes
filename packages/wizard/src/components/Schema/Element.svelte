@@ -1,6 +1,4 @@
 <script lang="ts">
-  import type { ElementUI } from '@src/services/UI/UIService';
-  import type { SchemaInput } from '@src/types/Input.types';
   import ElementSetting from '@src/components/Schema/ElementSetting.svelte';
   import Attribute from '@src/components/Layout/Attribute.svelte';
   import AttributeItem from '@src/components/Layout/AttributeItem.svelte';
@@ -14,7 +12,7 @@
   import AttributeText from '@src/components/Layout/AttributeText.svelte';
   import AttributeRequired from '@src/components/Layout/AttributeRequired.svelte';
   import AttributeToggle from '@src/components/Layout/AttributeToggle.svelte';
-  import AttributeSelector from '@src/components/Layout/AttributeSelector.svelte';
+  import AttributeSelector from '@src/components/Layout/Selector/AttributeSelector.svelte';
   import InputValidation from '../Layout/InputValidation.svelte';
   import { checkSettingCondition } from '@src/services/Attributes/Schema/SchemaService';
   import {
@@ -23,6 +21,8 @@
     schemaSettingsInstance,
     toggleAttributeSelector,
   } from '@src/stores';
+  import type { ElementUI } from '@src/services/UI/UIService';
+  import type { SchemaInput, SchemaInputValidation } from '@src/types/Input.types';
 
   // attribute config
   export let element: ElementUI;
@@ -30,9 +30,12 @@
   let isRequired = element.required;
 
   // form config
-  let schemaInput: SchemaInput | null = schemaFormActions.findElement(element.key);
+  let elementInput: SchemaInput | null = schemaFormActions.findElement(element.key);
   let isEnable = true;
-  let isChecked = !!schemaInput;
+  let isChecked = !!elementInput;
+  let elementStatus: boolean | null = getInputStatus(elementInput?.validation);
+
+  console.log('element status', elementStatus);
 
   if (isRequired && !isChecked) {
     isChecked = true;
@@ -82,22 +85,31 @@
     isOpenSelector = false;
   }
 
+  function getInputStatus(validation: SchemaInputValidation | null | undefined): boolean | null {
+    if (validation === null || validation === undefined) {
+      return null;
+    }
+
+    return validation.status;
+  }
+
   $: {
     checkIsEnable($schemaForm);
-    schemaInput = schemaFormActions.findElement(element.key);
+    elementInput = schemaFormActions.findElement(element.key);
+    elementStatus = getInputStatus(elementInput?.validation);
   }
 
   $: if ($schemaSettingsInstance) {
-    schemaInput = schemaFormActions.findElement(element.key);
+    elementInput = schemaFormActions.findElement(element.key);
+    elementStatus = getInputStatus(elementInput?.validation);
 
-    if (element.required && !schemaInput) {
+    if (element.required && !elementInput) {
       isChecked = true;
       schemaFormActions.addElement(element.key);
     } else {
 
-      isChecked = !!schemaInput
+      isChecked = !!elementInput
     }
-    //schemaInput = schemaFormActions.findElement(element.key);
   }
 
   $: if ($toggleAttributeSelector) {
@@ -107,7 +119,12 @@
 
 
 <Attribute>
-  <AttributeItem id={selectorId} disabled={!isEnable} checked={isChecked}>
+  <AttributeItem
+    id={selectorId}
+    disabled={!isEnable}
+    checked={isChecked}
+    status={elementStatus}
+  >
     <AttributeItemHeader>
       <AttributeCheckbox
         onCheck={onCheck}
@@ -115,6 +132,7 @@
         isRequired={isRequired}
         key={element.key}
         disabled={!isEnable}
+        status={elementStatus}
       />
       <AttributeItemContainer>
         <AttributeContainer>
@@ -132,15 +150,19 @@
           <AttributeToggle isOpen={isOpenSelector} toggleSelector={toggleSelector} />
         </AttributeContainer>
         {#if isOpenSelector}
-          <AttributeSelector type="element" name={element.key} value={undefined}/>
+          <AttributeSelector
+            type="element"
+            key={element.key}
+            value={undefined}
+          />
         {/if}
       </AttributeItemContainer>
 
     </AttributeItemHeader>
-    {#if schemaInput && schemaInput.validation}
-      {#each schemaInput.validation.messages as inputMessage}
+    {#if elementInput && elementInput.validation}
+      {#each elementInput.validation.messages as inputMessage}
         <InputValidation
-          status={schemaInput.validation.status}
+          status={elementInput.validation.status}
           message={inputMessage.message}
           type={inputMessage.type}
         />

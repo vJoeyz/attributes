@@ -46,7 +46,7 @@ describe('Test Error - Attribute not found', () => {
     const error = new AttributeIsNotChildrenOfError(attributeSelector, isChildrenOf);
     expect(error.stripHTML())
     .toEqual(
-      'The attribute fs-cmsload-element="page-button" was found but not in the correct location. Move attribute fs-cmsload-element="page-button" as children of the Collection List or Collection List Wrapper and Pagination Wrapper'
+      'The attribute fs-cmsload-element="page-button" is found, but not in the correct location. Move fs-cmsload-element="page-button" to be a child of the Collection List and Pagination Wrapper'
     )
   });
 

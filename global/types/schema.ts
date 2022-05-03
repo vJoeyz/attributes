@@ -122,7 +122,7 @@ export type AttributeSchemaCondition =
 
 export type AttributeSchemaConditions = AttributeSchemaCondition[];
 
-interface AttributeSchemaSettingAppliedTo {
+export interface AttributeSchemaSettingAppliedTo {
   /**
    * Defines `ELEMENT_KEY`s from the schema.
    */

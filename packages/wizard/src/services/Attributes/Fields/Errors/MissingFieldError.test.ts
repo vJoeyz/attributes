@@ -5,7 +5,7 @@ import SchemaSelector from '@src/services/Selector/SchemaSelector';
 describe('Missing field.', () => {
 
 
-  test('Missing field for parent specialization', () => {
+  test('Missing field', () => {
 
 
     const attribute = new SchemaSelector('fs-cmsfield-field', 'products', true);

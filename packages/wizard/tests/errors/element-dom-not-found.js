@@ -21,8 +21,8 @@ test('Element - DOM from applied to not found', async t => {
   await clickRunCheck();
 
   await assertErrorsCountOnReport(1);
-  await assertErrorIsOnReport('element-list', 'dom-not-found');
-  await assertErrorIsOnAttribute('element-list', 'dom-not-found');
+  await assertErrorIsOnReport('element-list', 'element-not-found');
+  await assertErrorIsOnAttribute('element-list', 'element-not-found');
 
-  await writeFileValidationMessage('Attribute element missing applied to dom elements', 'element-list');
+  await writeFileValidationMessage('Required element not found', 'element-list');
 });

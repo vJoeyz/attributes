@@ -18,7 +18,6 @@ test('Element with required instance is duplicated', async t => {
 
   await selectAttribute('CMS Load');
 
-
   await clickRunCheck();
 
   await assertErrorsCountOnReport(1);

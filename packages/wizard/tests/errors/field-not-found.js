@@ -49,6 +49,6 @@ test('Field missing more than one specialization applied to', async t => {
   await assertErrorIsOnAttribute('field-field-field-1', 'field-not-found', 2);
 
 
-  await writeFileValidationMessage('Field - Missing field on list', 'field-field-field-1', 1);
-  await writeFileValidationMessage('Field - Missing field on filters', 'field-field-field-1', 2);
+  await writeFileValidationMessage('Required field attribute in Collection List not found', 'field-field-field-1', 1);
+  await writeFileValidationMessage('Required field attribute in Filter UI not found', 'field-field-field-1', 2);
 });

@@ -10,12 +10,12 @@
   export let attributeValue: string | undefined;
 
   export let isActive: boolean;
-  export let onChange: any;
+  export let onChange: (value: string) => void;
 
-  let isOpen: boolean = false;
+  let isOpen = false;
   let selected = value.default;
 
-  let selectedDescription: string;
+  // let selectedDescription: string;
 
   function toggleOptions() {
     if (isActive) {
@@ -37,13 +37,12 @@
   $: {
     attributeValue = attributeValue || selected;
 
-    if (selected) {
-      let selectedItem = value.options.find((option) => option.value === selected);
-      if (selectedItem) {
-        selectedDescription = selectedItem.description;
-      }
-    }
-
+    // if (selected) {
+    //   let selectedItem = value.options.find((option) => option.value === selected);
+    //   if (selectedItem) {
+    //     selectedDescription = selectedItem.description;
+    //   }
+    // }
   }
 </script>
 
@@ -67,9 +66,3 @@
   {/each}
 </OptionsDropdown>
 {/if}
-    <!-- <Select
-      name={`${id}-options`}
-      id={id}
-      bind:attributeValue={attributeValue}
-      options={value.options.map(option => ({value: option.value, label: option.value}))}
-    /> -->

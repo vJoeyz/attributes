@@ -37,7 +37,7 @@ describe('Test Error - Attribute not found', () => {
     const error = new AttributeIsNotParentOfError(attributeSelector, isParentOf);
     expect(error.stripHTML())
     .toEqual(
-      'The attribute fs-customselect-element="dropdown" was found but not in the correct location. Move attribute fs-customselect-element="dropdown" as parent of the Select'
+      'The attribute fs-customselect-element="dropdown" is found, but not in the correct location. Move fs-customselect-element="dropdown" to be a parent of the Select'
     )
   });
 

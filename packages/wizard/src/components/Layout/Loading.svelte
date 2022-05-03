@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let isLoading: boolean = false;
+  export let isLoading = false;
 </script>
 
 <div class="tool_loading" class:show={isLoading}>

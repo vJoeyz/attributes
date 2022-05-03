@@ -1,7 +1,7 @@
 <script lang="ts">
   import FieldDelete from '@src/components/Layout/Icons/field-delete.svg';
 
-  export let deleteField: any;
+  export let deleteField: () => void;
 </script>
 
 <button class="field_delete" on:click={deleteField}>
@@ -15,7 +15,6 @@
     margin-top: -0.25rem;
     margin-left: 0.5rem;
     flex: 0 0 auto;
-    border-radius: 999rem;
     max-width: 100%;
     display: inline-block;
     cursor: pointer;

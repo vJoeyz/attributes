@@ -3,7 +3,7 @@
   "include": ["src/**/*"],
   "exclude": ["node_modules/*", "__sapper__/*", "public/*"],
   "compilerOptions": {
-    "lib": ["dom"],
+    "lib": ["dom", "es2019"],
     "removeComments": true,
     "downlevelIteration": true,
     "strict": true,

@@ -1,9 +1,4 @@
-import {
-  COLLECTION_LIST,
-  COLLECTION_LIST_WRAPPER,
-  COLLECTION_ITEM,
-  DIV_BLOCK,
-} from '$global/constants/webflow-selectors';
+import { COLLECTION_LIST, COLLECTION_ITEM, DIV_BLOCK } from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
 import { LIST_ELEMENT_KEY, COLLECTION_SETTING_KEY } from './../src/utils/constants';
@@ -15,7 +10,7 @@ export const schema: AttributeSchema = {
       description: 'Defines a list to be combined into the target.',
       conditions: [],
       multiplesInInstance: true,
-      appliedTo: [COLLECTION_LIST, COLLECTION_LIST_WRAPPER],
+      appliedTo: [COLLECTION_LIST],
       required: true,
       requiresInstance: false,
     },

@@ -1,24 +1,24 @@
 <script lang="ts">
-  import Options from './Value/Options.svelte';
-  import String from './Value/String.svelte';
-  import CommaSeparatedString from './Value/CommaSeparatedString.svelte';
-  import Float from './Value/Float.svelte';
-  import CommaSeparatedFloat from './Value/CommaSeparatedFloat.svelte';
+  import Options from './Editable/Options.svelte';
+  import String from './Editable/String.svelte';
+  import CommaSeparatedString from './Editable/CommaSeparatedString.svelte';
+  import Float from './Editable/Float.svelte';
+  import CommaSeparatedFloat from './Editable/CommaSeparatedFloat.svelte';
   // import Boolean from './Value/Boolean.svelte';
-  import Int from './Value/Int.svelte';
-  import CommaSeparatedInt from './Value/CommaSeparatedInt.svelte';
+  import Int from './Editable/Int.svelte';
+  import CommaSeparatedInt from './Editable/CommaSeparatedInt.svelte';
   import type { AttributeSettingValuePrimitive, AttributeSettingValueOptions } from '@global/types/schema';
 
   export let id: string;
   export let value: AttributeSettingValuePrimitive | AttributeSettingValueOptions;
   export let option: string;
   export let isActive: boolean;
-  export let onChange: any;
+  export let onChange: (value: string) => void;
 </script>
 
 <div class="selector__options">
   {#if value.type === 'options'}
-    <Options onChange={onChange} isActive={isActive} bind:attributeValue={option} {value} {id} />
+    <Options onChange={onChange} isActive={isActive} bind:attributeValue={option} {value} />
   {:else if value.type === 'string'}
     <String onChange={onChange} isActive={isActive} bind:attributeValue={option} {value} {id} />
   {:else if value.type === 'commaSeparatedString'}

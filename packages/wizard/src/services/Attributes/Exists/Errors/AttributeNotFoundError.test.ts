@@ -1,7 +1,7 @@
 import AttributeNotFoundError from './AttributeNotFoundError';
 import SchemaSelector from '@src/services/Selector/SchemaSelector';
 import CMS_LOAD from '@src/schemas/cms-load';
-import type { AttributeElementSchema } from '@global/types/schema';
+import type { AttributeElementSchema, AttributeSettingSchema } from '@global/types/schema';
 
 describe('Test Error - Attribute not found', () => {
 
@@ -17,10 +17,34 @@ describe('Test Error - Attribute not found', () => {
 
     const appliedTo = attributeSchema.appliedTo;
 
-    const error = new AttributeNotFoundError(attributeSelector, appliedTo);
+    const error = new AttributeNotFoundError(attributeSelector, appliedTo, false);
     expect(error.stripHTML())
     .toEqual(
-      'The attribute fs-cmsload-element="list" was not found. Add fs-cmsload-element="list" to the Collection List or Collection List Wrapper on the page.'
+      'The attribute fs-cmsload-element="list" is not found. Add fs-cmsload-element="list" to the Collection List.'
+    )
+  });
+
+  test('Attribute type setting not found', () => {
+
+
+    const attributeSelector = new SchemaSelector('fs-cmsload-animation', 'fade', true);
+
+    const elementListSchema = CMS_LOAD.elements.find((value: AttributeElementSchema) => value.key === 'list');
+    if (!elementListSchema) {
+      throw new Error('Unexpected error: Missing list on cms-load schema');
+    }
+
+    const settingModeSchema = CMS_LOAD.settings.find((value: AttributeSettingSchema) => value.key === 'animation');
+    if (!settingModeSchema) {
+      throw new Error('Unexpected error: Missing list on cms-load schema');
+    }
+
+    const appliedTo = elementListSchema.appliedTo;
+
+    const error = new AttributeNotFoundError(attributeSelector, appliedTo, true);
+    expect(error.stripHTML())
+    .toEqual(
+      'The attribute option fs-cmsload-animation="fade" is not found. Add fs-cmsload-animation="fade" to the Collection List.'
     )
   });
 

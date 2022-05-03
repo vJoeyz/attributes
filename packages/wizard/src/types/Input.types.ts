@@ -64,7 +64,7 @@ export type SchemaInputType = SchemaInputElement['type']
 
 export interface InputChannel {
   input: SchemaInput;
-  domElement: HTMLElement[] | null;
+  domElements: HTMLElement[] | null;
 }
 
 

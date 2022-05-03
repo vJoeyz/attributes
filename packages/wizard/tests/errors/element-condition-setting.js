@@ -36,5 +36,5 @@ test('Element setting not match required element setting', async t => {
   await assertErrorIsOnReport('element-page-button', 'conditions-settings');
   await assertErrorIsOnAttribute('element-page-button', 'conditions-settings');
 
-  await writeFileValidationMessage('Attribute element condition setting not match', 'element-page-button');
+  await writeFileValidationMessage('Element attribute missing a required option attribute', 'element-page-button');
 });

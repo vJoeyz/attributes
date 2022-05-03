@@ -10,8 +10,8 @@ export default class FieldLinkMainCollectionLinkNotFoundError extends AbstractSc
     const attributeId = this.toAttribute(attribute.getPrettierSelector());
 
     this.message = [
-      `The attribute ${attributeId} link was found, but not working`,
-      `Check if link is correctly direction to CMS Collection's Item`,
+      `The attribute ${attributeId} is found, but the url link in the CMS Collection Item is not working.`,
+      `Check if the Link Block or Text Link have the correct link to the Item’s Template page.`,
     ].join(' ');
 
 

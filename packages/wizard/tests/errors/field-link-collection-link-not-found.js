@@ -29,5 +29,5 @@ test('Field Link - Find collection but no link to item', async t => {
   await assertErrorIsOnReport('field-collection-field-1', 'field-link-main-collection-link-not-found');
   await assertErrorIsOnAttribute('field-collection-field-1', 'field-link-main-collection-link-not-found');
 
-  await writeFileValidationMessage('CMS Nest - Link - Found collection but link not found', 'field-collection-field-1');
+  await writeFileValidationMessage('Link to Collection Item’s page not found - CMS Nest', 'field-collection-field-1');
 });

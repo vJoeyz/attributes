@@ -45,6 +45,14 @@
     text-decoration: none;
     max-width: 100%;
     cursor: pointer;
+    padding: 1rem 1.5rem;
+    background-color: #442b2c;
+    color: #fff;
+    border-bottom: 1px solid #000;
+  }
+
+  .tool_results-item > :global(.icon-status) {
+    height: 100%;
   }
 
   .tool_results-item-block {
@@ -54,7 +62,7 @@
     grid-row-end: span 1;
   }
 
-  .tool_results-item-block :global(.validator-highlight) {
+  /* .tool_results-item-block :global(.validator-highlight) {
     font-weight: 700;
   }
 
@@ -66,10 +74,9 @@
     display: inline-block;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
-    border-radius: 0.5rem;
     background-color: #444;
     color: #e7e7e7;
     font-size: 0.875rem;
     box-sizing: border-box;
-  }
+  } */
 </style>

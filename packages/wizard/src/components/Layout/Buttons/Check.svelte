@@ -63,7 +63,6 @@
     width: 100%;
     padding: 0.75rem 2rem;
     flex: 1;
-    border-radius: 0.375rem;
     background-color: #bcfd2e;
     color: #1a1a1a;
     font-size: 1.25rem;

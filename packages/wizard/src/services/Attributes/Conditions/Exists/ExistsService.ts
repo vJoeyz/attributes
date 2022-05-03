@@ -3,7 +3,7 @@ import ConditionalNotExistsError from '@src/services/Attributes/Conditions/Exist
 
 import {
   createSchemaSelectorFromItem,
-  createSchemaSelectorFromSchema, getSchemaItem,
+  getSchemaItem,
 } from '@src/services/Attributes/Schema/SchemaService';
 import type {
   AttributeMainCondition,

@@ -27,5 +27,5 @@ test('Element not child of selector', async t => {
   await assertErrorIsOnReport('element-dropdown', 'conditions-isParentOf');
   await assertErrorIsOnAttribute('element-dropdown', 'conditions-isParentOf');
 
-  await writeFileValidationMessage('Attribute element condition isParentOf not match', 'element-dropdown');
+  await writeFileValidationMessage('Element attribute incorrect location - Not a parent', 'element-dropdown');
 });

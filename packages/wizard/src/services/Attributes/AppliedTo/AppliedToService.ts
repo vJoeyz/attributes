@@ -92,7 +92,7 @@ export function elementSettingAppliedTo(elementSelector: SchemaSelector, applied
   return element;
 }
 
-export function elementsSameNode(elementSelector: SchemaSelector, appliedToElements: HTMLElement[], elementsDOM: HTMLElement[]) {
+export function elementsSameNode(appliedToElements: HTMLElement[], elementsDOM: HTMLElement[]) {
 
   let status = false;
   elementsDOM.forEach((element: HTMLElement) => {

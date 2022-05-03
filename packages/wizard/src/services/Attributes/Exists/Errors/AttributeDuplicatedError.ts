@@ -10,7 +10,7 @@ export default class AttributeDuplicateError extends AbstractSchemaError {
     const attributeId = this.toAttribute(attribute.getPrettierSelector());
 
     this.message = [
-      this.toHighlight(`The attribute ${attributeId} was found but it is duplicated on page.`),
+      this.toHighlight(`The attribute ${attributeId} is found duplicated on the page.`),
       `Remove the duplicated attributes from the page.`,
     ].join(' ');
 

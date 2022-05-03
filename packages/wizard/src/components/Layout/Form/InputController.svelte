@@ -1,10 +1,10 @@
 <script lang="ts">
-  import debounce from '@src/utils/debounce';
+  // import debounce from '@src/utils/debounce';
   import type { ItemError } from '@src/types/Error.types';
 
   export let validate: (value: string) => boolean | Error;
 
-  let timer: NodeJS.Timeout;
+  // let timer: NodeJS.Timeout;
   let isValidInput: boolean | undefined = undefined;
   let inputValidationMessage: string | undefined = undefined;
   let isTouched = false;
@@ -17,7 +17,6 @@
       throw new Error('Missing event');
     }
     try {
-      console.log(typeEvent.target.value);
       validate(typeEvent.target.value);
       isValidInput = true;
       inputValidationMessage = undefined;

@@ -40,5 +40,5 @@ test('Field Setting - Value not match', async t => {
   await assertErrorIsOnReport('field-setting-field-field-1-active', 'setting-value-not-match');
   await assertErrorIsOnAttribute('field-setting-field-field-1-active', 'setting-value-not-match');
 
-  await writeFileValidationMessage('Field Setting - Values not match', 'field-setting-field-field-1-active');
+  await writeFileValidationMessage('Options in this tool do not match options set on the page - Field Setting', 'field-setting-field-field-1-active');
 });

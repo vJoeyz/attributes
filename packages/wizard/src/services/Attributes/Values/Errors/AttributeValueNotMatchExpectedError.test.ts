@@ -13,7 +13,7 @@ describe('Test Error - Attribute duplicated', () => {
     const error = new AttributeValueNotMatchExpectedError(attributeSelector, domValue, expectedValue);
     expect(error.stripHTML())
     .toEqual(
-      'The value of fs-cmsload-mode does not match the provided value. Change value "load-under" to value "infinite".'
+      'The value of fs-cmsload-mode does not match the entered value. Change value "load-under" to value "infinite".'
     )
   });
 

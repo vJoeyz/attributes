@@ -32,5 +32,5 @@ test('Element setting not found required exists condition', async t => {
   await assertErrorIsOnReport('element-setting-delay', 'conditions-exists');
   await assertErrorIsOnAttribute('element-setting-delay', 'conditions-exists');
 
-  await writeFileValidationMessage('Attribute setting condition exists not match', 'element-setting-delay');
+  await writeFileValidationMessage('Option attribute setup requirements not met', 'element-setting-delay');
 });

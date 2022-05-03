@@ -18,8 +18,18 @@ import type {
   SchemaInputField,
   InputValidationMessage
 } from '@src/types/Input.types';
-import type { SchemaSettings } from '@src/types/Schema.types';
-import type { AttributeSettingSchema, SettingSpecialization } from '@global/types/schema';
+import type { SchemaSelector, SchemaSettings } from '@src/types/Schema.types';
+import type {
+  AttributeSettingSchema,
+  SettingSpecialization,
+  AttributeSchemaConditions,
+  AttributeValue,
+} from '@global/types/schema';
+
+interface InstanceConfig {
+  value: string,
+  isDefault: boolean,
+}
 
 export function validateFieldSetting(
   inputSetting: SchemaInputFieldSetting,
@@ -27,22 +37,22 @@ export function validateFieldSetting(
   schema: AttributeSchema,
   schemaSettings: SchemaSettings
 ): SchemaInput {
-
-
   const settingSchema = getSchemaItem(schema, 'settings', inputSetting.setting) as AttributeSettingSchema;
   const { conditions, value, specializations } = settingSchema;
 
-  const instances = specializations && specializations.map((specialization: SettingSpecialization) => specialization.value)
-    || [inputSetting.option];
+  const instances: InstanceConfig[] = specializations
+    && specializations.map((specialization: SettingSpecialization) => ({value: specialization.value, isDefault: false}))
+    || [{value: inputSetting.option, isDefault: value.default === inputSetting.option && inputSetting.option != ''}]
 
-  const validations = instances.map((option: string) => {
+  const validations = instances.map((instanceConfig: InstanceConfig) => {
 
+    console.log(instanceConfig);
     const settingSelector = createSchemaSelectorFromItem(
       settingSchema,
       'settings',
       inputSetting.setting,
       schemaSettings,
-      option
+      instanceConfig.value
     );
 
 
@@ -54,27 +64,32 @@ export function validateFieldSetting(
       (field.input as SchemaInputField).identifier,
     );
 
-
     try {
 
-      const fieldSettingSelector = `${fieldSelector.getElementSelector()}${settingSelector.getAttributeSelector()}`;
-      const elementsNode = document.querySelectorAll<HTMLElement>(fieldSettingSelector)
-
-      const elements = Array.from(elementsNode);
-
-      if (elements.length <= 0 || field.domElement === null) {
-        throw new MissingFieldSettingError(settingSelector, fieldSelector);
+      if (instanceConfig.isDefault) {
+        validateDefaultSetting(
+          fieldSelector,
+          settingSelector,
+          field,
+          instanceConfig,
+          conditions,
+          value,
+          schema,
+          schemaSettings,
+        );
+      } else {
+        validateCustomSetting(
+          fieldSelector,
+          settingSelector,
+          field,
+          instanceConfig,
+          conditions,
+          value,
+          schema,
+          schemaSettings,
+        );
       }
 
-      if (field.domElement) {
-        elementsSameNode(fieldSelector, elements, field.domElement)
-      }
-
-      if (conditions && conditions.length > 0) {
-        conditionsService(settingSelector, conditions, schema, schemaSettings);
-      }
-
-      valueServiceV2(elements, settingSelector.getAttribute(), value, option, settingSelector);
 
       return null;
     } catch (error) {
@@ -114,4 +129,81 @@ export function validateFieldSetting(
       ]
     }
   }
+}
+
+function validateCustomSetting(
+  fieldSelector: SchemaSelector,
+  settingSelector: SchemaSelector,
+  field: InputChannel,
+  instanceConfig: InstanceConfig,
+  conditions: AttributeSchemaConditions,
+  value: AttributeValue,
+  schema: AttributeSchema,
+  schemaSettings: SchemaSettings
+) {
+  const fieldSettingSelector = `${fieldSelector.getElementSelector()}${settingSelector.getAttributeSelector()}`;
+  const elementsNode = document.querySelectorAll<HTMLElement>(fieldSettingSelector)
+
+  const elements = Array.from(elementsNode);
+
+  if (elements.length <= 0 || field.domElements === null) {
+    throw new MissingFieldSettingError(settingSelector, fieldSelector);
+  }
+
+  if (field.domElements) {
+    elementsSameNode(elements, field.domElements)
+  }
+
+  if (conditions && conditions.length > 0) {
+    conditionsService(settingSelector, conditions, schema, schemaSettings);
+  }
+
+  valueServiceV2(elements, settingSelector.getAttribute(), value, instanceConfig.value, settingSelector);
+}
+
+//function findMatchedElements()
+
+function validateDefaultSetting(
+  fieldSelector: SchemaSelector,
+  settingSelector: SchemaSelector,
+  field: InputChannel,
+  instanceConfig: InstanceConfig,
+  conditions: AttributeSchemaConditions,
+  value: AttributeValue,
+  schema: AttributeSchema,
+  schemaSettings: SchemaSettings
+) {
+
+  //console.log('default validation');
+  const fieldSettingSelector = `${fieldSelector.getElementSelector()}${settingSelector.getAttributeSelector()}`;
+
+  //const elements:
+  const elementsNode = Array.from(document.querySelectorAll<HTMLElement>(fieldSettingSelector))
+
+
+  console.log(field.domElements, fieldSettingSelector);
+
+  const elements: HTMLElement[] = elementsNode.filter((elementNode: HTMLElement) => {
+    return field.domElements && field.domElements.find((channelElement: HTMLElement) => channelElement.contains(elementNode)) || false;
+  })
+
+  const isElementFound = elements.length > 0;
+
+  console.log(isElementFound);
+
+  //console.log(fieldSettingSelector, elements, field.domElements);
+
+  if (field.domElements === null) {
+    throw new MissingFieldSettingError(settingSelector, fieldSelector);
+  }
+
+  if (field.domElements && elements.length > 0) {
+    elementsSameNode(elements, field.domElements)
+  }
+
+  if (isElementFound && conditions && conditions.length > 0) {
+    conditionsService(settingSelector, conditions, schema, schemaSettings);
+  }
+
+  isElementFound && valueServiceV2(elements, settingSelector.getAttribute(), value, instanceConfig.value, settingSelector);
 }

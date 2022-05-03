@@ -38,7 +38,6 @@
     border-style: solid;
     border-width: 1px;
     border-color: #111;
-    border-radius: 0.375rem;
     background-color: #1a1a1a;
     box-sizing: border-box;
   }

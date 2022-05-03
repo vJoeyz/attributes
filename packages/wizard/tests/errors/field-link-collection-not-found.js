@@ -26,8 +26,8 @@ test('Field Link - Link - Field not found', async t => {
 
   await assertErrorsCountOnReport(1);
 
-  await assertErrorIsOnReport('field-collection-field-1', 'field-not-found');
-  await assertErrorIsOnAttribute('field-collection-field-1', 'field-not-found');
+  await assertErrorIsOnReport('field-collection-field-1', 'field-link-not-found');
+  await assertErrorIsOnAttribute('field-collection-field-1', 'field-link-not-found');
 
-  await writeFileValidationMessage('CMS Nest - Link - Field not found', 'field-collection-field-1');
+  await writeFileValidationMessage('Required field attributes not found - CMS Nest Link', 'field-collection-field-1');
 });

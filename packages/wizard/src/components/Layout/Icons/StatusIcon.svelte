@@ -7,7 +7,7 @@
 </script>
 
 
-<span>
+<span class="icon-status">
   {#if status}
     <CorrectIcon/>
   {:else}
@@ -20,6 +20,7 @@
     width: 1.5rem;
     height: 1.5rem;
     margin-right: 0.5rem;
+    align-self: flext-start;
   }
 
   span :global(svg) {

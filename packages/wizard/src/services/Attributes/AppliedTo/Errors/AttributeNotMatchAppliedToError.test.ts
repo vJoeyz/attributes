@@ -20,7 +20,7 @@ describe('Test Error - Attribute not found', () => {
     const error = new AttributeNotMatchAppliedToError(attributeSelector, appliedTo);
     expect(error.stripHTML())
     .toEqual(
-      'The attribute fs-cmsload-element="list" was found, but on the wrong element. Move the attribute fs-cmsload-element="list" to the Collection List or Collection List Wrapper.'
+      'The attribute fs-cmsload-element="list" is found, but on the wrong element. Move the attribute fs-cmsload-element="list" to the Collection List.'
     )
   });
 
