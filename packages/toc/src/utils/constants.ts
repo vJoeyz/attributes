@@ -5,6 +5,7 @@ export const ATTRIBUTE = 'toc';
 const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
 
 export const CONTENTS_ELEMENT_KEY = 'contents';
+export const TABLE_ELEMENT_KEY = 'table';
 export const LINK_ELEMENT_KEY = 'link';
 export const IX_TRIGGER_ELEMENT_KEY = 'ix-trigger';
 
@@ -23,14 +24,21 @@ export const ATTRIBUTES = {
       contents: generateDynamicAttibuteValue(CONTENTS_ELEMENT_KEY),
 
       /**
+       * OPTIONAL. Defines the wrapper element that will hold all the TOC links.
+       * If not defined, the library will use the immediate parent of the link template elements.
+       */
+      table: generateDynamicAttibuteValue(TABLE_ELEMENT_KEY),
+
+      /**
        * Defines a link template element.
        * If the attribute is set to a non-link element, the library will look up for the first parent element that is a link.
        */
       link: generateDynamicAttibuteValue(LINK_ELEMENT_KEY),
 
       /**
-       * Defines a link template element.
-       * If the attribute is set to a non-link element, the library will look up for the first parent element that is a link.
+       * Defines an interaction trigger.
+       * This attribute must be added to a hidden div and place it inside the correspondent link wrapper.
+       * When the link is active, it will trigger the "First Click" interaction. When the link is unactive, it will trigger the "Second Click" interaction.
        */
       ixTrigger: IX_TRIGGER_ELEMENT_KEY,
     },
