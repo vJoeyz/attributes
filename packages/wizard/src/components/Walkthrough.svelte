@@ -8,9 +8,9 @@
   import Loading from '@src/components/Layout/Loading.svelte';
   import Minimize from '@src/components/Layout/Minimize.svelte';
   import Initial from '@src/components/Layout/Initial.svelte';
-  import type { AttributeSchema } from '@global/types/schema';
-  import type { Attribute, AttributeLoaded } from '@src/types/Schema.types';
-
+  import type { AttributeSchema } from '$global/types/schema';
+  import type { AttributeLoaded } from '@src/types/Schema.types';
+  import type { AttributesData, SupportedAttributeData } from '$docs/src/utils/types';
   import { isScriptLoaded } from '@src/services/Attributes/Script/ScriptService'
 
   import {
@@ -41,16 +41,19 @@
 
   async function loadAttributes() {
     const request = await fetch('https://cdn.jsdelivr.net/npm/@finsweet/attributes-docs@1/attributes.json');
-    const data = await request.json();
+    const data: AttributesData = await request.json();
 
-    const attributesWithLoadPromises = data.map(async (attribute: Attribute): Promise<AttributeLoaded> => {
-      const schemaFile = `${attribute.baseSrc}/${attribute.schemaSrc}`;
-      const scriptFile = `${attribute.baseSrc}/${attribute.scriptSrc}`;
+    const attributesWithLoadPromises = data.filter((attribute) => attribute.allowSupport)
+      .map(async (attribute): Promise<AttributeLoaded> => {
+
+      const supportAttribute = attribute as SupportedAttributeData;
+      const schemaFile = `${supportAttribute.baseSrc}/${supportAttribute.schemaSrc}`;
+      const scriptFile = `${supportAttribute.baseSrc}/${supportAttribute.scriptSrc}`;
 
       const loaded = isScriptLoaded(scriptFile);
 
       return {
-        ...attribute,
+        ...supportAttribute,
         schemaFile,
         scriptFile,
         loaded,

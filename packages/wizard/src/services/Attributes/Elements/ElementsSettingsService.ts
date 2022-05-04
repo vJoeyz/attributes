@@ -16,7 +16,7 @@ import type {
   AttributeSchemaSettingAppliedTo,
   AttributeSchemaConditions,
   AttributeValue,
-} from '@global/types/schema';
+} from '$global/types/schema';
 import type { SchemaSettings, ElementItemSelector, SchemaSelector } from '@src/types/Schema.types';
 
 /**

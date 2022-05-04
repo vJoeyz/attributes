@@ -1,5 +1,5 @@
 import AttributeNotHasStyleError from './Errors/AttributeNotHasStyleError';
-import type { AttributeSchemaConditions, AttributeSchemaCondition, AttributeStyleCondition, AttributeStyleConditionStyles } from '@global/types/schema';
+import type { AttributeSchemaConditions, AttributeSchemaCondition, AttributeStyleCondition, AttributeStyleConditionStyles } from '$global/types/schema';
 import type { SchemaSelector } from '@src/types/Schema.types';
 
 

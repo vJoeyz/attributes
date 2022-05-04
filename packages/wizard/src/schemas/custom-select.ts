@@ -1,6 +1,6 @@
 import type {
   AttributeSchema
-} from '@global/types/schema';
+} from '$global/types/schema';
 
 export default {
   "elements": [{
