@@ -1,15 +1,25 @@
-interface AttributeData {
+interface BaseAttributeData {
   key: string;
   title: string;
   description: string;
-  href: string;
   baseSrc: string;
   scriptSrc: string;
-  examplesSrc: string;
-  loadMode: string;
-  schemaSrc: string;
   changesetsSrc: string;
   readmeSrc: string;
 }
+
+type NotSupportedAttributeData = BaseAttributeData & {
+  allowSupport: false;
+};
+
+type SupportedAttributeData = BaseAttributeData & {
+  href: string;
+  examplesSrc: string;
+  loadMode: string;
+  schemaSrc: string;
+  allowSupport: true;
+};
+
+type AttributeData = SupportedAttributeData | NotSupportedAttributeData;
 
 export type AttributesData = AttributeData[];
