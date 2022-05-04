@@ -11,7 +11,7 @@
   import AttributeSelector from '@src/components/Layout/Selector/AttributeSelector.svelte'
   import InputValidation from '@src/components/Layout/InputValidation.svelte';
   import { checkSettingCondition } from '@src/services/Attributes/Schema/SchemaService';
-  import { schemaForm, schemaFormActions, toggleAttributeSelector } from '@src/stores';
+  import { schemaForm, schemaFormActions, toggleAttributeSelector, schemaSettingsInstance, schemaSettingsKey } from '@src/stores';
   import type { AttributeSettingSchema } from '$global/types/schema';
   import type { SchemaInput, SchemaInputFieldSetting, SchemaInputValidation } from '@src/types/Input.types';
 
@@ -57,7 +57,7 @@
   function checkIsEnable(schemaForm: SchemaInput[]) {
 
 
-    const localEnable = checkSettingCondition(setting, schemaForm);
+    const localEnable = checkSettingCondition(setting, schemaForm, {instance: $schemaSettingsInstance, key: $schemaSettingsKey || ''});
 
     if (localEnable === false && isChecked === true) {
       schemaFormActions.disableFieldSetting(fieldKey, fieldIndex, setting.key);
@@ -89,12 +89,8 @@
     isOpenSelector = false;
   }
 
-
-
   function onChange(value: string) {
-    let index: number | null = schemaFormActions.findFieldSettingIndex(fieldKey, fieldIndex, setting.key);
-
-    if (index !== null && ($schemaForm[index] as SchemaInputFieldSetting).option !== value) {
+    if (fieldSettingInput) {
       schemaFormActions.setFieldSettingOption(fieldKey, fieldIndex, setting.key, value);
     }
   }

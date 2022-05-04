@@ -30,6 +30,7 @@
   }
 
   function selectAttribute(value: string) {
+    console.log(value);
     onChange(value);
     forceClose();
   }

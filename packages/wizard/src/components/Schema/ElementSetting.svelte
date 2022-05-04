@@ -11,19 +11,18 @@
   import AttributeToggle from '@src/components/Layout/AttributeToggle.svelte';
   import AttributeSelector from '@src/components/Layout/Selector/AttributeSelector.svelte';
   import InputValidation from '@src/components/Layout/InputValidation.svelte';
-  import { schemaForm, schemaFormActions, schemaSettingsInstance, toggleAttributeSelector } from '@src/stores';
+  import { schemaForm, schemaFormActions, schemaSettingsInstance, toggleAttributeSelector, schemaSettingsKey } from '@src/stores';
   import type { AttributeSettingSchema } from '$global/types/schema';
   import type { SchemaInput, SchemaInputElementSetting, SchemaInputValidation } from '@src/types/Input.types';
 
   export let setting: AttributeSettingSchema;
   export let parent: string;
 
-  let option: string = schemaFormActions.getElementSettingOption(parent, setting.key) || '';
-
   let isEnable = true;
 
   let elementSettingInput = schemaFormActions.findElementSetting(parent, setting.key);
   let elementSettingStatus: boolean | null = getInputStatus(elementSettingInput?.validation);
+  let option: string = elementSettingInput?.option || '';
 
   let isChecked = !!elementSettingInput;
 
@@ -48,7 +47,7 @@
 
 
   function checkIsEnable(schemaForm: SchemaInput[]) {
-    const localEnable = checkSettingCondition(setting, schemaForm);
+    const localEnable = checkSettingCondition(setting, schemaForm, {instance: $schemaSettingsInstance, key: $schemaSettingsKey || ''});
 
     if (localEnable === false && isChecked === true) {
       schemaFormActions.disableElementSetting(parent, setting.key);
@@ -84,11 +83,7 @@
 
 
   function onChange(value: string) {
-    let index = $schemaForm.findIndex(
-      (item) => item.type === 'elementSetting' && item.setting === setting.key && item.element === parent
-    );
-
-    if (index !== -1 && ($schemaForm[index] as SchemaInputElementSetting).option !== value) {
+    if (elementSettingInput) {
       schemaFormActions.setElementSettingOption(parent, setting.key, value);
     }
   }
@@ -98,11 +93,13 @@
 
     elementSettingInput = schemaFormActions.findElementSetting(parent, setting.key);
     elementSettingStatus = getInputStatus(elementSettingInput?.validation);
+    option = elementSettingInput?.option;
   }
 
   $: if ($schemaSettingsInstance) {
     elementSettingInput = schemaFormActions.findElementSetting(parent, setting.key);
     elementSettingStatus = getInputStatus(elementSettingInput?.validation);
+    option = elementSettingInput?.option;
 
     if (elementSettingInput && elementSettingInput.enable === false) {
       isChecked = false;

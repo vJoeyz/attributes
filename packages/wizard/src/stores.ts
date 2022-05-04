@@ -29,6 +29,7 @@ import {
   addFieldSetting,
   enableFieldSetting,
   disableFieldSetting,
+  disableFieldSettings,
   setFieldSettingOption,
   findFieldSetting,
   findFieldSettingIndex,
@@ -112,10 +113,6 @@ schemaSettingsInstance.subscribe((instance: number) => {
   persistStore<number>(WIZARD_SELECT_INSTANCE, instance);
 })
 
- /**
-  * SchemaSettings - Is Walkthrough setup for standalone instances or multiples instances?
-  */
-export const schemaSettingsStandalone = derived(schemaInstances, (instances) => instances <= 1);
 
  /**
  * SchemaSettings - Selected Attribute Schema in Attribute
@@ -335,6 +332,11 @@ export const schemaFormActions = {
     let values: SchemaInput[] = [];
     schemaForm.subscribe((id) => (values = id));
     schemaForm.set(disableFieldSetting(values, fieldKey, fieldIndex, setting, getSchemaInputConfig()));
+  },
+  disableFieldSettings: function(fieldKey: string, fieldIndex: string) {
+    let values: SchemaInput[] = [];
+    schemaForm.subscribe((id) => (values = id));
+    schemaForm.set(disableFieldSettings(values, fieldKey, fieldIndex, getSchemaInputConfig()));
   },
   getFieldSettingOption: function (fieldKey: string, fieldIndex: string, setting: string) {
     let values: SchemaInput[] = [];

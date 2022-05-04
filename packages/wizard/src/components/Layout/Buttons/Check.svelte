@@ -6,7 +6,6 @@
     schemaData,
     schemaForm,
     schemaSettingsInstance,
-    schemaSettingsStandalone,
     schemaSettingsKey,
     VALIDATE_MODES,
     validatingMode,
@@ -25,7 +24,6 @@
 
     const schemaSettings =  {
       key: $schemaSettingsKey,
-      standalone: $schemaSettingsStandalone,
       instance: $schemaSettingsInstance,
     };
 

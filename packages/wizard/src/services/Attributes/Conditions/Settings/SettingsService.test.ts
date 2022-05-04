@@ -35,7 +35,6 @@ describe('Test if settings match', () => {
     const schemaSettings = {
       key: 'cmsload',
       instance: 1,
-      standalone: false,
     }
 
     const result = hasSettings(schemaSelector, conditions, CMS_LOAD, schemaSettings);
@@ -69,7 +68,6 @@ describe('Test if settings match', () => {
     const schemaSettings = {
       key: 'cmsload',
       instance: 1,
-      standalone: false,
     }
 
     try {

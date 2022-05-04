@@ -5,6 +5,8 @@ import type {
   AttributeSettingSchema,
   AttributeFieldSchema,
   AttributeSettingCondition,
+  AttributeSettingConditionSetting,
+  AttributeSchemaCondition,
 } from '$global/types/schema';
 import type {
   SchemaSettings,
@@ -144,7 +146,11 @@ export function createSchemaSelectorFromSchema(
 /**
  * Check if AttributeSettingSchema match the schema settings condition.
  */
-export function checkSettingCondition(elementOrSetting: AttributeSettingSchema | AttributeElementSchema, form: SchemaInput[]): boolean {
+export function checkSettingCondition(
+  elementOrSetting: AttributeSettingSchema | AttributeElementSchema,
+  form: SchemaInput[],
+  config: SchemaSettings
+): boolean {
   let localEnable = true;
 
   if (!elementOrSetting || !elementOrSetting.conditions || elementOrSetting.conditions.length === 0) {
@@ -157,15 +163,18 @@ export function checkSettingCondition(elementOrSetting: AttributeSettingSchema |
     return localEnable;
   }
 
-  conditions.forEach((condition) => {
+  conditions.forEach((condition: AttributeSchemaCondition) => {
     const conditionsSettings = (condition as AttributeSettingCondition).settings;
 
-    conditionsSettings.forEach((conditionSetting: { key: string; value: string }) => {
+    conditionsSettings.forEach((conditionSetting: AttributeSettingConditionSetting) => {
+
       const settingInForm = form.find(
         (item) =>
           (item.type === 'elementSetting' || item.type === 'fieldSetting') &&
           item.setting == conditionSetting.key &&
           item.option === conditionSetting.value &&
+          item.instance === config.instance &&
+          item.key === config.key &&
           item.enable === true
       );
 

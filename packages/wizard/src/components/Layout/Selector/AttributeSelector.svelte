@@ -6,7 +6,6 @@
   import {
     schemaSettingsKey,
     schemaSettingsInstance,
-    schemaSettingsStandalone,
     schemaSelected,
     schemaData,
   } from '@src/stores';
@@ -42,7 +41,6 @@
   onMount(async () => {
     const schemaSettings = {
       key: $schemaSettingsKey || '',
-      standalone: $schemaSettingsStandalone,
       instance: $schemaSettingsInstance,
     };
 
@@ -66,7 +64,7 @@
       case 'fieldSetting':
         selectorName = `fs-${$schemaSettingsKey}-${key}`;
 
-        if (value === 'true') {
+        if (value) {
           selectorValue = value;
         }
         break;
@@ -82,6 +80,7 @@
   }
 
   function onMouseLeave() {
+    // console.log('on mouse leave');
     if (highlight) {
       disableHighlight(highlight)
     }
@@ -97,10 +96,17 @@
     createSelector($schemaSettingsInstance);
   }
 
+
+  $: if (value) {
+    if (highlight) {
+      onMouseLeave();
+    }
+  }
+
+
   $: if (specialization) {
     const schemaSettings = {
       key: $schemaSettingsKey || '',
-      standalone: $schemaSettingsStandalone,
       instance: $schemaSettingsInstance,
     };
 
@@ -109,12 +115,11 @@
     }
   }
 
-
 </script>
 
 <div
   class="attribute-selector-container"
-  on:mouseenter={onMouseEnter}
+  on:mouseenter|self={onMouseEnter}
   on:mouseleave={onMouseLeave}
 >
 

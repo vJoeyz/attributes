@@ -47,13 +47,11 @@ describe('Test exists conditions', () => {
     const conditions = elementSchema.conditions;
 
     const instance = 1;
-    const standalone = true;
 
     mockExists.mockReturnValue(true);
 
     const response = conditionsService(elementSelector, conditions, CMS_LOAD, {
       instance,
-      standalone,
       key,
     });
 
@@ -85,13 +83,11 @@ describe('Test isChildOf conditions', () => {
     const conditions = elementSchema.conditions;
 
     const instance = 1;
-    const standalone = true;
 
     mockIsChildOf.mockReturnValue(true);
 
     const response = conditionsService(elementSelector, conditions, CMS_LOAD, {
       instance,
-      standalone,
       key,
     });
 
@@ -124,13 +120,11 @@ describe('Test settings conditions', () => {
 
 
     const instance = 1;
-    const standalone = true;
 
     mockhasSettings.mockReturnValue(true);
 
     const response = conditionsService(elementSelector, conditions, CMS_LOAD, {
       instance,
-      standalone,
       key,
     });
 
