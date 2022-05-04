@@ -141,6 +141,7 @@ export function disableElementSetting(
   ];
 }
 
+
 export function setElementSettingOption(
   values: SchemaForm,
   elementKey: string,
@@ -510,6 +511,39 @@ export function disableFieldSetting(
       enable: false,
     },
   ];
+}
+
+
+export function disableFieldSettings(
+  values: SchemaForm,
+  fieldKey: string,
+  fieldIndex: string,
+  config: SchemaInputConfig
+): SchemaForm {
+
+  return values.map((schemaInput) => {
+
+    if (schemaInput.type !== 'fieldSetting') {
+      return schemaInput;
+    }
+
+    const fieldSettingInput = schemaInput as SchemaInputFieldSetting;
+
+    if (
+      fieldSettingInput.instance === config.instance
+      && fieldSettingInput.key === config.key
+      && fieldSettingInput.index === fieldIndex
+      && fieldSettingInput.field === fieldKey
+    ) {
+      return {
+        ...fieldSettingInput,
+        enable: false,
+        validation: null,
+      }
+    }
+
+    return schemaInput;
+  })
 }
 
 

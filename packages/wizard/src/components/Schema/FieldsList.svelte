@@ -11,8 +11,6 @@
 
   export let field: FieldUI;
 
-  // let timer: NodeJS.Timeout;
-
   let fields: SchemaInputField[] =  schemaFormActions.getFields();
 
   if (fields.length === 0) {
@@ -35,6 +33,7 @@
 
   function deleteField(fieldIndex: string) {
     schemaFormActions.deleteField(field.key, fieldIndex);
+    schemaFormActions.disableFieldSettings(field.key, fieldIndex);
     fields = schemaFormActions.getFields();
 
     scrollInto('div.fields > .tool_wizard:last-child', 200);

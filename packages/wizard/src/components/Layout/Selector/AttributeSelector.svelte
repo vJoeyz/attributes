@@ -64,7 +64,7 @@
       case 'fieldSetting':
         selectorName = `fs-${$schemaSettingsKey}-${key}`;
 
-        if (value === 'true') {
+        if (value) {
           selectorValue = value;
         }
         break;

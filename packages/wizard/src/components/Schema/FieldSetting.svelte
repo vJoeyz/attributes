@@ -89,12 +89,8 @@
     isOpenSelector = false;
   }
 
-
-
   function onChange(value: string) {
-    let index: number | null = schemaFormActions.findFieldSettingIndex(fieldKey, fieldIndex, setting.key);
-
-    if (index !== null && ($schemaForm[index] as SchemaInputFieldSetting).option !== value) {
+    if (fieldSettingInput) {
       schemaFormActions.setFieldSettingOption(fieldKey, fieldIndex, setting.key, value);
     }
   }
