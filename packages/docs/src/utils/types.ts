@@ -12,7 +12,7 @@ type NotSupportedAttributeData = BaseAttributeData & {
   allowSupport: false;
 };
 
-type SupportedAttributeData = BaseAttributeData & {
+export type SupportedAttributeData = BaseAttributeData & {
   href: string;
   examplesSrc: string;
   loadMode: string;

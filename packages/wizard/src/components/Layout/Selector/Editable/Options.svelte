@@ -2,7 +2,7 @@
   import OptionsDisplay from './Options/OptionsDisplay.svelte';
   import OptionsDropdown from './Options/OptionsDropdown.svelte';
   import OptionsOptions from './Options/OptionsOptions.svelte';
-  import type { AttributeSettingValueOptions } from '@global/types/schema';
+  import type { AttributeSettingValueOptions } from '$global/types/schema';
 
   // import SolutionIcon from '@src/components/Layout/Icons/tips-icon.svg';
 

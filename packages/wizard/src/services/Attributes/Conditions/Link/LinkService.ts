@@ -1,5 +1,5 @@
 import AttributeNotHasLinkError from './Errors/AttributeNotHasLinkError';
-import type { AttributeSchemaConditions, AttributeSchemaCondition } from '@global/types/schema';
+import type { AttributeSchemaConditions, AttributeSchemaCondition } from '$global/types/schema';
 import type { SchemaSelector } from '@src/types/Schema.types';
 
 

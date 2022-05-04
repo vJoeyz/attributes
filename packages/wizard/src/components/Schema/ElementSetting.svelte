@@ -12,7 +12,7 @@
   import AttributeSelector from '@src/components/Layout/Selector/AttributeSelector.svelte';
   import InputValidation from '@src/components/Layout/InputValidation.svelte';
   import { schemaForm, schemaFormActions, schemaSettingsInstance, toggleAttributeSelector } from '@src/stores';
-  import type { AttributeSettingSchema } from '@global/types/schema';
+  import type { AttributeSettingSchema } from '$global/types/schema';
   import type { SchemaInput, SchemaInputElementSetting, SchemaInputValidation } from '@src/types/Input.types';
 
   export let setting: AttributeSettingSchema;
