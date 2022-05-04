@@ -6,7 +6,6 @@ export type SCHEMA_ITEM_TYPES =  'settings' | 'elements' | 'fields';
 export interface SchemaSettings {
   key: string;
   instance: number;
-  standalone: boolean;
 }
 
 export interface Attribute {

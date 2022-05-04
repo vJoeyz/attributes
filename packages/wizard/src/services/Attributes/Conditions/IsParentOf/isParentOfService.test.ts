@@ -33,7 +33,6 @@ describe('Test if parent of', () => {
     const schemaSettings = {
       key: 'selectcustom',
       instance: 1,
-      standalone: false,
     }
 
     const result = isParentOf(schemaSelector, conditions, CUSTOM_SELECT, schemaSettings);
@@ -67,7 +66,6 @@ describe('Test if parent of', () => {
     const schemaSettings = {
       key: 'selectcustom',
       instance: 1,
-      standalone: false,
     }
 
     try {

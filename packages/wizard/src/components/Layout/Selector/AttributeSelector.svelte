@@ -6,7 +6,6 @@
   import {
     schemaSettingsKey,
     schemaSettingsInstance,
-    schemaSettingsStandalone,
     schemaSelected,
     schemaData,
   } from '@src/stores';
@@ -42,7 +41,6 @@
   onMount(async () => {
     const schemaSettings = {
       key: $schemaSettingsKey || '',
-      standalone: $schemaSettingsStandalone,
       instance: $schemaSettingsInstance,
     };
 
@@ -82,7 +80,7 @@
   }
 
   function onMouseLeave() {
-    console.log('on mouse leave');
+    // console.log('on mouse leave');
     if (highlight) {
       disableHighlight(highlight)
     }
@@ -109,7 +107,6 @@
   $: if (specialization) {
     const schemaSettings = {
       key: $schemaSettingsKey || '',
-      standalone: $schemaSettingsStandalone,
       instance: $schemaSettingsInstance,
     };
 

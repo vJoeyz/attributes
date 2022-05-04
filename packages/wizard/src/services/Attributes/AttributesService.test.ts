@@ -76,13 +76,10 @@ describe('Use Attributes Validation', () => {
 
     const key = 'cmsload';
 
-    const standalone = false;
-
     const instance = 1;
 
     const schemaSettings = {
       key,
-      standalone,
       instance,
     };
 
@@ -158,13 +155,10 @@ describe('Use Attributes Validation', () => {
 
     const key = 'cmsload';
 
-    const standalone = false;
-
     const instance = 1;
 
     const schemaSettings = {
       key,
-      standalone,
       instance,
     };
 
@@ -205,13 +199,10 @@ describe('Use Attributes Validation', () => {
 
     const key = 'cmsfilter';
 
-    const standalone = false;
-
     const instance = 1;
 
     const schemaSettings = {
       key,
-      standalone,
       instance,
     };
 
@@ -278,13 +269,10 @@ describe('Use Attributes Validation', () => {
 
     const key = 'cmsload';
 
-    const standalone = false;
-
     const instance = 1;
 
     const schemaSettings = {
       key,
-      standalone,
       instance,
     };
 

@@ -42,7 +42,6 @@ describe('Test field service', () => {
     const schemaSettings: SchemaSettings = {
       instance: 1,
       key: 'cmsfilter',
-      standalone: false,
     };
 
     const response = await validateField(input, CMS_FILTER, schemaSettings);
@@ -74,7 +73,6 @@ describe('Test field service', () => {
     const schemaSettings: SchemaSettings = {
       instance: 1,
       key: 'cmssort',
-      standalone: false,
     };
 
     const response = await validateField(input, CMS_SORT, schemaSettings);
@@ -105,7 +103,6 @@ describe('Test field service', () => {
     const schemaSettings: SchemaSettings = {
       instance: 1,
       key: 'cmssort',
-      standalone: false,
     };
 
     const response = await validateField(input, CMS_SORT, schemaSettings);
@@ -136,7 +133,6 @@ describe('Test field service', () => {
     const schemaSettings: SchemaSettings = {
       instance: 1,
       key: 'cmssort',
-      standalone: false,
     };
 
     const response = await validateField(input, CMS_SORT, schemaSettings);

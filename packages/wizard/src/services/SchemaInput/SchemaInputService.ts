@@ -136,6 +136,7 @@ export function disableElementSetting(
     {
       ...settingObject,
       enable: false,
+      validation: null,
     },
   ];
 }

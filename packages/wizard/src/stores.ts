@@ -111,10 +111,6 @@ schemaSettingsInstance.subscribe((instance: number) => {
   persistStore<number>(WIZARD_SELECT_INSTANCE, instance);
 })
 
- /**
-  * SchemaSettings - Is Walkthrough setup for standalone instances or multiples instances?
-  */
-export const schemaSettingsStandalone = derived(schemaInstances, (instances) => instances <= 1);
 
  /**
  * SchemaSettings - Selected Attribute Schema in Attribute

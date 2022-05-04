@@ -19,6 +19,7 @@
     schemaFormActions,
     schemaForm,
     schemaSettingsInstance,
+    schemaSettingsKey,
     toggleAttributeSelector,
   } from '@src/stores';
   import type { ElementUI } from '@src/services/UI/UIService';
@@ -57,7 +58,7 @@
   }
 
   function checkIsEnable(schemaForm: SchemaInput[]) {
-    const localEnable = checkSettingCondition(element, schemaForm);
+    const localEnable = checkSettingCondition(element, schemaForm, {instance: $schemaSettingsInstance, key: $schemaSettingsKey || ''});
 
     if (localEnable === false && isChecked === true) {
       schemaFormActions.removeElement(element.key);

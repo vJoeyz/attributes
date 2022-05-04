@@ -36,7 +36,6 @@ describe('Test if sibling of', () => {
     const schemaSettings = {
       key: 'copyclip',
       instance: 1,
-      standalone: false,
     }
 
     const result = isSiblingOf(schemaSelector, conditions, COPY_CLIP, schemaSettings);
@@ -75,7 +74,6 @@ describe('Test if sibling of', () => {
     const schemaSettings = {
       key: 'copyclip',
       instance: 1,
-      standalone: false,
     }
 
     try {

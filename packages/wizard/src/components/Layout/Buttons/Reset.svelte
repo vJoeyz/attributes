@@ -8,7 +8,6 @@
     VALIDATE_MODES,
     validatingMode,
     schemaSettingsInstance,
-    schemaSettingsStandalone,
     schemaSettingsKey,
     isSubmitted,
   } from '@src/stores';
@@ -18,7 +17,6 @@
 
     const schemaSettings =  {
       key: $schemaSettingsKey || '',
-      standalone: $schemaSettingsStandalone,
       instance: $schemaSettingsInstance,
     };
 

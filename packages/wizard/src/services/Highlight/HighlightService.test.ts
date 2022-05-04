@@ -6,7 +6,6 @@ describe('Highlight elements on page', () => {
   test('Create highlight setup for attribute', () => {
     const schemaSettings = {
       instance: 3,
-      standalone: false,
       key: 'cmsload',
     };
 

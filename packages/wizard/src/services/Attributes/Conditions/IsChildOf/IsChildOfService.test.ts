@@ -36,7 +36,6 @@ describe('Test is child of', () => {
     const schemaSettings = {
       key: 'cmsload',
       instance: 1,
-      standalone: false,
     }
 
     const result = isChildOf(schemaSelector, conditions, CMS_LOAD, schemaSettings);
@@ -72,7 +71,6 @@ describe('Test is child of', () => {
     const schemaSettings = {
       key: 'cmsload',
       instance: 1,
-      standalone: false,
     }
 
     try {
