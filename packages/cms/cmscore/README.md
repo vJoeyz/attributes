@@ -1,6 +1,6 @@
 # `cmscore` Attribute
 
-- Core functionalities of all `cms` Attributes.
+Core functionalities of all `cms` Attributes.
 
 ## CDN Import
 
