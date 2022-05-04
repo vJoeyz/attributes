@@ -82,6 +82,7 @@
   }
 
   function onMouseLeave() {
+    console.log('on mouse leave');
     if (highlight) {
       disableHighlight(highlight)
     }
@@ -97,6 +98,14 @@
     createSelector($schemaSettingsInstance);
   }
 
+
+  $: if (value) {
+    if (highlight) {
+      onMouseLeave();
+    }
+  }
+
+
   $: if (specialization) {
     const schemaSettings = {
       key: $schemaSettingsKey || '',
@@ -109,12 +118,11 @@
     }
   }
 
-
 </script>
 
 <div
   class="attribute-selector-container"
-  on:mouseenter={onMouseEnter}
+  on:mouseenter|self={onMouseEnter}
   on:mouseleave={onMouseLeave}
 >
 

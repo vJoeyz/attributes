@@ -267,6 +267,9 @@ export function rollbackElement(element: HTMLElement, styles: HighlightBackupSty
 
 export function applyBackupElements(elements: HTMLElement[], styles: HighlightBackupStyle[]) {
 
+  if (styles.length === 0) {
+    return styles;
+  }
   elements.forEach(function (element: HTMLElement) {
     styles = rollbackElement(element, styles);
   });

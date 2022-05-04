@@ -54,7 +54,7 @@
     z-index: 99;
     width: 100%;
     max-width: 10rem;
-    margin-left: 1rem;
+    margin-right: 1rem;
     padding: 0.75rem 2rem;
     background-color: #111;
     color: #9b9b9b;

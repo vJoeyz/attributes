@@ -16,6 +16,4 @@ export interface HighlightBackupStyle {
 export interface Highlight {
   backupStyles: HighlightBackupStyle[],
   elements: HTMLElement[],
-  // exact: string[],
-  // childrenOf: string[],
 }
