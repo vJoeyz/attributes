@@ -4,7 +4,7 @@ import COPY_CLIP from '@src/schemas/copy-clip';
 import type {
   AttributeElementSchema, DOMSelector,
 
-} from '@global/types/schema';
+} from '$global/types/schema';
 import type { ElementItemSelector } from '@src/types/Schema.types';
 
 describe('Test Error - Attribute not found', () => {

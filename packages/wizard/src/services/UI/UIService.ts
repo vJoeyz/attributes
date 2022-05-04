@@ -5,8 +5,8 @@ import type {
   AttributeSchemaCondition,
   AttributeSettingCondition,
   AttributeSettingConditionSetting
-} from '@global/types/schema';
-import type { AttributeSchema } from '@global/types/schema';
+} from '$global/types/schema';
+import type { AttributeSchema } from '$global/types/schema';
 
 export interface ElementUI extends AttributeElementSchema {
   settings: AttributeSettingSchema[];

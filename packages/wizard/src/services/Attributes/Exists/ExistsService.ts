@@ -2,7 +2,7 @@ import AttributeDuplicateError from './Errors/AttributeDuplicatedError';
 import AttributeNotFoundError from './Errors/AttributeNotFoundError';
 
 import type { SchemaSelector, ElementItemSelector } from '@src/types/Schema.types';
-import type { DOMSelector } from '@global/types/schema';
+import type { DOMSelector } from '$global/types/schema';
 import DOMForAttributeNotFound from './Errors/DOMForAttributeNotFound';
 
 

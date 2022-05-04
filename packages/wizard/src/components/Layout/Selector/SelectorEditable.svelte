@@ -7,7 +7,7 @@
   // import Boolean from './Value/Boolean.svelte';
   import Int from './Editable/Int.svelte';
   import CommaSeparatedInt from './Editable/CommaSeparatedInt.svelte';
-  import type { AttributeSettingValuePrimitive, AttributeSettingValueOptions } from '@global/types/schema';
+  import type { AttributeSettingValuePrimitive, AttributeSettingValueOptions } from '$global/types/schema';
 
   export let id: string;
   export let value: AttributeSettingValuePrimitive | AttributeSettingValueOptions;

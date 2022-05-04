@@ -16,8 +16,8 @@ export const createHeadingWrapper = (headingElement: HTMLHeadingElement) => {
   if (!id && !trimmedTextContent) return;
 
   if (id) {
-    headingWrapper.id = ensureUniqueId(id);
     headingElement.removeAttribute('id');
+    headingWrapper.id = ensureUniqueId(id);
   } else if (trimmedTextContent) {
     const slugified = slugify(trimmedTextContent, { lower: true, strict: true });
     headingWrapper.id = ensureUniqueId(slugified);
@@ -27,7 +27,7 @@ export const createHeadingWrapper = (headingElement: HTMLHeadingElement) => {
 };
 
 /**
- * Ensures that an element ID in unique on the page, adding an index suffix is necessary.
+ * Ensures that an element ID is unique on the page by adding an index suffix if necessary.
  * @param requestedId
  * @returns The unique ID.
  */

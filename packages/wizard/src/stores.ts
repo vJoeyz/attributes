@@ -37,8 +37,9 @@ import {
   findInvalidAttributes,
   findValidAttributes,
 } from '@src/services/SchemaInput/SchemaInputService';
-import type { AttributeSchema, AttributeElementSchema } from '@global/types/schema';
-import type { Attribute, AttributeLoaded } from '@src/types/Schema.types';
+import type { AttributeSchema, AttributeElementSchema } from '$global/types/schema';
+import type { SupportedAttributeData } from '$docs/src/utils/types';
+import type { AttributeLoaded } from '@src/types/Schema.types';
 import type { SchemaInput, SchemaInputConfig } from './types/Input.types';
 
 
@@ -157,7 +158,7 @@ export const schemaSelected = derived([schemaSettingsKey, schemas], ([$schemaSet
     return null;
   }
 
-  const selectSchema: Attribute | undefined = $schemas.find((schema: Attribute) => schema.key === $schemaSettingsKey);
+  const selectSchema: SupportedAttributeData | undefined = $schemas.find((schema: SupportedAttributeData) => schema.key === $schemaSettingsKey);
 
   if (!selectSchema) {
     return null;

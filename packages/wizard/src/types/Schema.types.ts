@@ -1,5 +1,5 @@
-import type { AttributeSchemaCondition, DOMSelector, AttributeElementSchema } from '@global/types/schema';
-
+import type { AttributeSchemaCondition, DOMSelector, AttributeElementSchema } from '$global/types/schema';
+import type { SupportedAttributeData } from '$docs/src/utils/types';
 export type SCHEMA_ITEM_TYPES =  'settings' | 'elements' | 'fields';
 
 
@@ -8,20 +8,7 @@ export interface SchemaSettings {
   instance: number;
 }
 
-export interface Attribute {
-  key: string;
-  title: string;
-  description: string;
-  href: string;
-  baseSrc: string;
-  scriptSrc: string;
-  examplesSrc: string;
-  loadMode: string;
-  schemaSrc: string;
-  changesetsSrc: string;
-}
-
-export interface AttributeLoaded extends Attribute {
+export interface AttributeLoaded extends SupportedAttributeData {
   loaded: boolean;
   schemaFile: string;
   scriptFile: string;

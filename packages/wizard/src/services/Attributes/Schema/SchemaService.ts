@@ -7,7 +7,7 @@ import type {
   AttributeSettingCondition,
   AttributeSettingConditionSetting,
   AttributeSchemaCondition,
-} from '@global/types/schema';
+} from '$global/types/schema';
 import type {
   SchemaSettings,
   SCHEMA_ITEM_TYPES,

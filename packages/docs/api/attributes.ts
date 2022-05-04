@@ -14,6 +14,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'cmscombine',
@@ -28,6 +29,17 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
+  },
+  {
+    key: 'cmscore',
+    title: 'CMS Core',
+    description: 'Core functionalities of all cms Attributes.',
+    baseSrc: 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmscore@1',
+    scriptSrc: 'cmscore.js',
+    changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
+    allowSupport: false,
   },
   {
     key: 'cmsfilter',
@@ -41,6 +53,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'cmsload',
@@ -55,6 +68,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'cmsnest',
@@ -69,6 +83,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'cmsprevnext',
@@ -82,6 +97,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'cmsselect',
@@ -95,6 +111,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'cmsslider',
@@ -108,6 +125,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'cmssort',
@@ -121,6 +139,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'cmstabs',
@@ -134,6 +153,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'codehighlight',
@@ -147,6 +167,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'copyclip',
@@ -160,6 +181,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'scrolldisable',
@@ -173,6 +195,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'selectcustom',
@@ -186,6 +209,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'sliderdots',
@@ -199,6 +223,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'linkblockedit',
@@ -212,6 +237,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'mirrorclick',
@@ -225,6 +251,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'mirrorinput',
@@ -238,6 +265,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'rangeslider',
@@ -251,6 +279,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'richtext',
@@ -265,6 +294,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'smartlightbox',
@@ -279,6 +309,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'countitems',
@@ -292,6 +323,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'favcustom',
@@ -305,6 +337,7 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
   {
     key: 'toc',
@@ -319,5 +352,6 @@ export const attributesData: AttributesData = [
     schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
+    allowSupport: true,
   },
 ];
