@@ -1,7 +1,7 @@
 <script lang="ts">
-  import OptionsDisplay from './Options/OptionsDisplay.svelte';
-  import OptionsDropdown from './Options/OptionsDropdown.svelte';
-  import OptionsOptions from './Options/OptionsOptions.svelte';
+  import SelectDisplay from '@src/components/Layout/Form/SelectDisplay.svelte';
+  import SelectDropdown from '@src/components/Layout/Form/SelectDropdown.svelte';
+  import SelectOption from '@src/components/Layout/Form/SelectOption.svelte';
   import type { AttributeSettingValueOptions } from '$global/types/schema';
 
   // import SolutionIcon from '@src/components/Layout/Icons/tips-icon.svg';
@@ -47,23 +47,24 @@
   }
 </script>
 
-<OptionsDisplay isOpen={isOpen} onClick={toggleOptions} isActive={isActive}>
+<SelectDisplay isOpen={isOpen} on:click={toggleOptions} disabled={!isActive} testId="settings-select">
   {#if attributeValue}
     {attributeValue}
   {:else}
     Select value
   {/if}
-</OptionsDisplay>
+</SelectDisplay>
 
 {#if isOpen}
-<OptionsDropdown forceClose={forceClose}>
+<SelectDropdown on:click_outside={forceClose}>
   {#each value.options as option}
-    <OptionsOptions
+    <SelectOption
       isSelected={attributeValue === option.value}
-      selectOption={() => selectAttribute(option.value)}
+      on:click={() => selectAttribute(option.value)}
+      testId="settings-select-option"
     >
       {option.value}
-    </OptionsOptions>
+    </SelectOption>
   {/each}
-</OptionsDropdown>
+</SelectDropdown>
 {/if}

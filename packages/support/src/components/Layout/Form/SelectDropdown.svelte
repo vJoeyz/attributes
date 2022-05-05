@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { clickOutside } from '@src/directives/clickOutside';
-  export let forceClose: () => void | undefined;
+  import { clickOutside } from '@src/directives/clickOutside';
 
 </script>
 
-<div class="tool_select-dropdown" use:clickOutside on:click_outside={forceClose}>
+<div class="tool_select-dropdown" use:clickOutside on:click_outside>
   <slot/>
 </div>
+
 
 <style>
   .tool_select-dropdown {

@@ -1,7 +1,7 @@
 <script lang="ts">
-  import SelectDisplay from '@src/components/Field/Specialization/Form/Select/SelectDisplay.svelte';
-  import SelectDropdown from '@src/components/Field/Specialization/Form/Select/SelectDropdown.svelte';
-  import SelectOption from '@src/components/Field/Specialization/Form/Select/SelectOption.svelte';
+  import SelectDisplay from '@src/components/Layout/Form/SelectDisplay.svelte';
+  import SelectDropdown from '@src/components/Layout/Form/SelectDropdown.svelte';
+  import SelectOption from '@src/components/Layout/Form/SelectOption.svelte';
   import type { FieldSpecialization } from '$global/types/schema';
   import type { SchemaInputField, FieldChangeSpecialization } from '@src/types/Input.types';
 
@@ -38,11 +38,17 @@
 
 <div>
 
-  <SelectDisplay toggleDropdown={toggleOptions} isOpen={isOpen}>{specialization}</SelectDisplay>
+  <SelectDisplay on:click={toggleOptions} isOpen={isOpen} testId="field-specialization">{specialization}</SelectDisplay>
   {#if isOpen}
-  <SelectDropdown forceClose={forceClose}>
+  <SelectDropdown on:click_outside={forceClose}>
     {#each options as option (option.key)}
-      <SelectOption onSelect={onSelect(option.key)} selected={specialization === option.key}>{option.key}</SelectOption>
+      <SelectOption
+        testId="field-specialization-option"
+        on:click={onSelect(option.key)}
+        isSelected={specialization === option.key}
+      >
+          {option.key}
+      </SelectOption>
     {/each}
   </SelectDropdown>
   {/if}
