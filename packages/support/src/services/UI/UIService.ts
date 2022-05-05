@@ -1,4 +1,5 @@
 import type {
+  AttributeSchema,
   AttributeElementSchema,
   AttributeFieldSchema,
   AttributeSettingSchema,
@@ -6,22 +7,7 @@ import type {
   AttributeSettingCondition,
   AttributeSettingConditionSetting
 } from '$global/types/schema';
-import type { AttributeSchema } from '$global/types/schema';
-
-export interface ElementUI extends AttributeElementSchema {
-  settings: AttributeSettingSchema[];
-}
-
-export interface FieldUI extends AttributeFieldSchema {
-  settings: AttributeSettingSchema[];
-}
-
-export interface SchemaUI {
-  requiredElements: ElementUI[];
-  fields: FieldUI[];
-  notRequiredElements: ElementUI[];
-  requiredInstance: boolean;
-}
+import type { SchemaUI } from '@src/types/Schema.types';
 
 
 function isAppliedTo(setting: AttributeSettingSchema, key: string) {

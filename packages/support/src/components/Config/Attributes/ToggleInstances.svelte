@@ -2,18 +2,25 @@
   import {
     schemaSelected,
     schemaInstances,
+    schemaUI,
   } from '@src/stores';
 
+
   import Add from '@src/components/Layout/Icons/instances-add.svg';
+  import { createEventDispatcher } from 'svelte';
 
+  const dispatch = createEventDispatcher();
 
-  export let toggleInstances: () => void;
+  function dispatchToggle() {
+    dispatch('toggle');
+  }
+
   export let isOpen: boolean;
 
   let disabled: boolean = $schemaSelected === null;
 
   if ($schemaInstances > 1) {
-    toggleInstances();
+    dispatchToggle();
   }
 
   $: {
@@ -25,8 +32,9 @@
 <button
   data-testid="select-attribute-toggle-instances"
   class="tool_toggle-instance"
-  on:click={!disabled && toggleInstances || null}
-  class:open={isOpen}
+  on:click={!disabled && dispatchToggle || null}
+  class:open={isOpen && $schemaUI?.requiredInstance}
+  class:disabled={$schemaUI?.requiredInstance === false}
 >
   <Add/>
 </button>
@@ -49,6 +57,15 @@
 
   .tool_toggle-instance:hover {
     background-color: #1a1a1a;
+  }
+
+  .tool_toggle-instance.disabled {
+    opacity: 0.2;
+
+  }
+
+  .disabled:hover {
+    border-color: #000;
   }
 
   .tool_toggle-instance :global(svg) {

@@ -2,13 +2,12 @@
   import ToggleInstances from '@src/components/Config/Attributes/ToggleInstances.svelte';
   import Select from '@src/components/Config/Attributes/Select.svelte';
 
-  export let toggleInstances: () => void;
   export let isOpen: boolean;
 </script>
 
 <div class="tool_attributes">
   <Select/>
-  <ToggleInstances toggleInstances={toggleInstances} isOpen={isOpen}/>
+  <ToggleInstances on:toggle isOpen={isOpen}/>
 </div>
 
 <style>

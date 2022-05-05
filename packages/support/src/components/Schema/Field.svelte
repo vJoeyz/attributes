@@ -16,8 +16,8 @@
   import FieldSpecialization from '@src/components/Field/Specialization/FieldSpecialization.svelte';
   import AttributeRequired from '@src/components/Layout/AttributeRequired.svelte';
   import FieldSettings from '@src/components/Schema/FieldSetting.svelte';
-  import InputValidation from '../Layout/InputValidation.svelte';
-  import type { FieldUI } from '@src/services/UI/UIService';
+  import InputValidation from '@src/components/Layout/InputValidation.svelte';
+  import type { FieldUI } from '@src/types/Schema.types';
   import type { SchemaInputField, FieldChangeSpecialization, FieldChangeIdentifier, SchemaInputValidation } from '@src/types/Input.types';
 
   import {

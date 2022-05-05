@@ -1,7 +1,7 @@
 <script lang="ts">
   // import debounce from '@src/utils/debounce';
   import Field from '@src/components/Schema/Field.svelte';
-  import type { FieldUI } from '@src/services/UI/UIService';
+  import type { FieldUI } from '@src/types/Schema.types';
   import { scrollInto } from '@src/services/DOM/Utils/Utils';
   import {
     schemaFormActions,

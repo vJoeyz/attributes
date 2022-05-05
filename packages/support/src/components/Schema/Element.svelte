@@ -22,7 +22,7 @@
     schemaSettingsKey,
     toggleAttributeSelector,
   } from '@src/stores';
-  import type { ElementUI } from '@src/services/UI/UIService';
+  import type { ElementUI } from '@src/types/Schema.types';
   import type { SchemaInput, SchemaInputValidation } from '@src/types/Input.types';
 
   // attribute config

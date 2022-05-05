@@ -39,7 +39,7 @@ import {
 } from '@src/services/SchemaInput/SchemaInputService';
 import type { AttributeSchema, AttributeElementSchema } from '$global/types/schema';
 import type { SupportedAttributeData } from '$docs/src/utils/types';
-import type { AttributeLoaded } from '@src/types/Schema.types';
+import type { AttributeLoaded, SchemaUI } from '@src/types/Schema.types';
 import type { SchemaInput, SchemaInputConfig } from './types/Input.types';
 
 
@@ -143,6 +143,8 @@ schemas.subscribe((schemasAttributes) => {
  */
 export const schemaData = writable<AttributeSchema | null>(null);
 
+
+export const schemaUI = writable<SchemaUI | null>(null);
 
 
 export const toggleAttributeSelector = writable<string | null>(null);
