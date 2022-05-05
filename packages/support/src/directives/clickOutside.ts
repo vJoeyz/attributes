@@ -1,25 +1,20 @@
 /** Dispatch event on click outside of node */
 export function clickOutside(node: Node) {
-
   const handleClick = (event: MouseEvent) => {
-
     const composedPath = event.composedPath();
     const target = composedPath[0];
 
     if (node && !node.contains(target as Node | null) && !event.defaultPrevented) {
-
       event.stopPropagation();
-      node.dispatchEvent(
-        new CustomEvent('click_outside', node as CustomEventInit<unknown>),
-      )
+      node.dispatchEvent(new CustomEvent('click_outside', node as CustomEventInit<unknown>));
     }
-  }
+  };
 
-	document.addEventListener('click', handleClick, true);
+  document.addEventListener('click', handleClick, true);
 
   return {
     destroy() {
       document.removeEventListener('click', handleClick, true);
-    }
-	}
+    },
+  };
 }

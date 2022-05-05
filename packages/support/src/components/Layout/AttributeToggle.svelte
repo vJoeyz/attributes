@@ -5,13 +5,11 @@
 </script>
 
 <div class="attribute_toggle" on:click={toggleSelector} data-testid="attribute-toggle">
-  <ArrowToggle inverse={!isOpen}/>
+  <ArrowToggle inverse={!isOpen} />
 </div>
-
 
 <style>
   .attribute_toggle {
-
     cursor: pointer;
   }
 </style>

@@ -6,11 +6,7 @@ import { isSiblingOf } from './IsSiblingOf/IsSiblingOfService';
 import { hasLink } from './Link/LinkService';
 import { hasStyle } from './Style/StyleService';
 
-import type {
-  AttributeSchema,
-  AttributeSchemaCondition,
-  AttributeSchemaConditions,
-} from '$global/types/schema';
+import type { AttributeSchema, AttributeSchemaCondition, AttributeSchemaConditions } from '$global/types/schema';
 import type { SchemaSelector, SchemaSettings } from '@src/types/Schema.types';
 
 interface AttributeConditionsByType {
@@ -32,7 +28,6 @@ export default function conditionsService(
   schema: AttributeSchema,
   schemaSettings: SchemaSettings
 ) {
-
   // group conditions by type
   const conditionsByType = conditions.reduce((acc: AttributeConditionsByType, condition: AttributeSchemaCondition) => {
     if (acc[condition.condition]) {
@@ -49,7 +44,6 @@ export default function conditionsService(
 
   Object.keys(conditionsByType).forEach((type: string) => {
     switch (type) {
-
       case 'exists': {
         exists(elementSelector, conditionsByType[type], schema, schemaSettings);
         break;
@@ -88,14 +82,10 @@ export default function conditionsService(
         throw new Error(`Unsupported type for multiples ${type} conditions`);
       }
     }
-
   });
 
   return true;
 }
-
-
-
 
 // export function elementConditions() {
 

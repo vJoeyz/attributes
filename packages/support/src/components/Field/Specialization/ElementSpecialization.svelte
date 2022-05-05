@@ -7,9 +7,7 @@
   export let fieldInput: SchemaInputField;
 
   export let specializations: FieldSpecialization[];
-
-
 </script>
 
 <div>Element</div>
-<Select options={specializations} changeFieldElement={changeFieldElement} fieldInput={fieldInput}/>
+<Select options={specializations} {changeFieldElement} {fieldInput} />

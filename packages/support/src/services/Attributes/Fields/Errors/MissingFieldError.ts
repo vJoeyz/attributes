@@ -11,13 +11,10 @@ export default class MissingFieldAppliedError extends AbstractSchemaError {
     const attributeId = this.toAttribute(attribute.getPrettierSelector());
 
     if (parentSelector) {
-
       const parentLabels = this.parentToLabels(parentSelector);
 
       this.message = [
-        this.toHighlight(
-          `Attribute ${attributeId} in ${parentLabels} was not found.`
-        ),
+        this.toHighlight(`Attribute ${attributeId} in ${parentLabels} was not found.`),
         `Add ${attributeId} in the children ${parentLabels} on the page.`,
       ].join(' ');
     }
@@ -28,7 +25,6 @@ export default class MissingFieldAppliedError extends AbstractSchemaError {
         `Add ${attributeId} to the page.`,
       ].join(' ');
     }
-
 
     Object.setPrototypeOf(this, MissingFieldAppliedError.prototype);
   }

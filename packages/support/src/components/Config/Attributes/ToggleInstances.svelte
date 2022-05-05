@@ -1,10 +1,5 @@
 <script lang="ts">
-  import {
-    schemaSelected,
-    schemaInstances,
-    schemaUI,
-  } from '@src/stores';
-
+  import { schemaSelected, schemaInstances, schemaUI } from '@src/stores';
 
   import Add from '@src/components/Layout/Icons/instances-add.svg';
   import { createEventDispatcher } from 'svelte';
@@ -26,17 +21,16 @@
   $: {
     disabled = $schemaSelected === null;
   }
-
 </script>
 
 <button
   data-testid="select-attribute-toggle-instances"
   class="tool_toggle-instance"
-  on:click={!disabled && dispatchToggle || null}
+  on:click={(!disabled && dispatchToggle) || null}
   class:open={isOpen && $schemaUI?.requiredInstance}
   class:disabled={$schemaUI?.requiredInstance === false}
 >
-  <Add/>
+  <Add />
 </button>
 
 <style>
@@ -61,7 +55,6 @@
 
   .tool_toggle-instance.disabled {
     opacity: 0.2;
-
   }
 
   .disabled:hover {
@@ -72,22 +65,12 @@
     width: 0.8rem;
     height: 0.8rem;
     opacity: 0.67;
-    transform: translate3d(0px, 0px, 0px)
-      scale3d(1, 1, 1)
-      rotateX(0deg)
-      rotateY(0deg)
-      rotateZ(0deg)
-      skew(0deg, 0deg);
+    transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
     transform-style: preserve-3d;
   }
 
   .tool_toggle-instance.open :global(svg) {
-    transform: translate3d(0px, 0px, 0px)
-      scale3d(1, 1, 1)
-      rotateX(0deg)
-      rotateY(0deg)
-      rotateZ(45deg)
-      skew(0deg, 0deg);
+    transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(45deg) skew(0deg, 0deg);
     transform-style: preserve-3d;
   }
 </style>

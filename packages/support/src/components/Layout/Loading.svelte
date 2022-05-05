@@ -4,16 +4,14 @@
 
 <div class="tool_loading" class:show={isLoading}>
   <div class="lds-ring">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
+    <div />
+    <div />
+    <div />
+    <div />
   </div>
 </div>
 
-
 <style>
-
   .tool_loading {
     display: flex;
     visibility: hidden;

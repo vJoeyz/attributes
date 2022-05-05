@@ -8,7 +8,6 @@ export default class AttributeNotMatchAppliedToError extends AbstractSchemaError
   constructor(attribute: SchemaSelector, selectors: DOMSelector[]) {
     super();
 
-
     const selectorsLabels = this.selectorsToLabels(selectors, 'or');
     const attributeId = this.toAttribute(attribute.getPrettierSelector());
 

@@ -8,7 +8,7 @@ export default class MissingFieldSpecializationError extends AbstractSchemaError
 
     this.message = [
       this.toHighlight(`Field element type is not entered in this tool.`),
-      `Enter a field type for this field to check it on the page.`
+      `Enter a field type for this field to check it on the page.`,
     ].join(' ');
 
     Object.setPrototypeOf(this, MissingFieldSpecializationError.prototype);

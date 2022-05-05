@@ -1,4 +1,3 @@
-
 export interface SchemaInputConfig {
   instance: number;
   key: string;
@@ -28,7 +27,6 @@ export interface SchemaInputField extends SchemaInputConfig {
   validation: SchemaInputValidation | null;
 }
 
-
 export interface SchemaInputFieldSetting extends SchemaInputConfig {
   field: string;
   index: string;
@@ -39,13 +37,12 @@ export interface SchemaInputFieldSetting extends SchemaInputConfig {
   validation: SchemaInputValidation | null;
 }
 
-export type SchemaInput = (SchemaInputElement | SchemaInputField | SchemaInputElementSetting | SchemaInputFieldSetting)
+export type SchemaInput = SchemaInputElement | SchemaInputField | SchemaInputElementSetting | SchemaInputFieldSetting;
 
 export type SchemaForm = SchemaInput[];
 
-
 export interface SchemaInputValidation {
-  messages: InputValidationMessage[]
+  messages: InputValidationMessage[];
   //message: string;
   status: boolean;
   //type?: string;
@@ -56,18 +53,17 @@ export interface InputValidationMessage {
   type: string;
 }
 
-
-export type SchemaInputType = SchemaInputElement['type']
-| SchemaInputElementSetting['type']
-| SchemaInputField['type']
-| SchemaInputFieldSetting['type'];
+export type SchemaInputType =
+  | SchemaInputElement['type']
+  | SchemaInputElementSetting['type']
+  | SchemaInputField['type']
+  | SchemaInputFieldSetting['type'];
 
 export interface InputChannel {
   input: SchemaInput;
   domElements: HTMLElement[] | null;
 }
 
+export type FieldChangeSpecialization = (fieldIndex: string, value: string) => void;
 
-export type FieldChangeSpecialization =  (fieldIndex: string, value: string) => void;
-
-export type FieldChangeIdentifier  = (fieldIndex: string, value: string) => void;
+export type FieldChangeIdentifier = (fieldIndex: string, value: string) => void;

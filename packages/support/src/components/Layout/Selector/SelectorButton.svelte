@@ -21,14 +21,13 @@
       isCopied = false;
     }
   }
-
 </script>
 
 <button on:click={() => copyToClipboard(selector)} class="copy-button" class:copied={isCopied}>
   {#if isCopied}
-    <CopiedLogo/>
+    <CopiedLogo />
   {:else}
-    <CopyLogo/>
+    <CopyLogo />
   {/if}
 </button>
 
@@ -55,12 +54,12 @@
     box-sizing: border-box;
   }
 
-
   .copy-button:hover {
     background-color: #eaffbb;
   }
 
-  .copy-button.copied, .copy-button.copied:hover {
+  .copy-button.copied,
+  .copy-button.copied:hover {
     background-color: rgb(151, 151, 151);
   }
 

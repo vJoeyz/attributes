@@ -11,14 +11,13 @@
   export let isActive: boolean;
   export let onChange: (value: string) => void;
   attributeValue = attributeValue || value.default || '';
-
 </script>
 
 <SettingsValue>
   <InputController validate={intValidator} let:inputValidator let:isTouched let:isValid>
     <Input
       disabled={!isActive}
-      onChange={onChange}
+      {onChange}
       {inputValidator}
       {id}
       type="number"
@@ -27,5 +26,4 @@
       bind:value={attributeValue}
     />
   </InputController>
-
 </SettingsValue>

@@ -340,7 +340,6 @@ describe('Assert element is parent of element', () => {
   });
 });
 
-
 describe('Assert element is not duplicated', () => {
   test('Element is unique', () => {
     global.document.documentElement.innerHTML = `
@@ -384,12 +383,10 @@ describe('Assert element is not duplicated', () => {
   });
 });
 
-
-
 describe('Assert element is sibling of element', () => {
   test('Element is sibling of element', () => {
     const selector = '[fs-data-test="element"]';
-    const sibling = '[fs-data-test="sibling"]'
+    const sibling = '[fs-data-test="sibling"]';
 
     global.document.documentElement.innerHTML = `
       <html>
@@ -409,7 +406,7 @@ describe('Assert element is sibling of element', () => {
 
   test('Element is not sibling of element', () => {
     const selector = '[fs-data-test="element"]';
-    const sibling = '[fs-data-test="sibling"]'
+    const sibling = '[fs-data-test="sibling"]';
 
     global.document.documentElement.innerHTML = `
       <html>

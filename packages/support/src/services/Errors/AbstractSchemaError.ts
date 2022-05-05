@@ -1,5 +1,5 @@
-import type { ItemError } from "@src/types/Error.types";
-import type { DOMSelector, ElementSelector, ParentSelector, SelectorSelector  } from '$global/types/schema';
+import type { ItemError } from '@src/types/Error.types';
+import type { DOMSelector, ElementSelector, ParentSelector, SelectorSelector } from '$global/types/schema';
 
 export default class AbstractSchemaError extends Error implements ItemError {
   public type: string;
@@ -17,7 +17,6 @@ export default class AbstractSchemaError extends Error implements ItemError {
   }
 
   selectorsToLabels(selectors: DOMSelector[], joinWord = 'or') {
-
     const displaySelectors = selectors.filter((selector: DOMSelector) => selector.label !== 'Collection List Wrapper');
     const selectorsLabels = this.wrapSelectors(displaySelectors);
     const labelsText = this.listToSentence(selectorsLabels, joinWord);
@@ -31,11 +30,10 @@ export default class AbstractSchemaError extends Error implements ItemError {
       }
 
       if (parentItem.type === 'selector') {
-
         return this.toLabel(parentItem.selector.label);
       }
 
-      throw new Error('Error in parent structure, nor element or selector.')
+      throw new Error('Error in parent structure, nor element or selector.');
     });
 
     return this.parentToSentence(parentList);
@@ -47,17 +45,17 @@ export default class AbstractSchemaError extends Error implements ItemError {
     }
 
     return selectors.map((selector: DOMSelector | string) => {
-
       if ((<DOMSelector>selector).label) {
+        const label =
+          ((<DOMSelector>selector).label === 'Any element' && 'any element on the page') ||
+          (<DOMSelector>selector).label;
 
-        const label = (<DOMSelector>selector).label === 'Any element' && 'any element on the page' || (<DOMSelector>selector).label;
-
-        return this.toLabel(label)
+        return this.toLabel(label);
       }
 
       const stringSelector = selector as string;
       return this.toLabel(stringSelector);
-    })
+    });
   }
 
   toLabel(value: string) {
@@ -76,14 +74,12 @@ export default class AbstractSchemaError extends Error implements ItemError {
   }
 
   listToSentence(values: string[], joinWord = 'or') {
-    return values.length > 1
-      && values.slice(0, -1).join(', ')+` ${joinWord} `+values.slice(-1)
-      || values[0];
+    return (values.length > 1 && values.slice(0, -1).join(', ') + ` ${joinWord} ` + values.slice(-1)) || values[0];
   }
 
   parentToSentence(values: string[] | null) {
     if (values === null) {
-      throw new Error('Parent can\'t be null')
+      throw new Error("Parent can't be null");
     }
     return values.join('>');
   }

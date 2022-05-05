@@ -1,9 +1,8 @@
 <div class="selector-value-text" data-testid="selector-value">
-  <slot/>
+  <slot />
 </div>
 
 <style>
-
   .selector-value-text {
     display: inline-block;
     margin-left: 1rem;

@@ -42,7 +42,6 @@ export function validateElementSetting(
 
   const isDefault = value.default === inputSetting.option && inputSetting.option != '';
 
-
   try {
     const elementsSelectors: ElementItemSelector[] = appliedToSelectors(
       appliedTo.elements,
@@ -76,7 +75,6 @@ export function validateElementSetting(
         schemaSettings
       );
     }
-
   } catch (error) {
     if (error instanceof AbstractSchemaError) {
       return {
@@ -109,7 +107,6 @@ export function validateElementSetting(
     },
   };
 }
-
 
 function appliedToSelectors(
   appliedTo: string[] | undefined,
@@ -146,7 +143,6 @@ function appliedToSelectors(
     });
 }
 
-
 export function validateCustomSetting(
   inputSetting: SchemaInputElementSetting,
   inputChannel: InputChannel,
@@ -158,10 +154,7 @@ export function validateCustomSetting(
   schema: AttributeSchema,
   schemaSettings: SchemaSettings
 ) {
-
-
   elementSettingExists(inputChannel.domElements, settingSelector, elementsSelectors, false);
-
 
   if (appliedTo && appliedTo.elements) {
     const appliedToElement = elementSettingAppliedTo(settingSelector, elementsSelectors);
@@ -175,14 +168,12 @@ export function validateCustomSetting(
     conditionsService(settingSelector, conditions, schema, schemaSettings);
   }
 
-
   valuesService(
     settingSelector,
     value,
     inputSetting.option,
-    elementsSelectors.map((value: ElementItemSelector) => value.elementSelector),
+    elementsSelectors.map((value: ElementItemSelector) => value.elementSelector)
   );
-
 }
 
 export function validateDefaultSetting(
@@ -196,9 +187,7 @@ export function validateDefaultSetting(
   schema: AttributeSchema,
   schemaSettings: SchemaSettings
 ) {
-
   const isAttributeFound = elementSettingExists(inputChannel.domElements, settingSelector, elementsSelectors, true);
-
 
   if (appliedTo && appliedTo.elements && isAttributeFound) {
     const appliedToElement = elementSettingAppliedTo(settingSelector, elementsSelectors);
@@ -217,7 +206,7 @@ export function validateDefaultSetting(
       settingSelector,
       value,
       inputSetting.option,
-      elementsSelectors.map((value: ElementItemSelector) => value.elementSelector),
+      elementsSelectors.map((value: ElementItemSelector) => value.elementSelector)
     );
   }
 }

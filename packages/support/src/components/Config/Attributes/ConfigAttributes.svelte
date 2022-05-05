@@ -6,8 +6,8 @@
 </script>
 
 <div class="tool_attributes">
-  <Select/>
-  <ToggleInstances on:toggle isOpen={isOpen}/>
+  <Select />
+  <ToggleInstances on:toggle {isOpen} />
 </div>
 
 <style>
@@ -18,5 +18,4 @@
     align-items: stretch;
     box-sizing: border-box;
   }
-
 </style>

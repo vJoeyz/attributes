@@ -1,12 +1,11 @@
 <script lang="ts">
-
   import FieldAdd from '@src/components/Layout/Icons/field-add.svg';
 
   export let addField: () => void;
 </script>
 
 <button class="field_add" on:click={addField} data-testid="add-field">
-  <FieldAdd/>
+  <FieldAdd />
 </button>
 
 <style>

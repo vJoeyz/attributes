@@ -1,5 +1,5 @@
 <div class="tool_settings">
-  <slot/>
+  <slot />
 </div>
 
 <style>

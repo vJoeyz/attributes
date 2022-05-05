@@ -5,25 +5,19 @@
   export let size: 'medium' | 'large' = 'medium';
   export let testId: string | null = null;
   export let disabled = false;
-
 </script>
-
 
 <div
   class="select_display"
   class:medium={size === 'medium'}
   class:large={size === 'large'}
-  class:disabled={disabled}
+  class:disabled
   data-testid={testId}
   on:click
 >
-  <slot/>
-  <div
-    class="select_toggle"
-    class:medium={size === 'medium'}
-    class:large={size === 'large'}
-  >
-    <ArrowToggle inverse={!isOpen}/>
+  <slot />
+  <div class="select_toggle" class:medium={size === 'medium'} class:large={size === 'large'}>
+    <ArrowToggle inverse={!isOpen} />
   </div>
 </div>
 
@@ -74,9 +68,7 @@
     top: 0.75rem;
   }
 
-
   .select_display.disabled {
     opacity: 0.4;
   }
-
 </style>

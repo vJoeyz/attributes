@@ -13,7 +13,6 @@
   export let onChange: (value: string) => void;
 
   export let valueType: AttributeSettingValueOptions | AttributeSettingValuePrimitive;
-
 </script>
 
 <SelectorCustomAttribute>
@@ -21,23 +20,16 @@
 </SelectorCustomAttribute>
 <SelectorCustomValue>
   <SelectorCustomAttributeValueText>
-    <SelectorEditable
-      onChange={onChange}
-      isActive={isActive}
-      id="selector"
-      value={valueType}
-      option={option}
-    />
-
+    <SelectorEditable {onChange} {isActive} id="selector" value={valueType} {option} />
   </SelectorCustomAttributeValueText>
   <div class="selector-button">
-    <SelectorButton selector={option}/>
+    <SelectorButton selector={option} />
   </div>
 </SelectorCustomValue>
 
 <style>
   .selector-button {
-    padding-top: 0.20rem;
+    padding-top: 0.2rem;
     align-self: flex-start;
   }
 </style>

@@ -47,7 +47,7 @@
   }
 </script>
 
-<SelectDisplay isOpen={isOpen} on:click={toggleOptions} disabled={!isActive} testId="settings-select">
+<SelectDisplay {isOpen} on:click={toggleOptions} disabled={!isActive} testId="settings-select">
   {#if attributeValue}
     {attributeValue}
   {:else}
@@ -56,15 +56,15 @@
 </SelectDisplay>
 
 {#if isOpen}
-<SelectDropdown on:click_outside={forceClose}>
-  {#each value.options as option}
-    <SelectOption
-      isSelected={attributeValue === option.value}
-      on:click={() => selectAttribute(option.value)}
-      testId="settings-select-option"
-    >
-      {option.value}
-    </SelectOption>
-  {/each}
-</SelectDropdown>
+  <SelectDropdown on:click_outside={forceClose}>
+    {#each value.options as option}
+      <SelectOption
+        isSelected={attributeValue === option.value}
+        on:click={() => selectAttribute(option.value)}
+        testId="settings-select-option"
+      >
+        {option.value}
+      </SelectOption>
+    {/each}
+  </SelectDropdown>
 {/if}

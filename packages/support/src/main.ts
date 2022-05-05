@@ -12,7 +12,6 @@ const app = new App({
   props: {},
 });
 
-
 const styleFonts = `
   @font-face {
     font-family: 'Open Sans';
@@ -42,7 +41,7 @@ const styleFonts = `
     url(https://fonts.gstatic.com/s/opensans/v13/MTP_ySUJH_bn48VBG8sNSnhCUOGz7vYGh680lGh-uXM.woff)
     format('woff');
   }
-`
+`;
 const style = document.createElement('style');
 style.setAttribute('type', 'text/css');
 style.appendChild(document.createTextNode(styleFonts));

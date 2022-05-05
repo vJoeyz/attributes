@@ -4,10 +4,7 @@ import CMS_LOAD from '@src/schemas/cms-load';
 import type { AttributeElementSchema } from '$global/types/schema';
 
 describe('Test Error - Attribute not found', () => {
-
   test('Attribute type element not found', () => {
-
-
     const attributeSelector = new SchemaSelector('fs-cmsload-element', 'list', true);
 
     const attributeSchema = CMS_LOAD.elements.find((value: AttributeElementSchema) => value.key === 'list');
@@ -18,10 +15,8 @@ describe('Test Error - Attribute not found', () => {
     const appliedTo = attributeSchema.appliedTo;
 
     const error = new AttributeNotMatchAppliedToError(attributeSelector, appliedTo);
-    expect(error.stripHTML())
-    .toEqual(
+    expect(error.stripHTML()).toEqual(
       'The attribute fs-cmsload-element="list" is found, but on the wrong element. Move the attribute fs-cmsload-element="list" to the Collection List.'
-    )
+    );
   });
-
 });

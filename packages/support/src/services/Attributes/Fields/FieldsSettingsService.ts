@@ -16,7 +16,7 @@ import type {
   InputChannel,
   SchemaInputFieldSetting,
   SchemaInputField,
-  InputValidationMessage
+  InputValidationMessage,
 } from '@src/types/Input.types';
 import type { SchemaSelector, SchemaSettings } from '@src/types/Schema.types';
 import type {
@@ -27,8 +27,8 @@ import type {
 } from '$global/types/schema';
 
 interface InstanceConfig {
-  value: string,
-  isDefault: boolean,
+  value: string;
+  isDefault: boolean;
 }
 
 export function validateFieldSetting(
@@ -40,12 +40,15 @@ export function validateFieldSetting(
   const settingSchema = getSchemaItem(schema, 'settings', inputSetting.setting) as AttributeSettingSchema;
   const { conditions, value, specializations } = settingSchema;
 
-  const instances: InstanceConfig[] = specializations
-    && specializations.map((specialization: SettingSpecialization) => ({value: specialization.value, isDefault: false}))
-    || [{value: inputSetting.option, isDefault: value.default === inputSetting.option && inputSetting.option != ''}]
+  const instances: InstanceConfig[] = (specializations &&
+    specializations.map((specialization: SettingSpecialization) => ({
+      value: specialization.value,
+      isDefault: false,
+    }))) || [
+    { value: inputSetting.option, isDefault: value.default === inputSetting.option && inputSetting.option != '' },
+  ];
 
   const validations = instances.map((instanceConfig: InstanceConfig) => {
-
     const settingSelector = createSchemaSelectorFromItem(
       settingSchema,
       'settings',
@@ -59,11 +62,10 @@ export function validateFieldSetting(
       'fields',
       inputSetting.field,
       schemaSettings,
-      (field.input as SchemaInputField).identifier,
+      (field.input as SchemaInputField).identifier
     );
 
     try {
-
       if (instanceConfig.isDefault) {
         validateDefaultSetting(
           fieldSelector,
@@ -73,7 +75,7 @@ export function validateFieldSetting(
           conditions,
           value,
           schema,
-          schemaSettings,
+          schemaSettings
         );
       } else {
         validateCustomSetting(
@@ -84,10 +86,9 @@ export function validateFieldSetting(
           conditions,
           value,
           schema,
-          schemaSettings,
+          schemaSettings
         );
       }
-
 
       return null;
     } catch (error) {
@@ -95,24 +96,25 @@ export function validateFieldSetting(
         return {
           type: error.type,
           message: error.message,
-        }
+        };
       } else {
         throw error;
       }
     }
-  })
+  });
 
-  const fieldErrors = validations.filter((fieldApplied) => fieldApplied && fieldApplied.message) as InputValidationMessage[];
+  const fieldErrors = validations.filter(
+    (fieldApplied) => fieldApplied && fieldApplied.message
+  ) as InputValidationMessage[];
 
   if (fieldErrors.length > 0) {
     return {
       ...inputSetting,
       validation: {
         status: false,
-        messages: fieldErrors
-      }
-
-    }
+        messages: fieldErrors,
+      },
+    };
   }
 
   return {
@@ -123,10 +125,10 @@ export function validateFieldSetting(
         {
           type: 'success',
           message: `Yup! Setting correctly setup.`,
-        }
-      ]
-    }
-  }
+        },
+      ],
+    },
+  };
 }
 
 function validateCustomSetting(
@@ -140,7 +142,7 @@ function validateCustomSetting(
   schemaSettings: SchemaSettings
 ) {
   const fieldSettingSelector = `${fieldSelector.getElementSelector()}${settingSelector.getAttributeSelector()}`;
-  const elementsNode = document.querySelectorAll<HTMLElement>(fieldSettingSelector)
+  const elementsNode = document.querySelectorAll<HTMLElement>(fieldSettingSelector);
 
   const elements = Array.from(elementsNode);
 
@@ -149,7 +151,7 @@ function validateCustomSetting(
   }
 
   if (field.domElements) {
-    elementsSameNode(elements, field.domElements)
+    elementsSameNode(elements, field.domElements);
   }
 
   if (conditions && conditions.length > 0) {
@@ -171,14 +173,17 @@ function validateDefaultSetting(
   schema: AttributeSchema,
   schemaSettings: SchemaSettings
 ) {
-
   const fieldSettingSelector = `${fieldSelector.getElementSelector()}${settingSelector.getAttributeSelector()}`;
 
-  const elementsNode = Array.from(document.querySelectorAll<HTMLElement>(fieldSettingSelector))
+  const elementsNode = Array.from(document.querySelectorAll<HTMLElement>(fieldSettingSelector));
 
   const elements: HTMLElement[] = elementsNode.filter((elementNode: HTMLElement) => {
-    return field.domElements && field.domElements.find((channelElement: HTMLElement) => channelElement.contains(elementNode)) || false;
-  })
+    return (
+      (field.domElements &&
+        field.domElements.find((channelElement: HTMLElement) => channelElement.contains(elementNode))) ||
+      false
+    );
+  });
 
   const isElementFound = elements.length > 0;
 
@@ -187,12 +192,13 @@ function validateDefaultSetting(
   }
 
   if (field.domElements && elements.length > 0) {
-    elementsSameNode(elements, field.domElements)
+    elementsSameNode(elements, field.domElements);
   }
 
   if (isElementFound && conditions && conditions.length > 0) {
     conditionsService(settingSelector, conditions, schema, schemaSettings);
   }
 
-  isElementFound && valueServiceV2(elements, settingSelector.getAttribute(), value, instanceConfig.value, settingSelector);
+  isElementFound &&
+    valueServiceV2(elements, settingSelector.getAttribute(), value, instanceConfig.value, settingSelector);
 }

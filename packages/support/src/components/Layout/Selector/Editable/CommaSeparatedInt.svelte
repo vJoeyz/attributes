@@ -17,7 +17,7 @@
   <InputController validate={commaSeparatedIntValidator} let:inputValidator let:isTouched let:isValid>
     <Input
       disabled={!isActive}
-      onChange={onChange}
+      {onChange}
       {inputValidator}
       {id}
       type="text"

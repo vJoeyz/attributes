@@ -58,7 +58,10 @@
   }
 
   function checkIsEnable(schemaForm: SchemaInput[]) {
-    const localEnable = checkSettingCondition(element, schemaForm, {instance: $schemaSettingsInstance, key: $schemaSettingsKey || ''});
+    const localEnable = checkSettingCondition(element, schemaForm, {
+      instance: $schemaSettingsInstance,
+      key: $schemaSettingsKey || '',
+    });
 
     if (localEnable === false && isChecked === true) {
       schemaFormActions.removeElement(element.key);
@@ -106,8 +109,7 @@
       isChecked = true;
       schemaFormActions.addElement(element.key);
     } else {
-
-      isChecked = !!elementInput
+      isChecked = !!elementInput;
     }
   }
 
@@ -116,47 +118,36 @@
   }
 </script>
 
-
 <Attribute>
-  <AttributeItem
-    id={selectorId}
-    disabled={!isEnable}
-    checked={isChecked}
-    status={elementStatus}
-  >
+  <AttributeItem id={selectorId} disabled={!isEnable} checked={isChecked} status={elementStatus}>
     <AttributeItemHeader>
       <AttributeCheckbox
-        onCheck={onCheck}
-        isChecked={isChecked}
-        isRequired={isRequired}
+        {onCheck}
+        {isChecked}
+        {isRequired}
         key={element.key}
         disabled={!isEnable}
         status={elementStatus}
       />
       <AttributeItemContainer>
         <AttributeContainer>
-          <AttributeLabel toggleSelector={toggleSelector}>
+          <AttributeLabel {toggleSelector}>
             <AttributeKey>
               {element.key}
             </AttributeKey>
             <AttributeText>
               {element.description}
               {#if element.required}
-                <AttributeRequired/>
+                <AttributeRequired />
               {/if}
             </AttributeText>
           </AttributeLabel>
-          <AttributeToggle isOpen={isOpenSelector} toggleSelector={toggleSelector} />
+          <AttributeToggle isOpen={isOpenSelector} {toggleSelector} />
         </AttributeContainer>
         {#if isOpenSelector}
-          <AttributeSelector
-            type="element"
-            key={element.key}
-            value={undefined}
-          />
+          <AttributeSelector type="element" key={element.key} value={undefined} />
         {/if}
       </AttributeItemContainer>
-
     </AttributeItemHeader>
     {#if elementInput && elementInput.validation}
       {#each elementInput.validation.messages as inputMessage}
@@ -171,7 +162,7 @@
   {#if hasSettings}
     <AttributeSettings>
       {#each element.settings as setting}
-        <ElementSetting parent={element.key} setting={setting}/>
+        <ElementSetting parent={element.key} {setting} />
       {/each}
     </AttributeSettings>
   {/if}

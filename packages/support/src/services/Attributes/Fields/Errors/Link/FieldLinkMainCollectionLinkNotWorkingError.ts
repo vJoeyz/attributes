@@ -14,7 +14,6 @@ export default class FieldLinkMainCollectionLinkNotFoundError extends AbstractSc
       `Check if the Link Block or Text Link have the correct link to the Item’s Template page.`,
     ].join(' ');
 
-
     Object.setPrototypeOf(this, FieldLinkMainCollectionLinkNotFoundError.prototype);
   }
 }

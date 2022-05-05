@@ -15,31 +15,24 @@
   function clearForm() {
     $validatingMode = VALIDATE_MODES.VALIDATING;
 
-    const schemaSettings =  {
+    const schemaSettings = {
       key: $schemaSettingsKey || '',
       instance: $schemaSettingsInstance,
     };
 
-    $schemaForm = resetInputForm(
-      $schemaForm,
-      $schemaData,
-      schemaSettings,
-    );
+    $schemaForm = resetInputForm($schemaForm, $schemaData, schemaSettings);
 
     scrollTo('#support-internal', 100);
 
-    setTimeout(function() {
+    setTimeout(function () {
       $validatingMode = VALIDATE_MODES.READY;
     }, 1000);
-
 
     $isSubmitted = false;
   }
 </script>
 
-<button on:click={clearForm} data-testid="reset">
-  Reset
-</button>
+<button on:click={clearForm} data-testid="reset"> Reset </button>
 
 <style>
   button {

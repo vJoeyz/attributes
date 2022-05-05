@@ -1,18 +1,13 @@
 <script lang="ts">
-
   import Arrow from '@src/components/Layout/Icons/arrow-right.svg';
   export let inverse = false;
-
 </script>
 
-
-  <span class="right-arrow-icon" class:inverse={inverse}>
-    <Arrow/>
-  </span>
-
+<span class="right-arrow-icon" class:inverse>
+  <Arrow />
+</span>
 
 <style>
-
   .right-arrow-icon {
     width: 1rem;
     opacity: 0.6;
@@ -30,5 +25,4 @@
     transform-style: preserve-3d;
     transition: all 1s ease-in-out;
   }
-
 </style>

@@ -13,7 +13,6 @@
   } from '@src/stores';
 
   async function validateForm() {
-
     if (!$schemaData) {
       return;
     }
@@ -22,33 +21,26 @@
       return;
     }
 
-    const schemaSettings =  {
+    const schemaSettings = {
       key: $schemaSettingsKey,
       instance: $schemaSettingsInstance,
     };
 
     $validatingMode = VALIDATE_MODES.VALIDATING;
 
-    $schemaForm = await validateInputForm(
-      $schemaForm,
-      $schemaData,
-      schemaSettings,
-    );
+    $schemaForm = await validateInputForm($schemaForm, $schemaData, schemaSettings);
 
     scrollTo('#support-internal', 100);
 
-    setTimeout(function() {
+    setTimeout(function () {
       $validatingMode = VALIDATE_MODES.READY;
-    }, 1000)
-
+    }, 1000);
 
     $isSubmitted = true;
   }
 </script>
 
-<button on:click={validateForm} data-testid="run-check">
-  Run Check
-</button>
+<button on:click={validateForm} data-testid="run-check"> Run Check </button>
 
 <style>
   button {

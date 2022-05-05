@@ -11,18 +11,17 @@
   function scrollToAttribute() {
     scrollInto(`#${id}`, 0);
   }
-
 </script>
 
 <div class="tool_results-item" on:click={scrollToAttribute}>
-  <StatusIcon status={false}/>
+  <StatusIcon status={false} />
   <div class="tool_results-item-block">
     <AttributeKey>
       {key}
     </AttributeKey>
     {@html message}
   </div>
-  <ArrowIcon/>
+  <ArrowIcon />
 </div>
 
 <style>

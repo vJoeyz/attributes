@@ -1,19 +1,15 @@
 <script lang="ts">
-
   import ArrowRight from '@src/components/Layout/Icons/ArrowRight.svelte';
 
   export let toggleMinimize: () => void;
   export let isMinimized = false;
-
 </script>
 
-
-<div class="tool_minimize" on:click={toggleMinimize} >
-  <ArrowRight inverse={isMinimized}/>
+<div class="tool_minimize" on:click={toggleMinimize}>
+  <ArrowRight inverse={isMinimized} />
 </div>
 
 <style>
-
   .tool_minimize {
     position: absolute;
     left: -3em;

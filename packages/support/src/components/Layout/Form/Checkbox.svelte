@@ -8,21 +8,13 @@
 </script>
 
 <label>
-  <input
-    disabled={disabled}
-    on:change={(!disabled && onChange) || undefined}
-    bind:checked={isChecked}
-    value={value}
-    type="checkbox"
-  />
+  <input {disabled} on:change={(!disabled && onChange) || undefined} bind:checked={isChecked} {value} type="checkbox" />
 
-    {label}
-    {#if required}
-      <span>*</span>
-    {/if}
-
+  {label}
+  {#if required}
+    <span>*</span>
+  {/if}
 </label>
-
 
 <style>
   label {
@@ -36,5 +28,4 @@
     padding: 0;
     vertical-align: top;
   }
-
 </style>

@@ -1,5 +1,5 @@
 <div class="attribute_container">
-  <slot/>
+  <slot />
 </div>
 
 <style>

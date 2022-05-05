@@ -3,7 +3,14 @@ import { validateElementSetting } from './Elements/ElementsSettingsService';
 import { validateFieldSetting } from './Fields/FieldsSettingsService';
 import { validateField } from './Fields/FieldsService';
 import type { AttributeSchema } from '$global/types/schema';
-import type { InputChannel, SchemaInput, SchemaInputElement, SchemaInputElementSetting, SchemaInputField, SchemaInputFieldSetting } from '@src/types/Input.types';
+import type {
+  InputChannel,
+  SchemaInput,
+  SchemaInputElement,
+  SchemaInputElementSetting,
+  SchemaInputField,
+  SchemaInputFieldSetting,
+} from '@src/types/Input.types';
 
 jest.mock('./Elements/ElementsService', () => ({
   validateElement: jest.fn(),
@@ -21,12 +28,10 @@ jest.mock('./Fields/FieldsSettingsService', () => ({
   validateFieldSetting: jest.fn(),
 }));
 
-
 const validateElementMock = validateElement as jest.Mock;
 const validateFieldMock = validateField as jest.Mock;
 const validateElementSettingMock = validateElementSetting as jest.Mock;
 const validateFieldSettingMock = validateFieldSetting as jest.Mock;
-
 
 import { validateInputForm } from './AttributesService';
 
@@ -39,7 +44,6 @@ describe('Use Attributes Validation', () => {
   });
 
   test('Validate elements', () => {
-
     const elementList: SchemaInputElement = {
       type: 'element',
       element: 'list',
@@ -56,10 +60,7 @@ describe('Use Attributes Validation', () => {
       key: 'cmsload',
     };
 
-    const form: SchemaInput[] = [
-      elementList,
-      elementPageButton,
-    ];
+    const form: SchemaInput[] = [elementList, elementPageButton];
 
     const schema: AttributeSchema = {
       elements: [],
@@ -69,8 +70,7 @@ describe('Use Attributes Validation', () => {
     const elementListChannel: InputChannel = {
       input: elementList,
       domElements: [],
-    }
-
+    };
 
     validateElementMock.mockReturnValue(elementListChannel);
 
@@ -88,13 +88,23 @@ describe('Use Attributes Validation', () => {
     expect(validateElementMock).toHaveBeenCalled();
     expect(validateElementMock).toHaveBeenCalledTimes(2);
 
-    expect(validateElementMock).toHaveBeenNthCalledWith(1, {
-      ...form[0],
-    }, schema, schemaSettings);
+    expect(validateElementMock).toHaveBeenNthCalledWith(
+      1,
+      {
+        ...form[0],
+      },
+      schema,
+      schemaSettings
+    );
 
-    expect(validateElementMock).toHaveBeenNthCalledWith(2, {
-      ...form[1],
-    }, schema, schemaSettings);
+    expect(validateElementMock).toHaveBeenNthCalledWith(
+      2,
+      {
+        ...form[1],
+      },
+      schema,
+      schemaSettings
+    );
 
     expect(validateFieldMock).not.toHaveBeenCalled();
     expect(validateFieldSettingMock).not.toHaveBeenCalled();
@@ -102,8 +112,7 @@ describe('Use Attributes Validation', () => {
   });
 
   test('Validate elements with settings', async () => {
-
-    const elementList: SchemaInputElement =  {
+    const elementList: SchemaInputElement = {
       type: 'element',
       element: 'list',
       validation: null,
@@ -133,18 +142,12 @@ describe('Use Attributes Validation', () => {
       key: 'cmsload',
     };
 
-    const form: SchemaInput[] = [
-      elementList,
-      settingMode,
-      settingThreshold,
-    ];
-
+    const form: SchemaInput[] = [elementList, settingMode, settingThreshold];
 
     const elementListChannel: InputChannel = {
       input: elementList,
       domElements: [],
-    }
-
+    };
 
     validateElementMock.mockReturnValue(elementListChannel);
 
@@ -162,8 +165,6 @@ describe('Use Attributes Validation', () => {
       instance,
     };
 
-
-
     await validateInputForm(form, schema, schemaSettings);
 
     expect(validateElementMock).toHaveBeenCalled();
@@ -174,9 +175,7 @@ describe('Use Attributes Validation', () => {
     expect(validateFieldSettingMock).not.toHaveBeenCalled();
   });
 
-
   test('Validate fields', async () => {
-
     const fieldName: SchemaInputField = {
       type: 'field',
       field: 'field',
@@ -188,9 +187,7 @@ describe('Use Attributes Validation', () => {
       key: 'cmsfilter',
     };
 
-    const form: SchemaInput[] = [
-      fieldName,
-    ];
+    const form: SchemaInput[] = [fieldName];
 
     const schema: AttributeSchema = {
       elements: [],
@@ -209,11 +206,9 @@ describe('Use Attributes Validation', () => {
     const fieldNameChannel: InputChannel = {
       input: fieldName,
       domElements: [],
-    }
-
+    };
 
     validateFieldMock.mockReturnValue(fieldNameChannel);
-
 
     await validateInputForm(form, schema, schemaSettings);
 
@@ -224,7 +219,6 @@ describe('Use Attributes Validation', () => {
 
     expect(validateFieldMock).toHaveBeenCalled();
   });
-
 
   test('Validate fields with settings', async () => {
     const fieldName: SchemaInputField = {
@@ -253,14 +247,11 @@ describe('Use Attributes Validation', () => {
     const fieldNameChannel: InputChannel = {
       input: fieldName,
       domElements: [],
-    }
+    };
 
     validateFieldMock.mockReturnValue(fieldNameChannel);
 
-    const form: SchemaInput[] = [
-      fieldName,
-      settingActive
-    ];
+    const form: SchemaInput[] = [fieldName, settingActive];
 
     const schema: AttributeSchema = {
       elements: [],
@@ -276,7 +267,6 @@ describe('Use Attributes Validation', () => {
       instance,
     };
 
-
     await validateInputForm(form, schema, schemaSettings);
 
     expect(validateElementMock).not.toHaveBeenCalled();
@@ -286,6 +276,4 @@ describe('Use Attributes Validation', () => {
     expect(validateFieldSettingMock).toHaveBeenCalled();
     expect(validateFieldMock).toHaveBeenCalled();
   });
-
-
 });

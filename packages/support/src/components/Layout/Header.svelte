@@ -1,5 +1,5 @@
 <div class="tool_header">
-  <slot/>
+  <slot />
 </div>
 
 <style>

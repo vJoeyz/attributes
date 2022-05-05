@@ -5,16 +5,16 @@
 
 <div class="tool_initial-wrapper">
   <div class="tool_initial-block">
-    <InitialArrow/>
-    <p class="tool_initial-block-text">Select the Attribute solution you would like to check if it is working properly.<br></p>
-    <a href="https://www.finsweet.com/attributes/directory" target="_blank"
-      class="tool_initial-link">
-      <ExternalLink/>
+    <InitialArrow />
+    <p class="tool_initial-block-text">
+      Select the Attribute solution you would like to check if it is working properly.<br />
+    </p>
+    <a href="https://www.finsweet.com/attributes/directory" target="_blank" class="tool_initial-link">
+      <ExternalLink />
       <div>Go to our directory</div>
     </a>
   </div>
 </div>
-
 
 <style>
   .tool_initial-wrapper {

@@ -5,7 +5,6 @@
   export let size: 'medium' | 'large' = 'medium';
 </script>
 
-
 <div
   class="select_option"
   class:medium={size === 'medium'}
@@ -17,11 +16,10 @@
   on:click
   data-testid={testId}
 >
-  <slot/>
+  <slot />
 </div>
 
 <style>
-
   .select_option {
     display: flex;
     max-width: 100%;

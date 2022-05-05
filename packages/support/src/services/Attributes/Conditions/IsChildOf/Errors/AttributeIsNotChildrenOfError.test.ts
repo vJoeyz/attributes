@@ -5,15 +5,12 @@ import type {
   AttributeElementSchema,
   AttributeSchemaCondition,
   AttributeMainCondition,
-  AttributeSelectorCondition
+  AttributeSelectorCondition,
 } from '$global/types/schema';
 
 describe('Test Error - Attribute not found', () => {
-
   test('Attribute type element not found', () => {
-
     const attributeSelector = new SchemaSelector('fs-cmsload-element', 'page-button', true);
-
 
     const attributeList = CMS_LOAD.elements.find((value: AttributeElementSchema) => value.key === 'list');
     if (!attributeList) {
@@ -31,7 +28,9 @@ describe('Test Error - Attribute not found', () => {
       (value: AttributeSchemaCondition) => value.condition === 'isChildOf'
     ) as AttributeMainCondition[];
 
-    const attributePageButtonSelector = attributePageButtonIsChildOf.find((value: AttributeMainCondition) => value.type === 'selector');
+    const attributePageButtonSelector = attributePageButtonIsChildOf.find(
+      (value: AttributeMainCondition) => value.type === 'selector'
+    );
 
     if (!attributePageButtonSelector) {
       throw new Error('Unexpected error: Missing is child of selector in page button on cms-load schema');
@@ -39,16 +38,11 @@ describe('Test Error - Attribute not found', () => {
 
     const appliedToSelector = (attributePageButtonSelector as AttributeSelectorCondition).selector;
 
-
     const isChildrenOf = [appliedToList, appliedToSelector];
 
-
     const error = new AttributeIsNotChildrenOfError(attributeSelector, isChildrenOf);
-    expect(error.stripHTML())
-    .toEqual(
+    expect(error.stripHTML()).toEqual(
       'The attribute fs-cmsload-element="page-button" is found, but not in the correct location. Move fs-cmsload-element="page-button" to be a child of the Collection List and Pagination Wrapper'
-    )
+    );
   });
-
-
 });

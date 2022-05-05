@@ -1,8 +1,9 @@
 <script lang="ts">
   export let toggleSelector: (() => void) | null;
 </script>
+
 <div class="attribute_label" on:click={toggleSelector}>
-  <slot/>
+  <slot />
 </div>
 
 <style>

@@ -22,10 +22,10 @@
   }
 
   function onSelect(element: string) {
-    return function() {
+    return function () {
       changeFieldElement(fieldInput.index, element);
       forceClose();
-    }
+    };
   }
 
   let specialization = fieldInput.specialization || 'Select an option';
@@ -33,26 +33,23 @@
   $: {
     specialization = fieldInput.specialization || 'Select an option';
   }
-
 </script>
 
 <div>
-
-  <SelectDisplay on:click={toggleOptions} isOpen={isOpen} testId="field-specialization">{specialization}</SelectDisplay>
+  <SelectDisplay on:click={toggleOptions} {isOpen} testId="field-specialization">{specialization}</SelectDisplay>
   {#if isOpen}
-  <SelectDropdown on:click_outside={forceClose}>
-    {#each options as option (option.key)}
-      <SelectOption
-        testId="field-specialization-option"
-        on:click={onSelect(option.key)}
-        isSelected={specialization === option.key}
-      >
+    <SelectDropdown on:click_outside={forceClose}>
+      {#each options as option (option.key)}
+        <SelectOption
+          testId="field-specialization-option"
+          on:click={onSelect(option.key)}
+          isSelected={specialization === option.key}
+        >
           {option.key}
-      </SelectOption>
-    {/each}
-  </SelectDropdown>
+        </SelectOption>
+      {/each}
+    </SelectDropdown>
   {/if}
-
 </div>
 
 <style>

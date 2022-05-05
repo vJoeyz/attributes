@@ -5,18 +5,13 @@ import type { DOMSelector } from '$global/types/schema';
 import type { SchemaSelector, ElementItemSelector } from '@src/types/Schema.types';
 
 export function elementAppliedTo(elements: HTMLElement[], appliedTo: DOMSelector[], elementSelector: SchemaSelector) {
-
   let status = false;
 
   elements.forEach((element: HTMLElement) => {
     appliedTo.forEach((domSelector: DOMSelector) => {
-
-      const {
-        selectors
-      } = domSelector;
+      const { selectors } = domSelector;
 
       selectors.forEach((selector: string) => {
-
         if (selector === '*') {
           status = true;
           return;
@@ -34,7 +29,6 @@ export function elementAppliedTo(elements: HTMLElement[], appliedTo: DOMSelector
           return;
         }
 
-
         // validate both tags and classnames
         if (selector.includes('.')) {
           const [tagName, classNames] = selector.split('.');
@@ -43,10 +37,9 @@ export function elementAppliedTo(elements: HTMLElement[], appliedTo: DOMSelector
             return;
           }
         }
-      })
-    })
+      });
+    });
   });
-
 
   if (!status) {
     throw new AttributeNotMatchAppliedToError(elementSelector, appliedTo);
@@ -59,52 +52,47 @@ export function elementSettingAppliedTo(elementSelector: SchemaSelector, applied
   let status = false;
   let element: null | HTMLElement = null;
 
-  appliedTo.map((value: ElementItemSelector) => value.elementSelector)
+  appliedTo
+    .map((value: ElementItemSelector) => value.elementSelector)
     .forEach((appliedToElement: SchemaSelector) => {
-    const selectors: string[] = appliedToElement.getElementSelector().split(',');
+      const selectors: string[] = appliedToElement.getElementSelector().split(',');
 
-    selectors.forEach((selector: string) => {
+      selectors.forEach((selector: string) => {
+        try {
+          assertAttributeIsAppliedToElement(elementSelector.getAttributeSelector(), selector);
 
-      try {
-        assertAttributeIsAppliedToElement(elementSelector.getAttributeSelector(), selector);
+          element = queryElementWithAttribute(elementSelector.getAttributeSelector(), selector);
 
-        element = queryElementWithAttribute(elementSelector.getAttributeSelector(), selector);
-
-        status = true;
-      } catch {
-        if (!status) {
-          status = false;
+          status = true;
+        } catch {
+          if (!status) {
+            status = false;
+          }
         }
-      }
+      });
     });
-  })
 
   if (!status) {
-
     const appliedToSelectors = appliedTo.map((value: ElementItemSelector) => value.elementAttribute.appliedTo).flat();
 
-    throw new AttributeNotMatchAppliedToError(
-      elementSelector,
-      appliedToSelectors,
-    );
+    throw new AttributeNotMatchAppliedToError(elementSelector, appliedToSelectors);
   }
 
   return element;
 }
 
 export function elementsSameNode(appliedToElements: HTMLElement[], elementsDOM: HTMLElement[]) {
-
   let status = false;
   elementsDOM.forEach((element: HTMLElement) => {
-    appliedToElements.forEach((appliedToElement: HTMLElement)  => {
+    appliedToElements.forEach((appliedToElement: HTMLElement) => {
       if (appliedToElement.isSameNode(element)) {
         status = true;
       }
-    })
-  })
+    });
+  });
 
   if (!status) {
-    throw new Error('Unexpected error: Attribute being tested are not in the same node. Contact support.')
+    throw new Error('Unexpected error: Attribute being tested are not in the same node. Contact support.');
   }
   return status;
 }

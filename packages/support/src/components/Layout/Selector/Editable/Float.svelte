@@ -9,20 +9,18 @@
   export let isActive: boolean;
   export let onChange: (value: string) => void;
   attributeValue = attributeValue || value.default || '';
-
 </script>
 
-
-  <InputController validate={floatValidator} let:inputValidator let:isTouched let:isValid>
-    <Input
-      disabled={!isActive}
-      onChange={onChange}
-      {inputValidator}
-      {id}
-      type="number"
-      step="0.01"
-      {isTouched}
-      {isValid}
-      bind:value={attributeValue}
-    />
-  </InputController>
+<InputController validate={floatValidator} let:inputValidator let:isTouched let:isValid>
+  <Input
+    disabled={!isActive}
+    {onChange}
+    {inputValidator}
+    {id}
+    type="number"
+    step="0.01"
+    {isTouched}
+    {isValid}
+    bind:value={attributeValue}
+  />
+</InputController>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { schemaInstances, schemaSettingsInstance } from '@src/stores'
+  import { schemaInstances, schemaSettingsInstance } from '@src/stores';
 
   function selectInstance(value: number) {
     $schemaSettingsInstance = value;
@@ -11,11 +11,11 @@
     {#each Array.from(Array($schemaInstances).keys()) as panelInstance}
       <div
         class="tool_tab"
-        class:selected={panelInstance+1 === $schemaSettingsInstance}
-        on:click={() => selectInstance(panelInstance+1)}
+        class:selected={panelInstance + 1 === $schemaSettingsInstance}
+        on:click={() => selectInstance(panelInstance + 1)}
         data-testid="select-attribute-instance"
       >
-        {panelInstance+1}
+        {panelInstance + 1}
       </div>
     {/each}
 
@@ -26,8 +26,6 @@
 </div>
 
 <style>
-
-
   .tool_tabs {
     display: grid;
     padding-top: 1rem;
@@ -51,7 +49,6 @@
     max-width: 100%;
     flex-wrap: wrap;
   }
-
 
   .tool_tab {
     margin-right: -1px;

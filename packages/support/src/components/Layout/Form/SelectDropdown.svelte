@@ -1,12 +1,10 @@
 <script lang="ts">
   import { clickOutside } from '@src/directives/clickOutside';
-
 </script>
 
 <div class="tool_select-dropdown" use:clickOutside on:click_outside>
-  <slot/>
+  <slot />
 </div>
-
 
 <style>
   .tool_select-dropdown {
@@ -21,13 +19,12 @@
     overflow-y: scroll;
   }
 
-
   .tool_select-dropdown::-webkit-scrollbar {
     width: 0.5rem;
   }
 
   .tool_select-dropdown::-webkit-scrollbar-track {
-    background:rgb(0, 0, 0);
+    background: rgb(0, 0, 0);
   }
   .tool_select-dropdown::-webkit-scrollbar-thumb {
     background: #474747;

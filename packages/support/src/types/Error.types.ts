@@ -1,4 +1,3 @@
-
 export interface ValueTypeError {
   type: string;
   message: string;

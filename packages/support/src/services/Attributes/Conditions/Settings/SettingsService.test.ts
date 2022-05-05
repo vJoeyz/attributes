@@ -7,7 +7,6 @@ import type { ItemError } from '@src/types/Error.types';
 import type { AttributeElementSchema, AttributeSchemaCondition } from '$global/types/schema';
 
 describe('Test if settings match', () => {
-
   test('Test schema element setting match', () => {
     global.document.documentElement.innerHTML = `
       <html>
@@ -25,17 +24,18 @@ describe('Test if settings match', () => {
       throw new Error('Missing conditions for page-button');
     }
 
-    const conditions = element.conditions.filter((condition: AttributeSchemaCondition) => condition.condition === 'settings');
+    const conditions = element.conditions.filter(
+      (condition: AttributeSchemaCondition) => condition.condition === 'settings'
+    );
 
     const schemaSelector = new SchemaSelector('fs-cmsload-element', 'page-button', true);
-
 
     schemaSelector.setElements(Array.from(document.querySelectorAll('[fs-cmsload-element="page-button]')));
 
     const schemaSettings = {
       key: 'cmsload',
       instance: 1,
-    }
+    };
 
     const result = hasSettings(schemaSelector, conditions, CMS_LOAD, schemaSettings);
     expect(result).toBe(true);
@@ -58,17 +58,18 @@ describe('Test if settings match', () => {
       throw new Error('Missing conditions for page-button');
     }
 
-    const conditions = element.conditions.filter((condition: AttributeSchemaCondition) => condition.condition === 'settings');
+    const conditions = element.conditions.filter(
+      (condition: AttributeSchemaCondition) => condition.condition === 'settings'
+    );
 
     const schemaSelector = new SchemaSelector('fs-cmsload-element', 'page-button', true);
-
 
     schemaSelector.setElements(Array.from(document.querySelectorAll('[fs-cmsload-element="page-button"]')));
 
     const schemaSettings = {
       key: 'cmsload',
       instance: 1,
-    }
+    };
 
     try {
       hasSettings(schemaSelector, conditions, CMS_LOAD, schemaSettings);
@@ -77,4 +78,4 @@ describe('Test if settings match', () => {
       expect((e as ItemError).type).toEqual('conditions-hasSettings');
     }
   });
-})
+});

@@ -11,7 +11,7 @@
   import type { AttributeSchema } from '$global/types/schema';
   import type { AttributeLoaded } from '@src/types/Schema.types';
   import type { AttributesData, SupportedAttributeData } from '$docs/src/utils/types';
-  import { isScriptLoaded } from '@src/services/Attributes/Script/ScriptService'
+  import { isScriptLoaded } from '@src/services/Attributes/Script/ScriptService';
 
   import {
     schemas,
@@ -43,27 +43,26 @@
     const request = await fetch('https://cdn.jsdelivr.net/npm/@finsweet/attributes-docs@1/attributes.json');
     const data: AttributesData = await request.json();
 
-    const attributesWithLoadPromises = data.filter((attribute) => attribute.allowSupport)
+    const attributesWithLoadPromises = data
+      .filter((attribute) => attribute.allowSupport)
       .map(async (attribute): Promise<AttributeLoaded> => {
+        const supportAttribute = attribute as SupportedAttributeData;
+        const schemaFile = `${supportAttribute.baseSrc}/${supportAttribute.schemaSrc}`;
+        const scriptFile = `${supportAttribute.baseSrc}/${supportAttribute.scriptSrc}`;
 
-      const supportAttribute = attribute as SupportedAttributeData;
-      const schemaFile = `${supportAttribute.baseSrc}/${supportAttribute.schemaSrc}`;
-      const scriptFile = `${supportAttribute.baseSrc}/${supportAttribute.scriptSrc}`;
+        const loaded = isScriptLoaded(scriptFile);
 
-      const loaded = isScriptLoaded(scriptFile);
-
-      return {
-        ...supportAttribute,
-        schemaFile,
-        scriptFile,
-        loaded,
-      };
-    })
+        return {
+          ...supportAttribute,
+          schemaFile,
+          scriptFile,
+          loaded,
+        };
+      });
 
     const attributesWithLoad: AttributeLoaded[] = await Promise.all(attributesWithLoadPromises);
 
     schemas.set(attributesWithLoad);
-
   }
 
   onMount(async () => {
@@ -79,7 +78,6 @@
 
     const url = new URLSearchParams(window.location.search);
     const selected = url.get('selected');
-
 
     if (selected && selected !== '') {
       $schemaSettingsKey = selected;
@@ -97,7 +95,6 @@
     minimize = !minimize;
   }
 
-
   $: {
     if ($schemaSelected && $isLoadingWalkthrough === false && $isLoadingSchema === true) {
       $schemaData = null;
@@ -108,32 +105,25 @@
   $: if ($schemaSelected) {
     loadSchema(($schemaSelected as AttributeLoaded).schemaFile);
   }
-
-
 </script>
 
-
-<div
-  id="walkthrough"
-  data-testid="walkthrough"
-  class="walkthrough"
-  class:minimize={minimize === true}
->
-  <Loading isLoading={$isLoadingWalkthrough || $isLoadingSchema || $isValidating}/>
-  <Minimize toggleMinimize={toggleMinimize} isMinimized={minimize} />
+<div id="walkthrough" data-testid="walkthrough" class="walkthrough" class:minimize={minimize === true}>
+  <Loading isLoading={$isLoadingWalkthrough || $isLoadingSchema || $isValidating} />
+  <Minimize {toggleMinimize} isMinimized={minimize} />
   <div id="support-internal" class="walkthrough_interface">
     <Header>
-      <div>Attributes Automated Support</div> <Tutorial/>
+      <div>Attributes Automated Support</div>
+      <Tutorial />
     </Header>
     <Config />
     {#if $schemaSettingsKey}
-      <Schema/>
+      <Schema />
     {:else}
-      <Initial/>
+      <Initial />
     {/if}
   </div>
   {#if $schemaSettingsKey}
-    <Actions/>
+    <Actions />
   {/if}
 </div>
 
@@ -142,29 +132,24 @@
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 300;
-    src: local('Open Sans Light'),
-      local('OpenSans-Light'),
-      url(https://fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff)
-      format('woff');
+    src: local('Open Sans Light'), local('OpenSans-Light'),
+      url(https://fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff) format('woff');
   }
 
   @font-face {
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 400;
-    src: local('Open Sans'),
-    local('OpenSans'),
-    url(https://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+    src: local('Open Sans'), local('OpenSans'),
+      url(https://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
   }
 
   @font-face {
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 600;
-    src: local('Open Sans Semibold'),
-    local('OpenSans-Semibold'),
-    url(https://fonts.gstatic.com/s/opensans/v13/MTP_ySUJH_bn48VBG8sNSnhCUOGz7vYGh680lGh-uXM.woff)
-    format('woff');
+    src: local('Open Sans Semibold'), local('OpenSans-Semibold'),
+      url(https://fonts.gstatic.com/s/opensans/v13/MTP_ySUJH_bn48VBG8sNSnhCUOGz7vYGh680lGh-uXM.woff) format('woff');
   }
 
   .walkthrough {
@@ -211,11 +196,10 @@
   }
   /*track*/
   .walkthrough_interface::-webkit-scrollbar-track {
-    background:rgb(0, 0, 0);
+    background: rgb(0, 0, 0);
   }
   /*thumb*/
   .walkthrough_interface::-webkit-scrollbar-thumb {
     background: #474747;
   }
-
 </style>

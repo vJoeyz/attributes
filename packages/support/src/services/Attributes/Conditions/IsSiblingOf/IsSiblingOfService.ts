@@ -3,7 +3,10 @@ import {
   createSchemaSelectorFromItem,
   getSchemaItem,
 } from '@src/services/Attributes/Schema/SchemaService';
-import { assertElementIsSiblingOfElement, assertElementIsSiblingOfElements } from '@src/services/DOM/Assertions/AssertionsService';
+import {
+  assertElementIsSiblingOfElement,
+  assertElementIsSiblingOfElements,
+} from '@src/services/DOM/Assertions/AssertionsService';
 import AttributeIsNotSiblingOfError from './Errors/AttributeIsNotSiblingOfError';
 
 import type {
@@ -20,15 +23,18 @@ export function isSiblingOf(
   elementSelector: SchemaSelector,
   conditions: AttributeSchemaConditions,
   schema: AttributeSchema,
-  schemaSettings: SchemaSettings,
+  schemaSettings: SchemaSettings
 ) {
-
   const selectors: (string | string[])[] = conditions.map((condition: AttributeSchemaCondition) => {
-
     const typeCondition = condition as AttributeMainCondition;
 
     if (typeCondition.type === 'element') {
-      const conditionSchemaSelector = createSchemaSelectorFromSchema(schema, 'elements', typeCondition.element, schemaSettings);
+      const conditionSchemaSelector = createSchemaSelectorFromSchema(
+        schema,
+        'elements',
+        typeCondition.element,
+        schemaSettings
+      );
       return conditionSchemaSelector.getElementSelector();
     }
 
@@ -36,8 +42,8 @@ export function isSiblingOf(
       return typeCondition.selector.map((domSelector: DOMSelector) => domSelector.selectors.join(','));
     }
 
-    throw new Error(`Error in bounds of condition`)
-  })
+    throw new Error(`Error in bounds of condition`);
+  });
 
   const flatSelectors: string[] = selectors.flat();
 
@@ -49,58 +55,71 @@ export function isSiblingOf(
   }
 
   if (!isValid) {
+    const notSiblingOfConditions: AttributeSchemaCondition[] = conditions.filter(
+      (condition: AttributeSchemaCondition) => {
+        const typeCondition = condition as AttributeMainCondition;
 
-    const notSiblingOfConditions: AttributeSchemaCondition[] = conditions.filter((condition: AttributeSchemaCondition) => {
-      const typeCondition = condition as AttributeMainCondition;
+        if (typeCondition.type === 'element') {
+          const conditionSchemaSelector = createSchemaSelectorFromSchema(
+            schema,
+            'elements',
+            typeCondition.element,
+            schemaSettings
+          );
 
-      if (typeCondition.type === 'element') {
-        const conditionSchemaSelector = createSchemaSelectorFromSchema(schema, 'elements', typeCondition.element, schemaSettings);
-
-        try {
-          assertElementIsSiblingOfElement(elementSelector.getElementSelector(), conditionSchemaSelector.getElementSelector());
-          return false;
-        } catch {
-          return true;
+          try {
+            assertElementIsSiblingOfElement(
+              elementSelector.getElementSelector(),
+              conditionSchemaSelector.getElementSelector()
+            );
+            return false;
+          } catch {
+            return true;
+          }
         }
-      }
 
-      if (typeCondition.type === 'selector') {
-        const conditionSchemaSelector = typeCondition
-          .selector
-          .map((domSelector: DOMSelector) => domSelector.selectors.join(','))
-          .join(',');
+        if (typeCondition.type === 'selector') {
+          const conditionSchemaSelector = typeCondition.selector
+            .map((domSelector: DOMSelector) => domSelector.selectors.join(','))
+            .join(',');
 
-        try {
-          assertElementIsSiblingOfElement(elementSelector.getElementSelector(), conditionSchemaSelector);
-          return false;
-        } catch {
-          return true;
+          try {
+            assertElementIsSiblingOfElement(elementSelector.getElementSelector(), conditionSchemaSelector);
+            return false;
+          } catch {
+            return true;
+          }
         }
+
+        return false;
       }
+    );
 
-      return false;
-    })
+    const notSiblingOfSelectors: (ElementItemSelector | DOMSelector[])[] = notSiblingOfConditions.map(
+      (condition: AttributeSchemaCondition) => {
+        const typeCondition = condition as AttributeMainCondition;
 
-    const notSiblingOfSelectors: (ElementItemSelector | DOMSelector[])[] = notSiblingOfConditions
-      .map((condition: AttributeSchemaCondition) => {
+        if (typeCondition.type === 'element') {
+          const elementSchema = getSchemaItem(schema, 'elements', typeCondition.element) as AttributeElementSchema;
+          const elementSelector = createSchemaSelectorFromItem(
+            elementSchema,
+            'elements',
+            typeCondition.element,
+            schemaSettings
+          );
+          return {
+            elementSelector: elementSelector,
+            elementAttribute: elementSchema,
+          };
+        }
 
-      const typeCondition = condition as AttributeMainCondition;
+        if (typeCondition.type === 'selector') {
+          return typeCondition.selector;
+        }
 
-      if (typeCondition.type === 'element') {
-        const elementSchema = getSchemaItem(schema, 'elements', typeCondition.element) as AttributeElementSchema;
-        const elementSelector = createSchemaSelectorFromItem(elementSchema, 'elements', typeCondition.element, schemaSettings);
-        return {
-          elementSelector: elementSelector,
-          elementAttribute: elementSchema,
-        };
+        throw new Error('Condition out of bounds');
       }
-
-      if (typeCondition.type === 'selector') {
-        return typeCondition.selector;
-      }
-
-      throw new Error('Condition out of bounds');
-    });
+    );
 
     if (notSiblingOfConditions.length <= 0) {
       throw new Error('Unexpected error: not sibling of condition is empty.');

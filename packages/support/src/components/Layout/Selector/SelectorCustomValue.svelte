@@ -1,7 +1,6 @@
 <div class="selector-value">
-  <slot/>
+  <slot />
 </div>
-
 
 <style>
   .selector-value {

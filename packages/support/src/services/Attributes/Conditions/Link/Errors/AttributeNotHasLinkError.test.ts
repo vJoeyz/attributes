@@ -1,17 +1,11 @@
 import AttributeNotHasLinkError from './AttributeNotHasLinkError';
 import SchemaSelector from '@src/services/Selector/SchemaSelector';
 import CMS_PREV_NEXT from '@src/schemas/cms-previous-next';
-import type {
-  AttributeElementSchema,
-} from '$global/types/schema';
-
+import type { AttributeElementSchema } from '$global/types/schema';
 
 describe('Test Error - Attribute not found', () => {
-
   test('Attribute type element not sibling of required element', () => {
-
     const attributeSelector = new SchemaSelector('fs-cmsprevnext-element', 'list', true);
-
 
     const attributeList = CMS_PREV_NEXT.elements.find((value: AttributeElementSchema) => value.key === 'list');
     if (!attributeList) {
@@ -19,11 +13,8 @@ describe('Test Error - Attribute not found', () => {
     }
 
     const error = new AttributeNotHasLinkError(attributeSelector);
-    expect(error.stripHTML())
-    .toEqual(
+    expect(error.stripHTML()).toEqual(
       'The attribute fs-cmsprevnext-element="list" is found, but missing a required link in the Collection Item. Add a Link Block or Text Link to the Collection Item and link it to the Collection Item’s template page.'
-    )
+    );
   });
-
-
 });

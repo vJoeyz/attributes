@@ -19,7 +19,7 @@
     class:is-error={status === false}
   >
     {#if isChecked}
-      <Checkmark/>
+      <Checkmark />
     {/if}
   </div>
   <input
@@ -27,9 +27,9 @@
     disabled={isRequired || disabled}
     class="checkbox-input"
     type="checkbox"
-    on:click={(!isRequired && !disabled) && onCheck || undefined}
+    on:click={(!isRequired && !disabled && onCheck) || undefined}
     bind:checked={isChecked}
-  >
+  />
 </label>
 
 <style>
@@ -100,5 +100,4 @@
   .checkbox-mark.required {
     opacity: 0.6;
   }
-
 </style>

@@ -12,7 +12,7 @@ export default class DOMForAttributeNotFound extends AbstractSchemaError {
     const attributeId = this.toAttribute(attribute.getPrettierSelector());
 
     this.message = [
-      `The ${selectorsLabels} is not found on the page. Add a ${selectorsLabels} component and then add ${attributeId} to it.`
+      `The ${selectorsLabels} is not found on the page. Add a ${selectorsLabels} component and then add ${attributeId} to it.`,
     ].join(' ');
 
     Object.setPrototypeOf(this, DOMForAttributeNotFound.prototype);

@@ -8,10 +8,7 @@ import type {
   AttributeSettingConditionSetting,
   AttributeSchemaCondition,
 } from '$global/types/schema';
-import type {
-  SchemaSettings,
-  SCHEMA_ITEM_TYPES,
-} from '@src/types/Schema.types';
+import type { SchemaSettings, SCHEMA_ITEM_TYPES } from '@src/types/Schema.types';
 import type { SchemaInput } from '@src/types/Input.types';
 
 /**
@@ -167,7 +164,6 @@ export function checkSettingCondition(
     const conditionsSettings = (condition as AttributeSettingCondition).settings;
 
     conditionsSettings.forEach((conditionSetting: AttributeSettingConditionSetting) => {
-
       const settingInForm = form.find(
         (item) =>
           (item.type === 'elementSetting' || item.type === 'fieldSetting') &&
@@ -177,7 +173,6 @@ export function checkSettingCondition(
           item.key === config.key &&
           item.enable === true
       );
-
 
       if (!settingInForm) {
         localEnable = false;

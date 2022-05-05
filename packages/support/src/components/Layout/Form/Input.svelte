@@ -16,12 +16,11 @@
 
   function onInput(event: Event) {
     const input = event.target as HTMLInputElement;
-    onChange(input.value)
+    onChange(input.value);
   }
-
 </script>
 
-<label class:valid={isValid} class:invalid={isTouched && !isValid} class:disabled={disabled}>
+<label class:valid={isValid} class:invalid={isTouched && !isValid} class:disabled>
   <input
     on:input={onInput}
     use:typeAction
@@ -43,14 +42,13 @@
     display: flex;
     box-sizing: border-box;
     align-items: center;
-
   }
 
   label.disabled {
     opacity: 0.5;
   }
 
-/*
+  /*
   div.valid {
     border: 1px solid green;
   }
@@ -81,5 +79,4 @@
     border-width: 1px;
     border-color: #bcfd2e;
   }
-
 </style>

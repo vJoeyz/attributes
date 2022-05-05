@@ -4,12 +4,10 @@
   export let min: number;
   export let max: number;
   export let label: string;
-
 </script>
 
 <label for={id}>{label}</label>
-<input min={min} max={max} id={id} bind:value={value} type="number" />
-
+<input {min} {max} {id} bind:value type="number" />
 
 <style>
   label {

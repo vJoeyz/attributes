@@ -2,9 +2,7 @@
   import CheckButton from '@src/components/Layout/Buttons/Check.svelte';
   import ResetButton from '@src/components/Layout/Buttons/Reset.svelte';
 
-  import {
-    isDirty,
-  } from '@src/stores';
+  import { isDirty } from '@src/stores';
 </script>
 
 <div class="tool_buttons">
@@ -13,7 +11,6 @@
   {/if}
   <CheckButton />
 </div>
-
 
 <style>
   .tool_buttons {

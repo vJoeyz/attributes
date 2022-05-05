@@ -1,17 +1,15 @@
 <script lang="ts">
-
   import WarningIcon from '@src/components/Layout/Icons/warning-icon.svg';
   import CorrectIcon from '@src/components/Layout/Icons/correct-icon.svg';
 
   export let status: boolean;
 </script>
 
-
 <span class="icon-status">
   {#if status}
-    <CorrectIcon/>
+    <CorrectIcon />
   {:else}
-    <WarningIcon/>
+    <WarningIcon />
   {/if}
 </span>
 

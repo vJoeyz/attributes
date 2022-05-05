@@ -1,5 +1,5 @@
 <div class="tool_item-container">
-  <slot/>
+  <slot />
 </div>
 
 <style>

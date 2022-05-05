@@ -1,5 +1,5 @@
 <div class="tool_item-header">
-  <slot/>
+  <slot />
 </div>
 
 <style>

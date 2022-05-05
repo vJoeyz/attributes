@@ -2,21 +2,15 @@
   export let type: 'on-page' | 'not-on-page';
 </script>
 
-
 {#if type === 'on-page'}
-  <div class="tool_select-badge tool_select-badge-on-page">
-    on page
-  </div>
+  <div class="tool_select-badge tool_select-badge-on-page">on page</div>
 {/if}
 
 {#if type === 'not-on-page'}
-  <div class="tool_select-badge tool_select-badge-not-on-page">
-    not on page
-  </div>
+  <div class="tool_select-badge tool_select-badge-not-on-page">not on page</div>
 {/if}
 
 <style>
-
   .tool_select-badge {
     background-attachment: scroll !important;
     margin-left: 0.5rem;

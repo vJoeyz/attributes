@@ -6,9 +6,7 @@
   export let type: string | undefined = undefined;
 </script>
 
-<div
-  class="tool_message"
->
+<div class="tool_message">
   <div
     class="tool_message-block"
     data-testid="attribute-error"
@@ -16,7 +14,7 @@
     class:is-success={status === true}
     class:is-error={status === false}
   >
-    <StatusIcon status={status}/>
+    <StatusIcon {status} />
     <div>{@html message}</div>
   </div>
 </div>
@@ -26,9 +24,7 @@
     padding: 0rem 1.5rem 1rem;
   }
 
-
-
-  .tool_message  :global(svg) {
+  .tool_message :global(svg) {
     width: 1.5rem;
     max-width: 100%;
     height: 1.5rem;

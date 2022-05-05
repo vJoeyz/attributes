@@ -15,5 +15,5 @@
   <SelectorCustomAttributeValueText>
     {selector}
   </SelectorCustomAttributeValueText>
-  <SelectorButton selector={selector}/>
+  <SelectorButton {selector} />
 </SelectorCustomValue>

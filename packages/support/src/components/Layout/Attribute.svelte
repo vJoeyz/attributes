@@ -1,8 +1,5 @@
-<div
-  class="tool_support"
-
->
-  <slot/>
+<div class="tool_support">
+  <slot />
 </div>
 
 <style>

@@ -7,15 +7,12 @@ export default class FieldLinkNestedCollectionLinkNotWorkingError extends Abstra
   constructor(attribute: SchemaSelector) {
     super();
 
-
     const attributeId = this.toAttribute(attribute.getPrettierSelector());
-
 
     this.message = [
       `The attribute ${attributeId} is found on the Collection’s CMS Template, but the link is not working.`,
-      `Check if the link to the Item’s Template page is correct.`
+      `Check if the link to the Item’s Template page is correct.`,
     ].join(' ');
-
 
     Object.setPrototypeOf(this, FieldLinkNestedCollectionLinkNotWorkingError.prototype);
   }

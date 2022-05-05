@@ -1,7 +1,7 @@
 <script lang="ts">
   import ArrowUp from '@src/components/Layout/Icons/arrow-green-up.svg';
   import ArrowDown from '@src/components/Layout/Icons/arrow-green-down.svg';
-  import { schemaInstances, schemaSelected, schemaSettingsInstance } from '@src/stores'
+  import { schemaInstances, schemaSelected, schemaSettingsInstance } from '@src/stores';
 
   let value = $schemaInstances;
   let isEnableUp: boolean;
@@ -44,7 +44,6 @@
   }
 
   function valueDown() {
-
     if (isEnableDown) {
       value = value - 1;
     }
@@ -54,8 +53,7 @@
   }
 
   $: {
-
-    value = value !== 0 && parseInt(value.toString().replace(/\D/g, '')) || 0;
+    value = (value !== 0 && parseInt(value.toString().replace(/\D/g, ''))) || 0;
 
     if (value < 0 || value === null) {
       value = 1;
@@ -71,8 +69,6 @@
     if ($schemaSettingsInstance > value) {
       $schemaSettingsInstance = value;
     }
-
-
   }
 </script>
 
@@ -92,13 +88,13 @@
       name="instances"
       data-name="instances"
       placeholder="1"
-      bind:value={value}
+      bind:value
       id="instances"
       min={1}
       max={20}
       on:blur={checkZero}
       data-testid="select-attribute-input-instances"
-    >
+    />
     <div class="number_input-block">
       <div
         class="number_input-arrow"
@@ -106,23 +102,22 @@
         class:disabled={!isEnableUp}
         data-testid="select-attribute-more-instances"
       >
-        <ArrowUp/>
+        <ArrowUp />
       </div>
-      <div class="number_input-divider"></div>
+      <div class="number_input-divider" />
       <div
         class="number_input-arrow"
         on:click={valueDown}
         class:disabled={!isEnableDown}
         data-testid="select-attribute-minus-instances"
       >
-        <ArrowDown/>
+        <ArrowDown />
       </div>
     </div>
   </div>
 </div>
 
 <style>
-
   .tool_question {
     margin-left: 0.5rem;
     align-self: center;
@@ -179,7 +174,6 @@
     border-bottom-right-radius: 0.375rem;
     background-color: #1a1a1a;
     color: #111;
-
   }
 
   .number_input-arrow {

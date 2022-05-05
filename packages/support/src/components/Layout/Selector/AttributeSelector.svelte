@@ -3,17 +3,8 @@
   import ExternalLink from '@src/components/Layout/Icons/external-link.svg';
   import Selector from './Selector.svelte';
   import CustomizableSelector from './CustomizableSelector.svelte';
-  import {
-    schemaSettingsKey,
-    schemaSettingsInstance,
-    schemaSelected,
-    schemaData,
-  } from '@src/stores';
-  import {
-    createHighlight,
-    enableHighlight,
-    disableHighlight,
-  } from '@src/services/Highlight/HighlightService';
+  import { schemaSettingsKey, schemaSettingsInstance, schemaSelected, schemaData } from '@src/stores';
+  import { createHighlight, enableHighlight, disableHighlight } from '@src/services/Highlight/HighlightService';
 
   import type { AttributeValue } from '$global/types/schema';
   import type { Highlight } from '@src/types/Highlight.types';
@@ -35,8 +26,7 @@
   let selectorValue: string;
   let highlight: Highlight;
 
-  let docs: string = $schemaSelected && `${$schemaSelected.href}#${key}` || '';
-
+  let docs: string = ($schemaSelected && `${$schemaSelected.href}#${key}`) || '';
 
   onMount(async () => {
     const schemaSettings = {
@@ -50,11 +40,10 @@
   });
 
   function createSelector(instances: number) {
-
     switch (type) {
       case 'element':
         selectorName = `fs-${$schemaSettingsKey}-element`;
-        selectorValue = instances > 1 && `${key}-${instances}` || key;
+        selectorValue = (instances > 1 && `${key}-${instances}`) || key;
         break;
       case 'field':
         selectorName = `fs-${$schemaSettingsKey}-${key}`;
@@ -72,17 +61,16 @@
       default:
         throw new Error('Selector: Missing type');
     }
-
   }
 
   function onMouseEnter() {
-    enableHighlight(highlight)
+    enableHighlight(highlight);
   }
 
   function onMouseLeave() {
     // console.log('on mouse leave');
     if (highlight) {
-      disableHighlight(highlight)
+      disableHighlight(highlight);
     }
   }
 
@@ -96,13 +84,11 @@
     createSelector($schemaSettingsInstance);
   }
 
-
   $: if (value) {
     if (highlight) {
       onMouseLeave();
     }
   }
-
 
   $: if (specialization) {
     const schemaSettings = {
@@ -114,44 +100,28 @@
       highlight = createHighlight(fieldKey || key, type, identifier, specialization, $schemaData, schemaSettings);
     }
   }
-
 </script>
 
-<div
-  class="attribute-selector-container"
-  on:mouseenter|self={onMouseEnter}
-  on:mouseleave={onMouseLeave}
->
-
-  <div class="attribute-selector-interface" >
+<div class="attribute-selector-container" on:mouseenter|self={onMouseEnter} on:mouseleave={onMouseLeave}>
+  <div class="attribute-selector-interface">
     <div class="attribute-selector-block" data-testid="name">
-      <Selector label="Name" selector={selectorName}/>
+      <Selector label="Name" selector={selectorName} />
     </div>
     <div class="attribute-selector-block" data-testid="value">
-      {#if (type === 'fieldSetting' || type === 'elementSetting') && !forceStatic
-        && valueType !== undefined && valueType.type !== 'boolean'
-        && isActive !== undefined
-        && onChange !== undefined}
-        <CustomizableSelector
-          valueType={valueType}
-          onChange={onChange}
-          label="Value"
-          isActive={isActive}
-          option={value}
-        />
+      {#if (type === 'fieldSetting' || type === 'elementSetting') && !forceStatic && valueType !== undefined && valueType.type !== 'boolean' && isActive !== undefined && onChange !== undefined}
+        <CustomizableSelector {valueType} {onChange} label="Value" {isActive} option={value} />
       {:else}
-        <Selector label="Value" selector={selectorValue}/>
+        <Selector label="Value" selector={selectorValue} />
       {/if}
     </div>
     <a class="attribute-selector-docs" target="_blank" href={docs}>
       <div>go to docs</div>
       <div class="attribute-selector-docs-link">
-        <ExternalLink/>
+        <ExternalLink />
       </div>
     </a>
   </div>
 </div>
-
 
 <style>
   .attribute-selector-container {

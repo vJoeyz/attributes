@@ -6,7 +6,6 @@ import type { ItemError } from '@src/types/Error.types';
 import type { AttributeElementSchema, AttributeSchemaCondition } from '$global/types/schema';
 
 describe('Test if parent of', () => {
-
   test('Test schema element is parent of selector successful', () => {
     global.document.documentElement.innerHTML = `
       <html>
@@ -23,21 +22,21 @@ describe('Test if parent of', () => {
       throw new Error('Missing conditions for dropdown');
     }
 
-    const conditions = element.conditions.filter((condition: AttributeSchemaCondition) => condition.condition === 'isParentOf');
+    const conditions = element.conditions.filter(
+      (condition: AttributeSchemaCondition) => condition.condition === 'isParentOf'
+    );
 
     const schemaSelector = new SchemaSelector('fs-selectcustom-element', 'dropdown', true);
-
 
     schemaSelector.setElements(Array.from(document.querySelectorAll('[fs-selectcustom-element="dropdown"]')));
 
     const schemaSettings = {
       key: 'selectcustom',
       instance: 1,
-    }
+    };
 
     const result = isParentOf(schemaSelector, conditions, CUSTOM_SELECT, schemaSettings);
     expect(result).toBe(true);
-
   });
 
   test('Test schema element is not parent of selector throw error', () => {
@@ -56,17 +55,18 @@ describe('Test if parent of', () => {
       throw new Error('Missing conditions for dropdown');
     }
 
-    const conditions = element.conditions.filter((condition: AttributeSchemaCondition) => condition.condition === 'isParentOf');
+    const conditions = element.conditions.filter(
+      (condition: AttributeSchemaCondition) => condition.condition === 'isParentOf'
+    );
 
     const schemaSelector = new SchemaSelector('fs-selectcustom-element', 'dropdown', true);
-
 
     schemaSelector.setElements(Array.from(document.querySelectorAll('[fs-selectcustom-element="dropdown"]')));
 
     const schemaSettings = {
       key: 'selectcustom',
       instance: 1,
-    }
+    };
 
     try {
       isParentOf(schemaSelector, conditions, CUSTOM_SELECT, schemaSettings);
@@ -75,4 +75,4 @@ describe('Test if parent of', () => {
       expect((e as ItemError).type).toEqual('conditions-isParentOf');
     }
   });
-})
+});

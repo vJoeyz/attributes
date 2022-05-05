@@ -8,10 +8,16 @@
   import AttributeLabel from '@src/components/Layout/AttributeLabel.svelte';
   import AttributeText from '@src/components/Layout/AttributeText.svelte';
   import AttributeToggle from '@src/components/Layout/AttributeToggle.svelte';
-  import AttributeSelector from '@src/components/Layout/Selector/AttributeSelector.svelte'
+  import AttributeSelector from '@src/components/Layout/Selector/AttributeSelector.svelte';
   import InputValidation from '@src/components/Layout/InputValidation.svelte';
   import { checkSettingCondition } from '@src/services/Attributes/Schema/SchemaService';
-  import { schemaForm, schemaFormActions, toggleAttributeSelector, schemaSettingsInstance, schemaSettingsKey } from '@src/stores';
+  import {
+    schemaForm,
+    schemaFormActions,
+    toggleAttributeSelector,
+    schemaSettingsInstance,
+    schemaSettingsKey,
+  } from '@src/stores';
   import type { AttributeSettingSchema } from '$global/types/schema';
   import type { SchemaInput, SchemaInputFieldSetting, SchemaInputValidation } from '@src/types/Input.types';
 
@@ -24,7 +30,11 @@
 
   let isEnable = true;
 
-  let fieldSettingInput: SchemaInputFieldSetting | undefined = schemaFormActions.findFieldSetting(fieldKey, fieldIndex, setting.key);
+  let fieldSettingInput: SchemaInputFieldSetting | undefined = schemaFormActions.findFieldSetting(
+    fieldKey,
+    fieldIndex,
+    setting.key
+  );
 
   let fieldSettingStatus: boolean | null = getInputStatus(fieldSettingInput?.validation);
 
@@ -38,7 +48,6 @@
     const input = event.target as HTMLInputElement;
     const { checked } = input;
     if (checked) {
-
       let checkedOption: string = option || setting.value.default || '';
 
       let index = schemaFormActions.findFieldSettingIndex(fieldKey, fieldIndex, setting.key);
@@ -49,15 +58,15 @@
         schemaFormActions.enableFieldSetting(fieldKey, fieldIndex, setting.key);
       }
     } else {
-      schemaFormActions.disableFieldSetting(fieldKey, fieldIndex, setting.key)
+      schemaFormActions.disableFieldSetting(fieldKey, fieldIndex, setting.key);
     }
   }
 
-
   function checkIsEnable(schemaForm: SchemaInput[]) {
-
-
-    const localEnable = checkSettingCondition(setting, schemaForm, {instance: $schemaSettingsInstance, key: $schemaSettingsKey || ''});
+    const localEnable = checkSettingCondition(setting, schemaForm, {
+      instance: $schemaSettingsInstance,
+      key: $schemaSettingsKey || '',
+    });
 
     if (localEnable === false && isChecked === true) {
       schemaFormActions.disableFieldSetting(fieldKey, fieldIndex, setting.key);
@@ -77,8 +86,6 @@
     return validation.status;
   }
 
-
-
   function toggleSelector() {
     if (!isOpenSelector) {
       $toggleAttributeSelector = selectorId;
@@ -94,7 +101,6 @@
       schemaFormActions.setFieldSettingOption(fieldKey, fieldIndex, setting.key, value);
     }
   }
-
 
   $: {
     checkIsEnable($schemaForm);
@@ -113,53 +119,45 @@
   }
 </script>
 
-
 <AttributeItem id={selectorId} checked={isChecked} status={fieldSettingStatus}>
   <AttributeItemHeader>
-    <AttributeCheckbox
-      onCheck={onCheck}
-      isChecked={isChecked}
-      isRequired={false}
-      key={setting.key}
-      status={fieldSettingStatus}
-    />
+    <AttributeCheckbox {onCheck} {isChecked} isRequired={false} key={setting.key} status={fieldSettingStatus} />
     <AttributeItemContainer>
       <AttributeContainer>
-        <AttributeLabel toggleSelector={toggleSelector}>
+        <AttributeLabel {toggleSelector}>
           <AttributeKey>
             {setting.key}
           </AttributeKey>
           <AttributeText>
             {setting.description}
-
           </AttributeText>
         </AttributeLabel>
-        <AttributeToggle isOpen={isOpenSelector} toggleSelector={toggleSelector}/>
+        <AttributeToggle isOpen={isOpenSelector} {toggleSelector} />
       </AttributeContainer>
       {#if isOpenSelector && setting.specializations === undefined}
         <AttributeSelector
           type="fieldSetting"
           key={setting.key}
-          fieldKey={fieldKey}
-          identifier={identifier}
+          {fieldKey}
+          {identifier}
           valueType={setting.value}
-          value={fieldSettingInput && fieldSettingInput.option || ''}
+          value={(fieldSettingInput && fieldSettingInput.option) || ''}
           isActive={!!fieldSettingInput && fieldSettingInput.enable}
-          onChange={onChange}
+          {onChange}
         />
       {:else if isOpenSelector && setting.specializations}
         {#each setting.specializations as specilization}
-            <AttributeSelector
-              type="fieldSetting"
-              identifier={identifier}
-              fieldKey={fieldKey}
-              forceStatic
-              key={setting.key}
-              valueType={setting.value}
-              value={specilization.value}
-              isActive={!!fieldSettingInput && fieldSettingInput.enable}
-              onChange={onChange}
-            />
+          <AttributeSelector
+            type="fieldSetting"
+            {identifier}
+            {fieldKey}
+            forceStatic
+            key={setting.key}
+            valueType={setting.value}
+            value={specilization.value}
+            isActive={!!fieldSettingInput && fieldSettingInput.enable}
+            {onChange}
+          />
         {/each}
       {/if}
     </AttributeItemContainer>
@@ -173,5 +171,4 @@
       />
     {/each}
   {/if}
-
 </AttributeItem>

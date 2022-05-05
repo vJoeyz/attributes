@@ -4,20 +4,18 @@
   export let checked = false;
   export let status: boolean | null;
 
-  import {
-    isSubmitted
-  } from '@src/stores';
+  import { isSubmitted } from '@src/stores';
 </script>
 
 <div
-  id={id}
+  {id}
   class="tool_item"
-  class:disabled={disabled}
+  class:disabled
   class:unchecked={$isSubmitted && !checked}
   class:is-success={status === true}
   class:is-error={status === false}
 >
-  <slot/>
+  <slot />
 </div>
 
 <style>

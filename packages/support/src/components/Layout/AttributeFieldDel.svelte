@@ -5,7 +5,7 @@
 </script>
 
 <button class="field_delete" on:click={deleteField}>
-  <FieldDelete/>
+  <FieldDelete />
 </button>
 
 <style>

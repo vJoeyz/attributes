@@ -106,8 +106,6 @@ describe('Schema Service', () => {
 });
 
 describe('Create Schema Selector', () => {
-
-
   test('It can create an selector from existing schema element', () => {
     const schemaSelector = createSchemaSelectorFromSchema(CMS_LOAD, 'elements', 'list', {
       instance: 1,
@@ -234,7 +232,7 @@ describe('Check if settings/element is enable for setting condition', () => {
       },
     ];
 
-    const response = checkSettingCondition(setting, form, {instance: 1, key: 'cmsload'});
+    const response = checkSettingCondition(setting, form, { instance: 1, key: 'cmsload' });
 
     expect(response).toBe(true);
   });
@@ -253,7 +251,7 @@ describe('Check if settings/element is enable for setting condition', () => {
       },
     ];
 
-    const response = checkSettingCondition(setting, form, {instance: 1, key: 'cmsload'});
+    const response = checkSettingCondition(setting, form, { instance: 1, key: 'cmsload' });
 
     expect(response).toBe(false);
   });
@@ -261,7 +259,7 @@ describe('Check if settings/element is enable for setting condition', () => {
   test('Return true in case there is not conditions in item', () => {
     const form: SchemaInput[] = [];
 
-    const response = checkSettingCondition({ ...setting, conditions: [] }, form, {instance: 1, key: 'cmsload'});
+    const response = checkSettingCondition({ ...setting, conditions: [] }, form, { instance: 1, key: 'cmsload' });
 
     expect(response).toBe(true);
   });
@@ -272,7 +270,7 @@ describe('Check if settings/element is enable for setting condition', () => {
     const response = checkSettingCondition(
       { ...setting, conditions: [{ condition: 'isChildOf', element: 'list', type: 'element' }] },
       form,
-      {instance: 1, key: 'cmsload'}
+      { instance: 1, key: 'cmsload' }
     );
 
     expect(response).toBe(true);

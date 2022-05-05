@@ -20,9 +20,7 @@
       $schemaUI = UIService('', $schemaData);
     }
   }
-
 </script>
-
 
 {#if $schemaSettingsKey && $schemaMode === SCHEMA_MODES.READY && $schemaUI}
   <div id="support-attributes">
@@ -32,34 +30,33 @@
         {#if $schemaUI.requiredInstance}
           - Instance #{$schemaSettingsInstance}
         {/if}
-    </div>
+      </div>
     </Header>
-    <Results/>
+    <Results />
     <Header>
       <div>Attributes:</div>
     </Header>
     {#if $schemaUI.requiredElements.length > 0}
       {#each $schemaUI.requiredElements as element}
-        <Element element={element}/>
+        <Element {element} />
       {/each}
     {/if}
     <div class="fields">
       {#if $schemaUI.fields.length > 0}
         {#each $schemaUI.fields as field}
-          <FieldsList field={field}/>
+          <FieldsList {field} />
         {/each}
       {/if}
     </div>
     <div class="non-required">
-    {#if $schemaUI.notRequiredElements.length > 0}
-      <Header>
-        <div>Aditional Elements</div>
-      </Header>
-      {#each $schemaUI.notRequiredElements as element}
-        <Element element={element}/>
-      {/each}
-    {/if}
+      {#if $schemaUI.notRequiredElements.length > 0}
+        <Header>
+          <div>Aditional Elements</div>
+        </Header>
+        {#each $schemaUI.notRequiredElements as element}
+          <Element {element} />
+        {/each}
+      {/if}
     </div>
   </div>
-
 {/if}

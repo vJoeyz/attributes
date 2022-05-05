@@ -4,8 +4,7 @@
 </script>
 
 <div class="options-dropdown" use:clickOutside on:click_outside={forceClose}>
-
-  <slot/>
+  <slot />
 </div>
 
 <style>
