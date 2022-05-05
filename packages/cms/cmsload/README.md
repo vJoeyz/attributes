@@ -24,7 +24,7 @@ window.fsAttributes.push([
     const [listInstance] = listInstances;
 
     // The `renderitems` event runs whenever the list renders items after switching pages.
-    listInstances.listInstance.on('renderitems', (renderedItems) => {
+    listInstance.on('renderitems', (renderedItems) => {
       console.log(renderedItems);
     });
   },
