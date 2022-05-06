@@ -10,7 +10,7 @@
   export let status: boolean | null;
 </script>
 
-<label class="checkbox-label">
+<label class="attribute_checkbox">
   <div
     class="checkbox-mark"
     class:checked={isChecked}
@@ -39,7 +39,7 @@
     z-index: -1;
   }
 
-  .checkbox-label {
+  .attribute_checkbox {
     position: relative;
     left: 0%;
     top: 0%;

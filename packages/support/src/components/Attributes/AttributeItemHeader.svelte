@@ -1,9 +1,9 @@
-<div class="tool_item-header">
+<div class="attribute_item_header">
   <slot />
 </div>
 
 <style>
-  .tool_item-header {
+  .attribute_item_header {
     display: flex;
     padding-right: 2rem;
     padding-left: 2rem;

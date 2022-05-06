@@ -1,7 +1,7 @@
 <script lang="ts">
   import Header from '@src/components/Layout/Header.svelte';
   import StatusIcon from '@src/components/Layout/Icons/StatusIcon.svelte';
-  import ResultItem from '@src/components/Layout/Results/ResultsItem.svelte';
+  import ResultItem from '@src/components/Report/ReportHeader/ReportHeaderItem.svelte';
 
   import { schemaFormActions, schemaForm, schemaSettingsKey, schemaSettingsInstance } from '@src/stores';
 

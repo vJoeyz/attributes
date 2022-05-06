@@ -9,7 +9,7 @@
 
 <div
   {id}
-  class="tool_item"
+  class="attribute_item"
   class:disabled
   class:unchecked={$isSubmitted && !checked}
   class:is-success={status === true}
@@ -19,24 +19,24 @@
 </div>
 
 <style>
-  .tool_item {
+  .attribute_item {
     position: relative;
     border-bottom: 1px solid #000;
   }
 
-  .tool_item.unchecked {
+  .attribute_item.unchecked {
     opacity: 0.5;
   }
 
-  .tool_item.disabled {
+  .attribute_item.disabled {
     opacity: 0.1;
   }
 
-  .tool_item.is-success {
+  .attribute_item.is-success {
     background-color: #222b22;
   }
 
-  .tool_item.is-error {
+  .attribute_item.is-error {
     background-color: rgba(238, 64, 76, 0.1);
   }
 </style>

@@ -2,7 +2,7 @@
   import Header from '@src/components/Layout/Header.svelte';
   import Element from '@src/components/Schema/Element.svelte';
   import FieldsList from '@src/components/Schema/FieldsList.svelte';
-  import Results from '@src/components/Layout/Results/Results.svelte';
+  import ReportHeader from '@src/components/Report/ReportHeader/ReportHeader.svelte';
   import UIService from '@src/services/UI/UIService';
 
   import {
@@ -32,7 +32,7 @@
         {/if}
       </div>
     </Header>
-    <Results />
+    <ReportHeader />
     <Header>
       <div>Attributes:</div>
     </Header>

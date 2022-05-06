@@ -1,9 +1,9 @@
-<div>
+<div class="attribute_key">
   <slot />
 </div>
 
 <style>
-  div {
+  .attribute_key {
     margin-right: 0.5rem;
     padding: 0.1rem 0.4rem 0.085rem;
     float: left;

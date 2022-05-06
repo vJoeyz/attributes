@@ -1,22 +1,22 @@
 <script lang="ts">
-  import Attribute from '@src/components/Layout/Attribute.svelte';
-  import AttributeItem from '@src/components/Layout/AttributeItem.svelte';
-  import AttributeSettings from '@src/components/Layout/AttributeSettings.svelte';
-  import AttributeKey from '@src/components/Layout/AttributeKey.svelte';
-  import AttributeItemHeader from '@src/components/Layout/AttributeItemHeader.svelte';
-  import AttributeCheckbox from '@src/components/Layout/AttributeCheckbox.svelte';
-  import AttributeItemContainer from '@src/components/Layout/AttributeItemContainer.svelte';
-  import AttributeContainer from '@src/components/Layout/AttributeContainer.svelte';
-  import AttributeLabel from '@src/components/Layout/AttributeLabel.svelte';
-  import AttributeText from '@src/components/Layout/AttributeText.svelte';
-  import AttributeToggle from '@src/components/Layout/AttributeToggle.svelte';
+  import Attribute from '@src/components/Attributes/Attribute.svelte';
+  import AttributeItem from '@src/components/Attributes/AttributeItem.svelte';
+  import AttributeSettings from '@src/components/Attributes/AttributeSettings.svelte';
+  import AttributeKey from '@src/components/Attributes/AttributeKey.svelte';
+  import AttributeItemHeader from '@src/components/Attributes/AttributeItemHeader.svelte';
+  import AttributeCheckbox from '@src/components/Attributes/AttributeCheckbox.svelte';
+  import AttributeItemContainer from '@src/components/Attributes/AttributeItemContainer.svelte';
+  import AttributeContainer from '@src/components/Attributes/AttributeContainer.svelte';
+  import AttributeLabel from '@src/components/Attributes/AttributeLabel.svelte';
+  import AttributeText from '@src/components/Attributes/AttributeText.svelte';
+  import AttributeToggle from '@src/components/Attributes/AttributeToggle.svelte';
+  import AttributeRequired from '@src/components/Attributes/AttributeRequired.svelte';
   import AttributeSelector from '@src/components/Layout/Selector/AttributeSelector.svelte';
-  import AttributeFieldAdd from '@src/components/Layout/AttributeFieldAdd.svelte';
-  import AttributeFieldDel from '@src/components/Layout/AttributeFieldDel.svelte';
+  import AttributeFieldAdd from '@src/components/Field/AttributeFieldAdd.svelte';
+  import AttributeFieldDel from '@src/components/Field/AttributeFieldDel.svelte';
   import FieldSpecialization from '@src/components/Field/Specialization/FieldSpecialization.svelte';
-  import AttributeRequired from '@src/components/Layout/AttributeRequired.svelte';
   import FieldSettings from '@src/components/Schema/FieldSetting.svelte';
-  import InputValidation from '@src/components/Layout/InputValidation.svelte';
+  import InputValidation from '@src/components/Report/ReportAttribute.svelte';
   import type { FieldUI } from '@src/types/Schema.types';
   import type {
     SchemaInputField,

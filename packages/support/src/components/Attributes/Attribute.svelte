@@ -1,9 +1,9 @@
-<div class="tool_support">
+<div class="attribute">
   <slot />
 </div>
 
 <style>
-  .tool_support {
+  .attribute {
     position: relative;
   }
 </style>

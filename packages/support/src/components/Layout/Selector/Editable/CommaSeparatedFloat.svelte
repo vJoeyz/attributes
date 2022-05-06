@@ -1,7 +1,7 @@
 <script lang="ts">
   import Input from '@src/components/Layout/Form/Input.svelte';
   import InputController from '@src/components/Layout/Form/InputController.svelte';
-  import SettingsValue from '@src/components/Layout/Settings/SettingsValue.svelte';
+  import SettingsValue from '@src/components/Layout/Selector/Editable/ValueWrapper.svelte';
 
   import { commaSeparatedFloatValidator } from '@src/services/Validators/Float/FloatValidator';
 

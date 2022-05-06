@@ -1,9 +1,9 @@
-<div>
+<div class="attribute_text">
   <slot />
 </div>
 
 <style>
-  div {
+  .attribute_text {
     white-space: normal;
     margin-top: 0rem;
     margin-right: 1rem;

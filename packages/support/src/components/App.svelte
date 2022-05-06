@@ -3,11 +3,11 @@
   import Header from '@src/components/Layout/Header.svelte';
   import Config from '@src/components/Config/Config.svelte';
   import Schema from '@src/components/Schema/Schema.svelte';
-  import Tutorial from '@src/components/Layout/Tutorial.svelte';
-  import Actions from '@src/components/Layout/AttributeActions.svelte';
-  import Loading from '@src/components/Layout/Loading.svelte';
-  import Minimize from '@src/components/Layout/Minimize.svelte';
-  import Initial from '@src/components/Layout/Initial.svelte';
+  import Tutorial from '@src/components/Tutorial.svelte';
+  import Actions from '@src/components/Actions/Actions.svelte';
+  import Loading from '@src/components/Loading.svelte';
+  import Minimize from '@src/components/Minimize.svelte';
+  import Initial from '@src/components/Initial.svelte';
   import type { AttributeSchema } from '$global/types/schema';
   import type { AttributeLoaded } from '@src/types/Schema.types';
   import type { AttributesData, SupportedAttributeData } from '$docs/src/utils/types';

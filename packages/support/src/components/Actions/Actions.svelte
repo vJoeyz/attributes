@@ -1,6 +1,6 @@
 <script lang="ts">
-  import CheckButton from '@src/components/Layout/Buttons/Check.svelte';
-  import ResetButton from '@src/components/Layout/Buttons/Reset.svelte';
+  import CheckButton from '@src/components/Actions/Buttons/Check.svelte';
+  import ResetButton from '@src/components/Actions/Buttons/Reset.svelte';
 
   import { isDirty } from '@src/stores';
 </script>

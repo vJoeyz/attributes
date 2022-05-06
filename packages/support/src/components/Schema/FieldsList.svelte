@@ -24,7 +24,7 @@
     fields = schemaFormActions.getFields();
 
     if (fields.length > 1) {
-      scrollInto('div.fields > .tool_support:last-child', 200);
+      scrollInto('div.fields > .attribute:last-child', 200);
     }
   }
 
@@ -33,7 +33,7 @@
     schemaFormActions.disableFieldSettings(field.key, fieldIndex);
     fields = schemaFormActions.getFields();
 
-    scrollInto('div.fields > .tool_support:last-child', 200);
+    scrollInto('div.fields > .attribute:last-child', 200);
   }
 
   function changeFieldElement(fieldIndex: string, value: string) {

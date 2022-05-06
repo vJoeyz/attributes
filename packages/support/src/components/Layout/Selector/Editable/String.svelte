@@ -2,7 +2,7 @@
   import Input from '@src/components/Layout/Form/Input.svelte';
   import InputController from '@src/components/Layout/Form/InputController.svelte';
 
-  import SettingsValue from '@src/components/Layout/Settings/SettingsValue.svelte';
+  import SettingsValue from '@src/components/Layout/Selector/Editable/ValueWrapper.svelte';
   import { stringValidator } from '@src/services/Validators/String/StringValidator';
 
   export let value: { default?: string };

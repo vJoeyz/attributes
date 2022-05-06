@@ -18,10 +18,6 @@
         {panelInstance + 1}
       </div>
     {/each}
-
-    <!-- <div class="tool_tab" class:current="{true === true}">
-      2
-    </div> -->
   </div>
 </div>
 

@@ -1,16 +1,16 @@
 <script lang="ts">
-  import AttributeItem from '@src/components/Layout/AttributeItem.svelte';
+  import AttributeItem from '@src/components/Attributes/AttributeItem.svelte';
   import { checkSettingCondition } from '@src/services/Attributes/Schema/SchemaService';
-  import AttributeKey from '@src/components/Layout/AttributeKey.svelte';
-  import AttributeItemHeader from '@src/components/Layout/AttributeItemHeader.svelte';
-  import AttributeCheckbox from '@src/components/Layout/AttributeCheckbox.svelte';
-  import AttributeItemContainer from '@src/components/Layout/AttributeItemContainer.svelte';
-  import AttributeContainer from '@src/components/Layout/AttributeContainer.svelte';
-  import AttributeLabel from '@src/components/Layout/AttributeLabel.svelte';
-  import AttributeText from '@src/components/Layout/AttributeText.svelte';
-  import AttributeToggle from '@src/components/Layout/AttributeToggle.svelte';
+  import AttributeKey from '@src/components/Attributes/AttributeKey.svelte';
+  import AttributeItemHeader from '@src/components/Attributes/AttributeItemHeader.svelte';
+  import AttributeCheckbox from '@src/components/Attributes/AttributeCheckbox.svelte';
+  import AttributeItemContainer from '@src/components/Attributes/AttributeItemContainer.svelte';
+  import AttributeContainer from '@src/components/Attributes/AttributeContainer.svelte';
+  import AttributeLabel from '@src/components/Attributes/AttributeLabel.svelte';
+  import AttributeText from '@src/components/Attributes/AttributeText.svelte';
+  import AttributeToggle from '@src/components/Attributes/AttributeToggle.svelte';
   import AttributeSelector from '@src/components/Layout/Selector/AttributeSelector.svelte';
-  import InputValidation from '@src/components/Layout/InputValidation.svelte';
+  import InputValidation from '@src/components/Report/ReportAttribute.svelte';
   import {
     schemaForm,
     schemaFormActions,

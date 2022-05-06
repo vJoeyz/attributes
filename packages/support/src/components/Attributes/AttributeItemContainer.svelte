@@ -1,9 +1,9 @@
-<div class="tool_item-container">
+<div class="attribute_item_container">
   <slot />
 </div>
 
 <style>
-  .tool_item-container {
+  .attribute_item_container {
     position: relative;
     width: 100%;
     margin-left: -3rem;
