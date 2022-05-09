@@ -1,12 +1,12 @@
 <script lang="ts">
-  import Options from './Editable/Options.svelte';
-  import String from './Editable/String.svelte';
-  import CommaSeparatedString from './Editable/CommaSeparatedString.svelte';
-  import Float from './Editable/Float.svelte';
-  import CommaSeparatedFloat from './Editable/CommaSeparatedFloat.svelte';
+  import Options from './Fields/Options.svelte';
+  import String from './Fields/String.svelte';
+  import CommaSeparatedString from './Fields/CommaSeparatedString.svelte';
+  import Float from './Fields/Float.svelte';
+  import CommaSeparatedFloat from './Fields/CommaSeparatedFloat.svelte';
   // import Boolean from './Value/Boolean.svelte';
-  import Int from './Editable/Int.svelte';
-  import CommaSeparatedInt from './Editable/CommaSeparatedInt.svelte';
+  import Int from './Fields/Int.svelte';
+  import CommaSeparatedInt from './Fields/CommaSeparatedInt.svelte';
   import type { AttributeSettingValuePrimitive, AttributeSettingValueOptions } from '$global/types/schema';
 
   export let id: string;

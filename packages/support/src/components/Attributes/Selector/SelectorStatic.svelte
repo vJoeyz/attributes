@@ -1,8 +1,8 @@
 <script lang="ts">
-  import SelectorCustomAttribute from './SelectorCustomAttribute.svelte';
-  import SelectorCustomValue from './SelectorCustomValue.svelte';
+  import SelectorCustomAttribute from './SelectorAttribute.svelte';
+  import SelectorCustomValue from './SelectorValueWrapper.svelte';
   import SelectorButton from './SelectorButton.svelte';
-  import SelectorCustomAttributeValueText from './SelectorCustomValueText.svelte';
+  import SelectorCustomAttributeValueText from './SelectorValue.svelte';
 
   export let label: 'Name' | 'Value';
   export let selector: string;

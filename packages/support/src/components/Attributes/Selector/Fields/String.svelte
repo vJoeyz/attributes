@@ -2,7 +2,6 @@
   import Input from '@src/components/Layout/Form/Input.svelte';
   import InputController from '@src/components/Layout/Form/InputController.svelte';
 
-  import SettingsValue from '@src/components/Layout/Selector/Editable/ValueWrapper.svelte';
   import { stringValidator } from '@src/services/Validators/String/StringValidator';
 
   export let value: { default?: string };
@@ -14,17 +13,15 @@
   attributeValue = attributeValue || value.default || '';
 </script>
 
-<SettingsValue>
-  <InputController validate={stringValidator} let:inputValidator let:isTouched let:isValid>
-    <Input
-      disabled={!isActive}
-      {onChange}
-      {inputValidator}
-      {id}
-      type="text"
-      {isTouched}
-      {isValid}
-      bind:value={attributeValue}
-    />
-  </InputController>
-</SettingsValue>
+<InputController validate={stringValidator} let:inputValidator let:isTouched let:isValid>
+  <Input
+    disabled={!isActive}
+    {onChange}
+    {inputValidator}
+    {id}
+    type="text"
+    {isTouched}
+    {isValid}
+    bind:value={attributeValue}
+  />
+</InputController>

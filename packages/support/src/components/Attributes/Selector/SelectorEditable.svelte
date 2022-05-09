@@ -1,9 +1,9 @@
 <script lang="ts">
-  import SelectorCustomAttribute from './SelectorCustomAttribute.svelte';
-  import SelectorCustomValue from './SelectorCustomValue.svelte';
+  import SelectorCustomAttribute from './SelectorAttribute.svelte';
+  import SelectorCustomValue from './SelectorValueWrapper.svelte';
   import SelectorButton from './SelectorButton.svelte';
-  import SelectorCustomAttributeValueText from './SelectorCustomValueText.svelte';
-  import SelectorEditable from './SelectorEditable.svelte';
+  import SelectorCustomAttributeValueText from './SelectorValue.svelte';
+  import SelectorFields from './SelectorFields.svelte';
   import type { AttributeSettingValuePrimitive, AttributeSettingValueOptions } from '$global/types/schema';
 
   export let label: 'Name' | 'Value';
@@ -20,16 +20,7 @@
 </SelectorCustomAttribute>
 <SelectorCustomValue>
   <SelectorCustomAttributeValueText>
-    <SelectorEditable {onChange} {isActive} id="selector" value={valueType} {option} />
+    <SelectorFields {onChange} {isActive} id="selector" value={valueType} {option} />
   </SelectorCustomAttributeValueText>
-  <div class="selector-button">
-    <SelectorButton selector={option} />
-  </div>
+  <SelectorButton selector={option} />
 </SelectorCustomValue>
-
-<style>
-  .selector-button {
-    padding-top: 0.2rem;
-    align-self: flex-start;
-  }
-</style>

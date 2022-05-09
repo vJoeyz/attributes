@@ -1,7 +1,6 @@
 <script lang="ts">
   import Input from '@src/components/Layout/Form/Input.svelte';
   import InputController from '@src/components/Layout/Form/InputController.svelte';
-  import SettingsValue from '@src/components/Layout/Selector/Editable/ValueWrapper.svelte';
 
   import { commaSeparatedStringValidator } from '@src/services/Validators/String/StringValidator';
 
@@ -14,17 +13,15 @@
   attributeValue = attributeValue || value.default || '';
 </script>
 
-<SettingsValue>
-  <InputController validate={commaSeparatedStringValidator} let:inputValidator let:isTouched let:isValid>
-    <Input
-      disabled={!isActive}
-      {onChange}
-      {inputValidator}
-      {id}
-      type="text"
-      {isTouched}
-      {isValid}
-      bind:value={attributeValue}
-    />
-  </InputController>
-</SettingsValue>
+<InputController validate={commaSeparatedStringValidator} let:inputValidator let:isTouched let:isValid>
+  <Input
+    disabled={!isActive}
+    {onChange}
+    {inputValidator}
+    {id}
+    type="text"
+    {isTouched}
+    {isValid}
+    bind:value={attributeValue}
+  />
+</InputController>

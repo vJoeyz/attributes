@@ -9,7 +9,7 @@
   import AttributeLabel from '@src/components/Attributes/AttributeLabel.svelte';
   import AttributeText from '@src/components/Attributes/AttributeText.svelte';
   import AttributeToggle from '@src/components/Attributes/AttributeToggle.svelte';
-  import AttributeSelector from '@src/components/Layout/Selector/AttributeSelector.svelte';
+  import AttributeSelector from '@src/components/Attributes/Selector/Selector.svelte';
   import InputValidation from '@src/components/Report/ReportAttribute.svelte';
   import {
     schemaForm,
@@ -161,25 +161,3 @@
     {/each}
   {/if}
 </AttributeItem>
-
-<!-- {#if isEnable}
-  <PanelTrigger>
-    <Checkbox
-      disabled={false}
-      onChange={onCheck}
-      bind:isChecked={isChecked}
-      value={setting.key}
-      label={setting.description}
-      required={false}
-    />
-    <PanelHighlight>
-      <Highlight appliedTo={setting.appliedTo} conditions={setting.conditions} />
-    </PanelHighlight>
-  </PanelTrigger>
-  {#if isChecked}
-    <PanelDetail>
-      <SettingOptions value={setting.value} id={setting.key} bind:option />
-      <SelectorSnippet attribute={`fs-${$schemaSettingsKey}-${setting.key}`} value={option} />
-    </PanelDetail>
-  {/if}
-{/if} -->

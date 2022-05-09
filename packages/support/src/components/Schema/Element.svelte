@@ -2,7 +2,6 @@
   import ElementSetting from '@src/components/Schema/ElementSetting.svelte';
   import Attribute from '@src/components/Attributes/Attribute.svelte';
   import AttributeItem from '@src/components/Attributes/AttributeItem.svelte';
-  import AttributeSettings from '@src/components/Attributes/AttributeSettings.svelte';
   import AttributeKey from '@src/components/Attributes/AttributeKey.svelte';
   import AttributeItemHeader from '@src/components/Attributes/AttributeItemHeader.svelte';
   import AttributeCheckbox from '@src/components/Attributes/AttributeCheckbox.svelte';
@@ -12,7 +11,7 @@
   import AttributeText from '@src/components/Attributes/AttributeText.svelte';
   import AttributeRequired from '@src/components/Attributes/AttributeRequired.svelte';
   import AttributeToggle from '@src/components/Attributes/AttributeToggle.svelte';
-  import AttributeSelector from '@src/components/Layout/Selector/AttributeSelector.svelte';
+  import AttributeSelector from '@src/components/Attributes/Selector/Selector.svelte';
   import InputValidation from '../Report/ReportAttribute.svelte';
   import { checkSettingCondition } from '@src/services/Attributes/Schema/SchemaService';
   import {
@@ -160,10 +159,8 @@
     {/if}
   </AttributeItem>
   {#if hasSettings}
-    <AttributeSettings>
-      {#each element.settings as setting}
-        <ElementSetting parent={element.key} {setting} />
-      {/each}
-    </AttributeSettings>
+    {#each element.settings as setting}
+      <ElementSetting parent={element.key} {setting} />
+    {/each}
   {/if}
 </Attribute>

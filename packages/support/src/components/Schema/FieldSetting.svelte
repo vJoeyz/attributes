@@ -8,7 +8,7 @@
   import AttributeLabel from '@src/components/Attributes/AttributeLabel.svelte';
   import AttributeText from '@src/components/Attributes/AttributeText.svelte';
   import AttributeToggle from '@src/components/Attributes/AttributeToggle.svelte';
-  import AttributeSelector from '@src/components/Layout/Selector/AttributeSelector.svelte';
+  import AttributeSelector from '@src/components/Attributes/Selector/Selector.svelte';
   import InputValidation from '@src/components/Report/ReportAttribute.svelte';
   import { checkSettingCondition } from '@src/services/Attributes/Schema/SchemaService';
   import {

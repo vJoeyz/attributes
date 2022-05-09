@@ -1,8 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import ExternalLink from '@src/components/Layout/Icons/external-link.svg';
-  import Selector from './Selector.svelte';
-  import CustomizableSelector from './CustomizableSelector.svelte';
+  import Selector from './SelectorStatic.svelte';
+  import CustomizableSelector from './SelectorEditable.svelte';
   import { schemaSettingsKey, schemaSettingsInstance, schemaSelected, schemaData } from '@src/stores';
   import { createHighlight, enableHighlight, disableHighlight } from '@src/services/Highlight/HighlightService';
 
@@ -68,7 +68,6 @@
   }
 
   function onMouseLeave() {
-    // console.log('on mouse leave');
     if (highlight) {
       disableHighlight(highlight);
     }

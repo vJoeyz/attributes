@@ -1,7 +1,6 @@
 <script lang="ts">
   import Attribute from '@src/components/Attributes/Attribute.svelte';
   import AttributeItem from '@src/components/Attributes/AttributeItem.svelte';
-  import AttributeSettings from '@src/components/Attributes/AttributeSettings.svelte';
   import AttributeKey from '@src/components/Attributes/AttributeKey.svelte';
   import AttributeItemHeader from '@src/components/Attributes/AttributeItemHeader.svelte';
   import AttributeCheckbox from '@src/components/Attributes/AttributeCheckbox.svelte';
@@ -11,7 +10,7 @@
   import AttributeText from '@src/components/Attributes/AttributeText.svelte';
   import AttributeToggle from '@src/components/Attributes/AttributeToggle.svelte';
   import AttributeRequired from '@src/components/Attributes/AttributeRequired.svelte';
-  import AttributeSelector from '@src/components/Layout/Selector/AttributeSelector.svelte';
+  import AttributeSelector from '@src/components/Attributes/Selector/Selector.svelte';
   import AttributeFieldAdd from '@src/components/Field/AttributeFieldAdd.svelte';
   import AttributeFieldDel from '@src/components/Field/AttributeFieldDel.svelte';
   import FieldSpecialization from '@src/components/Field/Specialization/FieldSpecialization.svelte';
@@ -125,15 +124,13 @@
     />
   </AttributeItem>
   {#if hasSettings}
-    <AttributeSettings>
-      {#each field.settings as setting}
-        <FieldSettings
-          fieldKey={field.key}
-          fieldIndex={fieldInput.index}
-          {setting}
-          identifier={fieldInput.identifier}
-        />
-      {/each}
-    </AttributeSettings>
+    {#each field.settings as setting}
+      <FieldSettings
+        fieldKey={field.key}
+        fieldIndex={fieldInput.index}
+        {setting}
+        identifier={fieldInput.identifier}
+      />
+    {/each}
   {/if}
 </Attribute>
