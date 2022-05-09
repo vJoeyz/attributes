@@ -10,8 +10,10 @@ export default class FieldLinkNestedCollectionLinkNotFoundError extends Abstract
     const attributeId = this.toAttribute(attribute.getPrettierSelector());
 
     this.message = [
-      this.toHighlight(`The attribute ${attributeId} is found on the Collection’s Template page, but is missing the url link to each item.`),
-      `Add a Link Block or Text Link inside the Collection Item on the CMS Template page.`
+      this.toHighlight(
+        `The attribute ${attributeId} is found on the Collection’s Template page, but is missing the url link to each item.`
+      ),
+      `Add a Link Block or Text Link inside the Collection Item on the CMS Template page.`,
     ].join(' ');
 
     // this.message = `Missing link in nested template page item`;

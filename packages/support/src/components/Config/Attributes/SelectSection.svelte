@@ -1,10 +1,10 @@
 <script lang="ts">
-
   export let sectionTitle: string;
 </script>
+
 <div class="tool_select-sections">
   <div class="tool_select-sections-title">{sectionTitle}</div>
-  <slot/>
+  <slot />
 </div>
 
 <style>

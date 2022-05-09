@@ -13,18 +13,11 @@
 
 <div class="tool_field-wrapper">
   <div class="tool_field-row">
-    <IdentifierSpecialization
-      fieldInput={fieldIndex}
-      changeFieldIdentifier={changeFieldIdentifier}
-    />
+    <IdentifierSpecialization fieldInput={fieldIndex} {changeFieldIdentifier} />
   </div>
   {#if specializations.length > 1}
     <div class="tool_field-row">
-      <ElementSpecialization
-        specializations={specializations}
-        fieldInput={fieldIndex}
-        changeFieldElement={changeFieldElement}
-      />
+      <ElementSpecialization {specializations} fieldInput={fieldIndex} {changeFieldElement} />
     </div>
   {/if}
 </div>
@@ -53,6 +46,4 @@
     transform: translate(0px, 0px);
     box-sizing: border-box;
   }
-
-
 </style>

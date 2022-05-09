@@ -4,13 +4,12 @@ export function validateElementType(element: HTMLElement, selector: string): boo
   const elementTag = element.tagName.toLowerCase();
   const elementType = element.getAttribute('type');
 
-  const elementTagWithType = `${elementTag}[type="${elementType}"]`
+  const elementTagWithType = `${elementTag}[type="${elementType}"]`;
 
   return elementTagWithType === selector;
 }
 
 export function validateElementClass(element: HTMLElement, selector: string) {
-
   const [elementTag, className] = selector.split('.');
 
   if (!elementTag) {
@@ -24,9 +23,7 @@ export function validateElementTag(element: HTMLElement, selector: string) {
   return element.tagName.toLowerCase() === selector;
 }
 
-
 function validateDOMSelector(element: HTMLElement, selector: string) {
-
   if (selector.includes('[type=')) {
     return validateElementType(element, selector);
   }
@@ -39,18 +36,15 @@ function validateDOMSelector(element: HTMLElement, selector: string) {
 }
 
 function validateParentSelectors(element: HTMLElement, elementSelectors: string[]) {
-
   let status = true;
 
   elementSelectors.forEach((parentSelector: string) => {
-
-
     const parentElement = element.closest(parentSelector);
 
     if (!parentElement) {
       status = false;
     }
-  })
+  });
 
   return status;
 }
@@ -58,11 +52,8 @@ function validateParentSelectors(element: HTMLElement, elementSelectors: string[
 export function validateDOMSelectors(element: HTMLElement, domSelectors: DOMSelector[]): boolean {
   let status = false;
 
-
   domSelectors.forEach((domSelector: DOMSelector) => {
-
     domSelector.selectors.forEach((selector: string) => {
-
       const elementSelectors = selector.split(' ').reverse();
 
       const elementSelector = elementSelectors.shift();
@@ -71,7 +62,7 @@ export function validateDOMSelectors(element: HTMLElement, domSelectors: DOMSele
         throw new Error('Empty DOM Selector not allowed');
       }
 
-      if (elementSelector === '*')  {
+      if (elementSelector === '*') {
         status = true;
         return;
       }
@@ -85,14 +76,12 @@ export function validateDOMSelectors(element: HTMLElement, domSelectors: DOMSele
       }
 
       status = true;
-    })
-  })
+    });
+  });
 
   return status;
 }
 
-
 export function currentSelector(element: HTMLElement) {
-
   return element.tagName.toLowerCase();
 }

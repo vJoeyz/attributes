@@ -5,7 +5,7 @@ import SchemaSelector from '@src/services/Selector/SchemaSelector';
 import { isChildOf } from './IsChildOf/IsChildOfService';
 import { exists } from './Exists/ExistsService';
 import { hasSettings } from './Settings/SettingsService';
-import type { AttributeElementSchema, AttributeSettingSchema } from '$global/types/schema'
+import type { AttributeElementSchema, AttributeSettingSchema } from '$global/types/schema';
 import CMS_LOAD from '@src/schemas/cms-load';
 
 jest.mock('./Exists/ExistsService', () => ({
@@ -27,7 +27,6 @@ const mockExists = exists as jest.Mock;
 const mockhasSettings = hasSettings as jest.Mock;
 
 describe('Test exists conditions', () => {
-
   const key = 'cmsload';
 
   beforeEach(() => {
@@ -63,7 +62,6 @@ describe('Test exists conditions', () => {
 });
 
 describe('Test isChildOf conditions', () => {
-
   const key = 'cmsload';
 
   beforeEach(() => {
@@ -72,7 +70,6 @@ describe('Test isChildOf conditions', () => {
 
   test('Check element is child of css selector successful', () => {
     const elementSelector: SchemaSelector = new SchemaSelector('fs-cmsload-element', 'page-button');
-
 
     const elementSchema = CMS_LOAD.elements.find((element: AttributeElementSchema) => element.key === 'page-button');
 
@@ -96,11 +93,7 @@ describe('Test isChildOf conditions', () => {
   });
 });
 
-
-
 describe('Test settings conditions', () => {
-
-
   const key = 'cmsload';
 
   beforeEach(() => {
@@ -117,7 +110,6 @@ describe('Test settings conditions', () => {
     }
 
     const conditions = elementSchema.conditions;
-
 
     const instance = 1;
 

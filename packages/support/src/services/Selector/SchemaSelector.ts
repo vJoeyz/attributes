@@ -1,6 +1,5 @@
-import type { SchemaSelector/*, SCHEMA_ITEM_TYPES*/ } from '@src/types/Schema.types';
+import type { SchemaSelector /*, SCHEMA_ITEM_TYPES*/ } from '@src/types/Schema.types';
 // import type { AttributeElementSchema, AttributeFieldSchema, AttributeSettingSchema } from '$global/types/schema';
-
 
 class Selector implements SchemaSelector {
   attribute: string;
@@ -18,12 +17,14 @@ class Selector implements SchemaSelector {
   }
 
   getElementKey(): string {
-
     if (!this.attribute.endsWith('element')) {
       throw new Error('Unexpected error: trying to get element label from not element selector');
     }
 
-    return this.value.split('-').map((innerValue: string) => innerValue.replace(/[a-z]/g, match => match.toUpperCase())).join(' ');
+    return this.value
+      .split('-')
+      .map((innerValue: string) => innerValue.replace(/[a-z]/g, (match) => match.toUpperCase()))
+      .join(' ');
   }
 
   setAttribute(attribute: string) {
@@ -53,7 +54,7 @@ class Selector implements SchemaSelector {
   getItemLabel() {
     const splitAttribute = this.attribute.split('-');
     const keyAttribute = splitAttribute[splitAttribute.length - 1];
-    return keyAttribute === 'element' && 'Element' || 'Setting'
+    return (keyAttribute === 'element' && 'Element') || 'Setting';
   }
 
   getElementSelector() {
@@ -69,16 +70,18 @@ class Selector implements SchemaSelector {
   }
 
   getSelectors(selectors: string[]): string {
-
     if (!this.value) {
       throw new Error('Missing required selector value to multiple selectors');
     }
 
     const elementSelectors = this.getElementSelector().split(',');
 
-    return elementSelectors.map((elementSelector: string) => {
-      return selectors.map((selector: string) => `${elementSelector} ${selector}`)
-    }).flat().join(',');
+    return elementSelectors
+      .map((elementSelector: string) => {
+        return selectors.map((selector: string) => `${elementSelector} ${selector}`);
+      })
+      .flat()
+      .join(',');
   }
 
   getAttributeSelector() {

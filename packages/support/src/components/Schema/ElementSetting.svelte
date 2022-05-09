@@ -1,17 +1,23 @@
 <script lang="ts">
-  import AttributeItem from '@src/components/Layout/AttributeItem.svelte';
+  import AttributeItem from '@src/components/Attributes/AttributeItem.svelte';
   import { checkSettingCondition } from '@src/services/Attributes/Schema/SchemaService';
-  import AttributeKey from '@src/components/Layout/AttributeKey.svelte';
-  import AttributeItemHeader from '@src/components/Layout/AttributeItemHeader.svelte';
-  import AttributeCheckbox from '@src/components/Layout/AttributeCheckbox.svelte';
-  import AttributeItemContainer from '@src/components/Layout/AttributeItemContainer.svelte';
-  import AttributeContainer from '@src/components/Layout/AttributeContainer.svelte';
-  import AttributeLabel from '@src/components/Layout/AttributeLabel.svelte';
-  import AttributeText from '@src/components/Layout/AttributeText.svelte';
-  import AttributeToggle from '@src/components/Layout/AttributeToggle.svelte';
-  import AttributeSelector from '@src/components/Layout/Selector/AttributeSelector.svelte';
-  import InputValidation from '@src/components/Layout/InputValidation.svelte';
-  import { schemaForm, schemaFormActions, schemaSettingsInstance, toggleAttributeSelector, schemaSettingsKey } from '@src/stores';
+  import AttributeKey from '@src/components/Attributes/AttributeKey.svelte';
+  import AttributeItemHeader from '@src/components/Attributes/AttributeItemHeader.svelte';
+  import AttributeCheckbox from '@src/components/Attributes/AttributeCheckbox.svelte';
+  import AttributeItemContainer from '@src/components/Attributes/AttributeItemContainer.svelte';
+  import AttributeContainer from '@src/components/Attributes/AttributeContainer.svelte';
+  import AttributeLabel from '@src/components/Attributes/AttributeLabel.svelte';
+  import AttributeText from '@src/components/Attributes/AttributeText.svelte';
+  import AttributeToggle from '@src/components/Attributes/AttributeToggle.svelte';
+  import AttributeSelector from '@src/components/Attributes/Selector/Selector.svelte';
+  import InputValidation from '@src/components/Report/ReportAttribute.svelte';
+  import {
+    schemaForm,
+    schemaFormActions,
+    schemaSettingsInstance,
+    toggleAttributeSelector,
+    schemaSettingsKey,
+  } from '@src/stores';
   import type { AttributeSettingSchema } from '$global/types/schema';
   import type { SchemaInput, SchemaInputValidation } from '@src/types/Input.types';
 
@@ -27,27 +33,27 @@
   let isChecked = !!elementSettingInput;
 
   function onCheck(event: Event) {
-
     const input = event.target as HTMLInputElement;
     const { checked } = input;
     if (checked) {
-
       let checkedOption: string = option || setting.value.default || '';
 
       let index = schemaFormActions.findElementSettingIndex(parent, setting.key);
       if (index === null) {
-          schemaFormActions.addElementSetting(parent, setting.key, checkedOption)
+        schemaFormActions.addElementSetting(parent, setting.key, checkedOption);
       } else {
-          schemaFormActions.enableElementSetting(parent, setting.key);
+        schemaFormActions.enableElementSetting(parent, setting.key);
       }
     } else {
-        schemaFormActions.disableElementSetting(parent, setting.key);
+      schemaFormActions.disableElementSetting(parent, setting.key);
     }
   }
 
-
   function checkIsEnable(schemaForm: SchemaInput[]) {
-    const localEnable = checkSettingCondition(setting, schemaForm, {instance: $schemaSettingsInstance, key: $schemaSettingsKey || ''});
+    const localEnable = checkSettingCondition(setting, schemaForm, {
+      instance: $schemaSettingsInstance,
+      key: $schemaSettingsKey || '',
+    });
 
     if (localEnable === false && isChecked === true) {
       schemaFormActions.disableElementSetting(parent, setting.key);
@@ -67,7 +73,6 @@
     return validation.status;
   }
 
-
   let selectorId = `element-setting-${setting.key}`;
   let isOpenSelector = $toggleAttributeSelector === selectorId;
 
@@ -81,10 +86,9 @@
     isOpenSelector = false;
   }
 
-
-  function onChange(value: string) {
+  function onChange(value: CustomEvent<string>) {
     if (elementSettingInput) {
-      schemaFormActions.setElementSettingOption(parent, setting.key, value);
+      schemaFormActions.setElementSettingOption(parent, setting.key, value.detail);
     }
   }
 
@@ -111,15 +115,13 @@
   $: if ($toggleAttributeSelector) {
     isOpenSelector = $toggleAttributeSelector === selectorId;
   }
-
 </script>
-
 
 <AttributeItem id={selectorId} disabled={!isEnable} checked={isChecked} status={elementSettingStatus}>
   <AttributeItemHeader>
     <AttributeCheckbox
-      onCheck={onCheck}
-      isChecked={isChecked}
+      {onCheck}
+      {isChecked}
       isRequired={false}
       key={setting.key}
       disabled={!isEnable}
@@ -127,25 +129,24 @@
     />
     <AttributeItemContainer>
       <AttributeContainer>
-        <AttributeLabel toggleSelector={toggleSelector}>
+        <AttributeLabel {toggleSelector}>
           <AttributeKey>
             {setting.key}
           </AttributeKey>
           <AttributeText>
             {setting.description}
-
           </AttributeText>
         </AttributeLabel>
-        <AttributeToggle isOpen={isOpenSelector} toggleSelector={toggleSelector}/>
+        <AttributeToggle isOpen={isOpenSelector} {toggleSelector} />
       </AttributeContainer>
       {#if isOpenSelector}
         <AttributeSelector
           type="elementSetting"
           key={setting.key}
           valueType={setting.value}
-          value={elementSettingInput && elementSettingInput.option || ''}
+          value={(elementSettingInput && elementSettingInput.option) || ''}
           isActive={!!elementSettingInput && elementSettingInput.enable}
-          onChange={onChange}
+          on:change={onChange}
         />
       {/if}
     </AttributeItemContainer>
@@ -160,26 +161,3 @@
     {/each}
   {/if}
 </AttributeItem>
-
-
-<!-- {#if isEnable}
-  <PanelTrigger>
-    <Checkbox
-      disabled={false}
-      onChange={onCheck}
-      bind:isChecked={isChecked}
-      value={setting.key}
-      label={setting.description}
-      required={false}
-    />
-    <PanelHighlight>
-      <Highlight appliedTo={setting.appliedTo} conditions={setting.conditions} />
-    </PanelHighlight>
-  </PanelTrigger>
-  {#if isChecked}
-    <PanelDetail>
-      <SettingOptions value={setting.value} id={setting.key} bind:option />
-      <SelectorSnippet attribute={`fs-${$schemaSettingsKey}-${setting.key}`} value={option} />
-    </PanelDetail>
-  {/if}
-{/if} -->

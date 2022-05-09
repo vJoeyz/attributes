@@ -8,7 +8,6 @@ export function queryElement(selector: string) {
   return element;
 }
 
-
 export function queryElementWithAttribute(selector: string, toMatchSelector: string) {
   const isClass = toMatchSelector.startsWith('.');
 

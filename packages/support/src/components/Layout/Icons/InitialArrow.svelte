@@ -1,12 +1,9 @@
 <script lang="ts">
   import InitialArrow from '@src/components/Layout/Icons/initial-arrow.svg';
-
-
 </script>
 
-
 <span>
-  <InitialArrow/>
+  <InitialArrow />
 </span>
 
 <style>
@@ -20,7 +17,6 @@
     margin-top: -1.2rem;
     margin-right: 1rem;
     margin-left: 1.5rem;
-
   }
 
   span > :global(svg) {

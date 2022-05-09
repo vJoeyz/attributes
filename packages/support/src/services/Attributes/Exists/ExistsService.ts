@@ -5,23 +5,20 @@ import type { SchemaSelector, ElementItemSelector } from '@src/types/Schema.type
 import type { DOMSelector } from '$global/types/schema';
 import DOMForAttributeNotFound from './Errors/DOMForAttributeNotFound';
 
-
 export function elementSettingExists(
   htmlElements: HTMLElement[] | null,
   elementSelector: SchemaSelector,
   appliedTo: ElementItemSelector[],
-  isDefault: boolean,
+  isDefault: boolean
 ): boolean {
-
   let elementSettingFound = false;
 
-
-  htmlElements && htmlElements.forEach((htmlElement: HTMLElement) => {
-
-    if (htmlElement.hasAttribute(elementSelector.getAttribute())) {
-      elementSettingFound = true;
-    }
-  })
+  htmlElements &&
+    htmlElements.forEach((htmlElement: HTMLElement) => {
+      if (htmlElement.hasAttribute(elementSelector.getAttribute())) {
+        elementSettingFound = true;
+      }
+    });
 
   if (isDefault) {
     return elementSettingFound;
@@ -47,7 +44,6 @@ export function elementSettingExists(
   return true;
 }
 
-
 export function elementExists(elementSelector: SchemaSelector, elements: HTMLElement[], appliedTo: DOMSelector[]) {
   if (elements.length <= 0) {
     throw new AttributeNotFoundError(elementSelector, appliedTo, false);
@@ -56,7 +52,6 @@ export function elementExists(elementSelector: SchemaSelector, elements: HTMLEle
 }
 
 export function domElementExists(elementSelector: SchemaSelector, appliedTo: DOMSelector[]) {
-
   let domElementExists = false;
 
   if (appliedTo.length <= 0) {
@@ -80,14 +75,13 @@ export function domElementExists(elementSelector: SchemaSelector, appliedTo: DOM
       if (element) {
         domElementExists = true;
       }
-    })
-  })
+    });
+  });
 
   if (domElementExists === false) {
     throw new DOMForAttributeNotFound(elementSelector, appliedTo);
   }
 }
-
 
 export function elementDuplicated(elements: HTMLElement[], elementSelector: SchemaSelector) {
   if (elements.length > 1) {

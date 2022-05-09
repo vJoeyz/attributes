@@ -2,9 +2,7 @@ import { validateDOMSelectors } from './SpecializationService';
 import type { DOMSelector } from '$global/types/schema';
 
 describe('Validate Selector', () => {
-
   test('Validate selector checkbox success', () => {
-
     global.document.documentElement.innerHTML = `
       <html>
         <head>
@@ -29,15 +27,13 @@ describe('Validate Selector', () => {
       {
         label: 'Checkbox Label',
         selectors: ['label.w-checkbox span'],
-      }
+      },
     ];
 
-
     expect(validateDOMSelectors(label, selectors)).toBeTruthy();
-  })
+  });
 
   test('Validate selector checkbox failed due a class mistake', () => {
-
     global.document.documentElement.innerHTML = `
       <html>
         <head>
@@ -62,14 +58,13 @@ describe('Validate Selector', () => {
       {
         label: 'Checkbox Label',
         selectors: ['label.w-checkbox span'],
-      }
+      },
     ];
 
     expect(validateDOMSelectors(label, selectors)).toBeFalsy();
-  })
+  });
 
   test('Validate selector checkbox error failed due to element mistake', () => {
-
     global.document.documentElement.innerHTML = `
       <html>
         <head>
@@ -94,10 +89,9 @@ describe('Validate Selector', () => {
       {
         label: 'Checkbox Label',
         selectors: ['label.w-checkbox span'],
-      }
+      },
     ];
 
     expect(validateDOMSelectors(label, selectors)).toBeFalsy();
-  })
-
-})
+  });
+});

@@ -5,11 +5,7 @@ import type { DOMSelector } from '$global/types/schema';
 export default class AttributeConditionalNotExistError extends AbstractSchemaError {
   type = 'conditions-exists';
 
-  constructor(
-    attribute: SchemaSelector,
-    conditional: SchemaSelector | null,
-    appliedToConditional: DOMSelector[],
-  ) {
+  constructor(attribute: SchemaSelector, conditional: SchemaSelector | null, appliedToConditional: DOMSelector[]) {
     super();
 
     const selectorsLabels = this.selectorsToLabels(appliedToConditional, 'or');
@@ -20,19 +16,15 @@ export default class AttributeConditionalNotExistError extends AbstractSchemaErr
       const conditionalId = this.toAttribute(conditional.getPrettierSelector());
 
       this.message = [
-        this.toHighlight(
-          `The attribute ${attributeId} is found, but is missing a required attribute in the setup.`
-        ),
-        `Add ${conditionalId} to a ${selectorsLabels}.`
+        this.toHighlight(`The attribute ${attributeId} is found, but is missing a required attribute in the setup.`),
+        `Add ${conditionalId} to a ${selectorsLabels}.`,
       ].join(' ');
     }
 
     if (conditional === null) {
       this.message = [
-        this.toHighlight(
-          `The attribute ${attributeId} is found, but is missing a required component in the setup.`
-        ),
-        `Add ${selectorsLabels}.`
+        this.toHighlight(`The attribute ${attributeId} is found, but is missing a required component in the setup.`),
+        `Add ${selectorsLabels}.`,
       ].join(' ');
     }
 

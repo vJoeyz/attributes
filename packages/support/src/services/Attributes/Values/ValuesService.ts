@@ -12,26 +12,25 @@ import AttributeValueNotMatchExpectedError from './Errors/AttributeValueNotMatch
 import type { SchemaSelector } from '@src/types/Schema.types';
 import type { ValueTypeError } from '@src/types/Error.types';
 
-
 export function valueServiceV2(
   elements: HTMLElement[],
   attribute: string,
   schemaValue: { type: string; options?: { value: string; description: string }[] },
   attributeValue: string,
-  schemaSelector: SchemaSelector,
+  schemaSelector: SchemaSelector
 ) {
-
   const { type, options } = schemaValue;
 
-  const element = elements.length <= 1 && elements[0] || elements.find((element: HTMLElement) => {
-    return element.hasAttribute(attribute) && element.getAttribute(attribute)?.toString() === attributeValue;
-  });
+  const element =
+    (elements.length <= 1 && elements[0]) ||
+    elements.find((element: HTMLElement) => {
+      return element.hasAttribute(attribute) && element.getAttribute(attribute)?.toString() === attributeValue;
+    });
 
   const attributeValueInDOM = element && element.getAttribute(attribute);
 
-
   if (!element || !attributeValueInDOM) {
-    throw new Error('Unexpected error: Element not found for check value.')
+    throw new Error('Unexpected error: Element not found for check value.');
   }
 
   try {
@@ -42,11 +41,7 @@ export function valueServiceV2(
   }
 
   if (attributeValue.toString() !== attributeValueInDOM) {
-    throw new AttributeValueNotMatchExpectedError(
-      schemaSelector,
-      attributeValueInDOM,
-      attributeValue.toString()
-    );
+    throw new AttributeValueNotMatchExpectedError(schemaSelector, attributeValueInDOM, attributeValue.toString());
   }
 
   return true;
@@ -65,9 +60,8 @@ export default function valueService(
   schemaSelector: SchemaSelector,
   schemaValue: { type: string; options?: { value: string; description: string }[] },
   attributeValue: string,
-  appliedToSelectors: SchemaSelector[],
+  appliedToSelectors: SchemaSelector[]
 ) {
-
   const { type, options } = schemaValue;
 
   // Find the attribute value in AppliedTo Elements
@@ -75,19 +69,19 @@ export default function valueService(
     appliedToSelectors &&
     appliedToSelectors.find((appended) => {
       try {
-
-        const apppliedSelector = appended.getElementSelector().split(',').map((attributeSelector: string) => {
-
-          return `${attributeSelector}${schemaSelector.getAttributeSelector()}`
-        }).join(',');
+        const apppliedSelector = appended
+          .getElementSelector()
+          .split(',')
+          .map((attributeSelector: string) => {
+            return `${attributeSelector}${schemaSelector.getAttributeSelector()}`;
+          })
+          .join(',');
 
         return assertElementExistsOnPage(apppliedSelector);
       } catch {
         return false;
       }
     });
-
-
 
   // If none is found, throw an error
   if (!elementAppliedTo && appliedToSelectors && appliedToSelectors.length > 0) {
@@ -110,11 +104,7 @@ export default function valueService(
 
   // validate html value match input
   if (attributeValue.toString() !== attributeValueInDOM) {
-    throw new AttributeValueNotMatchExpectedError(
-      schemaSelector,
-      attributeValueInDOM,
-      attributeValue.toString()
-    );
+    throw new AttributeValueNotMatchExpectedError(schemaSelector, attributeValueInDOM, attributeValue.toString());
   }
   return true;
 }

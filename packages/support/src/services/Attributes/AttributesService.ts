@@ -18,31 +18,32 @@ import type { SchemaInputFieldSetting, InputChannel } from '@src/types/Input.typ
 export async function validateInputForm(
   schemaInput: SchemaInput[],
   schema: AttributeSchema,
-  schemaSettings: SchemaSettings,
+  schemaSettings: SchemaSettings
 ): Promise<SchemaInput[]> {
-
   const elementsAndFields = schemaInput.filter(
-    (input: SchemaInput) => (input.type === 'element' || input.type === 'field')
-      && input.instance === schemaSettings.instance
-      && input.key === schemaSettings.key
+    (input: SchemaInput) =>
+      (input.type === 'element' || input.type === 'field') &&
+      input.instance === schemaSettings.instance &&
+      input.key === schemaSettings.key
   );
 
   const settings = schemaInput.filter(
-    (input: SchemaInput) => (input.type === 'elementSetting' || input.type === 'fieldSetting')
-      && input.instance === schemaSettings.instance
-      && input.key === schemaSettings.key
-      && Object.prototype.hasOwnProperty.call(input, 'enable') && (input as SchemaInputFieldSetting).enable === true
+    (input: SchemaInput) =>
+      (input.type === 'elementSetting' || input.type === 'fieldSetting') &&
+      input.instance === schemaSettings.instance &&
+      input.key === schemaSettings.key &&
+      Object.prototype.hasOwnProperty.call(input, 'enable') &&
+      (input as SchemaInputFieldSetting).enable === true
   );
 
   const rest = schemaInput.filter(
-    (input: SchemaInput) => input.instance !== schemaSettings.instance
-      || input.key !== schemaSettings.key
-      || Object.prototype.hasOwnProperty.call(input, 'enable') && (input as SchemaInputFieldSetting).enable === false
+    (input: SchemaInput) =>
+      input.instance !== schemaSettings.instance ||
+      input.key !== schemaSettings.key ||
+      (Object.prototype.hasOwnProperty.call(input, 'enable') && (input as SchemaInputFieldSetting).enable === false)
   );
 
-  const promisesElements = elementsAndFields
-    .map(async (input: SchemaInput): Promise<InputChannel> => {
-
+  const promisesElements = elementsAndFields.map(async (input: SchemaInput): Promise<InputChannel> => {
     if (input.type === 'element') {
       return validateElement(input, schema, schemaSettings);
     }
@@ -52,20 +53,16 @@ export async function validateInputForm(
     }
 
     throw new Error('Type not found');
-  })
+  });
 
   const elementsAndFieldsChannel: InputChannel[] = await Promise.all(promisesElements);
 
-  const promisesSettings = settings
-    .map(async (input: SchemaInput) => {
-
+  const promisesSettings = settings.map(async (input: SchemaInput) => {
     if (input.type === 'elementSetting') {
-
-
       const elementChannel = elementsAndFieldsChannel.find(
-        (attributeChannel) => attributeChannel.input.type === 'element'
-          && attributeChannel.input.element === input.element,
-      )
+        (attributeChannel) =>
+          attributeChannel.input.type === 'element' && attributeChannel.input.element === input.element
+      );
 
       if (!elementChannel) {
         throw new Error('Input error, missing element channel');
@@ -75,29 +72,22 @@ export async function validateInputForm(
     }
 
     if (input.type === 'fieldSetting') {
-
       const fieldChannel = elementsAndFieldsChannel.find(
-        (attributeChannel) => attributeChannel.input.type === 'field'
-          && attributeChannel.input.field === input.field
-          && attributeChannel.input.index === input.index
-      )
-
+        (attributeChannel) =>
+          attributeChannel.input.type === 'field' &&
+          attributeChannel.input.field === input.field &&
+          attributeChannel.input.index === input.index
+      );
 
       if (!fieldChannel) {
         throw new Error('Input error, missing field channel');
       }
 
-
-      return validateFieldSetting(
-        input,
-        fieldChannel,
-        schema,
-        schemaSettings
-      );
+      return validateFieldSetting(input, fieldChannel, schema, schemaSettings);
     }
 
     throw new Error('Type not found');
-  })
+  });
 
   const settingsChannel = await Promise.all(promisesSettings);
 
@@ -105,7 +95,7 @@ export async function validateInputForm(
     ...elementsAndFieldsChannel.map((attribute: InputChannel) => attribute.input),
     ...settingsChannel,
     ...rest,
-  ]
+  ];
 
   return input;
 }
@@ -113,51 +103,50 @@ export async function validateInputForm(
 export function resetInputForm(
   schemaInput: SchemaInput[],
   schemaData: AttributeSchema | null,
-  schemaSettings: SchemaSettings,
+  schemaSettings: SchemaSettings
 ): SchemaInput[] {
+  const requiredItems =
+    schemaData?.elements
+      .filter((element: AttributeElementSchema) => element.required === true)
+      .map((element: AttributeElementSchema) => element.key) || [];
 
-  const requiredItems = schemaData?.elements
-  .filter((element: AttributeElementSchema) => element.required === true)
-  .map((element: AttributeElementSchema) => element.key) || [];
-
-
-  return schemaInput.filter((input: SchemaInput) => {
-    if (input.instance !== schemaSettings.instance || input.key !== schemaSettings.key) {
-      return true;
-    }
-
-    if (requiredItems.indexOf(input.key) !== -1) {
-      return true;
-    }
-
-    if (input.type === 'field') {
-      return true;
-    }
-
-    return false;
-
-  }).map((input: SchemaInput) => {
-
-    if (input.instance !== schemaSettings.instance || input.key !== schemaSettings.key) {
-      return input;
-    }
-
-    if (input.type === 'fieldSetting' || input.type === 'elementSetting') {
-      return {
-        ...input,
-        enable: false,
-        validation: null,
-      };
-    }
-
-    if (input.type === 'field') {
-      return {
-        ...input,
-        identifier: '',
-        specialization: '',
-        validation: null,
+  return schemaInput
+    .filter((input: SchemaInput) => {
+      if (input.instance !== schemaSettings.instance || input.key !== schemaSettings.key) {
+        return true;
       }
-    }
-    return {...input, validation: null};
-  })
+
+      if (requiredItems.indexOf(input.key) !== -1) {
+        return true;
+      }
+
+      if (input.type === 'field') {
+        return true;
+      }
+
+      return false;
+    })
+    .map((input: SchemaInput) => {
+      if (input.instance !== schemaSettings.instance || input.key !== schemaSettings.key) {
+        return input;
+      }
+
+      if (input.type === 'fieldSetting' || input.type === 'elementSetting') {
+        return {
+          ...input,
+          enable: false,
+          validation: null,
+        };
+      }
+
+      if (input.type === 'field') {
+        return {
+          ...input,
+          identifier: '',
+          specialization: '',
+          validation: null,
+        };
+      }
+      return { ...input, validation: null };
+    });
 }

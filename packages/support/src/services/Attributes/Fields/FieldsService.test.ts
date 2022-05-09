@@ -7,9 +7,8 @@ import type { SchemaInputField } from '@src/types/Input.types';
 import CMS_FILTER from '@src/schemas/cms-filter';
 import CMS_SORT from '@src/schemas/cms-sort';
 
-
 describe('Test field service', () => {
-  it('Test specialization with parent and selector', async() => {
+  it('Test specialization with parent and selector', async () => {
     global.document.documentElement.innerHTML = `
       <html>
         <body>
@@ -26,7 +25,6 @@ describe('Test field service', () => {
       </html>
     `;
 
-
     const input: SchemaInputField = {
       field: 'field',
       index: 'field-1',
@@ -38,7 +36,6 @@ describe('Test field service', () => {
       key: 'cmsfilter',
     };
 
-
     const schemaSettings: SchemaSettings = {
       instance: 1,
       key: 'cmsfilter',
@@ -47,10 +44,9 @@ describe('Test field service', () => {
     const response = await validateField(input, CMS_FILTER, schemaSettings);
 
     expect(response.input.validation?.status).toBeTruthy();
-  })
+  });
 
-
-  it('Test specialization cms sort case - button trigger', async() => {
+  it('Test specialization cms sort case - button trigger', async () => {
     global.document.documentElement.innerHTML = `
       <html>
         <body>
@@ -78,9 +74,9 @@ describe('Test field service', () => {
     const response = await validateField(input, CMS_SORT, schemaSettings);
 
     expect(response.input.validation?.status).toBeFalsy();
-  })
+  });
 
-  it('Test specialization cms sort case - select trigger', async() => {
+  it('Test specialization cms sort case - select trigger', async () => {
     global.document.documentElement.innerHTML = `
       <html>
         <body>
@@ -108,9 +104,9 @@ describe('Test field service', () => {
     const response = await validateField(input, CMS_SORT, schemaSettings);
 
     expect(response.input.validation?.status).toBeFalsy();
-  })
+  });
 
-  it('Test specialization cms sort case - dropdown trigger', async() => {
+  it('Test specialization cms sort case - dropdown trigger', async () => {
     global.document.documentElement.innerHTML = `
       <html>
         <body>
@@ -138,5 +134,5 @@ describe('Test field service', () => {
     const response = await validateField(input, CMS_SORT, schemaSettings);
 
     expect(response.input.validation?.status).toBeFalsy();
-  })
-})
+  });
+});

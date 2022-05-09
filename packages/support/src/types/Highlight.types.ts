@@ -1,12 +1,10 @@
-
-
 /**
  * Defines the backup style for highlight
  */
 export interface HighlightBackupStyle {
   [keyCamelCase: string]: {
-    keyHyphenCase: string,
-    value: string,
+    keyHyphenCase: string;
+    value: string;
   };
 }
 
@@ -14,6 +12,6 @@ export interface HighlightBackupStyle {
  * Defines the Highlight of and item
  */
 export interface Highlight {
-  backupStyles: HighlightBackupStyle[],
-  elements: HTMLElement[],
+  backupStyles: HighlightBackupStyle[];
+  elements: HTMLElement[];
 }

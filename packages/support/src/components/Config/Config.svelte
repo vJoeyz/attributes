@@ -3,25 +3,23 @@
   import Instances from './Instances/ConfigInstances.svelte';
   import Tabs from './Tabs/ConfigTabs.svelte';
 
+  import { schemaUI } from '@src/stores';
+
   let isInstanceOpen = false;
   function toggleInstances() {
     isInstanceOpen = !isInstanceOpen;
   }
-
 </script>
 
-
-  <div class="tool_config">
-    <Attributes toggleInstances={toggleInstances} isOpen={isInstanceOpen}/>
-    {#if isInstanceOpen}
-      <Instances/>
-      <Tabs/>
-    {/if}
-  </div>
-
+<div class="tool_config">
+  <Attributes on:toggle={toggleInstances} isOpen={isInstanceOpen} />
+  {#if isInstanceOpen && $schemaUI?.requiredInstance}
+    <Instances />
+    <Tabs />
+  {/if}
+</div>
 
 <style>
-
   .tool_config {
     display: grid;
     padding: 1rem;

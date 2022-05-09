@@ -1,4 +1,4 @@
-import App from './App.svelte';
+import App from './components/App.svelte';
 
 const section = document.createElement('section');
 section.setAttribute('data-id', 'fs-attributes-support');
@@ -11,7 +11,6 @@ const app = new App({
   target: root,
   props: {},
 });
-
 
 const styleFonts = `
   @font-face {
@@ -42,7 +41,7 @@ const styleFonts = `
     url(https://fonts.gstatic.com/s/opensans/v13/MTP_ySUJH_bn48VBG8sNSnhCUOGz7vYGh680lGh-uXM.woff)
     format('woff');
   }
-`
+`;
 const style = document.createElement('style');
 style.setAttribute('type', 'text/css');
 style.appendChild(document.createTextNode(styleFonts));

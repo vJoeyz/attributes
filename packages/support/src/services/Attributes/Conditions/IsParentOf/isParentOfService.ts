@@ -1,8 +1,8 @@
+import { createSchemaSelectorFromSchema, getSchemaItem } from '@src/services/Attributes/Schema/SchemaService';
 import {
-  createSchemaSelectorFromSchema,
-  getSchemaItem,
-} from '@src/services/Attributes/Schema/SchemaService';
-import { assertElementIsParentOfElement, assertElementIsParentOfElements } from '@src/services/DOM/Assertions/AssertionsService';
+  assertElementIsParentOfElement,
+  assertElementIsParentOfElements,
+} from '@src/services/DOM/Assertions/AssertionsService';
 import AttributeIsNotParentOfError from './Errors/AttributeIsNotParentOfError';
 import type {
   AttributeSchema,
@@ -10,7 +10,7 @@ import type {
   AttributeSchemaCondition,
   AttributeMainCondition,
   AttributeElementSchema,
-  DOMSelector
+  DOMSelector,
 } from '$global/types/schema';
 import type { SchemaSelector, SchemaSettings } from '@src/types/Schema.types';
 
@@ -18,14 +18,18 @@ export function isParentOf(
   elementSelector: SchemaSelector,
   conditions: AttributeSchemaConditions,
   schema: AttributeSchema,
-  schemaSettings: SchemaSettings,
+  schemaSettings: SchemaSettings
 ) {
   const selectors: (string | string[])[] = conditions.map((condition: AttributeSchemaCondition) => {
-
     const typeCondition = condition as AttributeMainCondition;
 
     if (typeCondition.type === 'element') {
-      const conditionSchemaSelector = createSchemaSelectorFromSchema(schema, 'elements', typeCondition.element, schemaSettings);
+      const conditionSchemaSelector = createSchemaSelectorFromSchema(
+        schema,
+        'elements',
+        typeCondition.element,
+        schemaSettings
+      );
       return conditionSchemaSelector.getElementSelector();
     }
 
@@ -33,11 +37,10 @@ export function isParentOf(
       return typeCondition.selector.map((domSelector: DOMSelector) => domSelector.selectors.join(','));
     }
 
-    throw new Error(`Error in bounds of condition`)
-  })
+    throw new Error(`Error in bounds of condition`);
+  });
 
   const flatSelectors: string[] = selectors.flat();
-
 
   let isValid = true;
   try {
@@ -47,40 +50,47 @@ export function isParentOf(
   }
 
   if (!isValid) {
+    const isParentOfConditions: AttributeSchemaCondition[] = conditions.filter(
+      (condition: AttributeSchemaCondition) => {
+        const typeCondition = condition as AttributeMainCondition;
 
-    const isParentOfConditions: AttributeSchemaCondition[] = conditions.filter((condition: AttributeSchemaCondition) => {
-      const typeCondition = condition as AttributeMainCondition;
+        if (typeCondition.type === 'element') {
+          const conditionSchemaSelector = createSchemaSelectorFromSchema(
+            schema,
+            'elements',
+            typeCondition.element,
+            schemaSettings
+          );
 
-      if (typeCondition.type === 'element') {
-        const conditionSchemaSelector = createSchemaSelectorFromSchema(schema, 'elements', typeCondition.element, schemaSettings);
-
-        try {
-          assertElementIsParentOfElement(elementSelector.getElementSelector(), conditionSchemaSelector.getElementSelector());
-          return false;
-        } catch {
-          return true;
+          try {
+            assertElementIsParentOfElement(
+              elementSelector.getElementSelector(),
+              conditionSchemaSelector.getElementSelector()
+            );
+            return false;
+          } catch {
+            return true;
+          }
         }
-      }
 
-      if (typeCondition.type === 'selector') {
-        const conditionSchemaSelector = typeCondition
-          .selector
-          .map((domSelector: DOMSelector) => domSelector.selectors.join(','))
-          .join(',');
+        if (typeCondition.type === 'selector') {
+          const conditionSchemaSelector = typeCondition.selector
+            .map((domSelector: DOMSelector) => domSelector.selectors.join(','))
+            .join(',');
 
-        try {
-          assertElementIsParentOfElement(elementSelector.getElementSelector(), conditionSchemaSelector);
-          return false;
-        } catch {
-          return true;
+          try {
+            assertElementIsParentOfElement(elementSelector.getElementSelector(), conditionSchemaSelector);
+            return false;
+          } catch {
+            return true;
+          }
         }
-      }
 
-      return false;
-    })
+        return false;
+      }
+    );
 
     const isParentOfSelectors: DOMSelector[][] = isParentOfConditions.map((condition: AttributeSchemaCondition) => {
-
       const typeCondition = condition as AttributeMainCondition;
 
       if (typeCondition.type === 'element') {

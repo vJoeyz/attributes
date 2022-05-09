@@ -9,7 +9,6 @@
   currentValue = fieldInput.identifier;
 
   function onInput(event: Event) {
-
     const input = event.target as HTMLInputElement;
 
     const value = input.value;
@@ -22,9 +21,6 @@
       currentValue = '';
     }
   }
-
-
-
 </script>
 
 <div>Field</div>
@@ -36,10 +32,10 @@
   placeholder="Identifier name"
   value={currentValue}
   on:input={onInput}
->
+/>
 
 <style>
-    .field_input {
+  .field_input {
     min-height: 2.5rem;
     margin-bottom: 0rem;
     margin-left: 1rem;

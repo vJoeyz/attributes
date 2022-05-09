@@ -5,7 +5,7 @@
 </script>
 
 <div use:clickOutside on:click_outside={forceClose}>
-  <slot/>
+  <slot />
 </div>
 
 <style>

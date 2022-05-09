@@ -6,7 +6,6 @@ import type { AttributeElementSchema, AttributeSchemaCondition } from '$global/t
 import type { ItemError } from '@src/types/Error.types';
 
 describe('Test if sibling of', () => {
-
   test('Test schema element is sibling of selector successful', () => {
     global.document.documentElement.innerHTML = `
       <html>
@@ -26,21 +25,21 @@ describe('Test if sibling of', () => {
       throw new Error('Missing conditions for dropdown');
     }
 
-    const conditions = element.conditions.filter((condition: AttributeSchemaCondition) => condition.condition === 'isSiblingOf');
+    const conditions = element.conditions.filter(
+      (condition: AttributeSchemaCondition) => condition.condition === 'isSiblingOf'
+    );
 
     const schemaSelector = new SchemaSelector('fs-copyclip-element', 'copy-sibling', true);
-
 
     schemaSelector.setElements(Array.from(document.querySelectorAll('[fs-copyclip-element="copy-sibling"]')));
 
     const schemaSettings = {
       key: 'copyclip',
       instance: 1,
-    }
+    };
 
     const result = isSiblingOf(schemaSelector, conditions, COPY_CLIP, schemaSettings);
     expect(result).toBe(true);
-
   });
 
   test('Test schema element is not sibling of selector throw error', () => {
@@ -64,17 +63,18 @@ describe('Test if sibling of', () => {
       throw new Error('Missing conditions for copy-sibling');
     }
 
-    const conditions = element.conditions.filter((condition: AttributeSchemaCondition) => condition.condition === 'isSiblingOf');
+    const conditions = element.conditions.filter(
+      (condition: AttributeSchemaCondition) => condition.condition === 'isSiblingOf'
+    );
 
     const schemaSelector = new SchemaSelector('fs-copyclip-element', 'copy-sibling', true);
-
 
     schemaSelector.setElements(Array.from(document.querySelectorAll('[fs-copyclip-element="copy-sibling"]')));
 
     const schemaSettings = {
       key: 'copyclip',
       instance: 1,
-    }
+    };
 
     try {
       isSiblingOf(schemaSelector, conditions, COPY_CLIP, schemaSettings);
@@ -83,4 +83,4 @@ describe('Test if sibling of', () => {
       expect((e as ItemError).type).toEqual('conditions-isSiblingOf');
     }
   });
-})
+});

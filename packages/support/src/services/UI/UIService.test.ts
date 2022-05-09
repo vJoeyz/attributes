@@ -2,7 +2,6 @@ import uiService from './UIService';
 import type { AttributeSchema } from '$global/types/schema';
 
 describe('Test UI Service', () => {
-
   test('Test required instance', () => {
     const schema: AttributeSchema = {
       elements: [
@@ -13,7 +12,7 @@ describe('Test UI Service', () => {
           requiresInstance: false,
           multiplesInInstance: false,
           conditions: [],
-          appliedTo: [{label: 'Input', selectors: ['input', 'select', 'textarea']}],
+          appliedTo: [{ label: 'Input', selectors: ['input', 'select', 'textarea'] }],
         },
         {
           key: 'not-required-element',
@@ -22,8 +21,8 @@ describe('Test UI Service', () => {
           requiresInstance: true,
           multiplesInInstance: false,
           conditions: [],
-          appliedTo: [{label: 'Input', selectors: ['input', 'select', 'textarea']}],
-        }
+          appliedTo: [{ label: 'Input', selectors: ['input', 'select', 'textarea'] }],
+        },
       ],
       settings: [],
       fields: [],
@@ -43,7 +42,7 @@ describe('Test UI Service', () => {
           requiresInstance: false,
           multiplesInInstance: false,
           conditions: [],
-          appliedTo: [{label: 'Input', selectors: ['input', 'select', 'textarea']}],
+          appliedTo: [{ label: 'Input', selectors: ['input', 'select', 'textarea'] }],
         },
         {
           key: 'not-required-element',
@@ -52,8 +51,8 @@ describe('Test UI Service', () => {
           requiresInstance: false,
           multiplesInInstance: false,
           conditions: [],
-          appliedTo: [{label: 'Input', selectors: ['input', 'select', 'textarea']}],
-        }
+          appliedTo: [{ label: 'Input', selectors: ['input', 'select', 'textarea'] }],
+        },
       ],
       settings: [],
       fields: [],
@@ -73,7 +72,7 @@ describe('Test UI Service', () => {
           requiresInstance: true,
           multiplesInInstance: false,
           conditions: [],
-          appliedTo: [{label: 'Input', selectors: ['input', 'select', 'textarea']}],
+          appliedTo: [{ label: 'Input', selectors: ['input', 'select', 'textarea'] }],
         },
         {
           key: 'not-required-element',
@@ -82,8 +81,8 @@ describe('Test UI Service', () => {
           required: false,
           requiresInstance: true,
           conditions: [],
-          appliedTo: [{label: 'Input', selectors: ['input', 'select', 'textarea']}],
-        }
+          appliedTo: [{ label: 'Input', selectors: ['input', 'select', 'textarea'] }],
+        },
       ],
       settings: [],
       fields: [],
@@ -92,9 +91,7 @@ describe('Test UI Service', () => {
 
     expect(uiConfig?.requiredElements.length).toEqual(1);
 
-
     expect(uiConfig?.requiredElements[0].key).toEqual('my-required-element');
-
   });
 
   test('Test setting in required element', () => {
@@ -107,7 +104,7 @@ describe('Test UI Service', () => {
           multiplesInInstance: false,
           requiresInstance: true,
           conditions: [],
-          appliedTo: [{label: 'Input', selectors: ['input', 'select', 'textarea']}],
+          appliedTo: [{ label: 'Input', selectors: ['input', 'select', 'textarea'] }],
         },
       ],
       settings: [
@@ -157,7 +154,7 @@ describe('Test UI Service', () => {
           multiplesInInstance: false,
           requiresInstance: true,
           conditions: [],
-          appliedTo: [{label: 'Input', selectors: ['input', 'select', 'textarea']}],
+          appliedTo: [{ label: 'Input', selectors: ['input', 'select', 'textarea'] }],
         },
         {
           key: 'not-required-element',
@@ -166,8 +163,8 @@ describe('Test UI Service', () => {
           required: false,
           requiresInstance: true,
           conditions: [],
-          appliedTo: [{label: 'Input', selectors: ['input', 'select', 'textarea']}],
-        }
+          appliedTo: [{ label: 'Input', selectors: ['input', 'select', 'textarea'] }],
+        },
       ],
       settings: [],
       fields: [],
@@ -189,8 +186,8 @@ describe('Test UI Service', () => {
           requiresInstance: true,
           multiplesInInstance: false,
           conditions: [],
-          appliedTo: [{label: 'Input', selectors: ['input', 'select', 'textarea']}],
-        }
+          appliedTo: [{ label: 'Input', selectors: ['input', 'select', 'textarea'] }],
+        },
       ],
       settings: [
         {
@@ -223,8 +220,8 @@ describe('Test UI Service', () => {
               {
                 value: 'my-key-2',
                 description: 'My Value 2',
-              }
-            ]
+              },
+            ],
           },
         },
       ],
@@ -250,44 +247,57 @@ describe('Test UI Service', () => {
           key: 'fs-cms-field',
           description: 'Defines a field key to group filters.',
           specializations: [
-
             {
-              "label": "Checkbox Label",
-              "key": "checkbox",
-              "appliedTo": [{
-                "parent": [{
-                  "type": "element",
-                  "element": "list"
-                }],
-                "selectors": [{
-                  "label": "Text Block",
-                  "selectors": ["div"]
-                }, {
-                  "label": "Heading",
-                  "selectors": ["h1", "h2", "h3", "h4", "h5", "h6"]
-                }, {
-                  "label": "Paragraph",
-                  "selectors": ["p"]
-                }, {
-                  "label": "Text Link",
-                  "selectors": ["a"]
-                }],
-                "type": "element"
-              }, {
-                "parent": [{
-                  "type": "element",
-                  "element": "filters"
-                }],
-                "selectors": [{
-                  "label": "Checkbox Label",
-                  "selectors": ["label.w-checkbox span"]
-                }],
-                "type": "element"
-              }]
-            }
+              label: 'Checkbox Label',
+              key: 'checkbox',
+              appliedTo: [
+                {
+                  parent: [
+                    {
+                      type: 'element',
+                      element: 'list',
+                    },
+                  ],
+                  selectors: [
+                    {
+                      label: 'Text Block',
+                      selectors: ['div'],
+                    },
+                    {
+                      label: 'Heading',
+                      selectors: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+                    },
+                    {
+                      label: 'Paragraph',
+                      selectors: ['p'],
+                    },
+                    {
+                      label: 'Text Link',
+                      selectors: ['a'],
+                    },
+                  ],
+                  type: 'element',
+                },
+                {
+                  parent: [
+                    {
+                      type: 'element',
+                      element: 'filters',
+                    },
+                  ],
+                  selectors: [
+                    {
+                      label: 'Checkbox Label',
+                      selectors: ['label.w-checkbox span'],
+                    },
+                  ],
+                  type: 'element',
+                },
+              ],
+            },
           ],
         },
-      ]
+      ],
     };
     const uiConfig = uiService('CMS Load', schema);
 
@@ -318,42 +328,56 @@ describe('Test UI Service', () => {
           description: 'Defines a field key to group filters.',
           specializations: [
             {
-              "label": "Checkbox Label",
-              "key": "checkbox",
-              "appliedTo": [{
-                "parent": [{
-                  "type": "element",
-                  "element": "list"
-                }],
-                "selectors": [{
-                  "label": "Text Block",
-                  "selectors": ["div"]
-                }, {
-                  "label": "Heading",
-                  "selectors": ["h1", "h2", "h3", "h4", "h5", "h6"]
-                }, {
-                  "label": "Paragraph",
-                  "selectors": ["p"]
-                }, {
-                  "label": "Text Link",
-                  "selectors": ["a"]
-                }],
-                "type": "element"
-              }, {
-                "parent": [{
-                  "type": "element",
-                  "element": "filters"
-                }],
-                "selectors": [{
-                  "label": "Checkbox Label",
-                  "selectors": ["label.w-checkbox span"]
-                }],
-                "type": "element"
-              }]
-            }
+              label: 'Checkbox Label',
+              key: 'checkbox',
+              appliedTo: [
+                {
+                  parent: [
+                    {
+                      type: 'element',
+                      element: 'list',
+                    },
+                  ],
+                  selectors: [
+                    {
+                      label: 'Text Block',
+                      selectors: ['div'],
+                    },
+                    {
+                      label: 'Heading',
+                      selectors: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+                    },
+                    {
+                      label: 'Paragraph',
+                      selectors: ['p'],
+                    },
+                    {
+                      label: 'Text Link',
+                      selectors: ['a'],
+                    },
+                  ],
+                  type: 'element',
+                },
+                {
+                  parent: [
+                    {
+                      type: 'element',
+                      element: 'filters',
+                    },
+                  ],
+                  selectors: [
+                    {
+                      label: 'Checkbox Label',
+                      selectors: ['label.w-checkbox span'],
+                    },
+                  ],
+                  type: 'element',
+                },
+              ],
+            },
           ],
         },
-      ]
+      ],
     };
     const uiConfig = uiService('CMS Load', schema);
 
@@ -361,4 +385,4 @@ describe('Test UI Service', () => {
 
     expect(uiConfig?.fields[0].settings[0].key).toEqual('text-setting');
   });
-})
+});

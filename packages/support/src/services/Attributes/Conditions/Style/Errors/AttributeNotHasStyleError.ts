@@ -11,10 +11,8 @@ export default class AttributeIsNotParentOfElementError extends AbstractSchemaEr
     const attributeId = this.toAttribute(attribute.getPrettierSelector());
 
     this.message = [
-      this.toHighlight(
-        `The attribute ${attributeId} is found, but does not match the required style.`
-      ),
-      `Set the css property of this element to "${style.property}: ${style.value}".`
+      this.toHighlight(`The attribute ${attributeId} is found, but does not match the required style.`),
+      `Set the css property of this element to "${style.property}: ${style.value}".`,
     ].join(' ');
 
     Object.setPrototypeOf(this, AttributeIsNotParentOfElementError.prototype);

@@ -21,28 +21,20 @@ export function validateElement(
   schema: AttributeSchema,
   schemaSettings: SchemaSettings
 ): InputChannel {
-
   const elementSchema = getSchemaItem(schema, 'elements', inputElement.element) as AttributeElementSchema;
-  const elementSelector = createSchemaSelectorFromItem(
-    elementSchema,
-    'elements',
-    inputElement.element,
-    schemaSettings
-  );
+  const elementSelector = createSchemaSelectorFromItem(elementSchema, 'elements', inputElement.element, schemaSettings);
 
   const { appliedTo, conditions } = elementSchema;
-
 
   const htmlElements = queryAllElements(elementSelector.getElementSelector());
 
   try {
-
     domElementExists(elementSelector, appliedTo);
     elementExists(elementSelector, htmlElements, appliedTo);
 
     if (
-      (elementSchema as AttributeElementSchema).requiresInstance === true
-      && (elementSchema as AttributeElementSchema).multiplesInInstance === false
+      (elementSchema as AttributeElementSchema).requiresInstance === true &&
+      (elementSchema as AttributeElementSchema).multiplesInInstance === false
     ) {
       elementDuplicated(htmlElements, elementSelector);
     }
@@ -58,7 +50,6 @@ export function validateElement(
     }
   } catch (error: unknown) {
     if (error instanceof AbstractSchemaError) {
-
       return {
         domElements: Array.from(htmlElements),
         input: {
@@ -69,12 +60,11 @@ export function validateElement(
               {
                 type: error.type,
                 message: error.message,
-              }
-            ]
-          }
-        }
-      }
-
+              },
+            ],
+          },
+        },
+      };
     } else {
       throw error;
     }
@@ -90,9 +80,9 @@ export function validateElement(
           {
             message: `Yup! Element ${elementSelector.getPrettierSelector()} correctly setup.`,
             type: 'success',
-          }
-        ]
-      }
-    }
-  }
+          },
+        ],
+      },
+    },
+  };
 }

@@ -33,29 +33,26 @@ const highlightStyle: HighlightBackupStyle = {
   },
 };
 
-
-function createElementHighlight(
-  key: string,
-  schema: AttributeSchema,
-): Highlight {
-
+function createElementHighlight(key: string, schema: AttributeSchema): Highlight {
   const schemaItem = getSchemaItem(schema, 'elements', key) as AttributeElementSchema;
 
   const { appliedTo } = schemaItem;
 
-  const htmlElements: HTMLElement[] = appliedTo.map((domSelector: DOMSelector): HTMLElement[] => {
-
-    return domSelector.selectors.map((selector: string) => {
-
-      const selectorElements = document.querySelectorAll<HTMLElement>(selector);
-      return Array.from(selectorElements);
-    }).flat()
-  }).flat();
+  const htmlElements: HTMLElement[] = appliedTo
+    .map((domSelector: DOMSelector): HTMLElement[] => {
+      return domSelector.selectors
+        .map((selector: string) => {
+          const selectorElements = document.querySelectorAll<HTMLElement>(selector);
+          return Array.from(selectorElements);
+        })
+        .flat();
+    })
+    .flat();
 
   return {
     elements: htmlElements,
     backupStyles: [],
-  }
+  };
 }
 
 function createElementSettingHighlight(
@@ -63,31 +60,27 @@ function createElementSettingHighlight(
   schema: AttributeSchema,
   schemaSettings: SchemaSettings
 ): Highlight {
-
   const schemaItem = getSchemaItem(schema, 'settings', key) as AttributeSettingSchema;
 
-  const {
-    appliedTo,
-  } = schemaItem;
+  const { appliedTo } = schemaItem;
 
-  const htmlElements: HTMLElement[] = appliedTo.elements && appliedTo.elements.map((element: string) => {
+  const htmlElements: HTMLElement[] =
+    (appliedTo.elements &&
+      appliedTo.elements
+        .map((element: string) => {
+          const elementSelector = createSchemaSelectorFromSchema(schema, 'elements', element, schemaSettings);
 
-    const elementSelector = createSchemaSelectorFromSchema(
-      schema,
-      'elements',
-      element,
-      schemaSettings,
-    );
+          const elements = document.querySelectorAll<HTMLElement>(elementSelector.getElementSelector());
 
-    const elements = document.querySelectorAll<HTMLElement>(elementSelector.getElementSelector());
-
-    return Array.from(elements);
-  }).flat() || [];
+          return Array.from(elements);
+        })
+        .flat()) ||
+    [];
 
   return {
     elements: htmlElements,
     backupStyles: [],
-  }
+  };
 }
 
 function createFieldHighlight(
@@ -96,8 +89,6 @@ function createFieldHighlight(
   schema: AttributeSchema,
   schemaSettings: SchemaSettings
 ): Highlight {
-
-
   if (specializationKey === null) {
     return {
       elements: [],
@@ -107,9 +98,7 @@ function createFieldHighlight(
 
   const schemaItem = getSchemaItem(schema, 'fields', key) as AttributeFieldSchema;
 
-  const {
-    specializations
-  } = schemaItem;
+  const { specializations } = schemaItem;
 
   const selectedSpecialization = specializations.find(
     (specializationEntry: FieldSpecialization) => specializationEntry.key === specializationKey
@@ -119,43 +108,43 @@ function createFieldHighlight(
     throw new Error(`Selected specialization not exists: ${specializationKey}`);
   }
 
-  const appliedToFields: InstanceFieldSpecializationAppliedTo[]  = selectedSpecialization.appliedTo.filter(
+  const appliedToFields: InstanceFieldSpecializationAppliedTo[] = selectedSpecialization.appliedTo.filter(
     (appliedToEntry: InstanceFieldSpecializationAppliedTo) => appliedToEntry.type !== 'component'
   );
 
+  const htmlElements: (HTMLElement | null)[] = appliedToFields
+    .map((appliedTo: InstanceFieldSpecializationAppliedTo) => {
+      const { parent, selectors } = appliedTo;
 
-  const htmlElements: (HTMLElement | null)[] = appliedToFields.map((appliedTo: InstanceFieldSpecializationAppliedTo) => {
+      const parentElement = getParentElement(parent, schema, schemaSettings);
 
-    const { parent, selectors } = appliedTo;
+      if (parent && parentElement === null) {
+        return null;
+      }
 
+      return selectors
+        .map((domSelector: DOMSelector) => {
+          const elements: HTMLElement[] = domSelector.selectors
+            .map((selector: string) => {
+              if (parentElement) {
+                return Array.from(parentElement.querySelectorAll<HTMLElement>(selector));
+              }
+              return Array.from(document.querySelectorAll<HTMLElement>(selector));
+            })
+            .flat();
 
-    const parentElement = getParentElement(parent, schema, schemaSettings);
-
-    if (parent && parentElement === null) {
-      return null;
-    }
-
-
-    return selectors.map((domSelector: DOMSelector) => {
-
-      const elements: HTMLElement[] = domSelector.selectors.map((selector: string) => {
-        if (parentElement) {
-          return Array.from(parentElement.querySelectorAll<HTMLElement>(selector));
-        }
-        return Array.from(document.querySelectorAll<HTMLElement>(selector));
-      }).flat();
-
-
-      return elements;
-    }).flat();
-  }).flat();
+          return elements;
+        })
+        .flat();
+    })
+    .flat();
 
   const elements = htmlElements.filter((element: HTMLElement | null) => element !== null) as HTMLElement[];
 
   return {
     elements: elements,
     backupStyles: [],
-  }
+  };
 }
 
 function createFieldSettingHighlight(
@@ -164,12 +153,11 @@ function createFieldSettingHighlight(
   schema: AttributeSchema,
   schemaSettings: SchemaSettings
 ): Highlight {
-
   if (!identifier) {
     return {
       elements: [],
       backupStyles: [],
-    }
+    };
   }
 
   const schemaItem = getSchemaItem(schema, 'fields', fieldKey) as AttributeFieldSchema;
@@ -179,7 +167,7 @@ function createFieldSettingHighlight(
   return {
     elements: elements,
     backupStyles: [],
-  }
+  };
 }
 
 export function createHighlight(
@@ -190,7 +178,6 @@ export function createHighlight(
   schema: AttributeSchema,
   schemaSettings: SchemaSettings
 ): Highlight {
-
   switch (type) {
     case 'element':
       return createElementHighlight(key, schema);
@@ -204,7 +191,7 @@ export function createHighlight(
 }
 
 export function enableHighlight(highlight: Highlight): HighlightBackupStyle[] {
-  const {elements, backupStyles } = highlight;
+  const { elements, backupStyles } = highlight;
 
   let styles: HighlightBackupStyle[] = [...backupStyles];
 
@@ -254,8 +241,6 @@ function saveStyle(element: HTMLElement, styles: HighlightBackupStyle[]) {
   return styles;
 }
 
-
-
 export function rollbackElement(element: HTMLElement, styles: HighlightBackupStyle[]) {
   const backupStyles = styles.shift();
   if (backupStyles === undefined) {
@@ -266,7 +251,6 @@ export function rollbackElement(element: HTMLElement, styles: HighlightBackupSty
 }
 
 export function applyBackupElements(elements: HTMLElement[], styles: HighlightBackupStyle[]) {
-
   if (styles.length === 0) {
     return styles;
   }

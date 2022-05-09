@@ -1,34 +1,36 @@
 <script lang="ts">
-  import {
-    schemaSelected,
-    schemaInstances,
-  } from '@src/stores';
+  import { schemaSelected, schemaInstances, schemaUI } from '@src/stores';
 
   import Add from '@src/components/Layout/Icons/instances-add.svg';
+  import { createEventDispatcher } from 'svelte';
 
+  const dispatch = createEventDispatcher();
 
-  export let toggleInstances: () => void;
+  function dispatchToggle() {
+    dispatch('toggle');
+  }
+
   export let isOpen: boolean;
 
   let disabled: boolean = $schemaSelected === null;
 
   if ($schemaInstances > 1) {
-    toggleInstances();
+    dispatchToggle();
   }
 
   $: {
     disabled = $schemaSelected === null;
   }
-
 </script>
 
 <button
   data-testid="select-attribute-toggle-instances"
   class="tool_toggle-instance"
-  on:click={!disabled && toggleInstances || null}
-  class:open={isOpen}
+  on:click={(!disabled && dispatchToggle) || null}
+  class:open={isOpen && $schemaUI?.requiredInstance}
+  class:disabled={$schemaUI?.requiredInstance === false}
 >
-  <Add/>
+  <Add />
 </button>
 
 <style>
@@ -51,26 +53,24 @@
     background-color: #1a1a1a;
   }
 
+  .tool_toggle-instance.disabled {
+    opacity: 0.2;
+  }
+
+  .disabled:hover {
+    border-color: #000;
+  }
+
   .tool_toggle-instance :global(svg) {
     width: 0.8rem;
     height: 0.8rem;
     opacity: 0.67;
-    transform: translate3d(0px, 0px, 0px)
-      scale3d(1, 1, 1)
-      rotateX(0deg)
-      rotateY(0deg)
-      rotateZ(0deg)
-      skew(0deg, 0deg);
+    transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
     transform-style: preserve-3d;
   }
 
   .tool_toggle-instance.open :global(svg) {
-    transform: translate3d(0px, 0px, 0px)
-      scale3d(1, 1, 1)
-      rotateX(0deg)
-      rotateY(0deg)
-      rotateZ(45deg)
-      skew(0deg, 0deg);
+    transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(45deg) skew(0deg, 0deg);
     transform-style: preserve-3d;
   }
 </style>

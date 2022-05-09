@@ -4,18 +4,12 @@
 </script>
 
 <span class:inverse={!inverse}>
-  <Arrow/>
+  <Arrow />
 </span>
 
-
 <style>
-  span :global(svg){
-    transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(
-      0deg) rotateY(
-      0deg) rotateZ(
-      0deg) skew(
-      0deg,
-      0deg);
+  span :global(svg) {
+    transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
     transform-style: preserve-3d;
     position: relative;
     display: flex;
@@ -37,12 +31,6 @@
   }
 
   span.inverse :global(svg) {
-    transform: translate3d(0px, 0px, 0px)
-      scale3d(1, 1, 1)
-      rotateX(0deg)
-      rotateY(0deg)
-      rotateZ(180deg)
-      skew(0deg, 0deg);
+    transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(180deg) skew(0deg, 0deg);
   }
-
 </style>

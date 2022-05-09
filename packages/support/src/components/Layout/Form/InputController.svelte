@@ -12,7 +12,7 @@
   function validateInput(event: KeyboardEvent & { currentTarget: HTMLInputElement }): void {
     isTouched = true;
 
-    const typeEvent = ((event as unknown) as Event & {target: {value: string}});
+    const typeEvent = event as unknown as Event & { target: { value: string } };
     if (typeEvent === null) {
       throw new Error('Missing event');
     }
@@ -27,7 +27,7 @@
   }
 
   function inputValidate(event: KeyboardEvent & { currentTarget: HTMLInputElement }): void {
-    validateInput(event)
+    validateInput(event);
   }
 </script>
 

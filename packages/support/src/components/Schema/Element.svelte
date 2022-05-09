@@ -1,19 +1,18 @@
 <script lang="ts">
   import ElementSetting from '@src/components/Schema/ElementSetting.svelte';
-  import Attribute from '@src/components/Layout/Attribute.svelte';
-  import AttributeItem from '@src/components/Layout/AttributeItem.svelte';
-  import AttributeSettings from '@src/components/Layout/AttributeSettings.svelte';
-  import AttributeKey from '@src/components/Layout/AttributeKey.svelte';
-  import AttributeItemHeader from '@src/components/Layout/AttributeItemHeader.svelte';
-  import AttributeCheckbox from '@src/components/Layout/AttributeCheckbox.svelte';
-  import AttributeItemContainer from '@src/components/Layout/AttributeItemContainer.svelte';
-  import AttributeContainer from '@src/components/Layout/AttributeContainer.svelte';
-  import AttributeLabel from '@src/components/Layout/AttributeLabel.svelte';
-  import AttributeText from '@src/components/Layout/AttributeText.svelte';
-  import AttributeRequired from '@src/components/Layout/AttributeRequired.svelte';
-  import AttributeToggle from '@src/components/Layout/AttributeToggle.svelte';
-  import AttributeSelector from '@src/components/Layout/Selector/AttributeSelector.svelte';
-  import InputValidation from '../Layout/InputValidation.svelte';
+  import Attribute from '@src/components/Attributes/Attribute.svelte';
+  import AttributeItem from '@src/components/Attributes/AttributeItem.svelte';
+  import AttributeKey from '@src/components/Attributes/AttributeKey.svelte';
+  import AttributeItemHeader from '@src/components/Attributes/AttributeItemHeader.svelte';
+  import AttributeCheckbox from '@src/components/Attributes/AttributeCheckbox.svelte';
+  import AttributeItemContainer from '@src/components/Attributes/AttributeItemContainer.svelte';
+  import AttributeContainer from '@src/components/Attributes/AttributeContainer.svelte';
+  import AttributeLabel from '@src/components/Attributes/AttributeLabel.svelte';
+  import AttributeText from '@src/components/Attributes/AttributeText.svelte';
+  import AttributeRequired from '@src/components/Attributes/AttributeRequired.svelte';
+  import AttributeToggle from '@src/components/Attributes/AttributeToggle.svelte';
+  import AttributeSelector from '@src/components/Attributes/Selector/Selector.svelte';
+  import InputValidation from '../Report/ReportAttribute.svelte';
   import { checkSettingCondition } from '@src/services/Attributes/Schema/SchemaService';
   import {
     schemaFormActions,
@@ -22,7 +21,7 @@
     schemaSettingsKey,
     toggleAttributeSelector,
   } from '@src/stores';
-  import type { ElementUI } from '@src/services/UI/UIService';
+  import type { ElementUI } from '@src/types/Schema.types';
   import type { SchemaInput, SchemaInputValidation } from '@src/types/Input.types';
 
   // attribute config
@@ -58,7 +57,10 @@
   }
 
   function checkIsEnable(schemaForm: SchemaInput[]) {
-    const localEnable = checkSettingCondition(element, schemaForm, {instance: $schemaSettingsInstance, key: $schemaSettingsKey || ''});
+    const localEnable = checkSettingCondition(element, schemaForm, {
+      instance: $schemaSettingsInstance,
+      key: $schemaSettingsKey || '',
+    });
 
     if (localEnable === false && isChecked === true) {
       schemaFormActions.removeElement(element.key);
@@ -106,8 +108,7 @@
       isChecked = true;
       schemaFormActions.addElement(element.key);
     } else {
-
-      isChecked = !!elementInput
+      isChecked = !!elementInput;
     }
   }
 
@@ -116,47 +117,36 @@
   }
 </script>
 
-
 <Attribute>
-  <AttributeItem
-    id={selectorId}
-    disabled={!isEnable}
-    checked={isChecked}
-    status={elementStatus}
-  >
+  <AttributeItem id={selectorId} disabled={!isEnable} checked={isChecked} status={elementStatus}>
     <AttributeItemHeader>
       <AttributeCheckbox
-        onCheck={onCheck}
-        isChecked={isChecked}
-        isRequired={isRequired}
+        {onCheck}
+        {isChecked}
+        {isRequired}
         key={element.key}
         disabled={!isEnable}
         status={elementStatus}
       />
       <AttributeItemContainer>
         <AttributeContainer>
-          <AttributeLabel toggleSelector={toggleSelector}>
+          <AttributeLabel {toggleSelector}>
             <AttributeKey>
               {element.key}
             </AttributeKey>
             <AttributeText>
               {element.description}
               {#if element.required}
-                <AttributeRequired/>
+                <AttributeRequired />
               {/if}
             </AttributeText>
           </AttributeLabel>
-          <AttributeToggle isOpen={isOpenSelector} toggleSelector={toggleSelector} />
+          <AttributeToggle isOpen={isOpenSelector} {toggleSelector} />
         </AttributeContainer>
         {#if isOpenSelector}
-          <AttributeSelector
-            type="element"
-            key={element.key}
-            value={undefined}
-          />
+          <AttributeSelector type="element" key={element.key} value={undefined} />
         {/if}
       </AttributeItemContainer>
-
     </AttributeItemHeader>
     {#if elementInput && elementInput.validation}
       {#each elementInput.validation.messages as inputMessage}
@@ -169,10 +159,8 @@
     {/if}
   </AttributeItem>
   {#if hasSettings}
-    <AttributeSettings>
-      {#each element.settings as setting}
-        <ElementSetting parent={element.key} setting={setting}/>
-      {/each}
-    </AttributeSettings>
+    {#each element.settings as setting}
+      <ElementSetting parent={element.key} {setting} />
+    {/each}
   {/if}
 </Attribute>

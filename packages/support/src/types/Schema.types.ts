@@ -1,7 +1,12 @@
-import type { AttributeSchemaCondition, DOMSelector, AttributeElementSchema } from '$global/types/schema';
+import type {
+  AttributeSchemaCondition,
+  DOMSelector,
+  AttributeElementSchema,
+  AttributeSettingSchema,
+  AttributeFieldSchema,
+} from '$global/types/schema';
 import type { SupportedAttributeData } from '$docs/src/utils/types';
-export type SCHEMA_ITEM_TYPES =  'settings' | 'elements' | 'fields';
-
+export type SCHEMA_ITEM_TYPES = 'settings' | 'elements' | 'fields';
 
 export interface SchemaSettings {
   key: string;
@@ -35,7 +40,6 @@ export interface SchemaSelector {
   getInitial(): boolean;
 }
 
-
 export interface AttributeSchemaConditionNormalize {
   normalizeSelector: string;
   condition: AttributeSchemaCondition;
@@ -43,8 +47,22 @@ export interface AttributeSchemaConditionNormalize {
 
 export type AppliedToSelector = (SchemaSelector | DOMSelector)[];
 
-
 export interface ElementItemSelector {
   elementAttribute: AttributeElementSchema;
   elementSelector: SchemaSelector;
+}
+
+export interface ElementUI extends AttributeElementSchema {
+  settings: AttributeSettingSchema[];
+}
+
+export interface FieldUI extends AttributeFieldSchema {
+  settings: AttributeSettingSchema[];
+}
+
+export interface SchemaUI {
+  requiredElements: ElementUI[];
+  fields: FieldUI[];
+  notRequiredElements: ElementUI[];
+  requiredInstance: boolean;
 }

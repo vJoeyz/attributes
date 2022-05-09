@@ -1,17 +1,14 @@
 <script lang="ts">
   // import debounce from '@src/utils/debounce';
   import Field from '@src/components/Schema/Field.svelte';
-  import type { FieldUI } from '@src/services/UI/UIService';
+  import type { FieldUI } from '@src/types/Schema.types';
   import { scrollInto } from '@src/services/DOM/Utils/Utils';
-  import {
-    schemaFormActions,
-    schemaSettingsInstance
-  } from '@src/stores';
+  import { schemaFormActions, schemaSettingsInstance } from '@src/stores';
   import type { SchemaInputField } from '@src/types/Input.types';
 
   export let field: FieldUI;
 
-  let fields: SchemaInputField[] =  schemaFormActions.getFields();
+  let fields: SchemaInputField[] = schemaFormActions.getFields();
 
   if (fields.length === 0) {
     addField();
@@ -27,7 +24,7 @@
     fields = schemaFormActions.getFields();
 
     if (fields.length > 1) {
-      scrollInto('div.fields > .tool_support:last-child', 200);
+      scrollInto('div.fields > .attribute:last-child', 200);
     }
   }
 
@@ -36,7 +33,7 @@
     schemaFormActions.disableFieldSettings(field.key, fieldIndex);
     fields = schemaFormActions.getFields();
 
-    scrollInto('div.fields > .tool_support:last-child', 200);
+    scrollInto('div.fields > .attribute:last-child', 200);
   }
 
   function changeFieldElement(fieldIndex: string, value: string) {
@@ -58,16 +55,8 @@
       addField();
     }
   }
-
-
 </script>
+
 {#each fields as fieldInput (fieldInput)}
-  <Field
-    addField={addField}
-    deleteField={deleteField}
-    field={field}
-    fieldInput={fieldInput}
-    changeFieldElement={changeFieldElement}
-    changeFieldIdentifier={changeFieldIdentifier}
-  />
+  <Field {addField} {deleteField} {field} {fieldInput} {changeFieldElement} {changeFieldIdentifier} />
 {/each}

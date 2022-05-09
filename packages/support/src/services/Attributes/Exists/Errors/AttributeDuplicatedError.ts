@@ -14,7 +14,6 @@ export default class AttributeDuplicateError extends AbstractSchemaError {
       `Remove the duplicated attributes from the page.`,
     ].join(' ');
 
-
     Object.setPrototypeOf(this, AttributeDuplicateError.prototype);
   }
 }

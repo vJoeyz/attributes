@@ -20,7 +20,7 @@ import ComponentLinkNotWorkingError from './Errors/Component/ComponentLinkNotWor
 import FieldLinkNotFoundError from './Errors/Link/LinkFieldNotFoundError';
 import FieldLinkMainCollectionLinkNotFoundError from './Errors/Link/FieldLinkMainCollectionLinkNotFoundError';
 import FieldLinkMainCollectionLinkNotWorkingError from './Errors/Link/FieldLinkMainCollectionLinkNotWorkingError';
-import FieldLinkMissingNestedCollectionError from './Errors/Link/FieldLinkMissingNestedCollectionError'
+import FieldLinkMissingNestedCollectionError from './Errors/Link/FieldLinkMissingNestedCollectionError';
 import FieldLinkNestedCollectionLinkNotFoundError from './Errors/Link/FieldLinkNestedCollectionLinkNotFoundError';
 import FieldLinkNestedCollectionLinkNotWorkingError from './Errors/Link/FieldLinkNestedCollectionLinkNotWorkingError';
 // types
@@ -45,7 +45,6 @@ export async function validateField(
   schema: AttributeSchema,
   schemaSettings: SchemaSettings
 ): Promise<InputChannel> {
-
   const schemaItem = getSchemaItem(schema, 'fields', fieldInput.field) as AttributeFieldSchema;
 
   const fieldSelector = createSchemaSelectorFromItem(
@@ -57,7 +56,6 @@ export async function validateField(
   );
 
   try {
-
     if (!fieldInput.identifier) {
       throw new MissingFieldIdentifierError();
     }
@@ -70,47 +68,41 @@ export async function validateField(
       (specialize: FieldSpecialization) => specialize.key === fieldInput.specialization
     );
 
-
     if (!specialization) {
       throw new Error(`Unexpected error: ${fieldInput.field} - Specialization not found`);
     }
 
-    const {
-      appliedTo
-    } = specialization;
+    const { appliedTo } = specialization;
 
     const appliedPromises = appliedTo.map(
       async (applied: InstanceFieldSpecializationAppliedTo): Promise<FieldValidatorResponse> => {
+        const { parent, selectors, key, value, type } = applied;
 
-      const { parent, selectors, key, value, type } = applied;
-
-
-      try {
-        return await validateSpecializationApplyTo(
-          fieldSelector,
-          parent,
-          selectors,
-          key,
-          value,
-          type,
-          schema,
-          schemaSettings
-        )
-      }  catch (error) {
-        if (error instanceof AbstractSchemaError) {
-          return {
-            type: error.type,
-            message: error.message,
+        try {
+          return await validateSpecializationApplyTo(
+            fieldSelector,
+            parent,
+            selectors,
+            key,
+            value,
+            type,
+            schema,
+            schemaSettings
+          );
+        } catch (error) {
+          if (error instanceof AbstractSchemaError) {
+            return {
+              type: error.type,
+              message: error.message,
+            };
           }
+
+          throw error;
         }
-
-        throw error;
       }
-
-    });
+    );
 
     const fieldPromises = await Promise.all(appliedPromises);
-
 
     const fieldErrors = fieldPromises.filter(
       (fieldApplied: FieldValidatorResponse) =>
@@ -124,10 +116,10 @@ export async function validateField(
           ...fieldInput,
           validation: {
             status: false,
-            messages: fieldErrors
-          }
-        }
-      }
+            messages: fieldErrors,
+          },
+        },
+      };
     }
 
     return {
@@ -139,17 +131,14 @@ export async function validateField(
           messages: [
             {
               type: 'success',
-              message: `Yup! Field ${fieldSelector.getPrettierSelector()} correctly setup.`
-            }
-          ]
-        }
-      }
-    }
-
+              message: `Yup! Field ${fieldSelector.getPrettierSelector()} correctly setup.`,
+            },
+          ],
+        },
+      },
+    };
   } catch (error) {
-
     if (error instanceof AbstractSchemaError) {
-
       return {
         domElements: null,
         input: {
@@ -160,25 +149,22 @@ export async function validateField(
               {
                 type: error.type,
                 message: error.message,
-              }
-            ]
-          }
-        }
-      }
-
+              },
+            ],
+          },
+        },
+      };
     } else {
       throw error;
     }
   }
 }
 
-
 export function getParentElement(
   parent: ParentSelector | null,
   schema: AttributeSchema,
-  settings: SchemaSettings,
+  settings: SchemaSettings
 ): HTMLElement | null {
-
   let selector: HTMLElement | null = null;
 
   if (parent === null) {
@@ -186,33 +172,24 @@ export function getParentElement(
   }
 
   parent.forEach((parentLevel: ElementSelector | SelectorSelector) => {
-
     if (parentLevel.type === 'element') {
+      const parentSelector = createSchemaSelectorFromSchema(schema, 'elements', parentLevel.element, settings, null);
 
-      const parentSelector = createSchemaSelectorFromSchema(
-        schema,
-        'elements',
-        parentLevel.element,
-        settings,
-        null,
-      );
-
-
-      selector = selector === null
-        && document.querySelector(parentSelector.getElementSelector())
-        || selector?.querySelector(parentSelector.getElementSelector()) || null;
+      selector =
+        (selector === null && document.querySelector(parentSelector.getElementSelector())) ||
+        selector?.querySelector(parentSelector.getElementSelector()) ||
+        null;
       return;
     }
 
     if (parentLevel.type === 'selector') {
-      selector = selector === null
-        && document.querySelector(parentLevel.selector.selectors.join(' '))
-        || selector?.querySelector(parentLevel.selector.selectors.join(' ')) || null;
+      selector =
+        (selector === null && document.querySelector(parentLevel.selector.selectors.join(' '))) ||
+        selector?.querySelector(parentLevel.selector.selectors.join(' ')) ||
+        null;
       return;
     }
-
-
-  })
+  });
 
   return selector;
 }
@@ -220,7 +197,6 @@ export function getParentElement(
 // function
 
 export async function fetchDocument(href: string): Promise<Document> {
-
   const response = await fetch(href);
 
   if (response.status !== 200) {
@@ -228,19 +204,17 @@ export async function fetchDocument(href: string): Promise<Document> {
   }
   const htmlResponse = await response.text();
   const parser = new DOMParser();
-  const html = parser.parseFromString(htmlResponse, "text/html");
+  const html = parser.parseFromString(htmlResponse, 'text/html');
   return html;
 }
 
 function findElement(parentElement: HTMLElement | null, selector: string): HTMLElement | null {
-
   if (parentElement) {
-    return parentElement.querySelector<HTMLElement>(selector)
+    return parentElement.querySelector<HTMLElement>(selector);
   }
 
   return document.querySelector<HTMLElement>(selector);
 }
-
 
 export async function validateSpecializationApplyTo(
   field: SchemaSelector,
@@ -250,15 +224,12 @@ export async function validateSpecializationApplyTo(
   value: string | undefined,
   type: string | undefined,
   schema: AttributeSchema,
-  settings: SchemaSettings,
+  settings: SchemaSettings
 ): Promise<HTMLElement | null> {
-
   if (type === 'component') {
-
     const value = field.getValue();
 
     if (value.indexOf('=') !== -1) {
-
       const href = value.split('=')[1];
 
       let page;
@@ -282,11 +253,10 @@ export async function validateSpecializationApplyTo(
 
   const parentSelectors: HTMLElement | null = getParentElement(parent, schema, settings);
 
-
-  const instanceField =  Object.assign(Object.create(Object.getPrototypeOf(field)), field)
+  const instanceField = Object.assign(Object.create(Object.getPrototypeOf(field)), field);
   if (key && value) {
-    instanceField.setAttribute(`fs-${settings.key}-${key}`)
-    instanceField.setValue(`${value}${settings.instance>1 ? `-${settings.instance}` : ''}`)
+    instanceField.setAttribute(`fs-${settings.key}-${key}`);
+    instanceField.setValue(`${value}${settings.instance > 1 ? `-${settings.instance}` : ''}`);
   }
 
   let valueSelector = null;
@@ -299,7 +269,6 @@ export async function validateSpecializationApplyTo(
   const element = findElement(parentSelectors, valueSelector || instanceField.getElementSelector());
 
   if (element === null) {
-
     switch (type) {
       case 'link':
         throw new FieldLinkNotFoundError(instanceField);
@@ -314,10 +283,7 @@ export async function validateSpecializationApplyTo(
 
   if (selectors.length >= 1) {
     if (!validateDOMSelectors(element, selectors)) {
-      throw new MissingFieldAppliedTagError(
-        instanceField,
-        selectors,
-      );
+      throw new MissingFieldAppliedTagError(instanceField, selectors);
     }
   }
 
@@ -331,7 +297,6 @@ export async function validateSpecializationApplyTo(
       throw new FieldLinkMainCollectionLinkNotFoundError(field);
     }
 
-
     const href: string = itemLink.getAttribute('href') as string;
 
     let page;
@@ -342,7 +307,6 @@ export async function validateSpecializationApplyTo(
       throw new FieldLinkMainCollectionLinkNotWorkingError(field);
     }
 
-
     const pageCollection = page.querySelector(field.getElementSelector());
 
     if (!pageCollection) {
@@ -352,7 +316,6 @@ export async function validateSpecializationApplyTo(
     const pageItem = pageCollection?.querySelector('.w-dyn-item');
 
     const pageLink = pageItem?.querySelector('a');
-
 
     if (!pageLink) {
       throw new FieldLinkNestedCollectionLinkNotFoundError(field);
@@ -365,9 +328,7 @@ export async function validateSpecializationApplyTo(
     } catch {
       throw new FieldLinkNestedCollectionLinkNotWorkingError(field);
     }
-
   }
 
   return element;
-
 }

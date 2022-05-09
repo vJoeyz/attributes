@@ -1,12 +1,9 @@
 <script lang="ts">
-
   import ArrowDown from '@src/components/Layout/Icons/arrow-down.svg';
-
 </script>
 
-
 <span>
-  <ArrowDown/>
+  <ArrowDown />
 </span>
 
 <style>

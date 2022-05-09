@@ -1,6 +1,4 @@
-import {
-  createSchemaSelectorFromSchema,
-} from '@src/services/Attributes/Schema/SchemaService';
+import { createSchemaSelectorFromSchema } from '@src/services/Attributes/Schema/SchemaService';
 import { queryAttributeValue } from '@src/services/DOM/Queries/QueriesService';
 import SettingNotMatchError from '@src/services/Attributes/Conditions/Settings/Errors/SettingNotMatchError';
 import SchemaSelectorCreator from '@src/services/Selector/SchemaSelector';
@@ -11,32 +9,35 @@ import type {
   AttributeSchemaCondition,
   AttributeSchemaConditions,
   AttributeSettingCondition,
-  AttributeSettingConditionSetting
+  AttributeSettingConditionSetting,
 } from '$global/types/schema';
 
 export function hasSettings(
   elementSelector: SchemaSelector,
   conditions: AttributeSchemaConditions,
   schema: AttributeSchema,
-  schemaSettings: SchemaSettings,
+  schemaSettings: SchemaSettings
 ) {
-
   conditions.forEach((condition: AttributeSchemaCondition) => {
-
     const conditionType = condition as AttributeSettingCondition;
 
     const { element, settings } = conditionType;
     const conditionSelector = createSchemaSelectorFromSchema(schema, 'elements', element, schemaSettings);
 
     settings.forEach((setting: AttributeSettingConditionSetting) => {
-      const settingSelector = createSchemaSelectorFromSchema(schema, 'settings', setting.key, schemaSettings, setting.value);
+      const settingSelector = createSchemaSelectorFromSchema(
+        schema,
+        'settings',
+        setting.key,
+        schemaSettings,
+        setting.value
+      );
       isSettingMatch(elementSelector, conditionSelector, settingSelector);
     });
-  })
+  });
 
   return true;
 }
-
 
 /**
  * Assert condition settings is meet by other element in page.
@@ -62,13 +63,12 @@ export default function isSettingMatch(
 
     return true;
   } catch (e) {
-
-    const currentSelector = new SchemaSelectorCreator(settingSelector.getAttribute(), attributeDOM, settingSelector.getInitial())
-
-    throw new SettingNotMatchError(
-      elementSelector,
-      currentSelector,
-      settingSelector
+    const currentSelector = new SchemaSelectorCreator(
+      settingSelector.getAttribute(),
+      attributeDOM,
+      settingSelector.getInitial()
     );
+
+    throw new SettingNotMatchError(elementSelector, currentSelector, settingSelector);
   }
 }

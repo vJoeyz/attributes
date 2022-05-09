@@ -15,7 +15,6 @@ export function getSupportWrapper() {
 }
 
 export function scrollInto(selector: string, delay = 0) {
-
   const shadowRoot = getSupportWrapper();
 
   setTimeout(() => {
@@ -28,13 +27,10 @@ export function scrollInto(selector: string, delay = 0) {
     scrollElement.scrollIntoView({
       behavior: 'smooth',
     });
-
   }, delay);
-
 }
 
 export function scrollTo(selector: string, delay = 0) {
-
   const shadowRoot = getSupportWrapper();
 
   setTimeout(() => {
@@ -48,7 +44,5 @@ export function scrollTo(selector: string, delay = 0) {
       top: 0,
       behavior: 'smooth',
     });
-
   }, delay);
-
 }

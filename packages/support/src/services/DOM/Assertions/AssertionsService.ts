@@ -18,7 +18,6 @@ export function assertElementExistsOnPage(selector: string) {
  * @returns
  */
 export function assertAttributeIsAppliedToElement(selector: string, toMatchSelector: string) {
-
   const isClass = toMatchSelector.startsWith('.');
 
   const elementQuery = isClass ? `${selector}${toMatchSelector}` : `${toMatchSelector}${selector}`;
@@ -55,9 +54,7 @@ export function assertElementIsChildOfElement(childSelector: string, parentSelec
   return true;
 }
 
-
 export function assertElementIsSiblingOfElement(elementSelector: string, siblingSelector: string) {
-
   const element = document.querySelector(elementSelector);
 
   if (!element) {
@@ -71,7 +68,7 @@ export function assertElementIsSiblingOfElement(elementSelector: string, sibling
   }
 
   if (element.parentNode !== siblingElement.parentNode) {
-    throw new Error('Elements are not siblings')
+    throw new Error('Elements are not siblings');
   }
 
   return true;
@@ -81,7 +78,6 @@ export function assertElementIsSiblingOfElement(elementSelector: string, sibling
  * Assertions - True if selector is parent of child selector
  */
 export function assertElementIsParentOfElement(parentSelector: string, childSelector: string) {
-
   const element = document.querySelector(childSelector);
 
   if (!element) {
@@ -102,13 +98,8 @@ export function assertElementIsParentOfElement(parentSelector: string, childSele
  * @returns
  */
 export function assertElementIsChildOfParentsElements(elements: HTMLElement[], parentSelectors: string[]) {
-
-
   const matchElements = elements.find((element) => {
-
-
     const matchParents = parentSelectors.filter((parentSelector) => {
-
       return element.closest(parentSelector) !== null;
     });
 
@@ -139,14 +130,12 @@ export function assertElementIsSiblingOfElements(elements: HTMLElement[], siblin
   return true;
 }
 
-
 export function assertElementIsParentOfElements(elements: HTMLElement[], childSelectors: string[]) {
   const matchElements = elements.find((element) => {
     const matchParents = childSelectors.some((childSelector) => {
       const childElement = element.querySelector(childSelector);
 
-      return (childElement !== null)
-
+      return childElement !== null;
     });
     return matchParents || false;
   });
@@ -157,7 +146,6 @@ export function assertElementIsParentOfElements(elements: HTMLElement[], childSe
 
   return true;
 }
-
 
 export function assertElementIsUnique(selector: string) {
   const elements = document.querySelectorAll(selector);

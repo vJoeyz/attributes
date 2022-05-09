@@ -1,30 +1,30 @@
 <script lang="ts">
-  import Attribute from '@src/components/Layout/Attribute.svelte';
-  import AttributeItem from '@src/components/Layout/AttributeItem.svelte';
-  import AttributeSettings from '@src/components/Layout/AttributeSettings.svelte';
-  import AttributeKey from '@src/components/Layout/AttributeKey.svelte';
-  import AttributeItemHeader from '@src/components/Layout/AttributeItemHeader.svelte';
-  import AttributeCheckbox from '@src/components/Layout/AttributeCheckbox.svelte';
-  import AttributeItemContainer from '@src/components/Layout/AttributeItemContainer.svelte';
-  import AttributeContainer from '@src/components/Layout/AttributeContainer.svelte';
-  import AttributeLabel from '@src/components/Layout/AttributeLabel.svelte';
-  import AttributeText from '@src/components/Layout/AttributeText.svelte';
-  import AttributeToggle from '@src/components/Layout/AttributeToggle.svelte';
-  import AttributeSelector from '@src/components/Layout/Selector/AttributeSelector.svelte';
-  import AttributeFieldAdd from '@src/components/Layout/AttributeFieldAdd.svelte';
-  import AttributeFieldDel from '@src/components/Layout/AttributeFieldDel.svelte';
+  import Attribute from '@src/components/Attributes/Attribute.svelte';
+  import AttributeItem from '@src/components/Attributes/AttributeItem.svelte';
+  import AttributeKey from '@src/components/Attributes/AttributeKey.svelte';
+  import AttributeItemHeader from '@src/components/Attributes/AttributeItemHeader.svelte';
+  import AttributeCheckbox from '@src/components/Attributes/AttributeCheckbox.svelte';
+  import AttributeItemContainer from '@src/components/Attributes/AttributeItemContainer.svelte';
+  import AttributeContainer from '@src/components/Attributes/AttributeContainer.svelte';
+  import AttributeLabel from '@src/components/Attributes/AttributeLabel.svelte';
+  import AttributeText from '@src/components/Attributes/AttributeText.svelte';
+  import AttributeToggle from '@src/components/Attributes/AttributeToggle.svelte';
+  import AttributeRequired from '@src/components/Attributes/AttributeRequired.svelte';
+  import AttributeSelector from '@src/components/Attributes/Selector/Selector.svelte';
+  import AttributeFieldAdd from '@src/components/Field/AttributeFieldAdd.svelte';
+  import AttributeFieldDel from '@src/components/Field/AttributeFieldDel.svelte';
   import FieldSpecialization from '@src/components/Field/Specialization/FieldSpecialization.svelte';
-  import AttributeRequired from '@src/components/Layout/AttributeRequired.svelte';
   import FieldSettings from '@src/components/Schema/FieldSetting.svelte';
-  import InputValidation from '../Layout/InputValidation.svelte';
-  import type { FieldUI } from '@src/services/UI/UIService';
-  import type { SchemaInputField, FieldChangeSpecialization, FieldChangeIdentifier, SchemaInputValidation } from '@src/types/Input.types';
+  import InputValidation from '@src/components/Report/ReportAttribute.svelte';
+  import type { FieldUI } from '@src/types/Schema.types';
+  import type {
+    SchemaInputField,
+    FieldChangeSpecialization,
+    FieldChangeIdentifier,
+    SchemaInputValidation,
+  } from '@src/types/Input.types';
 
-  import {
-    schemaFormActions,
-    schemaForm,
-    toggleAttributeSelector,
-  } from '@src/stores';
+  import { schemaFormActions, schemaForm, toggleAttributeSelector } from '@src/stores';
 
   export let addField: () => void;
   export let deleteField: (fieldIndex: string) => void;
@@ -41,7 +41,6 @@
 
   let fieldStatus: boolean | null = getInputStatus(fieldInput?.validation);
 
-
   let selectorId = `field-${field.key}-${fieldInput.index}`;
   let isOpenSelector = $toggleAttributeSelector === selectorId;
 
@@ -55,7 +54,6 @@
     isOpenSelector = false;
   }
 
-
   function getInputStatus(validation: SchemaInputValidation | null | undefined): boolean | null {
     if (validation === null || validation === undefined) {
       return null;
@@ -63,7 +61,6 @@
 
     return validation.status;
   }
-
 
   $: if ($schemaForm) {
     fieldInput = schemaFormActions.findField(field.key, fieldInput.index);
@@ -73,39 +70,32 @@
   $: if ($toggleAttributeSelector) {
     isOpenSelector = $toggleAttributeSelector === selectorId;
   }
-
 </script>
 
 <Attribute>
   <AttributeItem id={selectorId} checked={isChecked} status={fieldStatus}>
     <AttributeItemHeader>
-      <AttributeCheckbox
-        onCheck={null}
-        isChecked={isChecked}
-        isRequired={isRequired}
-        key={field.key}
-        status={fieldStatus}
-      />
+      <AttributeCheckbox onCheck={null} {isChecked} {isRequired} key={field.key} status={fieldStatus} />
       <AttributeItemContainer>
         <AttributeContainer>
-          <AttributeLabel toggleSelector={toggleSelector}>
+          <AttributeLabel {toggleSelector}>
             <AttributeKey>
               {field.key}
             </AttributeKey>
             <AttributeText>
               {field.description}
               {#if fieldInput && fieldInput.index === 'field-1'}
-                <AttributeRequired/>
+                <AttributeRequired />
               {/if}
             </AttributeText>
           </AttributeLabel>
-          <AttributeToggle isOpen={isOpenSelector} toggleSelector={toggleSelector}/>
+          <AttributeToggle isOpen={isOpenSelector} {toggleSelector} />
 
           {#if fieldInput && fieldInput.index !== 'field-1'}
-            <AttributeFieldDel deleteField={() => deleteField(fieldInput && fieldInput.index || '')}/>
+            <AttributeFieldDel deleteField={() => deleteField((fieldInput && fieldInput.index) || '')} />
           {/if}
 
-          <AttributeFieldAdd addField={addField}/>
+          <AttributeFieldAdd {addField} />
         </AttributeContainer>
         {#if isOpenSelector}
           <AttributeSelector
@@ -116,7 +106,6 @@
           />
         {/if}
       </AttributeItemContainer>
-
     </AttributeItemHeader>
     {#if fieldInput && fieldInput.validation}
       {#each fieldInput.validation.messages as inputMessage}
@@ -129,21 +118,14 @@
     {/if}
     <FieldSpecialization
       specializations={field.specializations}
-      changeFieldElement={changeFieldElement}
-      changeFieldIdentifier={changeFieldIdentifier}
+      {changeFieldElement}
+      {changeFieldIdentifier}
       fieldIndex={fieldInput}
     />
   </AttributeItem>
   {#if hasSettings}
-    <AttributeSettings>
-      {#each field.settings as setting}
-        <FieldSettings
-          fieldKey={field.key}
-          fieldIndex={fieldInput.index}
-          setting={setting}
-          identifier={fieldInput.identifier}
-        />
-      {/each}
-    </AttributeSettings>
+    {#each field.settings as setting}
+      <FieldSettings fieldKey={field.key} fieldIndex={fieldInput.index} {setting} identifier={fieldInput.identifier} />
+    {/each}
   {/if}
 </Attribute>
