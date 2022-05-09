@@ -11,7 +11,6 @@
   export let option: string;
   export let isActive: boolean;
 
-
   export let valueType: AttributeSettingValueOptions | AttributeSettingValuePrimitive;
 </script>
 

@@ -1,6 +1,5 @@
 <script lang="ts">
-import { createEventDispatcher } from "svelte";
-
+  import { createEventDispatcher } from 'svelte';
 
   export let inputValidator: (event: KeyboardEvent & { currentTarget: HTMLInputElement }) => void;
   export let value: string;
@@ -12,7 +11,7 @@ import { createEventDispatcher } from "svelte";
   export let step: string | undefined = undefined;
   export let disabled = false;
 
-  let dispatch = createEventDispatcher<{change: string}>();
+  let dispatch = createEventDispatcher<{ change: string }>();
 
   function typeAction(node: HTMLInputElement) {
     node.type = type;

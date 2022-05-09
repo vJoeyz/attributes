@@ -125,12 +125,7 @@
   </AttributeItem>
   {#if hasSettings}
     {#each field.settings as setting}
-      <FieldSettings
-        fieldKey={field.key}
-        fieldIndex={fieldInput.index}
-        {setting}
-        identifier={fieldInput.identifier}
-      />
+      <FieldSettings fieldKey={field.key} fieldIndex={fieldInput.index} {setting} identifier={fieldInput.identifier} />
     {/each}
   {/if}
 </Attribute>

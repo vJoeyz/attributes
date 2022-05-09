@@ -4,12 +4,7 @@
   export let scroll = false;
 </script>
 
-<div
-  class="tool_select-dropdown"
-  use:clickOutside
-  on:click_outside
-  class:scroll={scroll}
->
+<div class="tool_select-dropdown" use:clickOutside on:click_outside class:scroll>
   <slot />
 </div>
 
@@ -23,7 +18,6 @@
     box-sizing: border-box;
     text-align: left;
     max-height: 60vh;
-
   }
 
   .tool_select-dropdown.scroll {

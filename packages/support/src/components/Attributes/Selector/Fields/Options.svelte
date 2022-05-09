@@ -11,7 +11,7 @@
 
   export let isActive: boolean;
 
-  let dispatch = createEventDispatcher<{change: string}>();
+  let dispatch = createEventDispatcher<{ change: string }>();
 
   let isOpen = false;
   let selected = value.default;

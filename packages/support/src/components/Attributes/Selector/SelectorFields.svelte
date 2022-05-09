@@ -12,7 +12,6 @@
   export let value: AttributeSettingValuePrimitive | AttributeSettingValueOptions;
   export let option: string;
   export let isActive: boolean;
-
 </script>
 
 <div class="selector__options">
