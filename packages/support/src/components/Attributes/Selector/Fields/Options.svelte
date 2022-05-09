@@ -3,14 +3,15 @@
   import SelectDropdown from '@src/components/Layout/Form/SelectDropdown.svelte';
   import SelectOption from '@src/components/Layout/Form/SelectOption.svelte';
   import type { AttributeSettingValueOptions } from '$global/types/schema';
-
+  import { createEventDispatcher } from 'svelte';
   // import SolutionIcon from '@src/components/Layout/Icons/tips-icon.svg';
 
   export let value: AttributeSettingValueOptions;
   export let attributeValue: string | undefined;
 
   export let isActive: boolean;
-  export let onChange: (value: string) => void;
+
+  let dispatch = createEventDispatcher<{change: string}>();
 
   let isOpen = false;
   let selected = value.default;
@@ -31,7 +32,7 @@
 
   function selectAttribute(value: string) {
     console.log(value);
-    onChange(value);
+    dispatch('change', value);
     forceClose();
   }
 

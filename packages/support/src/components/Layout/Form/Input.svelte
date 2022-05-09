@@ -1,4 +1,7 @@
 <script lang="ts">
+import { createEventDispatcher } from "svelte";
+
+
   export let inputValidator: (event: KeyboardEvent & { currentTarget: HTMLInputElement }) => void;
   export let value: string;
   export let id: string;
@@ -8,7 +11,8 @@
   export let type: string;
   export let step: string | undefined = undefined;
   export let disabled = false;
-  export let onChange: (value: string) => void;
+
+  let dispatch = createEventDispatcher<{change: string}>();
 
   function typeAction(node: HTMLInputElement) {
     node.type = type;
@@ -16,7 +20,7 @@
 
   function onInput(event: Event) {
     const input = event.target as HTMLInputElement;
-    onChange(input.value);
+    dispatch('change', input.value);
   }
 </script>
 

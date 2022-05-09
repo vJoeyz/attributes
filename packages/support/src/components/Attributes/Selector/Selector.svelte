@@ -18,7 +18,7 @@
 
   export let type: SchemaInputType;
   export let isActive: boolean | undefined = undefined;
-  export let onChange: ((value: string) => void) | undefined = undefined;
+
   export let valueType: AttributeValue | undefined = undefined;
   export let forceStatic = false;
 
@@ -107,8 +107,8 @@
       <Selector label="Name" selector={selectorName} />
     </div>
     <div class="attribute-selector-block" data-testid="value">
-      {#if (type === 'fieldSetting' || type === 'elementSetting') && !forceStatic && valueType !== undefined && valueType.type !== 'boolean' && isActive !== undefined && onChange !== undefined}
-        <CustomizableSelector {valueType} {onChange} label="Value" {isActive} option={value} />
+      {#if (type === 'fieldSetting' || type === 'elementSetting') && !forceStatic && valueType !== undefined && valueType.type !== 'boolean' && isActive !== undefined}
+        <CustomizableSelector {valueType} on:change label="Value" {isActive} option={value} />
       {:else}
         <Selector label="Value" selector={selectorValue} />
       {/if}

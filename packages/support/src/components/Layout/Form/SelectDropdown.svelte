@@ -1,8 +1,15 @@
 <script lang="ts">
   import { clickOutside } from '@src/directives/clickOutside';
+
+  export let scroll = false;
 </script>
 
-<div class="tool_select-dropdown" use:clickOutside on:click_outside>
+<div
+  class="tool_select-dropdown"
+  use:clickOutside
+  on:click_outside
+  class:scroll={scroll}
+>
   <slot />
 </div>
 
@@ -16,17 +23,21 @@
     box-sizing: border-box;
     text-align: left;
     max-height: 60vh;
+
+  }
+
+  .tool_select-dropdown.scroll {
     overflow-y: scroll;
   }
 
-  .tool_select-dropdown::-webkit-scrollbar {
+  .tool_select-dropdown.scroll::-webkit-scrollbar {
     width: 0.5rem;
   }
 
-  .tool_select-dropdown::-webkit-scrollbar-track {
+  .tool_select-dropdown.scroll::-webkit-scrollbar-track {
     background: rgb(0, 0, 0);
   }
-  .tool_select-dropdown::-webkit-scrollbar-thumb {
+  .tool_select-dropdown.scroll::-webkit-scrollbar-thumb {
     background: #474747;
   }
 </style>

@@ -96,9 +96,9 @@
     isOpenSelector = false;
   }
 
-  function onChange(value: string) {
+  function onChange(value: CustomEvent<string>) {
     if (fieldSettingInput) {
-      schemaFormActions.setFieldSettingOption(fieldKey, fieldIndex, setting.key, value);
+      schemaFormActions.setFieldSettingOption(fieldKey, fieldIndex, setting.key, value.detail);
     }
   }
 
@@ -143,7 +143,7 @@
           valueType={setting.value}
           value={(fieldSettingInput && fieldSettingInput.option) || ''}
           isActive={!!fieldSettingInput && fieldSettingInput.enable}
-          {onChange}
+          on:change={onChange}
         />
       {:else if isOpenSelector && setting.specializations}
         {#each setting.specializations as specilization}
@@ -156,7 +156,7 @@
             valueType={setting.value}
             value={specilization.value}
             isActive={!!fieldSettingInput && fieldSettingInput.enable}
-            {onChange}
+            on:change={onChange}
           />
         {/each}
       {/if}

@@ -7,14 +7,14 @@
   export let attributeValue: string;
   export let id: string;
   export let isActive: boolean;
-  export let onChange: (value: string) => void;
+
   attributeValue = attributeValue || value.default || '';
 </script>
 
 <InputController validate={floatValidator} let:inputValidator let:isTouched let:isValid>
   <Input
     disabled={!isActive}
-    {onChange}
+    on:change
     {inputValidator}
     {id}
     type="number"

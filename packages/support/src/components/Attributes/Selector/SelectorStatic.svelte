@@ -1,19 +1,19 @@
 <script lang="ts">
-  import SelectorCustomAttribute from './SelectorAttribute.svelte';
-  import SelectorCustomValue from './SelectorValueWrapper.svelte';
+  import SelectorAttribute from './SelectorAttribute.svelte';
+  import SelectorValueWrapper from './SelectorValueWrapper.svelte';
   import SelectorButton from './SelectorButton.svelte';
-  import SelectorCustomAttributeValueText from './SelectorValue.svelte';
+  import SelectorValue from './SelectorValue.svelte';
 
   export let label: 'Name' | 'Value';
   export let selector: string;
 </script>
 
-<SelectorCustomAttribute>
+<SelectorAttribute>
   {label}
-</SelectorCustomAttribute>
-<SelectorCustomValue>
-  <SelectorCustomAttributeValueText>
+</SelectorAttribute>
+<SelectorValueWrapper>
+  <SelectorValue>
     {selector}
-  </SelectorCustomAttributeValueText>
+  </SelectorValue>
   <SelectorButton {selector} />
-</SelectorCustomValue>
+</SelectorValueWrapper>

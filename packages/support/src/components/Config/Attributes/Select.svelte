@@ -48,7 +48,7 @@
   </SelectDisplay>
 
   {#if isOpen}
-    <SelectDropdown on:click_outside={forceClose}>
+    <SelectDropdown on:click_outside={forceClose} scroll>
       {#if onPageSchemas.length > 0}
         <SelectSection sectionTitle="Solutions found">
           {#each onPageSchemas as schema (schema.title)}

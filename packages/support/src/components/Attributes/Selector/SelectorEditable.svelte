@@ -1,8 +1,8 @@
 <script lang="ts">
-  import SelectorCustomAttribute from './SelectorAttribute.svelte';
-  import SelectorCustomValue from './SelectorValueWrapper.svelte';
+  import SelectorAttribute from './SelectorAttribute.svelte';
+  import SelectorValueWrapper from './SelectorValueWrapper.svelte';
   import SelectorButton from './SelectorButton.svelte';
-  import SelectorCustomAttributeValueText from './SelectorValue.svelte';
+  import SelectorValue from './SelectorValue.svelte';
   import SelectorFields from './SelectorFields.svelte';
   import type { AttributeSettingValuePrimitive, AttributeSettingValueOptions } from '$global/types/schema';
 
@@ -10,17 +10,17 @@
 
   export let option: string;
   export let isActive: boolean;
-  export let onChange: (value: string) => void;
+
 
   export let valueType: AttributeSettingValueOptions | AttributeSettingValuePrimitive;
 </script>
 
-<SelectorCustomAttribute>
+<SelectorAttribute>
   {label}
-</SelectorCustomAttribute>
-<SelectorCustomValue>
-  <SelectorCustomAttributeValueText>
-    <SelectorFields {onChange} {isActive} id="selector" value={valueType} {option} />
-  </SelectorCustomAttributeValueText>
+</SelectorAttribute>
+<SelectorValueWrapper>
+  <SelectorValue>
+    <SelectorFields on:change {isActive} id="selector" value={valueType} {option} />
+  </SelectorValue>
   <SelectorButton selector={option} />
-</SelectorCustomValue>
+</SelectorValueWrapper>

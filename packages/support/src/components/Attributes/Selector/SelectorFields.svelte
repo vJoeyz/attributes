@@ -4,7 +4,6 @@
   import CommaSeparatedString from './Fields/CommaSeparatedString.svelte';
   import Float from './Fields/Float.svelte';
   import CommaSeparatedFloat from './Fields/CommaSeparatedFloat.svelte';
-  // import Boolean from './Value/Boolean.svelte';
   import Int from './Fields/Int.svelte';
   import CommaSeparatedInt from './Fields/CommaSeparatedInt.svelte';
   import type { AttributeSettingValuePrimitive, AttributeSettingValueOptions } from '$global/types/schema';
@@ -13,26 +12,24 @@
   export let value: AttributeSettingValuePrimitive | AttributeSettingValueOptions;
   export let option: string;
   export let isActive: boolean;
-  export let onChange: (value: string) => void;
+
 </script>
 
 <div class="selector__options">
   {#if value.type === 'options'}
-    <Options {onChange} {isActive} bind:attributeValue={option} {value} />
+    <Options on:change {isActive} bind:attributeValue={option} {value} />
   {:else if value.type === 'string'}
-    <String {onChange} {isActive} bind:attributeValue={option} {value} {id} />
+    <String on:change {isActive} bind:attributeValue={option} {value} {id} />
   {:else if value.type === 'commaSeparatedString'}
-    <CommaSeparatedString {onChange} {isActive} bind:attributeValue={option} {value} {id} />
+    <CommaSeparatedString on:change {isActive} bind:attributeValue={option} {value} {id} />
   {:else if value.type === 'float'}
-    <Float {onChange} {isActive} bind:attributeValue={option} {value} {id} />
+    <Float on:change {isActive} bind:attributeValue={option} {value} {id} />
   {:else if value.type === 'commaSeparatedFloat'}
-    <CommaSeparatedFloat {onChange} {isActive} bind:attributeValue={option} {id} {value} />
+    <CommaSeparatedFloat on:change {isActive} bind:attributeValue={option} {id} {value} />
   {:else if value.type === 'int'}
-    <Int {onChange} {isActive} bind:attributeValue={option} {value} {id} />
+    <Int on:change {isActive} bind:attributeValue={option} {value} {id} />
   {:else if value.type === 'commaSeparatedInt'}
-    <CommaSeparatedInt {onChange} {isActive} bind:attributeValue={option} {id} {value} />
-    <!-- {:else if value.type === 'boolean'}
-    <Boolean bind:attributeValue={option} {id} /> -->
+    <CommaSeparatedInt on:change {isActive} bind:attributeValue={option} {id} {value} />
   {:else}
     <div class="missing">Missing componenent for ${value.type}</div>
   {/if}

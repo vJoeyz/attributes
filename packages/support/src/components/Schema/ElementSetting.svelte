@@ -86,9 +86,9 @@
     isOpenSelector = false;
   }
 
-  function onChange(value: string) {
+  function onChange(value: CustomEvent<string>) {
     if (elementSettingInput) {
-      schemaFormActions.setElementSettingOption(parent, setting.key, value);
+      schemaFormActions.setElementSettingOption(parent, setting.key, value.detail);
     }
   }
 
@@ -146,7 +146,7 @@
           valueType={setting.value}
           value={(elementSettingInput && elementSettingInput.option) || ''}
           isActive={!!elementSettingInput && elementSettingInput.enable}
-          {onChange}
+          on:change={onChange}
         />
       {/if}
     </AttributeItemContainer>
