@@ -16,7 +16,7 @@ Each `cms` attribute uses `cmscore` under the hood, creating an instance of `CMS
 
 All list instances can be accessed from `window.fsAttributes.cms.listInstances`, but the safest way to access an attribute's instance is by using the `window.fsAttributes.push()` method (see each Attribute's docs for more info).
 
-The [`CMSList` instance](#cmslist-properties) has a few properties and methods that can be used to extend its functionalities.
+The [`CMSList` instance](#cmslist-properties) has a few properties and methods that can be used to extend its functionalities. You can also subscribe to specific [events](#cmslist-events).
 
 Each individual Collection Item is stored as a [`CMSItem` instance](#cmsitem-properties), which also has some methods and properties.
 
@@ -262,6 +262,58 @@ interface CMSList {
    */
   getInstanceIndex(key: string): number | undefined;
 }
+```
+
+### `CMSList` events
+
+Each `CMSList` instance provides some events that the user can subscribe to by using the `CMSList.on(eventName, callback)` method.
+
+#### `renderitems`
+
+This event is fired every time that any Collection Items are rendered on the page. This includes:
+
+- The user has applied a filter and the list has changed the currently rendered items.
+- The user has switched a page and the list has rendered new items.
+- The user has sorted the items and the list has rendered the new items order.
+- The list has loaded more items and rendered them.
+
+The callback function provides an array of the `CMSItem` instances that have been rendered.
+
+Example:
+
+```typescript
+listInstance.on('renderitems', (renderedItems) => {
+  console.log('The following items have been rendered on the Collection List: ', renderedItems);
+});
+```
+
+#### `additems`
+
+This event is fired whenever `cmsload` adds more items to the `CMSList` instance, or the user programatically does it with `CMSList.addItems()`.
+
+Adding items to the list doesn't mean that those items have been rendered (thus they are present in the DOM).
+`cmscore` keeps all items in memory and only renders the ones that are required to. If you want to access the items that are currently present in the DOM, you should use the `renderitems` event instead.
+
+The callback function provides an array of the `CMSItem` instances that have been added.
+
+Example:
+
+```typescript
+listInstance.on('additems', (addedItems) => {
+  console.log('The following items have been added to the CMSList memory: ', addedItems);
+});
+```
+
+#### `switchpage`
+
+This event is fired whenever the user navigates to another page when using `cmsload` with `pagination` mode.
+
+The callback function provides the new page index. This index is 0-based.
+
+```typescript
+listInstance.on('switchpage', (targetPage) => {
+  console.log('The user has navigated to the page number ', targetPage);
+});
 ```
 
 ### `CMSItem` instance
