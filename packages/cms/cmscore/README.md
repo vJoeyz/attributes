@@ -16,9 +16,9 @@ Each `cms` attribute uses `cmscore` under the hood, creating an instance of `CMS
 
 All list instances can be accessed from `window.fsAttributes.cms.listInstances`, but the safest way to access an attribute's instance is by using the `window.fsAttributes.push()` method (see each Attribute's docs for more info).
 
-The [`CMSList` instance](#cmslist-properties) has a few properties and methods that can be used to extend its functionalities. You can also subscribe to specific [events](#cmslist-events).
+The [`CMSList` instance](#cmslist-instance) has a few properties and methods that can be used to extend its functionalities. You can also subscribe to specific [events](#cmslist-events).
 
-Each individual Collection Item is stored as a [`CMSItem` instance](#cmsitem-properties), which also has some methods and properties.
+Each individual Collection Item is stored as a [`CMSItem` instance](#cmsitem-instance), which also has some methods and properties.
 
 ### `CMSList` instance
 
