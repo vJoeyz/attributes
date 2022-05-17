@@ -90,6 +90,16 @@ export const schema: AttributeSchema = {
           type: 'element',
           element: LIST_ELEMENT_KEY,
         },
+        {
+          condition: 'isChildOf',
+          type: 'element',
+          element: FILTERS_ELEMENT_KEY,
+        },
+        {
+          condition: 'isChildOf',
+          type: 'selector',
+          selector: [FORM],
+        },
       ],
     },
     {
