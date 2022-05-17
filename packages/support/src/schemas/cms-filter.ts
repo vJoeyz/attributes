@@ -11,11 +11,7 @@ export default {
       appliedTo: [
         {
           label: 'Collection List',
-          selectors: ['.w-dyn-items'],
-        },
-        {
-          label: 'Collection List Wrapper',
-          selectors: ['.w-dyn-list'],
+          selectors: ['.w-dyn-items', '.w-dyn-list'],
         },
       ],
       conditions: [],
@@ -69,6 +65,21 @@ export default {
           condition: 'exists',
           type: 'element',
           element: 'list',
+        },
+        {
+          condition: 'isChildOf',
+          type: 'element',
+          element: 'filters',
+        },
+        {
+          condition: 'isChildOf',
+          type: 'selector',
+          selector: [
+            {
+              label: 'Form',
+              selectors: ['form'],
+            },
+          ],
         },
       ],
     },
