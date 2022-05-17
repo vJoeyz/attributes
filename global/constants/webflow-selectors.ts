@@ -57,9 +57,19 @@ export const TEXT_BLOCK: DOMSelector = {
   selectors: ['div'],
 };
 
+export const HEADING_H1: DOMSelector = {
+  label: 'Heading H1',
+  selectors: ['h1'],
+};
+
+export const HEADING_H2_H6: DOMSelector = {
+  label: 'Heading H2 to H6',
+  selectors: ['h2', 'h3', 'h4', 'h5', 'h6'],
+};
+
 export const HEADING: DOMSelector = {
   label: 'Heading',
-  selectors: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+  selectors: [...HEADING_H1.selectors, ...HEADING_H2_H6.selectors],
 };
 
 export const PARAGRAPH: DOMSelector = {
