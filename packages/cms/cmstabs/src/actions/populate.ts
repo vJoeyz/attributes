@@ -2,6 +2,7 @@ import { TABS_CSS_CLASSES, CURRENT_CSS_CLASS } from '@finsweet/ts-utils';
 import type { TabsMenuElement, TabsContentElement, TabLinkElement, TabPaneElement } from '@finsweet/ts-utils';
 
 import type { CMSItem } from '$cms/cmscore/src';
+import { ARIA_ROLE_KEY } from '$global/constants/a11ty';
 
 import { getSelector, queryElement } from '../utils/constants';
 import type { PopulateData } from '../utils/types';
@@ -43,6 +44,8 @@ export const populateTabsFromLists = ({ listInstances, tabsElement }: PopulateDa
    */
   const createTabsFromItems = (items: CMSItem[]) => {
     for (const { element } of items) {
+      element.removeAttribute(ARIA_ROLE_KEY);
+
       const newTabLink = document.createElement('div');
       newTabLink.setAttribute('class', tabLinkCSS);
 
