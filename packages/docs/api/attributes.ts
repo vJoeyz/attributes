@@ -35,6 +35,7 @@ export const attributesData: AttributesData = [
     key: 'cmscore',
     title: 'CMS Core',
     description: 'Core functionalities of all cms Attributes.',
+    href: 'https://www.finsweet.com/attributes/api/cms-core',
     baseSrc: 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmscore@1',
     scriptSrc: 'cmscore.js',
     changesetsSrc: 'changesets.json',
