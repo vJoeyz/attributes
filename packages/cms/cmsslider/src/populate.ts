@@ -2,6 +2,7 @@ import { SLIDER_CSS_CLASSES } from '@finsweet/ts-utils';
 import type { SlideElement, SliderMaskElement } from '@finsweet/ts-utils';
 
 import type { CMSItem } from '$cms/cmscore/src';
+import { ARIA_ROLE_KEY } from '$global/constants/a11ty';
 
 import type { PopulateData } from './types';
 
@@ -34,6 +35,8 @@ export const populateSliderFromLists = ({
   const createSlidesFromItems = (items: CMSItem[]) => {
     // Add a new Slide for each Collection Item
     for (const { element } of items) {
+      element.removeAttribute(ARIA_ROLE_KEY);
+
       const newSlide = document.createElement('div');
       newSlide.setAttribute('class', slideCSS);
 
