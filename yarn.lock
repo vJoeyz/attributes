@@ -1452,7 +1452,7 @@
 
 "@finsweet/attributes-cmsslider@file:/var/www/finsweet/attributes/packages/cms/cmsslider":
   "resolved" "file:packages/cms/cmsslider"
-  "version" "1.5.0"
+  "version" "1.5.1"
 
 "@finsweet/attributes-cmssort@file:/var/www/finsweet/attributes/packages/cms/cmssort":
   "resolved" "file:packages/cms/cmssort"
@@ -1460,7 +1460,7 @@
 
 "@finsweet/attributes-cmstabs@file:/var/www/finsweet/attributes/packages/cms/cmstabs":
   "resolved" "file:packages/cms/cmstabs"
-  "version" "1.5.1"
+  "version" "1.5.2"
 
 "@finsweet/attributes-codehighlight@file:/var/www/finsweet/attributes/packages/codehighlight":
   "resolved" "file:packages/codehighlight"
@@ -1486,7 +1486,7 @@
 
 "@finsweet/attributes-docs@file:/var/www/finsweet/attributes/packages/docs":
   "resolved" "file:packages/docs"
-  "version" "1.7.3"
+  "version" "1.7.4"
   dependencies:
     "marked" "^4.0.15"
 
@@ -3008,9 +3008,9 @@
   "version" "4.14.182"
 
 "@types/marked@^4.0.3":
-  "integrity" "sha512-ZigEmCWdNUU7IjZEuQ/iaimYdDHWHfTe3kg8ORfKjyGYd9RWumPoOJRQXB0bO+XLkNwzCthW3wUIQtANaEZ1ag=="
-  "resolved" "https://registry.npmjs.org/@types/marked/-/marked-4.0.1.tgz"
-  "version" "4.0.1"
+  "integrity" "sha512-HnMWQkLJEf/PnxZIfbm0yGJRRZYYMhb++O9M36UCTA9z53uPvVoSlAwJr3XOpDEryb7Hwl1qAx/MV6YIW1RXxg=="
+  "resolved" "https://registry.npmjs.org/@types/marked/-/marked-4.0.3.tgz"
+  "version" "4.0.3"
 
 "@types/mdast@^3.0.0":
   "integrity" "sha512-W864tg/Osz1+9f4lrGTZpCSO5/z4608eUp19tbozkq2HJK6i3z1kT0H9tlADXuYIb1YYOBByU4Jsqkk75q48qA=="
@@ -9675,9 +9675,9 @@
   "version" "7.1.7"
 
 "marked@^4.0.15":
-  "integrity" "sha512-+H0bTf8DM8zLuFBUm/2VklxaCrwlBFgoJzHJcMZCnZ9cPgsllHwKpL6TPLdDeA38yPluMuVKOL1hO5w6HmG5Mg=="
-  "resolved" "https://registry.npmjs.org/marked/-/marked-4.0.6.tgz"
-  "version" "4.0.6"
+  "integrity" "sha512-wahonIQ5Jnyatt2fn8KqF/nIqZM8mh3oRu2+l5EANGMhu6RFjiSG52QNE2eWzFMI94HqYSgN184NurgNG6CztA=="
+  "resolved" "https://registry.npmjs.org/marked/-/marked-4.0.16.tgz"
+  "version" "4.0.16"
 
 "match-url-wildcard@0.0.4":
   "integrity" "sha512-R1XhQaamUZPWLOPtp4ig5j+3jctN+skhgRmEQTUamMzmNtRG69QEirQs0NZKLtHMR7tzWpmtnS4Eqv65DcgXUA=="
