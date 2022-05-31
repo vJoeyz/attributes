@@ -2,6 +2,7 @@ interface BaseAttributeData {
   key: string;
   title: string;
   description: string;
+  href: string;
   baseSrc: string;
   scriptSrc: string;
   changesetsSrc: string;
@@ -13,7 +14,6 @@ type NotSupportedAttributeData = BaseAttributeData & {
 };
 
 export type SupportedAttributeData = BaseAttributeData & {
-  href: string;
   examplesSrc: string;
   loadMode: string;
   schemaSrc: string;
