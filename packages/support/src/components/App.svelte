@@ -113,7 +113,7 @@
   <div id="support-internal" class="walkthrough_interface">
     <Header>
       <div>Attributes Automated Support</div>
-      <Tutorial />
+      <!--<Tutorial />-->
     </Header>
     <Config />
     {#if $schemaSettingsKey}
