@@ -26,6 +26,11 @@
     position: relative;
   }
 
+  .field_delete:hover {
+    background-color: #000;
+    outline: 0;
+  }
+
   .field_delete > :global(svg) {
     width: 2rem;
     height: 2rem;

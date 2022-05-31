@@ -89,7 +89,7 @@ function createFieldHighlight(
   schema: AttributeSchema,
   schemaSettings: SchemaSettings
 ): Highlight {
-  if (specializationKey === null) {
+  if (!specializationKey) {
     return {
       elements: [],
       backupStyles: [],

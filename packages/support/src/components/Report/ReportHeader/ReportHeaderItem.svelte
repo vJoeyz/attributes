@@ -2,13 +2,14 @@
   import StatusIcon from '@src/components/Layout/Icons/StatusIcon.svelte';
   import ArrowIcon from '@src/components/Layout/Icons/ArrowDown.svelte';
   import AttributeKey from '@src/components/Attributes/AttributeKey.svelte';
-  import { scrollInto } from '@src/services/DOM/Utils/Utils';
+  import { scrollInto, propagateClickToField } from '@src/services/DOM/Utils/Utils';
 
   export let message: string;
   export let key: string;
   export let id: string;
 
   function scrollToAttribute() {
+    propagateClickToField(`#${id}`);
     scrollInto(`#${id}`, 0);
   }
 </script>

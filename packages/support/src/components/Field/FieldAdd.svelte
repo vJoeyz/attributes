@@ -1,7 +1,7 @@
 <script lang="ts">
   import FieldAdd from '@src/components/Layout/Icons/field-add.svg';
 
-  export let addField: () => void;
+  export let addField: (event: Event) => void;
 </script>
 
 <button class="field_add" on:click={addField} data-testid="add-field">
@@ -27,6 +27,11 @@
     text-decoration: underline;
     outline: none;
     border: none;
+  }
+
+  .field_add:hover {
+    background-color: #000;
+    outline: 0;
   }
 
   .field_add :global(svg) {

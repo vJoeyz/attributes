@@ -47,8 +47,6 @@
       {/each}
     </div>
   {/if}
-
-  <!-- {JSON.stringify(invalidAttributes)} -->
 </div>
 
 <style>

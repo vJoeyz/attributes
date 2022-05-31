@@ -110,9 +110,9 @@ It can be `childOf`, to have elements `childOf` Filter UI and `childOf` Collecti
 
 #### Not classified cases
 
+- `autovideo` → No attributes
 
-
-- `cmsfilter` → Filter → It will not validate if there are more than one form with input elements. It will only check for single element filter existence.
+- `cmsfilter` → It will not validate if there are more than one form with input elements. It will only check for first form existence.
 
 - `cmsfilter` → Will not validate start checked for checkbox.
 
@@ -125,21 +125,3 @@ It can be `childOf`, to have elements `childOf` Filter UI and `childOf` Collecti
 - `cmsfilter` → Will not validate settings for second reset button.
 
 - `cmsload` → Will not validate native webflow validation enabled.
-
-- `cmsnest` → List → It will not validate link to CMS Page. I will only check for list element.
-
-- `cmsnest` → Page Template → It will not validate if CMS Collection Page has setup the IDENTIFIER.
-
-- `cmsnest` → List link → It will not validate if setup link for CMS Collection Page.
-
-- `cmsprevnext` - Link in collection
-
-- `range-slider` - Track, Fill e Handle style.
-
-#### Issues
-
-Comment on
-/**
- * Defines the text that will be success to the clipboard.
- */
-Text
