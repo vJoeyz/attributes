@@ -9,13 +9,18 @@
   export let field: FieldUI;
 
   let fields: SchemaInputField[] = schemaFormActions.getFields();
+  let selectedField: string | null = null;
 
   if (fields.length === 0) {
-    addField();
+    addField(null);
   }
 
-  function addField() {
+  function addField(event: Event | null) {
+    if (event) {
+      event.stopPropagation();
+    }
     const lastIndex = schemaFormActions.addField(field.key);
+    selectedField = lastIndex;
 
     if (field.specializations.length === 1) {
       schemaFormActions.setFieldSpecialization(field.key, lastIndex, field.specializations[0].key);
@@ -33,7 +38,9 @@
     schemaFormActions.disableFieldSettings(field.key, fieldIndex);
     fields = schemaFormActions.getFields();
 
-    scrollInto('div.fields > .attribute:last-child', 200);
+    if (selectedField === fieldIndex) {
+      scrollInto('div.fields > .attribute:first-child', 200);
+    }
   }
 
   function changeFieldElement(fieldIndex: string, value: string) {
@@ -45,6 +52,10 @@
     schemaFormActions.setFieldValue(field.key, fieldIndex, value);
   }
 
+  function toggleFields(toggleIndex: string | null) {
+    selectedField = toggleIndex;
+  }
+
   $: {
     fields = schemaFormActions.getFields();
   }
@@ -52,11 +63,17 @@
   $: if ($schemaSettingsInstance) {
     fields = schemaFormActions.getFields();
     if (fields.length === 0) {
-      addField();
+      addField(null);
     }
   }
 </script>
 
 {#each fields as fieldInput (fieldInput)}
-  <Field {addField} {deleteField} {field} {fieldInput} {changeFieldElement} {changeFieldIdentifier} />
+  <Field
+    {toggleFields}
+    {selectedField}
+    {addField}
+    {deleteField}
+    {field}
+    {fieldInput} {changeFieldElement} {changeFieldIdentifier} />
 {/each}

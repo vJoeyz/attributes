@@ -31,7 +31,6 @@
   }
 
   function selectAttribute(value: string) {
-    console.log(value);
     dispatch('change', value);
     forceClose();
   }
