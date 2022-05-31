@@ -1486,7 +1486,7 @@
 
 "@finsweet/attributes-docs@file:/var/www/finsweet/attributes/packages/docs":
   "resolved" "file:packages/docs"
-  "version" "1.7.4"
+  "version" "1.7.5"
   dependencies:
     "marked" "^4.0.15"
 
@@ -1530,7 +1530,7 @@
 
 "@finsweet/attributes-toc@file:/var/www/finsweet/attributes/packages/toc":
   "resolved" "file:packages/toc"
-  "version" "1.0.5"
+  "version" "1.0.6"
   dependencies:
     "slugify" "^1.6.5"
 
