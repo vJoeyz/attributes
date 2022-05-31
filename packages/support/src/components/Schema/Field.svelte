@@ -80,62 +80,64 @@
       isOpen = selectedField === fieldInput.index;
     }
   }
-
-
 </script>
 
 <Attribute>
-  <FieldHeader {toggleFields} {addField} {deleteField} {fieldInput} isOpen={isOpen}></FieldHeader>
+  <FieldHeader {toggleFields} {addField} {deleteField} {fieldInput} {isOpen} />
   <FieldWrapper isOpen={selectedField === fieldInput.index}>
-
-  <AttributeItem id={selectorId} checked={isChecked} status={fieldStatus} >
-    <AttributeItemHeader>
-      <AttributeCheckbox onCheck={null} {isChecked} {isRequired} key={field.key} status={fieldStatus} />
-      <AttributeItemContainer>
-        <AttributeContainer>
-          <AttributeLabel {toggleSelector}>
-            <AttributeKey>
-              {field.key}
-            </AttributeKey>
-            <AttributeText>
-              {field.description}
-              {#if fieldInput && fieldInput.index === 'field-1'}
-                <AttributeRequired />
-              {/if}
-            </AttributeText>
-          </AttributeLabel>
-          <AttributeToggle isOpen={isOpenSelector} {toggleSelector} />
-        </AttributeContainer>
-        {#if isOpenSelector}
-          <AttributeSelector
-            type="field"
-            key={field.key}
-            value={fieldInput.identifier}
-            specialization={fieldInput.specialization}
+    <AttributeItem id={selectorId} checked={isChecked} status={fieldStatus}>
+      <AttributeItemHeader>
+        <AttributeCheckbox onCheck={null} {isChecked} {isRequired} key={field.key} status={fieldStatus} />
+        <AttributeItemContainer>
+          <AttributeContainer>
+            <AttributeLabel {toggleSelector}>
+              <AttributeKey>
+                {field.key}
+              </AttributeKey>
+              <AttributeText>
+                {field.description}
+                {#if fieldInput && fieldInput.index === 'field-1'}
+                  <AttributeRequired />
+                {/if}
+              </AttributeText>
+            </AttributeLabel>
+            <AttributeToggle isOpen={isOpenSelector} {toggleSelector} />
+          </AttributeContainer>
+          {#if isOpenSelector}
+            <AttributeSelector
+              type="field"
+              key={field.key}
+              value={fieldInput.identifier}
+              specialization={fieldInput.specialization}
+            />
+          {/if}
+        </AttributeItemContainer>
+      </AttributeItemHeader>
+      {#if fieldInput && fieldInput.validation}
+        {#each fieldInput.validation.messages as inputMessage}
+          <InputValidation
+            status={fieldInput.validation.status}
+            message={inputMessage.message}
+            type={inputMessage.type}
           />
-        {/if}
-      </AttributeItemContainer>
-    </AttributeItemHeader>
-    {#if fieldInput && fieldInput.validation}
-      {#each fieldInput.validation.messages as inputMessage}
-        <InputValidation
-          status={fieldInput.validation.status}
-          message={inputMessage.message}
-          type={inputMessage.type}
+        {/each}
+      {/if}
+      <FieldSpecialization
+        specializations={field.specializations}
+        {changeFieldElement}
+        {changeFieldIdentifier}
+        fieldIndex={fieldInput}
+      />
+    </AttributeItem>
+    {#if hasSettings}
+      {#each field.settings as setting}
+        <FieldSettings
+          fieldKey={field.key}
+          fieldIndex={fieldInput.index}
+          {setting}
+          identifier={fieldInput.identifier}
         />
       {/each}
     {/if}
-    <FieldSpecialization
-      specializations={field.specializations}
-      {changeFieldElement}
-      {changeFieldIdentifier}
-      fieldIndex={fieldInput}
-    />
-  </AttributeItem>
-  {#if hasSettings}
-    {#each field.settings as setting}
-      <FieldSettings fieldKey={field.key} fieldIndex={fieldInput.index} {setting} identifier={fieldInput.identifier} />
-    {/each}
-  {/if}
-</FieldWrapper>
+  </FieldWrapper>
 </Attribute>

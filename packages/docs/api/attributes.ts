@@ -9,6 +9,7 @@ export const attributesData: AttributesData = [
     href: 'https://www.finsweet.com/attributes/auto-video',
     baseSrc: 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-autovideo@1',
     scriptSrc: 'autovideo.js',
+    examplesSrc: 'examples.json',
     loadMode: 'defer',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',

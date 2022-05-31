@@ -39,5 +39,4 @@
   .attribute_item.is-error {
     background-color: rgba(238, 64, 76, 0.1);
   }
-
 </style>

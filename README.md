@@ -125,11 +125,3 @@ It can be `childOf`, to have elements `childOf` Filter UI and `childOf` Collecti
 - `cmsfilter` → Will not validate settings for second reset button.
 
 - `cmsload` → Will not validate native webflow validation enabled.
-
-#### Issues
-
-Comment on
-/**
- * Defines the text that will be success to the clipboard.
- */
-Text

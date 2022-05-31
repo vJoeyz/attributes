@@ -29,7 +29,6 @@ export function propagateClickToField(selector: string) {
     return;
   }
 
-
   headerAttribute.click();
 }
 

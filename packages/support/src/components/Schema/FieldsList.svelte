@@ -75,5 +75,8 @@
     {addField}
     {deleteField}
     {field}
-    {fieldInput} {changeFieldElement} {changeFieldIdentifier} />
+    {fieldInput}
+    {changeFieldElement}
+    {changeFieldIdentifier}
+  />
 {/each}

@@ -26,7 +26,6 @@
     position: relative;
   }
 
-
   .field_delete:hover {
     background-color: #000;
     outline: 0;
