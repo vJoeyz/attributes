@@ -1,4 +1,11 @@
-import { DIV_BLOCK, HEADING_H2_H6, LINK_BLOCK, RICH_TEXT_BLOCK, TEXT_BLOCK } from '$global/constants/webflow-selectors';
+import {
+  ANY_ELEMENT,
+  DIV_BLOCK,
+  HEADING_H2_H6,
+  LINK_BLOCK,
+  RICH_TEXT_BLOCK,
+  TEXT_BLOCK
+} from '$global/constants/webflow-selectors';
 import type { AttributeSchema } from '$global/types/schema';
 
 import {
@@ -42,7 +49,7 @@ export const schema: AttributeSchema = {
       description: 'Defines an interaction trigger.',
       requiresInstance: true,
       required: false,
-      appliedTo: [],
+      appliedTo: [ANY_ELEMENT],
       conditions: [],
       multiplesInInstance: false,
     },
@@ -51,7 +58,7 @@ export const schema: AttributeSchema = {
       description: 'Defines the wrapper element that will hold all the TOC links.',
       requiresInstance: true,
       required: false,
-      appliedTo: [],
+      appliedTo: [DIV_BLOCK],
       conditions: [],
       multiplesInInstance: false,
     },

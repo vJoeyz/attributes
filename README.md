@@ -110,7 +110,9 @@ It can be `childOf`, to have elements `childOf` Filter UI and `childOf` Collecti
 
 #### Not classified cases
 
-- `cmsfilter` → Filter → It will not validate if there are more than one form with input elements. It will only check for single element filter existence.
+- `autovideo` → No attributes
+
+- `cmsfilter` → It will not validate if there are more than one form with input elements. It will only check for first form existence.
 
 - `cmsfilter` → Will not validate start checked for checkbox.
 
