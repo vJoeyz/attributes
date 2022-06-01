@@ -1,6 +1,5 @@
 <script lang="ts">
   import AttributeItem from '@src/components/Attributes/AttributeItem.svelte';
-  import { checkSettingCondition } from '@src/services/Attributes/Schema/SchemaService';
   import AttributeKey from '@src/components/Attributes/AttributeKey.svelte';
   import AttributeItemHeader from '@src/components/Attributes/AttributeItemHeader.svelte';
   import AttributeCheckbox from '@src/components/Attributes/AttributeCheckbox.svelte';
@@ -11,6 +10,7 @@
   import AttributeToggle from '@src/components/Attributes/AttributeToggle.svelte';
   import AttributeSelector from '@src/components/Attributes/Selector/Selector.svelte';
   import InputValidation from '@src/components/Report/ReportAttribute.svelte';
+  import { checkSettingCondition } from '@src/services/Attributes/Schema/SchemaService';
   import {
     schemaForm,
     schemaFormActions,

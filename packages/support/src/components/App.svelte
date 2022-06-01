@@ -3,7 +3,7 @@
   import Header from '@src/components/Layout/Header.svelte';
   import Config from '@src/components/Config/Config.svelte';
   import Schema from '@src/components/Schema/Schema.svelte';
-  import Tutorial from '@src/components/Tutorial.svelte';
+  // import Tutorial from '@src/components/Tutorial.svelte';
   import Actions from '@src/components/Actions/Actions.svelte';
   import Loading from '@src/components/Loading.svelte';
   import Minimize from '@src/components/Minimize.svelte';
@@ -128,34 +128,12 @@
 </div>
 
 <style>
-  @font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 300;
-    src: local('Open Sans Light'), local('OpenSans-Light'),
-      url(https://fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff) format('woff');
-  }
 
-  @font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Open Sans'), local('OpenSans'),
-      url(https://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
-  }
-
-  @font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 600;
-    src: local('Open Sans Semibold'), local('OpenSans-Semibold'),
-      url(https://fonts.gstatic.com/s/opensans/v13/MTP_ySUJH_bn48VBG8sNSnhCUOGz7vYGh680lGh-uXM.woff) format('woff');
-  }
 
   .walkthrough {
     position: fixed;
     left: auto;
-    font-family: 'Open Sans';
+    font-family: 'Graphik';
     top: 0%;
     right: 0%;
     bottom: 0%;
