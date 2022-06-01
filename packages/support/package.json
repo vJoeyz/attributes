@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-support",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "files": [
     "support.js"
   ],
@@ -27,6 +27,7 @@
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@rollup/plugin-typescript": "^8.0.0",
+    "@rollup/plugin-url": "^7.0.0",
     "@storybook/addon-actions": "^6.4.7",
     "@storybook/addon-essentials": "^6.4.7",
     "@storybook/addon-links": "^6.4.7",

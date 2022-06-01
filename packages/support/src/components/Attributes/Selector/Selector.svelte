@@ -56,6 +56,10 @@
         if (value) {
           selectorValue = value;
         }
+
+        if (valueType?.type === 'boolean') {
+          selectorValue = 'true';
+        }
         break;
 
       default:

@@ -52,14 +52,19 @@
 
       let index = schemaFormActions.findFieldSettingIndex(fieldKey, fieldIndex, setting.key);
 
+
       if (index === null) {
         schemaFormActions.addFieldSetting(fieldKey, fieldIndex, setting.key, checkedOption);
-      } else {
-        schemaFormActions.enableFieldSetting(fieldKey, fieldIndex, setting.key);
+        return;
       }
-    } else {
-      schemaFormActions.disableFieldSetting(fieldKey, fieldIndex, setting.key);
+
+      schemaFormActions.enableFieldSetting(fieldKey, fieldIndex, setting.key);
+      return;
+
+
     }
+
+    schemaFormActions.disableFieldSetting(fieldKey, fieldIndex, setting.key);
   }
 
   function checkIsEnable(schemaForm: SchemaInput[]) {
