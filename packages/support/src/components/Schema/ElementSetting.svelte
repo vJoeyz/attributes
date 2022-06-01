@@ -38,15 +38,24 @@
     if (checked) {
       let checkedOption: string = option || setting.value.default || '';
 
+      const element = schemaFormActions.findElement(parent);
+      if (!element) {
+        schemaFormActions.addElement(parent);
+      }
+
       let index = schemaFormActions.findElementSettingIndex(parent, setting.key);
+
       if (index === null) {
         schemaFormActions.addElementSetting(parent, setting.key, checkedOption);
-      } else {
-        schemaFormActions.enableElementSetting(parent, setting.key);
+        return;
       }
-    } else {
-      schemaFormActions.disableElementSetting(parent, setting.key);
+
+      schemaFormActions.enableElementSetting(parent, setting.key);
+      return;
+
     }
+
+    schemaFormActions.disableElementSetting(parent, setting.key);
   }
 
   function checkIsEnable(schemaForm: SchemaInput[]) {

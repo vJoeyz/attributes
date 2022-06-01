@@ -9,6 +9,7 @@ import {
   addElementSetting,
   enableElementSetting,
   disableElementSetting,
+  disableElementSettings,
   getFieldSettingOption,
   setElementSettingOption,
   getElementSettingOption,
@@ -237,6 +238,11 @@ export const schemaFormActions = {
     let values: SchemaInput[] = [];
     schemaForm.subscribe((id) => (values = id));
     schemaForm.set(disableElementSetting(values, parent, setting, getSchemaInputConfig()));
+  },
+  disableElementSettings: function (parent: string) {
+    let values: SchemaInput[] = [];
+    schemaForm.subscribe((id) => (values = id));
+    schemaForm.set(disableElementSettings(values, parent, getSchemaInputConfig()));
   },
   getElementSettingOption: function (parent: string, setting: string) {
     let values: SchemaInput[] = [];
