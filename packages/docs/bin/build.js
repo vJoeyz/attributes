@@ -27,5 +27,6 @@ const generateAttributesJSON = () => {
 generateScript('src/docs/index.ts', 'docs');
 generateScript('src/changelog/index.ts', 'changelog');
 generateScript('src/api/index.ts', 'api');
+generateScript('src/support/index.ts', 'support');
 generateChangesetsJSON(__dirname);
 generateAttributesJSON();
