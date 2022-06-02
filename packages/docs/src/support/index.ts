@@ -1,16 +1,21 @@
-let copyUrl: string | null = null;
+const hiddenInput = document.querySelector<HTMLInputElement>('[fs-support-url="hidden"]');
 
 function setInputError(field: HTMLElement) {
-  copyUrl = null;
+  if (hiddenInput) {
+    hiddenInput.value = '';
+  }
   field.style.border = '1px solid red';
 }
 
 function setInputOk(field: HTMLElement, copyText: string) {
+  if (hiddenInput) {
+    hiddenInput.value = copyText;
+  }
+
   field.style.border = '1px solid green';
-  copyUrl = copyText;
 }
 
-function generateSupportUrlevent(event: Event) {
+function generateSupportUrlEvent(event: Event) {
   if (!event || !event.target) {
     return;
   }
@@ -46,31 +51,12 @@ function generateSupportUrlevent(event: Event) {
   }
 }
 
-function copyToClipboard() {
-  if (!copyUrl) {
-    alert('Enter url in the input field');
-    return;
-  }
-
-  if (!navigator || !navigator.clipboard) {
-    alert('Navigator clipboard not supported on this browser');
-    return;
-  }
-
-  navigator.clipboard.writeText(copyUrl);
-}
-
 function initGenerateUrlForm() {
-  const urlField = document.querySelector('#email-form > input[name="name"]');
-  const copyButton = document.querySelector('.copy_button');
+  const urlInput = document.querySelector('[fs-support-url="user-input"]');
 
-  if (urlField) {
-    urlField.addEventListener('keyup', generateSupportUrlevent);
-    urlField.addEventListener('blur', generateSupportUrlevent);
-  }
-
-  if (copyButton) {
-    copyButton.addEventListener('click', copyToClipboard, true);
+  if (urlInput) {
+    urlInput.addEventListener('keyup', generateSupportUrlEvent);
+    urlInput.addEventListener('blur', generateSupportUrlEvent);
   }
 }
 
