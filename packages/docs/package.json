@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-docs",
-  "version": "1.7.6",
+  "version": "1.7.7",
   "description": "Attributes documentation custom code.",
   "main": "docs.js",
   "files": [
