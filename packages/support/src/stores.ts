@@ -133,6 +133,8 @@ export const schemaUI = writable<SchemaUI | null>(null);
 
 export const toggleAttributeSelector = writable<string | null>(null);
 
+export const appError = writable<boolean>(false);
+
 /**
  * Walkthrough - Attribute - Selected
  *

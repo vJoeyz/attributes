@@ -11,6 +11,7 @@ import AttributeValueNotMatchTypeError from './Errors/AttributeValueNotMatchType
 import AttributeValueNotMatchExpectedError from './Errors/AttributeValueNotMatchExpectedError';
 import type { SchemaSelector } from '@src/types/Schema.types';
 import type { ValueTypeError } from '@src/types/Error.types';
+import AttributeValueNotFoundError from './Errors/AttributeValueNotFoundError';
 
 export function valueServiceV2(
   elements: HTMLElement[],
@@ -91,8 +92,13 @@ export default function valueService(
   const attributeElementSelector =
     `${(elementAppliedTo && elementAppliedTo.getElementSelector()) || ''}` + schemaSelector.getAttributeSelector();
 
-  // Query attribute value by Applied Selector
-  const attributeValueInDOM = queryAttributeValue(attributeElementSelector, schemaSelector.attribute);
+  let attributeValueInDOM;
+
+  try {
+    attributeValueInDOM = queryAttributeValue(attributeElementSelector, schemaSelector.attribute);
+  } catch {
+    throw new AttributeValueNotFoundError(schemaSelector, appliedToSelectors[0]);
+  }
 
   // validate html value type
   try {

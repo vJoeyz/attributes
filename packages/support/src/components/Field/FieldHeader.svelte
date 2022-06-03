@@ -23,7 +23,6 @@
 
 <div class="field_header" on:click={toggle}>
   <Header>
-
     <div class="field_identifier">
       {fieldInput.field.toLocaleUpperCase()}: {(fieldInput && fieldInput.identifier) || `{Value}`}
     </div>
