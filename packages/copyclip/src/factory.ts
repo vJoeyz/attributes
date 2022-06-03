@@ -30,8 +30,8 @@ export const createClipboardJsInstance = ({
       if (textToCopy) return textToCopy;
 
       if (target) {
-        const text = isFormField(target) ? target.value : target.textContent;
-        if (text) return text;
+        const text = isFormField(target) ? target.value : target.textContent || '';
+        return text;
       }
 
       return trigger.textContent || '';
