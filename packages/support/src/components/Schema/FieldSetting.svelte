@@ -52,7 +52,6 @@
 
       let index = schemaFormActions.findFieldSettingIndex(fieldKey, fieldIndex, setting.key);
 
-
       if (index === null) {
         schemaFormActions.addFieldSetting(fieldKey, fieldIndex, setting.key, checkedOption);
         return;
@@ -60,8 +59,6 @@
 
       schemaFormActions.enableFieldSetting(fieldKey, fieldIndex, setting.key);
       return;
-
-
     }
 
     schemaFormActions.disableFieldSetting(fieldKey, fieldIndex, setting.key);

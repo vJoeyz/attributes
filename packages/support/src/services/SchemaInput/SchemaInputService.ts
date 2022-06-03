@@ -134,41 +134,34 @@ export function disableElementSetting(
   ];
 }
 
-
-
-export function disableElementSettings(
-  values: SchemaForm,
-  elementKey: string,
-  config: SchemaInputConfig
-) {
+export function disableElementSettings(values: SchemaForm, elementKey: string, config: SchemaInputConfig) {
   const elementSettings = findElementSettings(values, elementKey, config);
 
-
   const restValues = values.filter((schemaInput: SchemaInput) => {
-
     if (schemaInput.type !== 'elementSetting') {
       return true;
     }
 
-    return elementSettings.some((elementSetting: SchemaInputElementSetting) => {
-      return schemaInput.instance === elementSetting.instance &&
-        schemaInput.key === elementSetting.key &&
-        schemaInput.element === elementSetting.element
-    }) === false
-  })
+    return (
+      elementSettings.some((elementSetting: SchemaInputElementSetting) => {
+        return (
+          schemaInput.instance === elementSetting.instance &&
+          schemaInput.key === elementSetting.key &&
+          schemaInput.element === elementSetting.element
+        );
+      }) === false
+    );
+  });
 
   const disableElementSettings = elementSettings.map((elementSetting) => {
     return {
       ...elementSetting,
       enable: false,
       validation: null,
-    }
-  })
+    };
+  });
 
-  return [
-    ...disableElementSettings,
-    ...restValues,
-  ]
+  return [...disableElementSettings, ...restValues];
 }
 
 export function setElementSettingOption(
@@ -210,11 +203,7 @@ export function getElementSettingOption(
   return (settingObject as SchemaInputElementSetting).option || '';
 }
 
-export function findElementSettings(
-  values: SchemaForm,
-  elementKey: string,
-  config: SchemaInputConfig
-) {
+export function findElementSettings(values: SchemaForm, elementKey: string, config: SchemaInputConfig) {
   const elementSetting = values.filter(
     (item) =>
       item.type === 'elementSetting' &&
@@ -225,7 +214,6 @@ export function findElementSettings(
 
   return elementSetting as SchemaInputElementSetting[];
 }
-
 
 export function findElementSetting(
   values: SchemaForm,

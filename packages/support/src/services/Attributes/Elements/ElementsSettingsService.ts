@@ -30,6 +30,7 @@ export function validateElementSetting(
 ): SchemaInputElementSetting {
   const settingSchema = getSchemaItem(schema, 'settings', inputSetting.setting) as AttributeSettingSchema;
 
+  // console.log('validate setting');
   const { appliedTo, conditions, value } = settingSchema;
 
   const settingSelector = createSchemaSelectorFromItem(

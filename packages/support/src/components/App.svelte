@@ -128,8 +128,6 @@
 </div>
 
 <style>
-
-
   .walkthrough {
     position: fixed;
     left: auto;

@@ -52,7 +52,6 @@
 
       schemaFormActions.enableElementSetting(parent, setting.key);
       return;
-
     }
 
     schemaFormActions.disableElementSetting(parent, setting.key);
