@@ -1,4 +1,4 @@
-const hiddenInput = document.querySelector<HTMLInputElement>('[fs-support-url="hidden"]');
+const hiddenInput = document.querySelector<HTMLInputElement>('[fs-support-url="hidden-input"]');
 
 function setInputError(field: HTMLElement) {
   if (hiddenInput) {
@@ -42,10 +42,9 @@ function generateSupportUrlEvent(event: Event) {
       return;
     }
 
-    const params = new URLSearchParams(url.search);
-    params.append('fs-attributes-support', 'true');
+    url.searchParams.append('fs-attributes-support', 'true');
 
-    setInputOk(target, `${url.origin}${url.pathname}?${params.toString()}`);
+    setInputOk(target, url.toString());
   } catch {
     setInputError(target);
   }
