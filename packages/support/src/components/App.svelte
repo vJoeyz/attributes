@@ -112,7 +112,7 @@
   <Minimize {toggleMinimize} isMinimized={minimize} />
   <div id="support-internal" class="walkthrough_interface">
     <Header>
-      <div>Attributes Automated Support</div>
+      <div>Attributes Automated Support Service</div>
       <!--<Tutorial />-->
     </Header>
     <Config />
