@@ -3,8 +3,8 @@
   "version": "1.6.0",
   "description": "Combine multiple Collection Lists to one Collection List.",
   "homepage": "https://www.finsweet.com/attributes",
-  "type": "module",
   "sideEffects": false,
+  "type": "module",
   "main": "cmscombine.js",
   "files": [
     "cmscombine.js",

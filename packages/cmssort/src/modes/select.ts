@@ -1,5 +1,5 @@
-import type { CMSList } from '$cms/cmscore/src';
-import { normalizePropKey } from '$cms/utils/props';
+import type { CMSList } from '@finsweet/attributes-cmscore';
+import { normalizePropKey } from '@finsweet/attributes-cmscore';
 
 import { sortListItems } from '../actions/sort';
 import type { SortingDirection, SortItemsCallback } from '../utils/types';
