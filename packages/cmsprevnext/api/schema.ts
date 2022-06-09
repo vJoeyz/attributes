@@ -5,8 +5,8 @@ import {
   TEXT_ELEMENT,
   TEXT_LINK,
   BUTTON,
-} from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+} from '@global/constants/webflow-selectors';
+import type { AttributeSchema } from '@global/types/schema';
 
 import {
   LIST_ELEMENT_KEY,
@@ -14,7 +14,7 @@ import {
   PREVIOUS_EMPTY_ELEMENT_KEY,
   NEXT_ELEMENT_KEY,
   NEXT_EMPTY_ELEMENT_KEY,
-} from './../src/constants';
+} from '../src/constants';
 
 export const schema: AttributeSchema = {
   elements: [
