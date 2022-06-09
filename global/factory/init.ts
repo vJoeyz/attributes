@@ -1,6 +1,7 @@
-import { ATTRIBUTES, getSelector } from '$global/constants/attributes';
-import { importSupport } from '$global/import/support';
-import type { FsAttributes, FsAttributesCallback } from '$global/types/global';
+import { importSupport } from '@global/import';
+import type { FsAttributes, FsAttributesCallback } from '@global/types/global';
+
+import { ATTRIBUTES, getSelector } from './constants';
 
 /**
  * Makes sure the window object is defined.

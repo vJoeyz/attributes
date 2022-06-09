@@ -1,7 +1,7 @@
 import { Debug } from '@finsweet/ts-utils';
+import type { GlobalAttributeParams } from '@global/types/global';
 
-import { ATTRIBUTES } from '../constants/attributes';
-import { GlobalAttributeParams } from '../types/global';
+import { ATTRIBUTES } from './constants';
 
 /**
  * Checks the global params of the Attribute `<script>`.

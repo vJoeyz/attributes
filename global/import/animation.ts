@@ -1,4 +1,5 @@
 import { Debug } from '@finsweet/ts-utils';
+// TODO: Fix import
 import type { AnimationImport } from 'packages/animation/src/types';
 
 const ANIMATIONS_SOURCE = 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-animation@1/functions.js';

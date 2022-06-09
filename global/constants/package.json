@@ -1,0 +1,11 @@
+{
+  "name": "@global/constants",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@global/types": "workspace:*"
+  },
+  "dependencies": {
+    "@finsweet/ts-utils": "^0.33.1"
+  }
+}

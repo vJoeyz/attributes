@@ -6,21 +6,21 @@ const production = process.env.NODE_ENV === 'production';
 
 /**
  * Default Settings
- * @type {esbuild.BuildOptions}
+ * @type {@type {esbuild.BuildOptions}}
  */
 export const defaultBuildSettings = {
   bundle: true,
   minify: production,
   sourcemap: !production,
-  target: production ? 'es6' : 'esnext',
+  target: production ? 'es2017' : 'esnext',
   watch: !production,
 };
 
 /**
  * Generates the main script.
- * @param {string} entryPoint
+ * @param {string | string[]} entryPoint
  * @param {string} fileName
- * @param {boolean} [format]
+ * @param {esbuild.BuildOptions['format']} [format]
  */
 export const generateScript = (entryPoint, fileName, format) => {
   esbuild.build({
