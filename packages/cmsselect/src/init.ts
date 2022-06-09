@@ -1,6 +1,6 @@
-import { CMSList } from '$cms/cmscore/src';
-import { ATTRIBUTE as CMS_LOAD_ATTRIBUTE } from '$cms/cmsload/src/utils/constants';
-import { importCMSCore } from '$global/import/cmscore';
+import type { CMSList } from '@finsweet/attributes-cmscore';
+import { importCMSCore } from '@finsweet/attributes-cmscore';
+import { ATTRIBUTE as CMS_LOAD_ATTRIBUTE } from '@finsweet/attributes-cmsload/src/utils/constants';
 
 import { ATTRIBUTE, getSelector } from './constants';
 import { populateSelectElement } from './populate';

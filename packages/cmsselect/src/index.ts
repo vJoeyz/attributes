@@ -1,5 +1,5 @@
-import { assessScript } from '$global/factory/assess';
-import { initAttributes } from '$global/factory/init';
+import { importCMSCore } from '@finsweet/attributes-cmscore';
+import { assessScript, initAttributes } from '@global/factory';
 
 import { version } from '../package.json';
 import { ATTRIBUTE } from './constants';
@@ -9,6 +9,7 @@ import { init } from './init';
  * Init
  */
 initAttributes();
+importCMSCore();
 
 window.fsAttributes[ATTRIBUTE] ||= {};
 

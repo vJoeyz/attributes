@@ -1,8 +1,6 @@
+import type { CMSList, CMSCore } from '@finsweet/attributes-cmscore';
 import { CMS_CSS_CLASSES, CollectionListWrapperElement } from '@finsweet/ts-utils';
-
-import { CMSList } from '$cms/cmscore/src';
-import type { CMSCore } from '$cms/cmscore/src/types';
-import { getInstanceIndex } from '$global/helpers/instances';
+import { getInstanceIndex } from '@global/helpers';
 
 import { ATTRIBUTES, getSelector } from './constants';
 
