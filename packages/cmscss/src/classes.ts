@@ -1,4 +1,4 @@
-import type { CMSItem } from '$cms/cmscore/src';
+import type { CMSItem } from '@finsweet/attributes-cmscore';
 
 import { ATTRIBUTES } from './constants';
 
