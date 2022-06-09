@@ -1,4 +1,4 @@
-import type { CMSList } from '$cms/cmscore/src';
+import type { CMSList } from '@finsweet/attributes-cmscore';
 
 interface NestSource {
   listInstance: CMSList;

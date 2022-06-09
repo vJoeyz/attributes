@@ -1,8 +1,6 @@
+import { normalizePropKey } from '@finsweet/attributes-cmscore';
+import type { CMSItem, CMSCore } from '@finsweet/attributes-cmscore';
 import { cloneNode, getCollectionElements, getCollectionListWrappers } from '@finsweet/ts-utils';
-
-import { CMSItem } from '$cms/cmscore/src';
-import type { CMSCore } from '$cms/cmscore/src/types';
-import { normalizePropKey } from '$cms/utils/props';
 
 import { ATTRIBUTES, getSelector } from '../utils/constants';
 import type { NestSources } from '../utils/types';
@@ -21,7 +19,7 @@ export const populateNestedCollections = async (
 ): Promise<void> => {
   if (!href) return;
 
-  const { CMSList } = cmsCore;
+  const { CMSList, CMSItem } = cmsCore;
 
   // Get the nest targets
   const nestTargets = getNestTargets(element);
