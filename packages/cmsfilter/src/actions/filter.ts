@@ -1,4 +1,4 @@
-import type { CMSItem } from '$cms/cmscore/src';
+import type { CMSItem } from '@finsweet/attributes-cmscore';
 
 import { normalizeDate } from '../utils/dates';
 import { normalizeNumber } from '../utils/numbers';

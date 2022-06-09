@@ -1,10 +1,9 @@
+import type { CMSList } from '@finsweet/attributes-cmscore';
+import { importCMSCore } from '@finsweet/attributes-cmscore';
 import { isNotEmpty } from '@finsweet/ts-utils';
 
-import type { CMSList } from '$cms/cmscore/src';
-import { importCMSCore } from '$global/import/cmscore';
-
 import { listenListEvents } from './actions/events';
-import { CMSFilters } from './components/CMSFilters';
+import type { CMSFilters } from './components/CMSFilters';
 import { createCMSFiltersInstance, createCMSTagsInstance } from './factory';
 import { ATTRIBUTE, getSelector } from './utils/constants';
 

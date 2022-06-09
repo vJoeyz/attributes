@@ -1,3 +1,4 @@
+import { normalizePropKey } from '@finsweet/attributes-cmscore';
 import {
   extractCommaSeparatedValues,
   FORM_CSS_CLASSES,
@@ -7,8 +8,6 @@ import {
   sameValues,
 } from '@finsweet/ts-utils';
 import type { FormBlockElement } from '@finsweet/ts-utils';
-
-import { normalizePropKey } from '$cms/utils/props';
 
 import { ensureUniqueFormFieldId } from '../utils/a11ty';
 import { ATTRIBUTES, getSelector, MATCHES, MODES, queryElement, TAG_FORMATS } from '../utils/constants';

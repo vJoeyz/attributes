@@ -17,8 +17,8 @@ import {
   SELECT,
   TEXT_INPUT_FIELD,
   EMBED_CODE,
-} from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+} from '@global/constants/webflow-selectors';
+import type { AttributeSchema } from '@global/types/schema';
 
 import {
   LIST_ELEMENT_KEY,
@@ -49,7 +49,7 @@ import {
   DEFAULT_ACTIVE_CSS_CLASS,
   DEFAULT_HIGHLIGHT_CSS_CLASS,
   DEFAULT_DEBOUNCING,
-} from './../src/utils/constants';
+} from '../src/utils/constants';
 
 export const schema: AttributeSchema = {
   elements: [
