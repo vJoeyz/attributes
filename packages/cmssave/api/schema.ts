@@ -1,4 +1,4 @@
-import type { AttributeSchema } from '$global/types/schema';
+import type { AttributeSchema } from '@global/types/schema';
 
 import {
   LIST_ELEMENT_KEY,
@@ -6,7 +6,7 @@ import {
   COLLECTION_SETTING_KEY,
   FIELD_SETTING_KEY,
   EMPTY_SETTING_KEY,
-} from './../src/utils/constants';
+} from '../src/utils/constants';
 
 export const schema: AttributeSchema = {
   elements: [
@@ -17,6 +17,7 @@ export const schema: AttributeSchema = {
       appliedTo: [],
       required: true,
       requiresInstance: true,
+      multiplesInInstance: false,
     },
     {
       key: REMOVE_ELEMENT_KEY,
@@ -25,6 +26,7 @@ export const schema: AttributeSchema = {
       appliedTo: [],
       required: true,
       requiresInstance: true,
+      multiplesInInstance: false,
     },
   ],
   settings: [
