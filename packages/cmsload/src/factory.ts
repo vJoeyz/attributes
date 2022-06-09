@@ -1,8 +1,6 @@
+import type { CMSList } from '@finsweet/attributes-cmscore';
+import { addItemsAnimation, addListAnimation, checkCMSCoreVersion } from '@finsweet/attributes-cmscore';
 import { COMMERCE_CSS_CLASSES, LIGHTBOX_CSS_CLASSES } from '@finsweet/ts-utils';
-
-import type { CMSList } from '$cms/cmscore/src';
-import { addItemsAnimation, addListAnimation } from '$cms/utils/animation';
-import { checkCMSCoreVersion } from '$cms/utils/versioning';
 
 import { initDefaultMode } from './modes/default';
 import { initInfiniteMode } from './modes/infinite';
