@@ -1,4 +1,4 @@
-import type { CMSItem, CMSList } from '$cms/cmscore/src';
+import type { CMSItem, CMSList } from '@finsweet/attributes-cmscore';
 
 /**
  * Adds an array of items to a defined `CMSList` target.

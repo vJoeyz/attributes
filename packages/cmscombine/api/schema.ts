@@ -1,7 +1,7 @@
-import { COLLECTION_LIST, TEXT_ELEMENT } from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+import { COLLECTION_LIST, TEXT_ELEMENT } from '@global/constants/webflow-selectors';
+import type { AttributeSchema } from '@global/types/schema';
 
-import { LIST_ELEMENT_KEY, ITEMS_COUNT_ELEMENT_KEY } from './../src/constants';
+import { LIST_ELEMENT_KEY, ITEMS_COUNT_ELEMENT_KEY } from '../src/constants';
 
 export const schema: AttributeSchema = {
   elements: [
