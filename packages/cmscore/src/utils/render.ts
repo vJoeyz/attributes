@@ -1,7 +1,6 @@
 import { wait } from '@finsweet/ts-utils';
 
-import { CMSItem } from '.';
-import type { CMSList } from '.';
+import type { CMSItem, CMSList } from '..';
 import { restartWebflowModules } from './webflow';
 
 /**

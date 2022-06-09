@@ -1,4 +1,4 @@
-import type { CMSList, CMSItem, createCMSListInstances, createCMSListInstance } from '.';
+import type { CMSList, CMSItem, createCMSListInstances, createCMSListInstance } from '..';
 
 /**
  * `CMSList` Types

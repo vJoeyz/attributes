@@ -1,7 +1,7 @@
 import { restartWebflow } from '@finsweet/ts-utils';
 import type { WebflowModule } from '@finsweet/ts-utils';
 
-import type { CMSItem, CMSList } from '.';
+import type { CMSItem, CMSList } from '..';
 
 /**
  * Restarts the required Webflow modules after rendering items to the DOM.
