@@ -6,7 +6,7 @@ const production = process.env.NODE_ENV === 'production';
 
 /**
  * Default Settings
- * @type {@type {esbuild.BuildOptions}}
+ * @type {esbuild.BuildOptions}
  */
 export const defaultBuildSettings = {
   bundle: true,
