@@ -436,6 +436,33 @@ importers:
       '@global/tests': link:../../global/tests
       '@global/types': link:../../global/types
 
+  packages/docs:
+    specifiers:
+      '@finsweet/attributes-cmscore': workspace:*
+      '@finsweet/attributes-codehighlight': workspace:*
+      '@finsweet/attributes-copyclip': workspace:*
+      '@finsweet/attributes-toc': workspace:*
+      '@finsweet/ts-utils': ^0.33.1
+      '@global/build': workspace:*
+      '@global/factory': workspace:*
+      '@global/tests': workspace:*
+      '@global/types': workspace:*
+      '@types/marked': ^4.0.3
+      marked: ^4.0.15
+    dependencies:
+      '@finsweet/attributes-codehighlight': link:../codehighlight
+      '@finsweet/attributes-copyclip': link:../copyclip
+      '@finsweet/attributes-toc': link:../toc
+      '@finsweet/ts-utils': 0.33.1
+      '@global/factory': link:../../global/factory
+      marked: 4.0.16
+    devDependencies:
+      '@finsweet/attributes-cmscore': link:../cmscore
+      '@global/build': link:../../global/build
+      '@global/tests': link:../../global/tests
+      '@global/types': link:../../global/types
+      '@types/marked': 4.0.3
+
   packages/richtext:
     specifiers:
       '@finsweet/ts-utils': ^0.33.1
@@ -454,6 +481,29 @@ importers:
       '@global/tests': link:../../global/tests
       '@global/types': link:../../global/types
       '@types/dompurify': 2.3.3
+
+  packages/toc:
+    specifiers:
+      '@finsweet/attributes-richtext': workspace:*
+      '@finsweet/ts-utils': ^0.33.1
+      '@global/build': workspace:*
+      '@global/constants': workspace:*
+      '@global/factory': workspace:*
+      '@global/helpers': workspace:*
+      '@global/tests': workspace:*
+      '@global/types': workspace:*
+      slugify: ^1.6.5
+    dependencies:
+      '@finsweet/attributes-richtext': link:../richtext
+      '@finsweet/ts-utils': 0.33.1
+      '@global/constants': link:../../global/constants
+      '@global/factory': link:../../global/factory
+      '@global/helpers': link:../../global/helpers
+      slugify: 1.6.5
+    devDependencies:
+      '@global/build': link:../../global/build
+      '@global/tests': link:../../global/tests
+      '@global/types': link:../../global/types
 
 packages:
 
@@ -1116,6 +1166,10 @@ packages:
 
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
+    dev: true
+
+  /@types/marked/4.0.3:
+    resolution: {integrity: sha512-HnMWQkLJEf/PnxZIfbm0yGJRRZYYMhb++O9M36UCTA9z53uPvVoSlAwJr3XOpDEryb7Hwl1qAx/MV6YIW1RXxg==}
     dev: true
 
   /@types/minimist/1.2.2:
@@ -2646,6 +2700,12 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /marked/4.0.16:
+    resolution: {integrity: sha512-wahonIQ5Jnyatt2fn8KqF/nIqZM8mh3oRu2+l5EANGMhu6RFjiSG52QNE2eWzFMI94HqYSgN184NurgNG6CztA==}
+    engines: {node: '>= 12'}
+    hasBin: true
+    dev: false
+
   /meow/6.1.1:
     resolution: {integrity: sha512-3YffViIt2QWgTy6Pale5QpopX/IvU3LPL03jOTqp6pGj3VjesdO/U8CuHMKpnQr4shCNCM5fd5XFFvIIl6JBHg==}
     engines: {node: '>=8'}
@@ -3237,6 +3297,11 @@ packages:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
     dev: true
+
+  /slugify/1.6.5:
+    resolution: {integrity: sha512-8mo9bslnBO3tr5PEVFzMPIWwWnipGS0xVbYf65zxDqfNwmzYn1LpiKNrR6DlClusuvo+hDHd1zKpmfAe83NQSQ==}
+    engines: {node: '>=8.0.0'}
+    dev: false
 
   /smartwrap/1.2.5:
     resolution: {integrity: sha512-bzWRwHwu0RnWjwU7dFy7tF68pDAx/zMSu3g7xr9Nx5J0iSImYInglwEVExyHLxXljy6PWMjkSAbwF7t2mPnRmg==}
