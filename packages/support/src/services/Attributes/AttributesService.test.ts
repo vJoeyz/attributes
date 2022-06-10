@@ -2,7 +2,7 @@ import { validateElement } from './Elements/ElementsService';
 import { validateElementSetting } from './Elements/ElementsSettingsService';
 import { validateFieldSetting } from './Fields/FieldsSettingsService';
 import { validateField } from './Fields/FieldsService';
-import type { AttributeSchema } from '$global/types/schema';
+import type { AttributeSchema } from '@global/types/schema';
 import type {
   InputChannel,
   SchemaInput,

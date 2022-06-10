@@ -6,7 +6,7 @@ import type {
   AttributeSchemaCondition,
   AttributeMainCondition,
   AttributeSelectorCondition,
-} from '$global/types/schema';
+} from '@global/types/schema';
 
 describe('Test Error - Attribute not found', () => {
   test('Attribute type element not found', () => {

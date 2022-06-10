@@ -6,7 +6,7 @@ import { isSiblingOf } from './IsSiblingOf/IsSiblingOfService';
 import { hasLink } from './Link/LinkService';
 import { hasStyle } from './Style/StyleService';
 
-import type { AttributeSchema, AttributeSchemaCondition, AttributeSchemaConditions } from '$global/types/schema';
+import type { AttributeSchema, AttributeSchemaCondition, AttributeSchemaConditions } from '@global/types/schema';
 import type { SchemaSelector, SchemaSettings } from '@src/types/Schema.types';
 
 interface AttributeConditionsByType {

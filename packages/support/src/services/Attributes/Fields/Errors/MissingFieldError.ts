@@ -1,5 +1,5 @@
 import AbstractSchemaError from '@src/services/Errors/AbstractSchemaError';
-import type { ParentSelector } from '$global/types/schema';
+import type { ParentSelector } from '@global/types/schema';
 import type { SchemaSelector } from '@src/types/Schema.types';
 
 export default class MissingFieldAppliedError extends AbstractSchemaError {

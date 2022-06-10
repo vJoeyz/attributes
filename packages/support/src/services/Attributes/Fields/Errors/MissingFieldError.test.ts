@@ -1,5 +1,5 @@
 import MissingFieldError from './MissingFieldError';
-import type { ParentSelector } from '$global/types/schema';
+import type { ParentSelector } from '@global/types/schema';
 import SchemaSelector from '@src/services/Selector/SchemaSelector';
 
 describe('Missing field.', () => {

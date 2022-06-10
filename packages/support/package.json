@@ -24,6 +24,8 @@
     "prettier:services": "node_modules/.bin/prettier src -w"
   },
   "devDependencies": {
+    "@global/types": "workspace:*",
+    "@finsweet/attributes-docs": "workspace:*",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@rollup/plugin-typescript": "^8.0.0",

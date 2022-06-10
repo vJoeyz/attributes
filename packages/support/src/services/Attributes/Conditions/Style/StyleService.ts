@@ -4,7 +4,7 @@ import type {
   AttributeSchemaCondition,
   AttributeStyleCondition,
   AttributeStyleConditionStyles,
-} from '$global/types/schema';
+} from '@global/types/schema';
 import type { SchemaSelector } from '@src/types/Schema.types';
 
 export function hasStyle(elementSelector: SchemaSelector, conditions: AttributeSchemaConditions) {

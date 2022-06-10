@@ -1,7 +1,7 @@
 import AttributeNotFoundError from './AttributeNotFoundError';
 import SchemaSelector from '@src/services/Selector/SchemaSelector';
 import CMS_LOAD from '@src/schemas/cms-load';
-import type { AttributeElementSchema, AttributeSettingSchema } from '$global/types/schema';
+import type { AttributeElementSchema, AttributeSettingSchema } from '@global/types/schema';
 
 describe('Test Error - Attribute not found', () => {
   test('Attribute type element not found', () => {

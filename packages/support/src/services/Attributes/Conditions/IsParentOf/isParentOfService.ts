@@ -11,7 +11,7 @@ import type {
   AttributeMainCondition,
   AttributeElementSchema,
   DOMSelector,
-} from '$global/types/schema';
+} from '@global/types/schema';
 import type { SchemaSelector, SchemaSettings } from '@src/types/Schema.types';
 
 export function isParentOf(

@@ -2,7 +2,7 @@ import SchemaSelector from '@src/services/Selector/SchemaSelector';
 import COPY_CLIP from '@src/schemas/copy-clip';
 import AttributeIsNotSiblingOfError from './Errors/AttributeIsNotSiblingOfError';
 import { isSiblingOf } from '@src/services/Attributes/Conditions/IsSiblingOf/IsSiblingOfService';
-import type { AttributeElementSchema, AttributeSchemaCondition } from '$global/types/schema';
+import type { AttributeElementSchema, AttributeSchemaCondition } from '@global/types/schema';
 import type { ItemError } from '@src/types/Error.types';
 
 describe('Test if sibling of', () => {

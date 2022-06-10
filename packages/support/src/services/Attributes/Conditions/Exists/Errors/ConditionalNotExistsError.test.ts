@@ -2,7 +2,7 @@ import ConditionalNotExistsError from './ConditionalNotExistsError';
 import SchemaSelector from '@src/services/Selector/SchemaSelector';
 import CMS_LOAD from '@src/schemas/cms-load';
 import MIRROR_CLICK from '@src/schemas/mirror-click';
-import type { AttributeElementSchema } from '$global/types/schema';
+import type { AttributeElementSchema } from '@global/types/schema';
 
 describe('Test Conditional Exists Error', () => {
   test('Test Element Schema Conditional element not found', () => {

@@ -35,8 +35,8 @@ import {
   findInvalidAttributes,
   findValidAttributes,
 } from '@src/services/SchemaInput/SchemaInputService';
-import type { AttributeSchema, AttributeElementSchema } from '$global/types/schema';
-import type { SupportedAttributeData } from '$docs/src/utils/types';
+import type { AttributeSchema, AttributeElementSchema } from '@global/types/schema';
+import type { SupportedAttributeData } from '@finsweet/attributes-docs/src/utils/types';
 import type { AttributeLoaded, SchemaUI } from '@src/types/Schema.types';
 import type { SchemaInput, SchemaInputConfig } from './types/Input.types';
 

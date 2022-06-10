@@ -5,7 +5,7 @@ import SchemaSelector from '@src/services/Selector/SchemaSelector';
 import { isChildOf } from './IsChildOf/IsChildOfService';
 import { exists } from './Exists/ExistsService';
 import { hasSettings } from './Settings/SettingsService';
-import type { AttributeElementSchema, AttributeSettingSchema } from '$global/types/schema';
+import type { AttributeElementSchema, AttributeSettingSchema } from '@global/types/schema';
 import CMS_LOAD from '@src/schemas/cms-load';
 
 jest.mock('./Exists/ExistsService', () => ({

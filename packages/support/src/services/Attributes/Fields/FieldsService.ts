@@ -34,7 +34,7 @@ import type {
   AttributeFieldSchema,
   FieldSpecialization,
   InstanceFieldSpecializationAppliedTo,
-} from '$global/types/schema';
+} from '@global/types/schema';
 import type { SchemaSettings, SchemaSelector } from '@src/types/Schema.types';
 import type { InputChannel, SchemaInputField, InputValidationMessage } from '@src/types/Input.types';
 

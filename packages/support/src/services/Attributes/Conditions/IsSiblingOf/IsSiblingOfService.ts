@@ -16,7 +16,7 @@ import type {
   AttributeMainCondition,
   DOMSelector,
   AttributeElementSchema,
-} from '$global/types/schema';
+} from '@global/types/schema';
 import type { SchemaSelector, SchemaSettings, ElementItemSelector } from '@src/types/Schema.types';
 
 export function isSiblingOf(
