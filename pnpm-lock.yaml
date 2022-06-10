@@ -613,6 +613,27 @@ importers:
       '@global/tests': link:../../global/tests
       '@global/types': link:../../global/types
 
+  packages/sliderdots:
+    specifiers:
+      '@finsweet/attributes-cmsslider': workspace:*
+      '@finsweet/ts-utils': ^0.33.1
+      '@global/build': workspace:*
+      '@global/constants': workspace:*
+      '@global/factory': workspace:*
+      '@global/helpers': workspace:*
+      '@global/tests': workspace:*
+      '@global/types': workspace:*
+    dependencies:
+      '@finsweet/attributes-cmsslider': link:../cmsslider
+      '@finsweet/ts-utils': 0.33.1
+      '@global/constants': link:../../global/constants
+      '@global/factory': link:../../global/factory
+      '@global/helpers': link:../../global/helpers
+    devDependencies:
+      '@global/build': link:../../global/build
+      '@global/tests': link:../../global/tests
+      '@global/types': link:../../global/types
+
   packages/toc:
     specifiers:
       '@finsweet/attributes-richtext': workspace:*
