@@ -634,6 +634,23 @@ importers:
       '@global/tests': link:../../global/tests
       '@global/types': link:../../global/types
 
+  packages/smartlightbox:
+    specifiers:
+      '@global/build': workspace:*
+      '@global/constants': workspace:*
+      '@global/factory': workspace:*
+      '@global/helpers': workspace:*
+      '@global/tests': workspace:*
+      '@global/types': workspace:*
+    dependencies:
+      '@global/constants': link:../../global/constants
+      '@global/factory': link:../../global/factory
+      '@global/helpers': link:../../global/helpers
+    devDependencies:
+      '@global/build': link:../../global/build
+      '@global/tests': link:../../global/tests
+      '@global/types': link:../../global/types
+
   packages/toc:
     specifiers:
       '@finsweet/attributes-richtext': workspace:*
