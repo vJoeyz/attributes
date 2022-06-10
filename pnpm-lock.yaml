@@ -567,6 +567,29 @@ importers:
       '@global/types': link:../../global/types
       '@types/dompurify': 2.3.3
 
+  packages/scrolldisable:
+    specifiers:
+      '@finsweet/ts-utils': ^0.33.1
+      '@global/build': workspace:*
+      '@global/constants': workspace:*
+      '@global/factory': workspace:*
+      '@global/tests': workspace:*
+      '@global/types': workspace:*
+      '@types/body-scroll-lock': ^3.1.0
+      body-scroll-lock: ^4.0.0-beta.0
+      just-debounce: ^1.1.0
+    dependencies:
+      '@finsweet/ts-utils': 0.33.1
+      '@global/build': link:../../global/build
+      '@global/tests': link:../../global/tests
+      '@global/types': link:../../global/types
+      body-scroll-lock: 4.0.0-beta.0
+      just-debounce: 1.1.0
+    devDependencies:
+      '@global/constants': link:../../global/constants
+      '@global/factory': link:../../global/factory
+      '@types/body-scroll-lock': 3.1.0
+
   packages/toc:
     specifiers:
       '@finsweet/attributes-richtext': workspace:*
@@ -1237,6 +1260,10 @@ packages:
       - supports-color
     dev: true
 
+  /@types/body-scroll-lock/3.1.0:
+    resolution: {integrity: sha512-3owAC4iJub5WPqRhxd8INarF2bWeQq1yQHBgYhN0XLBJMpd5ED10RrJ3aKiAwlTyL5wK7RkBD4SZUQz2AAAMdA==}
+    dev: true
+
   /@types/dompurify/2.3.3:
     resolution: {integrity: sha512-nnVQSgRVuZ/843oAfhA25eRSNzUFcBPk/LOiw5gm8mD9/X7CNcbRkQu/OsjCewO8+VIYfPxUnXvPEVGenw14+w==}
     dependencies:
@@ -1510,6 +1537,10 @@ packages:
     dependencies:
       is-windows: 1.0.2
     dev: true
+
+  /body-scroll-lock/4.0.0-beta.0:
+    resolution: {integrity: sha512-a7tP5+0Mw3YlUJcGAKUqIBkYYGlYxk2fnCasq/FUph1hadxlTRjF+gAcZksxANnaMnALjxEddmSi/H3OR8ugcQ==}
+    dev: false
 
   /boxen/5.1.2:
     resolution: {integrity: sha512-9gYgQKXx+1nP8mP7CzFyaUARhg7D3n1dF/FnErWmu9l6JvGpNUN278h0aSb+QjoiKSWG+iZ3uHrcqk0qrY9RQQ==}
