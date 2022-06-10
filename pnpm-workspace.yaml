@@ -4,4 +4,3 @@ packages:
   - '!packages/a11y'
   - '!packages/components'
   - '!packages/template'
-  - '!packages/support'
