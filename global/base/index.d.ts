@@ -1,11 +1,10 @@
+import type { AnimationImport } from '@finsweet/attributes-animation/src/types';
+import type { CMSList } from '@finsweet/attributes-cmscore';
+import type { CMSCoreImport } from '@finsweet/attributes-cmscore/src/utils/types';
+import type { CMSFilters } from '@finsweet/attributes-cmsfilter/src/components/CMSFilters';
 import type { CollectionListWrapperElement } from '@finsweet/ts-utils';
-import type { AnimationImport } from 'packages/animation/src/types';
 
-import type { CMSList } from '$cms/cmscore/src';
-import type { CMSCoreImport } from '$cms/cmscore/src/types';
-import type { CMSFilters } from '$cms/cmsfilter/src/components/CMSFilters';
-
-export type FsAttributesCallback =
+type FsAttributesCallback =
   | [
       'cmsload' | 'cmsnest' | 'cmscombine' | 'cmsprevnext' | 'cmsslider' | 'cmssort' | 'cmstabs',
       (value: CMSList[]) => void
@@ -28,7 +27,7 @@ type FsAttributesBase = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface FsAttributeInit<T = any> {
+interface FsAttributeInit<T = any> {
   version?: string;
   init?: () => T | Promise<T>;
   loading?: Promise<T>;
@@ -49,15 +48,4 @@ declare global {
     fsAttributes: FsAttributes;
     FsAttributes: FsAttributes;
   }
-}
-
-/**
- * Global params.
- */
-export interface GlobalAttributeParams {
-  /**
-   * Defines if the `<script>` should prevent automatically loading the library.
-   * Useful for cases where a JS developer whants to programatically init the library.
-   */
-  preventsLoad: boolean;
 }

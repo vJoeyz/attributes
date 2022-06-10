@@ -5,5 +5,11 @@
     "rootDir": ".",
     "baseUrl": "."
   },
-  "include": ["./packages/**/*.ts", "./global/**/*.ts"]
+  "include": ["./packages/**/*.ts", "./global/**/*.ts"],
+  "exclude": [
+    "./packages/a11y/**/*.ts",
+    "./packages/components/**/*.ts",
+    "./packages/template/**/*.ts",
+    "./packages/support/**/*.ts"
+  ]
 }
