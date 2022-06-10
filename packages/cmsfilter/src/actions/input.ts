@@ -1,4 +1,5 @@
 import type { FormField } from '@finsweet/ts-utils';
+
 import type { FilterData, FilterElement } from '../utils/types';
 
 /**
@@ -17,7 +18,7 @@ export const handleFilterInput = (element: FormField, filterData: FilterData, el
 
   switch (type) {
     case 'checkbox': {
-      const { checked } = <HTMLInputElement>element;
+      const { checked } = element as HTMLInputElement;
 
       if (!storedValue) break;
 
@@ -30,13 +31,13 @@ export const handleFilterInput = (element: FormField, filterData: FilterData, el
     }
 
     case 'radio': {
-      const { checked } = <HTMLInputElement>element;
+      const { checked } = element as HTMLInputElement;
 
       // Active CSS
       for (const { element: groupElement, type } of elements) {
         if (type !== 'radio') return false;
 
-        const addClass = (<HTMLInputElement>groupElement).checked;
+        const addClass = (groupElement as HTMLInputElement).checked;
 
         groupElement.parentElement?.classList[addClass ? 'add' : 'remove'](activeCSSClass);
       }
