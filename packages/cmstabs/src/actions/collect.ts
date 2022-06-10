@@ -1,7 +1,6 @@
+import type { CMSList } from '@finsweet/attributes-cmscore';
 import { TABS_CSS_CLASSES } from '@finsweet/ts-utils';
 import type { TabsElement } from '@finsweet/ts-utils';
-
-import type { CMSList } from '$cms/cmscore/src';
 
 import { ATTRIBUTES, getSelector } from '../utils/constants';
 import type { PopulateData } from '../utils/types';
