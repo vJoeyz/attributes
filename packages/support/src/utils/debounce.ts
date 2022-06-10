@@ -1,4 +1,4 @@
-export default function debounce(timer: NodeJS.Timeout, v: () => void) {
+export default function debounce(timer: number, v: () => void) {
   clearTimeout(timer);
   timer = setTimeout(() => {
     v();

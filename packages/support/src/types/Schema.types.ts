@@ -1,3 +1,4 @@
+import type { SupportedAttributeData } from '@finsweet/attributes-docs/src/utils/types';
 import type {
   AttributeSchemaCondition,
   DOMSelector,
@@ -5,7 +6,7 @@ import type {
   AttributeSettingSchema,
   AttributeFieldSchema,
 } from '@global/types/schema';
-import type { SupportedAttributeData } from '@finsweet/attributes-docs/src/utils/types';
+
 export type SCHEMA_ITEM_TYPES = 'settings' | 'elements' | 'fields';
 
 export interface SchemaSettings {

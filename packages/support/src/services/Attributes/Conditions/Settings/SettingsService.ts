@@ -1,9 +1,3 @@
-import { createSchemaSelectorFromSchema } from '@src/services/Attributes/Schema/SchemaService';
-import { queryAttributeValue } from '@src/services/DOM/Queries/QueriesService';
-import SettingNotMatchError from '@src/services/Attributes/Conditions/Settings/Errors/SettingNotMatchError';
-import SchemaSelectorCreator from '@src/services/Selector/SchemaSelector';
-
-import type { SchemaSettings, SchemaSelector } from '@src/types/Schema.types';
 import type {
   AttributeSchema,
   AttributeSchemaCondition,
@@ -11,6 +5,11 @@ import type {
   AttributeSettingCondition,
   AttributeSettingConditionSetting,
 } from '@global/types/schema';
+import SettingNotMatchError from '@src/services/Attributes/Conditions/Settings/Errors/SettingNotMatchError';
+import { createSchemaSelectorFromSchema } from '@src/services/Attributes/Schema/SchemaService';
+import { queryAttributeValue } from '@src/services/DOM/Queries/QueriesService';
+import SchemaSelectorCreator from '@src/services/Selector/SchemaSelector';
+import type { SchemaSettings, SchemaSelector } from '@src/types/Schema.types';
 
 export function hasSettings(
   elementSelector: SchemaSelector,

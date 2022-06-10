@@ -1,9 +1,3 @@
-import { createSchemaSelectorFromSchema, getSchemaItem } from '@src/services/Attributes/Schema/SchemaService';
-import {
-  assertElementIsParentOfElement,
-  assertElementIsParentOfElements,
-} from '@src/services/DOM/Assertions/AssertionsService';
-import AttributeIsNotParentOfError from './Errors/AttributeIsNotParentOfError';
 import type {
   AttributeSchema,
   AttributeSchemaConditions,
@@ -12,7 +6,14 @@ import type {
   AttributeElementSchema,
   DOMSelector,
 } from '@global/types/schema';
+import { createSchemaSelectorFromSchema, getSchemaItem } from '@src/services/Attributes/Schema/SchemaService';
+import {
+  assertElementIsParentOfElement,
+  assertElementIsParentOfElements,
+} from '@src/services/DOM/Assertions/AssertionsService';
 import type { SchemaSelector, SchemaSettings } from '@src/types/Schema.types';
+
+import AttributeIsNotParentOfError from './Errors/AttributeIsNotParentOfError';
 
 export function isParentOf(
   elementSelector: SchemaSelector,

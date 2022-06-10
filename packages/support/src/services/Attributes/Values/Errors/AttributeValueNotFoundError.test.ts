@@ -1,5 +1,6 @@
-import AttributeValueNotFoundError from './AttributeValueNotFoundError';
 import SchemaSelector from '@src/services/Selector/SchemaSelector';
+
+import AttributeValueNotFoundError from './AttributeValueNotFoundError';
 
 describe('Test Error - Attribute duplicated', () => {
   test('Attribute type element duplicated', () => {

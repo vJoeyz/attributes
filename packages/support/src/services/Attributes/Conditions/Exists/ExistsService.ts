@@ -1,7 +1,3 @@
-import { assertElementExistsOnPage } from '@src/services/DOM/Assertions/AssertionsService';
-import ConditionalNotExistsError from '@src/services/Attributes/Conditions/Exists/Errors/ConditionalNotExistsError';
-
-import { createSchemaSelectorFromItem, getSchemaItem } from '@src/services/Attributes/Schema/SchemaService';
 import type {
   AttributeMainCondition,
   AttributeSchema,
@@ -10,6 +6,9 @@ import type {
   DOMSelector,
   AttributeElementSchema,
 } from '@global/types/schema';
+import ConditionalNotExistsError from '@src/services/Attributes/Conditions/Exists/Errors/ConditionalNotExistsError';
+import { createSchemaSelectorFromItem, getSchemaItem } from '@src/services/Attributes/Schema/SchemaService';
+import { assertElementExistsOnPage } from '@src/services/DOM/Assertions/AssertionsService';
 import type { SchemaSelector, SchemaSettings } from '@src/types/Schema.types';
 
 export function exists(

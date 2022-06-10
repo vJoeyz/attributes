@@ -1,13 +1,3 @@
-import {
-  getSchemaItem,
-  createSchemaSelectorFromSchema,
-  createSchemaSelectorFromItem,
-} from '@src/services/Attributes/Schema/SchemaService';
-import { queryChildrenOfElements } from '@src/services/DOM/Queries/QueriesService';
-import { getParentElement } from '@src/services/Attributes/Fields/FieldsService';
-import type { HighlightBackupStyle, Highlight } from '@src/types/Highlight.types';
-import type { SchemaSettings } from '@src/types/Schema.types';
-import type { SchemaInputType } from '@src/types/Input.types';
 import type {
   AttributeElementSchema,
   AttributeSettingSchema,
@@ -17,6 +7,16 @@ import type {
   InstanceFieldSpecializationAppliedTo,
   DOMSelector,
 } from '@global/types/schema';
+import { getParentElement } from '@src/services/Attributes/Fields/FieldsService';
+import {
+  getSchemaItem,
+  createSchemaSelectorFromSchema,
+  createSchemaSelectorFromItem,
+} from '@src/services/Attributes/Schema/SchemaService';
+import { queryChildrenOfElements } from '@src/services/DOM/Queries/QueriesService';
+import type { HighlightBackupStyle, Highlight } from '@src/types/Highlight.types';
+import type { SchemaInputType } from '@src/types/Input.types';
+import type { SchemaSettings } from '@src/types/Schema.types';
 
 const highlightStyle: HighlightBackupStyle = {
   ['backgroundColor']: {
