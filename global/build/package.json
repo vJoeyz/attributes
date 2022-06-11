@@ -1,0 +1,6 @@
+{
+  "name": "@global/build",
+  "private": true,
+  "type": "module",
+  "main": "index.js"
+}

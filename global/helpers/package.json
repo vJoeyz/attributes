@@ -1,0 +1,9 @@
+{
+  "name": "@global/helpers",
+  "private": true,
+  "type": "module",
+  "main": "index.ts",
+  "dependencies": {
+    "@finsweet/ts-utils": "^0.33.1"
+  }
+}

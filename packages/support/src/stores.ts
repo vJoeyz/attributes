@@ -1,11 +1,10 @@
-import { writable, derived, get } from 'svelte/store';
-import { persistStore, loadStore } from '@src/services/Store/Store.service';
+import type { SupportedAttributeData } from '@finsweet/attributes-docs/src/utils/types';
+import type { AttributeSchema, AttributeElementSchema } from '@global/types/schema';
 import {
   // elements
   addElement,
   deleteElement,
-  findElement,
-  // elements ettings
+  findElement, // elements ettings
   addElementSetting,
   enableElementSetting,
   disableElementSetting,
@@ -14,14 +13,12 @@ import {
   setElementSettingOption,
   getElementSettingOption,
   findElementSetting,
-  findElementSettingIndex,
-  // fields
+  findElementSettingIndex, // fields
   addField,
   getFields,
   deleteField,
   findField,
-  getLastIndexField,
-  // field settings
+  getLastIndexField, // field settings
   setFieldidentifier,
   setFieldSpecialization,
   addFieldSetting,
@@ -30,14 +27,14 @@ import {
   disableFieldSettings,
   setFieldSettingOption,
   findFieldSetting,
-  findFieldSettingIndex,
-  // usability
+  findFieldSettingIndex, // usability
   findInvalidAttributes,
   findValidAttributes,
 } from '@src/services/SchemaInput/SchemaInputService';
-import type { AttributeSchema, AttributeElementSchema } from '$global/types/schema';
-import type { SupportedAttributeData } from '$docs/src/utils/types';
+import { persistStore, loadStore } from '@src/services/Store/Store.service';
 import type { AttributeLoaded, SchemaUI } from '@src/types/Schema.types';
+import { writable, derived, get } from 'svelte/store';
+
 import type { SchemaInput, SchemaInputConfig } from './types/Input.types';
 
 export const WALKTHROUGH_MODES = {

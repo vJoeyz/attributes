@@ -1,17 +1,18 @@
-import { queryAttributeValue } from '@src/services/DOM/Queries/QueriesService';
 import { assertElementExistsOnPage } from '@src/services/DOM/Assertions/AssertionsService';
+import { queryAttributeValue } from '@src/services/DOM/Queries/QueriesService';
+import { booleanValidator } from '@src/services/Validators/Boolean/BooleanValidator';
+import { floatValidator, commaSeparatedFloatValidator } from '@src/services/Validators/Float/FloatValidator';
+import { intValidator, commaSeparatedIntValidator } from '@src/services/Validators/Int/IntValidator';
 // validators
 import { optionsValidator } from '@src/services/Validators/Options/OptionsValidator';
-import { booleanValidator } from '@src/services/Validators/Boolean/BooleanValidator';
-import { intValidator, commaSeparatedIntValidator } from '@src/services/Validators/Int/IntValidator';
 import { stringValidator, commaSeparatedStringValidator } from '@src/services/Validators/String/StringValidator';
-import { floatValidator, commaSeparatedFloatValidator } from '@src/services/Validators/Float/FloatValidator';
+import type { ValueTypeError } from '@src/types/Error.types';
+import type { SchemaSelector } from '@src/types/Schema.types';
+
+import AttributeValueNotFoundError from './Errors/AttributeValueNotFoundError';
+import AttributeValueNotMatchExpectedError from './Errors/AttributeValueNotMatchExpectedError';
 // erros
 import AttributeValueNotMatchTypeError from './Errors/AttributeValueNotMatchTypeError';
-import AttributeValueNotMatchExpectedError from './Errors/AttributeValueNotMatchExpectedError';
-import type { SchemaSelector } from '@src/types/Schema.types';
-import type { ValueTypeError } from '@src/types/Error.types';
-import AttributeValueNotFoundError from './Errors/AttributeValueNotFoundError';
 
 export function valueServiceV2(
   elements: HTMLElement[],

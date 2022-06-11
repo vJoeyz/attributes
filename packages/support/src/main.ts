@@ -1,7 +1,7 @@
-import App from './components/App.svelte';
-import GraphikRegular from './../public/fonts/Graphik-Regular-Web.woff2';
-import GraphikMedium from './../public/fonts/Graphik-Medium-Web.woff2';
 import GraphikBold from './../public/fonts/Graphik-Bold-Web.woff2';
+import GraphikMedium from './../public/fonts/Graphik-Medium-Web.woff2';
+import GraphikRegular from './../public/fonts/Graphik-Regular-Web.woff2';
+import App from './components/App.svelte';
 
 const section = document.createElement('section');
 section.setAttribute('data-id', 'fs-attributes-support');

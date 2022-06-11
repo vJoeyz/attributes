@@ -1,0 +1,6 @@
+{
+  "name": "@global/tests",
+  "private": true,
+  "type": "module",
+  "main": "playwright.config.ts"
+}
