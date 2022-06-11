@@ -58,7 +58,7 @@ export interface CMSItemProps {
 
     /**
      * Defines the type of the value.
-     * @example `date`
+     * @example `date` | `number`
      */
     type?: string | null;
 

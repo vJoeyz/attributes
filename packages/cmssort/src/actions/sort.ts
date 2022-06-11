@@ -42,15 +42,24 @@ export const sortListItems = async (
 
       const { type } = firstItemProp;
 
-      if (type === 'date') {
-        const firstItemTime = new Date(firstItemValue).getTime();
-        const secondItemTime = new Date(secondItemValue).getTime();
+      // Date & Number sorting
+      const isDate = type === 'date';
+      const isNumber = type === 'number';
 
-        if (direction === 'asc') return firstItemTime - secondItemTime;
+      if (isDate || isNumber) {
+        const [firstItemNumber, secondItemNumber] = [firstItemValue, secondItemValue].map((value) =>
+          isDate ? new Date(value).getTime() : parseFloat(value)
+        );
 
-        return secondItemTime - firstItemTime;
+        if (isNaN(firstItemNumber)) return 1;
+        if (isNaN(secondItemNumber)) return -1;
+
+        if (direction === 'asc') return firstItemNumber - secondItemNumber;
+
+        return secondItemNumber - firstItemNumber;
       }
 
+      // String sorting
       const collatorOptions: Intl.CollatorOptions = {
         numeric: true,
         sensitivity: 'base',
