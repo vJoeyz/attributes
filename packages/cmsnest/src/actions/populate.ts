@@ -33,12 +33,17 @@ export const populateNestedCollections = async (
   const pageCollectionListWrappers = getCollectionListWrappers([getSelector('collection')], page);
 
   // Populate the nested CMS lists only with the correspondent nested items
+  // Also, make sure that the Collections in the Template Page are not duplicated
+  const processedPageCollections: Set<string> = new Set();
+
   await Promise.all(
     pageCollectionListWrappers.map(async (pageCollectionListWrapper, index) => {
       const pageListInstance = new CMSList(pageCollectionListWrapper, index);
 
       const collectionId = normalizePropKey(pageListInstance.getAttribute(ATTRIBUTES.collection.key));
-      if (!collectionId) return;
+      if (!collectionId || processedPageCollections.has(collectionId)) return;
+
+      processedPageCollections.add(collectionId);
 
       const nestSource = nestSources.get(collectionId);
       const nestTarget = nestTargets.get(collectionId);
