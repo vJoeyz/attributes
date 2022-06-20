@@ -1,5 +1,5 @@
 ---
-"@finsweet/attributes-richtext": patch
+'@finsweet/attributes-richtext': minor
 ---
 
 `feature`: Added external components source caching.
