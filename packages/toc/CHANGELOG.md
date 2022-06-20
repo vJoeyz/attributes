@@ -1,5 +1,12 @@
 # @finsweet/attributes-toc
 
+## 1.0.7
+
+### Patch Changes
+
+- Updated dependencies [2040479]
+  - @finsweet/attributes-richtext@1.7.0
+
 ## 1.0.6
 
 ### Patch Changes

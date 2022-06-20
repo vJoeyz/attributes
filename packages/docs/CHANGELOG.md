@@ -1,5 +1,12 @@
 # @finsweet/attributes-docs
 
+## 1.7.8
+
+### Patch Changes
+
+- @finsweet/attributes-codehighlight@1.3.1
+- @finsweet/attributes-toc@1.0.7
+
 ## 1.7.7
 
 ### Patch Changes
