@@ -1,5 +1,15 @@
 # @finsweet/attributes-richtext
 
+## 1.7.0
+
+### Minor Changes
+
+- 2040479: `feature`: Added external components source caching.
+  Previously, if multiple components were loaded from an external URL like `/components`, that page was fetched once for each component.
+  Now the library will cache all loaded external pages and only fetch them once, no matter how many components are being loaded from them.
+
+  `fix`: Prevented the library from stopping when a component was loaded from an invalid URL.
+
 ## 1.6.0
 
 ### Minor Changes
@@ -24,11 +34,11 @@ It can be used like:
 <script>
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
-    'richtext',
-    (rtbElements) => {
-      console.log('Attribute has successfully loaded!');
+    "richtext",
+    rtbElements => {
+      console.log("Attribute has successfully loaded!");
       console.log(rtbElements);
-    },
+    }
   ]);
 </script>
 ```
