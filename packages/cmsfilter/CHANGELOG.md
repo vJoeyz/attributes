@@ -1,5 +1,13 @@
 # @finsweet/attributes-cmsfilter
 
+## 1.12.0
+
+### Minor Changes
+
+- 2b343ff: Added new `fs-cmsfilter-allowsubmit="true"` option to allow the users to submit the filters form.
+
+  By default, form submissions are disabled in Attributes CMS Filter. Set `fs-cmsfilter-allowsubmit="true"` option to the CMS List to enable form submissions in your Filter UI.
+
 ## 1.9.6
 
 ### Patch Changes
@@ -216,7 +224,7 @@
 
 ### Patch Changes
 
--  Selector for Collection List updated in schema.
+- Selector for Collection List updated in schema.
 
 ## 1.11.0
 
@@ -242,11 +250,11 @@ It can be used like:
 <script>
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
-    'cmsfilter',
-    (cmsFilters) => {
-      console.log('Attribute has successfully loaded!');
+    "cmsfilter",
+    cmsFilters => {
+      console.log("Attribute has successfully loaded!");
       console.log(cmsFilters);
-    },
+    }
   ]);
 </script>
 ```
