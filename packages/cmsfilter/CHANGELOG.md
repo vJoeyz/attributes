@@ -8,6 +8,51 @@
 
   By default, form submissions are disabled in Attributes CMS Filter. Set `fs-cmsfilter-allowsubmit="true"` option to the CMS List to enable form submissions in your Filter UI.
 
+## 1.11.2
+
+### Patch Changes
+
+- Fixed Reset button rules to require being child Of form select and filter element on support.
+
+## 1.11.1
+
+### Patch Changes
+
+- Selector for Collection List updated in schema.
+
+## 1.11.0
+
+### Minor Changes
+
+- Added support wizard and publishing new schema version
+
+## 1.10.1
+
+### Patch Changes
+
+- Added created new `CMSFilters.storeFiltersData()` method.
+- Added [API docs](https://www.npmjs.com/package/@finsweet/attributes-cmsfilter).
+
+## 1.10.0
+
+### Minor Changes
+
+Included a new `window.fsAttributes.push()` method in the developer API that provides a standarized way to safely access any Attribute internals once it has fully loaded.
+It can be used like:
+
+```html
+<script>
+  window.fsAttributes = window.fsAttributes || [];
+  window.fsAttributes.push([
+    'cmsfilter',
+    (cmsFilters) => {
+      console.log('Attribute has successfully loaded!');
+      console.log(cmsFilters);
+    },
+  ]);
+</script>
+```
+
 ## 1.9.6
 
 ### Patch Changes
@@ -213,51 +258,6 @@
 - Added support for `fs-rangeslider` sync when setting values from query params on page load.
 - Improved tags rendering when the filter is a `range`. Now it outputs a single tag with a `[FROM_VALUE, TO_VALUE]` format, replacing the `undefined` values with a double dash `--`.
 - Exposed the `CMSFilters` instances at `window.fsAttributes.cms.filtersInstances`.
-
-## 1.11.2
-
-### Patch Changes
-
-- Fixed Reset button rules to require being child Of form select and filter element on support.
-
-## 1.11.1
-
-### Patch Changes
-
-- Selector for Collection List updated in schema.
-
-## 1.11.0
-
-### Minor Changes
-
-- Added support wizard and publishing new schema version
-
-## 1.10.1
-
-### Patch Changes
-
-- Added created new `CMSFilters.storeFiltersData()` method.
-- Added [API docs](https://www.npmjs.com/package/@finsweet/attributes-cmsfilter).
-
-## 1.10.0
-
-### Minor Changes
-
-Included a new `window.fsAttributes.push()` method in the developer API that provides a standarized way to safely access any Attribute internals once it has fully loaded.
-It can be used like:
-
-```html
-<script>
-  window.fsAttributes = window.fsAttributes || [];
-  window.fsAttributes.push([
-    "cmsfilter",
-    cmsFilters => {
-      console.log("Attribute has successfully loaded!");
-      console.log(cmsFilters);
-    }
-  ]);
-</script>
-```
 
 ## 1.1.2
 
