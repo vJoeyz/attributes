@@ -1,10 +1,16 @@
 # @finsweet/attributes-cmsload
 
+## 1.7.2
+
+### Patch Changes
+
+- 7f509db: Fixed typo in the API docs
+
 ## 1.7.1
 
 ### Patch Changes
 
--  Selector for Collection List updated in schema.
+- Selector for Collection List updated in schema.
 
 ## 1.7.0
 
@@ -50,11 +56,11 @@ It can be used like:
 <script>
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
-    'cmsload',
-    (cmsLists) => {
-      console.log('Attribute has successfully loaded!');
+    "cmsload",
+    cmsLists => {
+      console.log("Attribute has successfully loaded!");
       console.log(cmsLists);
-    },
+    }
   ]);
 </script>
 ```
