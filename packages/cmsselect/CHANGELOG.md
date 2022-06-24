@@ -1,5 +1,12 @@
 # @finsweet/attributes-cmsselect
 
+## 1.4.1
+
+### Patch Changes
+
+- Updated dependencies [7f509db]
+  - @finsweet/attributes-cmsload@1.7.2
+
 ## 1.4.0
 
 ### Minor Changes
@@ -31,11 +38,11 @@ It can be used like:
 <script>
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
-    'cmsselect',
-    (elements) => {
-      console.log('Attribute has successfully loaded!');
+    "cmsselect",
+    elements => {
+      console.log("Attribute has successfully loaded!");
       console.log(elements);
-    },
+    }
   ]);
 </script>
 ```

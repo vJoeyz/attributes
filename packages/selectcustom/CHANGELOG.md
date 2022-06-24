@@ -1,5 +1,11 @@
 # @finsweet/attributes-selectcustom
 
+## 1.5.3
+
+### Patch Changes
+
+- @finsweet/attributes-cmsselect@1.4.1
+
 ## 1.5.2
 
 ### Patch Changes
@@ -30,11 +36,11 @@ It can be used like:
 <script>
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
-    'selectcustom',
-    (referenceElements) => {
-      console.log('Attribute has successfully loaded!');
+    "selectcustom",
+    referenceElements => {
+      console.log("Attribute has successfully loaded!");
       console.log(referenceElements);
-    },
+    }
   ]);
 </script>
 ```
