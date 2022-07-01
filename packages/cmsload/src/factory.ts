@@ -61,6 +61,10 @@ export const initLoadInstance = async (listInstance: CMSList) => {
   const loaderElement = queryElement<HTMLElement>('loader', { instanceIndex });
   if (loaderElement) listInstance.addLoader(loaderElement);
 
+  // Empty State Element
+  const emptyElement = queryElement<HTMLElement>('empty', { instanceIndex });
+  if (emptyElement) listInstance.addEmptyElement(emptyElement);
+
   // Get items count element
   if (!listInstance.itemsCount) {
     const itemsCount = queryElement<HTMLElement>('itemsCount', { instanceIndex });
