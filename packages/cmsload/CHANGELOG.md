@@ -1,5 +1,12 @@
 # @finsweet/attributes-cmsload
 
+## 1.7.3
+
+### Patch Changes
+
+- 8f9d08d: Added `fs-cmsload-element="empty"` attribute.
+  Defines the Empty State element for when there are no elements to show.
+
 ## 1.7.2
 
 ### Patch Changes
