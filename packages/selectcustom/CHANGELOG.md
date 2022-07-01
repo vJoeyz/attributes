@@ -1,5 +1,11 @@
 # @finsweet/attributes-selectcustom
 
+## 1.5.4
+
+### Patch Changes
+
+- @finsweet/attributes-cmsselect@1.4.2
+
 ## 1.5.3
 
 ### Patch Changes
