@@ -1,5 +1,12 @@
 # @finsweet/attributes-rangeslider
 
+## 1.6.1
+
+### Patch Changes
+
+- Updated dependencies [627bf25]
+  - @global/factory@1.1.0
+
 ## 1.6.0
 
 ### Minor Changes
@@ -17,11 +24,11 @@ It can be used like:
 <script>
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
-    'rangeslider',
-    (handleInstances) => {
-      console.log('Attribute has successfully loaded!');
+    "rangeslider",
+    handleInstances => {
+      console.log("Attribute has successfully loaded!");
       console.log(handleInstances);
-    },
+    }
   ]);
 </script>
 ```

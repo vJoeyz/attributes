@@ -1,5 +1,13 @@
 # @finsweet/attributes-cmsnest
 
+## 1.6.4
+
+### Patch Changes
+
+- Updated dependencies [627bf25]
+  - @global/factory@1.1.0
+  - @finsweet/attributes-cmscore@1.6.7
+
 ## 1.6.3
 
 ### Patch Changes
@@ -54,11 +62,11 @@ It can be used like:
 <script>
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
-    'cmsnest',
-    (cmsLists) => {
-      console.log('Attribute has successfully loaded!');
+    "cmsnest",
+    cmsLists => {
+      console.log("Attribute has successfully loaded!");
       console.log(cmsLists);
-    },
+    }
   ]);
 </script>
 ```

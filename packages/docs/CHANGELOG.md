@@ -1,5 +1,16 @@
 # @finsweet/attributes-docs
 
+## 1.7.9
+
+### Patch Changes
+
+- 627bf25: Added `fs-formsubmit` Attribute
+- Updated dependencies [627bf25]
+  - @global/factory@1.1.0
+  - @finsweet/attributes-codehighlight@1.3.2
+  - @finsweet/attributes-copyclip@1.5.2
+  - @finsweet/attributes-toc@1.0.8
+
 ## 1.7.8
 
 ### Patch Changes

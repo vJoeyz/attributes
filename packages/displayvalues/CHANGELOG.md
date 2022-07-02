@@ -1,5 +1,12 @@
 # @finsweet/attributes-displayvalues
 
+## 1.2.1
+
+### Patch Changes
+
+- Updated dependencies [627bf25]
+  - @global/factory@1.1.0
+
 ## 1.2.0
 
 ### Minor Changes
@@ -11,11 +18,11 @@ It can be used like:
 <script>
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
-    'displayvalues',
-    (sourceElements) => {
-      console.log('Attribute has successfully loaded!');
+    "displayvalues",
+    sourceElements => {
+      console.log("Attribute has successfully loaded!");
       console.log(sourceElements);
-    },
+    }
   ]);
 </script>
 ```

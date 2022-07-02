@@ -1,5 +1,13 @@
 # @finsweet/attributes-cmscombine
 
+## 1.6.1
+
+### Patch Changes
+
+- Updated dependencies [627bf25]
+  - @global/factory@1.1.0
+  - @finsweet/attributes-cmscore@1.6.7
+
 ## 1.6.0
 
 ### Minor Changes
@@ -17,11 +25,11 @@ It can be used like:
 <script>
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
-    'cmscombine',
-    (cmsLists) => {
-      console.log('Attribute has successfully loaded!');
+    "cmscombine",
+    cmsLists => {
+      console.log("Attribute has successfully loaded!");
       console.log(cmsLists);
-    },
+    }
   ]);
 </script>
 ```

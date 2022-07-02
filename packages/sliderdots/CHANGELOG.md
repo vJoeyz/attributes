@@ -1,5 +1,13 @@
 # @finsweet/attributes-sliderdots
 
+## 1.6.2
+
+### Patch Changes
+
+- Updated dependencies [627bf25]
+  - @global/factory@1.1.0
+  - @finsweet/attributes-cmsslider@1.5.2
+
 ## 1.6.1
 
 ### Patch Changes
@@ -38,11 +46,11 @@ It can be used like:
 <script>
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
-    'sliderdots',
-    (sliders) => {
-      console.log('Attribute has successfully loaded!');
+    "sliderdots",
+    sliders => {
+      console.log("Attribute has successfully loaded!");
       console.log(sliders);
-    },
+    }
   ]);
 </script>
 ```

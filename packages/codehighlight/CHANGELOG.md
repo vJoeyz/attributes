@@ -1,5 +1,13 @@
 # @finsweet/attributes-codehighlight
 
+## 1.3.2
+
+### Patch Changes
+
+- Updated dependencies [627bf25]
+  - @global/factory@1.1.0
+  - @finsweet/attributes-richtext@1.7.1
+
 ## 1.3.1
 
 ### Patch Changes

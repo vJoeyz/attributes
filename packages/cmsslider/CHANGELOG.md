@@ -1,5 +1,13 @@
 # @finsweet/attributes-cmsslider
 
+## 1.5.2
+
+### Patch Changes
+
+- Updated dependencies [627bf25]
+  - @global/factory@1.1.0
+  - @finsweet/attributes-cmscore@1.6.7
+
 ## 1.5.1
 
 ### Patch Changes
@@ -23,11 +31,11 @@ It can be used like:
 <script>
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
-    'cmsslider',
-    (cmsLists) => {
-      console.log('Attribute has successfully loaded!');
+    "cmsslider",
+    cmsLists => {
+      console.log("Attribute has successfully loaded!");
       console.log(cmsLists);
-    },
+    }
   ]);
 </script>
 ```
