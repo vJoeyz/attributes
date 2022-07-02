@@ -1,5 +1,12 @@
 # @finsweet/attributes-favcustom
 
+## 1.3.2
+
+### Patch Changes
+
+- Updated dependencies [627bf25]
+  - @global/factory@1.1.0
+
 ## 1.3.1
 
 ### Patch Changes
@@ -23,11 +30,11 @@ It can be used like:
 <script>
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
-    'favcustom',
-    (linkHref) => {
-      console.log('Attribute has successfully loaded!');
+    "favcustom",
+    linkHref => {
+      console.log("Attribute has successfully loaded!");
       console.log(linkHref);
-    },
+    }
   ]);
 </script>
 ```

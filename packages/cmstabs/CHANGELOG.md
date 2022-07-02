@@ -1,5 +1,13 @@
 # @finsweet/attributes-cmstabs
 
+## 1.5.3
+
+### Patch Changes
+
+- Updated dependencies [627bf25]
+  - @global/factory@1.1.0
+  - @finsweet/attributes-cmscore@1.6.7
+
 ## 1.5.2
 
 ### Patch Changes
@@ -10,7 +18,7 @@
 
 ### Patch Changes
 
--  Selector for Collection List updated in schema.
+- Selector for Collection List updated in schema.
 
 ## 1.5.0
 
@@ -29,11 +37,11 @@ It can be used like:
 <script>
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
-    'cmstabs',
-    (cmsLists) => {
-      console.log('Attribute has successfully loaded!');
+    "cmstabs",
+    cmsLists => {
+      console.log("Attribute has successfully loaded!");
       console.log(cmsLists);
-    },
+    }
   ]);
 </script>
 ```

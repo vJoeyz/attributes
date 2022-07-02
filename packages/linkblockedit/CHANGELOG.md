@@ -1,5 +1,12 @@
 # @finsweet/attributes-linkblockedit
 
+## 1.3.1
+
+### Patch Changes
+
+- Updated dependencies [627bf25]
+  - @global/factory@1.1.0
+
 ## 1.3.0
 
 ### Minor Changes
@@ -17,11 +24,11 @@ It can be used like:
 <script>
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
-    'linkblockedit',
-    (elements) => {
-      console.log('Attribute has successfully loaded!');
+    "linkblockedit",
+    elements => {
+      console.log("Attribute has successfully loaded!");
       console.log(elements);
-    },
+    }
   ]);
 </script>
 ```

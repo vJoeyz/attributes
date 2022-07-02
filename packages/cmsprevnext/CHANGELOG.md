@@ -1,10 +1,18 @@
 # @finsweet/attributes-cmsprevnext
 
+## 1.4.2
+
+### Patch Changes
+
+- Updated dependencies [627bf25]
+  - @global/factory@1.1.0
+  - @finsweet/attributes-cmscore@1.6.7
+
 ## 1.4.1
 
 ### Patch Changes
 
--  Selector for Collection List updated in schema.
+- Selector for Collection List updated in schema.
 
 ## 1.4.0
 
@@ -23,11 +31,11 @@ It can be used like:
 <script>
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
-    'cmsprevnext',
-    (cmsLists) => {
-      console.log('Attribute has successfully loaded!');
+    "cmsprevnext",
+    cmsLists => {
+      console.log("Attribute has successfully loaded!");
       console.log(cmsLists);
-    },
+    }
   ]);
 </script>
 ```

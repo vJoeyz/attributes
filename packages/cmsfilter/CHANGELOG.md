@@ -1,5 +1,13 @@
 # @finsweet/attributes-cmsfilter
 
+## 1.12.1
+
+### Patch Changes
+
+- Updated dependencies [627bf25]
+  - @global/factory@1.1.0
+  - @finsweet/attributes-cmscore@1.6.7
+
 ## 1.12.0
 
 ### Minor Changes
@@ -44,11 +52,11 @@ It can be used like:
 <script>
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
-    'cmsfilter',
-    (cmsFilters) => {
-      console.log('Attribute has successfully loaded!');
+    "cmsfilter",
+    cmsFilters => {
+      console.log("Attribute has successfully loaded!");
       console.log(cmsFilters);
-    },
+    }
   ]);
 </script>
 ```
