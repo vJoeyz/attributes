@@ -4,13 +4,20 @@ import type { FormBlockElement, FormSuccessElement } from '@finsweet/ts-utils';
 import { redirectUser } from '../actions/redirect';
 import { collectPreventResetFields, resetForm } from '../actions/reset';
 import { enhancedSubmit } from '../actions/submit';
-import { checkFormSuccess, displayFormError, showFormError, showFormSuccess } from '../utils/dom';
+import {
+  checkFormSuccess,
+  showFormError,
+  hideFormError,
+  showFormSuccess,
+  displayFormSubmitWaitText,
+} from '../utils/dom';
 
 export class Form {
   public readonly form;
   public readonly formBlock;
   public readonly successMessage;
   public readonly errorMessage;
+  public readonly submitButtons;
 
   private redirect;
   private redirectTimeout;
@@ -60,6 +67,7 @@ export class Form {
     this.formBlock = formBlock;
     this.successMessage = formBlock.querySelector(`.${FORM_CSS_CLASSES.successMessage}`) as FormSuccessElement;
     this.errorMessage = formBlock.querySelector(`.${FORM_CSS_CLASSES.errorMessage}`) as FormErrorElement;
+    this.submitButtons = [...form.querySelectorAll<HTMLInputElement>('input[type="submit"]')];
 
     this.redirect = redirect;
     this.redirectTimeout = redirectTimeout;
@@ -179,12 +187,16 @@ export class Form {
 
     if (!action) return false;
 
-    showFormError(this);
+    hideFormError(this);
+
+    const resetSubmitText = displayFormSubmitWaitText(this);
 
     const success = await enhancedSubmit(form, action, method);
 
     if (success) showFormSuccess(this);
-    else displayFormError(this);
+    else showFormError(this);
+
+    resetSubmitText();
 
     return success;
   }
