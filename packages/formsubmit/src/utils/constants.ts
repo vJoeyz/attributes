@@ -6,7 +6,6 @@ const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
 
 export const FORM_ELEMENT_KEY = 'form';
 export const RESET_ELEMENT_KEY = 'reset';
-export const PREVENT_RESET_ELEMENT_KEY = 'prevent-reset';
 export const IX_TRIGGER_ELEMENT_KEY = 'ix-trigger';
 
 export const RESET_SETTING_KEY = 'reset';
@@ -38,21 +37,16 @@ export const ATTRIBUTES = {
       reset: generateDynamicAttibuteValue(RESET_ELEMENT_KEY),
 
       /**
-       * Defines an element that should be clicked after form submission.
+       * Defines an element that should be clicked after form submission, triggering a Mouse Click interaction.
        */
       ixTrigger: generateDynamicAttibuteValue(IX_TRIGGER_ELEMENT_KEY),
-
-      /**
-       * Defines an input that should be omitted when the form is reset.
-       */
-      preventReset: PREVENT_RESET_ELEMENT_KEY,
     },
   },
 
   /**
    * Defines if the form should reset all inputs after submission.
    * If set to true, it resets automatically.
-   * If set to a miliseconds value, it timeout before resetting.
+   * If set to a number in miliseconds, it will timeout before resetting.
    */
   reset: {
     key: `${ATTRIBUTES_PREFIX}-${RESET_SETTING_KEY}`,
@@ -70,7 +64,7 @@ export const ATTRIBUTES = {
   /**
    * Defines if the form should reload the page after submission.
    * If set to true, it reloads it automatically.
-   * If set to a miliseconds value, it timeout before reloading.
+   * If set to a number in miliseconds, it will timeout before reloading.
    */
   reload: {
     key: `${ATTRIBUTES_PREFIX}-${RELOAD_SETTING_KEY}`,
@@ -80,7 +74,7 @@ export const ATTRIBUTES = {
   /**
    * Defines if the form should redirect after submission.
    * If set to true, it redirects automatically.
-   * If set to a miliseconds value, it timeout before redirecting.
+   * If set to a number in miliseconds, it will timeout before redirecting.
    */
   redirect: {
     key: `${ATTRIBUTES_PREFIX}-${REDIRECT_SETTING_KEY}`,
