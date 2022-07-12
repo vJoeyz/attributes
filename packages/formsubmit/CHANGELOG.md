@@ -1,5 +1,11 @@
 # @finsweet/attributes-formsubmit
 
+## 1.1.1
+
+### Patch Changes
+
+- f0da85d: Added examples
+
 ## 1.1.0
 
 ### Minor Changes
