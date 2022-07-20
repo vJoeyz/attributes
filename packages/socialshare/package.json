@@ -43,6 +43,7 @@
     "@global/types": "workspace:*"
   },
   "dependencies": {
+    "@finsweet/ts-utils": "^0.33.1",
     "@global/helpers": "workspace:*",
     "@global/factory": "workspace:*",
     "@global/constants": "workspace:*"
