@@ -84,7 +84,12 @@ export function collectSocialData(
   instanceIndex: number | undefined,
   scope: HTMLElement | undefined
 ): SocialShare | null {
-  const socialShareButton = queryElement<HTMLElement>(elementKey, { instanceIndex, operator: 'prefixed', scope });
+  const socialShareButton = queryElement<HTMLElement>(elementKey, {
+    instanceIndex,
+    operator: 'prefixed',
+    scope,
+    caseInsensitive: true,
+  });
 
   if (!socialShareButton) {
     return null;
