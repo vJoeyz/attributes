@@ -16,25 +16,27 @@ const {
  * Inits the attribute.
  */
 export const init = (): void => {
-  const contentElements = queryElement<HTMLElement>('content', { operator: 'prefixed', all: true });
+  document.addEventListener('DOMContentLoaded', () => {
+    const contentElements = queryElement<HTMLElement>('content', { operator: 'prefixed', all: true });
 
-  contentElements.forEach((contentElement) => {
-    const instanceIndex = getInstanceIndex(contentElement, elementKey);
+    contentElements.forEach((contentElement) => {
+      const instanceIndex = getInstanceIndex(contentElement, elementKey);
 
-    const cmsListItem = contentElement.closest<HTMLElement>(`.${CMS_CSS_CLASSES.item}`) || undefined;
+      const cmsListItem = contentElement.closest<HTMLElement>(`.${CMS_CSS_CLASSES.item}`) || undefined;
 
-    const urlElement = queryElement<HTMLElement>('url', { operator: 'prefixed', scope: cmsListItem });
+      const urlElement = queryElement<HTMLElement>('url', { operator: 'prefixed', scope: cmsListItem });
 
-    const facebook = collectFacebookData(instanceIndex, cmsListItem);
-    const twitter = collectTwitterData(instanceIndex, cmsListItem);
-    const pinterest = collectPinterestData(instanceIndex, cmsListItem);
-    const reddit = collectSocialData('reedit', instanceIndex, cmsListItem);
-    const linkedin = collectSocialData('linkedin', instanceIndex, cmsListItem);
-    const telegram = collectSocialData('telegram', instanceIndex, cmsListItem);
+      const facebook = collectFacebookData(instanceIndex, cmsListItem);
+      const twitter = collectTwitterData(instanceIndex, cmsListItem);
+      const pinterest = collectPinterestData(instanceIndex, cmsListItem);
+      const reddit = collectSocialData('reedit', instanceIndex, cmsListItem);
+      const linkedin = collectSocialData('linkedin', instanceIndex, cmsListItem);
+      const telegram = collectSocialData('telegram', instanceIndex, cmsListItem);
 
-    const contentText = contentElement.innerText;
-    const contentUrl = urlElement ? urlElement.innerText : window.location.href;
+      const contentText = contentElement.innerText;
+      const contentUrl = urlElement ? urlElement.innerText : window.location.href;
 
-    socialShareFactory(contentText, contentUrl, facebook, twitter, pinterest, reddit, telegram, linkedin);
+      socialShareFactory(contentText, contentUrl, facebook, twitter, pinterest, reddit, telegram, linkedin);
+    });
   });
 };
