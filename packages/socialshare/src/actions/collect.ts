@@ -38,7 +38,7 @@ export function collectTwitterData(
   }
 
   const hashtagsElement = queryElement<HTMLElement>('twitterHashtags', { instanceIndex, operator: 'prefixed', scope });
-  const hashtagsText = hashtagsElement ? hashtagsElement.innerText : null;
+  const hashtagsText = hashtagsElement ? hashtagsElement.innerText.replace(/[^a-zA-Z0-9_,]/g, '') : null;
 
   const usernameElement = queryElement<HTMLElement>('twitterUsername', { instanceIndex, operator: 'prefixed', scope });
   const userNameText = usernameElement ? usernameElement.innerText : null;
@@ -62,20 +62,21 @@ export function collectPinterestData(
   }
 
   const imageElement = queryElement<HTMLElement>('pinterestImage', { instanceIndex, operator: 'prefixed', scope });
-  const imageText = imageElement ? imageElement.innerText : null;
+  const imageText = imageElement ? imageElement.getAttribute('src') : null;
 
   const descriptionElement = queryElement<HTMLElement>('pinterestDescription', {
     instanceIndex,
     operator: 'prefixed',
     scope,
   });
-  const descriptioText = descriptionElement ? descriptionElement.innerText : null;
+
+  const descriptionText = descriptionElement ? descriptionElement.innerText : null;
 
   return {
     ...pinterestButton,
     type: 'pinterest',
     image: imageText,
-    description: descriptioText,
+    description: descriptionText,
   };
 }
 
@@ -110,7 +111,8 @@ export function collectSize(button: HTMLElement, selector: string, defaultValue:
   const buttonWidth = button.getAttribute(selector);
 
   if (buttonWidth) {
-    return parseInt(buttonWidth);
+    const value = parseInt(buttonWidth);
+    return isNaN(value) ? defaultValue : value;
   }
 
   const closestElementWidth = button.closest(`[${selector}]`);
@@ -125,5 +127,6 @@ export function collectSize(button: HTMLElement, selector: string, defaultValue:
     return defaultValue;
   }
 
-  return parseInt(closestWidth);
+  const value = parseInt(closestWidth);
+  return isNaN(value) ? defaultValue : value;
 }

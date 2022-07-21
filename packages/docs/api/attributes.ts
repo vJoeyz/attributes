@@ -368,4 +368,17 @@ export const attributesData: AttributesData = [
     readmeSrc: 'README.md',
     allowSupport: true,
   },
+  {
+    key: 'socialshare',
+    title: 'Social Share',
+    description: 'Share content to social media platforms. Works with Collection Lists, Templates, and static content.',
+    href: 'https://www.finsweet.com/attributes/social-share',
+    baseSrc: 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-socialshare@1',
+    scriptSrc: 'socialshare.js',
+    examplesSrc: 'examples.json',
+    loadMode: 'defer',
+    changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
+    allowSupport: false,
+  },
 ];

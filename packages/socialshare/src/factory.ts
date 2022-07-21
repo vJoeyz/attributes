@@ -95,18 +95,12 @@ function createSocialShare(
   height: number
 ): void {
   button.addEventListener('click', function () {
-    const notNullParams: { [key: string]: string } = Object.keys(params)
-      .filter((paramKey: string) => params[paramKey] !== null)
-      .reduce((newParams, paramKey: string) => {
-        return {
-          ...newParams,
-          [paramKey]: params[paramKey],
-        };
-      }, {});
+    const shareUrl = new URL(urlSocialMedia);
+    const shareParams = Object.entries(params);
 
-    const urlParams = new URLSearchParams(notNullParams).toString();
-
-    const shareUrl = urlSocialMedia + (urlParams ? '?' + urlParams : '');
+    for (const [key, value] of shareParams) {
+      if (value) shareUrl.searchParams.append(key, value);
+    }
 
     const left = window.innerWidth / 2 - width / 2 + window.screenX;
     const top = window.innerHeight / 2 - height / 2 + window.screenY;

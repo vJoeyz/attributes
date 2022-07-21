@@ -47,9 +47,9 @@ export const ATTRIBUTES = {
        */
       telegram: generateDynamicAttibuteValue(TELEGRAM_ELEMENT_KEY),
       /**
-       * Defines an Reedit social button
+       * Defines an Reddit social button
        */
-      reedit: generateDynamicAttibuteValue(REDDIT_ELEMENT_KEY),
+      reddit: generateDynamicAttibuteValue(REDDIT_ELEMENT_KEY),
       /**
        * Defines the Content to be share into social media
        */

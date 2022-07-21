@@ -1,7 +1,7 @@
-// import { logHello } from './actions/console';
-// import { getInstanceIndex } from '@global/helpers';
+import { ATTRIBUTE as CMS_LOAD_ATTRIBUTE } from '@finsweet/attributes-cmsload/src/utils/constants';
 import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
 import { getInstanceIndex } from '@global/helpers';
+import type { CMSList } from 'packages/cmscore/src';
 
 import { collectFacebookData, collectPinterestData, collectSocialData, collectTwitterData } from './actions/collect';
 import { socialShareFactory } from './factory';
@@ -15,10 +15,28 @@ const {
 /**
  * Inits the attribute.
  */
-export const init = (): void => {
-  const contentElements = [...queryElement<HTMLElement>('content', { operator: 'prefixed', all: true })];
+export const init = async (): Promise<void> => {
+  const listInstances: CMSList[] = (await window.fsAttributes[CMS_LOAD_ATTRIBUTE]?.loading) || [];
 
-  const socialShareFactories = contentElements.map((contentElement) => {
+  const contentElementsSet = new Set([...queryElement<HTMLElement>('content', { operator: 'prefixed', all: true })]);
+
+  for (const { items } of listInstances) {
+    for (const { element } of items) {
+      const itemContentElements = queryElement<HTMLElement>('content', {
+        operator: 'prefixed',
+        all: true,
+        scope: element,
+      });
+
+      for (const itemContentElement of itemContentElements) {
+        contentElementsSet.add(itemContentElement);
+      }
+    }
+  }
+
+  const contentElements = [...contentElementsSet];
+
+  contentElements.forEach((contentElement) => {
     const instanceIndex = getInstanceIndex(contentElement, elementKey);
 
     const cmsListItem = contentElement.closest<HTMLElement>(`.${CMS_CSS_CLASSES.item}`) || undefined;
@@ -28,7 +46,7 @@ export const init = (): void => {
     const facebook = collectFacebookData(instanceIndex, cmsListItem);
     const twitter = collectTwitterData(instanceIndex, cmsListItem);
     const pinterest = collectPinterestData(instanceIndex, cmsListItem);
-    const reddit = collectSocialData('reedit', instanceIndex, cmsListItem);
+    const reddit = collectSocialData('reddit', instanceIndex, cmsListItem);
     const linkedin = collectSocialData('linkedin', instanceIndex, cmsListItem);
     const telegram = collectSocialData('telegram', instanceIndex, cmsListItem);
 
@@ -38,5 +56,5 @@ export const init = (): void => {
     socialShareFactory(contentText, contentUrl, facebook, twitter, pinterest, reddit, telegram, linkedin);
   });
 
-  window.fsAttributes[ATTRIBUTE].resolve?.(socialShareFactories);
+  window.fsAttributes[ATTRIBUTE].resolve?.(undefined);
 };

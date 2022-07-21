@@ -667,6 +667,8 @@ importers:
 
   packages/socialshare:
     specifiers:
+      '@finsweet/attributes-cmscore': workspace:*
+      '@finsweet/attributes-cmsload': workspace:*
       '@finsweet/ts-utils': ^0.33.1
       '@global/build': workspace:*
       '@global/constants': workspace:*
@@ -675,11 +677,13 @@ importers:
       '@global/tests': workspace:*
       '@global/types': workspace:*
     dependencies:
+      '@finsweet/attributes-cmsload': link:../cmsload
       '@finsweet/ts-utils': 0.33.1
       '@global/constants': link:../../global/constants
       '@global/factory': link:../../global/factory
       '@global/helpers': link:../../global/helpers
     devDependencies:
+      '@finsweet/attributes-cmscore': link:../cmscore
       '@global/build': link:../../global/build
       '@global/tests': link:../../global/tests
       '@global/types': link:../../global/types
