@@ -61,8 +61,8 @@ export function collectPinterestData(
     return null;
   }
 
-  const imageElement = queryElement<HTMLElement>('pinterestImage', { instanceIndex, operator: 'prefixed', scope });
-  const imageText = imageElement ? imageElement.getAttribute('src') : null;
+  const imageElement = queryElement<HTMLImageElement>('pinterestImage', { instanceIndex, operator: 'prefixed', scope });
+  const imageSrc = imageElement ? imageElement.src : null;
 
   const descriptionElement = queryElement<HTMLElement>('pinterestDescription', {
     instanceIndex,
@@ -75,7 +75,7 @@ export function collectPinterestData(
   return {
     ...pinterestButton,
     type: 'pinterest',
-    image: imageText,
+    image: imageSrc,
     description: descriptionText,
   };
 }
