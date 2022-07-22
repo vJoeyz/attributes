@@ -188,6 +188,7 @@ importers:
   packages/cmsfilter:
     specifiers:
       '@finsweet/attributes-cmscore': workspace:*
+      '@finsweet/attributes-queryparam': workspace:*
       '@finsweet/ts-utils': ^0.33.1
       '@global/build': workspace:*
       '@global/constants': workspace:*
@@ -198,6 +199,7 @@ importers:
       just-debounce: ^1.1.0
     dependencies:
       '@finsweet/attributes-cmscore': link:../cmscore
+      '@finsweet/attributes-queryparam': link:../queryparam
       '@finsweet/ts-utils': 0.33.1
       '@global/constants': link:../../global/constants
       '@global/factory': link:../../global/factory
@@ -545,6 +547,7 @@ importers:
 
   packages/queryparam:
     specifiers:
+      '@finsweet/attributes-cmsfilter': workspace:*
       '@finsweet/ts-utils': ^0.33.1
       '@global/build': workspace:*
       '@global/constants': workspace:*
@@ -552,6 +555,7 @@ importers:
       '@global/tests': workspace:*
       '@global/types': workspace:*
     dependencies:
+      '@finsweet/attributes-cmsfilter': link:../cmsfilter
       '@finsweet/ts-utils': 0.33.1
       '@global/constants': link:../../global/constants
       '@global/factory': link:../../global/factory
