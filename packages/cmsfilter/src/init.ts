@@ -1,5 +1,6 @@
 import type { CMSList } from '@finsweet/attributes-cmscore';
 import { importCMSCore } from '@finsweet/attributes-cmscore';
+import { ATTRIBUTE as QUERY_PARAM_ATTRIBUTE } from '@finsweet/attributes-queryparam/src/utils/constants';
 import { isNotEmpty } from '@finsweet/ts-utils';
 
 import { listenListEvents } from './actions/events';
@@ -13,6 +14,8 @@ import { ATTRIBUTE, getSelector } from './utils/constants';
 export const init = async (): Promise<CMSFilters[]> => {
   const cmsCore = await importCMSCore();
   if (!cmsCore) return [];
+
+  await window.fsAttributes[QUERY_PARAM_ATTRIBUTE]?.loading;
 
   const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
