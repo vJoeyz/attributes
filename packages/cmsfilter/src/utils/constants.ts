@@ -1,8 +1,7 @@
 import { generateDynamicAttibuteValue, generateSelectors } from '@global/factory';
+import { CMS_FILTER_ATTRIBUTE } from 'global/constants/attributes';
 
-export const ATTRIBUTE = 'cmsfilter';
-
-const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
+const ATTRIBUTES_PREFIX = `fs-${CMS_FILTER_ATTRIBUTE}`;
 
 export const LIST_ELEMENT_KEY = 'list';
 export const FILTERS_ELEMENT_KEY = 'filters';
