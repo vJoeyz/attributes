@@ -26,6 +26,7 @@ export function queryParamFactory(elements: HTMLElement[], value: string) {
       for (const option of options) {
         if (option.getAttribute('value') === value || option.innerHTML === value) {
           option.setAttribute('selected', 'selected');
+          break;
         }
       }
       continue;
