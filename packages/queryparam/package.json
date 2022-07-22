@@ -45,7 +45,6 @@
   "dependencies": {
     "@global/factory": "workspace:*",
     "@global/constants": "workspace:*",
-    "@finsweet/ts-utils": "^0.33.1",
-    "@finsweet/attributes-cmsfilter": "workspace:*"
+    "@finsweet/ts-utils": "^0.33.1"
   }
 }

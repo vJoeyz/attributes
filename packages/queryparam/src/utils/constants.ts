@@ -1,8 +1,7 @@
 import { generateSelectors } from '@global/factory';
+import { QUERY_PARAM_ATTRIBUTE } from 'global/constants/attributes';
 
-export const ATTRIBUTE = 'queryparam';
-
-const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
+const ATTRIBUTES_PREFIX = `fs-${QUERY_PARAM_ATTRIBUTE}`;
 
 export const NAME_SETTING_KEY = 'name';
 export const REMOVE_QUERY_SETTING_KEY = 'removequery';

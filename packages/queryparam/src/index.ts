@@ -1,18 +1,18 @@
 import { assessScript, initAttributes } from '@global/factory';
+import { QUERY_PARAM_ATTRIBUTE } from 'global/constants/attributes';
 
 import { version } from '../package.json';
 import { init } from './init';
-import { ATTRIBUTE } from './utils/constants';
 
 /**
  * Init
  */
 initAttributes();
 
-window.fsAttributes[ATTRIBUTE] ||= {};
+window.fsAttributes[QUERY_PARAM_ATTRIBUTE] ||= {};
 
 const { preventsLoad } = assessScript();
-const attribute = window.fsAttributes[ATTRIBUTE];
+const attribute = window.fsAttributes[QUERY_PARAM_ATTRIBUTE];
 
 attribute.version = version;
 

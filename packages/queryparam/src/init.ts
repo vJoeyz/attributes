@@ -1,4 +1,4 @@
-import { ATTRIBUTE as CMS_FILTER_ATTRIBUTE } from '@finsweet/attributes-cmsfilter/src/utils/constants';
+import { CMS_FILTER_ATTRIBUTE, QUERY_PARAM_ATTRIBUTE } from 'global/constants/attributes';
 
 import { queryParamFactory } from './factory';
 import { ATTRIBUTES } from './utils/constants';
@@ -32,4 +32,6 @@ export const init = async (): Promise<void> => {
   }
 
   history.replaceState(null, '', url.toString());
+
+  window.fsAttributes[QUERY_PARAM_ATTRIBUTE].resolve?.(undefined);
 };
