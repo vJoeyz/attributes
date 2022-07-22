@@ -5,11 +5,9 @@ import { ATTRIBUTES } from './utils/constants';
  * Inits the attribute.
  */
 export const init = (): void => {
-  const urlParams = new URLSearchParams(window.location.search);
+  const url = new URL(window.location.href);
 
-  const paramsToDelete = [];
-
-  for (const [paramKey, paramValue] of urlParams) {
+  for (const [paramKey, paramValue] of [...url.searchParams]) {
     const queryParamElements = [...document.querySelectorAll<HTMLElement>(`[${ATTRIBUTES.name.key}="${paramKey}"]`)];
 
     if (queryParamElements.length < 1) {
@@ -19,17 +17,13 @@ export const init = (): void => {
     queryParamFactory(queryParamElements, paramValue);
 
     const removeParamFromUrl = queryParamElements.some((element) => {
-      return element.hasAttribute(ATTRIBUTES.removequery.key);
+      return element.hasAttribute(ATTRIBUTES.removeQuery.key);
     });
 
     if (removeParamFromUrl) {
-      paramsToDelete.push(paramKey);
+      url.searchParams.delete(paramKey);
     }
   }
 
-  for (const paramKey of paramsToDelete) {
-    urlParams.delete(paramKey);
-  }
-
-  history.replaceState(null, '', '?' + urlParams.toString());
+  history.replaceState(null, '', url.toString());
 };

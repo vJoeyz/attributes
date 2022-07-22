@@ -12,7 +12,7 @@ export const ATTRIBUTES = {
   name: {
     key: `${ATTRIBUTES_PREFIX}-${NAME_SETTING_KEY}`,
   },
-  removequery: {
+  removeQuery: {
     key: `${ATTRIBUTES_PREFIX}-${REMOVE_QUERY_SETTING_KEY}`,
     values: REMOVE_QUERY_SETTING_VALUES,
   },
