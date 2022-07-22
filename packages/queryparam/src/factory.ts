@@ -1,21 +1,10 @@
+import { FORM_CSS_CLASSES } from '@finsweet/ts-utils';
+
 export function queryParamFactory(elements: HTMLElement[], value: string) {
   for (const element of elements) {
-    // select, textarea and input
-    if (
-      element instanceof HTMLSelectElement ||
-      element instanceof HTMLTextAreaElement ||
-      (element instanceof HTMLInputElement && element.type !== 'button')
-    ) {
-      element.value = value;
-      continue;
-    }
-
-    const parentElement = element.parentNode;
-
     // checkbox
-    const checkbox =
-      parentElement?.querySelector<HTMLInputElement>(':scope > input[type="checkbox"]') ||
-      element.querySelector<HTMLInputElement>(':scope > input[type="checkbox"]');
+    const checkboxField = element.closest(`.${FORM_CSS_CLASSES.checkboxField}`);
+    const checkbox = checkboxField ? checkboxField.querySelector('input') : null;
 
     if (checkbox) {
       checkbox.checked = true;
@@ -23,14 +12,30 @@ export function queryParamFactory(elements: HTMLElement[], value: string) {
     }
 
     // radio
-    const radio =
-      parentElement?.querySelector<HTMLInputElement>(':scope > input[type="radio"]') ||
-      element.querySelector<HTMLInputElement>(':scope > input[type="radio"]');
+    const radioField = element.closest(`.${FORM_CSS_CLASSES.radioField}`);
+    const radio = radioField ? radioField.querySelector('input') : null;
 
     if (radio) {
-      if (radio.value === value) {
-        radio.checked = true;
+      const form = radio.closest('form');
+
+      if (form) {
+        const groupRadios = [...form.querySelectorAll<HTMLInputElement>(`input[name="${radio.name}"]`)];
+        const targetRadio = groupRadios.find((radio) => radio.value === value);
+
+        if (targetRadio) {
+          targetRadio.checked = true;
+        }
+        continue;
       }
+    }
+
+    // select, textarea and input
+    if (
+      element instanceof HTMLSelectElement ||
+      element instanceof HTMLTextAreaElement ||
+      (element instanceof HTMLInputElement && element.type !== 'button')
+    ) {
+      element.value = value;
       continue;
     }
 
