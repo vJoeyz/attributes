@@ -1,4 +1,4 @@
-import { CMS_FILTER_ATTRIBUTE, QUERY_PARAM_ATTRIBUTE } from 'global/constants/attributes';
+import { CMS_FILTER_ATTRIBUTE, QUERY_PARAM_ATTRIBUTE } from '@global/constants/attributes';
 
 import { queryParamFactory } from './factory';
 import { ATTRIBUTES } from './utils/constants';
