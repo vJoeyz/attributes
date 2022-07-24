@@ -130,6 +130,21 @@ importers:
       '@global/tests': link:../../global/tests
       '@global/types': link:../../global/types
 
+  packages/cmsattribute:
+    specifiers:
+      '@global/build': workspace:*
+      '@global/constants': workspace:*
+      '@global/factory': workspace:*
+      '@global/tests': workspace:*
+      '@global/types': workspace:*
+    dependencies:
+      '@global/constants': link:../../global/constants
+      '@global/factory': link:../../global/factory
+    devDependencies:
+      '@global/build': link:../../global/build
+      '@global/tests': link:../../global/tests
+      '@global/types': link:../../global/types
+
   packages/cmscombine:
     specifiers:
       '@finsweet/attributes-cmscore': workspace:*
