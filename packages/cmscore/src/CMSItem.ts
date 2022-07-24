@@ -56,9 +56,14 @@ export class CMSItem {
     /**
      * The element's current index in the rendered DOM.
      */
-    public currentIndex?: number
+    public currentIndex?: number,
+    /**
+     * The element's static place
+     */
+    public staticIndex?: number | null
   ) {
     this.href = element.querySelector('a')?.href;
+    this.staticIndex = staticIndex || null;
 
     const rendered = typeof currentIndex === 'number';
 
