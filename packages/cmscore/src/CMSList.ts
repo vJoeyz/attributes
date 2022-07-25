@@ -256,7 +256,7 @@ export class CMSList extends Emittery<CMSListEvents> {
     await this.emit('additems', newItems);
   }
 
-  public async addStaticItems(itemElement: HTMLDivElement, order: number, interactive: boolean) {
+  public async addStaticItem(itemElement: HTMLDivElement, order: number, interactive: boolean) {
     const { items, list, originalItemsOrder } = this;
 
     if (!list) return;
@@ -265,7 +265,7 @@ export class CMSList extends Emittery<CMSListEvents> {
 
     const newItems = [newItem];
 
-    for (const array of [items, originalItemsOrder]) array['push'](...newItems);
+    for (const array of [items, originalItemsOrder]) array.splice(order - 1, 0, newItem);
 
     await this.emit('shouldnest', newItems);
     await this.emit('shouldcollectprops', newItems);

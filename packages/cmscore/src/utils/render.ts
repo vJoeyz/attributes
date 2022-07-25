@@ -21,7 +21,6 @@ export const renderListItems = async (listInstance: CMSList, animateItems = fals
   const validItems: CMSItem[] = [];
   const itemsToHide: CMSItem[] = [];
   const itemsToShow: CMSItem[] = [];
-  const staticItems: CMSItem[] = [];
 
   for (const item of items) {
     const { valid, currentIndex } = item;
@@ -29,11 +28,6 @@ export const renderListItems = async (listInstance: CMSList, animateItems = fals
 
     if (valid) {
       validItems.push(item);
-
-      if (item.staticIndex) {
-        staticItems.push(item);
-        continue;
-      }
 
       if (!paginationActive || !currentPage) {
         itemsToShow.push(item);
@@ -60,12 +54,6 @@ export const renderListItems = async (listInstance: CMSList, animateItems = fals
 
   itemsToShow.forEach((item, index) => {
     if (item.currentIndex !== index) itemsToAnchor.push([item, index, itemsToShow[index - 1]]);
-  });
-
-  staticItems.forEach((item) => {
-    if (item.staticIndex) {
-      itemsToAnchor.push([item, item.staticIndex, undefined]);
-    }
   });
 
   // Animate the list
@@ -154,12 +142,7 @@ const showItems = (itemsToAnchor: AnchorData[], { list, itemsAnimation }: CMSLis
 
           await animateIn(element, { ...settings, prepared: true });
         } else {
-          if (item.staticIndex) {
-            const listItem = list.querySelector<HTMLElement>(`:scope > .w-dyn-item:nth-child(${item.staticIndex - 1})`);
-            if (listItem) {
-              listItem.insertAdjacentElement('afterend', element);
-            }
-          } else if (anchorElement) list.insertBefore(element, anchorElement.nextSibling);
+          if (anchorElement) list.insertBefore(element, anchorElement.nextSibling);
           else list.prepend(element);
 
           iOSReRenderImages(element);
