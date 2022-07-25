@@ -1,8 +1,7 @@
+import { SOCIAL_SHARE_ATTRIBUTE } from '@global/constants/attributes';
 import { generateSelectors, generateDynamicAttibuteValue } from '@global/factory';
 
-export const ATTRIBUTE = 'socialshare';
-
-const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
+const ATTRIBUTES_PREFIX = `fs-${SOCIAL_SHARE_ATTRIBUTE}`;
 
 export const FACEBOOK_ELEMENT_KEY = 'facebook';
 export const TWITTER_ELEMENT_KEY = 'twitter';

@@ -1,7 +1,7 @@
 import { importCMSCore } from '@finsweet/attributes-cmscore';
+import { CMS_FILTER_ATTRIBUTE } from '@global/constants/attributes';
 import { assessScript, initAttributes } from '@global/factory';
 import { importAnimations } from '@global/import';
-import { CMS_FILTER_ATTRIBUTE } from 'global/constants/attributes';
 
 import { version } from '../package.json';
 import { init } from './init';

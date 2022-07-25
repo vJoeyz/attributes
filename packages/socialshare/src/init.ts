@@ -1,11 +1,11 @@
-import { ATTRIBUTE as CMS_LOAD_ATTRIBUTE } from '@finsweet/attributes-cmsload/src/utils/constants';
 import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
+import { CMS_LOAD_ATTRIBUTE, SOCIAL_SHARE_ATTRIBUTE } from '@global/constants/attributes';
 import { getInstanceIndex } from '@global/helpers';
 import type { CMSList } from 'packages/cmscore/src';
 
 import { collectFacebookData, collectPinterestData, collectSocialData, collectTwitterData } from './actions/collect';
 import { socialShareFactory } from './factory';
-import { ATTRIBUTE, ATTRIBUTES, queryElement } from './utils/constants';
+import { ATTRIBUTES, queryElement } from './utils/constants';
 
 // Constants destructuring
 const {
@@ -56,5 +56,5 @@ export const init = async (): Promise<void> => {
     socialShareFactory(contentText, contentUrl, facebook, twitter, pinterest, reddit, telegram, linkedin);
   });
 
-  window.fsAttributes[ATTRIBUTE].resolve?.(undefined);
+  window.fsAttributes[SOCIAL_SHARE_ATTRIBUTE].resolve?.(undefined);
 };

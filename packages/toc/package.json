@@ -47,7 +47,6 @@
   },
   "dependencies": {
     "@finsweet/ts-utils": "^0.33.1",
-    "@finsweet/attributes-richtext": "workspace:*",
     "@global/constants": "workspace:*",
     "@global/factory": "workspace:*",
     "@global/helpers": "workspace:*",

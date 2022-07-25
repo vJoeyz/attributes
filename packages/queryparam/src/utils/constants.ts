@@ -1,5 +1,5 @@
+import { QUERY_PARAM_ATTRIBUTE } from '@global/constants/attributes';
 import { generateSelectors } from '@global/factory';
-import { QUERY_PARAM_ATTRIBUTE } from 'global/constants/attributes';
 
 const ATTRIBUTES_PREFIX = `fs-${QUERY_PARAM_ATTRIBUTE}`;
 
