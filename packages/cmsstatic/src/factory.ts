@@ -7,9 +7,9 @@ export async function initStaticInstance(listInstance: CMSList) {
 
   const staticElements = [...queryElement<HTMLDivElement>('staticItem', { all: true, instanceIndex })];
 
-  console.log(staticElements);
   for (const staticElement of staticElements) {
     const order = staticElement.getAttribute(ATTRIBUTES.order.key);
+
     const interactive = staticElement.getAttribute(ATTRIBUTES.interactive.key);
 
     if (!order) {
@@ -22,6 +22,6 @@ export async function initStaticInstance(listInstance: CMSList) {
       continue;
     }
 
-    await listInstance.addStaticItems(staticElement, orderNumber, !!interactive);
+    await listInstance.addStaticItem(staticElement, orderNumber, !!interactive);
   }
 }
