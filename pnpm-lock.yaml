@@ -276,7 +276,6 @@ importers:
   packages/cmsselect:
     specifiers:
       '@finsweet/attributes-cmscore': workspace:*
-      '@finsweet/attributes-cmsload': workspace:*
       '@finsweet/ts-utils': ^0.33.1
       '@global/build': workspace:*
       '@global/constants': workspace:*
@@ -286,7 +285,6 @@ importers:
       '@global/types': workspace:*
     dependencies:
       '@finsweet/attributes-cmscore': link:../cmscore
-      '@finsweet/attributes-cmsload': link:../cmsload
       '@finsweet/ts-utils': 0.33.1
       '@global/constants': link:../../global/constants
       '@global/factory': link:../../global/factory
