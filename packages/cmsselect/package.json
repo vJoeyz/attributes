@@ -44,7 +44,6 @@
   },
   "dependencies": {
     "@finsweet/attributes-cmscore": "workspace:*",
-    "@finsweet/attributes-cmsload": "workspace:*",
     "@global/constants": "workspace:*",
     "@global/factory": "workspace:*",
     "@global/helpers": "workspace:*",
