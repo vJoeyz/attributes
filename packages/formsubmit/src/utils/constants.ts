@@ -1,8 +1,7 @@
+import { FORM_SUBMIT_ATTRIBUTE } from '@global/constants/attributes';
 import { generateDynamicAttibuteValue, generateSelectors } from '@global/factory';
 
-export const ATTRIBUTE = 'formsubmit';
-
-const ATTRIBUTES_PREFIX = `fs-${ATTRIBUTE}`;
+const ATTRIBUTES_PREFIX = `fs-${FORM_SUBMIT_ATTRIBUTE}`;
 
 export const FORM_ELEMENT_KEY = 'form';
 export const RESET_ELEMENT_KEY = 'reset';

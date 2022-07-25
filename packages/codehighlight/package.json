@@ -49,7 +49,6 @@
   },
   "dependencies": {
     "@global/factory": "workspace:*",
-    "@global/constants": "workspace:*",
-    "@finsweet/attributes-richtext": "workspace:*"
+    "@global/constants": "workspace:*"
   }
 }
