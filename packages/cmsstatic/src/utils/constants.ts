@@ -6,6 +6,8 @@ const ATTRIBUTES_PREFIX = `fs-${CMS_STATIC_ATTRIBUTE}`;
 export const LIST_ELEMENT_KEY = 'list';
 export const STATIC_ITEM_ELEMENT_KEY = 'static-item';
 export const ORDER_SETTING_KEY = 'order';
+export const INTERACTIVE_SETTING_KEY = 'interactive';
+export const INTERACTIVE_SETTING_VALUES = { true: 'true' } as const;
 
 export const ATTRIBUTES = {
   element: {
@@ -27,6 +29,10 @@ export const ATTRIBUTES = {
    */
   order: {
     key: `${ATTRIBUTES_PREFIX}-${ORDER_SETTING_KEY}`,
+  },
+  interactive: {
+    key: `${ATTRIBUTES_PREFIX}-${INTERACTIVE_SETTING_KEY}`,
+    values: INTERACTIVE_SETTING_VALUES,
   },
 } as const;
 

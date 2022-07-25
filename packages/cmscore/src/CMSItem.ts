@@ -60,10 +60,13 @@ export class CMSItem {
     /**
      * The element's static place
      */
-    public staticIndex?: number | null
+    public staticIndex?: number | null,
+
+    public interactive?: boolean | null
   ) {
     this.href = element.querySelector('a')?.href;
     this.staticIndex = staticIndex || null;
+    this.interactive = interactive;
 
     const rendered = typeof currentIndex === 'number';
 

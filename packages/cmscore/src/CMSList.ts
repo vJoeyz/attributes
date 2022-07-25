@@ -256,12 +256,12 @@ export class CMSList extends Emittery<CMSListEvents> {
     await this.emit('additems', newItems);
   }
 
-  public async addStaticItems(itemElement: HTMLDivElement, order: number) {
+  public async addStaticItems(itemElement: HTMLDivElement, order: number, interactive: boolean) {
     const { items, list, originalItemsOrder } = this;
 
     if (!list) return;
 
-    const newItem = new CMSItem(itemElement, list, undefined, order);
+    const newItem = new CMSItem(itemElement, list, undefined, order, interactive);
 
     const newItems = [newItem];
 
