@@ -1,5 +1,5 @@
 import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
-import { CMS_LOAD_ATTRIBUTE } from 'global/constants/attributes';
+import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_LOAD_ATTRIBUTE } from 'global/constants/attributes';
 import type { CMSList } from 'packages/cmscore/src';
 
 import { createCMSAttribute } from './factory';
@@ -32,4 +32,6 @@ export const init = async (): Promise<void> => {
       }
     }
   }
+
+  window.fsAttributes[CMS_ATTRIBUTE_ATTRIBUTE].resolve?.(undefined);
 };
