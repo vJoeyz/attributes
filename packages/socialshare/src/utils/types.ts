@@ -3,7 +3,6 @@ import type { ATTRIBUTES } from './constants';
 export type SocialShareTypes = keyof typeof ATTRIBUTES['element']['values'];
 
 export interface SocialShare {
-  // button: HTMLElement;
   width: number;
   height: number;
   type: SocialShareTypes;
