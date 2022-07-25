@@ -1,4 +1,4 @@
-import { ATTRIBUTE as CMS_LOAD_ATTRIBUTE } from '@finsweet/attributes-cmsload/src/utils/constants';
+import { CMS_LOAD_ATTRIBUTE, SOCIAL_SHARE_ATTRIBUTE } from 'global/constants/attributes';
 import type { CMSList } from 'packages/cmscore/src';
 
 import {
@@ -9,7 +9,7 @@ import {
   createTelegramButton,
   createTwitterButton,
 } from './factory';
-import { ATTRIBUTE, queryElement } from './utils/constants';
+import { queryElement } from './utils/constants';
 
 /**
  * Inits the attribute.
@@ -71,5 +71,5 @@ export const init = async (): Promise<void> => {
     }
   }
 
-  window.fsAttributes[ATTRIBUTE].resolve?.(undefined);
+  window.fsAttributes[SOCIAL_SHARE_ATTRIBUTE].resolve?.(undefined);
 };
