@@ -8,34 +8,28 @@ import type {
 } from './../utils/types';
 
 export function collectFacebookData(
+  trigger: HTMLElement,
   instanceIndex: number | undefined,
   scope: HTMLElement | undefined
-): FacebookSocialShare | null {
-  const facebookButton = collectSocialData('facebook', instanceIndex, scope);
-
-  if (facebookButton === null) {
-    return null;
-  }
+): FacebookSocialShare {
+  const socialData = collectSocialData(trigger, 'facebook', instanceIndex, scope);
 
   const hashtagsElement = queryElement<HTMLElement>('facebookHashtags', { instanceIndex, operator: 'prefixed', scope });
   const hashtagsText = hashtagsElement ? hashtagsElement.innerText : null;
 
   return {
-    ...facebookButton,
+    ...socialData,
     type: 'facebook',
     hashtags: hashtagsText,
   };
 }
 
 export function collectTwitterData(
+  trigger: HTMLElement,
   instanceIndex: number | undefined,
   scope: HTMLElement | undefined
-): TwitterSocialShare | null {
-  const twitterButton = collectSocialData('twitter', instanceIndex, scope);
-
-  if (twitterButton === null) {
-    return null;
-  }
+): TwitterSocialShare {
+  const socialData = collectSocialData(trigger, 'twitter', instanceIndex, scope);
 
   const hashtagsElement = queryElement<HTMLElement>('twitterHashtags', { instanceIndex, operator: 'prefixed', scope });
   const hashtagsText = hashtagsElement ? hashtagsElement.innerText.replace(/[^a-zA-Z0-9_,]/g, '') : null;
@@ -44,7 +38,7 @@ export function collectTwitterData(
   const userNameText = usernameElement ? usernameElement.innerText : null;
 
   return {
-    ...twitterButton,
+    ...socialData,
     type: 'twitter',
     hashtags: hashtagsText,
     username: userNameText,
@@ -52,14 +46,11 @@ export function collectTwitterData(
 }
 
 export function collectPinterestData(
+  trigger: HTMLElement,
   instanceIndex: number | undefined,
   scope: HTMLElement | undefined
-): PinterestSocialShare | null {
-  const pinterestButton = collectSocialData('pinterest', instanceIndex, scope);
-
-  if (pinterestButton === null) {
-    return null;
-  }
+): PinterestSocialShare {
+  const socialData = collectSocialData(trigger, 'pinterest', instanceIndex, scope);
 
   const imageElement = queryElement<HTMLImageElement>('pinterestImage', { instanceIndex, operator: 'prefixed', scope });
   const imageSrc = imageElement ? imageElement.src : null;
@@ -73,7 +64,7 @@ export function collectPinterestData(
   const descriptionText = descriptionElement ? descriptionElement.innerText : null;
 
   return {
-    ...pinterestButton,
+    ...socialData,
     type: 'pinterest',
     image: imageSrc,
     description: descriptionText,
@@ -81,26 +72,22 @@ export function collectPinterestData(
 }
 
 export function collectSocialData(
+  socialShareButton: HTMLElement,
   elementKey: SocialShareTypes,
   instanceIndex: number | undefined,
   scope: HTMLElement | undefined
-): SocialShare | null {
-  const socialShareButton = queryElement<HTMLElement>(elementKey, {
-    instanceIndex,
-    operator: 'prefixed',
-    scope,
-    caseInsensitive: true,
-  });
-
-  if (!socialShareButton) {
-    return null;
-  }
-
+): SocialShare {
   const width = collectSize(socialShareButton, ATTRIBUTES.width.key, ATTRIBUTES.width.default);
   const height = collectSize(socialShareButton, ATTRIBUTES.height.key, ATTRIBUTES.height.default);
 
+  const contentElement = queryElement<HTMLElement>('content', { instanceIndex, operator: 'prefixed', scope });
+  const contentText = contentElement ? contentElement.textContent : null;
+
+  const urlElement = queryElement<HTMLElement>('url', { instanceIndex, operator: 'prefixed', scope });
+  const contentUrl = urlElement ? urlElement.innerText : window.location.href;
   return {
-    button: socialShareButton,
+    content: contentText,
+    url: contentUrl,
     width,
     height,
     type: elementKey,

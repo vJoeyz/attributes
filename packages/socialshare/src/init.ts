@@ -1,60 +1,75 @@
 import { ATTRIBUTE as CMS_LOAD_ATTRIBUTE } from '@finsweet/attributes-cmsload/src/utils/constants';
-import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
-import { getInstanceIndex } from '@global/helpers';
 import type { CMSList } from 'packages/cmscore/src';
 
-import { collectFacebookData, collectPinterestData, collectSocialData, collectTwitterData } from './actions/collect';
-import { socialShareFactory } from './factory';
-import { ATTRIBUTE, ATTRIBUTES, queryElement } from './utils/constants';
-
-// Constants destructuring
-const {
-  element: { key: elementKey },
-} = ATTRIBUTES;
+import {
+  createFacebookButton,
+  createLinkedinButton,
+  createPinterestButton,
+  createRedditButton,
+  createTelegramButton,
+  createTwitterButton,
+} from './factory';
+import { ATTRIBUTE, queryElement } from './utils/constants';
 
 /**
  * Inits the attribute.
  */
 export const init = async (): Promise<void> => {
-  const listInstances: CMSList[] = (await window.fsAttributes[CMS_LOAD_ATTRIBUTE]?.loading) || [];
+  // create button for static items
+  const facebookElements = [...queryElement<HTMLElement>('facebook', { operator: 'prefixed', all: true })];
+  facebookElements.forEach(createFacebookButton);
 
-  const contentElementsSet = new Set([...queryElement<HTMLElement>('content', { operator: 'prefixed', all: true })]);
+  const twitterElements = [...queryElement<HTMLElement>('twitter', { operator: 'prefixed', all: true })];
+  twitterElements.forEach(createTwitterButton);
+
+  const pinterestElements = [...queryElement<HTMLElement>('pinterest', { operator: 'prefixed', all: true })];
+  pinterestElements.forEach(createPinterestButton);
+
+  const linkekInElements = [...queryElement<HTMLElement>('linkedin', { operator: 'prefixed', all: true })];
+  linkekInElements.forEach(createLinkedinButton);
+
+  const redditElements = [...queryElement<HTMLElement>('reddit', { operator: 'prefixed', all: true })];
+  redditElements.forEach(createLinkedinButton);
+
+  const telegramElements = [...queryElement<HTMLElement>('telegram', { operator: 'prefixed', all: true })];
+  telegramElements.forEach(createTelegramButton);
+
+  // create button from dynamic list in memory
+  const listInstances: CMSList[] = (await window.fsAttributes[CMS_LOAD_ATTRIBUTE]?.loading) || [];
 
   for (const { items } of listInstances) {
     for (const { element } of items) {
-      const itemContentElements = queryElement<HTMLElement>('content', {
-        operator: 'prefixed',
-        all: true,
-        scope: element,
-      });
+      const facebookItemElements = [
+        ...queryElement<HTMLElement>('facebook', { operator: 'prefixed', all: true, scope: element }),
+      ];
+      facebookItemElements.forEach(createFacebookButton);
 
-      for (const itemContentElement of itemContentElements) {
-        contentElementsSet.add(itemContentElement);
-      }
+      const twitterItemElements = [
+        ...queryElement<HTMLElement>('twitter', { operator: 'prefixed', all: true, scope: element }),
+      ];
+      twitterItemElements.forEach(createTwitterButton);
+
+      const pinterestElements = [
+        ...queryElement<HTMLElement>('pinterest', { operator: 'prefixed', all: true, scope: element }),
+      ];
+      pinterestElements.forEach(createPinterestButton);
+
+      const linkedinElements = [
+        ...queryElement<HTMLElement>('linkedin', { operator: 'prefixed', all: true, scope: element }),
+      ];
+      linkedinElements.forEach(createLinkedinButton);
+
+      const redditElements = [
+        ...queryElement<HTMLElement>('reddit', { operator: 'prefixed', all: true, scope: element }),
+      ];
+      redditElements.forEach(createRedditButton);
+
+      const telegramElements = [
+        ...queryElement<HTMLElement>('telegram', { operator: 'prefixed', all: true, scope: element }),
+      ];
+      telegramElements.forEach(createTelegramButton);
     }
   }
-
-  const contentElements = [...contentElementsSet];
-
-  contentElements.forEach((contentElement) => {
-    const instanceIndex = getInstanceIndex(contentElement, elementKey);
-
-    const cmsListItem = contentElement.closest<HTMLElement>(`.${CMS_CSS_CLASSES.item}`) || undefined;
-
-    const urlElement = queryElement<HTMLElement>('url', { operator: 'prefixed', instanceIndex, scope: cmsListItem });
-
-    const facebook = collectFacebookData(instanceIndex, cmsListItem);
-    const twitter = collectTwitterData(instanceIndex, cmsListItem);
-    const pinterest = collectPinterestData(instanceIndex, cmsListItem);
-    const reddit = collectSocialData('reddit', instanceIndex, cmsListItem);
-    const linkedin = collectSocialData('linkedin', instanceIndex, cmsListItem);
-    const telegram = collectSocialData('telegram', instanceIndex, cmsListItem);
-
-    const contentText = contentElement.innerText;
-    const contentUrl = urlElement ? urlElement.innerText : window.location.href;
-
-    socialShareFactory(contentText, contentUrl, facebook, twitter, pinterest, reddit, telegram, linkedin);
-  });
 
   window.fsAttributes[ATTRIBUTE].resolve?.(undefined);
 };

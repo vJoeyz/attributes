@@ -1,114 +1,77 @@
-import type { FacebookSocialShare, PinterestSocialShare, SocialShare, TwitterSocialShare } from './utils/types';
+import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
+import { getInstanceIndex } from '@global/helpers';
 
-const FACEBOOK_URL = 'https://www.facebook.com/sharer/sharer.php';
-const TWITTER_URL = 'https://twitter.com/intent/tweet/';
-const PINTEREST_URL = 'https://www.pinterest.com/pin/create/button/';
-const REDDIT_URL = 'https://www.reddit.com/submit';
-const LINKEDIN_URL = 'https://www.linkedin.com//sharing/share-offsite';
-const TELEGRAM_URL = 'https://t.me/share';
+import { collectFacebookData, collectPinterestData, collectSocialData, collectTwitterData } from './actions/collect';
+import {
+  createFacebookShare,
+  createTwitterShare,
+  createPinterestShare,
+  createTelegramShare,
+  createLinkedinShare,
+  createRedditShare,
+} from './actions/share';
+import { ATTRIBUTES } from './utils/constants';
 
-export function socialShareFactory(
-  content: string,
-  url: string,
-  facebook: FacebookSocialShare | null,
-  twitter: TwitterSocialShare | null,
-  pinterest: PinterestSocialShare | null,
-  reddit: SocialShare | null,
-  telegram: SocialShare | null,
-  linkedin: SocialShare | null
-) {
-  if (facebook) {
-    createSocialShare(
-      facebook.button,
-      FACEBOOK_URL,
-      { u: url, hashtag: facebook.hashtags, quote: content },
-      facebook.width,
-      facebook.height
-    );
-  }
+const {
+  element: { key: elementKey },
+} = ATTRIBUTES;
 
-  if (twitter) {
-    createSocialShare(
-      twitter.button,
-      TWITTER_URL,
-      {
-        text: content,
-        via: twitter.username,
-        hashtags: twitter.hashtags,
-        url,
-      },
-      twitter.width,
-      twitter.height
-    );
-  }
+export function createFacebookButton(facebookButton: HTMLElement) {
+  const instanceIndex = getInstanceIndex(facebookButton, elementKey);
 
-  if (pinterest) {
-    createSocialShare(
-      pinterest.button,
-      PINTEREST_URL,
-      {
-        url,
-        media: pinterest.image,
-        description: pinterest.description,
-      },
-      pinterest.width,
-      pinterest.height
-    );
-  }
+  const cmsListItem = facebookButton.closest<HTMLElement>(`.${CMS_CSS_CLASSES.item}`) || undefined;
 
-  if (reddit) {
-    createSocialShare(
-      reddit.button,
-      REDDIT_URL,
-      {
-        url,
-        title: content,
-      },
-      reddit.width,
-      reddit.height
-    );
-  }
+  const facebook = collectFacebookData(facebookButton, instanceIndex, cmsListItem);
 
-  if (telegram) {
-    createSocialShare(
-      telegram.button,
-      TELEGRAM_URL,
-      {
-        text: content,
-        url,
-      },
-      telegram.width,
-      telegram.height
-    );
-  }
-
-  if (linkedin) {
-    createSocialShare(linkedin.button, LINKEDIN_URL, { url }, linkedin.width, linkedin.height);
-  }
+  createFacebookShare(facebookButton, facebook);
 }
 
-function createSocialShare(
-  button: HTMLElement,
-  urlSocialMedia: string,
-  params: { [key: string]: string | null },
-  width: number,
-  height: number
-): void {
-  button.addEventListener('click', function () {
-    const shareUrl = new URL(urlSocialMedia);
-    const shareParams = Object.entries(params);
+export function createTwitterButton(twitterButton: HTMLElement) {
+  const instanceIndex = getInstanceIndex(twitterButton, elementKey);
 
-    for (const [key, value] of shareParams) {
-      if (value) shareUrl.searchParams.append(key, value);
-    }
+  const cmsListItem = twitterButton.closest<HTMLElement>(`.${CMS_CSS_CLASSES.item}`) || undefined;
 
-    const left = window.innerWidth / 2 - width / 2 + window.screenX;
-    const top = window.innerHeight / 2 - height / 2 + window.screenY;
-    const popParams = `scrollbars=no, width=${width}, height=${height}, top=${top}, left=${left}`;
-    const newWindow = window.open(shareUrl, '', popParams);
+  const twitter = collectTwitterData(twitterButton, instanceIndex, cmsListItem);
 
-    if (newWindow) {
-      newWindow.focus();
-    }
-  });
+  createTwitterShare(twitterButton, twitter);
+}
+
+export function createPinterestButton(pinterestButton: HTMLElement) {
+  const instanceIndex = getInstanceIndex(pinterestButton, elementKey);
+
+  const cmsListItem = pinterestButton.closest<HTMLElement>(`.${CMS_CSS_CLASSES.item}`) || undefined;
+
+  const pinterest = collectPinterestData(pinterestButton, instanceIndex, cmsListItem);
+
+  createPinterestShare(pinterestButton, pinterest);
+}
+
+export function createTelegramButton(telegramButton: HTMLElement) {
+  const instanceIndex = getInstanceIndex(telegramButton, elementKey);
+
+  const cmsListItem = telegramButton.closest<HTMLElement>(`.${CMS_CSS_CLASSES.item}`) || undefined;
+
+  const telegram = collectSocialData(telegramButton, 'telegram', instanceIndex, cmsListItem);
+
+  createTelegramShare(telegramButton, telegram);
+}
+
+export function createLinkedinButton(linkedinButton: HTMLElement) {
+  const instanceIndex = getInstanceIndex(linkedinButton, elementKey);
+
+  const cmsListItem = linkedinButton.closest<HTMLElement>(`.${CMS_CSS_CLASSES.item}`) || undefined;
+
+  const linkedin = collectSocialData(linkedinButton, 'linkedin', instanceIndex, cmsListItem);
+
+  createLinkedinShare(linkedinButton, linkedin);
+}
+
+export function createRedditButton(redditButton: HTMLElement) {
+  const instanceIndex = getInstanceIndex(redditButton, elementKey);
+
+  const cmsListItem = redditButton.closest<HTMLElement>(`.${CMS_CSS_CLASSES.item}`) || undefined;
+
+  const reddit = collectSocialData(redditButton, 'reddit', instanceIndex, cmsListItem);
+
+  createRedditShare(redditButton, reddit);
 }
