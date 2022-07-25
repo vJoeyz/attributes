@@ -26,11 +26,15 @@ export const sortListItems = async (
 ) => {
   const { items } = listInstance;
 
-  const validSortKey = direction && sortKey && items.some(({ props }) => sortKey in props);
+  const validSortKey = !!direction && !!sortKey && items.some(({ props }) => sortKey in props);
 
   if (!validSortKey) listInstance.restoreItemsOrder();
   else {
-    items.sort((firstItem, secondItem) => {
+    const staticItems = items.filter((item) => item.staticIndex && item.interactive === false);
+
+    const orderItems = (staticItems.length > 0 && items.filter((item) => !staticItems.includes(item))) || items;
+
+    orderItems.sort((firstItem, secondItem) => {
       const firstItemProp = firstItem.props[sortKey];
       const secondItemProp = secondItem.props[sortKey];
 
@@ -69,6 +73,17 @@ export const sortListItems = async (
 
       return secondItemValue.localeCompare(firstItemValue, undefined, collatorOptions);
     });
+
+    if (staticItems) {
+      for (const staticItem of staticItems) {
+        if (!staticItem.staticIndex) {
+          continue;
+        }
+        orderItems.splice(staticItem.staticIndex - 1, 0, staticItem);
+      }
+    }
+
+    listInstance.items = orderItems;
   }
 
   // Render the new order
