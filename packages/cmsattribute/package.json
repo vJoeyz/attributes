@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "@global/factory": "workspace:*",
-    "@global/constants": "workspace:*"
+    "@global/constants": "workspace:*",
+    "@finsweet/ts-utils": "0.33.1"
   }
 }
