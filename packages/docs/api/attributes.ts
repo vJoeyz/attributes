@@ -381,4 +381,17 @@ export const attributesData: AttributesData = [
     readmeSrc: 'README.md',
     allowSupport: false,
   },
+  {
+    key: 'queryparam',
+    title: 'Query Param',
+    description: 'Use query parameter values to populate form inputs and text elements.',
+    href: 'https://www.finsweet.com/attributes/query-param',
+    baseSrc: 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-queryparam@1',
+    scriptSrc: 'queryparam.js',
+    examplesSrc: 'examples.json',
+    loadMode: 'defer',
+    changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
+    allowSupport: false,
+  },
 ];

@@ -1,7 +1,5 @@
-import { importCMSCore } from '@finsweet/attributes-cmscore';
 import { assessScript, initAttributes } from '@global/factory';
-import { importAnimations } from '@global/import';
-import { CMS_FILTER_ATTRIBUTE } from 'global/constants/attributes';
+import { QUERY_PARAM_ATTRIBUTE } from 'global/constants/attributes';
 
 import { version } from '../package.json';
 import { init } from './init';
@@ -10,13 +8,11 @@ import { init } from './init';
  * Init
  */
 initAttributes();
-importCMSCore();
-importAnimations();
 
-window.fsAttributes[CMS_FILTER_ATTRIBUTE] ||= {};
+window.fsAttributes[QUERY_PARAM_ATTRIBUTE] ||= {};
 
 const { preventsLoad } = assessScript();
-const attribute = window.fsAttributes[CMS_FILTER_ATTRIBUTE];
+const attribute = window.fsAttributes[QUERY_PARAM_ATTRIBUTE];
 
 attribute.version = version;
 
