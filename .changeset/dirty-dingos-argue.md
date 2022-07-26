@@ -2,4 +2,4 @@
 "@finsweet/attributes-socialshare": patch
 ---
 
-Code improvements
+Redefined required fields, content is no longer mandatory. Code improvements.
