@@ -140,10 +140,12 @@ importers:
       '@global/factory': workspace:*
       '@global/tests': workspace:*
       '@global/types': workspace:*
+      slugify: ^1.6.5
     dependencies:
       '@finsweet/ts-utils': 0.33.1
       '@global/constants': link:../../global/constants
       '@global/factory': link:../../global/factory
+      slugify: 1.6.5
     devDependencies:
       '@global/build': link:../../global/build
       '@global/tests': link:../../global/tests
