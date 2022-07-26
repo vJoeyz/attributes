@@ -21,6 +21,7 @@ export const renderListItems = async (listInstance: CMSList, animateItems = fals
   const validItems: CMSItem[] = [];
   const itemsToHide: CMSItem[] = [];
   const itemsToShow: CMSItem[] = [];
+  const staticItems: CMSItem[] = [];
 
   for (const item of items) {
     const { valid, currentIndex } = item;
@@ -28,6 +29,11 @@ export const renderListItems = async (listInstance: CMSList, animateItems = fals
 
     if (valid) {
       validItems.push(item);
+
+      if (item.staticIndex && !item.interactive) {
+        staticItems.push(item);
+        continue;
+      }
 
       if (!paginationActive || !currentPage) {
         itemsToShow.push(item);
@@ -40,6 +46,12 @@ export const renderListItems = async (listInstance: CMSList, animateItems = fals
       if (matchesCurrentPage) itemsToShow.push(item);
       else if (rendered) itemsToHide.push(item);
     } else if (rendered) itemsToHide.push(item);
+  }
+
+  for (const staticItem of staticItems) {
+    if (staticItem.staticIndex) {
+      itemsToShow.splice(staticItem.staticIndex - 1, 0, staticItem);
+    }
   }
 
   // Set new properties
