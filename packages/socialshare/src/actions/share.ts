@@ -1,103 +1,91 @@
-import type { FacebookSocialShare, PinterestSocialShare, SocialShare, TwitterSocialShare } from './../utils/types';
+import { SOCIAL_SHARE_PLATFORMS } from '../utils/constants';
+import type {
+  FacebookSocialShare,
+  PinterestSocialShare,
+  SocialShare,
+  SocialShareStoreData,
+  SocialShareTypes,
+  TwitterSocialShare,
+} from './../utils/types';
 
-const FACEBOOK_URL = 'https://www.facebook.com/sharer/sharer.php';
-const TWITTER_URL = 'https://twitter.com/intent/tweet/';
-const PINTEREST_URL = 'https://www.pinterest.com/pin/create/trigger/';
-const REDDIT_URL = 'https://www.reddit.com/submit';
-const LINKEDIN_URL = 'https://www.linkedin.com//sharing/share-offsite';
-const TELEGRAM_URL = 'https://t.me/share';
+export function createFacebookShare({ type, url, hashtags, content, width, height }: FacebookSocialShare) {
+  return createSocialShare(type, { u: url, hashtag: hashtags, quote: content }, width, height);
+}
 
-export function createFacebookShare(trigger: HTMLElement, facebook: FacebookSocialShare) {
-  createSocialShare(
-    trigger,
-    FACEBOOK_URL,
-    { u: facebook.url, hashtag: facebook.hashtags, quote: facebook.content },
-    facebook.width,
-    facebook.height
+export function createTwitterShare({ type, content, username, hashtags, url, width, height }: TwitterSocialShare) {
+  return createSocialShare(
+    type,
+    {
+      url,
+      hashtags,
+      text: content,
+      via: username,
+    },
+    width,
+    height
   );
 }
 
-export function createTwitterShare(trigger: HTMLElement, twitter: TwitterSocialShare) {
-  createSocialShare(
-    trigger,
-    TWITTER_URL,
+export function createPinterestShare({ type, url, image, description, width, height }: PinterestSocialShare) {
+  return createSocialShare(
+    type,
     {
-      text: twitter.content,
-      via: twitter.username,
-      hashtags: twitter.hashtags,
-      url: twitter.url,
+      url,
+      description,
+      media: image,
     },
-    twitter.width,
-    twitter.height
+    width,
+    height
   );
 }
 
-export function createPinterestShare(trigger: HTMLElement, pinterest: PinterestSocialShare) {
-  createSocialShare(
-    trigger,
-    PINTEREST_URL,
+export function createLinkedinShare({ type, url, width, height }: SocialShare) {
+  return createSocialShare(type, { url: url }, width, height);
+}
+
+export function createRedditShare({ type, url, content, width, height }: SocialShare) {
+  return createSocialShare(
+    type,
     {
-      url: pinterest.url,
-      media: pinterest.image,
-      description: pinterest.description,
+      url,
+      title: content,
     },
-    pinterest.width,
-    pinterest.height
+    width,
+    height
   );
 }
 
-export function createLinkedinShare(trigger: HTMLElement, linkedin: SocialShare) {
-  createSocialShare(trigger, LINKEDIN_URL, { url: linkedin.url }, linkedin.width, linkedin.height);
-}
-
-export function createRedditShare(trigger: HTMLElement, reddit: SocialShare) {
-  createSocialShare(
-    trigger,
-    REDDIT_URL,
+export function createTelegramShare({ type, content, url, width, height }: SocialShare) {
+  return createSocialShare(
+    type,
     {
-      url: reddit.url,
-      title: reddit.content,
+      url,
+      text: content,
     },
-    reddit.width,
-    reddit.height
-  );
-}
-
-export function createTelegramShare(trigger: HTMLElement, telegram: SocialShare) {
-  createSocialShare(
-    trigger,
-    TELEGRAM_URL,
-    {
-      text: telegram.content,
-      url: telegram.url,
-    },
-    telegram.width,
-    telegram.height
+    width,
+    height
   );
 }
 
 function createSocialShare(
-  trigger: HTMLElement,
-  urlSocialMedia: string,
+  type: SocialShareTypes,
   params: { [key: string]: string | null },
   width: number,
   height: number
-): void {
-  trigger.addEventListener('click', function () {
-    const shareUrl = new URL(urlSocialMedia);
-    const shareParams = Object.entries(params);
+): SocialShareStoreData {
+  const urlSocialMedia = SOCIAL_SHARE_PLATFORMS[type];
 
-    for (const [key, value] of shareParams) {
-      if (value) shareUrl.searchParams.append(key, value);
-    }
+  const shareUrl = new URL(urlSocialMedia);
+  const shareParams = Object.entries(params);
 
-    const left = window.innerWidth / 2 - width / 2 + window.screenX;
-    const top = window.innerHeight / 2 - height / 2 + window.screenY;
-    const popParams = `scrollbars=no, width=${width}, height=${height}, top=${top}, left=${left}`;
-    const newWindow = window.open(shareUrl, '', popParams);
+  for (const [key, value] of shareParams) {
+    if (value) shareUrl.searchParams.append(key, value);
+  }
 
-    if (newWindow) {
-      newWindow.focus();
-    }
-  });
+  return {
+    height,
+    width,
+    type,
+    shareUrl,
+  };
 }
