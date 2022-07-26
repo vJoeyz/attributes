@@ -19,14 +19,11 @@ export const init = async (): Promise<CMSList[]> => {
   const cmsCore = await importCMSCore();
   if (!cmsCore) return [];
 
-  const data = await Promise.all([
+  await Promise.all([
     await window.fsAttributes[CMS_LOAD_ATTRIBUTE]?.loading,
     await window.fsAttributes[CMS_FILTER_ATTRIBUTE]?.loading,
-    await window.fsAttributes[CMS_NEST_ATTRIBUTE]?.loading,
     await window.fsAttributes[CMS_SORT_ATTRIBUTE]?.loading,
-    await window.fsAttributes[CMS_COMBINE_ATTRIBUTE]?.loading,
   ]);
-  console.log(data);
 
   // Create the list instances
   const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
