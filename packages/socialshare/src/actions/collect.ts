@@ -15,7 +15,7 @@ export function collectFacebookData(
   const socialData = collectSocialData(trigger, 'facebook', instanceIndex, scope);
 
   const hashtagsElement = queryElement<HTMLElement>('facebookHashtags', { instanceIndex, operator: 'prefixed', scope });
-  const hashtagsText = hashtagsElement ? hashtagsElement.innerText : null;
+  const hashtagsText = hashtagsElement ? hashtagsElement.textContent : null;
 
   return {
     ...socialData,
@@ -32,10 +32,11 @@ export function collectTwitterData(
   const socialData = collectSocialData(trigger, 'twitter', instanceIndex, scope);
 
   const hashtagsElement = queryElement<HTMLElement>('twitterHashtags', { instanceIndex, operator: 'prefixed', scope });
-  const hashtagsText = hashtagsElement ? hashtagsElement.innerText.replace(/[^a-zA-Z0-9_,]/g, '') : null;
+  const hashtagsText =
+    hashtagsElement && hashtagsElement.textContent ? hashtagsElement.textContent.replace(/[^a-zA-Z0-9_,]/g, '') : null;
 
   const usernameElement = queryElement<HTMLElement>('twitterUsername', { instanceIndex, operator: 'prefixed', scope });
-  const userNameText = usernameElement ? usernameElement.innerText : null;
+  const userNameText = usernameElement ? usernameElement.textContent : null;
 
   return {
     ...socialData,
@@ -53,7 +54,7 @@ export function collectPinterestData(
   const socialData = collectSocialData(trigger, 'pinterest', instanceIndex, scope);
 
   const imageElement = queryElement<HTMLImageElement>('pinterestImage', { instanceIndex, operator: 'prefixed', scope });
-  const imageSrc = imageElement ? imageElement.src : null;
+  const imageSrc = imageElement && imageElement.src ? imageElement.src : null;
 
   const descriptionElement = queryElement<HTMLElement>('pinterestDescription', {
     instanceIndex,
@@ -61,7 +62,7 @@ export function collectPinterestData(
     scope,
   });
 
-  const descriptionText = descriptionElement ? descriptionElement.innerText : null;
+  const descriptionText = descriptionElement ? descriptionElement.textContent : null;
 
   return {
     ...socialData,
@@ -84,7 +85,7 @@ export function collectSocialData(
   const contentText = contentElement ? contentElement.textContent : null;
 
   const urlElement = queryElement<HTMLElement>('url', { instanceIndex, operator: 'prefixed', scope });
-  const contentUrl = urlElement ? urlElement.innerText : window.location.href;
+  const contentUrl = urlElement && urlElement.textContent ? urlElement.textContent : window.location.href;
   return {
     content: contentText,
     url: contentUrl,
