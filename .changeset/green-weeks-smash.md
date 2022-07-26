@@ -1,5 +1,5 @@
 ---
-"@global/constants": minor
+'@global/constants': patch
 ---
 
 Added package constants
