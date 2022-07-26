@@ -4,9 +4,7 @@ import {
   CMS_STATIC_ATTRIBUTE,
   CMS_LOAD_ATTRIBUTE,
   CMS_FILTER_ATTRIBUTE,
-  CMS_NEST_ATTRIBUTE,
   CMS_SORT_ATTRIBUTE,
-  CMS_COMBINE_ATTRIBUTE,
 } from 'global/constants/attributes';
 
 import { initStaticInstance } from './factory';
