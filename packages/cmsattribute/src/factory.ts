@@ -1,3 +1,5 @@
+import slugify from 'slugify';
+
 import { ATTRIBUTES } from './utils/constants';
 
 export function createCMSAttribute(target: HTMLElement, scope: HTMLElement | null) {
@@ -25,5 +27,11 @@ export function createCMSAttribute(target: HTMLElement, scope: HTMLElement | nul
     return;
   }
 
-  target.setAttribute(name.textContent, value.textContent);
+  try {
+    const attributeName = slugify(name.textContent, { lower: true, strict: true });
+    const attributeValue = value.textContent;
+    target.setAttribute(attributeName, attributeValue);
+  } catch (e) {
+    // It will fail silent.
+  }
 }
