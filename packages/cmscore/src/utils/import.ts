@@ -3,8 +3,8 @@ import { Debug } from '@finsweet/ts-utils';
 import { name } from '../../package.json';
 import type { CMSCoreImport } from './types';
 
-//const CMS_CORE_SOURCE = `https://cdn.jsdelivr.net/npm/${name}@1/cmscore.js`;
-const CMS_CORE_SOURCE = 'http://localhost:3000/packages/cmscore/cmscore.js';
+const CMS_CORE_SOURCE = `https://cdn.jsdelivr.net/npm/${name}@1/cmscore.js`;
+// const CMS_CORE_SOURCE = 'http://localhost:3000/packages/cmscore/cmscore.js';
 
 /**
  * Dynamically imports the `cms/cmscore` package.
