@@ -1,4 +1,3 @@
-import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
 import { getInstanceIndex } from '@global/helpers';
 
 import { collectFacebookData, collectPinterestData, collectSocialData, collectTwitterData } from './actions/collect';
@@ -10,68 +9,138 @@ import {
   createLinkedinShare,
   createRedditShare,
 } from './actions/share';
-import { ATTRIBUTES } from './utils/constants';
+import { ATTRIBUTES, queryElement, SOCIAL_SHARE_PLATFORMS } from './utils/constants';
+import { getCMSItemWrapper } from './utils/dom';
+import { stores } from './utils/stores';
+import type { SocialShareTypes } from './utils/types';
 
 const {
   element: { key: elementKey },
 } = ATTRIBUTES;
 
-export function createFacebookButton(facebookButton: HTMLElement) {
-  const instanceIndex = getInstanceIndex(facebookButton, elementKey);
+/**
+ * Creates a social share instance for all matching elements under a scope.
+ * @param scope Optional. Defaults to the document.
+ */
+export const createSocialShareInstances = (scope?: HTMLElement) => {
+  for (const key in SOCIAL_SHARE_PLATFORMS) {
+    const platform = key as SocialShareTypes;
 
-  const cmsListItem = facebookButton.closest<HTMLElement>(`.${CMS_CSS_CLASSES.item}`) || undefined;
+    const elements = queryElement<HTMLElement>(platform, { scope, operator: 'prefixed', all: true });
+    const create = creators[platform];
+    elements.forEach(create);
+  }
+};
 
-  const facebook = collectFacebookData(facebookButton, instanceIndex, cmsListItem);
+/**
+ * Holds an instance creator for each platform.
+ */
+const creators: Record<SocialShareTypes, (trigger: HTMLElement) => void> = {
+  /**
+   * Facebook creator.
+   * @param trigger
+   */
+  facebook(trigger) {
+    if (stores.facebook.has(trigger)) return;
 
-  createFacebookShare(facebookButton, facebook);
-}
+    const instanceIndex = getInstanceIndex(trigger, elementKey);
 
-export function createTwitterButton(twitterButton: HTMLElement) {
-  const instanceIndex = getInstanceIndex(twitterButton, elementKey);
+    const cmsListItem = getCMSItemWrapper(trigger);
 
-  const cmsListItem = twitterButton.closest<HTMLElement>(`.${CMS_CSS_CLASSES.item}`) || undefined;
+    const facebook = collectFacebookData(trigger, instanceIndex, cmsListItem);
 
-  const twitter = collectTwitterData(twitterButton, instanceIndex, cmsListItem);
+    const shareData = createFacebookShare(facebook);
 
-  createTwitterShare(twitterButton, twitter);
-}
+    stores.facebook.set(trigger, shareData);
+  },
 
-export function createPinterestButton(pinterestButton: HTMLElement) {
-  const instanceIndex = getInstanceIndex(pinterestButton, elementKey);
+  /**
+   * Twitter creator.
+   * @param trigger
+   */
+  twitter(trigger) {
+    if (stores.twitter.has(trigger)) return;
 
-  const cmsListItem = pinterestButton.closest<HTMLElement>(`.${CMS_CSS_CLASSES.item}`) || undefined;
+    const instanceIndex = getInstanceIndex(trigger, elementKey);
 
-  const pinterest = collectPinterestData(pinterestButton, instanceIndex, cmsListItem);
+    const cmsListItem = getCMSItemWrapper(trigger);
 
-  createPinterestShare(pinterestButton, pinterest);
-}
+    const twitter = collectTwitterData(trigger, instanceIndex, cmsListItem);
 
-export function createTelegramButton(telegramButton: HTMLElement) {
-  const instanceIndex = getInstanceIndex(telegramButton, elementKey);
+    const shareData = createTwitterShare(twitter);
 
-  const cmsListItem = telegramButton.closest<HTMLElement>(`.${CMS_CSS_CLASSES.item}`) || undefined;
+    stores.twitter.set(trigger, shareData);
+  },
 
-  const telegram = collectSocialData(telegramButton, 'telegram', instanceIndex, cmsListItem);
+  /**
+   * Pinterest creator.
+   * @param trigger
+   */
+  pinterest(trigger) {
+    if (stores.pinterest.has(trigger)) return;
 
-  createTelegramShare(telegramButton, telegram);
-}
+    const instanceIndex = getInstanceIndex(trigger, elementKey);
 
-export function createLinkedinButton(linkedinButton: HTMLElement) {
-  const instanceIndex = getInstanceIndex(linkedinButton, elementKey);
+    const cmsListItem = getCMSItemWrapper(trigger);
 
-  const cmsListItem = linkedinButton.closest<HTMLElement>(`.${CMS_CSS_CLASSES.item}`) || undefined;
+    const pinterest = collectPinterestData(trigger, instanceIndex, cmsListItem);
 
-  const linkedin = collectSocialData(linkedinButton, 'linkedin', instanceIndex, cmsListItem);
+    const shareData = createPinterestShare(pinterest);
 
-  createLinkedinShare(linkedinButton, linkedin);
-}
+    stores.pinterest.set(trigger, shareData);
+  },
 
-export function createRedditButton(redditButton: HTMLElement) {
-  const instanceIndex = getInstanceIndex(redditButton, elementKey);
+  /**
+   * Telegram creator.
+   * @param trigger
+   */
+  telegram(trigger) {
+    if (stores.telegram.has(trigger)) return;
 
-  const cmsListItem = redditButton.closest<HTMLElement>(`.${CMS_CSS_CLASSES.item}`) || undefined;
+    const instanceIndex = getInstanceIndex(trigger, elementKey);
 
-  const reddit = collectSocialData(redditButton, 'reddit', instanceIndex, cmsListItem);
+    const cmsListItem = getCMSItemWrapper(trigger);
 
-  createRedditShare(redditButton, reddit);
-}
+    const telegram = collectSocialData(trigger, 'telegram', instanceIndex, cmsListItem);
+
+    const shareData = createTelegramShare(telegram);
+
+    stores.telegram.set(trigger, shareData);
+  },
+
+  /**
+   * Linkedin creator.
+   * @param trigger
+   */
+  linkedin(trigger) {
+    if (stores.linkedin.has(trigger)) return;
+
+    const instanceIndex = getInstanceIndex(trigger, elementKey);
+
+    const cmsListItem = getCMSItemWrapper(trigger);
+
+    const linkedin = collectSocialData(trigger, 'linkedin', instanceIndex, cmsListItem);
+
+    const shareData = createLinkedinShare(linkedin);
+
+    stores.linkedin.set(trigger, shareData);
+  },
+
+  /**
+   * Reddit creator.
+   * @param trigger
+   */
+  reddit(trigger) {
+    if (stores.reddit.has(trigger)) return;
+
+    const instanceIndex = getInstanceIndex(trigger, elementKey);
+
+    const cmsListItem = getCMSItemWrapper(trigger);
+
+    const reddit = collectSocialData(trigger, 'reddit', instanceIndex, cmsListItem);
+
+    const shareData = createRedditShare(reddit);
+
+    stores.reddit.set(trigger, shareData);
+  },
+};
