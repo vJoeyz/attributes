@@ -40,7 +40,8 @@
   "devDependencies": {
     "@global/build": "workspace:*",
     "@global/tests": "workspace:*",
-    "@global/types": "workspace:*"
+    "@global/types": "workspace:*",
+    "@finsweet/attributes-cmscore": "workspace:*"
   },
   "dependencies": {
     "@finsweet/ts-utils": "^0.33.1",
