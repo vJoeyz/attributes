@@ -1,5 +1,11 @@
 # @finsweet/attributes-animation
 
+## 1.0.8
+
+### Patch Changes
+
+- @global/factory@1.1.2
+
 ## 1.0.7
 
 ### Patch Changes

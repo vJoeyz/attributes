@@ -1,5 +1,13 @@
 # @finsweet/attributes-toc
 
+## 1.0.10
+
+### Patch Changes
+
+- Updated dependencies [bdd1a78]
+  - @global/constants@1.0.1
+  - @global/factory@1.1.2
+
 ## 1.0.9
 
 ### Patch Changes
