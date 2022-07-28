@@ -12,7 +12,7 @@ export const CMS_LOAD_ATTRIBUTE = 'cmsload';
 
 export const CMS_NEST_ATTRIBUTE = 'cmsnest';
 
-export const CMS_PREV_NEXT_ATTRIBUTE = 'cmsprevnex';
+export const CMS_PREV_NEXT_ATTRIBUTE = 'cmsprevnext';
 
 export const CMS_SELECT_ATTRIBUTE = 'cmsselect';
 
