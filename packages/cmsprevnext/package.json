@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-cmsprevnext",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "Add Previous and Next buttons in Collection Template Pages.",
   "homepage": "https://www.finsweet.com/attributes",
   "sideEffects": false,

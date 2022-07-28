@@ -1,5 +1,13 @@
 # @finsweet/attributes-queryparam
 
+## 1.0.1
+
+### Patch Changes
+
+- Updated dependencies [7542dcdb]
+  - @global/constants@1.0.2
+  - @global/factory@1.1.3
+
 ## 1.0.0
 
 ### Major Changes
