@@ -1,5 +1,14 @@
 # @finsweet/attributes-cmscombine
 
+## 1.6.4
+
+### Patch Changes
+
+- Updated dependencies [7542dcdb]
+  - @global/constants@1.0.2
+  - @global/factory@1.1.3
+  - @finsweet/attributes-cmscore@1.6.9
+
 ## 1.6.3
 
 ### Patch Changes

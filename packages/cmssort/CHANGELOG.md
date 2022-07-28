@@ -1,5 +1,15 @@
 # @finsweet/attributes-cmssort
 
+## 1.9.4
+
+### Patch Changes
+
+- Updated dependencies [7542dcdb]
+  - @global/constants@1.0.2
+  - @global/factory@1.1.3
+  - @global/import@1.0.2
+  - @finsweet/attributes-cmscore@1.6.9
+
 ## 1.9.3
 
 ### Patch Changes
