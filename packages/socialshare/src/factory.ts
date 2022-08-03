@@ -26,9 +26,22 @@ export const createSocialShareInstances = (scope?: HTMLElement) => {
   for (const key in SOCIAL_SHARE_PLATFORMS) {
     const platform = key as SocialShareTypes;
 
-    const elements = queryElement<HTMLElement>(platform, { scope, operator: 'prefixed', all: true });
+    const elements = queryElement<HTMLElement>(platform, {
+      scope,
+      operator: 'prefixed',
+      all: true,
+      caseInsensitive: true,
+    });
+
+    // fix leaking elements of different attributes but with the same prefix
+    const abovePrefixBounds = `${key}[-0-9]*[a-zA-Z]+`;
+    const socialShareButtons = [...elements].filter((element) => {
+      // if attribute is out of bounds, return false.
+      return !element.getAttribute(elementKey)?.toLocaleLowerCase().match(new RegExp(abovePrefixBounds));
+    });
+
     const create = creators[platform];
-    elements.forEach(create);
+    socialShareButtons.forEach(create);
   }
 };
 

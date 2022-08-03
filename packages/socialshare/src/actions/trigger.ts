@@ -13,7 +13,10 @@ export const listenTriggerClicks = () => {
     for (const key in SOCIAL_SHARE_PLATFORMS) {
       const platform = key as SocialShareTypes;
 
-      const trigger = target.closest<HTMLElement>(getSelector('element', platform, { operator: 'prefixed' }));
+      const trigger = target.closest<HTMLElement>(
+        getSelector('element', platform, { operator: 'prefixed', caseInsensitive: true })
+      );
+
       if (!trigger) continue;
 
       const socialShareData = stores[platform].get(trigger);
