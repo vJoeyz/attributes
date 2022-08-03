@@ -1,5 +1,11 @@
 # @finsweet/attributes-socialshare
 
+## 1.0.3
+
+### Patch Changes
+
+- fa1447f8: Added case Insensitive and fix leak that led to other elements with the same prefix
+
 ## 1.0.2
 
 ### Patch Changes
