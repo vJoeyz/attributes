@@ -1,5 +1,12 @@
 # @finsweet/attributes-cmsselect
 
+## 1.4.7
+
+### Patch Changes
+
+- Updated dependencies [299fd136]
+  - @finsweet/attributes-cmscore@1.6.10
+
 ## 1.4.6
 
 ### Patch Changes
