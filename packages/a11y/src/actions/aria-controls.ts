@@ -21,8 +21,6 @@ export const observeAriaControls = (): void => {
  * @param controller The [aria-controls] controller.
  */
 const observeTarget = (controller: Element) => {
-  let visible = false;
-
   const targetSelector = controller.getAttribute(ARIA_CONTROLS);
   if (!targetSelector) return;
 
@@ -34,15 +32,19 @@ const observeTarget = (controller: Element) => {
 
   const autoFocusTarget = queryElement<HTMLElement>('autoFocus', { operator: 'prefixed', scope: target });
 
+  let visibilityState = isVisible(target);
+
+  setAriaExpanded(controller, visibilityState);
+
   const observerCallback: MutationCallback = (mutations) => {
     mutations.forEach(() => {
       const newVisibilityState = isVisible(target);
 
-      controller.setAttribute(ARIA_EXPANDED_KEY, `${newVisibilityState}`);
+      setAriaExpanded(controller, newVisibilityState);
 
-      if (autoFocusTarget && !visible && newVisibilityState) autoFocusTarget.focus();
+      if (autoFocusTarget && !visibilityState && newVisibilityState) autoFocusTarget.focus();
 
-      visible = newVisibilityState;
+      visibilityState = newVisibilityState;
     });
   };
 
@@ -54,4 +56,13 @@ const observeTarget = (controller: Element) => {
     attributes: true,
     attributeFilter: ['style', 'class'],
   });
+};
+
+/**
+ * Sets the [aria-expanded] attribute value to a controller.
+ * @param controller
+ * @param expanded
+ */
+const setAriaExpanded = (controller: Element, expanded: boolean) => {
+  controller.setAttribute(ARIA_EXPANDED_KEY, `${expanded}`);
 };
