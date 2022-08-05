@@ -98,6 +98,25 @@ importers:
     dependencies:
       '@finsweet/ts-utils': 0.33.1
 
+  packages/a11y:
+    specifiers:
+      '@finsweet/ts-utils': ^0.33.1
+      '@global/build': workspace:*
+      '@global/constants': workspace:*
+      '@global/factory': workspace:*
+      '@global/tests': workspace:*
+      '@global/types': workspace:*
+      just-debounce: ^1.1.0
+    dependencies:
+      '@finsweet/ts-utils': 0.33.1
+      '@global/constants': link:../../global/constants
+      '@global/factory': link:../../global/factory
+      just-debounce: 1.1.0
+    devDependencies:
+      '@global/build': link:../../global/build
+      '@global/tests': link:../../global/tests
+      '@global/types': link:../../global/types
+
   packages/animation:
     specifiers:
       '@global/build': workspace:*

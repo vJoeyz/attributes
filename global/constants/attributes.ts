@@ -1,5 +1,7 @@
 export const ATTRIBUTES_PREFIX = 'fs-attributes';
 
+export const A11Y_ATTRIBUTE = 'a11y';
+
 export const AUTO_VIDEO_ATTRIBUTE = 'autovideo';
 
 export const CMS_CORE = 'cmscore';
