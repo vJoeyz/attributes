@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-a11y",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Accessibility JS solutions for Webflow.",
   "homepage": "https://www.finsweet.com/attributes",
   "sideEffects": false,
