@@ -10,6 +10,8 @@ export const CMS_COMBINE_ATTRIBUTE = 'cmscombine';
 
 export const CMS_FILTER_ATTRIBUTE = 'cmsfilter';
 
+export const CMS_GREENHOUSE_ATTRIBUTE = 'greenhouse';
+
 export const CMS_LOAD_ATTRIBUTE = 'cmsload';
 
 export const CMS_NEST_ATTRIBUTE = 'cmsnest';

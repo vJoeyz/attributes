@@ -1,0 +1,88 @@
+import { generateSelectors } from '@global/factory';
+import { CMS_GREENHOUSE_ATTRIBUTE } from 'global/constants/attributes';
+
+const ATTRIBUTES_PREFIX = `fs-${CMS_GREENHOUSE_ATTRIBUTE}`;
+
+export const LIST_ELEMENT_KEY = 'list';
+export const LINK_ELEMENT_KEY = 'link';
+export const TITLE_ELEMENT_KEY = 'title';
+export const DESCRIPTION_ELEMENT_KEY = 'description';
+export const OFFICE_ELEMENT_KEY = 'office';
+export const DEPARTMENT_ELEMENT_KEY = 'department';
+export const APPLY_ELEMENT_KEY = 'apply';
+export const FORM_ELEMENT_KEY = 'form';
+export const QUESTIONS_ELEMENT_KEY = 'questions';
+export const QUESTIONS_HEADER_ELEMENT_KEY = 'questions-header';
+export const QUESTIONS_DESCRIPTIONS_ELEMENT_KEY = 'questions-description';
+
+export const BOARD_SETTING_KEY = 'board';
+export const QUERY_PARAM_SETTING_KEY = 'queryparam';
+export const DEFAULT_QUERY_PARAM_SETTING_KEY = 'id';
+
+export const ATTRIBUTES = {
+  element: {
+    key: `${ATTRIBUTES_PREFIX}-element`,
+    values: {
+      /**
+       * Added to either the Collection List Wrapper or the Collection List.
+       */
+      list: LIST_ELEMENT_KEY,
+
+      /**
+       * Added to any <a> element, it will append the job ID as a query parameter
+       */
+      link: LINK_ELEMENT_KEY,
+      /**
+       * Added to any text element, it will display the Job Title.
+       */
+      title: TITLE_ELEMENT_KEY,
+      /**
+       * Added to a Rich Text Block, it will display the Job Description.
+       */
+      description: DESCRIPTION_ELEMENT_KEY,
+      /**
+       * Added to any text element, it will display the Job Office name.
+       */
+      office: OFFICE_ELEMENT_KEY,
+      /**
+       * Added to any text element, it will display the Job Department name.
+       */
+      department: DEPARTMENT_ELEMENT_KEY,
+      /**
+       * Added to any link or button element, it will set the link href to the Greenhouse job application page.
+       */
+      apply: APPLY_ELEMENT_KEY,
+
+      /**
+       * Defines a Job Application Form
+       */
+      form: FORM_ELEMENT_KEY,
+      /**
+       * Added to a wrapper Div that holds the Question elements. This element will be cloned for each question.
+       */
+      question: QUESTIONS_ELEMENT_KEY,
+      /**
+       * Display the header of a set of questions.
+       */
+      questionsHeader: QUESTIONS_HEADER_ELEMENT_KEY,
+
+      /**
+       *  It will display the description of a set of questions
+       */
+      questionDescriptions: QUESTIONS_DESCRIPTIONS_ELEMENT_KEY,
+    },
+  },
+
+  /**
+   * Defines the query parameter used to define a job ID. Defaults to id.
+   */
+  queryparam: {
+    key: `${ATTRIBUTES_PREFIX}-${QUERY_PARAM_SETTING_KEY}`,
+    default: DEFAULT_QUERY_PARAM_SETTING_KEY,
+  },
+  board: {
+    key: `${ATTRIBUTES_PREFIX}-${BOARD_SETTING_KEY}`,
+  },
+} as const;
+
+export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
