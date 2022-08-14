@@ -1,5 +1,4 @@
 <script lang="ts">
-  import ElementSetting from '@src/components/Schema/ElementSetting.svelte';
   import Attribute from '@src/components/Attributes/Attribute.svelte';
   import AttributeItem from '@src/components/Attributes/AttributeItem.svelte';
   import AttributeKey from '@src/components/Attributes/AttributeKey.svelte';
@@ -21,8 +20,7 @@
     schemaSettingsKey,
     toggleAttributeSelector,
   } from '@src/stores';
-  import type { ElementUI } from '@src/types/Schema.types';
-  import type { SchemaInput, SchemaInputFieldElement, SchemaInputValidation } from '@src/types/Input.types';
+  import type { SchemaInput, SchemaInputValidation } from '@src/types/Input.types';
   import type { AttributeElementSchema } from '@global/types/schema';
 
   // attribute config

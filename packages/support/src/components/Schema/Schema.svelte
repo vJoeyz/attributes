@@ -9,7 +9,6 @@
   import {
     schemaSettingsKey,
     schemaData,
-    schemaForm,
     schemaUI,
     schemaMode,
     SCHEMA_MODES,

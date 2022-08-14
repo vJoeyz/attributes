@@ -15,7 +15,7 @@ import type { SchemaSettings } from '@src/types/Schema.types';
 /**
  * Run assertions on item of type Element to check if it meets expectations.
  *
- * @param inputElement
+ * @param inputFieldElement
  * @param schema
  * @param schemaSettings
  * @returns

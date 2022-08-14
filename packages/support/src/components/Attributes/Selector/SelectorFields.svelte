@@ -7,7 +7,6 @@
   import Int from './Fields/Int.svelte';
   import CommaSeparatedInt from './Fields/CommaSeparatedInt.svelte';
   import type { AttributeValue } from '@global/types/schema';
-  import SelectorValue from './SelectorValue.svelte';
   import SelectorRadio from './SelectorRadio.svelte';
 
   export let id: string;

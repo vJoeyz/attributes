@@ -23,7 +23,7 @@ export function createElementSelector(
   element: string,
   schemaSettings: SchemaSettings,
   requiresInstance: boolean,
-  caseInsensitive: boolean
+  caseInsensitive = false
 ): SchemaSelector {
   const { key, instance } = schemaSettings;
 

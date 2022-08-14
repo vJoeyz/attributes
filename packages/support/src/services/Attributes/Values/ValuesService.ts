@@ -61,7 +61,7 @@ export function checkFieldSettingValue(
 /**
  * Assert value is equal to expected value and the type is equal to expected type;
  *
- * @param schemaSelector
+ * @param settingSelector
  * @param schemaValue
  * @param attributeValue
  * @param appliedToSelectors
