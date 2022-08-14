@@ -437,6 +437,7 @@ export const attributesData: AttributesData = [
     loadMode: 'defer',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
-    allowSupport: false,
+    schemaSrc: 'schema.json',
+    allowSupport: true,
   },
 ];
