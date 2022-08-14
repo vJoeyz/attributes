@@ -1,5 +1,6 @@
 import {
   AUTO_VIDEO_ATTRIBUTE,
+  CMS_ATTRIBUTE_ATTRIBUTE,
   CMS_COMBINE_ATTRIBUTE,
   CMS_CORE,
   CMS_FILTER_ATTRIBUTE,
@@ -7,6 +8,7 @@ import {
   CMS_NEST_ATTRIBUTE,
   CMS_SELECT_ATTRIBUTE,
   CMS_SLIDER_ATTRIBUTE,
+  CMS_STATIC_ATTRIBUTE,
   CMS_SORT_ATTRIBUTE,
   CMS_TABS_ATTRIBUTE,
   CMS_PREV_NEXT_ATTRIBUTE,
@@ -408,9 +410,10 @@ export const attributesData: AttributesData = [
     scriptSrc: 'socialshare.js',
     examplesSrc: 'examples.json',
     loadMode: 'defer',
+    schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
-    allowSupport: false,
+    allowSupport: true,
   },
   {
     key: QUERY_PARAM_ATTRIBUTE,
@@ -421,8 +424,9 @@ export const attributesData: AttributesData = [
     scriptSrc: 'queryparam.js',
     examplesSrc: 'examples.json',
     loadMode: 'defer',
+    schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
-    allowSupport: false,
+    allowSupport: true,
   },
 ];
