@@ -30,6 +30,9 @@ export const ATTRIBUTES = {
   order: {
     key: `${ATTRIBUTES_PREFIX}-${ORDER_SETTING_KEY}`,
   },
+  /**
+   * Defines if element will be strict static or will interact with load, filters, order.
+   */
   interactive: {
     key: `${ATTRIBUTES_PREFIX}-${INTERACTIVE_SETTING_KEY}`,
     values: INTERACTIVE_SETTING_VALUES,
