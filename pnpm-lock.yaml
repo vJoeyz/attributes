@@ -513,12 +513,16 @@ importers:
 
   packages/greenhouse:
     specifiers:
+      '@finsweet/attributes-cmscore': workspace:*
+      '@finsweet/ts-utils': ^0.33.1
       '@global/build': workspace:*
       '@global/constants': workspace:*
       '@global/factory': workspace:*
       '@global/tests': workspace:*
       '@global/types': workspace:*
     dependencies:
+      '@finsweet/attributes-cmscore': link:../cmscore
+      '@finsweet/ts-utils': 0.33.1
       '@global/constants': link:../../global/constants
       '@global/factory': link:../../global/factory
     devDependencies:

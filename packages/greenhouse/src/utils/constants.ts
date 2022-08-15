@@ -60,7 +60,7 @@ export const ATTRIBUTES = {
       /**
        * Added to a wrapper Div that holds the Question elements. This element will be cloned for each question.
        */
-      question: QUESTIONS_ELEMENT_KEY,
+      questions: QUESTIONS_ELEMENT_KEY,
       /**
        * Display the header of a set of questions.
        */
@@ -86,3 +86,7 @@ export const ATTRIBUTES = {
 } as const;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
+
+export const GH_API_BASE = 'https://boards-api.greenhouse.io/v1/boards/';
+
+export const GH_API_JOBS = '/jobs';
