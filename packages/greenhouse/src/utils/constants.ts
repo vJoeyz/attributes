@@ -1,7 +1,7 @@
 import { generateSelectors } from '@global/factory';
-import { CMS_GREENHOUSE_ATTRIBUTE } from 'global/constants/attributes';
+import { GREENHOUSE_ATTRIBUTE } from 'global/constants/attributes';
 
-const ATTRIBUTES_PREFIX = `fs-${CMS_GREENHOUSE_ATTRIBUTE}`;
+const ATTRIBUTES_PREFIX = `fs-${GREENHOUSE_ATTRIBUTE}`;
 
 export const LIST_ELEMENT_KEY = 'list';
 export const LINK_ELEMENT_KEY = 'link';

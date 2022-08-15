@@ -1,5 +1,5 @@
 import { assessScript, initAttributes } from '@global/factory';
-import { CMS_GREENHOUSE_ATTRIBUTE } from 'global/constants/attributes';
+import { GREENHOUSE_ATTRIBUTE } from 'global/constants/attributes';
 
 import { version } from '../package.json';
 import { init } from './init';
@@ -10,10 +10,10 @@ import { init } from './init';
 
 initAttributes();
 
-window.fsAttributes[CMS_GREENHOUSE_ATTRIBUTE] ||= {};
+window.fsAttributes[GREENHOUSE_ATTRIBUTE] ||= {};
 
 const { preventsLoad } = assessScript();
-const attribute = window.fsAttributes[CMS_GREENHOUSE_ATTRIBUTE];
+const attribute = window.fsAttributes[GREENHOUSE_ATTRIBUTE];
 
 attribute.version = version;
 

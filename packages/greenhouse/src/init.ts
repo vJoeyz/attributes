@@ -1,7 +1,7 @@
 import type { CMSList } from '@finsweet/attributes-cmscore';
 import { importCMSCore } from '@finsweet/attributes-cmscore';
 import {
-  CMS_GREENHOUSE_ATTRIBUTE,
+  GREENHOUSE_ATTRIBUTE,
   CMS_LOAD_ATTRIBUTE,
   CMS_FILTER_ATTRIBUTE,
   CMS_SORT_ATTRIBUTE,
@@ -52,5 +52,5 @@ export const init = async (): Promise<void> => {
   }
 
   // console.log(board, queryParam);
-  window.fsAttributes[CMS_GREENHOUSE_ATTRIBUTE].resolve?.(undefined);
+  window.fsAttributes[GREENHOUSE_ATTRIBUTE].resolve?.(undefined);
 };
