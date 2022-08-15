@@ -10,8 +10,6 @@ export const CMS_COMBINE_ATTRIBUTE = 'cmscombine';
 
 export const CMS_FILTER_ATTRIBUTE = 'cmsfilter';
 
-export const CMS_GREENHOUSE_ATTRIBUTE = 'greenhouse';
-
 export const CMS_LOAD_ATTRIBUTE = 'cmsload';
 
 export const CMS_NEST_ATTRIBUTE = 'cmsnest';
@@ -37,6 +35,8 @@ export const DOCS_ATTRIBUTE = 'docs';
 export const FAV_CUSTOM_ATTRIBUTE = 'favcustom';
 
 export const FORM_SUBMIT_ATTRIBUTE = 'formsubmit';
+
+export const GREENHOUSE_ATTRIBUTE = 'greenhouse';
 
 export const LINK_BLOCK_EDIT_ATTRIBUTE = 'linkblockedit';
 
