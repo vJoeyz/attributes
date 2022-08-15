@@ -1,5 +1,3 @@
-import type { CMSList } from '@finsweet/attributes-cmscore';
-import { importCMSCore } from '@finsweet/attributes-cmscore';
 import {
   GREENHOUSE_ATTRIBUTE,
   CMS_LOAD_ATTRIBUTE,
