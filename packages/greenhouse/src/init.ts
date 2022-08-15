@@ -15,22 +15,24 @@ import { ATTRIBUTES, queryElement } from './utils/constants';
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<void> => {
+export const init = async ({
+  board,
+  queryParam,
+}: {
+  board: string | null;
+  queryParam?: string | null;
+}): Promise<void> => {
   await Promise.all([
     await window.fsAttributes[CMS_LOAD_ATTRIBUTE]?.loading,
     await window.fsAttributes[CMS_FILTER_ATTRIBUTE]?.loading,
     await window.fsAttributes[CMS_SORT_ATTRIBUTE]?.loading,
   ]);
 
-  const { currentScript } = window as any as { currentScript: HTMLScriptElement };
-
-  const board = currentScript.getAttribute(ATTRIBUTES.board.key);
+  queryParam ??= ATTRIBUTES.queryparam.default;
 
   if (!board) {
     return;
   }
-
-  const queryParam = currentScript.getAttribute(ATTRIBUTES.queryparam.key) || ATTRIBUTES.queryparam.default;
 
   const listJobsElements = queryElement<HTMLElement>(ATTRIBUTES.element.values.list, { all: true });
   const listJobsForms = queryElement<HTMLFormElement>(ATTRIBUTES.element.values.form, { all: true });
