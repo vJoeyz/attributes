@@ -511,6 +511,27 @@ importers:
       '@global/tests': link:../../global/tests
       '@global/types': link:../../global/types
 
+  packages/greenhouse:
+    specifiers:
+      '@finsweet/attributes-cmscore': workspace:*
+      '@finsweet/ts-utils': ^0.33.1
+      '@global/build': workspace:*
+      '@global/constants': workspace:*
+      '@global/factory': workspace:*
+      '@global/tests': workspace:*
+      '@global/types': workspace:*
+      slugify: ^1.6.5
+    dependencies:
+      '@finsweet/attributes-cmscore': link:../cmscore
+      '@finsweet/ts-utils': 0.33.1
+      '@global/constants': link:../../global/constants
+      '@global/factory': link:../../global/factory
+      slugify: 1.6.5
+    devDependencies:
+      '@global/build': link:../../global/build
+      '@global/tests': link:../../global/tests
+      '@global/types': link:../../global/types
+
   packages/linkblockedit:
     specifiers:
       '@global/build': workspace:*
