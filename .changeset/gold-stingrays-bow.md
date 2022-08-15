@@ -1,5 +1,5 @@
 ---
-"@finsweet/attributes-greenhouse": patch
+'@finsweet/attributes-greenhouse': patch
 ---
 
-Added project
+Added package
