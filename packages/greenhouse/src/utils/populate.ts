@@ -3,7 +3,6 @@ import type { Job, JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Gre
 import { ATTRIBUTES, queryElement } from '../utils/constants';
 
 export function populateJob(job: Job | JobWithContent, scope: HTMLDivElement | undefined, queryParam: string | null) {
-  console.log(job);
   // link
   const link = queryElement<HTMLLinkElement>(ATTRIBUTES.element.values.link, { scope });
 
