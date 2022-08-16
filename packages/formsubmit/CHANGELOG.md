@@ -1,5 +1,11 @@
 # @finsweet/attributes-formsubmit
 
+## 1.2.4
+
+### Patch Changes
+
+- 070fb82e: Added schema for support
+
 ## 1.2.3
 
 ### Patch Changes
