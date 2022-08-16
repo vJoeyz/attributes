@@ -1,5 +1,11 @@
 # @finsweet/attributes-docs
 
+## 1.7.13
+
+### Patch Changes
+
+- 7d626e05: Enabled support for socialshare and queryparams
+
 ## 1.7.12
 
 ### Patch Changes
