@@ -1,5 +1,5 @@
 import type { AttributeSchema } from '@global/types/schema';
-import { HEADING, INPUT, PARAGRAPH, SELECT, TEXT_BLOCK } from 'global/constants/webflow-selectors';
+import { ALL_INPUTS, HEADING, PARAGRAPH, SELECT, TEXT_BLOCK } from 'global/constants/webflow-selectors';
 
 import { NAME_SETTING_KEY, REMOVE_QUERY_SETTING_KEY } from '../src/utils/constants';
 
@@ -16,7 +16,7 @@ export const schema: AttributeSchema = {
           appliedTo: [
             {
               parent: null,
-              selectors: [TEXT_BLOCK, HEADING, PARAGRAPH, SELECT, INPUT],
+              selectors: [TEXT_BLOCK, HEADING, PARAGRAPH, SELECT, ALL_INPUTS],
               type: 'default',
             },
           ],
