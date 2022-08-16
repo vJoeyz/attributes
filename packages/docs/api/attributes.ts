@@ -409,9 +409,10 @@ export const attributesData: AttributesData = [
     scriptSrc: 'socialshare.js',
     examplesSrc: 'examples.json',
     loadMode: 'defer',
+    schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
-    allowSupport: false,
+    allowSupport: true,
   },
   {
     key: QUERY_PARAM_ATTRIBUTE,
@@ -422,9 +423,10 @@ export const attributesData: AttributesData = [
     scriptSrc: 'queryparam.js',
     examplesSrc: 'examples.json',
     loadMode: 'defer',
+    schemaSrc: 'schema.json',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
-    allowSupport: false,
+    allowSupport: true,
   },
   {
     key: CMS_ATTRIBUTE_ATTRIBUTE,
