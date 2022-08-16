@@ -19,7 +19,9 @@ export async function createJobList(listWrapper: HTMLElement, boardId: string, q
   const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
   listInstances.forEach((listInstance) => {
-    const template: CMSItem = listInstance.items[0];
+    const templateItems = [...listInstance.items];
+
+    const template: CMSItem = templateItems[0];
 
     if (!template) {
       return;
@@ -33,7 +35,9 @@ export async function createJobList(listWrapper: HTMLElement, boardId: string, q
       return populateJob(job, jobItemElement, queryParam) as HTMLDivElement;
     });
 
-    element.remove();
+    for (const templateItem of templateItems) {
+      templateItem.element.remove();
+    }
     listInstance.addItems(jobElements);
   });
 }

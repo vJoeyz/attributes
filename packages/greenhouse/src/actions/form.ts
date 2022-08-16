@@ -196,9 +196,6 @@ const handleFormSubmissions = (form: HTMLFormElement) => {
     e.preventDefault();
     e.stopPropagation();
 
-    const body = new FormData(form.element);
-
-    console.log(body);
     // The endpoint URL should be set on Webflow designer.
     const endpoint = form.element.getAttribute('action');
     if (!endpoint) return;
