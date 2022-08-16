@@ -1,5 +1,11 @@
 # @finsweet/attributes-cmssort
 
+## 1.9.6
+
+### Patch Changes
+
+- 070fb82e: Updated schema field types from element to default
+
 ## 1.9.5
 
 ### Patch Changes

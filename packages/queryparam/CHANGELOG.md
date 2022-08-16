@@ -1,5 +1,11 @@
 # @finsweet/attributes-queryparam
 
+## 1.0.2
+
+### Patch Changes
+
+- 070fb82e: Added schema for support
+
 ## 1.0.1
 
 ### Patch Changes

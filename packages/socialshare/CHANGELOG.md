@@ -1,5 +1,11 @@
 # @finsweet/attributes-socialshare
 
+## 1.0.4
+
+### Patch Changes
+
+- 070fb82e: Added schema for support
+
 ## 1.0.3
 
 ### Patch Changes
