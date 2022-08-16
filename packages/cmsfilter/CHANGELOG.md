@@ -1,5 +1,11 @@
 # @finsweet/attributes-cmsfilter
 
+## 1.12.7
+
+### Patch Changes
+
+- 070fb82e: Updated schema field types from element to default
+
 ## 1.12.6
 
 ### Patch Changes
