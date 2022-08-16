@@ -6,6 +6,7 @@ const ATTRIBUTES_PREFIX = `fs-${GREENHOUSE_ATTRIBUTE}`;
 export const LIST_ELEMENT_KEY = 'list';
 export const LINK_ELEMENT_KEY = 'link';
 export const TITLE_ELEMENT_KEY = 'title';
+export const GROUP_BY_ELEMENT_KEY = 'groupby';
 export const DESCRIPTION_ELEMENT_KEY = 'description';
 export const OFFICE_ELEMENT_KEY = 'office';
 export const DEPARTMENT_ELEMENT_KEY = 'department';
@@ -18,6 +19,7 @@ export const QUESTIONS_DESCRIPTIONS_ELEMENT_KEY = 'questions-description';
 export const BOARD_SETTING_KEY = 'board';
 export const QUERY_PARAM_SETTING_KEY = 'queryparam';
 export const DEFAULT_QUERY_PARAM_SETTING_KEY = 'id';
+export const GROUP_BY_SETTING_KEY = 'groupby';
 
 export const ATTRIBUTES = {
   element: {
@@ -27,6 +29,9 @@ export const ATTRIBUTES = {
        * Added to either the Collection List Wrapper or the Collection List.
        */
       list: LIST_ELEMENT_KEY,
+
+      /** Show the groupby value */
+      groupby: GROUP_BY_ELEMENT_KEY,
 
       /**
        * Added to any <a> element, it will append the job ID as a query parameter
@@ -82,6 +87,9 @@ export const ATTRIBUTES = {
   },
   board: {
     key: `${ATTRIBUTES_PREFIX}-${BOARD_SETTING_KEY}`,
+  },
+  groupBy: {
+    key: `${ATTRIBUTES_PREFIX}-${GROUP_BY_SETTING_KEY}`,
   },
 } as const;
 

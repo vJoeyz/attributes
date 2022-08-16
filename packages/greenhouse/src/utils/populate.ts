@@ -3,7 +3,6 @@ import type { Job, JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Gre
 import { ATTRIBUTES, queryElement } from '../utils/constants';
 
 export function populateJob(job: Job | JobWithContent, scope: HTMLDivElement | undefined, queryParam: string | null) {
-  console.log(job);
   // link
   const link = queryElement<HTMLLinkElement>(ATTRIBUTES.element.values.link, { scope });
 
@@ -35,7 +34,9 @@ export function populateJob(job: Job | JobWithContent, scope: HTMLDivElement | u
     const description = queryElement<HTMLElement>(ATTRIBUTES.element.values.description, { scope });
 
     if (description) {
-      description.innerHTML = unescapeHTML(content);
+      const unescapedHtml = unescapeHTML(content);
+      const descriptionText = unescapedHtml.replace(/class="[-a-zA-Z ]*?"/g, '').replace('<div >', '<div>');
+      description.innerHTML = descriptionText;
     }
   }
 
