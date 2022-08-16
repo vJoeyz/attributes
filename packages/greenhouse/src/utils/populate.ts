@@ -34,7 +34,9 @@ export function populateJob(job: Job | JobWithContent, scope: HTMLDivElement | u
     const description = queryElement<HTMLElement>(ATTRIBUTES.element.values.description, { scope });
 
     if (description) {
-      description.innerHTML = unescapeHTML(content);
+      const unescapedHtml = unescapeHTML(content);
+      const descriptionText = unescapedHtml.replace(/class="[-a-zA-Z ]*?"/g, '').replace('<div >', '<div>');
+      description.innerHTML = descriptionText;
     }
   }
 
