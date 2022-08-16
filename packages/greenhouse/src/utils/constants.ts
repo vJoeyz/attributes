@@ -31,7 +31,7 @@ export const ATTRIBUTES = {
       list: LIST_ELEMENT_KEY,
 
       /** Show the groupby value */
-      groupBy: GROUP_BY_ELEMENT_KEY,
+      groupby: GROUP_BY_ELEMENT_KEY,
 
       /**
        * Added to any <a> element, it will append the job ID as a query parameter
