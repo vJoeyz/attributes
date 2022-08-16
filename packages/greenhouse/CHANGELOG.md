@@ -1,5 +1,11 @@
 # @finsweet/attributes-greenhouse
 
+## 0.0.3
+
+### Patch Changes
+
+- a00e5a8f: Added nested collection
+
 ## 0.0.2
 
 ### Patch Changes
