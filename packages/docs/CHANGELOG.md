@@ -1,5 +1,27 @@
 # @finsweet/attributes-docs
 
+## 1.7.12
+
+### Patch Changes
+
+- Updated dependencies [7542dcdb]
+  - @global/constants@1.0.2
+  - @global/factory@1.1.3
+  - @finsweet/attributes-codehighlight@1.3.5
+  - @finsweet/attributes-copyclip@1.5.5
+  - @finsweet/attributes-toc@1.0.11
+
+## 1.7.11
+
+### Patch Changes
+
+- Updated dependencies [bdd1a78]
+  - @global/constants@1.0.1
+  - @global/factory@1.1.2
+  - @finsweet/attributes-codehighlight@1.3.4
+  - @finsweet/attributes-copyclip@1.5.4
+  - @finsweet/attributes-toc@1.0.10
+
 ## 1.7.10
 
 ### Patch Changes
