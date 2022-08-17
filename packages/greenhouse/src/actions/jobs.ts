@@ -33,6 +33,8 @@ export async function createJobList(listWrapper: HTMLElement, boardId: string, q
 
     createJobsNestedList(listInstance, jobs, queryParam, groupBy);
   });
+
+  return listInstances;
 }
 
 function createJobsDefaultList(listInstance: CMSList, jobs: (Job | JobWithContent)[], queryParam: string) {

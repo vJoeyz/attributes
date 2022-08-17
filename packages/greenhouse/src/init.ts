@@ -6,6 +6,7 @@ import {
 } from 'global/constants/attributes';
 
 import { createJobDetails } from './actions/details';
+import { createJobListFilter } from './actions/filter';
 import { createJobForm } from './actions/form';
 import { createJobList } from './actions/jobs';
 import { ATTRIBUTES, queryElement } from './utils/constants';
@@ -34,9 +35,14 @@ export const init = async ({
 
   const listJobsElements = queryElement<HTMLElement>(ATTRIBUTES.element.values.list, { all: true });
   const listJobsForms = queryElement<HTMLFormElement>(ATTRIBUTES.element.values.form, { all: true });
+  const filtersElements = queryElement<HTMLElement>(ATTRIBUTES.element.values.filter, { all: true });
 
   for (const listJobElement of listJobsElements) {
-    createJobList(listJobElement, board, queryParam);
+    const listInstances = await createJobList(listJobElement, board, queryParam);
+
+    for (const filterElement of filtersElements) {
+      await createJobListFilter(listInstances, filterElement, board);
+    }
   }
 
   const url = new URL(window.location.href);
