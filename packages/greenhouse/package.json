@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-greenhouse",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Attributes integration for Greenhouse",
   "homepage": "https://www.finsweet.com/attributes",
   "sideEffects": false,

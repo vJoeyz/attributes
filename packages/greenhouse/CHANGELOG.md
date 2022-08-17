@@ -1,5 +1,11 @@
 # @finsweet/attributes-greenhouse
 
+## 0.0.4
+
+### Patch Changes
+
+- 96c6f6b0: Added filter for group by jobs
+
 ## 0.0.3
 
 ### Patch Changes
