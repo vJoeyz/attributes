@@ -1,62 +1,198 @@
 import { cloneNode, FORM_CSS_CLASSES, isFormField, isNotEmpty } from '@finsweet/ts-utils';
-import type { JobWithQuestions } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
-import type { Question, Field } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
+import type { JobWithQuestions, Question, Field } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
 import slugify from 'slugify';
 
 import { Form } from '../components/Form';
+import type { FormElementsTemplate, FormTemplate } from '../types';
 import { ATTRIBUTES, GH_API_BASE, GH_API_JOBS, queryElement } from '../utils/constants';
+
+const GDPR_CONSENT_GIVEN_KEY = 'gdpr_consent_given';
 
 export async function createJobForm(form: HTMLFormElement, jobId: string, boardId: string) {
   const jobsRequest = await fetch(`${GH_API_BASE}/${boardId}/${GH_API_JOBS}/${jobId}?questions=true`);
   const job: JobWithQuestions = await jobsRequest.json();
 
-  const questionsTemplate = queryElement<HTMLDivElement>(ATTRIBUTES.element.values.questions, { scope: form });
+  const templates = getTemplates(form);
 
-  if (!questionsTemplate) {
+  if (templates === null) {
     return;
   }
 
-  const { questions } = job;
+  createaInputHidden('job_id', jobId, templates);
+  createaInputHidden('board_id', boardId, templates);
 
-  questions.reverse().forEach((question) => {
-    createInput(question, questionsTemplate, form);
-  });
+  const { questions, compliance, data_compliance, demographic_questions } = job;
 
-  questionsTemplate.remove();
+  for (const question of questions) {
+    createQuestion(question, templates);
+  }
+
+  for (const { questions, description } of compliance) {
+    createQuestionDescription(description, templates);
+
+    for (const question of questions) {
+      createQuestion(question, templates);
+    }
+  }
+
+  if (demographic_questions) {
+    const { header, description, questions } = demographic_questions;
+
+    createQuestionHeader(header, templates);
+    createQuestionDescription(description, templates);
+    for (const question of questions) {
+      createQuestion(question, templates);
+    }
+  }
+
+  const requiresGDPRCheckbox = data_compliance.some(
+    ({ type, requires_consent }) => type === 'gdpr' && requires_consent
+  );
+
+  // if (requiresGDPRCheckbox) {
+  createGDPRCheckbox(templates);
+  // }
+
+  removeTemplates(templates);
 
   handleFormSubmissions(form);
 }
 
+function createaInputHidden(name: string, value: string, templates: FormTemplate) {
+  const { form, wrapper } = templates;
+  const { input } = form;
+  const inputHidden = cloneNode(input);
+  inputHidden.type = 'hidden';
+  inputHidden.id = name;
+  inputHidden.name = name;
+  inputHidden.value = value;
+  inputHidden.removeAttribute('data-name');
+  inputHidden.removeAttribute('placeholder');
+  wrapper.append(inputHidden);
+}
+
+function removeTemplates(templates: FormTemplate) {
+  templates.description.remove();
+  templates.header.remove();
+  templates.form.input.remove();
+  templates.form.textarea.remove();
+  templates.form.checkbox.remove();
+  templates.form.select.remove();
+  templates.form.label.remove();
+}
+
+function getTemplates(form: HTMLFormElement) {
+  const questionsWrapper = queryElement<HTMLDivElement>(ATTRIBUTES.element.values.questions, { scope: form });
+  const questionsHeader = queryElement<HTMLElement>(ATTRIBUTES.element.values['questions-header'], { scope: form });
+  const questionsDescription = queryElement<HTMLElement>(ATTRIBUTES.element.values['questions-description'], {
+    scope: form,
+  });
+
+  if (!questionsWrapper || !questionsHeader || !questionsDescription) {
+    return null;
+  }
+
+  const label = questionsWrapper.querySelector<HTMLLabelElement>('label');
+  const inputTemplate = questionsWrapper.querySelector<HTMLInputElement>(':scope > input');
+  const textAreaTemplate = questionsWrapper.querySelector<HTMLTextAreaElement>('textarea');
+  const selectTemplate = questionsWrapper.querySelector<HTMLSelectElement>('select');
+  const checkboxTemplate = questionsWrapper.querySelector<HTMLLabelElement>(`.${FORM_CSS_CLASSES.checkboxField}`);
+
+  if (!label || !inputTemplate || !textAreaTemplate || !selectTemplate || !checkboxTemplate) {
+    return null;
+  }
+
+  return {
+    form: {
+      label,
+      input: inputTemplate,
+      textarea: textAreaTemplate,
+      select: selectTemplate,
+      checkbox: checkboxTemplate,
+    },
+    wrapper: questionsWrapper,
+    header: questionsHeader,
+    description: questionsDescription,
+  };
+}
+
+function createQuestion(question: Question, templates: FormTemplate) {
+  const { form, wrapper } = templates;
+
+  const { label, ...formElements } = form;
+
+  const labelId = createQuestionLabel(question, label, wrapper);
+  createQuestionField(labelId, question, formElements, wrapper);
+}
+
+function createQuestionDescription(text: string, templates: FormTemplate) {
+  const { description, wrapper } = templates;
+
+  const descriptionElement = cloneNode(description);
+  descriptionElement.innerHTML = decodeHTML(text);
+  wrapper.appendChild(descriptionElement);
+}
+
+function createQuestionHeader(text: string, templates: FormTemplate) {
+  const { header, wrapper } = templates;
+
+  const headerElement = cloneNode(header);
+  headerElement.textContent = text;
+  wrapper.appendChild(headerElement);
+}
+
+function createGDPRCheckbox(templates: FormTemplate) {
+  const { form, wrapper } = templates;
+
+  const { checkbox } = form;
+
+  const checkboxWrapper = cloneNode(checkbox);
+  const checkboxLabel = checkboxWrapper.querySelector('span');
+  const checkboxInput = checkboxWrapper.querySelector('input');
+  if (!checkboxLabel || !checkboxInput) return;
+
+  checkboxLabel.textContent = `I give my consent to collect, store, and process my data for the purpose
+    of considering me for employment.`;
+  checkboxInput.name = GDPR_CONSENT_GIVEN_KEY;
+
+  checkboxInput.required = true;
+
+  wrapper.append(checkboxWrapper);
+}
+
 /**
- * Creates a new question element.
- * @param question
- * @param questionWrapperTemplate
- * @returns The new DOM element.
+ * This function will decode a html encoded string.
+ * @param input The string to be decoded.
+ * @returns {string} The decoded string.
  */
-function createInput(question: Question, questionWrapperTemplate: HTMLDivElement, form: HTMLFormElement) {
-  const questionWrapper = cloneNode(questionWrapperTemplate);
+export const decodeHTML = (input: string) => {
+  const doc = new DOMParser().parseFromString(input, 'text/html');
+  return doc.documentElement.textContent || '';
+};
 
-  const label = questionWrapper.querySelector('label');
-  const inputTemplate = questionWrapper.querySelector<HTMLInputElement>(':scope > input');
-  const textAreaTemplate = questionWrapper.querySelector('textarea');
-  const selectTemplate = questionWrapper.querySelector('select');
-  const checkboxTemplate = questionWrapper.querySelector<HTMLLabelElement>(`.${FORM_CSS_CLASSES.checkboxField}`);
-
-  if (!label || !inputTemplate || !textAreaTemplate || !selectTemplate || !checkboxTemplate) return;
-
-  inputTemplate.remove();
-  textAreaTemplate.remove();
-  selectTemplate.remove();
-  checkboxTemplate.remove();
-
+function createQuestionLabel(question: Question, label: HTMLLabelElement, wrapper: HTMLElement) {
+  const newLabel = cloneNode(label);
   // Label Text
   const labelId = slugify(question.label, { strict: true, lower: true });
-  label.id = labelId;
+  newLabel.id = labelId;
   // Make sure camelcase used is separated by spaces
-  label.innerText = question.label.replace(/([a-z])([A-Z])/g, '$1 $2');
-  label.removeAttribute('for');
+  newLabel.innerText = question.label.replace(/([a-z])([A-Z])/g, '$1 $2');
+  newLabel.removeAttribute('for');
 
   if (!question.required) label.innerText = `${question.label} (optional)`;
+
+  wrapper.append(newLabel);
+
+  return labelId;
+}
+
+function createQuestionField(
+  labelId: string,
+  question: Question,
+  formElements: Omit<FormElementsTemplate, 'label'>,
+  wrapper: HTMLElement
+) {
+  const { input, textarea, select, checkbox } = formElements;
 
   // Question Fields
   question.fields.forEach((field) => {
@@ -64,24 +200,24 @@ function createInput(question: Question, questionWrapperTemplate: HTMLDivElement
 
     if (field.type === 'input_text') {
       // GH doesn't return a type for email fields, hence checking the name.
-      if (field.name === 'email') formField = createInputElement(inputTemplate, 'email');
-      else formField = createInputElement(inputTemplate, 'text');
+      if (field.name === 'email') formField = createInputElement(input, 'email');
+      else formField = createInputElement(input, 'text');
     }
 
     if (field.type === 'input_file') {
-      formField = createInputElement(inputTemplate, 'file');
+      formField = createInputElement(input, 'file');
     }
 
     if (field.type === 'textarea') {
-      formField = createTextAreaElement(textAreaTemplate);
+      formField = createTextAreaElement(textarea);
     }
 
     if (field.type === 'multi_value_single_select') {
-      formField = createSingleSelectElement(selectTemplate, field);
+      formField = createSingleSelectElement(select, field);
     }
 
     if (field.type === 'multi_value_multi_select') {
-      formField = createMultiSelectElement(checkboxTemplate, field, question.required);
+      formField = createMultiSelectElement(checkbox, field, question.required);
     }
 
     if (!formField) return;
@@ -89,16 +225,14 @@ function createInput(question: Question, questionWrapperTemplate: HTMLDivElement
     if (isFormField(formField)) {
       formField.name = field.name;
       formField.id = slugify(field.name, { strict: true, lower: true });
-      formField.required = question.required;
+      // formField.required = question.required;
     }
 
     formField.setAttribute('aria-labelledby', labelId);
     formField.removeAttribute('data-name');
-    form.prepend(formField);
-    form.prepend(label);
-  });
 
-  return questionWrapper;
+    wrapper.append(formField);
+  });
 }
 
 /**
@@ -197,11 +331,11 @@ const handleFormSubmissions = (form: HTMLFormElement) => {
     e.stopPropagation();
 
     // The endpoint URL should be set on Webflow designer.
-    const endpoint = form.element.getAttribute('action');
+    const endpoint = actionForm.element.getAttribute('action');
     if (!endpoint) return;
 
-    const formData = new FormData(form.element);
-    const data: Record<string, string | number | (string | number)[]> = {};
+    const formData = new FormData(actionForm.element);
+    const data: Record<string, string | number | boolean | (string | number | boolean)[]> = {};
 
     for (const [key, value] of formData.entries()) {
       if (value instanceof File) {
@@ -232,6 +366,11 @@ const handleFormSubmissions = (form: HTMLFormElement) => {
         continue;
       }
 
+      if (key === GDPR_CONSENT_GIVEN_KEY) {
+        data[key] = value === 'on';
+        continue;
+      }
+
       data[key] = value;
     }
 
@@ -245,12 +384,12 @@ const handleFormSubmissions = (form: HTMLFormElement) => {
         body: JSON.stringify(data),
       });
 
-      if (network.ok) form.showSuccess();
+      if (network.ok) actionForm.showSuccess();
       else {
-        form.showError();
+        actionForm.showError();
       }
     } catch (error) {
-      form.showError();
+      actionForm.showError();
     }
   });
 };

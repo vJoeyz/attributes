@@ -74,12 +74,12 @@ export const ATTRIBUTES = {
       /**
        * Display the header of a set of questions.
        */
-      questionsHeader: QUESTIONS_HEADER_ELEMENT_KEY,
+      ['questions-header']: QUESTIONS_HEADER_ELEMENT_KEY,
 
       /**
        *  It will display the description of a set of questions
        */
-      questionDescriptions: QUESTIONS_DESCRIPTIONS_ELEMENT_KEY,
+      ['questions-description']: QUESTIONS_DESCRIPTIONS_ELEMENT_KEY,
     },
   },
 
