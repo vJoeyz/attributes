@@ -49,9 +49,9 @@ export async function createJobForm(form: HTMLFormElement, jobId: string, boardI
     ({ type, requires_consent }) => type === 'gdpr' && requires_consent
   );
 
-  // if (requiresGDPRCheckbox) {
-  createGDPRCheckbox(templates);
-  // }
+  if (requiresGDPRCheckbox) {
+    createGDPRCheckbox(templates);
+  }
 
   removeTemplates(templates);
 
@@ -225,7 +225,7 @@ function createQuestionField(
     if (isFormField(formField)) {
       formField.name = field.name;
       formField.id = slugify(field.name, { strict: true, lower: true });
-      // formField.required = question.required;
+      formField.required = question.required;
     }
 
     formField.setAttribute('aria-labelledby', labelId);
