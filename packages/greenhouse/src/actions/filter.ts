@@ -7,6 +7,7 @@ import { GH_API_BASE } from '../utils/constants';
 
 export async function createJobListFilter(listInstances: CMSList[], filter: HTMLElement, boardId: string) {
   const filterKey = filter.getAttribute(ATTRIBUTES.filter.key);
+  console.log(filterKey);
 
   if (!filterKey) {
     return;
