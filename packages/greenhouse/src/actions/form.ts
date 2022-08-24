@@ -1,10 +1,11 @@
-import { cloneNode, FORM_CSS_CLASSES, isFormField } from '@finsweet/ts-utils';
+import { cloneNode, FORM_CSS_CLASSES } from '@finsweet/ts-utils';
 import type { JobWithQuestions, Question } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
 import slugify from 'slugify';
 
 import { Form } from '../components/Form';
 import type { FormElementsTemplate, FormTemplate } from '../types';
-import { ATTRIBUTES, GH_API_BASE, GH_API_JOBS, queryElement } from '../utils/constants';
+import { ATTRIBUTES, getSelector, GH_API_BASE, GH_API_JOBS, queryElement } from '../utils/constants';
+import { insertAfter } from '../utils/dom';
 import {
   createInputHidden,
   createInputElement,
@@ -14,6 +15,7 @@ import {
 } from '../utils/elements';
 
 const GDPR_CONSENT_GIVEN_KEY = 'gdpr_consent_given';
+const DEMOGRAPHIC_ANSWERS_PREFIX = 'demographic_answers';
 
 interface DemographicAnswer {
   free_form: boolean;
@@ -35,6 +37,41 @@ interface DemographicQuestions {
   questions: DemographicQuestion[];
 }
 
+interface DateResponse {
+  month: string;
+  year: string;
+}
+
+interface EducationResponse {
+  school_name_id: string;
+  degree_id: string;
+  discipline_id: string;
+  start_date: DateResponse;
+  end_date: DateResponse;
+}
+
+interface EmploymentResponse {
+  company_name: string;
+  title: string;
+  start_date: DateResponse;
+  end_date: DateResponse;
+  current: boolean;
+}
+
+interface DemographicAnswerResponse {
+  answer_option_id: number;
+  text?: string;
+}
+
+interface DemographicResponse {
+  question_id: number;
+  answer_options: DemographicAnswerResponse[];
+}
+
+interface ComplianceResponse {
+  gdpr_consent_given: boolean;
+}
+
 export async function createJobForm(form: HTMLFormElement, jobId: string, boardId: string) {
   const jobsRequest = await fetch(`${GH_API_BASE}/${boardId}/${GH_API_JOBS}/${jobId}?questions=true`);
   const job: JobWithQuestions = await jobsRequest.json();
@@ -45,26 +82,38 @@ export async function createJobForm(form: HTMLFormElement, jobId: string, boardI
     return;
   }
 
-  createInputHidden('job_id', jobId, templates);
-  createInputHidden('board_id', boardId, templates);
+  removeTemplates(templates);
+
+  for (const { key, value } of [
+    { key: 'job_id', value: jobId },
+    { key: 'board_id', value: boardId },
+  ]) {
+    createInputHidden(key, value, templates);
+  }
 
   const { questions, compliance, data_compliance /*demographic_questions*/ } = job;
 
   for (const question of questions) {
-    createQuestion(question, templates);
+    const cloneWrapper = cloneNode(templates.wrapper);
+    createQuestion(question, { ...templates, wrapper: cloneWrapper });
+    appendQuestionWrapper(templates, cloneWrapper);
   }
 
   for (const { questions, description } of compliance) {
-    createQuestionDescription(description, templates);
+    const cloneWrapper = cloneNode(templates.wrapper);
+
+    createQuestionDescription(description, { ...templates, wrapper: cloneWrapper });
 
     for (const question of questions) {
-      createQuestion(question, templates);
+      createQuestion(question, { ...templates, wrapper: cloneWrapper });
     }
+
+    appendQuestionWrapper(templates, cloneWrapper);
   }
 
-  // if (demographic_questions) {
-  /** @TODO import from ts-utils  */
-  // const demographicQuestionsTyped = demographic_questions as unknown as DemographicQuestions;
+  // // if (demographic_questions) {
+  // /** @TODO import from ts-utils  */
+  // // const demographicQuestionsTyped = demographic_questions as unknown as DemographicQuestions;
 
   const demographicQuestionsTyped: DemographicQuestions = {
     header: 'Diversity and Inclusion at Acme Corp.',
@@ -92,7 +141,35 @@ export async function createJobForm(form: HTMLFormElement, jobId: string, boardI
             free_form: false,
           },
           {
-            id: 102,
+            id: 103,
+            label: 'Prefer to Type My Own',
+            free_form: true,
+          },
+        ],
+      },
+      {
+        id: 2,
+        label: 'Favorite Country',
+        required: false,
+        type: 'multi_value_single_select',
+        answer_options: [
+          {
+            id: 200,
+            label: 'Brazil',
+            free_form: false,
+          },
+          {
+            id: 201,
+            label: 'USA',
+            free_form: false,
+          },
+          {
+            id: 202,
+            label: 'Spain',
+            free_form: false,
+          },
+          {
+            id: 203,
             label: 'Prefer to Type My Own',
             free_form: true,
           },
@@ -102,48 +179,67 @@ export async function createJobForm(form: HTMLFormElement, jobId: string, boardI
   };
 
   if (demographicQuestionsTyped) {
+    const cloneWrapper = cloneNode(templates.wrapper);
+
     const { header, description, questions } = demographicQuestionsTyped;
 
-    createQuestionHeader(header, templates);
-    createQuestionDescription(description, templates);
+    createQuestionHeader(header, { ...templates, wrapper: cloneWrapper });
+    createQuestionDescription(description, { ...templates, wrapper: cloneWrapper });
     for (const question of questions) {
-      createDemographicQuestion(question, templates);
+      createDemographicQuestion(question, { ...templates, wrapper: cloneWrapper });
     }
-  }
 
-  // }
+    appendQuestionWrapper(templates, cloneWrapper);
+  }
 
   const requiresGDPRCheckbox = data_compliance.some(
     ({ type, requires_consent }) => type === 'gdpr' && requires_consent
   );
 
   if (requiresGDPRCheckbox) {
-    createGDPRCheckbox(templates);
+    const cloneWrapper = cloneNode(templates.wrapper);
+    createGDPRCheckbox({ ...templates, wrapper: cloneWrapper });
+
+    appendQuestionWrapper(templates, cloneWrapper);
   }
 
-  removeTemplates(templates);
+  templates.wrapper.remove();
 
   handleFormSubmissions(form);
 }
 
+function appendQuestionWrapper(templates: FormTemplate, wrapper: HTMLElement) {
+  const { form } = templates;
+
+  const allQuestion = form.querySelectorAll<HTMLElement>(`${getSelector('element', 'questions')}`);
+
+  const lastQuestion = allQuestion[allQuestion.length - 1];
+
+  insertAfter(wrapper, lastQuestion);
+}
+
+// function createHiddenField() {}
+
 function removeTemplates(templates: FormTemplate) {
   templates.description.remove();
   templates.header.remove();
-  templates.form.input.remove();
-  templates.form.textarea.remove();
-  templates.form.checkbox.remove();
-  templates.form.select.remove();
-  templates.form.label.remove();
+  templates.elements.input.remove();
+  templates.elements.textarea.remove();
+  templates.elements.checkbox.remove();
+  templates.elements.select.remove();
+  templates.elements.label.remove();
 }
 
 function getTemplates(form: HTMLFormElement) {
+  const formWrapper = form.closest<HTMLFormElement>(`form`);
+
   const questionsWrapper = queryElement<HTMLDivElement>(ATTRIBUTES.element.values.questions, { scope: form });
   const questionsHeader = queryElement<HTMLElement>(ATTRIBUTES.element.values['questions-header'], { scope: form });
   const questionsDescription = queryElement<HTMLElement>(ATTRIBUTES.element.values['questions-description'], {
     scope: form,
   });
 
-  if (!questionsWrapper || !questionsHeader || !questionsDescription) {
+  if (!questionsWrapper || !questionsHeader || !questionsDescription || !formWrapper) {
     return null;
   }
 
@@ -158,7 +254,8 @@ function getTemplates(form: HTMLFormElement) {
   }
 
   return {
-    form: {
+    form: formWrapper,
+    elements: {
       label,
       input: inputTemplate,
       textarea: textAreaTemplate,
@@ -172,18 +269,18 @@ function getTemplates(form: HTMLFormElement) {
 }
 
 function createQuestion(question: Question, templates: FormTemplate) {
-  const { form, wrapper } = templates;
+  const { elements, wrapper } = templates;
 
-  const { label, ...formElements } = form;
+  const { label, ...formElements } = elements;
 
   const labelId = createQuestionLabel(question.label, question.required, label, wrapper);
   createQuestionField(labelId, question, formElements, wrapper);
 }
 
 function createDemographicQuestion(question: DemographicQuestion, templates: FormTemplate) {
-  const { form, wrapper } = templates;
+  const { elements, wrapper } = templates;
 
-  const { label, ...formElements } = form;
+  const { label, ...formElements } = elements;
 
   const labelId = createQuestionLabel(question.label, question.required, label, wrapper);
   createDemographicQuestionField(labelId, question, formElements, wrapper);
@@ -251,20 +348,18 @@ function createQuestionField(
 
   // Question Fields
   question.fields.forEach(({ name, type, values }) => {
-    let formField: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | HTMLFieldSetElement | undefined;
-
     if (type === 'input_text') {
       // GH doesn't return a type for email fields, hence checking the name.
-      if (name === 'email') formField = createInputElement(input, 'email', name, labelId, required);
-      else formField = createInputElement(input, 'text', name, labelId, required);
+      if (name === 'email') createInputElement(wrapper, input, 'email', name, labelId, required);
+      else createInputElement(wrapper, input, 'text', name, labelId, required);
     }
 
     if (type === 'input_file') {
-      formField = createInputElement(input, 'file', name, labelId, required);
+      createInputElement(wrapper, input, 'file', name, labelId, required);
     }
 
     if (type === 'textarea') {
-      formField = createTextAreaElement(textarea, name, labelId, required);
+      createTextAreaElement(wrapper, textarea, name, labelId, required);
     }
 
     if (type === 'multi_value_single_select' && values) {
@@ -273,7 +368,7 @@ function createQuestionField(
         value,
         freeForm: false,
       }));
-      formField = createSingleSelectElement(select, name, labelId, required, options);
+      createSingleSelectElement(wrapper, select, null, name, labelId, required, options);
     }
 
     if (type === 'multi_value_multi_select' && values) {
@@ -283,12 +378,8 @@ function createQuestionField(
         freeForm: false,
       }));
 
-      formField = createMultiSelectElement(checkbox, name, required, options);
+      createMultiSelectElement(wrapper, checkbox, null, name, required, options);
     }
-
-    if (!formField) return;
-
-    wrapper.append(formField);
   });
 }
 
@@ -298,28 +389,22 @@ function createDemographicQuestionField(
   formElements: Omit<FormElementsTemplate, 'label'>,
   wrapper: HTMLElement
 ) {
-  const { select, checkbox } = formElements;
+  const { select, checkbox, input } = formElements;
   const { type, answer_options, id, required } = question;
 
-  const name = `question_${id}`;
-
-  let formField: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | HTMLFieldSetElement | undefined;
+  const name = `${DEMOGRAPHIC_ANSWERS_PREFIX}_${id}`;
 
   if (type === 'multi_value_single_select') {
     const options = answer_options.map(({ label, id, free_form }) => ({ label, value: id, freeForm: free_form }));
-    formField = createSingleSelectElement(select, name, labelId, required, options);
+    createSingleSelectElement(wrapper, select, input, name, labelId, required, options);
+    return;
   }
 
   if (type === 'multi_value_multi_select') {
     const options = answer_options.map(({ label, id, free_form }) => ({ label, value: id, freeForm: free_form }));
-    formField = createMultiSelectElement(checkbox, name, required, options);
-  }
-
-  if (!formField) {
+    createMultiSelectElement(wrapper, checkbox, input, name, required, options);
     return;
   }
-
-  wrapper.append(formField);
 }
 
 /**
@@ -338,9 +423,33 @@ const handleFormSubmissions = (form: HTMLFormElement) => {
     if (!endpoint) return;
 
     const formData = new FormData(actionForm.element);
-    const data: Record<string, string | number | boolean | (string | number | boolean)[]> = {};
 
     for (const [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+
+    const data: Record<
+      string,
+      | string
+      | number
+      | boolean
+      | ComplianceResponse
+      | (
+          | string
+          | number
+          | boolean
+          | EducationResponse
+          | EmploymentResponse
+          | DemographicResponse
+          | ComplianceResponse
+        )[]
+    > = {};
+
+    for (const [key, value] of formData.entries()) {
+      if (!value || (value instanceof File && !value.size)) {
+        continue;
+      }
+
       if (value instanceof File) {
         if (!value.size) {
           data[key] = '';
@@ -356,6 +465,41 @@ const handleFormSubmissions = (form: HTMLFormElement) => {
         if (!base64) continue;
         // strip away data:image/png;base64 from the base64 string
         data[fileContentKey] = base64.toString().split(',').pop() || '';
+        continue;
+      }
+
+      if (key.startsWith(DEMOGRAPHIC_ANSWERS_PREFIX)) {
+        if (!data[DEMOGRAPHIC_ANSWERS_PREFIX]) {
+          data[DEMOGRAPHIC_ANSWERS_PREFIX] = [];
+        }
+
+        const answers = data[DEMOGRAPHIC_ANSWERS_PREFIX] as DemographicResponse[];
+
+        const [fieldId, fieldValue, fieldType] = key.replace(`${DEMOGRAPHIC_ANSWERS_PREFIX}_`, '').split('_');
+
+        const questionId = parseInt(fieldId);
+
+        const questionData = answers.find((answer) => answer.question_id === questionId);
+
+        const answerOption = (fieldType && { answer_option_id: parseInt(fieldValue), text: value }) || {
+          answer_option_id: parseInt(value),
+        };
+
+        if (!questionData) {
+          const questionAnswer = { question_id: questionId, answer_options: [answerOption] };
+          answers.push(questionAnswer);
+          continue;
+        }
+
+        const questionAnwserOption = questionData.answer_options.find(
+          (option) => option.answer_option_id === parseInt(value) || option.answer_option_id === parseInt(fieldValue)
+        );
+
+        if (questionAnwserOption && fieldType) {
+          questionAnwserOption.text = value;
+          continue;
+        }
+        questionData.answer_options.push(answerOption);
         continue;
       }
 
@@ -383,7 +527,6 @@ const handleFormSubmissions = (form: HTMLFormElement) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        // body: body,
         body: JSON.stringify(data),
       });
 

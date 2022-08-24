@@ -7,8 +7,9 @@ export interface FormElementsTemplate {
 }
 
 export interface FormTemplate {
+  form: HTMLFormElement;
   wrapper: HTMLElement;
-  form: FormElementsTemplate;
+  elements: FormElementsTemplate;
   header: HTMLElement;
   description: HTMLElement;
 }
