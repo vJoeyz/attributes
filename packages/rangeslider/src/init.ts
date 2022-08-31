@@ -52,7 +52,7 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
   const calculateNewValue = (clientX: number) => {
     const value = minRange + ((clientX - trackLeft) * totalRange) / trackWidth;
 
-    const adjustedValue = adjustValueToStep(value, step, precision);
+    const adjustedValue = adjustValueToStep(value, step, precision, minRange);
 
     return adjustedValue;
   };
@@ -119,6 +119,8 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
     if (trackLeft > clientX) value = minRange;
     else if (trackRight < clientX) value = maxRange;
     else value = calculateNewValue(clientX);
+
+    console.log(value);
 
     const closestHandle = getClosestValidHandle(value, handles);
     if (!closestHandle) return;
