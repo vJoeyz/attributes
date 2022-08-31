@@ -120,8 +120,6 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
     else if (trackRight < clientX) value = maxRange;
     else value = calculateNewValue(clientX);
 
-    console.log(value);
-
     const closestHandle = getClosestValidHandle(value, handles);
     if (!closestHandle) return;
 

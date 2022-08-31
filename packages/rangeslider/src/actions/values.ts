@@ -54,12 +54,11 @@ export const adjustValueToStep = (value: number, step: number, precision: number
  * @returns The closest valid `Handle`, if existing.
  */
 export const getClosestValidHandle = (adjustedValue: number, [handle1, handle2]: HandleInstances) => {
-  console.log(handle1, handle2);
   const handle1Value = handle1.getValue();
   const handle2Value = handle2?.getValue();
 
   const closestValue = getClosestValue(adjustedValue, [handle1Value, handle2Value]);
-  console.log(closestValue);
+
   if (typeof closestValue !== 'number') return;
 
   const [handle1MinValue, handle1MaxValue] = handle1.getConstraints();
