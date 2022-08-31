@@ -4,6 +4,7 @@ import type { CMSList } from 'packages/cmscore/src';
 
 import { ATTRIBUTES, getSelector } from '../utils/constants';
 import { GH_API_BASE } from '../utils/constants';
+import { fetchDepartments, fetchOffices } from '../utils/fetch';
 
 export async function createJobListFilter(listInstances: CMSList[], filter: HTMLElement, boardId: string) {
   const filterKey = filter.getAttribute(ATTRIBUTES.filter.key);
@@ -129,7 +130,7 @@ function filterEvent(listInstances: CMSList[], value: string) {
   }
 }
 
-async function fetchFilterData(boardId: string, filterKey: string): Promise<string[]> {
+export async function fetchFilterData(boardId: string, filterKey: string): Promise<string[]> {
   switch (filterKey) {
     case 'departments':
       return fetchDepartments(boardId);
@@ -137,43 +138,5 @@ async function fetchFilterData(boardId: string, filterKey: string): Promise<stri
       return fetchOffices(boardId);
     default:
       return [];
-  }
-}
-
-/**
- * Fetches departments from Greenhouse
- * @returns an array of {@link Greenhouse.Office} objects
- */
-async function fetchOffices(boardId: string): Promise<string[]> {
-  try {
-    // Call the API
-    const endpoint = `${GH_API_BASE}${boardId}/offices`;
-    const response = await fetch(endpoint);
-    const data: OfficesResponse = await response.json();
-
-    return data.offices.map((office) => office.name);
-  } catch (error) {
-    return [];
-  }
-}
-
-// OPEN POSITION HELPERS
-
-/**
- * Fetches departments and jobs from Greenhouse
- * @returns an array of {@link Department} objects
- */
-async function fetchDepartments(boardId: string): Promise<string[]> {
-  try {
-    // Call the API
-    const endpoint = `${GH_API_BASE}${boardId}/departments`;
-    const response = await fetch(endpoint);
-    const data: DepartmentsResponse = await response.json();
-
-    // Filter out departments with no jobs
-    const departments = data.departments.filter((department) => department.jobs.length > 0);
-    return departments.map((department) => department.name);
-  } catch (error) {
-    return [];
   }
 }

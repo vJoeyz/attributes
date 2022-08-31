@@ -4,12 +4,14 @@ import {
   CMS_FILTER_ATTRIBUTE,
   CMS_SORT_ATTRIBUTE,
 } from 'global/constants/attributes';
+import type { CMSList } from 'packages/cmscore/src';
+import type { CMSFilters } from 'packages/cmsfilter/src/components/CMSFilters';
 
 import { createJobDetails } from './actions/details';
-import { createJobListFilter } from './actions/filter';
 import { createJobForm } from './actions/form';
-import { createJobList } from './actions/jobs';
-import { ATTRIBUTES, queryElement } from './utils/constants';
+import { createJobList, addJobsToList } from './actions/jobs';
+import { createFilters } from './factory/greenhouse';
+import { ATTRIBUTES, getSelector, queryElement } from './utils/constants';
 
 /**
  * Inits the attribute.
@@ -21,29 +23,41 @@ export const init = async ({
   board: string | null;
   queryParam?: string | null;
 }): Promise<void> => {
-  await Promise.all([
-    await window.fsAttributes[CMS_LOAD_ATTRIBUTE]?.loading,
-    await window.fsAttributes[CMS_FILTER_ATTRIBUTE]?.loading,
-    await window.fsAttributes[CMS_SORT_ATTRIBUTE]?.loading,
-  ]);
-
+  // init params
   queryParam ??= ATTRIBUTES.queryparam.default;
 
   if (!board) {
     return;
   }
 
+  const cmsLoadLists: CMSList[] = await window.fsAttributes[CMS_LOAD_ATTRIBUTE]?.loading;
+
+  const cmsFilterLists: CMSFilters[] = await window.fsAttributes[CMS_FILTER_ATTRIBUTE]?.loading;
+
   const listJobsElements = queryElement<HTMLElement>(ATTRIBUTES.element.values.list, { all: true });
-  const listJobsForms = queryElement<HTMLFormElement>(ATTRIBUTES.element.values.form, { all: true });
-  const filtersElements = queryElement<HTMLElement>(ATTRIBUTES.element.values.filter, { all: true });
 
-  for (const listJobElement of listJobsElements) {
-    const listInstances = await createJobList(listJobElement, board, queryParam);
+  for (const listJobsElement of listJobsElements) {
+    const cmsLoadList = cmsLoadLists && cmsLoadLists.find((listInstance) => listInstance.wrapper === listJobsElement);
 
-    for (const filterElement of filtersElements) {
-      await createJobListFilter(listInstances, filterElement, board);
+    if (cmsLoadList) {
+      addJobsToList(cmsLoadList, board, queryParam);
+      continue;
     }
+
+    createJobList(listJobsElement, board, queryParam);
   }
+
+  const filtersElements = queryElement<HTMLInputElement | HTMLSelectElement>(ATTRIBUTES.element.values.filter, {
+    all: true,
+  });
+
+  // const cmsFilterLists: CMSList[] = await window.fsAttributes[CMS_FILTER_ATTRIBUTE]?.loading;
+
+  if (cmsFilterLists && filtersElements.length > 0) {
+    await createFilters(board, cmsFilterLists, [...filtersElements]);
+  }
+
+  const listJobsForms = queryElement<HTMLFormElement>(ATTRIBUTES.element.values.form, { all: true });
 
   const url = new URL(window.location.href);
 

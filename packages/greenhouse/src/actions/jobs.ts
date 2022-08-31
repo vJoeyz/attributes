@@ -2,39 +2,54 @@ import { CMSItem, CMSList } from '@finsweet/attributes-cmscore';
 import { importCMSCore } from '@finsweet/attributes-cmscore';
 import { isNotEmpty } from '@finsweet/ts-utils';
 import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
-import type { JobsResponse, Job, JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
+import type { Job, JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
 
-import { ATTRIBUTES, getSelector, GH_API_BASE, GH_API_JOBS } from '../utils/constants';
+import { ATTRIBUTES, getSelector } from '../utils/constants';
+import { fetchJobs } from '../utils/fetch';
 import { populateJob } from '../utils/populate';
 
 export async function createJobList(listWrapper: HTMLElement, boardId: string, queryParam: string) {
   const cmsCore = await importCMSCore();
   if (!cmsCore) return [];
 
-  const jobsRequest = await fetch(`${GH_API_BASE}/${boardId}/${GH_API_JOBS}?content=true`);
-
-  const jobsResponse: JobsResponse = await jobsRequest.json();
-
-  const { jobs } = jobsResponse;
-
+  const jobs = await fetchJobs(boardId);
   // Create the list instances
-  const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
+  const listInstance = cmsCore.createCMSListInstance(listWrapper);
 
-  listInstances.forEach((listInstance) => {
-    const { wrapper } = listInstance;
+  if (!listInstance) {
+    return;
+  }
 
-    const groupBy = wrapper.getAttribute(ATTRIBUTES.groupBy.key);
-    const nestedWrapper = wrapper.querySelector<HTMLElement>(`.${CMS_CSS_CLASSES.wrapper}`);
+  // listInstances.forEach((listInstance) => {
+  const { wrapper } = listInstance;
 
-    if (!groupBy || !nestedWrapper) {
-      createJobsDefaultList(listInstance, jobs, queryParam);
-      return;
-    }
+  const groupBy = wrapper.getAttribute(ATTRIBUTES.groupBy.key);
+  const nestedWrapper = wrapper.querySelector<HTMLElement>(`.${CMS_CSS_CLASSES.wrapper}`);
 
-    createJobsNestedList(listInstance, jobs, queryParam, groupBy);
-  });
+  if (!groupBy || !nestedWrapper) {
+    createJobsDefaultList(listInstance, jobs, queryParam);
+    return;
+  }
 
-  return listInstances;
+  createJobsNestedList(listInstance, jobs, queryParam, groupBy);
+
+  // return listInstances;
+}
+
+export async function addJobsToList(listInstance: CMSList, boardId: string, queryParam: string) {
+  const jobs = await fetchJobs(boardId);
+
+  const { wrapper } = listInstance;
+
+  const groupBy = wrapper.getAttribute(ATTRIBUTES.groupBy.key);
+  const nestedWrapper = wrapper.querySelector<HTMLElement>(`.${CMS_CSS_CLASSES.wrapper}`);
+
+  if (!groupBy || !nestedWrapper) {
+    createJobsDefaultList(listInstance, jobs, queryParam);
+    return;
+  }
+
+  createJobsNestedList(listInstance, jobs, queryParam, groupBy);
 }
 
 function createJobsDefaultList(listInstance: CMSList, jobs: (Job | JobWithContent)[], queryParam: string) {
@@ -54,9 +69,7 @@ function createJobsDefaultList(listInstance: CMSList, jobs: (Job | JobWithConten
     return populateJob(job, jobItemElement, queryParam) as HTMLDivElement;
   });
 
-  for (const templateItem of templateItems) {
-    templateItem.element.remove();
-  }
+  listInstance.clearItems(true);
   listInstance.addItems(jobElements);
 }
 
