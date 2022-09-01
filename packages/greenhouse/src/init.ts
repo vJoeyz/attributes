@@ -49,7 +49,7 @@ export const init = async ({
   // const cmsFilterLists: CMSList[] = await window.fsAttributes[CMS_FILTER_ATTRIBUTE]?.loading;
 
   if (cmsFilterLists && filtersElements.length > 0) {
-    await createFilters(board, cmsFilterLists, [...filtersElements]);
+    await createFilters(board, queryParam, cmsFilterLists, [...filtersElements]);
   }
 
   const listJobsForms = queryElement<HTMLFormElement>(ATTRIBUTES.element.values.form, { all: true });

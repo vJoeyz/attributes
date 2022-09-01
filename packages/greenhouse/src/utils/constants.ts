@@ -109,3 +109,5 @@ export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 export const GH_API_BASE = 'https://boards-api.greenhouse.io/v1/boards/';
 
 export const GH_API_JOBS = '/jobs';
+
+export const SUPPORTED_NESTED_KEYS = ['department', 'office'];

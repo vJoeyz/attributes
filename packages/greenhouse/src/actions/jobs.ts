@@ -4,6 +4,7 @@ import { isNotEmpty } from '@finsweet/ts-utils';
 import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
 import type { Job, JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
 
+import { SUPPORTED_NESTED_KEYS } from '../utils/constants';
 import { fetchJobs } from '../utils/fetch';
 import { populateJob } from '../utils/populate';
 
@@ -21,43 +22,62 @@ export async function createJobList(listWrapper: HTMLElement, boardId: string, q
   await addJobsToList(listInstance, boardId, queryParam);
 }
 
-const SUPPORTED_NESTED_KEYS = ['department', 'office'];
-
-export async function addJobsToList(listInstance: CMSList, boardId: string, queryParam: string) {
-  const jobs = await fetchJobs(boardId);
-
+export function getNestedKey(listInstance: CMSList) {
   const templateItem = [...listInstance.items][0];
 
   const { element } = templateItem;
 
-  const nestedList = element.querySelector(`.${CMS_CSS_CLASSES.wrapper}`);
+  const nestedList = element.querySelector<HTMLDivElement>(`.${CMS_CSS_CLASSES.wrapper}`);
 
-  if (nestedList) {
-    const groupByKeys: string[] = [...element.querySelectorAll<HTMLElement>(`[fs-greenhouse-element]`)]
-      .map((element) => {
-        const elementAttribute = element.getAttribute('fs-greenhouse-element');
+  if (!nestedList) {
+    return null;
+  }
 
-        if (!elementAttribute) {
-          return null;
-        }
+  const groupByKeys: string[] = [...element.querySelectorAll<HTMLElement>(`[fs-greenhouse-element]`)]
+    .map((groupElement) => {
+      const elementAttribute = groupElement.getAttribute('fs-greenhouse-element');
 
-        return (
-          (nestedList.contains(element) === false &&
-            SUPPORTED_NESTED_KEYS.includes(elementAttribute) &&
-            elementAttribute) ||
-          null
-        );
-      })
-      //.filter((value) => value !== null)
-      .filter(isNotEmpty);
-    createJobsNestedList(listInstance, jobs, queryParam, groupByKeys);
+      if (!elementAttribute) {
+        return null;
+      }
+
+      return (
+        (groupElement.contains(element) === false &&
+          SUPPORTED_NESTED_KEYS.includes(elementAttribute) &&
+          elementAttribute) ||
+        null
+      );
+    })
+    //.filter((value) => value !== null)
+    .filter(isNotEmpty);
+
+  return groupByKeys[0] || null;
+}
+
+export function getNestedList(listInstance: CMSList): HTMLDivElement | null {
+  const templateItem = [...listInstance.items][0];
+
+  const { element } = templateItem;
+
+  const nestedList = element.querySelector<HTMLDivElement>(`.${CMS_CSS_CLASSES.wrapper}`);
+
+  return nestedList;
+}
+
+export async function addJobsToList(listInstance: CMSList, boardId: string, queryParam: string) {
+  const jobs = await fetchJobs(boardId);
+
+  const groupByKey = getNestedKey(listInstance);
+
+  if (groupByKey) {
+    createJobsNestedList(listInstance, jobs, queryParam, groupByKey);
     return;
   }
 
-  createJobsDefaultList(listInstance, jobs, queryParam);
+  createJobsList(listInstance, jobs, queryParam);
 }
 
-function createJobsDefaultList(listInstance: CMSList, jobs: (Job | JobWithContent)[], queryParam: string) {
+function createJobsList(listInstance: CMSList, jobs: (Job | JobWithContent)[], queryParam: string) {
   const templateItems = [...listInstance.items];
 
   const template: CMSItem = templateItems[0];
@@ -78,13 +98,12 @@ function createJobsDefaultList(listInstance: CMSList, jobs: (Job | JobWithConten
   listInstance.addItems(jobElements);
 }
 
-function createJobsNestedList(
+export function createJobsNestedList(
   listInstance: CMSList,
   jobs: (Job | JobWithContent)[],
   queryParam: string,
-  groupByKeys: string[]
+  groupBy: string
 ) {
-  const groupBy = groupByKeys[0];
   const mainItems = [...listInstance.items];
 
   const mainTemplate: CMSItem = mainItems[0];
@@ -130,6 +149,53 @@ function createJobsNestedList(
   listInstance.clearItems(true);
 
   listInstance?.addItems(groupBySections);
+}
+
+export function appendJobsNestedList(
+  listInstance: CMSList,
+  jobs: (Job | JobWithContent)[],
+  queryParam: string,
+  groupBy: string
+) {
+  const mainItems = [...listInstance.items];
+
+  const mainTemplate: CMSItem = mainItems[0];
+
+  const jobsGroups: string[] = getGroupByKeys(jobs, groupBy);
+
+  jobsGroups.forEach((jobGroup) => {
+    const mainItem: HTMLDivElement = mainTemplate.element.cloneNode(true) as HTMLDivElement;
+
+    const groupByLabel = mainItem.querySelector<HTMLElement>(`[fs-greenhouse-element="${groupBy}"]`);
+
+    if (groupByLabel) {
+      groupByLabel.textContent = jobGroup;
+    }
+
+    const jobsWrapper = mainItem.querySelector<HTMLDivElement>('.w-dyn-list');
+
+    if (!jobsWrapper) {
+      return;
+    }
+
+    const jobsList = new CMSList(jobsWrapper, 0);
+
+    const jobsTemplateItems = [...jobsList.items];
+
+    jobsWrapper.innerHTML = '';
+
+    const jobTemplate = jobsTemplateItems[0];
+    const jobsFromGroup = filterJobs(jobs, groupBy, jobGroup);
+
+    jobsFromGroup.forEach((job: Job | JobWithContent) => {
+      const jobItemElement: HTMLDivElement = jobTemplate.element.cloneNode(true) as HTMLDivElement;
+
+      const jobElement = populateJob(job, jobItemElement, queryParam) as HTMLDivElement;
+      jobsList.wrapper.append(jobElement);
+    });
+
+    listInstance.wrapper.append(mainItem);
+  });
 }
 
 function filterJobs(jobs: (Job | JobWithContent)[], groupBy: string, value: string) {
