@@ -4,7 +4,6 @@ import { isNotEmpty } from '@finsweet/ts-utils';
 import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
 import type { Job, JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
 
-import { ATTRIBUTES, getSelector } from '../utils/constants';
 import { fetchJobs } from '../utils/fetch';
 import { populateJob } from '../utils/populate';
 
@@ -12,7 +11,6 @@ export async function createJobList(listWrapper: HTMLElement, boardId: string, q
   const cmsCore = await importCMSCore();
   if (!cmsCore) return [];
 
-  const jobs = await fetchJobs(boardId);
   // Create the list instances
   const listInstance = cmsCore.createCMSListInstance(listWrapper);
 
@@ -20,36 +18,43 @@ export async function createJobList(listWrapper: HTMLElement, boardId: string, q
     return;
   }
 
-  // listInstances.forEach((listInstance) => {
-  const { wrapper } = listInstance;
-
-  const groupBy = wrapper.getAttribute(ATTRIBUTES.groupBy.key);
-  const nestedWrapper = wrapper.querySelector<HTMLElement>(`.${CMS_CSS_CLASSES.wrapper}`);
-
-  if (!groupBy || !nestedWrapper) {
-    createJobsDefaultList(listInstance, jobs, queryParam);
-    return;
-  }
-
-  createJobsNestedList(listInstance, jobs, queryParam, groupBy);
-
-  // return listInstances;
+  await addJobsToList(listInstance, boardId, queryParam);
 }
+
+const SUPPORTED_NESTED_KEYS = ['department', 'office'];
 
 export async function addJobsToList(listInstance: CMSList, boardId: string, queryParam: string) {
   const jobs = await fetchJobs(boardId);
 
-  const { wrapper } = listInstance;
+  const templateItem = [...listInstance.items][0];
 
-  const groupBy = wrapper.getAttribute(ATTRIBUTES.groupBy.key);
-  const nestedWrapper = wrapper.querySelector<HTMLElement>(`.${CMS_CSS_CLASSES.wrapper}`);
+  const { element } = templateItem;
 
-  if (!groupBy || !nestedWrapper) {
-    createJobsDefaultList(listInstance, jobs, queryParam);
+  const nestedList = element.querySelector(`.${CMS_CSS_CLASSES.wrapper}`);
+
+  if (nestedList) {
+    const groupByKeys: string[] = [...element.querySelectorAll<HTMLElement>(`[fs-greenhouse-element]`)]
+      .map((element) => {
+        const elementAttribute = element.getAttribute('fs-greenhouse-element');
+
+        if (!elementAttribute) {
+          return null;
+        }
+
+        return (
+          (nestedList.contains(element) === false &&
+            SUPPORTED_NESTED_KEYS.includes(elementAttribute) &&
+            elementAttribute) ||
+          null
+        );
+      })
+      //.filter((value) => value !== null)
+      .filter(isNotEmpty);
+    createJobsNestedList(listInstance, jobs, queryParam, groupByKeys);
     return;
   }
 
-  createJobsNestedList(listInstance, jobs, queryParam, groupBy);
+  createJobsDefaultList(listInstance, jobs, queryParam);
 }
 
 function createJobsDefaultList(listInstance: CMSList, jobs: (Job | JobWithContent)[], queryParam: string) {
@@ -77,30 +82,28 @@ function createJobsNestedList(
   listInstance: CMSList,
   jobs: (Job | JobWithContent)[],
   queryParam: string,
-  groupBy: string
+  groupByKeys: string[]
 ) {
-  const principalItems = [...listInstance.items];
+  const groupBy = groupByKeys[0];
+  const mainItems = [...listInstance.items];
 
-  const groupByTemplate: CMSItem = principalItems[0];
+  const mainTemplate: CMSItem = mainItems[0];
 
   const jobsGroups: string[] = getGroupByKeys(jobs, groupBy);
 
   const groupBySections: HTMLDivElement[] = jobsGroups.map((jobGroup) => {
-    const groupItem: HTMLDivElement = groupByTemplate.element.cloneNode(true) as HTMLDivElement;
+    const mainItem: HTMLDivElement = mainTemplate.element.cloneNode(true) as HTMLDivElement;
 
-    // label
-    const groupByLabel = groupItem.querySelector<HTMLElement>(
-      getSelector('element', ATTRIBUTES.element.values.groupby)
-    );
+    const groupByLabel = mainItem.querySelector<HTMLElement>(`[fs-greenhouse-element="${groupBy}"]`);
 
     if (groupByLabel) {
       groupByLabel.textContent = jobGroup;
     }
 
-    const jobsWrapper = groupItem.querySelector<HTMLDivElement>('.w-dyn-list');
+    const jobsWrapper = mainItem.querySelector<HTMLDivElement>('.w-dyn-list');
 
     if (!jobsWrapper) {
-      return groupItem;
+      return mainItem;
     }
 
     const jobsList = new CMSList(jobsWrapper, 0);
@@ -121,18 +124,16 @@ function createJobsNestedList(
     }
     jobsList.addItems(jobElements);
 
-    return groupItem;
+    return mainItem;
   });
 
-  for (const templateItem of principalItems) {
-    templateItem.element.remove();
-  }
+  listInstance.clearItems(true);
 
   listInstance?.addItems(groupBySections);
 }
 
 function filterJobs(jobs: (Job | JobWithContent)[], groupBy: string, value: string) {
-  if (groupBy === 'departments') {
+  if (groupBy === 'department') {
     return jobs.filter((job) => {
       if (!job.hasOwnProperty('departments')) {
         return false;
@@ -145,17 +146,42 @@ function filterJobs(jobs: (Job | JobWithContent)[], groupBy: string, value: stri
     });
   }
 
+  if (groupBy === 'office') {
+    return jobs.filter((job) => {
+      if (!job.hasOwnProperty('offices')) {
+        return false;
+      }
+      const jobWithContents = job as JobWithContent;
+
+      const { offices } = jobWithContents;
+
+      return offices.map((office) => office.name).includes(value);
+    });
+  }
+
   return [];
 }
 
 function getGroupByKeys(jobs: (Job | JobWithContent)[], groupBy: string) {
-  if (groupBy === 'departments') {
+  if (groupBy === 'department') {
     return [
       ...new Set(
         jobs
           .map((job) => (job.hasOwnProperty('departments') && (job as JobWithContent).departments) || '')
           .filter((departments) => departments !== '')
           .map((departments) => departments && departments[0].name)
+          .filter(isNotEmpty)
+      ),
+    ];
+  }
+
+  if (groupBy === 'office') {
+    return [
+      ...new Set(
+        jobs
+          .map((job) => (job.hasOwnProperty('offices') && (job as JobWithContent).offices) || '')
+          .filter((offices) => offices !== '')
+          .map((offices) => offices && offices[0].name)
           .filter(isNotEmpty)
       ),
     ];

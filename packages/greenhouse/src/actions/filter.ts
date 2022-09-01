@@ -1,134 +1,132 @@
-import { CMS_CSS_CLASSES, DROPDOWN_CSS_CLASSES } from '@finsweet/ts-utils';
-import type { OfficesResponse, DepartmentsResponse } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
-import type { CMSList } from 'packages/cmscore/src';
+import { cloneNode, FormField, Greenhouse } from '@finsweet/ts-utils';
+import { DROPDOWN_CSS_CLASSES } from '@finsweet/ts-utils';
+import type { CMSFilters } from 'packages/cmsfilter/src/components/CMSFilters';
 
-import { ATTRIBUTES, getSelector } from '../utils/constants';
-import { GH_API_BASE } from '../utils/constants';
+import { ATTRIBUTES, queryElement } from '../utils/constants';
 import { fetchDepartments, fetchOffices } from '../utils/fetch';
 
-export async function createJobListFilter(listInstances: CMSList[], filter: HTMLElement, boardId: string) {
-  const filterKey = filter.getAttribute(ATTRIBUTES.filter.key);
-  console.log(filterKey);
-
-  if (!filterKey) {
+export async function createFilters(boardId: string, filtersInstances: CMSFilters[], filtersElements: FormField[]) {
+  if (filtersElements.length <= 0) {
     return;
   }
 
-  const filterData = await fetchFilterData(boardId, filterKey);
+  for (const filterInstance of filtersInstances) {
+    for (const filterElement of filtersElements) {
+      const filterKey = filterElement.getAttribute(ATTRIBUTES.filter.key);
 
-  if (filter instanceof HTMLSelectElement) {
-    createSelectFilter(listInstances, filter, filterData);
-    return;
-  }
+      if (!filterKey) {
+        return;
+      }
 
-  if (filter.classList.contains(DROPDOWN_CSS_CLASSES.dropdown)) {
-    createDropdownFilter(listInstances, filter, filterData);
-    return;
-  }
+      const filterEntries = await fetchFilterData(boardId, filterKey);
 
-  return;
-}
+      if (!filterEntries || filterEntries.length <= 0) {
+        return;
+      }
 
-function createSelectFilter(listInstances: CMSList[], filterElement: HTMLSelectElement, values: string[]) {
-  filterElement.innerHTML = '';
-  const defaultOption = document.createElement('option');
-  defaultOption.text = 'All';
-  defaultOption.value = '';
-  filterElement.add(defaultOption);
+      createFilterFactory(filterElement, filterEntries);
+    }
+    filterInstance.storeFiltersData();
+    filterInstance.resetFilters();
 
-  for (const value of values) {
-    const newOption = document.createElement('option');
-    newOption.text = value;
-    newOption.value = value;
-    filterElement.add(newOption);
-  }
+    const displayElements = queryElement<HTMLInputElement | HTMLSelectElement>(ATTRIBUTES.element.values.display, {
+      all: true,
+    });
 
-  filterElement.addEventListener('change', function () {
-    filterEvent(listInstances, this.value);
-  });
-}
-
-function filterNestedList(wrapper: HTMLDivElement, value: string) {
-  const items = wrapper.querySelectorAll<HTMLDivElement>(
-    `:scope > .${CMS_CSS_CLASSES.list} > .${CMS_CSS_CLASSES.item}`
-  );
-
-  for (const item of items) {
-    const groupByElement = item.querySelector<HTMLElement>(getSelector('element', ATTRIBUTES.element.values.groupby));
-
-    const groupName = groupByElement?.textContent || '';
-
-    if (groupName === value || value === '') {
-      item.style.setProperty('display', 'block');
+    if (displayElements.length <= 0) {
       continue;
     }
 
-    item.style.setProperty('display', 'none');
-  }
-}
+    const defaultValues = new Map();
 
-function filterList(value: string) {
-  console.log('not implemented yet', value);
-}
+    const { listInstance } = filterInstance;
 
-function createDropdownFilter(listInstances: CMSList[], filterElement: HTMLElement, values: string[]) {
-  const dropdownList = filterElement.querySelector<HTMLElement>(`.${DROPDOWN_CSS_CLASSES.dropdownList}`);
-  const dropdownToggle = filterElement.querySelector<HTMLElement>(`.${DROPDOWN_CSS_CLASSES.dropdownToggle}`);
+    listInstance.on('renderitems', () => {
+      const { filtersData } = filterInstance;
 
-  if (!dropdownList || !dropdownToggle) {
-    return;
-  }
-  const dropdownItems = dropdownList.querySelectorAll<HTMLElement>(`:scope > *`);
+      for (const displayElement of displayElements) {
+        const defaultValue: string = defaultValues.has(displayElement)
+          ? defaultValues.get(displayElement)
+          : defaultValues.set(displayElement, displayElement.textContent) && displayElement.textContent;
+        const key = displayElement.getAttribute(ATTRIBUTES.display.key);
 
-  const dropdownTemplate = dropdownItems[0];
+        if (!key) {
+          continue;
+        }
 
-  if (!dropdownTemplate) {
-    return;
-  }
+        const filteredKey = filtersData.find((filterData) => filterData.filterKeys.includes(key));
 
-  const defaultDropdown = dropdownTemplate.cloneNode(true) as HTMLElement;
-  defaultDropdown.textContent = 'All';
-  dropdownList.append(defaultDropdown);
-  defaultDropdown.addEventListener('click', function () {
-    filterEvent(listInstances, '');
-  });
+        if (!filteredKey) {
+          continue;
+        }
 
-  for (const value of values) {
-    const newDropdown = dropdownTemplate.cloneNode(true) as HTMLElement;
-    newDropdown.textContent = value;
-    dropdownList.append(newDropdown);
+        const values = [...filteredKey.values];
 
-    newDropdown.addEventListener('click', function () {
-      filterEvent(listInstances, value);
+        if (values.length <= 0) {
+          displayElement.textContent = defaultValue;
+          continue;
+        }
+
+        displayElement.textContent = values.join(', ');
+      }
     });
   }
+}
 
-  for (const dropdownItem of dropdownItems) {
+export const createFilterFactory = (
+  fieldElement: FormField,
+  category: Greenhouse.Department['name'][] | Greenhouse.Job['location']['name'][] | Greenhouse.Office['name'][]
+): void => {
+  if (fieldElement instanceof HTMLSelectElement) {
+    fieldElement.innerHTML = '';
+    fieldElement.add(new Option('All', ''));
+    category.forEach((category) => {
+      // TODO: flatten out the option values to this format: value-name
+      fieldElement.add(new Option(category, category));
+    });
+    return;
+  }
+
+  const dropdown = fieldElement.closest<HTMLElement>(`.${DROPDOWN_CSS_CLASSES.dropdown}`);
+
+  if (dropdown) {
+    const dropdownNav = dropdown.querySelector<HTMLElement>(`.${DROPDOWN_CSS_CLASSES.dropdownList}`);
+
+    if (!dropdownNav) {
+      return;
+    }
+
+    const dropdownList = dropdownNav.querySelector<HTMLElement>('ul');
+
+    if (!dropdownList) {
+      return;
+    }
+
+    const dropdownItem = dropdownList.querySelector<HTMLElement>('li');
+
+    if (!dropdownItem) {
+      return;
+    }
+
+    category.forEach((category) => {
+      const newDropdownItem = cloneNode(dropdownItem);
+
+      const labelItem = newDropdownItem.querySelector<HTMLLabelElement>('.w-form-label');
+
+      if (!labelItem) {
+        return;
+      }
+
+      labelItem.textContent = category;
+
+      dropdownList.append(newDropdownItem);
+    });
+
     dropdownItem.remove();
+
+    // console.log(dropdownItem);
   }
-}
-
-function filterEvent(listInstances: CMSList[], value: string) {
-  for (const listInstance of listInstances) {
-    const { wrapper } = listInstance;
-
-    if (!wrapper) {
-      continue;
-    }
-
-    const groupBy = wrapper.getAttribute(ATTRIBUTES.groupBy.key);
-    const nestedWrapper = wrapper.querySelector<HTMLElement>(`.${CMS_CSS_CLASSES.wrapper}`);
-
-    const isNested = !!(groupBy && nestedWrapper);
-
-    if (isNested) {
-      filterNestedList(wrapper, value);
-      continue;
-    }
-
-    filterList(value);
-  }
-}
+};
 
 export async function fetchFilterData(boardId: string, filterKey: string): Promise<string[]> {
   switch (filterKey) {

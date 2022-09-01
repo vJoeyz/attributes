@@ -34,9 +34,6 @@ export const ATTRIBUTES = {
        */
       list: LIST_ELEMENT_KEY,
 
-      /** Show the groupby value */
-      groupby: GROUP_BY_ELEMENT_KEY,
-
       /** Defines filter */
       filter: FILTER_ELEMENT_KEY,
 
@@ -98,9 +95,7 @@ export const ATTRIBUTES = {
   board: {
     key: `${ATTRIBUTES_PREFIX}-${BOARD_SETTING_KEY}`,
   },
-  groupBy: {
-    key: `${ATTRIBUTES_PREFIX}-${GROUP_BY_SETTING_KEY}`,
-  },
+
   filter: {
     key: `${ATTRIBUTES_PREFIX}-${FILTER_SETTING_KEY}`,
   },

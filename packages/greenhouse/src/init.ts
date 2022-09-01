@@ -1,17 +1,12 @@
-import {
-  GREENHOUSE_ATTRIBUTE,
-  CMS_LOAD_ATTRIBUTE,
-  CMS_FILTER_ATTRIBUTE,
-  CMS_SORT_ATTRIBUTE,
-} from 'global/constants/attributes';
+import { GREENHOUSE_ATTRIBUTE, CMS_LOAD_ATTRIBUTE, CMS_FILTER_ATTRIBUTE } from 'global/constants/attributes';
 import type { CMSList } from 'packages/cmscore/src';
 import type { CMSFilters } from 'packages/cmsfilter/src/components/CMSFilters';
 
 import { createJobDetails } from './actions/details';
+import { createFilters } from './actions/filter';
 import { createJobForm } from './actions/form';
 import { createJobList, addJobsToList } from './actions/jobs';
-import { createFilters } from './factory/greenhouse';
-import { ATTRIBUTES, getSelector, queryElement } from './utils/constants';
+import { ATTRIBUTES, queryElement } from './utils/constants';
 
 /**
  * Inits the attribute.
