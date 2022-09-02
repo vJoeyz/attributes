@@ -54,16 +54,6 @@ export function getNestedKey(listInstance: CMSList) {
   return groupByKeys[0] || null;
 }
 
-export function getNestedList(listInstance: CMSList): HTMLDivElement | null {
-  const templateItem = [...listInstance.items][0];
-
-  const { element } = templateItem;
-
-  const nestedList = element.querySelector<HTMLDivElement>(`.${CMS_CSS_CLASSES.wrapper}`);
-
-  return nestedList;
-}
-
 export async function addJobsToList(listInstance: CMSList, boardId: string, queryParam: string) {
   const jobs = await fetchJobs(boardId);
 

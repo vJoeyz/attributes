@@ -3,7 +3,7 @@ import { DROPDOWN_CSS_CLASSES } from '@finsweet/ts-utils';
 import type { CMSFilters } from 'packages/cmsfilter/src/components/CMSFilters';
 import type { FiltersData } from 'packages/cmsfilter/src/utils/types';
 
-import { ATTRIBUTES, queryElement } from '../utils/constants';
+import { ATTRIBUTES, GH_DEPARTMENT, GH_OFFICE, queryElement } from '../utils/constants';
 import { fetchDepartments, fetchJobs, fetchOffices } from '../utils/fetch';
 import { appendJobsNestedList, getNestedKey } from './jobs';
 
@@ -54,8 +54,8 @@ export async function createFilters(
       }
 
       if (groupByKey) {
-        const deparmentsFilter = filtersData.find((filterData) => filterData.filterKeys.includes('departments'));
-        const officesFilter = filtersData.find((filterData) => filterData.filterKeys.includes('offices'));
+        const deparmentsFilter = filtersData.find((filterData) => filterData.filterKeys.includes(GH_DEPARTMENT));
+        const officesFilter = filtersData.find((filterData) => filterData.filterKeys.includes(GH_OFFICE));
 
         // Retrieve the selected option from the Set
         const departmentValues = (deparmentsFilter && [...deparmentsFilter.values]) || null;
@@ -146,10 +146,7 @@ function displayFilterValues(
   }
 }
 
-export function createFilterFactory(
-  fieldElement: FormField,
-  category: Greenhouse.Department['name'][] | Greenhouse.Job['location']['name'][] | Greenhouse.Office['name'][]
-): void {
+export function createFilterFactory(fieldElement: FormField, category: string[]): void {
   if (fieldElement instanceof HTMLSelectElement) {
     fieldElement.innerHTML = '';
     fieldElement.add(new Option('All', ''));
@@ -203,9 +200,9 @@ export function createFilterFactory(
 
 export async function fetchFilterData(boardId: string, filterKey: string): Promise<string[]> {
   switch (filterKey) {
-    case 'departments':
+    case GH_DEPARTMENT:
       return fetchDepartments(boardId);
-    case 'offices':
+    case GH_OFFICE:
       return fetchOffices(boardId);
     default:
       return [];

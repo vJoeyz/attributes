@@ -3,7 +3,16 @@ import type { JobWithQuestions, Question } from '@finsweet/ts-utils/dist/types/a
 import slugify from 'slugify';
 
 import { Form } from '../components/Form';
-import type { FormElementsTemplate, FormTemplate } from '../types';
+import type {
+  ComplianceResponse,
+  DemographicQuestion,
+  DemographicQuestions,
+  DemographicResponse,
+  EducationResponse,
+  EmploymentResponse,
+  FormElementsTemplate,
+  FormTemplate,
+} from '../types';
 import { ATTRIBUTES, getSelector, GH_API_BASE, GH_API_JOBS, queryElement } from '../utils/constants';
 import { insertAfter } from '../utils/dom';
 import {
@@ -16,61 +25,6 @@ import {
 
 const GDPR_CONSENT_GIVEN_KEY = 'gdpr_consent_given';
 const DEMOGRAPHIC_ANSWERS_PREFIX = 'demographic_answers';
-
-interface DemographicAnswer {
-  free_form: boolean;
-  label: string;
-  id: number;
-}
-
-interface DemographicQuestion {
-  id: number;
-  label: string;
-  required: boolean;
-  type: 'multi_value_single_select' | 'multi_value_multi_select';
-  answer_options: DemographicAnswer[];
-}
-
-interface DemographicQuestions {
-  header: string;
-  description: string;
-  questions: DemographicQuestion[];
-}
-
-interface DateResponse {
-  month: string;
-  year: string;
-}
-
-interface EducationResponse {
-  school_name_id: string;
-  degree_id: string;
-  discipline_id: string;
-  start_date: DateResponse;
-  end_date: DateResponse;
-}
-
-interface EmploymentResponse {
-  company_name: string;
-  title: string;
-  start_date: DateResponse;
-  end_date: DateResponse;
-  current: boolean;
-}
-
-interface DemographicAnswerResponse {
-  answer_option_id: number;
-  text?: string;
-}
-
-interface DemographicResponse {
-  question_id: number;
-  answer_options: DemographicAnswerResponse[];
-}
-
-interface ComplianceResponse {
-  gdpr_consent_given: boolean;
-}
 
 export async function createJobForm(form: HTMLFormElement, jobId: string, boardId: string) {
   const jobsRequest = await fetch(`${GH_API_BASE}/${boardId}/${GH_API_JOBS}/${jobId}?questions=true`);
@@ -91,7 +45,7 @@ export async function createJobForm(form: HTMLFormElement, jobId: string, boardI
     createInputHidden(key, value, templates);
   }
 
-  const { questions, compliance, data_compliance /*demographic_questions*/ } = job;
+  const { questions, compliance, data_compliance, demographic_questions } = job;
 
   for (const question of questions) {
     const cloneWrapper = cloneNode(templates.wrapper);
@@ -111,74 +65,10 @@ export async function createJobForm(form: HTMLFormElement, jobId: string, boardI
     appendQuestionWrapper(templates, cloneWrapper);
   }
 
-  // // if (demographic_questions) {
-  // /** @TODO import from ts-utils  */
-  // // const demographicQuestionsTyped = demographic_questions as unknown as DemographicQuestions;
+  if (demographic_questions) {
+    // /** @TODO import from ts-utils  */
+    const demographicQuestionsTyped = demographic_questions as unknown as DemographicQuestions;
 
-  const demographicQuestionsTyped: DemographicQuestions = {
-    header: 'Diversity and Inclusion at Acme Corp.',
-    description: '<p>Acme Corp. is dedicated to...</p>',
-    questions: [
-      {
-        id: 1,
-        label: 'Favorite Color',
-        required: false,
-        type: 'multi_value_multi_select',
-        answer_options: [
-          {
-            id: 100,
-            label: 'Red',
-            free_form: false,
-          },
-          {
-            id: 101,
-            label: 'Green',
-            free_form: false,
-          },
-          {
-            id: 102,
-            label: 'Blue',
-            free_form: false,
-          },
-          {
-            id: 103,
-            label: 'Prefer to Type My Own',
-            free_form: true,
-          },
-        ],
-      },
-      {
-        id: 2,
-        label: 'Favorite Country',
-        required: false,
-        type: 'multi_value_single_select',
-        answer_options: [
-          {
-            id: 200,
-            label: 'Brazil',
-            free_form: false,
-          },
-          {
-            id: 201,
-            label: 'USA',
-            free_form: false,
-          },
-          {
-            id: 202,
-            label: 'Spain',
-            free_form: false,
-          },
-          {
-            id: 203,
-            label: 'Prefer to Type My Own',
-            free_form: true,
-          },
-        ],
-      },
-    ],
-  };
-
-  if (demographicQuestionsTyped) {
     const cloneWrapper = cloneNode(templates.wrapper);
 
     const { header, description, questions } = demographicQuestionsTyped;
@@ -205,7 +95,7 @@ export async function createJobForm(form: HTMLFormElement, jobId: string, boardI
 
   templates.wrapper.remove();
 
-  handleFormSubmissions(form);
+  handleFormSubmissions(templates.form);
 }
 
 function appendQuestionWrapper(templates: FormTemplate, wrapper: HTMLElement) {
@@ -223,6 +113,7 @@ function appendQuestionWrapper(templates: FormTemplate, wrapper: HTMLElement) {
 function removeTemplates(templates: FormTemplate) {
   templates.description.remove();
   templates.header.remove();
+  templates.compliance.remove();
   templates.elements.input.remove();
   templates.elements.textarea.remove();
   templates.elements.checkbox.remove();
@@ -231,7 +122,7 @@ function removeTemplates(templates: FormTemplate) {
 }
 
 function getTemplates(form: HTMLFormElement) {
-  const formWrapper = form.closest<HTMLFormElement>(`form`);
+  const formWrapper = form.closest<HTMLFormElement>(`form`) || form.querySelector<HTMLFormElement>('form');
 
   const questionsWrapper = queryElement<HTMLDivElement>(ATTRIBUTES.element.values.questions, { scope: form });
   const questionsHeader = queryElement<HTMLElement>(ATTRIBUTES.element.values['questions-header'], { scope: form });
@@ -249,7 +140,12 @@ function getTemplates(form: HTMLFormElement) {
   const selectTemplate = questionsWrapper.querySelector<HTMLSelectElement>('select');
   const checkboxTemplate = questionsWrapper.querySelector<HTMLLabelElement>(`.${FORM_CSS_CLASSES.checkboxField}`);
 
-  if (!label || !inputTemplate || !textAreaTemplate || !selectTemplate || !checkboxTemplate) {
+  const complianceTemplate =
+    formWrapper
+      .querySelector('input[name="data_compliance[gdpr_consent_given]"')
+      ?.closest<HTMLElement>(`.${FORM_CSS_CLASSES.checkboxField}`) || checkboxTemplate;
+
+  if (!label || !inputTemplate || !textAreaTemplate || !selectTemplate || !checkboxTemplate || !complianceTemplate) {
     return null;
   }
 
@@ -262,6 +158,7 @@ function getTemplates(form: HTMLFormElement) {
       select: selectTemplate,
       checkbox: checkboxTemplate,
     },
+    compliance: complianceTemplate,
     wrapper: questionsWrapper,
     header: questionsHeader,
     description: questionsDescription,
@@ -303,17 +200,13 @@ function createQuestionHeader(text: string, templates: FormTemplate) {
 }
 
 function createGDPRCheckbox(templates: FormTemplate) {
-  const { form, wrapper } = templates;
+  const { compliance, wrapper } = templates;
 
-  const { checkbox } = form;
-
-  const checkboxWrapper = cloneNode(checkbox);
+  const checkboxWrapper = cloneNode(compliance);
   const checkboxLabel = checkboxWrapper.querySelector('span');
   const checkboxInput = checkboxWrapper.querySelector('input');
   if (!checkboxLabel || !checkboxInput) return;
 
-  checkboxLabel.textContent = `I give my consent to collect, store, and process my data for the purpose
-    of considering me for employment.`;
   checkboxInput.name = GDPR_CONSENT_GIVEN_KEY;
 
   checkboxInput.required = true;
@@ -413,6 +306,7 @@ function createDemographicQuestionField(
  */
 const handleFormSubmissions = (form: HTMLFormElement) => {
   const actionForm = new Form(form);
+  console.log(actionForm, actionForm.element);
 
   actionForm.element.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -420,13 +314,10 @@ const handleFormSubmissions = (form: HTMLFormElement) => {
 
     // The endpoint URL should be set on Webflow designer.
     const endpoint = actionForm.element.getAttribute('action');
+    console.log(endpoint);
     if (!endpoint) return;
 
     const formData = new FormData(actionForm.element);
-
-    for (const [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
 
     const data: Record<
       string,
