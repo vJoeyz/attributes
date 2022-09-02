@@ -306,7 +306,6 @@ function createDemographicQuestionField(
  */
 const handleFormSubmissions = (form: HTMLFormElement) => {
   const actionForm = new Form(form);
-  console.log(actionForm, actionForm.element);
 
   actionForm.element.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -314,7 +313,6 @@ const handleFormSubmissions = (form: HTMLFormElement) => {
 
     // The endpoint URL should be set on Webflow designer.
     const endpoint = actionForm.element.getAttribute('action');
-    console.log(endpoint);
     if (!endpoint) return;
 
     const formData = new FormData(actionForm.element);

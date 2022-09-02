@@ -5,10 +5,14 @@ import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
 import type { Job, JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
 
 import { SUPPORTED_NESTED_KEYS } from '../utils/constants';
-import { fetchJobs } from '../utils/fetch';
 import { populateJob } from '../utils/populate';
 
-export async function createJobList(listWrapper: HTMLElement, boardId: string, queryParam: string) {
+export async function createJobList(
+  listWrapper: HTMLElement,
+
+  queryParam: string,
+  jobs: (Job | JobWithContent)[]
+) {
   const cmsCore = await importCMSCore();
   if (!cmsCore) return [];
 
@@ -19,7 +23,7 @@ export async function createJobList(listWrapper: HTMLElement, boardId: string, q
     return;
   }
 
-  await addJobsToList(listInstance, boardId, queryParam);
+  await addJobsToList(listInstance, queryParam, jobs);
 }
 
 export function getNestedKey(listInstance: CMSList) {
@@ -54,9 +58,7 @@ export function getNestedKey(listInstance: CMSList) {
   return groupByKeys[0] || null;
 }
 
-export async function addJobsToList(listInstance: CMSList, boardId: string, queryParam: string) {
-  const jobs = await fetchJobs(boardId);
-
+export async function addJobsToList(listInstance: CMSList, queryParam: string, jobs: (Job | JobWithContent)[]) {
   const groupByKey = getNestedKey(listInstance);
 
   if (groupByKey) {

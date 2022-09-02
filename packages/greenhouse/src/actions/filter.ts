@@ -1,17 +1,19 @@
 import { cloneNode, FormField, Greenhouse } from '@finsweet/ts-utils';
 import { DROPDOWN_CSS_CLASSES } from '@finsweet/ts-utils';
+import type { Job, JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
 import type { CMSFilters } from 'packages/cmsfilter/src/components/CMSFilters';
 import type { FiltersData } from 'packages/cmsfilter/src/utils/types';
 
 import { ATTRIBUTES, GH_DEPARTMENT, GH_OFFICE, queryElement } from '../utils/constants';
-import { fetchDepartments, fetchJobs, fetchOffices } from '../utils/fetch';
+import { fetchDepartments, fetchOffices } from '../utils/fetch';
 import { appendJobsNestedList, getNestedKey } from './jobs';
 
 export async function createFilters(
   boardId: string,
   queryParam: string,
   filtersInstances: CMSFilters[],
-  filtersElements: FormField[]
+  filtersElements: FormField[],
+  jobs: (Job | JobWithContent)[]
 ) {
   if (filtersElements.length <= 0) {
     return;
@@ -57,15 +59,14 @@ export async function createFilters(
         const deparmentsFilter = filtersData.find((filterData) => filterData.filterKeys.includes(GH_DEPARTMENT));
         const officesFilter = filtersData.find((filterData) => filterData.filterKeys.includes(GH_OFFICE));
 
-        // Retrieve the selected option from the Set
         const departmentValues = (deparmentsFilter && [...deparmentsFilter.values]) || null;
         const officeValues = (officesFilter && [...officesFilter.values]) || null;
 
-        const jobs = await filterJobs(boardId, departmentValues, officeValues);
+        const filteredJobs = await filterJobs(jobs, departmentValues, officeValues);
 
         listInstance.wrapper.innerHTML = '';
 
-        appendJobsNestedList(listInstance, jobs, queryParam, groupByKey);
+        appendJobsNestedList(listInstance, filteredJobs, queryParam, groupByKey);
       }
     });
   }
@@ -76,9 +77,11 @@ export async function createFilters(
   }
 }
 
-async function filterJobs(boardId: string, departmentValues: string[] | null, officeValues: string[] | null) {
-  const allJobs = await fetchJobs(boardId);
-
+async function filterJobs(
+  allJobs: (Job | JobWithContent)[],
+  departmentValues: string[] | null,
+  officeValues: string[] | null
+) {
   const jobsDeparments =
     (departmentValues &&
       departmentValues.length > 0 &&
