@@ -1,5 +1,5 @@
 import { cloneNode, FormField, Greenhouse } from '@finsweet/ts-utils';
-import { DROPDOWN_CSS_CLASSES } from '@finsweet/ts-utils';
+import { DROPDOWN_CSS_CLASSES, FORM_CSS_CLASSES } from '@finsweet/ts-utils';
 import type { Job, JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
 import type { CMSFilters } from 'packages/cmsfilter/src/components/CMSFilters';
 import type { FiltersData } from 'packages/cmsfilter/src/utils/types';
@@ -24,24 +24,21 @@ export async function createFilters(
       const filterKey = filterElement.getAttribute(ATTRIBUTES.filter.key);
 
       if (!filterKey) {
-        return;
+        continue;
       }
 
       const filterEntries = await fetchFilterData(boardId, filterKey);
 
       if (!filterEntries || filterEntries.length <= 0) {
-        return;
+        continue;
       }
 
       createFilterFactory(filterElement, filterEntries);
     }
 
-    const displayElements = [
-      ...queryElement<HTMLElement>(ATTRIBUTES.element.values.display, {
-        all: true,
-      }),
-    ];
+    const displayElements = document.querySelectorAll<HTMLElement>(`[${ATTRIBUTES.display.key}]`);
 
+    console.log(displayElements);
     const defaultValues = new Map<HTMLElement, string>();
 
     const { listInstance } = filterInstance;
@@ -51,8 +48,9 @@ export async function createFilters(
     listInstance.on('renderitems', async () => {
       const { filtersData } = filterInstance;
 
+      console.log(filtersData, displayElements);
       if (displayElements.length > 0) {
-        displayFilterValues(filtersData, displayElements, defaultValues);
+        displayFilterValues(filtersData, [...displayElements], defaultValues);
       }
 
       if (groupByKey) {
@@ -120,6 +118,7 @@ function displayFilterValues(
   displayElements: HTMLElement[],
   defaultValues: Map<HTMLElement, string>
 ) {
+  console.log(displayElements);
   for (const displayElement of displayElements) {
     const { textContent } = displayElement;
 
@@ -184,7 +183,7 @@ export function createFilterFactory(fieldElement: FormField, category: string[])
     category.forEach((category) => {
       const newDropdownItem = cloneNode(dropdownItem);
 
-      const labelItem = newDropdownItem.querySelector<HTMLLabelElement>('.w-form-label');
+      const labelItem = newDropdownItem.querySelector<HTMLLabelElement>(`.${FORM_CSS_CLASSES.checkboxOrRadioLabel}`);
 
       if (!labelItem) {
         return;
@@ -196,8 +195,6 @@ export function createFilterFactory(fieldElement: FormField, category: string[])
     });
 
     dropdownItem.remove();
-
-    // console.log(dropdownItem);
   }
 }
 

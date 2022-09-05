@@ -1,3 +1,4 @@
+import type { FormField } from '@finsweet/ts-utils';
 import { GREENHOUSE_ATTRIBUTE, CMS_LOAD_ATTRIBUTE, CMS_FILTER_ATTRIBUTE } from 'global/constants/attributes';
 import type { CMSList } from 'packages/cmscore/src';
 import type { CMSFilters } from 'packages/cmsfilter/src/components/CMSFilters';
@@ -38,24 +39,19 @@ export const init = async ({
 
   const cmsFilterLists: CMSFilters[] = await window.fsAttributes[CMS_FILTER_ATTRIBUTE]?.loading;
 
-  const listJobsElements = queryElement<HTMLElement>(ATTRIBUTES.element.values.list, { all: true });
+  const listJobsElement = queryElement<HTMLElement>(ATTRIBUTES.element.values.list);
 
-  // list
-  for (const listJobsElement of listJobsElements) {
+  if (listJobsElement) {
     const cmsLoadList = cmsLoadLists && cmsLoadLists.find((listInstance) => listInstance.wrapper === listJobsElement);
-
     if (cmsLoadList) {
       addJobsToList(cmsLoadList, queryParam, jobs);
-      continue;
+    } else {
+      createJobList(listJobsElement, queryParam, jobs);
     }
-
-    createJobList(listJobsElement, queryParam, jobs);
   }
 
   // filters
-  const filtersElements = queryElement<HTMLInputElement | HTMLSelectElement>(ATTRIBUTES.element.values.filter, {
-    all: true,
-  });
+  const filtersElements = document.querySelectorAll<FormField>(`[${ATTRIBUTES.filter.key}]`);
 
   if (cmsFilterLists && filtersElements.length > 0) {
     await createFilters(board, queryParam, cmsFilterLists, [...filtersElements], jobs);
@@ -72,6 +68,5 @@ export const init = async ({
     }
   }
 
-  // console.log(board, queryParam);
   window.fsAttributes[GREENHOUSE_ATTRIBUTE].resolve?.(undefined);
 };

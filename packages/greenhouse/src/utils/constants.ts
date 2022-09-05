@@ -6,13 +6,10 @@ const ATTRIBUTES_PREFIX = `fs-${GREENHOUSE_ATTRIBUTE}`;
 export const LIST_ELEMENT_KEY = 'list';
 export const LINK_ELEMENT_KEY = 'link';
 export const TITLE_ELEMENT_KEY = 'title';
-export const GROUP_BY_ELEMENT_KEY = 'groupby';
 export const DESCRIPTION_ELEMENT_KEY = 'description';
 export const OFFICE_ELEMENT_KEY = 'office';
 export const DEPARTMENT_ELEMENT_KEY = 'department';
 export const APPLY_ELEMENT_KEY = 'apply';
-export const FILTER_ELEMENT_KEY = 'filter';
-export const DISPLAY_ELEMENT_KEY = 'display';
 export const FORM_ELEMENT_KEY = 'form';
 export const QUESTIONS_ELEMENT_KEY = 'questions';
 export const QUESTIONS_HEADER_ELEMENT_KEY = 'questions-header';
@@ -21,7 +18,6 @@ export const QUESTIONS_DESCRIPTIONS_ELEMENT_KEY = 'questions-description';
 export const BOARD_SETTING_KEY = 'board';
 export const QUERY_PARAM_SETTING_KEY = 'queryparam';
 export const DEFAULT_QUERY_PARAM_SETTING_KEY = 'id';
-export const GROUP_BY_SETTING_KEY = 'groupby';
 export const FILTER_SETTING_KEY = 'filter';
 export const DISPLAY_SETTING_KEY = 'display';
 
@@ -33,12 +29,6 @@ export const ATTRIBUTES = {
        * Added to either the Collection List Wrapper or the Collection List.
        */
       list: LIST_ELEMENT_KEY,
-
-      /** Defines filter */
-      filter: FILTER_ELEMENT_KEY,
-
-      /** Defines where the selected filters will be show */
-      display: DISPLAY_ELEMENT_KEY,
 
       /**
        * Added to any <a> element, it will append the job ID as a query parameter
