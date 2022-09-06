@@ -1,5 +1,11 @@
 # @finsweet/attributes-greenhouse
 
+## 0.1.0
+
+### Minor Changes
+
+- 2190d26f: Integrated with `cmsload` and `cmsfilter` and added all features.
+
 ## 0.0.4
 
 ### Patch Changes
