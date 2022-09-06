@@ -38,7 +38,6 @@ export async function createFilters(
 
     const displayElements = document.querySelectorAll<HTMLElement>(`[${ATTRIBUTES.display.key}]`);
 
-    console.log(displayElements);
     const defaultValues = new Map<HTMLElement, string>();
 
     const { listInstance } = filterInstance;
@@ -48,7 +47,6 @@ export async function createFilters(
     listInstance.on('renderitems', async () => {
       const { filtersData } = filterInstance;
 
-      console.log(filtersData, displayElements);
       if (displayElements.length > 0) {
         displayFilterValues(filtersData, [...displayElements], defaultValues);
       }
@@ -118,7 +116,6 @@ function displayFilterValues(
   displayElements: HTMLElement[],
   defaultValues: Map<HTMLElement, string>
 ) {
-  console.log(displayElements);
   for (const displayElement of displayElements) {
     const { textContent } = displayElement;
 

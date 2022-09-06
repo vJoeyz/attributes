@@ -21,7 +21,7 @@ import {
   createMultiSelectElement,
   createSingleSelectElement,
   createTextAreaElement,
-} from '../utils/elements';
+} from '../utils/form';
 
 const GDPR_CONSENT_GIVEN_KEY = 'gdpr_consent_given';
 const DEMOGRAPHIC_ANSWERS_PREFIX = 'demographic_answers';
@@ -31,6 +31,7 @@ export async function createJobForm(form: HTMLFormElement, jobId: string, boardI
   const job: JobWithQuestions = await jobsRequest.json();
 
   const templates = getTemplates(form);
+  console.log(job, templates);
 
   if (templates === null) {
     return;

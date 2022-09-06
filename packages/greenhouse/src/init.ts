@@ -29,12 +29,6 @@ export const init = async ({
 
   const url = new URL(window.location.href);
 
-  const jobId = url.searchParams.get(queryParam);
-  const office = url.searchParams.get(GH_OFFICE);
-  const department = url.searchParams.get(GH_DEPARTMENT);
-
-  const jobs = await fetchJobs(board, { office, department });
-
   const cmsLoadLists: CMSList[] = await window.fsAttributes[CMS_LOAD_ATTRIBUTE]?.loading;
 
   const cmsFilterLists: CMSFilters[] = await window.fsAttributes[CMS_FILTER_ATTRIBUTE]?.loading;
@@ -42,29 +36,35 @@ export const init = async ({
   const listJobsElement = queryElement<HTMLElement>(ATTRIBUTES.element.values.list);
 
   if (listJobsElement) {
+    const office = url.searchParams.get(GH_OFFICE);
+    const department = url.searchParams.get(GH_DEPARTMENT);
+
+    const jobs = await fetchJobs(board, { office, department });
+
     const cmsLoadList = cmsLoadLists && cmsLoadLists.find((listInstance) => listInstance.wrapper === listJobsElement);
     if (cmsLoadList) {
       addJobsToList(cmsLoadList, queryParam, jobs);
     } else {
       createJobList(listJobsElement, queryParam, jobs);
     }
+
+    // filters
+    const filtersElements = document.querySelectorAll<FormField>(`[${ATTRIBUTES.filter.key}]`);
+
+    if (cmsFilterLists && filtersElements.length > 0) {
+      await createFilters(board, queryParam, cmsFilterLists, [...filtersElements], jobs);
+    }
   }
 
-  // filters
-  const filtersElements = document.querySelectorAll<FormField>(`[${ATTRIBUTES.filter.key}]`);
-
-  if (cmsFilterLists && filtersElements.length > 0) {
-    await createFilters(board, queryParam, cmsFilterLists, [...filtersElements], jobs);
-  }
-
-  // jobs
-  const listJobsForms = queryElement<HTMLFormElement>(ATTRIBUTES.element.values.form, { all: true });
+  const jobId = url.searchParams.get(queryParam);
 
   if (jobId) {
     createJobDetails(jobId, board);
+    // jobs
+    const applicationForm = queryElement<HTMLFormElement>(ATTRIBUTES.element.values.form);
 
-    for (const listJobForm of listJobsForms) {
-      createJobForm(listJobForm, jobId, board);
+    if (applicationForm) {
+      createJobForm(applicationForm, jobId, board);
     }
   }
 

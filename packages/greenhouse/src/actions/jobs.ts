@@ -227,7 +227,7 @@ function getGroupByKeys(jobs: (Job | JobWithContent)[], groupBy: string) {
         jobs
           .map((job) => (job.hasOwnProperty('departments') && (job as JobWithContent).departments) || '')
           .filter((departments) => departments !== '')
-          .map((departments) => departments && departments[0].name)
+          .map((departments) => (departments && departments[0] && departments[0].name) || null)
           .filter(isNotEmpty)
       ),
     ];
@@ -239,7 +239,7 @@ function getGroupByKeys(jobs: (Job | JobWithContent)[], groupBy: string) {
         jobs
           .map((job) => (job.hasOwnProperty('offices') && (job as JobWithContent).offices) || '')
           .filter((offices) => offices !== '')
-          .map((offices) => offices && offices[0].name)
+          .map((offices) => (offices && offices[0] && offices[0].name) || null)
           .filter(isNotEmpty)
       ),
     ];
