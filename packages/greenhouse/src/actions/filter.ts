@@ -1,178 +1,207 @@
-import { CMS_CSS_CLASSES, DROPDOWN_CSS_CLASSES } from '@finsweet/ts-utils';
-import type { OfficesResponse, DepartmentsResponse } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
-import type { CMSList } from 'packages/cmscore/src';
+import { cloneNode, FormField, Greenhouse } from '@finsweet/ts-utils';
+import { DROPDOWN_CSS_CLASSES, FORM_CSS_CLASSES } from '@finsweet/ts-utils';
+import type { Job, JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
+import type { CMSFilters } from 'packages/cmsfilter/src/components/CMSFilters';
+import type { FiltersData } from 'packages/cmsfilter/src/utils/types';
 
-import { ATTRIBUTES, getSelector } from '../utils/constants';
-import { GH_API_BASE } from '../utils/constants';
+import { ATTRIBUTES, GH_DEPARTMENT, GH_OFFICE, queryElement } from '../utils/constants';
+import { fetchDepartments, fetchOffices } from '../utils/fetch';
+import { appendJobsNestedList, getNestedKey } from './jobs';
 
-export async function createJobListFilter(listInstances: CMSList[], filter: HTMLElement, boardId: string) {
-  const filterKey = filter.getAttribute(ATTRIBUTES.filter.key);
-
-  if (!filterKey) {
+export async function createFilters(
+  boardId: string,
+  queryParam: string,
+  filtersInstances: CMSFilters[],
+  filtersElements: FormField[],
+  jobs: (Job | JobWithContent)[]
+) {
+  if (filtersElements.length <= 0) {
     return;
   }
 
-  const filterData = await fetchFilterData(boardId, filterKey);
+  for (const filterInstance of filtersInstances) {
+    for (const filterElement of filtersElements) {
+      const filterKey = filterElement.getAttribute(ATTRIBUTES.filter.key);
 
-  if (filter instanceof HTMLSelectElement) {
-    createSelectFilter(listInstances, filter, filterData);
-    return;
-  }
+      if (!filterKey) {
+        continue;
+      }
 
-  if (filter.classList.contains(DROPDOWN_CSS_CLASSES.dropdown)) {
-    createDropdownFilter(listInstances, filter, filterData);
-    return;
-  }
+      const filterEntries = await fetchFilterData(boardId, filterKey);
 
-  return;
-}
+      if (!filterEntries || filterEntries.length <= 0) {
+        continue;
+      }
 
-function createSelectFilter(listInstances: CMSList[], filterElement: HTMLSelectElement, values: string[]) {
-  filterElement.innerHTML = '';
-  const defaultOption = document.createElement('option');
-  defaultOption.text = 'All';
-  defaultOption.value = '';
-  filterElement.add(defaultOption);
-
-  for (const value of values) {
-    const newOption = document.createElement('option');
-    newOption.text = value;
-    newOption.value = value;
-    filterElement.add(newOption);
-  }
-
-  filterElement.addEventListener('change', function () {
-    filterEvent(listInstances, this.value);
-  });
-}
-
-function filterNestedList(wrapper: HTMLDivElement, value: string) {
-  const items = wrapper.querySelectorAll<HTMLDivElement>(
-    `:scope > .${CMS_CSS_CLASSES.list} > .${CMS_CSS_CLASSES.item}`
-  );
-
-  for (const item of items) {
-    const groupByElement = item.querySelector<HTMLElement>(getSelector('element', ATTRIBUTES.element.values.groupby));
-
-    const groupName = groupByElement?.textContent || '';
-
-    if (groupName === value || value === '') {
-      item.style.setProperty('display', 'block');
-      continue;
+      createFilterFactory(filterElement, filterEntries);
     }
 
-    item.style.setProperty('display', 'none');
-  }
-}
+    const displayElements = document.querySelectorAll<HTMLElement>(`[${ATTRIBUTES.display.key}]`);
 
-function filterList(value: string) {
-  console.log('not implemented yet', value);
-}
+    const defaultValues = new Map<HTMLElement, string>();
 
-function createDropdownFilter(listInstances: CMSList[], filterElement: HTMLElement, values: string[]) {
-  const dropdownList = filterElement.querySelector<HTMLElement>(`.${DROPDOWN_CSS_CLASSES.dropdownList}`);
-  const dropdownToggle = filterElement.querySelector<HTMLElement>(`.${DROPDOWN_CSS_CLASSES.dropdownToggle}`);
+    const { listInstance } = filterInstance;
 
-  if (!dropdownList || !dropdownToggle) {
-    return;
-  }
-  const dropdownItems = dropdownList.querySelectorAll<HTMLElement>(`:scope > *`);
+    const groupByKey = getNestedKey(listInstance);
 
-  const dropdownTemplate = dropdownItems[0];
+    listInstance.on('renderitems', async () => {
+      const { filtersData } = filterInstance;
 
-  if (!dropdownTemplate) {
-    return;
-  }
+      if (displayElements.length > 0) {
+        displayFilterValues(filtersData, [...displayElements], defaultValues);
+      }
 
-  const defaultDropdown = dropdownTemplate.cloneNode(true) as HTMLElement;
-  defaultDropdown.textContent = 'All';
-  dropdownList.append(defaultDropdown);
-  defaultDropdown.addEventListener('click', function () {
-    filterEvent(listInstances, '');
-  });
+      if (groupByKey) {
+        const deparmentsFilter = filtersData.find((filterData) => filterData.filterKeys.includes(GH_DEPARTMENT));
+        const officesFilter = filtersData.find((filterData) => filterData.filterKeys.includes(GH_OFFICE));
 
-  for (const value of values) {
-    const newDropdown = dropdownTemplate.cloneNode(true) as HTMLElement;
-    newDropdown.textContent = value;
-    dropdownList.append(newDropdown);
+        const departmentValues = (deparmentsFilter && [...deparmentsFilter.values]) || null;
+        const officeValues = (officesFilter && [...officesFilter.values]) || null;
 
-    newDropdown.addEventListener('click', function () {
-      filterEvent(listInstances, value);
+        const filteredJobs = await filterJobs(jobs, departmentValues, officeValues);
+
+        listInstance.wrapper.innerHTML = '';
+
+        appendJobsNestedList(listInstance, filteredJobs, queryParam, groupByKey);
+      }
     });
   }
 
-  for (const dropdownItem of dropdownItems) {
+  for (const filterInstance of filtersInstances) {
+    filterInstance.storeFiltersData();
+    filterInstance.resetFilters();
+  }
+}
+
+async function filterJobs(
+  allJobs: (Job | JobWithContent)[],
+  departmentValues: string[] | null,
+  officeValues: string[] | null
+) {
+  const jobsDeparments =
+    (departmentValues &&
+      departmentValues.length > 0 &&
+      allJobs.filter((job: Greenhouse.Job | Greenhouse.JobWithContent) => {
+        if (!job.hasOwnProperty('departments')) {
+          return false;
+        }
+
+        const departments = (job as Greenhouse.JobWithContent).departments.map((department) => department.name);
+
+        return departments.some((department) =>
+          departmentValues.some((deparmentValue) => deparmentValue === department)
+        );
+      })) ||
+    allJobs;
+
+  const jobs =
+    (officeValues &&
+      officeValues.length > 0 &&
+      jobsDeparments.filter((job: Greenhouse.Job | Greenhouse.JobWithContent) => {
+        if (!job.hasOwnProperty('offices')) {
+          return false;
+        }
+
+        const offices = (job as Greenhouse.JobWithContent).offices.map((office) => office.name);
+
+        return offices.some((office) => officeValues.some((officeValue) => officeValue === office));
+      })) ||
+    jobsDeparments;
+
+  return jobs;
+}
+
+function displayFilterValues(
+  filtersData: FiltersData,
+  displayElements: HTMLElement[],
+  defaultValues: Map<HTMLElement, string>
+) {
+  for (const displayElement of displayElements) {
+    const { textContent } = displayElement;
+
+    const defaultValue: string | null | undefined = defaultValues.has(displayElement)
+      ? defaultValues.get(displayElement)
+      : defaultValues.set(displayElement, textContent || 'All') && textContent;
+    const key = displayElement.getAttribute(ATTRIBUTES.display.key);
+
+    if (!key) {
+      continue;
+    }
+
+    const filteredKey = filtersData.find((filterData) => filterData.filterKeys.includes(key));
+
+    if (!filteredKey) {
+      continue;
+    }
+
+    const values = [...filteredKey.values];
+
+    if (values.length <= 0 && defaultValue) {
+      displayElement.textContent = defaultValue;
+      continue;
+    }
+
+    displayElement.textContent = values.join(', ');
+  }
+}
+
+export function createFilterFactory(fieldElement: FormField, category: string[]): void {
+  if (fieldElement instanceof HTMLSelectElement) {
+    fieldElement.innerHTML = '';
+    fieldElement.add(new Option('All', ''));
+    category.forEach((category) => {
+      // TODO: flatten out the option values to this format: value-name
+      fieldElement.add(new Option(category, category));
+    });
+    return;
+  }
+
+  const dropdown = fieldElement.closest<HTMLElement>(`.${DROPDOWN_CSS_CLASSES.dropdown}`);
+
+  if (dropdown) {
+    const dropdownNav = dropdown.querySelector<HTMLElement>(`.${DROPDOWN_CSS_CLASSES.dropdownList}`);
+
+    if (!dropdownNav) {
+      return;
+    }
+
+    const dropdownList = dropdownNav.querySelector<HTMLElement>('ul');
+
+    if (!dropdownList) {
+      return;
+    }
+
+    const dropdownItem = dropdownList.querySelector<HTMLElement>('li');
+
+    if (!dropdownItem) {
+      return;
+    }
+
+    category.forEach((category) => {
+      const newDropdownItem = cloneNode(dropdownItem);
+
+      const labelItem = newDropdownItem.querySelector<HTMLLabelElement>(`.${FORM_CSS_CLASSES.checkboxOrRadioLabel}`);
+
+      if (!labelItem) {
+        return;
+      }
+
+      labelItem.textContent = category;
+
+      dropdownList.append(newDropdownItem);
+    });
+
     dropdownItem.remove();
   }
 }
 
-function filterEvent(listInstances: CMSList[], value: string) {
-  for (const listInstance of listInstances) {
-    const { wrapper } = listInstance;
-
-    if (!wrapper) {
-      continue;
-    }
-
-    const groupBy = wrapper.getAttribute(ATTRIBUTES.groupBy.key);
-    const nestedWrapper = wrapper.querySelector<HTMLElement>(`.${CMS_CSS_CLASSES.wrapper}`);
-
-    const isNested = !!(groupBy && nestedWrapper);
-
-    if (isNested) {
-      filterNestedList(wrapper, value);
-      continue;
-    }
-
-    filterList(value);
-  }
-}
-
-async function fetchFilterData(boardId: string, filterKey: string): Promise<string[]> {
+export async function fetchFilterData(boardId: string, filterKey: string): Promise<string[]> {
   switch (filterKey) {
-    case 'departments':
+    case GH_DEPARTMENT:
       return fetchDepartments(boardId);
-    case 'offices':
+    case GH_OFFICE:
       return fetchOffices(boardId);
     default:
       return [];
-  }
-}
-
-/**
- * Fetches departments from Greenhouse
- * @returns an array of {@link Greenhouse.Office} objects
- */
-async function fetchOffices(boardId: string): Promise<string[]> {
-  try {
-    // Call the API
-    const endpoint = `${GH_API_BASE}${boardId}/offices`;
-    const response = await fetch(endpoint);
-    const data: OfficesResponse = await response.json();
-
-    return data.offices.map((office) => office.name);
-  } catch (error) {
-    return [];
-  }
-}
-
-// OPEN POSITION HELPERS
-
-/**
- * Fetches departments and jobs from Greenhouse
- * @returns an array of {@link Department} objects
- */
-async function fetchDepartments(boardId: string): Promise<string[]> {
-  try {
-    // Call the API
-    const endpoint = `${GH_API_BASE}${boardId}/departments`;
-    const response = await fetch(endpoint);
-    const data: DepartmentsResponse = await response.json();
-
-    // Filter out departments with no jobs
-    const departments = data.departments.filter((department) => department.jobs.length > 0);
-    return departments.map((department) => department.name);
-  } catch (error) {
-    return [];
   }
 }

@@ -6,12 +6,10 @@ const ATTRIBUTES_PREFIX = `fs-${GREENHOUSE_ATTRIBUTE}`;
 export const LIST_ELEMENT_KEY = 'list';
 export const LINK_ELEMENT_KEY = 'link';
 export const TITLE_ELEMENT_KEY = 'title';
-export const GROUP_BY_ELEMENT_KEY = 'groupby';
 export const DESCRIPTION_ELEMENT_KEY = 'description';
 export const OFFICE_ELEMENT_KEY = 'office';
 export const DEPARTMENT_ELEMENT_KEY = 'department';
 export const APPLY_ELEMENT_KEY = 'apply';
-export const FILTER_ELEMENT_KEY = 'filter';
 export const FORM_ELEMENT_KEY = 'form';
 export const QUESTIONS_ELEMENT_KEY = 'questions';
 export const QUESTIONS_HEADER_ELEMENT_KEY = 'questions-header';
@@ -20,8 +18,8 @@ export const QUESTIONS_DESCRIPTIONS_ELEMENT_KEY = 'questions-description';
 export const BOARD_SETTING_KEY = 'board';
 export const QUERY_PARAM_SETTING_KEY = 'queryparam';
 export const DEFAULT_QUERY_PARAM_SETTING_KEY = 'id';
-export const GROUP_BY_SETTING_KEY = 'groupby';
 export const FILTER_SETTING_KEY = 'filter';
+export const DISPLAY_SETTING_KEY = 'display';
 
 export const ATTRIBUTES = {
   element: {
@@ -31,12 +29,6 @@ export const ATTRIBUTES = {
        * Added to either the Collection List Wrapper or the Collection List.
        */
       list: LIST_ELEMENT_KEY,
-
-      /** Show the groupby value */
-      groupby: GROUP_BY_ELEMENT_KEY,
-
-      /** Defines filter */
-      filter: FILTER_ELEMENT_KEY,
 
       /**
        * Added to any <a> element, it will append the job ID as a query parameter
@@ -74,12 +66,12 @@ export const ATTRIBUTES = {
       /**
        * Display the header of a set of questions.
        */
-      questionsHeader: QUESTIONS_HEADER_ELEMENT_KEY,
+      ['questions-header']: QUESTIONS_HEADER_ELEMENT_KEY,
 
       /**
        *  It will display the description of a set of questions
        */
-      questionDescriptions: QUESTIONS_DESCRIPTIONS_ELEMENT_KEY,
+      ['questions-description']: QUESTIONS_DESCRIPTIONS_ELEMENT_KEY,
     },
   },
 
@@ -93,11 +85,12 @@ export const ATTRIBUTES = {
   board: {
     key: `${ATTRIBUTES_PREFIX}-${BOARD_SETTING_KEY}`,
   },
-  groupBy: {
-    key: `${ATTRIBUTES_PREFIX}-${GROUP_BY_SETTING_KEY}`,
-  },
+
   filter: {
     key: `${ATTRIBUTES_PREFIX}-${FILTER_SETTING_KEY}`,
+  },
+  display: {
+    key: `${ATTRIBUTES_PREFIX}-${DISPLAY_SETTING_KEY}`,
   },
 } as const;
 
@@ -106,3 +99,9 @@ export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 export const GH_API_BASE = 'https://boards-api.greenhouse.io/v1/boards/';
 
 export const GH_API_JOBS = '/jobs';
+
+export const GH_DEPARTMENT = 'department';
+
+export const GH_OFFICE = 'office';
+
+export const SUPPORTED_NESTED_KEYS = [GH_DEPARTMENT, GH_OFFICE];
