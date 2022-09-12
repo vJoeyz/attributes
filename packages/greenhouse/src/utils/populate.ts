@@ -8,7 +8,9 @@ export function populateJob(job: Job | JobWithContent, scope: HTMLDivElement | u
     const linkElements = queryElement<HTMLLinkElement>(ATTRIBUTES.element.values.link, { scope, all: true });
 
     for (const linkElement of linkElements) {
-      linkElement.href = `${linkElement.href}?${queryParam}=${job.id}`;
+      const url = new URL(linkElement.href);
+      url.searchParams.set(queryParam, job.id.toString());
+      linkElement.href = url.toString();
     }
   }
 
