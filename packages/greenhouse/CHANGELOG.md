@@ -1,5 +1,11 @@
 # @finsweet/attributes-greenhouse
 
+## 0.1.1
+
+### Patch Changes
+
+- 5801086b: Use departments and offices associated with jobs for filters
+
 ## 0.1.0
 
 ### Minor Changes
