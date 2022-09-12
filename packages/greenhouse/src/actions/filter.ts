@@ -6,7 +6,8 @@ import type { FiltersData } from 'packages/cmsfilter/src/utils/types';
 import type { JobsFilters } from '../types';
 import { ATTRIBUTES, GH_DEPARTMENT, GH_OFFICE } from '../utils/constants';
 import { filterJobs, getDepartmentsOrOfficesFromJobs } from '../utils/jobs';
-import { appendNestedJobsToCMSItems, getNestedKey } from './jobs';
+import { appendNestedJobsToCMSItems } from '../utils/lists';
+import { getNestedKey } from './jobs';
 
 export async function createFilters(
   queryParam: string,
