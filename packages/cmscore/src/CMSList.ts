@@ -62,6 +62,16 @@ export class CMSList extends Emittery<CMSListEvents> {
   public visibleCount?: HTMLElement;
 
   /**
+   * An element that displays the lower range of visible items.
+   */
+  public visibleRangeFrom?: HTMLElement;
+
+  /**
+   * An element that displays the upper range of visible items.
+   */
+  public visibleRangeTo?: HTMLElement;
+
+  /**
    * A custom `Initial State` element.
    */
   public initialElement?: HTMLElement | null;
@@ -447,6 +457,39 @@ export class CMSList extends Emittery<CMSListEvents> {
 
     update();
     this.on('renderitems', update);
+  }
+
+  /**
+   * Adds a `Visible Range` elements to the list.
+   * @param fromElement The `from` element to add.
+   * @param toElement The `to` element to add.
+   */
+  public addVisibleRange(fromElement?: HTMLElement | null, toElement?: HTMLElement | null) {
+    if (fromElement && !this.visibleRangeFrom) {
+      this.visibleRangeFrom = fromElement;
+
+      const updateFrom = () => {
+        const visibleRangeFrom = this.itemsPerPage * (this.currentPage || 1) - (this.itemsPerPage - 1);
+
+        updateItemsCount(fromElement, visibleRangeFrom);
+      };
+
+      updateFrom();
+      this.on('renderitems', updateFrom);
+    }
+
+    if (toElement && !this.visibleRangeTo) {
+      this.visibleRangeTo = toElement;
+
+      const updateTo = () => {
+        const visibleRangeTo = Math.min(this.itemsPerPage * (this.currentPage || 1), this.validItems.length);
+
+        updateItemsCount(toElement, visibleRangeTo);
+      };
+
+      updateTo();
+      this.on('renderitems', updateTo);
+    }
   }
 
   /**
