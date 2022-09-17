@@ -460,7 +460,7 @@ export class CMSList extends Emittery<CMSListEvents> {
   }
 
   /**
-   * Adds a `Visible Range` elements to the list.
+   * Adds `Visible Range` elements to the list.
    * @param fromElement The `from` element to add.
    * @param toElement The `to` element to add.
    */
