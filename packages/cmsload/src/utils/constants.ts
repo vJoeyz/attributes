@@ -8,6 +8,8 @@ export const LIST_ELEMENT_KEY = 'list';
 export const LOADER_ELEMENT_KEY = 'loader';
 export const ITEMS_COUNT_ELEMENT_KEY = 'items-count';
 export const VISIBLE_COUNT_ELEMENT_KEY = 'visible-count';
+export const VISIBLE_RANGE_FROM_ELEMENT_KEY = 'visible-range-from';
+export const VISIBLE_RANGE_TO_ELEMENT_KEY = 'visible-range-to';
 export const SCROLL_ANCHOR_ELEMENT_KEY = 'scroll-anchor';
 export const PAGE_BUTTON_ELEMENT_KEY = 'page-button';
 export const PAGE_DOTS_ELEMENT_KEY = 'page-dots';
@@ -71,6 +73,16 @@ export const ATTRIBUTES = {
        * Defines an element where to display the amount of visible items.
        */
       visibleCount: generateDynamicAttibuteValue(VISIBLE_COUNT_ELEMENT_KEY),
+
+      /**
+       * Defines an element where to display the lower range of visible items.
+       */
+      visibleRangeFrom: generateDynamicAttibuteValue(VISIBLE_RANGE_FROM_ELEMENT_KEY),
+
+      /**
+       * Defines an element where to display the upper range of visible items.
+       */
+      visibleRangeTo: generateDynamicAttibuteValue(VISIBLE_RANGE_TO_ELEMENT_KEY),
 
       /**
        * Defines an element where to scroll the view every time a page in `Pagination` mode is switched.

@@ -71,10 +71,17 @@ export const initLoadInstance = async (listInstance: CMSList) => {
     if (itemsCount) listInstance.addItemsCount(itemsCount);
   }
 
-  // Get page count element
+  // Get visible count element
   if (!listInstance.visibleCount) {
     const visibleCount = queryElement<HTMLElement>('visibleCount', { instanceIndex });
     if (visibleCount) listInstance.addVisibleCount(visibleCount);
+  }
+
+  // Get visible range elements
+  if (!listInstance.visibleRangeFrom || !listInstance.visibleRangeTo) {
+    const visibleRangeFrom = queryElement<HTMLElement>('visibleRangeFrom', { instanceIndex });
+    const visibleRangeTo = queryElement<HTMLElement>('visibleRangeTo', { instanceIndex });
+    listInstance.addVisibleRange(visibleRangeFrom, visibleRangeTo);
   }
 
   // Get scroll anchor
