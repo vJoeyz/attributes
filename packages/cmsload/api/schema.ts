@@ -34,8 +34,8 @@ import {
   STAGGER_SETTING_KEY,
   THRESHOLD_SETTING_KEY,
   EMPTY_ELEMENT_KEY,
-  VISIBLE_RANGE_FROM_ELEMENT_KEY,
-  VISIBLE_RANGE_TO_ELEMENT_KEY,
+  VISIBLE_COUNT_FROM_ELEMENT_KEY,
+  VISIBLE_COUNT_TO_ELEMENT_KEY,
 } from '../src/utils/constants';
 
 export const schema: AttributeSchema = {
@@ -95,7 +95,7 @@ export const schema: AttributeSchema = {
       ],
     },
     {
-      key: VISIBLE_RANGE_FROM_ELEMENT_KEY,
+      key: VISIBLE_COUNT_FROM_ELEMENT_KEY,
       description: 'Defines an element where to display the lower range of visible items.',
       required: false,
       appliedTo: [TEXT_BLOCK],
@@ -110,7 +110,7 @@ export const schema: AttributeSchema = {
       ],
     },
     {
-      key: VISIBLE_RANGE_TO_ELEMENT_KEY,
+      key: VISIBLE_COUNT_TO_ELEMENT_KEY,
       description: 'Defines an element where to display the upper range of visible items.',
       required: false,
       appliedTo: [TEXT_BLOCK],

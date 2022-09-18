@@ -1,4 +1,4 @@
-import type { CMSList } from '@finsweet/attributes-cmscore';
+import { checkCMSCoreVersion, CMSList } from '@finsweet/attributes-cmscore';
 import { addItemsAnimation, addListAnimation } from '@finsweet/attributes-cmscore';
 import { COMMERCE_CSS_CLASSES, LIGHTBOX_CSS_CLASSES } from '@finsweet/ts-utils';
 
@@ -71,17 +71,18 @@ export const initLoadInstance = async (listInstance: CMSList) => {
     if (itemsCount) listInstance.addItemsCount(itemsCount);
   }
 
-  // Get visible count element
-  if (!listInstance.visibleCount) {
-    const visibleCount = queryElement<HTMLElement>('visibleCount', { instanceIndex });
-    if (visibleCount) listInstance.addVisibleCount(visibleCount);
-  }
+  // Get visible count elements
+  if (!listInstance.visibleCount || !listInstance.visibleCountFrom || !listInstance.visibleCountTo) {
+    const visibleCountTotal = queryElement<HTMLElement>('visibleCount', { instanceIndex });
+    const visibleCountFrom = queryElement<HTMLElement>('visibleCountFrom', { instanceIndex });
+    const visibleCountTo = queryElement<HTMLElement>('visibleCountTo', { instanceIndex });
 
-  // Get visible range elements
-  if (!listInstance.visibleRangeFrom || !listInstance.visibleRangeTo) {
-    const visibleRangeFrom = queryElement<HTMLElement>('visibleRangeFrom', { instanceIndex });
-    const visibleRangeTo = queryElement<HTMLElement>('visibleRangeTo', { instanceIndex });
-    listInstance.addVisibleRange(visibleRangeFrom, visibleRangeTo);
+    // TODO: Remove this check after cmscore v1.7.0 has rolled out
+    if (checkCMSCoreVersion('>=', '1.7.0')) {
+      listInstance.addVisibleCount(visibleCountTotal, visibleCountFrom, visibleCountTo);
+    } else if (visibleCountTotal) {
+      listInstance.addVisibleCount(visibleCountTotal);
+    }
   }
 
   // Get scroll anchor
