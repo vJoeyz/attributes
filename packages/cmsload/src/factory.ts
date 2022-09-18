@@ -1,4 +1,4 @@
-import type { CMSList } from '@finsweet/attributes-cmscore';
+import { checkCMSCoreVersion, CMSList } from '@finsweet/attributes-cmscore';
 import { addItemsAnimation, addListAnimation } from '@finsweet/attributes-cmscore';
 import { COMMERCE_CSS_CLASSES, LIGHTBOX_CSS_CLASSES } from '@finsweet/ts-utils';
 
@@ -71,10 +71,18 @@ export const initLoadInstance = async (listInstance: CMSList) => {
     if (itemsCount) listInstance.addItemsCount(itemsCount);
   }
 
-  // Get page count element
-  if (!listInstance.visibleCount) {
-    const visibleCount = queryElement<HTMLElement>('visibleCount', { instanceIndex });
-    if (visibleCount) listInstance.addVisibleCount(visibleCount);
+  // Get visible count elements
+  if (!listInstance.visibleCount || !listInstance.visibleCountFrom || !listInstance.visibleCountTo) {
+    const visibleCountTotal = queryElement<HTMLElement>('visibleCount', { instanceIndex });
+    const visibleCountFrom = queryElement<HTMLElement>('visibleCountFrom', { instanceIndex });
+    const visibleCountTo = queryElement<HTMLElement>('visibleCountTo', { instanceIndex });
+
+    // TODO: Remove this check after cmscore v1.7.0 has rolled out
+    if (checkCMSCoreVersion('>=', '1.7.0')) {
+      listInstance.addVisibleCount(visibleCountTotal, visibleCountFrom, visibleCountTo);
+    } else if (visibleCountTotal) {
+      listInstance.addVisibleCount(visibleCountTotal);
+    }
   }
 
   // Get scroll anchor
