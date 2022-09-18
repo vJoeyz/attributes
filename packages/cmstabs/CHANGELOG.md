@@ -1,5 +1,12 @@
 # @finsweet/attributes-cmstabs
 
+## 1.5.8
+
+### Patch Changes
+
+- Updated dependencies [ef56d454]
+  - @finsweet/attributes-cmscore@1.7.0
+
 ## 1.5.7
 
 ### Patch Changes
