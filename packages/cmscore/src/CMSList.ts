@@ -64,12 +64,12 @@ export class CMSList extends Emittery<CMSListEvents> {
   /**
    * An element that displays the lower range of visible items.
    */
-  public visibleRangeFrom?: HTMLElement;
+  public visibleCountFrom?: HTMLElement;
 
   /**
    * An element that displays the upper range of visible items.
    */
-  public visibleRangeTo?: HTMLElement;
+  public visibleCountTo?: HTMLElement;
 
   /**
    * A custom `Initial State` element.
@@ -445,46 +445,49 @@ export class CMSList extends Emittery<CMSListEvents> {
   }
 
   /**
-   * Adds a `Visible Count` element to the list.
-   * @param element The element to add.
-   */
-  public addVisibleCount(element: HTMLElement) {
-    if (this.visibleCount) return;
-
-    this.visibleCount = element;
-
-    const update = () => updateItemsCount(element, Math.min(this.itemsPerPage, this.validItems.length));
-
-    update();
-    this.on('renderitems', update);
-  }
-
-  /**
-   * Adds `Visible Range` elements to the list.
+   * Adds `Visible Count` elements to the list.
+   * @param totalElement The `total` element to add.
    * @param fromElement The `from` element to add.
    * @param toElement The `to` element to add.
    */
-  public addVisibleRange(fromElement?: HTMLElement | null, toElement?: HTMLElement | null) {
-    if (fromElement && !this.visibleRangeFrom) {
-      this.visibleRangeFrom = fromElement;
+  public addVisibleCount(
+    totalElement?: HTMLElement | null,
+    fromElement?: HTMLElement | null,
+    toElement?: HTMLElement | null
+  ) {
+    if (totalElement && !this.visibleCount) {
+      this.visibleCount = totalElement;
+
+      const updateTotal = () => {
+        const visibleCountTotal = Math.min(this.itemsPerPage, this.validItems.length);
+
+        updateItemsCount(totalElement, visibleCountTotal);
+      };
+
+      updateTotal();
+      this.on('renderitems', updateTotal);
+    }
+
+    if (fromElement && !this.visibleCountFrom) {
+      this.visibleCountFrom = fromElement;
 
       const updateFrom = () => {
-        const visibleRangeFrom = this.itemsPerPage * (this.currentPage || 1) - (this.itemsPerPage - 1);
+        const visibleCountFrom = this.itemsPerPage * (this.currentPage || 1) - (this.itemsPerPage - 1);
 
-        updateItemsCount(fromElement, visibleRangeFrom);
+        updateItemsCount(fromElement, visibleCountFrom);
       };
 
       updateFrom();
       this.on('renderitems', updateFrom);
     }
 
-    if (toElement && !this.visibleRangeTo) {
-      this.visibleRangeTo = toElement;
+    if (toElement && !this.visibleCountTo) {
+      this.visibleCountTo = toElement;
 
       const updateTo = () => {
-        const visibleRangeTo = Math.min(this.itemsPerPage * (this.currentPage || 1), this.validItems.length);
+        const visibleCountTo = Math.min(this.itemsPerPage * (this.currentPage || 1), this.validItems.length);
 
-        updateItemsCount(toElement, visibleRangeTo);
+        updateItemsCount(toElement, visibleCountTo);
       };
 
       updateTo();
