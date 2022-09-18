@@ -1,5 +1,12 @@
 # @finsweet/attributes-cmscombine
 
+## 1.6.6
+
+### Patch Changes
+
+- Updated dependencies [ef56d454]
+  - @finsweet/attributes-cmscore@1.7.0
+
 ## 1.6.5
 
 ### Patch Changes
