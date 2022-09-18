@@ -1,5 +1,11 @@
 # @finsweet/attributes-cmscore
 
+## 1.7.1
+
+### Patch Changes
+
+- d8a4bf6f: Fixed invalid visibleCountFrom when there are no valid items
+
 ## 1.7.0
 
 ### Minor Changes
