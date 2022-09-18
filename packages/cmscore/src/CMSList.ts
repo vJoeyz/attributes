@@ -472,7 +472,10 @@ export class CMSList extends Emittery<CMSListEvents> {
       this.visibleCountFrom = fromElement;
 
       const updateFrom = () => {
-        const visibleCountFrom = this.itemsPerPage * (this.currentPage || 1) - (this.itemsPerPage - 1);
+        const visibleCountFrom = Math.min(
+          this.itemsPerPage * (this.currentPage || 1) - (this.itemsPerPage - 1),
+          this.validItems.length
+        );
 
         updateItemsCount(fromElement, visibleCountFrom);
       };
