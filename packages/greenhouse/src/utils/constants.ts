@@ -18,6 +18,8 @@ export const QUESTIONS_DESCRIPTIONS_ELEMENT_KEY = 'questions-description';
 export const BOARD_SETTING_KEY = 'board';
 export const QUERY_PARAM_SETTING_KEY = 'queryparam';
 export const DEFAULT_QUERY_PARAM_SETTING_KEY = 'id';
+export const FILTER_SETTING_KEY = 'filter';
+export const DISPLAY_SETTING_KEY = 'display';
 
 export const ATTRIBUTES = {
   element: {
@@ -64,12 +66,12 @@ export const ATTRIBUTES = {
       /**
        * Display the header of a set of questions.
        */
-      questionsHeader: QUESTIONS_HEADER_ELEMENT_KEY,
+      ['questions-header']: QUESTIONS_HEADER_ELEMENT_KEY,
 
       /**
        *  It will display the description of a set of questions
        */
-      questionDescriptions: QUESTIONS_DESCRIPTIONS_ELEMENT_KEY,
+      ['questions-description']: QUESTIONS_DESCRIPTIONS_ELEMENT_KEY,
     },
   },
 
@@ -83,6 +85,13 @@ export const ATTRIBUTES = {
   board: {
     key: `${ATTRIBUTES_PREFIX}-${BOARD_SETTING_KEY}`,
   },
+
+  filter: {
+    key: `${ATTRIBUTES_PREFIX}-${FILTER_SETTING_KEY}`,
+  },
+  display: {
+    key: `${ATTRIBUTES_PREFIX}-${DISPLAY_SETTING_KEY}`,
+  },
 } as const;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
@@ -90,3 +99,9 @@ export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 export const GH_API_BASE = 'https://boards-api.greenhouse.io/v1/boards/';
 
 export const GH_API_JOBS = '/jobs';
+
+export const GH_DEPARTMENT = 'department';
+
+export const GH_OFFICE = 'office';
+
+export const SUPPORTED_NESTED_KEYS = [GH_DEPARTMENT, GH_OFFICE];

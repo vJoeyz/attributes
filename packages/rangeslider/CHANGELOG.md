@@ -1,5 +1,11 @@
 # @finsweet/attributes-rangeslider
 
+## 1.6.5
+
+### Patch Changes
+
+- 1c93f949: Added minRange to calculate offset in `adjustValueToStep`
+
 ## 1.6.4
 
 ### Patch Changes

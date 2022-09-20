@@ -1,14 +1,7 @@
-import {
-  GREENHOUSE_ATTRIBUTE,
-  CMS_LOAD_ATTRIBUTE,
-  CMS_FILTER_ATTRIBUTE,
-  CMS_SORT_ATTRIBUTE,
-} from 'global/constants/attributes';
+import { GREENHOUSE_ATTRIBUTE } from 'global/constants/attributes';
 
-import { createJobDetails } from './actions/details';
-import { createJobForm } from './actions/form';
-import { createJobList } from './actions/jobs';
-import { ATTRIBUTES, queryElement } from './utils/constants';
+import { initJob, initJobsList } from './factory';
+import { ATTRIBUTES, GH_DEPARTMENT, GH_OFFICE } from './utils/constants';
 
 /**
  * Inits the attribute.
@@ -20,37 +13,28 @@ export const init = async ({
   board: string | null;
   queryParam?: string | null;
 }): Promise<void> => {
-  await Promise.all([
-    await window.fsAttributes[CMS_LOAD_ATTRIBUTE]?.loading,
-    await window.fsAttributes[CMS_FILTER_ATTRIBUTE]?.loading,
-    await window.fsAttributes[CMS_SORT_ATTRIBUTE]?.loading,
-  ]);
-
+  // init params
   queryParam ??= ATTRIBUTES.queryparam.default;
 
   if (!board) {
     return;
   }
 
-  const listJobsElements = queryElement<HTMLElement>(ATTRIBUTES.element.values.list, { all: true });
-  const listJobsForms = queryElement<HTMLFormElement>(ATTRIBUTES.element.values.form, { all: true });
-
-  for (const listJobElement of listJobsElements) {
-    createJobList(listJobElement, board, queryParam);
-  }
-
   const url = new URL(window.location.href);
 
   const jobId = url.searchParams.get(queryParam);
 
+  // init job details and form
   if (jobId) {
-    createJobDetails(jobId, board);
-
-    for (const listJobForm of listJobsForms) {
-      createJobForm(listJobForm, jobId, board);
-    }
+    await initJob(board, jobId);
+    return;
   }
 
-  // console.log(board, queryParam);
+  const office = url.searchParams.get(GH_OFFICE);
+  const department = url.searchParams.get(GH_DEPARTMENT);
+
+  // init job list
+  await initJobsList(board, queryParam, office, department);
+
   window.fsAttributes[GREENHOUSE_ATTRIBUTE].resolve?.(undefined);
 };

@@ -1,39 +1,55 @@
-import type { CMSItem } from '@finsweet/attributes-cmscore';
-import { importCMSCore } from '@finsweet/attributes-cmscore';
-import type { JobsResponse, Job, JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
+import { CMSList, importCMSCore } from '@finsweet/attributes-cmscore';
+import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
+import type { JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
 
-import { getSelector, GH_API_BASE, GH_API_JOBS } from '../utils/constants';
-import { populateJob } from '../utils/populate';
+import { ATTRIBUTES, SUPPORTED_NESTED_KEYS } from '../utils/constants';
+import { addJobsToCMSItems, addNestedJobsToCMSItems } from '../utils/lists';
 
-export async function createJobList(listWrapper: HTMLElement, boardId: string, queryParam: string) {
+export async function createCMSList(listWrapper: HTMLElement, queryParam: string, jobs: JobWithContent[]) {
   const cmsCore = await importCMSCore();
   if (!cmsCore) return [];
 
-  const jobsRequest = await fetch(`${GH_API_BASE}/${boardId}/${GH_API_JOBS}?content=true`);
-
-  const jobsResponse: JobsResponse = await jobsRequest.json();
-
-  const { jobs } = jobsResponse;
-
   // Create the list instances
-  const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
+  const listInstance = cmsCore.createCMSListInstance(listWrapper);
 
-  listInstances.forEach((listInstance) => {
-    const template: CMSItem = listInstance.items[0];
+  if (!listInstance) {
+    return;
+  }
 
-    if (!template) {
-      return;
+  await addJobsCMSList(listInstance, queryParam, jobs);
+}
+
+export async function addJobsCMSList(listInstance: CMSList, queryParam: string, jobs: JobWithContent[]) {
+  const groupByKey = getNestedKey(listInstance);
+
+  if (groupByKey) {
+    addNestedJobsToCMSItems(listInstance, jobs, queryParam, groupByKey);
+    return;
+  }
+
+  addJobsToCMSItems(listInstance, jobs, queryParam);
+}
+
+export function getNestedKey(listInstance: CMSList): string | null {
+  const templateItem = [...listInstance.items][0];
+
+  const { element } = templateItem;
+
+  const nestedList = element.querySelector<HTMLDivElement>(`.${CMS_CSS_CLASSES.wrapper}`);
+
+  if (!nestedList) {
+    return null;
+  }
+
+  const groupBy = [...element.querySelectorAll<HTMLElement>(`[${ATTRIBUTES.element.key}]`)].find((groupElement) => {
+    const elementAttribute = groupElement.getAttribute(ATTRIBUTES.element.key);
+
+    if (!elementAttribute) {
+      return false;
     }
 
-    const { element } = template;
-
-    const jobElements = jobs.map((job: Job | JobWithContent) => {
-      const jobItemElement: HTMLDivElement = element.cloneNode(true) as HTMLDivElement;
-
-      return populateJob(job, jobItemElement, queryParam) as HTMLDivElement;
-    });
-
-    element.remove();
-    listInstance.addItems(jobElements);
+    return (groupElement.contains(element) === false && SUPPORTED_NESTED_KEYS.includes(elementAttribute)) || false;
   });
+
+  return (groupBy && groupBy.getAttribute(ATTRIBUTES.element.key)) || null;
 }
