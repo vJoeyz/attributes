@@ -18,6 +18,8 @@ export const CMS_NEST_ATTRIBUTE = 'cmsnest';
 
 export const CMS_PREV_NEXT_ATTRIBUTE = 'cmsprevnext';
 
+export const CMS_STATIC_ATTRIBUTE = 'cmsstatic';
+
 export const CMS_SELECT_ATTRIBUTE = 'cmsselect';
 
 export const CMS_SLIDER_ATTRIBUTE = 'cmsslider';

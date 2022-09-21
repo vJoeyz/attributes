@@ -1,4 +1,4 @@
-import type { CMSList } from '@finsweet/attributes-cmscore';
+import { checkCMSCoreVersion, CMSList } from '@finsweet/attributes-cmscore';
 
 import type { SortingDirection } from '../utils/types';
 
@@ -24,9 +24,9 @@ export const sortListItems = async (
     addingItems?: boolean;
   }
 ) => {
-  const { items } = listInstance;
+  const { items, staticItems } = listInstance;
 
-  const validSortKey = direction && sortKey && items.some(({ props }) => sortKey in props);
+  const validSortKey = !!direction && !!sortKey && items.some(({ props }) => sortKey in props);
 
   if (!validSortKey) listInstance.restoreItemsOrder();
   else {
@@ -69,6 +69,19 @@ export const sortListItems = async (
 
       return secondItemValue.localeCompare(firstItemValue, undefined, collatorOptions);
     });
+
+    // Move static items back to their position
+    // TODO: Remove this once cmscore@1.8.0 has rolled out
+    if (checkCMSCoreVersion('>=', '1.8.0')) {
+      for (const staticItem of staticItems) {
+        const currentIndex = items.indexOf(staticItem);
+
+        if (currentIndex < 0 || typeof staticItem.staticIndex !== 'number') continue;
+
+        items.splice(currentIndex, 1);
+        items.splice(staticItem.staticIndex, 0, staticItem);
+      }
+    }
   }
 
   // Render the new order

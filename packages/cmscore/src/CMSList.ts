@@ -144,6 +144,11 @@ export class CMSList extends Emittery<CMSListEvents> {
   public originalItemsPerPage: number;
 
   /**
+   * An array holding all static {@link CMSItem} instances of the list.
+   */
+  public staticItems: CMSItem[] = [];
+
+  /**
    * An array holding all valid {@link CMSItem} instances of the list.
    * Items are set to valid/invalid by `cmsfilter` when performing any filter query.
    */
@@ -254,7 +259,49 @@ export class CMSList extends Emittery<CMSListEvents> {
 
     const newItems = itemElements.map((item) => new CMSItem(item, list));
 
-    for (const array of [items, originalItemsOrder]) array[method](...newItems);
+    for (const array of [items, originalItemsOrder]) {
+      array[method](...newItems);
+    }
+
+    await this.emit('shouldnest', newItems);
+    await this.emit('shouldcollectprops', newItems);
+    await this.emit('shouldsort', newItems);
+    await this.emit('shouldfilter');
+
+    await this.renderItems(true);
+
+    await this.emit('additems', newItems);
+  }
+
+  /**
+   * Adds a static item to the Collection Instance.
+   * @param itemsData An array of static items data.
+   * @param itemsData.itemElement The new item to store.
+   * @param itemsData.targetIndex The index where to place the new item.
+   * @param itemsData.interactive Defines if the item will be interactive or not.
+   */
+  public async addStaticItems(
+    itemsData: Array<{ itemElement: HTMLDivElement; targetIndex: number; interactive: boolean }>
+  ): Promise<void> {
+    const { items, staticItems, list, originalItemsOrder } = this;
+
+    if (!list) return;
+
+    const newItems = itemsData.map(({ itemElement, targetIndex, interactive }) => {
+      const staticIndex = !interactive ? targetIndex : undefined;
+
+      const newItem = new CMSItem(itemElement, list, undefined, staticIndex);
+
+      for (const array of [items, originalItemsOrder]) {
+        array.splice(targetIndex, 0, newItem);
+      }
+
+      if (!interactive) {
+        staticItems.push(newItem);
+      }
+
+      return newItem;
+    });
 
     await this.emit('shouldnest', newItems);
     await this.emit('shouldcollectprops', newItems);
@@ -280,10 +327,14 @@ export class CMSList extends Emittery<CMSListEvents> {
    * Defaults to `true`.
    */
   public async clearItems(removeElements = true) {
-    if (removeElements) for (const { element } of this.items) element.remove();
+    if (removeElements) {
+      for (const { element } of this.items) element.remove();
+    }
 
     this.items = [];
+    this.staticItems = [];
     this.originalItemsOrder = [];
+
     await this.renderItems(false, false);
   }
 
