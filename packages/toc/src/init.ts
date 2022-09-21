@@ -1,5 +1,5 @@
 import { restartWebflow } from '@finsweet/ts-utils';
-import { TOC_ATTRIBUTE, RICH_TEXT_ATTRIBUTE } from '@global/constants/attributes';
+import { TOC_ATTRIBUTE, RICH_TEXT_ATTRIBUTE, CMS_ATTRIBUTE_ATTRIBUTE } from '@global/constants/attributes';
 import { getInstanceIndex } from '@global/helpers';
 
 import { collectHeadingsData, collectLinksData } from './actions/collect';
@@ -14,6 +14,7 @@ import { ATTRIBUTES, getSelector, queryElement } from './utils/constants';
  * Inits the attribute.
  */
 export const init = async (): Promise<void> => {
+  await window.fsAttributes[CMS_ATTRIBUTE_ATTRIBUTE]?.loading;
   await window.fsAttributes[RICH_TEXT_ATTRIBUTE]?.loading;
 
   const contentsElements = document.querySelectorAll<HTMLElement>(

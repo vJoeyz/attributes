@@ -1,5 +1,5 @@
 import { findTextNode } from '@finsweet/ts-utils';
-import { COPY_CLIP_ATTRIBUTE } from '@global/constants/attributes';
+import { CMS_ATTRIBUTE_ATTRIBUTE, COPY_CLIP_ATTRIBUTE } from '@global/constants/attributes';
 import { getInstanceIndex } from '@global/helpers';
 import type ClipboardJS from 'clipboard';
 
@@ -18,7 +18,9 @@ const {
 /**
  * Inits the copy to clipboard functionality.
  */
-export const init = (): [NodeListOf<Element>, ClipboardJS['destroy'][]] => {
+export const init = async (): Promise<[NodeListOf<Element>, ClipboardJS['destroy'][]]> => {
+  await window.fsAttributes[CMS_ATTRIBUTE_ATTRIBUTE]?.loading;
+
   const copyTriggers = document.querySelectorAll(getSelector('element', 'trigger', { operator: 'prefixed' }));
 
   const destroyCallbacks: ClipboardJS['destroy'][] = [];
