@@ -1,5 +1,13 @@
 # @finsweet/attributes-mirrorinput
 
+## 1.3.6
+
+### Patch Changes
+
+- Updated dependencies [4792998a]
+  - @global/constants@1.2.0
+  - @global/factory@1.1.5
+
 ## 1.3.5
 
 ### Patch Changes

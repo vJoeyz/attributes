@@ -1,5 +1,13 @@
 # @finsweet/attributes-rangeslider
 
+## 1.7.1
+
+### Patch Changes
+
+- Updated dependencies [4792998a]
+  - @global/constants@1.2.0
+  - @global/factory@1.1.5
+
 ## 1.7.0
 
 ### Minor Changes
