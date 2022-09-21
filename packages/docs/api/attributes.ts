@@ -1,5 +1,6 @@
 import {
   AUTO_VIDEO_ATTRIBUTE,
+  CMS_ATTRIBUTE_ATTRIBUTE,
   CMS_COMBINE_ATTRIBUTE,
   CMS_CORE,
   CMS_FILTER_ATTRIBUTE,
@@ -45,6 +46,20 @@ export const attributesData: AttributesData = [
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
     allowSupport: false,
+  },
+  {
+    key: CMS_ATTRIBUTE_ATTRIBUTE,
+    title: 'CMS Attribute',
+    description: 'Apply custom attributes with CMS fields. Use with CMS Collection List and Template page.',
+    href: 'https://www.finsweet.com/attributes/cms-attribute',
+    baseSrc: 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmsattribute@1',
+    scriptSrc: 'cmsattribute.js',
+    examplesSrc: 'examples.json',
+    loadMode: 'defer',
+    changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
+    schemaSrc: 'schema.json',
+    allowSupport: true,
   },
   {
     key: CMS_COMBINE_ATTRIBUTE,

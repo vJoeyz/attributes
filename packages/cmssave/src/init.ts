@@ -11,6 +11,8 @@ export const init = async (): Promise<CMSList[]> => {
   const cmsCore = await importCMSCore();
   if (!cmsCore) return [];
 
+  await window.fsAttributes[CMS_ATTRIBUTE_ATTRIBUTE]?.loading;
+
   // Create the list instances
   const sourceListInstances = cmsCore.createCMSListInstances([
     getSelector('element', 'list', { operator: 'prefixed' }),
