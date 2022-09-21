@@ -1,5 +1,17 @@
 # @finsweet/attributes-sliderdots
 
+## 1.7.0
+
+### Minor Changes
+
+- 07f32375: Created `fs-cmsattribute` Attribute
+
+### Patch Changes
+
+- Updated dependencies [07f32375]
+  - @global/constants@1.1.0
+  - @global/factory@1.1.4
+
 ## 1.6.6
 
 ### Patch Changes
@@ -76,11 +88,11 @@ It can be used like:
 <script>
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
-    "sliderdots",
-    sliders => {
-      console.log("Attribute has successfully loaded!");
+    'sliderdots',
+    (sliders) => {
+      console.log('Attribute has successfully loaded!');
       console.log(sliders);
-    }
+    },
   ]);
 </script>
 ```

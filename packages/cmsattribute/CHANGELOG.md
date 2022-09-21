@@ -1,4 +1,4 @@
-# @finsweet/attributes-readtime
+# @finsweet/attributes-cmsattribute
 
 ## 1.1.0
 
@@ -11,9 +11,3 @@
 - Updated dependencies [07f32375]
   - @global/constants@1.1.0
   - @global/factory@1.1.4
-
-## 1.0.1
-
-### Patch Changes
-
-- 6f397d94: Published the package.

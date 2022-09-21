@@ -1,5 +1,19 @@
 # @finsweet/attributes-cmsfilter
 
+## 1.13.0
+
+### Minor Changes
+
+- 07f32375: Created `fs-cmsattribute` Attribute
+
+### Patch Changes
+
+- Updated dependencies [07f32375]
+  - @global/constants@1.1.0
+  - @global/factory@1.1.4
+  - @global/import@1.0.3
+  - @finsweet/attributes-cmscore@1.7.2
+
 ## 1.12.9
 
 ### Patch Changes
@@ -115,11 +129,11 @@ It can be used like:
 <script>
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
-    "cmsfilter",
-    cmsFilters => {
-      console.log("Attribute has successfully loaded!");
+    'cmsfilter',
+    (cmsFilters) => {
+      console.log('Attribute has successfully loaded!');
       console.log(cmsFilters);
-    }
+    },
   ]);
 </script>
 ```
