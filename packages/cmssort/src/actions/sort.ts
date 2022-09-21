@@ -24,17 +24,13 @@ export const sortListItems = async (
     addingItems?: boolean;
   }
 ) => {
-  const { items } = listInstance;
+  const { items, staticItems } = listInstance;
 
   const validSortKey = !!direction && !!sortKey && items.some(({ props }) => sortKey in props);
 
   if (!validSortKey) listInstance.restoreItemsOrder();
   else {
-    const staticItems = items.filter((item) => item.staticIndex && item.interactive === false);
-
-    const orderItems = (staticItems.length > 0 && items.filter((item) => !staticItems.includes(item))) || items;
-
-    orderItems.sort((firstItem, secondItem) => {
+    items.sort((firstItem, secondItem) => {
       const firstItemProp = firstItem.props[sortKey];
       const secondItemProp = secondItem.props[sortKey];
 
@@ -74,16 +70,15 @@ export const sortListItems = async (
       return secondItemValue.localeCompare(firstItemValue, undefined, collatorOptions);
     });
 
-    if (staticItems) {
-      for (const staticItem of staticItems) {
-        if (!staticItem.staticIndex) {
-          continue;
-        }
-        orderItems.splice(staticItem.staticIndex - 1, 0, staticItem);
-      }
-    }
+    // Move static items back to their position
+    for (const staticItem of staticItems) {
+      const currentIndex = items.indexOf(staticItem);
 
-    listInstance.items = orderItems;
+      if (currentIndex < 0 || typeof staticItem.staticIndex !== 'number') continue;
+
+      items.splice(currentIndex, 1);
+      items.splice(staticItem.staticIndex, 0, staticItem);
+    }
   }
 
   // Render the new order

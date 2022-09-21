@@ -7,21 +7,29 @@ export async function initStaticInstance(listInstance: CMSList) {
 
   const staticElements = [...queryElement<HTMLDivElement>('staticItem', { all: true, instanceIndex })];
 
-  for (const staticElement of staticElements) {
-    const order = staticElement.getAttribute(ATTRIBUTES.order.key);
+  const staticElementsData = staticElements.reduce<Parameters<CMSList['addStaticItems']>['0']>((acc, itemElement) => {
+    const order = itemElement.getAttribute(ATTRIBUTES.order.key);
 
-    const interactive = staticElement.getAttribute(ATTRIBUTES.interactive.key);
+    const interactive = itemElement.getAttribute(ATTRIBUTES.interactive.key) === ATTRIBUTES.interactive.values.true;
 
     if (!order) {
-      continue;
+      return acc;
     }
 
-    const orderNumber = parseInt(order);
+    const targetIndex = parseInt(order) - 1;
 
-    if (isNaN(orderNumber)) {
-      continue;
+    if (isNaN(targetIndex)) {
+      return acc;
     }
 
-    await listInstance.addStaticItem(staticElement, orderNumber, !!interactive);
-  }
+    acc.push({
+      itemElement,
+      interactive,
+      targetIndex,
+    });
+
+    return acc;
+  }, []);
+
+  await listInstance.addStaticItems(staticElementsData);
 }

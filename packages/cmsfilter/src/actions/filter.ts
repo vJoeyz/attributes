@@ -43,7 +43,7 @@ const checkFilterValidity = (
     elements: filterElements,
   }: FiltersData[number]
 ) => {
-  if (item.staticIndex && item.interactive === false) {
+  if (typeof item.staticIndex === 'number') {
     return true;
   }
 

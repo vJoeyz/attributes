@@ -57,16 +57,15 @@ export class CMSItem {
      * The element's current index in the rendered DOM.
      */
     public currentIndex?: number,
-    /**
-     * The element's static place
-     */
-    public staticIndex?: number | null,
 
-    public interactive?: boolean | null
+    /**
+     * The element's static place.
+     * If defined, it will convert the item to non-interactive.
+     * Meaning that it can't be sorted, nor filtered. It will always stay at the same place.
+     */
+    public readonly staticIndex?: number
   ) {
     this.href = element.querySelector('a')?.href;
-    this.staticIndex = staticIndex || null;
-    this.interactive = interactive;
 
     const rendered = typeof currentIndex === 'number';
 
