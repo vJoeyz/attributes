@@ -3,37 +3,74 @@ import type { Job, JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Gre
 import { ATTRIBUTES, queryElement } from '../utils/constants';
 
 export function populateJob(job: Job | JobWithContent, scope: HTMLDivElement | undefined, queryParam: string | null) {
-  const link = queryElement<HTMLLinkElement>(ATTRIBUTES.element.values.link, { scope });
+  // link
+  if (queryParam) {
+    const linkElements = queryElement<HTMLLinkElement>(ATTRIBUTES.element.values.link, { scope, all: true });
 
-  if (link && queryParam) {
-    link.href = `${link.href}?${queryParam}=${job.id}`;
-  }
-
-  const title = queryElement(ATTRIBUTES.element.values.title, { scope });
-
-  if (title) {
-    title.textContent = job.title;
-  }
-
-  if (job.hasOwnProperty('office') || job.hasOwnProperty('departments')) {
-    const { offices, departments } = job as JobWithContent;
-
-    const office = queryElement(ATTRIBUTES.element.values.office, { scope });
-    if (office) {
-      office.textContent = offices[0].name || '';
-    }
-
-    const department = queryElement(ATTRIBUTES.element.values.department, { scope });
-    if (department) {
-      department.textContent = departments[0].name || '';
+    for (const linkElement of linkElements) {
+      const url = new URL(linkElement.href);
+      url.searchParams.set(queryParam, job.id.toString());
+      linkElement.href = url.toString();
     }
   }
 
-  const apply = queryElement<HTMLLinkElement>(ATTRIBUTES.element.values.apply, { scope });
+  // title
+  const titleElements = queryElement(ATTRIBUTES.element.values.title, { scope, all: true });
 
-  if (apply) {
-    apply.href = job.absolute_url;
+  for (const titleElement of titleElements) {
+    titleElement.textContent = job.title;
+  }
+
+  // office and department
+  if (job.hasOwnProperty('office') || job.hasOwnProperty('departments') || job.hasOwnProperty('content')) {
+    const { offices, departments, content } = job as JobWithContent;
+
+    // offices
+    if (offices[0] && offices[0].name) {
+      const officeElements = queryElement(ATTRIBUTES.element.values.office, { scope, all: true });
+
+      officeElements.forEach((office) => {
+        office.textContent = offices[0].name || '';
+      });
+    }
+
+    // departments
+    if (departments[0] && departments[0].name) {
+      const departmentElements = queryElement(ATTRIBUTES.element.values.department, { scope, all: true });
+
+      departmentElements.forEach((department) => {
+        department.textContent = departments[0].name || '';
+      });
+    }
+
+    // description
+    const descriptionElements = queryElement<HTMLElement>(ATTRIBUTES.element.values.description, { scope, all: true });
+
+    descriptionElements.forEach((description) => {
+      const unescapedHtml = unescapeHTML(content);
+      const descriptionText = unescapedHtml.replace(/class="[-a-zA-Z ]*?"/g, '').replace('<div >', '<div>');
+      description.innerHTML = descriptionText;
+    });
+  }
+
+  // apply elements
+  const applyElements = queryElement<HTMLLinkElement>(ATTRIBUTES.element.values.apply, { scope, all: true });
+
+  for (const applyElement of applyElements) {
+    applyElement.href = job.absolute_url;
   }
 
   return scope;
 }
+
+export const unescapeHTML = (rawHTML: string): string => {
+  return rawHTML
+    .replace(/(&nbsp;)/g, ' ')
+    .replace(/(&lt;)/g, '<')
+    .replace(/(&gt;)/g, '>')
+    .replace(/(&amp;)/g, '&')
+    .replace(/(&quot;)/g, '"')
+    .replace(/(&#96;)/g, '`')
+    .replace(/(&#x27;)/g, "'")
+    .replace(/(<br>)/g, '\n');
+};

@@ -1,5 +1,23 @@
 # @finsweet/attributes-cmsload
 
+## 1.8.1
+
+### Patch Changes
+
+- Updated dependencies [d8a4bf6f]
+  - @finsweet/attributes-cmscore@1.7.1
+
+## 1.8.0
+
+### Minor Changes
+
+- ef56d454: Added new `fs-cmsload-element="visible-count-from"` and `fs-cmsload-element="visible-count-to"` Attributes.
+
+### Patch Changes
+
+- Updated dependencies [ef56d454]
+  - @finsweet/attributes-cmscore@1.7.0
+
 ## 1.7.8
 
 ### Patch Changes

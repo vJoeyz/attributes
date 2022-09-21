@@ -1,5 +1,11 @@
 # @finsweet/attributes-sliderdots
 
+## 1.6.6
+
+### Patch Changes
+
+- dd4d7f61: `sliderdots`: removed cmsslider promise timeout
+
 ## 1.6.5
 
 ### Patch Changes

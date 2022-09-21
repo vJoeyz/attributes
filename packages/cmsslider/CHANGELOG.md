@@ -1,5 +1,19 @@
 # @finsweet/attributes-cmsslider
 
+## 1.5.8
+
+### Patch Changes
+
+- Updated dependencies [d8a4bf6f]
+  - @finsweet/attributes-cmscore@1.7.1
+
+## 1.5.7
+
+### Patch Changes
+
+- Updated dependencies [ef56d454]
+  - @finsweet/attributes-cmscore@1.7.0
+
 ## 1.5.6
 
 ### Patch Changes
