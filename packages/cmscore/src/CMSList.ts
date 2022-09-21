@@ -296,10 +296,12 @@ export class CMSList extends Emittery<CMSListEvents> {
         array.splice(targetIndex, 0, newItem);
       }
 
+      if (!interactive) {
+        staticItems.push(newItem);
+      }
+
       return newItem;
     });
-
-    staticItems.push(...newItems);
 
     await this.emit('shouldnest', newItems);
     await this.emit('shouldcollectprops', newItems);
