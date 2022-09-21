@@ -1,5 +1,17 @@
 # @finsweet/attributes-richtext
 
+## 1.8.0
+
+### Minor Changes
+
+- 07f32375: Created `fs-cmsattribute` Attribute
+
+### Patch Changes
+
+- Updated dependencies [07f32375]
+  - @global/constants@1.1.0
+  - @global/factory@1.1.4
+
 ## 1.7.4
 
 ### Patch Changes
@@ -64,11 +76,11 @@ It can be used like:
 <script>
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
-    "richtext",
-    rtbElements => {
-      console.log("Attribute has successfully loaded!");
+    'richtext',
+    (rtbElements) => {
+      console.log('Attribute has successfully loaded!');
       console.log(rtbElements);
-    }
+    },
   ]);
 </script>
 ```

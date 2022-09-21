@@ -1,4 +1,4 @@
-import { GREENHOUSE_ATTRIBUTE } from 'global/constants/attributes';
+import { CMS_ATTRIBUTE_ATTRIBUTE, GREENHOUSE_ATTRIBUTE } from 'global/constants/attributes';
 
 import { initJob, initJobsList } from './factory';
 import { ATTRIBUTES, GH_DEPARTMENT, GH_OFFICE } from './utils/constants';
@@ -13,6 +13,8 @@ export const init = async ({
   board: string | null;
   queryParam?: string | null;
 }): Promise<void> => {
+  await window.fsAttributes[CMS_ATTRIBUTE_ATTRIBUTE]?.loading;
+
   // init params
   queryParam ??= ATTRIBUTES.queryparam.default;
 

@@ -6,6 +6,8 @@ export const AUTO_VIDEO_ATTRIBUTE = 'autovideo';
 
 export const CMS_CORE = 'cmscore';
 
+export const CMS_ATTRIBUTE_ATTRIBUTE = 'cmsattribute';
+
 export const CMS_COMBINE_ATTRIBUTE = 'cmscombine';
 
 export const CMS_FILTER_ATTRIBUTE = 'cmsfilter';

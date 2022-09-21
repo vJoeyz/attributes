@@ -1,5 +1,13 @@
 # @global/factory
 
+## 1.1.4
+
+### Patch Changes
+
+- Updated dependencies [07f32375]
+  - @global/constants@1.1.0
+  - @global/import@1.0.3
+
 ## 1.1.3
 
 ### Patch Changes

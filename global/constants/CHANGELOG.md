@@ -1,5 +1,11 @@
 # @global/constants
 
+## 1.1.0
+
+### Minor Changes
+
+- 07f32375: Created `fs-cmsattribute` Attribute
+
 ## 1.0.2
 
 ### Patch Changes
