@@ -1,31 +1,27 @@
-import { generateSelectors, generateDynamicAttibuteValue } from '@global/factory';
+import { generateSelectors } from '@global/factory';
 import { CMS_ATTRIBUTE_ATTRIBUTE } from 'global/constants/attributes';
 
 const ATTRIBUTES_PREFIX = `fs-${CMS_ATTRIBUTE_ATTRIBUTE}`;
 
-export const FIELD_ELEMENT_KEY = 'field';
-export const NAME_ELEMENT_KEY = 'name';
-export const VALUE_ELEMENT_KEY = 'value';
+export const TARGET_SETTING_KEY = 'target';
+export const NAME_SETTING_KEY = 'name';
+export const VALUE_SETTING_KEY = 'value';
 
 export const ATTRIBUTES = {
-  element: {
-    key: `${ATTRIBUTES_PREFIX}-element`,
-    values: {
-      /**
-       * Name of Attribute
-       */
-      name: generateDynamicAttibuteValue(NAME_ELEMENT_KEY),
-      /**
-       * Value of Attribute
-       */
-      value: generateDynamicAttibuteValue(VALUE_ELEMENT_KEY),
-    },
-  },
+  /**
+   * Defines a target to construct and assign an attribute.
+   */
+  target: { key: `${ATTRIBUTES_PREFIX}-${TARGET_SETTING_KEY}` },
 
   /**
-   * Defines a field key to group attribute.
+   * Defines a name to construct an attribute.
    */
-  field: { key: `${ATTRIBUTES_PREFIX}-${FIELD_ELEMENT_KEY}` },
+  name: { key: `${ATTRIBUTES_PREFIX}-${NAME_SETTING_KEY}` },
+
+  /**
+   * Defines a value to construct an attribute.
+   */
+  value: { key: `${ATTRIBUTES_PREFIX}-${VALUE_SETTING_KEY}` },
 } as const;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

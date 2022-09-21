@@ -3,29 +3,25 @@ import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_LOAD_ATTRIBUTE } from 'global/constants/at
 import type { CMSList } from 'packages/cmscore/src';
 
 import { createCMSAttribute } from './factory';
-import { ATTRIBUTES } from './utils/constants';
+import { getSelector } from './utils/constants';
 
 /**
  * Inits the attribute.
  */
 export const init = async (): Promise<void> => {
-  const targets = [
-    ...document.querySelectorAll<HTMLElement>(`[${ATTRIBUTES.field.key}]:not([${ATTRIBUTES.element.key}])`),
-  ];
+  const targets = document.querySelectorAll<HTMLElement>(getSelector('target'));
 
   for (const targetElement of targets) {
-    const cmsListItem = targetElement.closest<HTMLElement>(`.${CMS_CSS_CLASSES.item}`) || null;
+    const targetScope = targetElement.closest<HTMLElement>(`.${CMS_CSS_CLASSES.item}`) || document;
 
-    createCMSAttribute(targetElement, cmsListItem);
+    createCMSAttribute(targetElement, targetScope);
   }
 
   const listInstances: CMSList[] = (await window.fsAttributes[CMS_LOAD_ATTRIBUTE]?.loading) || [];
 
   for (const { items } of listInstances) {
     for (const { element } of items) {
-      const cmsItemTargets = [
-        ...element.querySelectorAll<HTMLElement>(`[${ATTRIBUTES.field.key}]:not([${ATTRIBUTES.element.key}])`),
-      ];
+      const cmsItemTargets = element.querySelectorAll<HTMLElement>(getSelector('target'));
 
       for (const targetElement of cmsItemTargets) {
         createCMSAttribute(targetElement, element);

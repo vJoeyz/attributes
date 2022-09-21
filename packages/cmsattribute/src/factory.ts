@@ -1,35 +1,29 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import slugify from 'slugify';
 
 import { ATTRIBUTES } from './utils/constants';
 
-export function createCMSAttribute(target: HTMLElement, scope: HTMLElement | null) {
-  const targetKey = target.getAttribute(ATTRIBUTES.field.key);
+/**
+ * Generates a dynamic attribute and applies it to the target element.
+ * @param target
+ * @param scope
+ */
+export function createCMSAttribute(target: HTMLElement, scope: HTMLElement | Document) {
+  const targetKey = target.getAttribute(ATTRIBUTES.target.key);
+  if (!targetKey) return;
 
-  const nameSelector = `[${ATTRIBUTES.field.key}="${targetKey}"][${
-    ATTRIBUTES.element.key
-  }="${ATTRIBUTES.element.values.name()}"]`;
-
-  const name =
-    (scope && scope.querySelector<HTMLElement>(nameSelector)) || document.querySelector<HTMLElement>(nameSelector);
-
-  if (!name || !name.textContent) {
-    return;
-  }
-
-  const valueSelector = `[${ATTRIBUTES.field.key}="${targetKey}"][${
-    ATTRIBUTES.element.key
-  }="${ATTRIBUTES.element.values.value()}"]`;
-
-  const value =
-    (scope && scope.querySelector<HTMLElement>(valueSelector)) || document.querySelector<HTMLElement>(valueSelector);
-
+  const value = scope.querySelector<HTMLElement>(`[${ATTRIBUTES.value.key}=${targetKey}]`);
   if (!value || !value.textContent) {
     return;
   }
 
+  const name = scope.querySelector<HTMLElement>(`[${ATTRIBUTES.name.key}=${targetKey}]`);
+
   try {
-    const attributeName = slugify(name.textContent, { lower: true, strict: true });
+    const rawAttributeName = name?.textContent || targetKey;
+    const attributeName = slugify(rawAttributeName, { lower: true, strict: true });
     const attributeValue = value.textContent;
+
     target.setAttribute(attributeName, attributeValue);
   } catch (e) {
     // It will fail silent.
