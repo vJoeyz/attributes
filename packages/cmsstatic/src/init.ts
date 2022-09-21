@@ -1,6 +1,6 @@
 import type { CMSList } from '@finsweet/attributes-cmscore';
 import { importCMSCore } from '@finsweet/attributes-cmscore';
-import { CMS_STATIC_ATTRIBUTE } from 'global/constants/attributes';
+import { CMS_STATIC_ATTRIBUTE, CMS_ATTRIBUTE_ATTRIBUTE } from 'global/constants/attributes';
 
 import { initStaticInstance } from './factory';
 import { getSelector } from './utils/constants';
@@ -12,7 +12,7 @@ export const init = async (): Promise<CMSList[]> => {
   const cmsCore = await importCMSCore();
   if (!cmsCore) return [];
 
-  // TODO: Await for cmsattribute
+  await window.fsAttributes[CMS_ATTRIBUTE_ATTRIBUTE]?.loading;
 
   // Create the list instances
   const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
