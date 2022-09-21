@@ -1,5 +1,13 @@
 # @finsweet/attributes-a11y
 
+## 0.1.3
+
+### Patch Changes
+
+- Updated dependencies [4792998a]
+  - @global/constants@1.2.0
+  - @global/factory@1.1.5
+
 ## 0.1.2
 
 ### Patch Changes

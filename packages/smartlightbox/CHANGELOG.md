@@ -1,5 +1,13 @@
 # @finsweet/attributes-smartlightbox
 
+## 1.6.6
+
+### Patch Changes
+
+- Updated dependencies [4792998a]
+  - @global/constants@1.2.0
+  - @global/factory@1.1.5
+
 ## 1.6.5
 
 ### Patch Changes

@@ -1,5 +1,20 @@
 # @finsweet/attributes-docs
 
+## 1.9.0
+
+### Minor Changes
+
+- 4792998a: Created new `fs-cmsstatic` Attribute.
+
+### Patch Changes
+
+- Updated dependencies [4792998a]
+  - @global/constants@1.2.0
+  - @global/factory@1.1.5
+  - @finsweet/attributes-codehighlight@1.4.1
+  - @finsweet/attributes-copyclip@1.6.1
+  - @finsweet/attributes-toc@1.1.1
+
 ## 1.8.0
 
 ### Minor Changes

@@ -1,5 +1,16 @@
 # @finsweet/attributes-cmscore
 
+## 1.8.0
+
+### Minor Changes
+
+- 4792998a: Added new `CMSList.addStaticItems()` and `CMSList.staticItems` to support `fs-cmsstatic` Attribute
+  Added new `CMSItem.staticIndex` to support `fs-cmsstatic` Attribute.
+
+### Patch Changes
+
+- @global/import@1.0.4
+
 ## 1.7.2
 
 ### Patch Changes
