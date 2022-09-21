@@ -1,5 +1,11 @@
 # @finsweet/attributes-cmscore
 
+## 1.7.2
+
+### Patch Changes
+
+- @global/import@1.0.3
+
 ## 1.7.1
 
 ### Patch Changes

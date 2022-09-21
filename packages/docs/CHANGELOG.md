@@ -1,5 +1,20 @@
 # @finsweet/attributes-docs
 
+## 1.8.0
+
+### Minor Changes
+
+- 07f32375: Created `fs-cmsattribute` Attribute
+
+### Patch Changes
+
+- Updated dependencies [07f32375]
+  - @global/constants@1.1.0
+  - @finsweet/attributes-codehighlight@1.4.0
+  - @finsweet/attributes-copyclip@1.6.0
+  - @finsweet/attributes-toc@1.1.0
+  - @global/factory@1.1.4
+
 ## 1.7.13
 
 ### Patch Changes

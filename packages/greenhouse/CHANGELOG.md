@@ -1,5 +1,18 @@
 # @finsweet/attributes-greenhouse
 
+## 0.2.0
+
+### Minor Changes
+
+- 07f32375: Created `fs-cmsattribute` Attribute
+
+### Patch Changes
+
+- Updated dependencies [07f32375]
+  - @global/constants@1.1.0
+  - @global/factory@1.1.4
+  - @finsweet/attributes-cmscore@1.7.2
+
 ## 0.1.3
 
 ### Patch Changes

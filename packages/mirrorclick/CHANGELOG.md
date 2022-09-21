@@ -1,5 +1,13 @@
 # @finsweet/attributes-mirrorclick
 
+## 1.4.5
+
+### Patch Changes
+
+- Updated dependencies [07f32375]
+  - @global/constants@1.1.0
+  - @global/factory@1.1.4
+
 ## 1.4.4
 
 ### Patch Changes
@@ -47,10 +55,10 @@ It can be used like:
 <script>
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
-    "mirrorclick",
+    'mirrorclick',
     () => {
-      console.log("Attribute has successfully loaded!");
-    }
+      console.log('Attribute has successfully loaded!');
+    },
   ]);
 </script>
 ```
