@@ -1,7 +1,6 @@
 import type { CMSItem } from '@finsweet/attributes-cmscore';
+import { normalizeDate, normalizeNumber } from '@global/helpers';
 
-import { normalizeDate } from '../utils/dates';
-import { normalizeNumber } from '../utils/numbers';
 import type { FiltersData } from '../utils/types';
 import { restartHighlight } from './highlight';
 

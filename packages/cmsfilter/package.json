@@ -49,6 +49,7 @@
     "@global/constants": "workspace:*",
     "@global/factory": "workspace:*",
     "@global/import": "workspace:*",
+    "@global/helpers": "workspace:*",
     "just-debounce": "^1.1.0"
   }
 }
