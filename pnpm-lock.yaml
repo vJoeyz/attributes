@@ -232,6 +232,7 @@ importers:
       '@global/build': workspace:*
       '@global/constants': workspace:*
       '@global/factory': workspace:*
+      '@global/helpers': workspace:*
       '@global/import': workspace:*
       '@global/tests': workspace:*
       '@global/types': workspace:*
@@ -241,6 +242,7 @@ importers:
       '@finsweet/ts-utils': 0.33.2
       '@global/constants': link:../../global/constants
       '@global/factory': link:../../global/factory
+      '@global/helpers': link:../../global/helpers
       '@global/import': link:../../global/import
       just-debounce: 1.1.0
     devDependencies:
