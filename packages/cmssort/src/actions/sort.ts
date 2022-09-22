@@ -1,4 +1,5 @@
 import { checkCMSCoreVersion, CMSList } from '@finsweet/attributes-cmscore';
+import { normalizeNumber } from 'global/helpers';
 
 import type { SortingDirection } from '../utils/types';
 
@@ -48,11 +49,11 @@ export const sortListItems = async (
 
       if (isDate || isNumber) {
         const [firstItemNumber, secondItemNumber] = [firstItemValue, secondItemValue].map((value) =>
-          isDate ? new Date(value).getTime() : parseFloat(value)
+          isDate ? new Date(value).getTime() : normalizeNumber(value)
         );
 
-        if (isNaN(firstItemNumber)) return 1;
-        if (isNaN(secondItemNumber)) return -1;
+        if (typeof firstItemNumber !== 'number' || isNaN(firstItemNumber)) return 1;
+        if (typeof secondItemNumber !== 'number' || isNaN(secondItemNumber)) return -1;
 
         if (direction === 'asc') return firstItemNumber - secondItemNumber;
 
