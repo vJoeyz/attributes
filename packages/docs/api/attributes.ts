@@ -29,6 +29,7 @@ import {
   MIRROR_INPUT_ATTRIBUTE,
   FAV_CUSTOM_ATTRIBUTE,
   QUERY_PARAM_ATTRIBUTE,
+  READ_TIME_ATTRIBUTE,
 } from '@global/constants/attributes';
 
 import type { AttributesData } from '../src/utils/types';
@@ -422,6 +423,20 @@ export const attributesData: AttributesData = [
     href: 'https://www.finsweet.com/attributes/table-of-contents',
     baseSrc: 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-toc@1',
     scriptSrc: 'toc.js',
+    examplesSrc: 'examples.json',
+    loadMode: 'defer',
+    schemaSrc: 'schema.json',
+    changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
+    allowSupport: true,
+  },
+  {
+    key: READ_TIME_ATTRIBUTE,
+    title: 'Read Time',
+    description: 'Calculate and display the estimated read time of Rich Text content based on word count.',
+    href: 'https://www.finsweet.com/attributes/read-time',
+    baseSrc: 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-readtime@1',
+    scriptSrc: 'readtime.js',
     examplesSrc: 'examples.json',
     loadMode: 'defer',
     schemaSrc: 'schema.json',

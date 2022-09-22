@@ -65,3 +65,5 @@ export const SMART_LIGHTBOX_ATTRIBUTE = 'smartlightbox';
 export const SOCIAL_SHARE_ATTRIBUTE = 'socialshare';
 
 export const TOC_ATTRIBUTE = 'toc';
+
+export const READ_TIME_ATTRIBUTE = 'readtime';
