@@ -1,5 +1,11 @@
 # @finsweet/attributes-docs
 
+## 1.10.0
+
+### Minor Changes
+
+- bbeca5d2: Added readtime schema
+
 ## 1.9.0
 
 ### Minor Changes
