@@ -1,7 +1,7 @@
-import { CMS_ATTRIBUTE_ATTRIBUTE } from 'global/constants/attributes';
+import { CMS_ATTRIBUTE_ATTRIBUTE, READ_TIME_ATTRIBUTE } from '@global/constants/attributes';
 
 import { initReadTime } from './factory';
-import { ATTRIBUTE, queryElement } from './utils/constants';
+import { queryElement } from './utils/constants';
 
 /**
  * Inits the attribute.
@@ -15,5 +15,5 @@ export const init = async () => {
     initReadTime(timeElement);
   }
 
-  window.fsAttributes[ATTRIBUTE].resolve?.(undefined);
+  window.fsAttributes[READ_TIME_ATTRIBUTE].resolve?.(undefined);
 };
