@@ -1,5 +1,11 @@
 # @finsweet/attributes-cmsstatic
 
+## 1.1.1
+
+### Patch Changes
+
+- 37e8c54e: Item order has set internally as optional and default value to 0
+
 ## 1.1.0
 
 ### Minor Changes
