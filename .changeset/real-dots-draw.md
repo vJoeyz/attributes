@@ -1,5 +1,5 @@
 ---
-"@finsweet/attributes-cmsstatic": patch
+'@finsweet/attributes-cmsstatic': patch
 ---
 
-Order is now optional and default to 0
+Item order has set internally as optional and default value to 0
