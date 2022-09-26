@@ -1,5 +1,11 @@
 # @finsweet/attributes-cmsstatic
 
+## 1.1.2
+
+### Patch Changes
+
+- b820da2d: Improved `targetIndex` logic
+
 ## 1.1.1
 
 ### Patch Changes
