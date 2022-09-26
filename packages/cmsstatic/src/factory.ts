@@ -17,8 +17,7 @@ export async function initStaticInstance(listInstance: CMSList) {
     const interactive = itemElement.getAttribute(ATTRIBUTES.interactive.key) === ATTRIBUTES.interactive.values.true;
 
     const staticIndex = order === null ? 0 : parseInt(order);
-
-    const targetIndex = staticIndex >= 1 && isNaN(staticIndex) === false ? staticIndex - 1 : 0;
+    const targetIndex = isNaN(staticIndex) || staticIndex <= 0 ? 0 : staticIndex - 1;
 
     acc.push({
       itemElement,
