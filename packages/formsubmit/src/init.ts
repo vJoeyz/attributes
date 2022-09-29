@@ -1,5 +1,6 @@
 import { isNotEmpty } from '@finsweet/ts-utils';
-import { CMS_ATTRIBUTE_ATTRIBUTE, FORM_SUBMIT_ATTRIBUTE } from '@global/constants/attributes';
+
+import { CMS_ATTRIBUTE_ATTRIBUTE, FORM_SUBMIT_ATTRIBUTE } from '$global/constants/attributes';
 
 import type { Form } from './components/Form';
 import { initFormInstance } from './factory';

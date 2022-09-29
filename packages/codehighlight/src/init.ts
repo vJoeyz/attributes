@@ -1,4 +1,4 @@
-import { CMS_ATTRIBUTE_ATTRIBUTE, CODE_HIGHLIGHT_ATTRIBUTE, RICH_TEXT_ATTRIBUTE } from '@global/constants/attributes';
+import { CMS_ATTRIBUTE_ATTRIBUTE, CODE_HIGHLIGHT_ATTRIBUTE, RICH_TEXT_ATTRIBUTE } from '$global/constants/attributes';
 
 import { importHighlightJS, importHighlightJSTheme } from './actions/import';
 import { ATTRIBUTES, getSelector } from './utils/constants';

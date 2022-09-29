@@ -37,16 +37,7 @@
   "bugs": {
     "url": "https://sweetjs.finsweet.com/"
   },
-  "devDependencies": {
-    "@global/build": "workspace:*",
-    "@global/tests": "workspace:*",
-    "@global/types": "workspace:*"
-  },
   "dependencies": {
-    "@finsweet/ts-utils": "^0.33.1",
-    "@global/constants": "workspace:*",
-    "@global/factory": "workspace:*",
-    "@global/helpers": "workspace:*",
     "just-debounce": "^1.1.0"
   }
 }

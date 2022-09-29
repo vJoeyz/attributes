@@ -30,7 +30,7 @@ import {
   FAV_CUSTOM_ATTRIBUTE,
   QUERY_PARAM_ATTRIBUTE,
   READ_TIME_ATTRIBUTE,
-} from '@global/constants/attributes';
+} from '$global/constants/attributes';
 
 import type { AttributesData } from '../src/utils/types';
 

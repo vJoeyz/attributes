@@ -1,6 +1,6 @@
-import type { CMSList } from '@finsweet/attributes-cmscore';
-import { importCMSCore } from '@finsweet/attributes-cmscore';
-import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_NEST_ATTRIBUTE } from '@global/constants/attributes';
+import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_NEST_ATTRIBUTE } from '$global/constants/attributes';
+import type { CMSList } from '$packages/cmscore';
+import { importCMSCore } from '$packages/cmscore';
 
 import { initListNesting } from './factory';
 import { getSelector } from './utils/constants';

@@ -1,4 +1,4 @@
-import { CMS_ATTRIBUTE_ATTRIBUTE, SCROLL_DISABLE_ATTRIBUTE } from '@global/constants/attributes';
+import { CMS_ATTRIBUTE_ATTRIBUTE, SCROLL_DISABLE_ATTRIBUTE } from '$global/constants/attributes';
 
 import { initClickTriggers } from './click';
 import { ATTRIBUTES, getSelector } from './constants';

@@ -1,6 +1,7 @@
 import type { WebflowBreakpoint } from '@finsweet/ts-utils';
-import { CMS_LOAD_ATTRIBUTE } from '@global/constants/attributes';
-import { generateDynamicAttibuteValue, generateSelectors } from '@global/factory';
+
+import { CMS_LOAD_ATTRIBUTE } from '$global/constants/attributes';
+import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${CMS_LOAD_ATTRIBUTE}`;
 

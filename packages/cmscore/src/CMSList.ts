@@ -1,4 +1,3 @@
-import type { Animation } from '@finsweet/attributes-animation/src/types';
 import { getCollectionElements } from '@finsweet/ts-utils';
 import type {
   CollectionListWrapperElement,
@@ -8,8 +7,10 @@ import type {
   PaginationWrapperElement,
   PageCountElement,
 } from '@finsweet/ts-utils';
-import { getInstanceIndex } from '@global/helpers';
 import Emittery from 'emittery';
+
+import { getInstanceIndex } from '$global/helpers';
+import type { Animation } from '$packages/animation/src/types';
 
 import { CMSItem } from './CMSItem';
 import { updateItemsCount } from './utils/items';

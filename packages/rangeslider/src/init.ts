@@ -1,6 +1,7 @@
 import { getHiddenParent, isNotEmpty, isVisible } from '@finsweet/ts-utils';
-import { CMS_ATTRIBUTE_ATTRIBUTE, RANGE_SLIDER_ATTRIBUTE } from '@global/constants/attributes';
 import debounce from 'just-debounce';
+
+import { CMS_ATTRIBUTE_ATTRIBUTE, RANGE_SLIDER_ATTRIBUTE } from '$global/constants/attributes';
 
 import { getClientX } from './actions/events';
 import { getSettings } from './actions/settings';

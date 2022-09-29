@@ -7,6 +7,7 @@ importers:
       '@changesets/changelog-git': ^0.1.11
       '@changesets/cli': ^2.22.0
       '@finsweet/eslint-config': ^1.1.4
+      '@finsweet/ts-utils': ^0.33.2
       '@finsweet/tsconfig': ^1.1.0
       '@playwright/test': ^1.22.2
       '@trivago/prettier-plugin-sort-imports': ^3.2.0
@@ -20,6 +21,8 @@ importers:
       prettier: ^2.6.2
       serve: ^13.0.2
       typescript: ^4.6.3
+    dependencies:
+      '@finsweet/ts-utils': 0.33.2
     devDependencies:
       '@changesets/changelog-git': 0.1.12
       '@changesets/cli': 2.24.4
@@ -38,764 +41,173 @@ importers:
       serve: 13.0.4
       typescript: 4.8.3
 
-  global/base:
-    specifiers:
-      '@finsweet/attributes-animation': workspace:*
-      '@finsweet/attributes-cmscore': workspace:*
-      '@finsweet/attributes-cmsfilter': workspace:*
-      '@finsweet/ts-utils': ^0.33.1
-    devDependencies:
-      '@finsweet/attributes-animation': link:../../packages/animation
-      '@finsweet/attributes-cmscore': link:../../packages/cmscore
-      '@finsweet/attributes-cmsfilter': link:../../packages/cmsfilter
-      '@finsweet/ts-utils': 0.33.2
-
-  global/build:
-    specifiers: {}
-
-  global/constants:
-    specifiers:
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/types': workspace:*
-    dependencies:
-      '@finsweet/ts-utils': 0.33.2
-    devDependencies:
-      '@global/types': link:../types
-
-  global/factory:
-    specifiers:
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/constants': workspace:*
-      '@global/import': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../constants
-      '@global/import': link:../import
-    devDependencies:
-      '@global/types': link:../types
-
-  global/helpers:
-    specifiers:
-      '@finsweet/ts-utils': ^0.33.1
-    dependencies:
-      '@finsweet/ts-utils': 0.33.2
-
-  global/import:
-    specifiers:
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/constants': workspace:*
-    dependencies:
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../constants
-
-  global/tests:
-    specifiers: {}
-
-  global/types:
-    specifiers:
-      '@finsweet/ts-utils': ^0.33.1
-    dependencies:
-      '@finsweet/ts-utils': 0.33.2
-
   packages/a11y:
     specifiers:
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
       just-debounce: ^1.1.0
     dependencies:
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
       just-debounce: 1.1.0
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
 
   packages/animation:
     specifiers:
-      '@global/build': workspace:*
-      '@global/factory': workspace:*
-      '@global/types': workspace:*
       '@motionone/dom': ^10.10.0
       '@motionone/types': ^10.9.0
       motion: ^10.10.0
     dependencies:
-      '@global/factory': link:../../global/factory
       motion: 10.14.2
     devDependencies:
-      '@global/build': link:../../global/build
-      '@global/types': link:../../global/types
       '@motionone/dom': 10.14.2
       '@motionone/types': 10.14.0
 
   packages/autovideo:
-    specifiers:
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/cmsattribute:
     specifiers:
-      '@finsweet/ts-utils': 0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
       slugify: ^1.6.5
     dependencies:
-      '@finsweet/ts-utils': 0.33.1
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
       slugify: 1.6.5
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
 
   packages/cmscombine:
-    specifiers:
-      '@finsweet/attributes-cmscore': workspace:*
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@finsweet/attributes-cmscore': link:../cmscore
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/cmscore:
     specifiers:
-      '@finsweet/attributes-animation': workspace:*
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/helpers': workspace:*
-      '@global/import': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
       emittery: ^0.11.0
     dependencies:
-      '@finsweet/ts-utils': 0.33.2
-      '@global/helpers': link:../../global/helpers
-      '@global/import': link:../../global/import
       emittery: 0.11.0
-    devDependencies:
-      '@finsweet/attributes-animation': link:../animation
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
 
   packages/cmscss:
-    specifiers:
-      '@finsweet/attributes-cmscore': workspace:*
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@finsweet/attributes-cmscore': link:../cmscore
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/cmsfilter:
     specifiers:
-      '@finsweet/attributes-cmscore': workspace:*
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/helpers': workspace:*
-      '@global/import': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
       just-debounce: ^1.1.0
     dependencies:
-      '@finsweet/attributes-cmscore': link:../cmscore
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-      '@global/helpers': link:../../global/helpers
-      '@global/import': link:../../global/import
       just-debounce: 1.1.0
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
 
   packages/cmsload:
     specifiers:
-      '@finsweet/attributes-cmscore': workspace:*
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/import': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
       just-debounce: ^1.1.0
       just-throttle: ^4.0.1
     dependencies:
-      '@finsweet/attributes-cmscore': link:../cmscore
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-      '@global/import': link:../../global/import
       just-debounce: 1.1.0
       just-throttle: 4.1.1
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
 
   packages/cmsnest:
-    specifiers:
-      '@finsweet/attributes-cmscore': workspace:*
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@finsweet/attributes-cmscore': link:../cmscore
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/cmsprevnext:
-    specifiers:
-      '@finsweet/attributes-cmscore': workspace:*
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@finsweet/attributes-cmscore': link:../cmscore
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/cmsselect:
-    specifiers:
-      '@finsweet/attributes-cmscore': workspace:*
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/helpers': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@finsweet/attributes-cmscore': link:../cmscore
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-      '@global/helpers': link:../../global/helpers
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/cmsslider:
-    specifiers:
-      '@finsweet/attributes-cmscore': workspace:*
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@finsweet/attributes-cmscore': link:../cmscore
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/cmssort:
-    specifiers:
-      '@finsweet/attributes-cmscore': workspace:*
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/helpers': workspace:*
-      '@global/import': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@finsweet/attributes-cmscore': link:../cmscore
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-      '@global/helpers': link:../../global/helpers
-      '@global/import': link:../../global/import
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/cmsstatic:
-    specifiers:
-      '@finsweet/attributes-cmscore': workspace:*
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@finsweet/attributes-cmscore': link:../cmscore
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/cmstabs:
-    specifiers:
-      '@finsweet/attributes-cmscore': workspace:*
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@finsweet/attributes-cmscore': link:../cmscore
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/codehighlight:
     specifiers:
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
       highlight.js: ^11.4.0
-    dependencies:
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
     devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
       highlight.js: 11.6.0
 
   packages/copyclip:
     specifiers:
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/helpers': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
       clipboard: ^2.0.10
     dependencies:
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-      '@global/helpers': link:../../global/helpers
       clipboard: 2.0.11
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
 
   packages/countitems:
-    specifiers:
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/helpers': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-      '@global/helpers': link:../../global/helpers
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/displayvalues:
-    specifiers:
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/helpers': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-      '@global/helpers': link:../../global/helpers
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/docs:
     specifiers:
-      '@finsweet/attributes-cmscore': workspace:*
-      '@finsweet/attributes-codehighlight': workspace:*
-      '@finsweet/attributes-copyclip': workspace:*
-      '@finsweet/attributes-toc': workspace:*
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
       '@types/marked': ^4.0.3
       marked: ^4.0.15
     dependencies:
-      '@finsweet/attributes-codehighlight': link:../codehighlight
-      '@finsweet/attributes-copyclip': link:../copyclip
-      '@finsweet/attributes-toc': link:../toc
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
       marked: 4.1.0
     devDependencies:
-      '@finsweet/attributes-cmscore': link:../cmscore
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
       '@types/marked': 4.0.7
 
   packages/favcustom:
-    specifiers:
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/formsubmit:
-    specifiers:
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/greenhouse:
     specifiers:
-      '@finsweet/attributes-cmscore': workspace:*
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
       slugify: ^1.6.5
     dependencies:
-      '@finsweet/attributes-cmscore': link:../cmscore
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
       slugify: 1.6.5
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
 
   packages/linkblockedit:
-    specifiers:
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/mirrorclick:
-    specifiers:
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/helpers': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-      '@global/helpers': link:../../global/helpers
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/mirrorinput:
-    specifiers:
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/helpers': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-      '@global/helpers': link:../../global/helpers
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/queryparam:
-    specifiers:
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/rangeslider:
     specifiers:
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
       just-debounce: ^1.1.0
     dependencies:
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
       just-debounce: 1.1.0
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
 
   packages/readtime:
-    specifiers:
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/richtext:
     specifiers:
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
       '@types/dompurify': ^2.3.1
-    dependencies:
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
     devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
       '@types/dompurify': 2.3.4
 
   packages/scrolldisable:
     specifiers:
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
       '@types/body-scroll-lock': ^3.1.0
       body-scroll-lock: ^4.0.0-beta.0
       just-debounce: ^1.1.0
     dependencies:
-      '@finsweet/ts-utils': 0.33.2
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
       body-scroll-lock: 4.0.0-beta.0
       just-debounce: 1.1.0
     devDependencies:
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
       '@types/body-scroll-lock': 3.1.0
 
   packages/selectcustom:
     specifiers:
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/helpers': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
       just-debounce: ^1.1.0
     dependencies:
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-      '@global/helpers': link:../../global/helpers
       just-debounce: 1.1.0
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
 
   packages/sliderdots:
-    specifiers:
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/helpers': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-      '@global/helpers': link:../../global/helpers
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/smartlightbox:
-    specifiers:
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/helpers': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-      '@global/helpers': link:../../global/helpers
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/socialshare:
-    specifiers:
-      '@finsweet/attributes-cmscore': workspace:*
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/helpers': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
-    dependencies:
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-      '@global/helpers': link:../../global/helpers
-    devDependencies:
-      '@finsweet/attributes-cmscore': link:../cmscore
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
+    specifiers: {}
 
   packages/support:
     specifiers:
-      '@finsweet/attributes-docs': workspace:*
-      '@global/types': workspace:*
       '@rollup/plugin-alias': ^3.1.8
       '@rollup/plugin-commonjs': ^17.0.0
       '@rollup/plugin-node-resolve': ^11.0.0
@@ -844,8 +256,6 @@ importers:
       svelte-jester: 2.3.2_jest@27.5.1+svelte@3.50.1
       ts-jest: 27.1.5_i5bqpauvbfaw4wmbeng7kq5cci
     devDependencies:
-      '@finsweet/attributes-docs': link:../docs
-      '@global/types': link:../../global/types
       '@rollup/plugin-commonjs': 17.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 11.2.1_rollup@2.79.0
       '@rollup/plugin-typescript': 8.5.0_tznp6w7csbjledp5nresoxoky4
@@ -879,24 +289,9 @@ importers:
 
   packages/toc:
     specifiers:
-      '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/constants': workspace:*
-      '@global/factory': workspace:*
-      '@global/helpers': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
       slugify: ^1.6.5
     dependencies:
-      '@finsweet/ts-utils': 0.33.2
-      '@global/constants': link:../../global/constants
-      '@global/factory': link:../../global/factory
-      '@global/helpers': link:../../global/helpers
       slugify: 1.6.5
-    devDependencies:
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
 
 packages:
 
@@ -2674,12 +2069,9 @@ packages:
       typescript: 4.8.3
     dev: true
 
-  /@finsweet/ts-utils/0.33.1:
-    resolution: {integrity: sha512-7kT8wc1+eK/MxLyFBenl4SMHYRsmAqlOKDlUoRciWZWtjb4mXoN1co9Bohgi1ZOpgME2j+hC7cRDdBuKQUQu3w==}
-    dev: false
-
   /@finsweet/ts-utils/0.33.2:
     resolution: {integrity: sha512-J4rlLOXBoO9TrQyXJDmhWzoNceuBWMZ60sycH9e+jSnqpQBdozfa4g6LHA05xS4j4ivxPNgZNjcsMZxPKdH1Ww==}
+    dev: false
 
   /@finsweet/tsconfig/1.1.0:
     resolution: {integrity: sha512-P+cceRLc4wzcN3YfTCMqOQ1SfrxIFcMvC1lzgl8rd021ZcCNkdiOYlPkpZSL1lzDt2+9k4wFq4OUFcxALdOOsQ==}

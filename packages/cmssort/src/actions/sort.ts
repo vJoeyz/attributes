@@ -1,5 +1,6 @@
-import { checkCMSCoreVersion, CMSList } from '@finsweet/attributes-cmscore';
 import { normalizeNumber } from 'global/helpers';
+
+import { checkCMSCoreVersion, CMSList } from '$packages/cmscore';
 
 import type { SortingDirection } from '../utils/types';
 

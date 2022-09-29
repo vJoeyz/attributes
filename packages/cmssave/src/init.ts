@@ -1,5 +1,5 @@
-import type { CMSList } from '@finsweet/attributes-cmscore';
-import { importCMSCore } from '@finsweet/attributes-cmscore';
+import type { CMSList } from '$packages/cmscore';
+import { importCMSCore } from '$packages/cmscore';
 
 import { initSaveSourceInstance } from './factory';
 import { ATTRIBUTE, getSelector } from './utils/constants';

@@ -1,4 +1,4 @@
-import { CMS_ATTRIBUTE_ATTRIBUTE, FAV_CUSTOM_ATTRIBUTE } from '@global/constants/attributes';
+import { CMS_ATTRIBUTE_ATTRIBUTE, FAV_CUSTOM_ATTRIBUTE } from '$global/constants/attributes';
 
 import { queryElement } from './constants';
 

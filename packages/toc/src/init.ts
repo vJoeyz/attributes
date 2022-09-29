@@ -1,6 +1,7 @@
 import { restartWebflow } from '@finsweet/ts-utils';
-import { TOC_ATTRIBUTE, RICH_TEXT_ATTRIBUTE, CMS_ATTRIBUTE_ATTRIBUTE } from '@global/constants/attributes';
-import { getInstanceIndex } from '@global/helpers';
+
+import { TOC_ATTRIBUTE, RICH_TEXT_ATTRIBUTE, CMS_ATTRIBUTE_ATTRIBUTE } from '$global/constants/attributes';
+import { getInstanceIndex } from '$global/helpers';
 
 import { collectHeadingsData, collectLinksData } from './actions/collect';
 import { observeLinksState } from './actions/observe';

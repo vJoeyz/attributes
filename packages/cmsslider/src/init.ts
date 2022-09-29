@@ -1,7 +1,8 @@
-import type { CMSList } from '@finsweet/attributes-cmscore';
-import { importCMSCore } from '@finsweet/attributes-cmscore';
 import { restartWebflow } from '@finsweet/ts-utils';
-import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_SLIDER_ATTRIBUTE } from '@global/constants/attributes';
+
+import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_SLIDER_ATTRIBUTE } from '$global/constants/attributes';
+import type { CMSList } from '$packages/cmscore';
+import { importCMSCore } from '$packages/cmscore';
 
 import { collectPopulateData } from './collect';
 import { getSelector } from './constants';

@@ -1,4 +1,4 @@
-import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_SELECT_ATTRIBUTE, SELECT_CUSTOM_ATTRIBUTE } from '@global/constants/attributes';
+import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_SELECT_ATTRIBUTE, SELECT_CUSTOM_ATTRIBUTE } from '$global/constants/attributes';
 
 import { listenEvents } from './actions/events';
 import { observeElements } from './actions/observe';

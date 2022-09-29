@@ -1,6 +1,7 @@
 import { isNotEmpty, SLIDER_CSS_CLASSES } from '@finsweet/ts-utils';
 import type { SliderElement } from '@finsweet/ts-utils';
-import { CMS_ATTRIBUTE_ATTRIBUTE, SLIDER_DOTS_ATTRIBUTE } from '@global/constants/attributes';
+
+import { CMS_ATTRIBUTE_ATTRIBUTE, SLIDER_DOTS_ATTRIBUTE } from '$global/constants/attributes';
 
 import { createSliderDots } from './factory';
 import { getSelector } from './utils/constants';

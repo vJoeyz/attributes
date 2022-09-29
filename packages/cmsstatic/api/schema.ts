@@ -1,5 +1,6 @@
-import type { AttributeSchema } from '@global/types/schema';
 import { COLLECTION_LIST, DIV_BLOCK, LINK_BLOCK } from 'global/constants/webflow-selectors';
+
+import type { AttributeSchema } from '$global/types/schema';
 
 import {
   LIST_ELEMENT_KEY,

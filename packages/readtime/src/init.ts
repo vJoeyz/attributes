@@ -1,4 +1,4 @@
-import { CMS_ATTRIBUTE_ATTRIBUTE, READ_TIME_ATTRIBUTE } from '@global/constants/attributes';
+import { CMS_ATTRIBUTE_ATTRIBUTE, READ_TIME_ATTRIBUTE } from '$global/constants/attributes';
 
 import { initReadTime } from './factory';
 import { queryElement } from './utils/constants';
