@@ -32,19 +32,9 @@
     "url": "https://www.finsweet.com/"
   },
   "devDependencies": {
-    "@global/build": "workspace:*",
-    "@global/tests": "workspace:*",
-    "@global/types": "workspace:*",
-    "@finsweet/attributes-cmscore": "workspace:*",
     "@types/marked": "^4.0.3"
   },
   "dependencies": {
-    "@finsweet/attributes-codehighlight": "workspace:*",
-    "@finsweet/attributes-copyclip": "workspace:*",
-    "@finsweet/attributes-toc": "workspace:*",
-    "@finsweet/ts-utils": "^0.33.1",
-    "@global/factory": "workspace:*",
-    "@global/constants": "workspace:*",
     "marked": "^4.0.15"
   }
 }

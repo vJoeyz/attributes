@@ -1,5 +1,6 @@
 import { Debug } from '@finsweet/ts-utils';
-import { AUTO_VIDEO_ATTRIBUTE, CMS_ATTRIBUTE_ATTRIBUTE } from '@global/constants/attributes';
+
+import { AUTO_VIDEO_ATTRIBUTE, CMS_ATTRIBUTE_ATTRIBUTE } from '$global/constants/attributes';
 
 import type { VideoStore } from './types';
 

@@ -1,5 +1,5 @@
-import { ARIA_LABEL_KEY, ARIA_ROLE_KEY, ARIA_ROLE_VALUES, TABINDEX_KEY } from '@global/constants/a11ty';
-import { CMS_ATTRIBUTE_ATTRIBUTE, LINK_BLOCK_EDIT_ATTRIBUTE } from '@global/constants/attributes';
+import { ARIA_LABEL_KEY, ARIA_ROLE_KEY, ARIA_ROLE_VALUES, TABINDEX_KEY } from '$global/constants/a11ty';
+import { CMS_ATTRIBUTE_ATTRIBUTE, LINK_BLOCK_EDIT_ATTRIBUTE } from '$global/constants/attributes';
 
 import { getSelector } from './constants';
 

@@ -11,8 +11,8 @@ import {
   TEXT_LINK,
   TEXT_ELEMENT,
   BUTTON,
-} from '@global/constants/webflow-selectors';
-import type { AttributeSchema } from '@global/types/schema';
+} from '$global/constants/webflow-selectors';
+import type { AttributeSchema } from '$global/types/schema';
 
 import {
   ANIMATION_SETTING_KEY,

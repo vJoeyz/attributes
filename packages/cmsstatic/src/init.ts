@@ -1,6 +1,7 @@
-import type { CMSList } from '@finsweet/attributes-cmscore';
-import { importCMSCore } from '@finsweet/attributes-cmscore';
 import { CMS_STATIC_ATTRIBUTE, CMS_ATTRIBUTE_ATTRIBUTE } from 'global/constants/attributes';
+
+import type { CMSList } from '$packages/cmscore';
+import { importCMSCore } from '$packages/cmscore';
 
 import { initStaticInstance } from './factory';
 import { getSelector } from './utils/constants';

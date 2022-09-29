@@ -1,7 +1,8 @@
-import type { CMSList } from '@finsweet/attributes-cmscore';
-import { importCMSCore } from '@finsweet/attributes-cmscore';
 import { isNotEmpty } from '@finsweet/ts-utils';
-import { QUERY_PARAM_ATTRIBUTE, CMS_FILTER_ATTRIBUTE, CMS_ATTRIBUTE_ATTRIBUTE } from '@global/constants/attributes';
+
+import { QUERY_PARAM_ATTRIBUTE, CMS_FILTER_ATTRIBUTE, CMS_ATTRIBUTE_ATTRIBUTE } from '$global/constants/attributes';
+import type { CMSList } from '$packages/cmscore';
+import { importCMSCore } from '$packages/cmscore';
 
 import { listenListEvents } from './actions/events';
 import type { CMSFilters } from './components/CMSFilters';

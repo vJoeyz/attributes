@@ -1,6 +1,7 @@
-import { CMSItem, CMSList } from '@finsweet/attributes-cmscore';
 import { CMS_CSS_CLASSES, isNotEmpty } from '@finsweet/ts-utils';
 import type { JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
+
+import { CMSItem, CMSList } from '$packages/cmscore';
 
 import { ATTRIBUTES } from '../utils/constants';
 import { filterJobsByKey, getDepartmentsOrOfficesFromJobs } from '../utils/jobs';

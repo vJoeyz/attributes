@@ -1,5 +1,5 @@
-import { READ_TIME_ATTRIBUTE } from '@global/constants/attributes';
-import { generateDynamicAttibuteValue, generateSelectors } from '@global/factory';
+import { READ_TIME_ATTRIBUTE } from '$global/constants/attributes';
+import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${READ_TIME_ATTRIBUTE}`;
 

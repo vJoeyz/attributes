@@ -1,5 +1,5 @@
-import { CMS_STATIC_ATTRIBUTE } from '@global/constants/attributes';
-import { generateSelectors, generateDynamicAttibuteValue } from '@global/factory';
+import { CMS_STATIC_ATTRIBUTE } from '$global/constants/attributes';
+import { generateSelectors, generateDynamicAttibuteValue } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${CMS_STATIC_ATTRIBUTE}`;
 
