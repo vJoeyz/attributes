@@ -8,8 +8,9 @@ import type {
   PaginationWrapperElement,
   PageCountElement,
 } from '@finsweet/ts-utils';
-import { getInstanceIndex } from '@global/helpers';
 import Emittery from 'emittery';
+
+import { getInstanceIndex } from '$global/helpers';
 
 import { CMSItem } from './CMSItem';
 import { updateItemsCount } from './utils/items';

@@ -191,22 +191,12 @@ importers:
     specifiers:
       '@finsweet/attributes-animation': workspace:*
       '@finsweet/ts-utils': ^0.33.1
-      '@global/build': workspace:*
-      '@global/helpers': workspace:*
-      '@global/import': workspace:*
-      '@global/tests': workspace:*
-      '@global/types': workspace:*
       emittery: ^0.11.0
     dependencies:
       '@finsweet/ts-utils': 0.33.2
-      '@global/helpers': link:../../global/helpers
-      '@global/import': link:../../global/import
       emittery: 0.11.0
     devDependencies:
       '@finsweet/attributes-animation': link:../animation
-      '@global/build': link:../../global/build
-      '@global/tests': link:../../global/tests
-      '@global/types': link:../../global/types
 
   packages/cmscss:
     specifiers:
