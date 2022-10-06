@@ -48,6 +48,8 @@ export const MIRROR_CLICK_ATTRIBUTE = 'mirrorclick';
 
 export const MIRROR_INPUT_ATTRIBUTE = 'mirrorinput';
 
+export const LAUNCHDARKLY_ATTRIBUTE = 'launchdarkly';
+
 export const QUERY_PARAM_ATTRIBUTE = 'queryparam';
 
 export const RANGE_SLIDER_ATTRIBUTE = 'rangeslider';
