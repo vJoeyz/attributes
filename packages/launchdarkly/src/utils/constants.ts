@@ -3,7 +3,7 @@ import { generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${LAUNCHDARKLY_ATTRIBUTE}`;
 
-export const EXAMPLE_ELEMENT_KEY = 'example';
+export const EXAMPLE_ELEMENT_KEY = 'examplee';
 export const EXAMPLE_SETTING_KEY = 'example';
 export const EXAMPLE_SETTING_VALUES = { value: 'value' };
 
