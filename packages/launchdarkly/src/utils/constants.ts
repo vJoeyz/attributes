@@ -6,6 +6,7 @@ const ATTRIBUTES_PREFIX = `fs-${LAUNCHDARKLY_ATTRIBUTE}`;
 export const EXAMPLE_ELEMENT_KEY = 'examplee';
 export const EXAMPLE_SETTING_KEY = 'example';
 export const EXAMPLE_SETTING_VALUES = { value: 'value' };
+export const CLIENT_ID = `clientId`;
 
 export const ATTRIBUTES = {
   element: {
@@ -24,6 +25,13 @@ export const ATTRIBUTES = {
   example: {
     key: `${ATTRIBUTES_PREFIX}-${EXAMPLE_SETTING_KEY}`,
     values: EXAMPLE_SETTING_VALUES,
+  },
+
+  /**
+   * Defines clientId for the LaunchDarkly environment.
+   */
+  clientId: {
+    key: `${ATTRIBUTES_PREFIX}-${CLIENT_ID}`,
   },
 } as const;
 

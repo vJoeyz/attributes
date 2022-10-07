@@ -18,8 +18,8 @@
     "lint": "eslint ./src && prettier --check ./src",
     "check": "tsc --noEmit",
     "format": "prettier --write ./src",
-    "test": "pnpm playwright test",
-    "test:headed": "pnpm playwright test --headed"
+    "test": "pnpm playwright test-sample",
+    "test:headed": "pnpm playwright test-sample --headed"
   },
   "repository": {
     "type": "git",
