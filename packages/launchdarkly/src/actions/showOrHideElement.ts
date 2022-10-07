@@ -1,10 +1,7 @@
+import { extractCommaSeparatedValues } from '@finsweet/ts-utils';
 import type { LDFlagSet } from 'launchdarkly-js-client-sdk';
 
 import { ATTRIBUTES, getSelector } from '../utils/constants';
-
-const extractCommaSeparatedValues = (value: string): string[] => {
-  return value.split(',').map((v) => v.trim());
-};
 
 export const showOrHideElement = (flags: LDFlagSet): void => {
   const elements = document.querySelectorAll<HTMLElement>(getSelector('showIf'));

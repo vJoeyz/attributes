@@ -20,5 +20,4 @@ if (preventsLoad) attribute.init = init;
 else {
   window.Webflow ||= [];
   window.Webflow.push(() => init(attributes));
-  init(attributes);
 }

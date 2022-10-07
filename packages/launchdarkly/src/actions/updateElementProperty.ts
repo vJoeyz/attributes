@@ -1,3 +1,4 @@
+import { extractCommaSeparatedValues } from '@finsweet/ts-utils';
 import type { LDFlagSet, LDFlagValue } from 'launchdarkly-js-client-sdk';
 
 import { ATTRIBUTES, getSelector, SRC_PROPERTY, TEXT_PROPERTY } from '../utils/constants';
@@ -23,10 +24,13 @@ export const updateElementProperty = (flags: LDFlagSet): void => {
       return;
     }
 
+    const allProperties = extractCommaSeparatedValues(property);
     const flag = flags[flagName];
 
-    if (flag && property in attributeAction) {
-      attributeAction[property](element, flag);
+    if (flag) {
+      for (const property of allProperties) {
+        if (property in attributeAction) attributeAction[property](element, flag);
+      }
     }
   });
 };
