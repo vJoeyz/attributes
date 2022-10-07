@@ -7,6 +7,8 @@ export const EXAMPLE_ELEMENT_KEY = 'examplee';
 export const EXAMPLE_SETTING_KEY = 'example';
 export const EXAMPLE_SETTING_VALUES = { value: 'value' };
 export const CLIENT_ID = `clientId`;
+export const FLAG = `flag`;
+export const SHOW_IF = `showif`;
 
 export const ATTRIBUTES = {
   element: {
@@ -32,6 +34,13 @@ export const ATTRIBUTES = {
    */
   clientId: {
     key: `${ATTRIBUTES_PREFIX}-${CLIENT_ID}`,
+  },
+  flag: {
+    key: `${ATTRIBUTES_PREFIX}-${FLAG}`,
+  },
+
+  showIf: {
+    key: `${ATTRIBUTES_PREFIX}-${SHOW_IF}`,
   },
 } as const;
 

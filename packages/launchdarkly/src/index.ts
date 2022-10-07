@@ -5,6 +5,17 @@ import { ATTRIBUTES, CLIENT_ID } from '$packages/launchdarkly/src/utils/constant
 import { version } from '../package.json';
 import { init } from './init';
 
+// generate css tag that contains sample selectors and append it to the head of the document
+// This has to run before initialization of the attributes
+const defaultStyle = `
+        [fs-launchdarkly-showif] {
+            display: none;
+        }
+    `;
+const style = document.createElement('style');
+style.innerHTML = defaultStyle;
+document.head.appendChild(style);
+
 /**
  * Init
  */
@@ -17,11 +28,12 @@ const attribute = window.fsAttributes[LAUNCHDARKLY_ATTRIBUTE];
 attribute.version = version;
 
 if (preventsLoad)
-  attribute.init = (clientId?: string) =>
-    init({
+  attribute.init = (clientId?: string) => {
+    return init({
       ...attributes,
-      clientId,
+      clientId: clientId,
     });
+  };
 else {
   window.Webflow ||= [];
   window.Webflow.push(() => init(attributes));

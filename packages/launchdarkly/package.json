@@ -36,5 +36,8 @@
   },
   "bugs": {
     "url": "https://sweetjs.finsweet.com/"
+  },
+  "dependencies": {
+    "launchdarkly-js-client-sdk": "^2.23.0"
   }
 }
