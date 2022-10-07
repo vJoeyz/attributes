@@ -1,4 +1,5 @@
 import { LAUNCHDARKLY_ATTRIBUTE } from 'global/constants/attributes';
+import type { LDClient } from 'launchdarkly-js-client-sdk';
 
 import { initializeUser } from '$packages/launchdarkly/src/actions/initializeUser';
 import { showOrHideElement } from '$packages/launchdarkly/src/actions/showOrHideElement';
@@ -8,20 +9,18 @@ import type { LaunchDarklyAttributes } from '$packages/launchdarkly/src/utils/ty
 /**
  * Inits the attribute.
  */
-export const init = async (attributes: LaunchDarklyAttributes): Promise<void> => {
-  let clientId;
+export const init = async ({ devClientId, prodClientId }: LaunchDarklyAttributes): Promise<LDClient> => {
   const devEnvironment = window.location.origin.includes('webflow.io');
-  if (devEnvironment) {
-    clientId = attributes.devClientId;
-    if (!clientId) throw new Error('fs-launchdarkly-devclientid is required');
-  } else {
-    clientId = attributes.prodClientId;
-    if (!clientId) throw new Error('fs-launchdarkly-prodclientid is required');
+
+  const clientId = devEnvironment ? devClientId || prodClientId : prodClientId || devClientId;
+  if (!clientId) {
+    throw new Error('Client ID is required');
   }
 
   const client = await initializeUser(clientId);
   const flags = client.allFlags();
   showOrHideElement(flags);
   updateElementProperty(flags);
-  window.fsAttributes[LAUNCHDARKLY_ATTRIBUTE].resolve?.(undefined);
+  window.fsAttributes[LAUNCHDARKLY_ATTRIBUTE].resolve?.(client);
+  return client;
 };

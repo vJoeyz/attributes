@@ -27,10 +27,9 @@ export const updateElementProperty = (flags: LDFlagSet): void => {
     const allProperties = extractCommaSeparatedValues(property);
     const flag = flags[flagName];
 
-    if (flag) {
-      for (const property of allProperties) {
-        if (property in attributeAction) attributeAction[property](element, flag);
-      }
+    if (!flag) return;
+    for (const property of allProperties) {
+      if (property in attributeAction) attributeAction[property](element, flag);
     }
   });
 };
