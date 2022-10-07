@@ -4,4 +4,6 @@ export interface LaunchDarklyAttributes {
   [CLIENT_ID]: string | null | undefined;
 }
 
-type LaunchDarklyFlags = Record<string, string | number>;
+export type LaunchDarklyFlagValueType = string | number | boolean | null | undefined;
+
+type LaunchDarklyFlags = Record<LaunchDarklyFlagValueType>;
