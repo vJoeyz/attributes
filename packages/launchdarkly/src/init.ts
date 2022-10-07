@@ -7,12 +7,12 @@ import type { LaunchDarklyAttributes } from '$packages/launchdarkly/src/utils/ty
  * Inits the attribute.
  */
 export const init = async (attributes: LaunchDarklyAttributes): Promise<void> => {
-  if (!attributes.clientId) {
-    throw new Error('clientId is required');
-    return;
+  const clientId = attributes.prodClientId || attributes.devClientId;
+  if (!clientId) {
+    throw new Error('fs-launchdarkly-devclientid/fs-launchdarkly-prodclientid is required');
   }
 
-  const client = await initializeUser(attributes.clientId);
+  const client = await initializeUser(clientId);
   const flags = client.allFlags();
   showOrHideElement(flags);
   updateElementProperty(flags);

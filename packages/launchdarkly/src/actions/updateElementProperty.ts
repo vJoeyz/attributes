@@ -1,26 +1,32 @@
-import type { LaunchDarklyFlags, LaunchDarklyFlagValueType } from '$packages/launchdarkly/src/utils/types';
+import type { LDFlagSet, LDFlagValue } from 'launchdarkly-js-client-sdk';
 
-import { ATTRIBUTES, SRC_PROPERTY, SUPPORTED_PROPERTIES, TEXT_PROPERTY } from '../utils/constants';
+import { ATTRIBUTES, getSelector, SRC_PROPERTY, TEXT_PROPERTY } from '../utils/constants';
 
-const attributeAction: Record<string, (element: HTMLElement, value: LaunchDarklyFlagValueType) => void> = {
-  [TEXT_PROPERTY]: (element: HTMLElement, value: LaunchDarklyFlagValueType) => {
+const attributeAction: Record<string, (element: HTMLElement, value: LDFlagValue) => void> = {
+  [TEXT_PROPERTY]: (element: HTMLElement, value: LDFlagSet) => {
     element.textContent = String(value);
   },
-  [SRC_PROPERTY]: (element: HTMLElement, value: LaunchDarklyFlagValueType) => {
+  [SRC_PROPERTY]: (element: HTMLElement, value: LDFlagSet) => {
     const image = element as HTMLImageElement;
     image.src = String(value);
   },
 };
-export const updateElementProperty = (flags: LaunchDarklyFlags): void => {
-  const elements: NodeListOf<HTMLElement> = document.querySelectorAll<HTMLElement>(`[${ATTRIBUTES.setProperty.key}]`);
+export const updateElementProperty = (flags: LDFlagSet): void => {
+  const elements = document.querySelectorAll<HTMLElement>(getSelector('setProperty'));
 
   elements.forEach((element) => {
     // get the value of the attribute fs-launchdarkly-property
-    const flagName = element.getAttribute(ATTRIBUTES.flag.key) || '';
-    const property = element.getAttribute(ATTRIBUTES.setProperty.key) || '';
+    const flagName = element.getAttribute(ATTRIBUTES.flag.key);
+    const property = element.getAttribute(ATTRIBUTES.setProperty.key);
 
-    if (flags[flagName] && SUPPORTED_PROPERTIES.includes(property)) {
-      attributeAction[property](element, flags[flagName]);
+    if (!flagName || !property) {
+      return;
+    }
+
+    const flag = flags[flagName];
+
+    if (flag && property in attributeAction) {
+      attributeAction[property](element, flag);
     }
   });
 };
