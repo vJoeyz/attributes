@@ -1,17 +1,28 @@
-import type { LaunchDarklyFlags } from '$packages/launchdarkly/src/utils/types';
+import type { LDFlagSet } from 'launchdarkly-js-client-sdk';
 
-import { ATTRIBUTES } from '../utils/constants';
+import { ATTRIBUTES, getSelector } from '../utils/constants';
 
-export const showOrHideElement = (flags: LaunchDarklyFlags): void => {
-  const elements: NodeListOf<HTMLElement> = document.querySelectorAll<HTMLElement>(`[${ATTRIBUTES.showIf.key}]`);
+const extractCommaSeparatedValues = (value: string): string[] => {
+  return value.split(',').map((v) => v.trim());
+};
+
+export const showOrHideElement = (flags: LDFlagSet): void => {
+  const elements = document.querySelectorAll<HTMLElement>(getSelector('showIf'));
 
   elements.forEach((element) => {
     // get the value of the attribute fs-launchdarkly-showif
-    const flagName = element.getAttribute(ATTRIBUTES.flag.key) || '';
-    const flagValue = element.getAttribute(ATTRIBUTES.showIf.key) || '';
-    const allFlagValues = flagValue.split(',');
+    const flagName = element.getAttribute(ATTRIBUTES.flag.key);
+    const flagValue = element.getAttribute(ATTRIBUTES.showIf.key);
 
-    if (flags[flagName] && allFlagValues && allFlagValues.includes(String(flags[flagName]))) {
+    if (!flagName || !flagValue) {
+      element.remove();
+      return;
+    }
+
+    const allFlagValues = extractCommaSeparatedValues(flagValue);
+    const flag = flags[flagName];
+
+    if (flag && allFlagValues.includes(String(flag))) {
       element.removeAttribute(ATTRIBUTES.showIf.key);
     } else {
       element.remove();
