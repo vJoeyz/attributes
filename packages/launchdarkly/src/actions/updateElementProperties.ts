@@ -10,7 +10,7 @@ export const updateElementProperties = (flags: LDFlagValue): void => {
     const flagName = element.getAttribute(ATTRIBUTES.flag.key);
     const property = element.getAttribute(ATTRIBUTES.setProperties.key);
 
-    if (!flagName || !property || property !== JSON_ATTRIBUTE) {
+    if (!flagName || property !== JSON_ATTRIBUTE) {
       return;
     }
 
