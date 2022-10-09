@@ -7,7 +7,6 @@ export const showOrHideElement = (flags: LDFlagSet): void => {
   const elements = document.querySelectorAll<HTMLElement>(getSelector('showIf'));
 
   elements.forEach((element) => {
-    // get the value of the attribute fs-launchdarkly-showif
     const flagName = element.getAttribute(ATTRIBUTES.flag.key);
     const flagValue = element.getAttribute(ATTRIBUTES.showIf.key);
 
@@ -15,11 +14,10 @@ export const showOrHideElement = (flags: LDFlagSet): void => {
       element.remove();
       return;
     }
-
     const allFlagValues = extractCommaSeparatedValues(flagValue);
-    const flag = flags[flagName];
+    const flag = String(flags[flagName]);
 
-    if (flag && allFlagValues.includes(String(flag))) {
+    if (flag && allFlagValues.includes(flag)) {
       element.removeAttribute(ATTRIBUTES.showIf.key);
     } else {
       element.remove();

@@ -11,6 +11,7 @@ window.fsAttributes[LAUNCHDARKLY_ATTRIBUTE] ||= {};
 const { preventsLoad, attributes } = assessScript({
   devClientId: ATTRIBUTES.devClientId.key,
   prodClientId: ATTRIBUTES.prodClientId.key,
+  eventsToTrack: ATTRIBUTES.eventsToTrack.key,
 });
 const attribute = window.fsAttributes[LAUNCHDARKLY_ATTRIBUTE];
 

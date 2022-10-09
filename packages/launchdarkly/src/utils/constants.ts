@@ -5,11 +5,16 @@ const ATTRIBUTES_PREFIX = `fs-${LAUNCHDARKLY_ATTRIBUTE}`;
 
 export const DEV_CLIENT_ID = `devclientid`;
 export const PROD_CLIENT_ID = `prodclientid`;
+export const EVENTS_TO_TRACK = `eventstotrack`;
 export const FLAG = `flag`;
 export const SHOW_IF = `showif`;
 export const SET_PROPERTY = `setproperty`;
-export const TEXT_PROPERTY = `text`;
-export const SRC_PROPERTY = `src`;
+export const SET_PROPERTIES = `setproperties`;
+export const TEXT_ATTRIBUTE = `text`;
+export const SRC_ATTRIBUTE = `src`;
+export const SRCSET_ATTRIBUTE = `srcset`;
+export const SIZES_ATTRIBUTE = `sizes`;
+export const JSON_ATTRIBUTE = `json`;
 
 export const ATTRIBUTES = {
   element: {
@@ -26,6 +31,9 @@ export const ATTRIBUTES = {
   prodClientId: {
     key: `${ATTRIBUTES_PREFIX}-${PROD_CLIENT_ID}`,
   },
+  eventsToTrack: {
+    key: `${ATTRIBUTES_PREFIX}-${EVENTS_TO_TRACK}`,
+  },
   flag: {
     key: `${ATTRIBUTES_PREFIX}-${FLAG}`,
   },
@@ -35,6 +43,9 @@ export const ATTRIBUTES = {
   },
   setProperty: {
     key: `${ATTRIBUTES_PREFIX}-${SET_PROPERTY}`,
+  },
+  setProperties: {
+    key: `${ATTRIBUTES_PREFIX}-${SET_PROPERTIES}`,
   },
 } as const;
 

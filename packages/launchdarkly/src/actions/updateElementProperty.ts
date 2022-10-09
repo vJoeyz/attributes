@@ -1,17 +1,32 @@
 import { extractCommaSeparatedValues } from '@finsweet/ts-utils';
 import type { LDFlagSet, LDFlagValue } from 'launchdarkly-js-client-sdk';
 
-import { ATTRIBUTES, getSelector, SRC_PROPERTY, TEXT_PROPERTY } from '../utils/constants';
+import {
+  ATTRIBUTES,
+  getSelector,
+  SRC_ATTRIBUTE,
+  SRCSET_ATTRIBUTE,
+  SIZES_ATTRIBUTE,
+  TEXT_ATTRIBUTE,
+} from '../utils/constants';
 
-const attributeAction: Record<string, (element: HTMLElement, value: LDFlagValue) => void> = {
-  [TEXT_PROPERTY]: (element: HTMLElement, value: LDFlagSet) => {
-    element.textContent = String(value);
+export const attributeAction: Record<string, (element: HTMLElement, value: LDFlagValue) => void> = {
+  [TEXT_ATTRIBUTE]: (element: HTMLElement, value: LDFlagSet) => {
+    element.innerText = String(value);
   },
-  [SRC_PROPERTY]: (element: HTMLElement, value: LDFlagSet) => {
-    const image = element as HTMLImageElement;
-    image.src = String(value);
+  [SRC_ATTRIBUTE]: (element: HTMLElement, value: LDFlagSet) => {
+    element.setAttribute(SRC_ATTRIBUTE, String(value));
+    element.removeAttribute(SRCSET_ATTRIBUTE);
+  },
+  [SRCSET_ATTRIBUTE]: (element: HTMLElement, value: LDFlagSet) => {
+    element.setAttribute(SRCSET_ATTRIBUTE, String(value));
+    element.removeAttribute(SRC_ATTRIBUTE);
+  },
+  [SIZES_ATTRIBUTE]: (element: HTMLElement, value: LDFlagSet) => {
+    element.setAttribute(SIZES_ATTRIBUTE, String(value));
   },
 };
+
 export const updateElementProperty = (flags: LDFlagSet): void => {
   const elements = document.querySelectorAll<HTMLElement>(getSelector('setProperty'));
 
