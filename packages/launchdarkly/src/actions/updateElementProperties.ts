@@ -1,7 +1,7 @@
 import type { LDFlagValue } from 'launchdarkly-js-client-sdk';
 
-import { attributeAction } from '$packages/launchdarkly/src/actions/updateElementProperty';
-import { ATTRIBUTES, getSelector, JSON_ATTRIBUTE } from '$packages/launchdarkly/src/utils/constants';
+import { ATTRIBUTES, getSelector, JSON_ATTRIBUTE } from '../utils/constants';
+import { attributeAction } from './updateElementProperty';
 
 export const updateElementProperties = (flags: LDFlagValue): void => {
   const elements = document.querySelectorAll<HTMLElement>(getSelector('setProperties'));

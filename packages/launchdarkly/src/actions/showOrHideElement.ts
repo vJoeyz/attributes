@@ -15,8 +15,9 @@ export const showOrHideElement = (flags: LDFlagSet): void => {
       return;
     }
     const allFlagValues = extractCommaSeparatedValues(flagValue);
-    const flag = String(flags[flagName]);
+    if (flags[flagName] === null || flags[flagName] === undefined) return;
 
+    const flag = String(flags[flagName]);
     if (flag && allFlagValues.includes(flag)) {
       element.removeAttribute(ATTRIBUTES.showIf.key);
     } else {

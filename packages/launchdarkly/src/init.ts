@@ -2,11 +2,11 @@ import { extractCommaSeparatedValues } from '@finsweet/ts-utils';
 import { LAUNCHDARKLY_ATTRIBUTE } from 'global/constants/attributes';
 import type { LDClient } from 'launchdarkly-js-client-sdk';
 
-import { initializeUser } from '$packages/launchdarkly/src/actions/initializeUser';
-import { showOrHideElement } from '$packages/launchdarkly/src/actions/showOrHideElement';
-import { updateElementProperties } from '$packages/launchdarkly/src/actions/updateElementProperties';
-import { updateElementProperty } from '$packages/launchdarkly/src/actions/updateElementProperty';
-import type { LaunchDarklyAttributes } from '$packages/launchdarkly/src/utils/types';
+import { initializeUser } from '../src/actions/initializeUser';
+import { showOrHideElement } from '../src/actions/showOrHideElement';
+import { updateElementProperties } from '../src/actions/updateElementProperties';
+import { updateElementProperty } from '../src/actions/updateElementProperty';
+import type { LaunchDarklyAttributes } from '../src/utils/types';
 
 /**
  * Inits the attribute.
@@ -21,7 +21,7 @@ export const init = async ({ devClientId, prodClientId, eventsToTrack }: LaunchD
 
   const client = await initializeUser(clientId);
   if (eventsToTrack) {
-    const events = extractCommaSeparatedValues(eventsToTrack);
+    const events = Array.isArray(eventsToTrack) ? eventsToTrack : extractCommaSeparatedValues(eventsToTrack);
     events.forEach((event) => {
       client.track(event);
     });
