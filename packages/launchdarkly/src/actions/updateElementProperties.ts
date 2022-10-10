@@ -1,24 +1,22 @@
 import type { LDFlagValue } from 'launchdarkly-js-client-sdk';
 
-import { ATTRIBUTES, getSelector, JSON_ATTRIBUTE } from '../utils/constants';
+import { ATTRIBUTES } from '../utils/constants';
 import { attributeAction } from './updateElementProperty';
 
-export const updateElementProperties = (flags: LDFlagValue): void => {
-  const elements = document.querySelectorAll<HTMLElement>(getSelector('setProperties'));
-
+export const updateElementProperties = (elements: HTMLElement[], flags: LDFlagValue) => {
   elements.forEach((element) => {
     const flagName = element.getAttribute(ATTRIBUTES.flag.key);
-    const property = element.getAttribute(ATTRIBUTES.setProperties.key);
-
-    if (!flagName || property !== JSON_ATTRIBUTE) {
+    if (!flagName) {
       return;
     }
 
     const flagJSONValue = flags[flagName];
-    if (!flagJSONValue) return;
+    if (!flagJSONValue || !flagJSONValue.show || !flagJSONValue.properties) return;
 
-    Object.keys(flagJSONValue).forEach((property) => {
-      const value = flagJSONValue[property];
+    const { properties } = flagJSONValue;
+
+    Object.keys(properties).forEach((property) => {
+      const value = properties[property];
       if (property in attributeAction) {
         attributeAction[property](element, value);
       }

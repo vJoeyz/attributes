@@ -44,9 +44,6 @@ export const ATTRIBUTES = {
   setProperty: {
     key: `${ATTRIBUTES_PREFIX}-${SET_PROPERTY}`,
   },
-  setProperties: {
-    key: `${ATTRIBUTES_PREFIX}-${SET_PROPERTIES}`,
-  },
 } as const;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

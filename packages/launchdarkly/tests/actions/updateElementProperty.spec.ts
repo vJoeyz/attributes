@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 
+const elements = `fsLaunchDarkly.extractElementsByCategory().updateElementPropertyElements`;
+
 test.describe('Update Element Property', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('tests/fixtures/updateElementProperty');
@@ -8,7 +10,7 @@ test.describe('Update Element Property', () => {
   test.describe('When flag is not set', async () => {
     test('It does not update the property', async ({ page }) => {
       const flags = `{}`;
-      await page.evaluate(`fsLaunchDarkly.updateElementProperty(${flags})`);
+      await page.evaluate(`fsLaunchDarkly.updateElementProperty(${elements}, ${flags})`);
 
       const locator = await page.locator('data-test-id=image1');
       const src = await locator.getAttribute('src');
@@ -21,7 +23,7 @@ test.describe('Update Element Property', () => {
     const flags = `{testing: 'http://example2.svg', testing2: '${titleText}'}`;
 
     test.beforeEach(async ({ page }) => {
-      await page.evaluate(`fsLaunchDarkly.updateElementProperty(${flags})`);
+      await page.evaluate(`fsLaunchDarkly.updateElementProperty(${elements}, ${flags})`);
     });
 
     test('It updates src property and removes the srcset attribute', async ({ page }) => {
