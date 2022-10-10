@@ -2,7 +2,11 @@ import { extractCommaSeparatedValues } from '@finsweet/ts-utils';
 import { LAUNCHDARKLY_ATTRIBUTE } from 'global/constants/attributes';
 import type { LDClient } from 'launchdarkly-js-client-sdk';
 
-import { showOrHideElement, initializeUser, updateElementProperties, updateElementProperty } from '../src/actions';
+import { initializeUser } from '$packages/launchdarkly/src/actions/initializeUser';
+import { showOrHideElement } from '$packages/launchdarkly/src/actions/showOrHideElement';
+import { updateElementProperties } from '$packages/launchdarkly/src/actions/updateElementProperties';
+import { updateElementProperty } from '$packages/launchdarkly/src/actions/updateElementProperty';
+
 import type { LaunchDarklyAttributes } from '../src/utils/types';
 
 /**
