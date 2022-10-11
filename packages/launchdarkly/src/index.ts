@@ -6,6 +6,7 @@ import { init } from './init';
 import { ATTRIBUTES } from './utils/constants';
 
 initAttributes();
+
 window.fsAttributes[LAUNCHDARKLY_ATTRIBUTE] ||= {};
 
 const { preventsLoad, attributes } = assessScript({
@@ -13,6 +14,7 @@ const { preventsLoad, attributes } = assessScript({
   prodClientId: ATTRIBUTES.prodClientId.key,
   eventsToTrack: ATTRIBUTES.eventsToTrack.key,
 });
+
 const attribute = window.fsAttributes[LAUNCHDARKLY_ATTRIBUTE];
 
 attribute.version = version;

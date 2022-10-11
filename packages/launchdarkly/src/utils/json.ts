@@ -12,6 +12,8 @@ export const jsonFlagValueSchema = type({
  * @returns The parsed object, if the string contained a valid JSON object.
  */
 export const parseJSONFlagValue = (value: string) => {
+  if (!value) return null;
+
   try {
     const parsed = JSON.parse(value);
 
