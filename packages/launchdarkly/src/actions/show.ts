@@ -8,7 +8,7 @@ import { ATTRIBUTES } from '../utils/constants';
 export const showOrHideElement = (element: HTMLElement, show: boolean): void => {
   if (show) {
     element.removeAttribute(ATTRIBUTES.showIf.key);
-  } else {
-    element.remove();
+    return;
   }
+  element.remove();
 };
