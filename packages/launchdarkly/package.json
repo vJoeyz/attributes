@@ -38,6 +38,7 @@
     "url": "https://sweetjs.finsweet.com/"
   },
   "dependencies": {
-    "launchdarkly-js-client-sdk": "^2.23.0"
+    "launchdarkly-js-client-sdk": "^2.23.0",
+    "superstruct": "^0.16.5"
   }
 }

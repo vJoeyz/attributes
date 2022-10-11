@@ -1,9 +1,9 @@
 import { LAUNCHDARKLY_ATTRIBUTE } from '$global/constants/attributes';
 import { assessScript, initAttributes } from '$global/factory';
-import { ATTRIBUTES } from '$packages/launchdarkly/src/utils/constants';
 
 import { version } from '../package.json';
 import { init } from './init';
+import { ATTRIBUTES } from './utils/constants';
 
 initAttributes();
 window.fsAttributes[LAUNCHDARKLY_ATTRIBUTE] ||= {};
