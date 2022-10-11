@@ -156,8 +156,10 @@ importers:
   packages/launchdarkly:
     specifiers:
       launchdarkly-js-client-sdk: ^2.23.0
+      superstruct: ^0.16.5
     dependencies:
       launchdarkly-js-client-sdk: 2.23.0
+      superstruct: 0.16.5
 
   packages/linkblockedit:
     specifiers: {}
@@ -14239,6 +14241,11 @@ packages:
     dependencies:
       inline-style-parser: 0.1.1
     dev: true
+
+  /superstruct/0.16.5:
+    resolution: {integrity: sha512-GBa1VPdCUDAIrsoMVy2lzE/hKQnieUlc1JVoVzJ2YLx47SoPY4AqF85Ht1bPg5r+8I0v54GbaRdNTnYQ0p+T+Q==}
+    engines: {node: '>=14.0.0'}
+    dev: false
 
   /supports-color/5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}
