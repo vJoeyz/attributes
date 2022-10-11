@@ -1,10 +1,11 @@
 import { extractCommaSeparatedValues } from '@finsweet/ts-utils';
 import type { LDFlagSet } from 'launchdarkly-js-client-sdk';
+import { is } from 'superstruct';
 
 import { updateElementProperty } from './actions/properties';
 import { showOrHideElement } from './actions/show';
 import { ATTRIBUTES } from './utils/constants';
-import { parseJSONFlagValue } from './utils/json';
+import { jsonFlagValueSchema } from './utils/json';
 import type { JSONFlagValue } from './utils/types';
 
 /**
@@ -16,19 +17,22 @@ export const initFlagElement = (element: HTMLElement, flags: LDFlagSet) => {
   const flagName = element.getAttribute(ATTRIBUTES.flag.key);
   if (!flagName) return;
 
-  const flagValue = flags[flagName] ? String(flags[flagName]) : undefined;
+  const rawFlagValue = flags[flagName];
 
   const rawShowIf = element.getAttribute(ATTRIBUTES.showIf.key);
   const rawSetProperties = element.getAttribute(ATTRIBUTES.setProperties.key);
 
-  // No actions are explicitly defined, thus we fall back to JSON handling
-  if (!rawShowIf && !rawSetProperties && flagValue) {
-    const jsonValue = parseJSONFlagValue(flagValue);
-    if (jsonValue) {
-      initJSON(element, jsonValue);
-      return;
-    }
+  // JSON value handling
+  if (is(rawFlagValue, jsonFlagValueSchema)) {
+    initJSON(element, rawFlagValue);
+    return;
   }
+
+  // Other values handling
+  const flagValue =
+    typeof rawFlagValue === 'string' || typeof rawFlagValue === 'number' || typeof rawFlagValue === 'boolean'
+      ? String(rawFlagValue)
+      : undefined;
 
   // showif is explicitly defined
   if (rawShowIf) {
