@@ -77,5 +77,6 @@ export const config: PlaywrightTestConfig = {
   webServer: {
     command: 'pnpm serve',
     port: 3000,
+    reuseExistingServer: true,
   },
 };

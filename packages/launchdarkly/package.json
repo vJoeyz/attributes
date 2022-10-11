@@ -18,7 +18,7 @@
     "lint": "eslint ./src && prettier --check ./src",
     "check": "tsc --noEmit",
     "format": "prettier --write ./src",
-    "test": "pnpm playwright test-sample",
+    "test": "pnpm playwright test  --project=chromium",
     "test:headed": "pnpm playwright test-sample --headed"
   },
   "repository": {
@@ -38,6 +38,7 @@
     "url": "https://sweetjs.finsweet.com/"
   },
   "dependencies": {
-    "launchdarkly-js-client-sdk": "^2.23.0"
+    "launchdarkly-js-client-sdk": "^2.23.0",
+    "superstruct": "^0.16.5"
   }
 }
