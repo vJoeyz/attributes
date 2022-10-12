@@ -4,7 +4,7 @@ import { is } from 'superstruct';
 
 import { updateElementProperty } from './actions/properties';
 import { showOrHideElement } from './actions/show';
-import { ATTRIBUTES } from './utils/constants';
+import { ATTRIBUTES, LOADER_PROPERTY } from './utils/constants';
 import { jsonFlagValueSchema } from './utils/json';
 import type { JSONFlagValue } from './utils/types';
 
@@ -84,4 +84,15 @@ const initJSON = (element: HTMLElement, { show, properties }: JSONFlagValue) => 
       updateElementProperty(element, key, properties[key]);
     }
   }
+};
+
+/**
+ * Hides loader element
+ * @param element
+ */
+export const hideLoader = (element: HTMLElement) => {
+  const rawElementValue = element.getAttribute(ATTRIBUTES.element.key);
+  if (rawElementValue !== LOADER_PROPERTY) return;
+
+  element.remove();
 };

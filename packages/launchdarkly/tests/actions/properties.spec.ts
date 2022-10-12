@@ -21,7 +21,7 @@ test.describe('Update Element Property', () => {
 
   test.describe('When flag is set', async () => {
     const titleText = 'abc';
-    const flags = `{testing: 'http://example2.svg', testing2: '${titleText}'}`;
+    let flags = `{testing: 'http://example2.svg', testing2: '${titleText}'}`;
     let selector: string;
 
     test('It updates src property and removes the srcset attribute', async ({ page }) => {
@@ -48,13 +48,52 @@ test.describe('Update Element Property', () => {
       await expect(src).toEqual(null);
     });
 
-    test('It sets the innerText of element when "setproperty" attribute is text', async ({ page }) => {
+    test('It sets the innerText of element when "setproperties" attribute is text', async ({ page }) => {
       selector = '[data-test-id="text1"]';
       await page.evaluate(`fsLaunchDarkly.initFlagElement(${selectElement(selector)}, ${flags})`);
 
       const locator = await page.locator('data-test-id=text1');
       const textContent = await locator.innerText();
       await expect(textContent).toEqual(titleText);
+    });
+
+    test('It sets the value of element when "setproperties" attribute is "value"', async ({ page }) => {
+      const value = '123';
+      flags = `{testing: '${value}'}`;
+      selector = '[data-test-id="input1"]';
+      await page.evaluate(`fsLaunchDarkly.initFlagElement(${selectElement(selector)}, ${flags})`);
+
+      const locator = await page.locator('data-test-id=input1');
+      const elementValue = await locator.inputValue();
+      await expect(elementValue).toEqual(value);
+    });
+
+    test('It includes the classname as part of classList when attribute is "classname"', async ({ page }) => {
+      const className = 'classname1';
+      flags = `{testing: '${className}'}`;
+      selector = '[data-test-id="test_classname"]';
+      await page.evaluate(`fsLaunchDarkly.initFlagElement(${selectElement(selector)}, ${flags})`);
+
+      const locator = await page.locator(selector);
+      await expect(locator).toHaveClass(className);
+    });
+  });
+
+  test.describe('When element is loader', () => {
+    test('It hides fs-launchdarkly-element with "loader" value', async ({ page }) => {
+      const selector = '[data-test-id="loader"]';
+      await page.evaluate(`fsLaunchDarkly.hideLoader(${selectElement(selector)})`);
+
+      const loader = await page.locator('[data-test-id="loader"]');
+      await expect(loader).not.toBeVisible();
+    });
+
+    test('It does not hide fs-launchdarkly-element with unsupported value', async ({ page }) => {
+      const selector = '[data-test-id="loader2"]';
+      await page.evaluate(`fsLaunchDarkly.hideLoader(${selectElement(selector)})`);
+
+      const loader = await page.locator('[data-test-id="loader2"]');
+      await expect(loader).toBeVisible();
     });
   });
 });

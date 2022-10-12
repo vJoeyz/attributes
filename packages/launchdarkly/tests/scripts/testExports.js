@@ -1,1 +1,517 @@
-"use strict";(()=>{var J=Object.defineProperty,W=Object.defineProperties;var Z=Object.getOwnPropertyDescriptors;var b=Object.getOwnPropertySymbols;var B=Object.prototype.hasOwnProperty,C=Object.prototype.propertyIsEnumerable;var k=(e,t,n)=>t in e?J(e,t,{enumerable:!0,configurable:!0,writable:!0,value:n}):e[t]=n,S=(e,t)=>{for(var n in t||(t={}))B.call(t,n)&&k(e,n,t[n]);if(b)for(var n of b(t))C.call(t,n)&&k(e,n,t[n]);return e},R=(e,t)=>W(e,Z(t));var M=(e,t)=>{var n={};for(var r in e)B.call(e,r)&&t.indexOf(r)<0&&(n[r]=e[r]);if(e!=null&&b)for(var r of b(e))t.indexOf(r)<0&&C.call(e,r)&&(n[r]=e[r]);return n};var L=(e,t)=>!!e&&t.includes(e);function A(e,t,n,r=!0){let o=n?[n]:[];if(!e)return o;let i=e.split(",").reduce((s,a)=>{let f=a.trim();return(!r||f)&&s.push(f),s},[]);if(t){let s=i.filter(a=>L(a,t));return s.length?s:o}return i}var I=class extends TypeError{constructor(t,n){let r,f=t,{message:o}=f,i=M(f,["message"]),{path:s}=t,a=s.length===0?o:`At path: ${s.join(".")} -- ${o}`;super(a),this.value=void 0,this.key=void 0,this.type=void 0,this.refinement=void 0,this.path=void 0,this.branch=void 0,this.failures=void 0,Object.assign(this,i),this.name=this.constructor.name,this.failures=()=>r!=null?r:r=[t,...n()]}};function Q(e){return d(e)&&typeof e[Symbol.iterator]=="function"}function d(e){return typeof e=="object"&&e!=null}function x(e){return typeof e=="string"?JSON.stringify(e):`${e}`}function ee(e){let{done:t,value:n}=e.next();return t?void 0:n}function te(e,t,n,r){if(e===!0)return;e===!1?e={}:typeof e=="string"&&(e={message:e});let{path:o,branch:i}=t,{type:s}=n,{refinement:a,message:f=`Expected a value of type \`${s}\`${a?` with refinement \`${a}\``:""}, but received: \`${x(r)}\``}=e;return R(S({value:r,type:s,refinement:a,key:o[o.length-1],path:o,branch:i},e),{message:f})}function*N(e,t,n,r){Q(e)||(e=[e]);for(let o of e){let i=te(o,t,n,r);i&&(yield i)}}function*V(e,t,n){n===void 0&&(n={});let{path:r=[],branch:o=[e],coerce:i=!1,mask:s=!1}=n,a={path:r,branch:o};if(i&&(e=t.coercer(e,a),s&&t.type!=="type"&&d(t.schema)&&d(e)&&!Array.isArray(e)))for(let c in e)t.schema[c]===void 0&&delete e[c];let f="valid";for(let c of t.validator(e,a))f="not_valid",yield[c,void 0];for(let[c,u,m]of t.entries(e,a)){let G=V(u,m,{path:c===void 0?r:[...r,c],branch:c===void 0?o:[...o,u],coerce:i,mask:s});for(let E of G)E[0]?(f=E[0].refinement!=null?"not_refined":"not_valid",yield[E[0],void 0]):i&&(u=E[1],c===void 0?e=u:e instanceof Map?e.set(c,u):e instanceof Set?e.add(u):d(e)&&u!==void 0&&(e[c]=u))}if(f!=="not_valid")for(let c of t.refiner(e,a))f="not_refined",yield[c,void 0];f==="valid"&&(yield[void 0,e])}var y=class{constructor(t){this.TYPE=void 0,this.type=void 0,this.schema=void 0,this.coercer=void 0,this.validator=void 0,this.refiner=void 0,this.entries=void 0;let{type:n,schema:r,validator:o,refiner:i,coercer:s=f=>f,entries:a=function*(){}}=t;this.type=n,this.schema=r,this.entries=a,this.coercer=s,o?this.validator=(f,c)=>{let u=o(f,c);return N(u,c,this,f)}:this.validator=()=>[],i?this.refiner=(f,c)=>{let u=i(f,c);return N(u,c,this,f)}:this.refiner=()=>[]}assert(t){return ne(t,this)}create(t){return re(t,this)}is(t){return _(t,this)}mask(t){return oe(t,this)}validate(t,n){return n===void 0&&(n={}),T(t,this,n)}};function ne(e,t){let n=T(e,t);if(n[0])throw n[0]}function re(e,t){let n=T(e,t,{coerce:!0});if(n[0])throw n[0];return n[1]}function oe(e,t){let n=T(e,t,{coerce:!0,mask:!0});if(n[0])throw n[0];return n[1]}function _(e,t){return!T(e,t)[0]}function T(e,t,n){n===void 0&&(n={});let r=V(e,t,n),o=ee(r);if(o[0])return[new I(o[0],function*(){for(let s of r)s[0]&&(yield s[0])}),void 0];{let i=o[1];return[void 0,i]}}function v(e,t){return new y({type:e,schema:null,validator:t})}function D(){return v("boolean",e=>typeof e=="boolean")}function j(e){return new y(R(S({},e),{validator:(t,n)=>t===void 0||e.validator(t,n),refiner:(t,n)=>t===void 0||e.refiner(t,n)}))}function K(e,t){return new y({type:"record",schema:null,*entries(n){if(d(n))for(let r in n){let o=n[r];yield[r,r,e],yield[r,o,t]}},validator(n){return d(n)||`Expected an object, but received: ${x(n)}`}})}function $(){return v("string",e=>typeof e=="string"||`Expected a string, but received: ${x(e)}`)}function F(e){let t=Object.keys(e);return new y({type:"type",schema:e,*entries(n){if(d(n))for(let r of t)yield[r,n[r],e[r]]},validator(n){return d(n)||`Expected an object, but received: ${x(n)}`}})}var H="launchdarkly";var Y=e=>{let t=(r,o,i)=>{let s=e[r],{key:a,values:f}=s,c;if(!o)return`[${a}]`;let u=f==null?void 0:f[o];typeof u=="string"?c=u:c=u(i&&"instanceIndex"in i?i.instanceIndex:void 0);let m=i&&"caseInsensitive"in i&&i.caseInsensitive?"i":"";if(!(i!=null&&i.operator))return`[${a}="${c}"${m}]`;switch(i.operator){case"prefixed":return`[${a}^="${c}"${m}]`;case"suffixed":return`[${a}$="${c}"${m}]`;case"contains":return`[${a}*="${c}"${m}]`}};function n(r,o){let i=t("element",r,o),s=(o==null?void 0:o.scope)||document;return o!=null&&o.all?s.querySelectorAll(i):s.querySelector(i)}return[t,n]};var l=`fs-${H}`,ie="devclientid",se="prodclientid",ce="eventstotrack",fe="flag",ae="showif",ue="setproperties",p={element:{key:`${l}-element`,values:{}},devClientId:{key:`${l}-${ie}`},prodClientId:{key:`${l}-${se}`},eventsToTrack:{key:`${l}-${ce}`},flag:{key:`${l}-${fe}`},showIf:{key:`${l}-${ae}`},setProperties:{key:`${l}-${ue}`}},[Ie,_e]=Y(p),z="text",h="src",g="srcset",O="sizes";var P=(e,t,n)=>{var o;let r=Array.isArray(t)?t:[t];for(let i of r)(o=w[i])==null||o.call(w,e,n)},w={[z]:(e,t)=>{e.innerText=String(t)},[h]:(e,t)=>{e.setAttribute(h,String(t)),e.removeAttribute(g)},[g]:(e,t)=>{e.setAttribute(g,String(t)),e.removeAttribute(h)},[O]:(e,t)=>{e.setAttribute(O,String(t))}};var U=(e,t)=>{if(t){e.removeAttribute(p.showIf.key);return}e.remove()};var q=F({show:j(D()),properties:K($(),$())});var X=(e,t)=>{let n=e.getAttribute(p.flag.key);if(!n)return;let r=t[n],o=e.getAttribute(p.showIf.key),i=e.getAttribute(p.setProperties.key);if(_(r,q)){pe(e,r);return}let s=typeof r=="string"||typeof r=="number"||typeof r=="boolean"?String(r):void 0;o&&de(e,o,s),i&&s&&le(e,i,s)},de=(e,t,n)=>{let r=A(t),o=!!n&&r.includes(n);U(e,o)},le=(e,t,n)=>{let r=A(t);P(e,r,n)},pe=(e,{show:t,properties:n})=>{if(typeof t=="boolean"&&U(e,t),n)for(let r in n)P(e,r,n[r])};window.fsLaunchDarkly={initFlagElement:X};})();
+"use strict";
+(() => {
+  // ../../node_modules/.pnpm/@finsweet+ts-utils@0.33.2/node_modules/@finsweet/ts-utils/dist/type-guards/isKeyOf.js
+  var isKeyOf = (key, source) => !!key && source.includes(key);
+
+  // ../../node_modules/.pnpm/@finsweet+ts-utils@0.33.2/node_modules/@finsweet/ts-utils/dist/helpers/extractCommaSeparatedValues.js
+  function extractCommaSeparatedValues(string2, compareSource, defaultValue, filterEmpty = true) {
+    const emptyValue = defaultValue ? [defaultValue] : [];
+    if (!string2)
+      return emptyValue;
+    const items = string2.split(",").reduce((accumulatedValue, currentValue) => {
+      const value = currentValue.trim();
+      if (!filterEmpty || value)
+        accumulatedValue.push(value);
+      return accumulatedValue;
+    }, []);
+    if (compareSource) {
+      const matches = items.filter((item) => isKeyOf(item, compareSource));
+      return matches.length ? matches : emptyValue;
+    }
+    return items;
+  }
+
+  // ../../node_modules/.pnpm/superstruct@0.16.5/node_modules/superstruct/lib/index.mjs
+  var StructError = class extends TypeError {
+    constructor(failure, failures) {
+      let cached;
+      const {
+        message,
+        ...rest
+      } = failure;
+      const {
+        path
+      } = failure;
+      const msg = path.length === 0 ? message : `At path: ${path.join(".")} -- ${message}`;
+      super(msg);
+      this.value = void 0;
+      this.key = void 0;
+      this.type = void 0;
+      this.refinement = void 0;
+      this.path = void 0;
+      this.branch = void 0;
+      this.failures = void 0;
+      Object.assign(this, rest);
+      this.name = this.constructor.name;
+      this.failures = () => {
+        return cached ?? (cached = [failure, ...failures()]);
+      };
+    }
+  };
+  function isIterable(x) {
+    return isObject(x) && typeof x[Symbol.iterator] === "function";
+  }
+  function isObject(x) {
+    return typeof x === "object" && x != null;
+  }
+  function print(value) {
+    return typeof value === "string" ? JSON.stringify(value) : `${value}`;
+  }
+  function shiftIterator(input) {
+    const {
+      done,
+      value
+    } = input.next();
+    return done ? void 0 : value;
+  }
+  function toFailure(result, context, struct, value) {
+    if (result === true) {
+      return;
+    } else if (result === false) {
+      result = {};
+    } else if (typeof result === "string") {
+      result = {
+        message: result
+      };
+    }
+    const {
+      path,
+      branch
+    } = context;
+    const {
+      type: type2
+    } = struct;
+    const {
+      refinement,
+      message = `Expected a value of type \`${type2}\`${refinement ? ` with refinement \`${refinement}\`` : ""}, but received: \`${print(value)}\``
+    } = result;
+    return {
+      value,
+      type: type2,
+      refinement,
+      key: path[path.length - 1],
+      path,
+      branch,
+      ...result,
+      message
+    };
+  }
+  function* toFailures(result, context, struct, value) {
+    if (!isIterable(result)) {
+      result = [result];
+    }
+    for (const r of result) {
+      const failure = toFailure(r, context, struct, value);
+      if (failure) {
+        yield failure;
+      }
+    }
+  }
+  function* run(value, struct, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    const {
+      path = [],
+      branch = [value],
+      coerce = false,
+      mask: mask2 = false
+    } = options;
+    const ctx = {
+      path,
+      branch
+    };
+    if (coerce) {
+      value = struct.coercer(value, ctx);
+      if (mask2 && struct.type !== "type" && isObject(struct.schema) && isObject(value) && !Array.isArray(value)) {
+        for (const key in value) {
+          if (struct.schema[key] === void 0) {
+            delete value[key];
+          }
+        }
+      }
+    }
+    let status = "valid";
+    for (const failure of struct.validator(value, ctx)) {
+      status = "not_valid";
+      yield [failure, void 0];
+    }
+    for (let [k, v, s] of struct.entries(value, ctx)) {
+      const ts = run(v, s, {
+        path: k === void 0 ? path : [...path, k],
+        branch: k === void 0 ? branch : [...branch, v],
+        coerce,
+        mask: mask2
+      });
+      for (const t of ts) {
+        if (t[0]) {
+          status = t[0].refinement != null ? "not_refined" : "not_valid";
+          yield [t[0], void 0];
+        } else if (coerce) {
+          v = t[1];
+          if (k === void 0) {
+            value = v;
+          } else if (value instanceof Map) {
+            value.set(k, v);
+          } else if (value instanceof Set) {
+            value.add(v);
+          } else if (isObject(value)) {
+            if (v !== void 0)
+              value[k] = v;
+          }
+        }
+      }
+    }
+    if (status !== "not_valid") {
+      for (const failure of struct.refiner(value, ctx)) {
+        status = "not_refined";
+        yield [failure, void 0];
+      }
+    }
+    if (status === "valid") {
+      yield [void 0, value];
+    }
+  }
+  var Struct = class {
+    constructor(props) {
+      this.TYPE = void 0;
+      this.type = void 0;
+      this.schema = void 0;
+      this.coercer = void 0;
+      this.validator = void 0;
+      this.refiner = void 0;
+      this.entries = void 0;
+      const {
+        type: type2,
+        schema,
+        validator,
+        refiner,
+        coercer = (value) => value,
+        entries = function* () {
+        }
+      } = props;
+      this.type = type2;
+      this.schema = schema;
+      this.entries = entries;
+      this.coercer = coercer;
+      if (validator) {
+        this.validator = (value, context) => {
+          const result = validator(value, context);
+          return toFailures(result, context, this, value);
+        };
+      } else {
+        this.validator = () => [];
+      }
+      if (refiner) {
+        this.refiner = (value, context) => {
+          const result = refiner(value, context);
+          return toFailures(result, context, this, value);
+        };
+      } else {
+        this.refiner = () => [];
+      }
+    }
+    assert(value) {
+      return assert(value, this);
+    }
+    create(value) {
+      return create(value, this);
+    }
+    is(value) {
+      return is(value, this);
+    }
+    mask(value) {
+      return mask(value, this);
+    }
+    validate(value, options) {
+      if (options === void 0) {
+        options = {};
+      }
+      return validate(value, this, options);
+    }
+  };
+  function assert(value, struct) {
+    const result = validate(value, struct);
+    if (result[0]) {
+      throw result[0];
+    }
+  }
+  function create(value, struct) {
+    const result = validate(value, struct, {
+      coerce: true
+    });
+    if (result[0]) {
+      throw result[0];
+    } else {
+      return result[1];
+    }
+  }
+  function mask(value, struct) {
+    const result = validate(value, struct, {
+      coerce: true,
+      mask: true
+    });
+    if (result[0]) {
+      throw result[0];
+    } else {
+      return result[1];
+    }
+  }
+  function is(value, struct) {
+    const result = validate(value, struct);
+    return !result[0];
+  }
+  function validate(value, struct, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    const tuples = run(value, struct, options);
+    const tuple = shiftIterator(tuples);
+    if (tuple[0]) {
+      const error = new StructError(tuple[0], function* () {
+        for (const t of tuples) {
+          if (t[0]) {
+            yield t[0];
+          }
+        }
+      });
+      return [error, void 0];
+    } else {
+      const v = tuple[1];
+      return [void 0, v];
+    }
+  }
+  function define(name, validator) {
+    return new Struct({
+      type: name,
+      schema: null,
+      validator
+    });
+  }
+  function boolean() {
+    return define("boolean", (value) => {
+      return typeof value === "boolean";
+    });
+  }
+  function optional(struct) {
+    return new Struct({
+      ...struct,
+      validator: (value, ctx) => value === void 0 || struct.validator(value, ctx),
+      refiner: (value, ctx) => value === void 0 || struct.refiner(value, ctx)
+    });
+  }
+  function record(Key, Value) {
+    return new Struct({
+      type: "record",
+      schema: null,
+      *entries(value) {
+        if (isObject(value)) {
+          for (const k in value) {
+            const v = value[k];
+            yield [k, k, Key];
+            yield [k, v, Value];
+          }
+        }
+      },
+      validator(value) {
+        return isObject(value) || `Expected an object, but received: ${print(value)}`;
+      }
+    });
+  }
+  function string() {
+    return define("string", (value) => {
+      return typeof value === "string" || `Expected a string, but received: ${print(value)}`;
+    });
+  }
+  function type(schema) {
+    const keys = Object.keys(schema);
+    return new Struct({
+      type: "type",
+      schema,
+      *entries(value) {
+        if (isObject(value)) {
+          for (const k of keys) {
+            yield [k, value[k], schema[k]];
+          }
+        }
+      },
+      validator(value) {
+        return isObject(value) || `Expected an object, but received: ${print(value)}`;
+      }
+    });
+  }
+
+  // ../../global/constants/attributes.ts
+  var LAUNCHDARKLY_ATTRIBUTE = "launchdarkly";
+
+  // ../../global/factory/selectors.ts
+  var generateSelectors = (attributes) => {
+    const getSelector2 = (name, valueKey, params) => {
+      const attribute = attributes[name];
+      const { key: attributeKey, values } = attribute;
+      let attributeValue;
+      if (!valueKey)
+        return `[${attributeKey}]`;
+      const value = values?.[valueKey];
+      if (typeof value === "string")
+        attributeValue = value;
+      else
+        attributeValue = value(params && "instanceIndex" in params ? params.instanceIndex : void 0);
+      const caseInsensitive = params && "caseInsensitive" in params && params.caseInsensitive ? "i" : "";
+      if (!params?.operator)
+        return `[${attributeKey}="${attributeValue}"${caseInsensitive}]`;
+      switch (params.operator) {
+        case "prefixed":
+          return `[${attributeKey}^="${attributeValue}"${caseInsensitive}]`;
+        case "suffixed":
+          return `[${attributeKey}$="${attributeValue}"${caseInsensitive}]`;
+        case "contains":
+          return `[${attributeKey}*="${attributeValue}"${caseInsensitive}]`;
+      }
+    };
+    function queryElement2(elementKey, params) {
+      const selector = getSelector2("element", elementKey, params);
+      const scope = params?.scope || document;
+      return params?.all ? scope.querySelectorAll(selector) : scope.querySelector(selector);
+    }
+    return [getSelector2, queryElement2];
+  };
+
+  // src/utils/constants.ts
+  var ATTRIBUTES_PREFIX = `fs-${LAUNCHDARKLY_ATTRIBUTE}`;
+  var DEV_CLIENT_ID = `devclientid`;
+  var PROD_CLIENT_ID = `prodclientid`;
+  var EVENTS_TO_TRACK = `eventstotrack`;
+  var FLAG = `flag`;
+  var SHOW_IF = `showif`;
+  var SET_PROPERTIES = `setproperties`;
+  var ATTRIBUTES = {
+    element: {
+      key: `${ATTRIBUTES_PREFIX}-element`
+    },
+    devClientId: {
+      key: `${ATTRIBUTES_PREFIX}-${DEV_CLIENT_ID}`
+    },
+    prodClientId: {
+      key: `${ATTRIBUTES_PREFIX}-${PROD_CLIENT_ID}`
+    },
+    eventsToTrack: {
+      key: `${ATTRIBUTES_PREFIX}-${EVENTS_TO_TRACK}`
+    },
+    flag: {
+      key: `${ATTRIBUTES_PREFIX}-${FLAG}`
+    },
+    showIf: {
+      key: `${ATTRIBUTES_PREFIX}-${SHOW_IF}`
+    },
+    setProperties: {
+      key: `${ATTRIBUTES_PREFIX}-${SET_PROPERTIES}`
+    }
+  };
+  var [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
+  var TEXT_PROPERTY = `text`;
+  var SRC_PROPERTY = `src`;
+  var SRCSET_PROPERTY = `srcset`;
+  var SIZES_PROPERTY = `sizes`;
+  var VALUE_PROPERTY = `value`;
+  var LOADER_PROPERTY = `loader`;
+  var CLASSNAME_PROPERTY = `classname`;
+
+  // src/actions/properties.ts
+  var updateElementProperty = (element, properties, value) => {
+    const propertiesToUpdate = Array.isArray(properties) ? properties : [properties];
+    for (const property of propertiesToUpdate) {
+      propertyActions[property]?.(element, value);
+    }
+  };
+  var propertyActions = {
+    [TEXT_PROPERTY]: (element, value) => {
+      element.innerText = String(value);
+    },
+    [SRC_PROPERTY]: (element, value) => {
+      element.setAttribute(SRC_PROPERTY, String(value));
+      element.removeAttribute(SRCSET_PROPERTY);
+    },
+    [SRCSET_PROPERTY]: (element, value) => {
+      element.setAttribute(SRCSET_PROPERTY, String(value));
+      element.removeAttribute(SRC_PROPERTY);
+    },
+    [SIZES_PROPERTY]: (element, value) => {
+      element.setAttribute(SIZES_PROPERTY, String(value));
+    },
+    [VALUE_PROPERTY]: (element, value) => {
+      element.setAttribute(VALUE_PROPERTY, String(value));
+    },
+    [CLASSNAME_PROPERTY]: (element, value) => {
+      element.classList.add(String(value));
+    }
+  };
+
+  // src/actions/show.ts
+  var showOrHideElement = (element, show) => {
+    if (show) {
+      element.removeAttribute(ATTRIBUTES.showIf.key);
+      return;
+    }
+    element.remove();
+  };
+
+  // src/utils/json.ts
+  var jsonFlagValueSchema = type({
+    show: optional(boolean()),
+    properties: record(string(), string())
+  });
+
+  // src/factory.ts
+  var initFlagElement = (element, flags) => {
+    const flagName = element.getAttribute(ATTRIBUTES.flag.key);
+    if (!flagName)
+      return;
+    const rawFlagValue = flags[flagName];
+    const rawShowIf = element.getAttribute(ATTRIBUTES.showIf.key);
+    const rawSetProperties = element.getAttribute(ATTRIBUTES.setProperties.key);
+    if (is(rawFlagValue, jsonFlagValueSchema)) {
+      initJSON(element, rawFlagValue);
+      return;
+    }
+    const flagValue = typeof rawFlagValue === "string" || typeof rawFlagValue === "number" || typeof rawFlagValue === "boolean" ? String(rawFlagValue) : void 0;
+    if (rawShowIf) {
+      initShowIf(element, rawShowIf, flagValue);
+    }
+    if (rawSetProperties && flagValue) {
+      initSetProperties(element, rawSetProperties, flagValue);
+    }
+  };
+  var initShowIf = (element, rawShowIf, flagValue) => {
+    const showConditions = extractCommaSeparatedValues(rawShowIf);
+    const show = !!flagValue && showConditions.includes(flagValue);
+    showOrHideElement(element, show);
+  };
+  var initSetProperties = (element, rawSetProperties, flagValue) => {
+    const properties = extractCommaSeparatedValues(rawSetProperties);
+    updateElementProperty(element, properties, flagValue);
+  };
+  var initJSON = (element, { show, properties }) => {
+    if (typeof show === "boolean") {
+      showOrHideElement(element, show);
+    }
+    if (properties) {
+      for (const key in properties) {
+        updateElementProperty(element, key, properties[key]);
+      }
+    }
+  };
+  var hideLoader = (element) => {
+    const rawElementValue = element.getAttribute(ATTRIBUTES.element.key);
+    if (rawElementValue !== LOADER_PROPERTY)
+      return;
+    element.remove();
+  };
+
+  // src/testExports.ts
+  window.fsLaunchDarkly = {
+    initFlagElement,
+    hideLoader
+  };
+})();
+//# sourceMappingURL=testExports.js.map

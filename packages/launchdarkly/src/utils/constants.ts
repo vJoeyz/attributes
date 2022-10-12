@@ -13,7 +13,6 @@ export const SET_PROPERTIES = `setproperties`;
 export const ATTRIBUTES = {
   element: {
     key: `${ATTRIBUTES_PREFIX}-element`,
-    values: {},
   },
 
   /**
@@ -50,4 +49,6 @@ export const TEXT_PROPERTY = `text`;
 export const SRC_PROPERTY = `src`;
 export const SRCSET_PROPERTY = `srcset`;
 export const SIZES_PROPERTY = `sizes`;
-export const JSON_PROPERTY = `json`;
+export const VALUE_PROPERTY = `value`;
+export const LOADER_PROPERTY = `loader`;
+export const CLASSNAME_PROPERTY = `classname`;

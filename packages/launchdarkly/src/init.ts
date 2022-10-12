@@ -4,7 +4,7 @@ import type { LDClient } from 'launchdarkly-js-client-sdk';
 
 import type { LaunchDarklyAttributes } from '../src/utils/types';
 import { initializeClient } from './actions/client';
-import { initFlagElement } from './factory';
+import { hideLoader, initFlagElement } from './factory';
 import { getSelector } from './utils/constants';
 
 /**
@@ -30,6 +30,11 @@ export const init = async ({ devClientId, prodClientId, eventsToTrack }: LaunchD
 
   for (const element of allFlagElements) {
     initFlagElement(element, flags);
+  }
+
+  const allElements = document.querySelectorAll<HTMLElement>(getSelector('element'));
+  for (const element of allElements) {
+    hideLoader(element);
   }
 
   window.fsAttributes[LAUNCHDARKLY_ATTRIBUTE].resolve?.(client);

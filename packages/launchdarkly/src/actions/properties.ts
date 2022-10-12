@@ -1,4 +1,11 @@
-import { SRC_PROPERTY, SRCSET_PROPERTY, SIZES_PROPERTY, TEXT_PROPERTY } from '../utils/constants';
+import {
+  SRC_PROPERTY,
+  SRCSET_PROPERTY,
+  SIZES_PROPERTY,
+  TEXT_PROPERTY,
+  VALUE_PROPERTY,
+  CLASSNAME_PROPERTY,
+} from '../utils/constants';
 
 /**
  * Updates an element's properties with a value.
@@ -34,5 +41,13 @@ const propertyActions: Record<string, (element: HTMLElement, value: string) => v
 
   [SIZES_PROPERTY]: (element: HTMLElement, value: string) => {
     element.setAttribute(SIZES_PROPERTY, String(value));
+  },
+
+  [VALUE_PROPERTY]: (element: HTMLElement, value: string) => {
+    element.setAttribute(VALUE_PROPERTY, String(value));
+  },
+
+  [CLASSNAME_PROPERTY]: (element: HTMLElement, value: string) => {
+    element.classList.add(String(value));
   },
 };
