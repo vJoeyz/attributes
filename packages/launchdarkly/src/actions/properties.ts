@@ -4,7 +4,7 @@ import {
   SIZES_PROPERTY,
   TEXT_PROPERTY,
   VALUE_PROPERTY,
-  CLASSNAME_PROPERTY,
+  CLASS_PROPERTY,
 } from '../utils/constants';
 
 /**
@@ -47,7 +47,7 @@ const propertyActions: Record<string, (element: HTMLElement, value: string) => v
     element.setAttribute(VALUE_PROPERTY, String(value));
   },
 
-  [CLASSNAME_PROPERTY]: (element: HTMLElement, value: string) => {
+  [CLASS_PROPERTY]: (element: HTMLElement, value: string) => {
     element.classList.add(String(value));
   },
 };

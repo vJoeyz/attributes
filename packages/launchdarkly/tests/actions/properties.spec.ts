@@ -11,7 +11,7 @@ test.describe('Update Element Property', () => {
     test('It does not update the property', async ({ page }) => {
       const flags = `{}`;
       const selector = '[data-test-id="image1"]';
-      await page.evaluate(`fsLaunchDarkly.initFlagElement(${selectElement(selector)}, ${flags})`);
+      await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
       const locator = await page.locator(selector);
       const src = await locator.getAttribute('src');
@@ -26,7 +26,7 @@ test.describe('Update Element Property', () => {
 
     test('It updates src property and removes the srcset attribute', async ({ page }) => {
       selector = '[data-test-id="image1"]';
-      await page.evaluate(`fsLaunchDarkly.initFlagElement(${selectElement(selector)}, ${flags})`);
+      await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
       const locator = await page.locator(selector);
       const src = await locator.getAttribute('src');
@@ -38,7 +38,7 @@ test.describe('Update Element Property', () => {
 
     test('It updates srcset property and removes the src attribute', async ({ page }) => {
       selector = '[data-test-id="image2"]';
-      await page.evaluate(`fsLaunchDarkly.initFlagElement(${selectElement(selector)}, ${flags})`);
+      await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
       const locator = await page.locator(selector);
       const srcset = await locator.getAttribute('srcset');
@@ -50,7 +50,7 @@ test.describe('Update Element Property', () => {
 
     test('It sets the innerText of element when "setproperties" attribute is text', async ({ page }) => {
       selector = '[data-test-id="text1"]';
-      await page.evaluate(`fsLaunchDarkly.initFlagElement(${selectElement(selector)}, ${flags})`);
+      await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
       const locator = await page.locator('data-test-id=text1');
       const textContent = await locator.innerText();
@@ -61,7 +61,7 @@ test.describe('Update Element Property', () => {
       const value = '123';
       flags = `{testing: '${value}'}`;
       selector = '[data-test-id="input1"]';
-      await page.evaluate(`fsLaunchDarkly.initFlagElement(${selectElement(selector)}, ${flags})`);
+      await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
       const locator = await page.locator('data-test-id=input1');
       const elementValue = await locator.inputValue();
@@ -72,7 +72,7 @@ test.describe('Update Element Property', () => {
       const className = 'classname1';
       flags = `{testing: '${className}'}`;
       selector = '[data-test-id="test_classname"]';
-      await page.evaluate(`fsLaunchDarkly.initFlagElement(${selectElement(selector)}, ${flags})`);
+      await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
       const locator = await page.locator(selector);
       await expect(locator).toHaveClass(className);
@@ -81,16 +81,14 @@ test.describe('Update Element Property', () => {
 
   test.describe('When element is loader', () => {
     test('It hides fs-launchdarkly-element with "loader" value', async ({ page }) => {
-      const selector = '[data-test-id="loader"]';
-      await page.evaluate(`fsLaunchDarkly.hideLoader(${selectElement(selector)})`);
+      await page.evaluate(`fsLaunchDarkly.hideLoaders()`);
 
       const loader = await page.locator('[data-test-id="loader"]');
       await expect(loader).not.toBeVisible();
     });
 
     test('It does not hide fs-launchdarkly-element with unsupported value', async ({ page }) => {
-      const selector = '[data-test-id="loader2"]';
-      await page.evaluate(`fsLaunchDarkly.hideLoader(${selectElement(selector)})`);
+      await page.evaluate(`fsLaunchDarkly.hideLoaders()`);
 
       const loader = await page.locator('[data-test-id="loader2"]');
       await expect(loader).toBeVisible();

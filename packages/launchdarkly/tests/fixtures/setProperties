@@ -14,7 +14,7 @@
 <div>
     <h1 data-test-id="loader" fs-launchdarkly-element="loader" >Test</h1>
     <h1 data-test-id="loader2" fs-launchdarkly-element="random" >Test</h1>
-    <img data-test-id="test_classname" fs-launchdarkly-setproperties="classname" fs-launchdarkly-flag="testing" ></img>
+    <img data-test-id="test_classname" fs-launchdarkly-setproperties="class" fs-launchdarkly-flag="testing" ></img>
     <img data-test-id="image1" srcset="1234" src="http://example.svg" fs-launchdarkly-setproperties="src"  fs-launchdarkly-flag="testing">LaunchDarkly Test</h1>
     <img data-test-id="image2" srcset="1234" src="http://example.svg" fs-launchdarkly-setproperties="srcset"  fs-launchdarkly-flag="testing">LaunchDarkly Test</h1>
     <p data-test-id="text1" fs-launchdarkly-setproperties="text"  fs-launchdarkly-flag="testing2">LaunchDarkly Test</p>
