@@ -6,7 +6,7 @@ const selectElement = (selector: string) => `document.querySelector('${selector}
 
 async function itBehavesLikeNoPropertyIsSet(page: Page, flags: LDFlagValue) {
   const selector = '[data-test-id="image1"]';
-  await page.evaluate(`fsLaunchDarkly.initFlagElement(${selectElement(selector)}, ${flags})`);
+  await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
   const locator = await page.locator(selector);
   const src = await locator.getAttribute('src');
@@ -21,7 +21,7 @@ async function itBehavesLikeNoPropertyIsSet(page: Page, flags: LDFlagValue) {
 
 async function itBehavesLikePropertiesAreSet(page: Page, flags: string, srcsetValue: string, sizesValue: string) {
   const selector = '[data-test-id="image1"]';
-  await page.evaluate(`fsLaunchDarkly.initFlagElement(${selectElement(selector)}, ${flags})`);
+  await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
   const locator = await page.locator(selector);
   const src = await locator.getAttribute('src');
@@ -59,7 +59,7 @@ test.describe('Update Element Properties', () => {
       const sizesValue = '100vw';
       const flags = `{testing: { show:false, properties: { srcset: '${srcsetValue}', sizes: '${sizesValue}' } } }`;
       const selector = '[data-test-id="image1"]';
-      await page.evaluate(`fsLaunchDarkly.initFlagElement(${selectElement(selector)}, ${flags})`);
+      await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
       const locator = await page.locator(selector);
       await expect(locator).not.toBeVisible();
@@ -80,7 +80,7 @@ test.describe('Update Element Properties', () => {
       const flags = `{testing: {show: false, properties:{}} }`;
 
       const selector = '[data-test-id="image1"]';
-      await page.evaluate(`fsLaunchDarkly.initFlagElement(${selectElement(selector)}, ${flags})`);
+      await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
       const locator = await page.locator(selector);
       await expect(locator).not.toBeVisible();

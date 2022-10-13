@@ -1,16 +1,19 @@
 /**
  * This script is only available in test environment
  */
-import { initFlagElement } from './factory';
+import { hideLoaders } from './actions/loaders';
+import { initFlags } from './factory';
 
 declare global {
   interface Window {
     fsLaunchDarkly: {
-      initFlagElement: typeof initFlagElement;
+      initFlags: typeof initFlags;
+      hideLoaders: typeof hideLoaders;
     };
   }
 }
 
 window.fsLaunchDarkly = {
-  initFlagElement,
+  initFlags,
+  hideLoaders,
 };

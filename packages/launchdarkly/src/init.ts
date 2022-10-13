@@ -1,36 +1,26 @@
-import { extractCommaSeparatedValues } from '@finsweet/ts-utils';
 import { LAUNCHDARKLY_ATTRIBUTE } from 'global/constants/attributes';
 import type { LDClient } from 'launchdarkly-js-client-sdk';
 
 import type { LaunchDarklyAttributes } from '../src/utils/types';
 import { initializeClient } from './actions/client';
-import { initFlagElement } from './factory';
-import { getSelector } from './utils/constants';
+import { hideLoaders } from './actions/loaders';
+import { initFlags } from './factory';
+import { IS_STAGING } from './utils/constants';
 
 /**
  * Inits the attribute.
  */
 export const init = async ({ devClientId, prodClientId, eventsToTrack }: LaunchDarklyAttributes): Promise<LDClient> => {
-  const devEnvironment = window.location.origin.includes('webflow.io');
-
-  const clientId = devEnvironment ? devClientId || prodClientId : prodClientId || devClientId;
+  const clientId = IS_STAGING ? devClientId || prodClientId : prodClientId || devClientId;
   if (!clientId) {
     throw new Error('Client ID is required');
   }
 
-  const client = await initializeClient(clientId);
-
-  if (eventsToTrack) {
-    const events = Array.isArray(eventsToTrack) ? eventsToTrack : extractCommaSeparatedValues(eventsToTrack);
-    events.forEach((event) => client.track(event));
-  }
-
-  const allFlagElements = document.querySelectorAll<HTMLElement>(getSelector('flag'));
+  const client = await initializeClient(clientId, eventsToTrack);
   const flags = client.allFlags();
 
-  for (const element of allFlagElements) {
-    initFlagElement(element, flags);
-  }
+  initFlags(flags);
+  hideLoaders();
 
   window.fsAttributes[LAUNCHDARKLY_ATTRIBUTE].resolve?.(client);
   return client;

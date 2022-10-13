@@ -3,17 +3,30 @@ import type { LDFlagSet } from 'launchdarkly-js-client-sdk';
 import { is } from 'superstruct';
 
 import { updateElementProperty } from './actions/properties';
-import { showOrHideElement } from './actions/show';
-import { ATTRIBUTES } from './utils/constants';
-import { jsonFlagValueSchema } from './utils/json';
+import { ATTRIBUTES, getSelector, jsonFlagValueSchema } from './utils/constants';
 import type { JSONFlagValue } from './utils/types';
+
+/**
+ * Inits all flag elements.
+ * Once finished, it removes the `fs-launchdarkly-cloak` of the elements.
+ * @param flags
+ */
+export const initFlags = (flags: LDFlagSet) => {
+  const allFlagElements = document.querySelectorAll<HTMLElement>(getSelector('flag'));
+
+  for (const element of allFlagElements) {
+    initFlagElement(element, flags);
+
+    element.removeAttribute(ATTRIBUTES.cloak.key);
+  }
+};
 
 /**
  * Inits a flag element.
  * @param element
  * @param flags
  */
-export const initFlagElement = (element: HTMLElement, flags: LDFlagSet) => {
+const initFlagElement = (element: HTMLElement, flags: LDFlagSet) => {
   const flagName = element.getAttribute(ATTRIBUTES.flag.key);
   if (!flagName) return;
 
@@ -55,7 +68,9 @@ const initShowIf = (element: HTMLElement, rawShowIf: string, flagValue?: string)
   const showConditions = extractCommaSeparatedValues(rawShowIf);
   const show = !!flagValue && showConditions.includes(flagValue);
 
-  showOrHideElement(element, show);
+  if (!show) {
+    element.remove();
+  }
 };
 
 /**
@@ -75,8 +90,8 @@ const initSetProperties = (element: HTMLElement, rawSetProperties: string, flagV
  * @param jsonValue
  */
 const initJSON = (element: HTMLElement, { show, properties }: JSONFlagValue) => {
-  if (typeof show === 'boolean') {
-    showOrHideElement(element, show);
+  if (show === false) {
+    element.remove();
   }
 
   if (properties) {

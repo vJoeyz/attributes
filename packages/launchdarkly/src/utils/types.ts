@@ -1,6 +1,6 @@
 import type { Infer } from 'superstruct';
 
-import type { jsonFlagValueSchema } from './json';
+import type { jsonFlagValueSchema } from './constants';
 
 export interface LaunchDarklyAttributes {
   devClientId: string | null | undefined;

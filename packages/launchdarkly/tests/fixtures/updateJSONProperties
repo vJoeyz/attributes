@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title></title>
     <style>
-        [fs-launchdarkly-showif] {
+        [fs-launchdarkly-cloak] {
             display: none;
         }
     </style>
@@ -12,7 +12,7 @@
 </head>
 <body>
 <div>
-    <img data-test-id="image1" src="http://example.svg"  fs-launchdarkly-flag="testing">LaunchDarkly Test</h1>
+    <img data-test-id="image1" src="http://example.svg"  fs-launchdarkly-flag="testing" fs-launchdarkly-cloak>LaunchDarkly Test</h1>
 </div>
 </body>
 </html>
