@@ -1,5 +1,11 @@
 # @finsweet/attributes-rangeslider
 
+## 1.7.2
+
+### Patch Changes
+
+- dea2fbf0: Added navigator language as explicit param on `toLocaleString` when using `formatValueDisplay` option
+
 ## 1.7.1
 
 ### Patch Changes
