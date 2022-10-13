@@ -1,5 +1,11 @@
 # @finsweet/attributes-launchdarkly
 
+## 0.0.3
+
+### Patch Changes
+
+- 1c656af6: Add cloack attributes support
+
 ## 0.0.2
 
 ### Patch Changes
