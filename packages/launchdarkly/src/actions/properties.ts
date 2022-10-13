@@ -31,7 +31,7 @@ const propertyActions: Record<string, (element: HTMLElement, value: string) => v
   },
 
   [SRC_PROPERTY]: (element: HTMLElement, value: string) => {
-    const iframe = element.getElementsByTagName('iframe')?.[0];
+    const iframe = element.querySelector('iframe');
     if (iframe) {
       iframe.src = String(value);
       return;
@@ -51,7 +51,9 @@ const propertyActions: Record<string, (element: HTMLElement, value: string) => v
   },
 
   [VALUE_PROPERTY]: (element: HTMLElement, value: string) => {
-    (element as HTMLInputElement).value = String(value);
+    if (supportsValueProperty(element)) {
+      (element as HTMLInputElement | HTMLButtonElement | HTMLSelectElement | HTMLTextAreaElement).value = String(value);
+    }
   },
 
   [CLASS_PROPERTY]: (element: HTMLElement, value: string) => {
@@ -61,4 +63,13 @@ const propertyActions: Record<string, (element: HTMLElement, value: string) => v
   [HTML_PROPERTY]: (element: HTMLElement, value: string) => {
     element.innerHTML = String(value);
   },
+};
+
+const supportsValueProperty = (element: HTMLElement): boolean => {
+  return (
+    element instanceof HTMLInputElement ||
+    element instanceof HTMLButtonElement ||
+    element instanceof HTMLSelectElement ||
+    element instanceof HTMLTextAreaElement
+  );
 };

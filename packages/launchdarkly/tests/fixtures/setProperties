@@ -22,6 +22,13 @@
     <img data-test-id="image2" srcset="1234" src="http://example.svg" fs-launchdarkly-setproperties="srcset"  fs-launchdarkly-flag="testing">LaunchDarkly Test</h1>
     <p data-test-id="text1" fs-launchdarkly-setproperties="text"  fs-launchdarkly-flag="testing2">LaunchDarkly Test</p>
     <input data-test-id="input1" type="number" fs-launchdarkly-setproperties="value"  fs-launchdarkly-flag="testing" />
+    <button data-test-id="button1"  fs-launchdarkly-setproperties="value"  fs-launchdarkly-flag="testing" ></button>
+    <select data-test-id="select1"  fs-launchdarkly-setproperties="value"  fs-launchdarkly-flag="testing" >
+    <option value="1">1</option>
+    <option value="123">123</option>
+    </select>
+    <textarea data-test-id="textarea1"  fs-launchdarkly-setproperties="value"  fs-launchdarkly-flag="testing" >
+    </textarea>
 </div>
 </body>
 </html>

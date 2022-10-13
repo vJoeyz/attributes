@@ -1,7 +1,5 @@
 import { test, expect } from '@playwright/test';
 
-const selectElement = (selector: string) => `document.querySelector('${selector}')`;
-
 test.describe('Update Element Property', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('tests/fixtures/setProperties');
@@ -71,10 +69,19 @@ test.describe('Update Element Property', () => {
       flags = `{testing: '${value}'}`;
       selector = '[data-test-id="input1"]';
       await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
+      const selectorTestIds = ['input1', 'select1', 'textarea1'];
 
-      const locator = await page.locator('data-test-id=input1');
-      const elementValue = await locator.inputValue();
-      await expect(elementValue).toEqual(value);
+      let elementValue;
+      for (const selectorTestId of selectorTestIds) {
+        const locator = await page.locator(`[data-test-id="${selectorTestId}"]`);
+        elementValue = await locator.inputValue();
+        await expect(elementValue).toEqual('123');
+      }
+
+      // handle for button
+      const locator = await page.locator(`[data-test-id="button1"]`);
+      elementValue = await locator.getAttribute('value');
+      await expect(elementValue).toEqual('123');
     });
 
     test('It includes the classname as part of classList when attribute is "classname"', async ({ page }) => {
