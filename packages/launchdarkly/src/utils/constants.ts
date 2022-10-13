@@ -71,7 +71,7 @@ export const CLASS_PROPERTY = `class`;
  */
 export const jsonFlagValueSchema = type({
   show: optional(boolean()),
-  properties: record(string(), string()),
+  properties: optional(record(string(), string())),
 });
 
 /**
