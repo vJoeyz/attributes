@@ -24,6 +24,15 @@ test.describe('Update Element Property', () => {
     let flags = `{testing: 'http://example2.svg', testing2: '${titleText}'}`;
     let selector: string;
 
+    test('It updates src property of a nested iframe', async ({ page }) => {
+      selector = '[data-test-id="iframe-container"]';
+      await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
+
+      const locator = await page.locator('[data-test-id="iframe"]');
+      const src = await locator.getAttribute('src');
+      await expect(src).toEqual('http://example2.svg');
+    });
+
     test('It updates src property and removes the srcset attribute', async ({ page }) => {
       selector = '[data-test-id="image1"]';
       await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);

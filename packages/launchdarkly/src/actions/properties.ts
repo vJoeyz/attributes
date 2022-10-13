@@ -5,6 +5,7 @@ import {
   TEXT_PROPERTY,
   VALUE_PROPERTY,
   CLASS_PROPERTY,
+  HTML_PROPERTY,
 } from '../utils/constants';
 
 /**
@@ -30,6 +31,12 @@ const propertyActions: Record<string, (element: HTMLElement, value: string) => v
   },
 
   [SRC_PROPERTY]: (element: HTMLElement, value: string) => {
+    const iframe = element.getElementsByTagName('iframe')?.[0];
+    if (iframe) {
+      iframe.src = String(value);
+      return;
+    }
+
     element.setAttribute(SRC_PROPERTY, String(value));
     element.removeAttribute(SRCSET_PROPERTY);
   },
@@ -44,10 +51,14 @@ const propertyActions: Record<string, (element: HTMLElement, value: string) => v
   },
 
   [VALUE_PROPERTY]: (element: HTMLElement, value: string) => {
-    element.setAttribute(VALUE_PROPERTY, String(value));
+    (element as HTMLInputElement).value = String(value);
   },
 
   [CLASS_PROPERTY]: (element: HTMLElement, value: string) => {
     element.classList.add(String(value));
+  },
+
+  [HTML_PROPERTY]: (element: HTMLElement, value: string) => {
+    element.innerHTML = String(value);
   },
 };
