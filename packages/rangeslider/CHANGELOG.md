@@ -1,5 +1,11 @@
 # @finsweet/attributes-rangeslider
 
+## 1.7.3
+
+### Patch Changes
+
+- 183daf27: Changed `formatDisplay` to get language from html attribute.
+
 ## 1.7.2
 
 ### Patch Changes
