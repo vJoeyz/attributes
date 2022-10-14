@@ -7,6 +7,7 @@ import {
   CLASS_PROPERTY,
   HTML_PROPERTY,
 } from '../utils/constants';
+import { PROPERTIES_TYPE_GUARDS } from '../utils/type-guards';
 
 /**
  * Updates an element's properties with a value.
@@ -51,8 +52,8 @@ const propertyActions: Record<string, (element: HTMLElement, value: string) => v
   },
 
   [VALUE_PROPERTY]: (element: HTMLElement, value: string) => {
-    if (supportsValueProperty(element)) {
-      (element as HTMLInputElement | HTMLButtonElement | HTMLSelectElement | HTMLTextAreaElement).value = String(value);
+    if (PROPERTIES_TYPE_GUARDS[VALUE_PROPERTY](element)) {
+      element.value = String(value);
     }
   },
 
@@ -63,13 +64,4 @@ const propertyActions: Record<string, (element: HTMLElement, value: string) => v
   [HTML_PROPERTY]: (element: HTMLElement, value: string) => {
     element.innerHTML = String(value);
   },
-};
-
-const supportsValueProperty = (element: HTMLElement): boolean => {
-  return (
-    element instanceof HTMLInputElement ||
-    element instanceof HTMLButtonElement ||
-    element instanceof HTMLSelectElement ||
-    element instanceof HTMLTextAreaElement
-  );
 };
