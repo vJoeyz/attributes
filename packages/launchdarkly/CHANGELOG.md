@@ -1,5 +1,11 @@
 # @finsweet/attributes-launchdarkly
 
+## 0.0.4
+
+### Patch Changes
+
+- d9f1bc9b: Update type check. Add html attribute support
+
 ## 0.0.3
 
 ### Patch Changes
