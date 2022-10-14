@@ -163,7 +163,10 @@ export class Handle {
     this.updateSiblingConstraints();
 
     const stringValue = `${newValue}`;
-    const localeStringValue = newValue.toLocaleString(window.navigator?.language || undefined);
+
+    const localeStringValue = newValue.toLocaleString(
+      document.documentElement?.lang || window.navigator?.language || undefined
+    );
 
     element.setAttribute(ARIA_VALUENOW_KEY, stringValue);
 
