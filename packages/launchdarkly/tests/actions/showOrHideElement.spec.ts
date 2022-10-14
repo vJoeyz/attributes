@@ -1,7 +1,5 @@
 import { test, expect } from '@playwright/test';
 
-const selectElement = (selector: string) => `document.querySelector('${selector}')`;
-
 test.describe('InitFlagElement for showIf attribute', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('tests/fixtures/showOrHideElement');

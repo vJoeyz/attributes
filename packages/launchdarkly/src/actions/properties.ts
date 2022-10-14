@@ -5,7 +5,9 @@ import {
   TEXT_PROPERTY,
   VALUE_PROPERTY,
   CLASS_PROPERTY,
+  HTML_PROPERTY,
 } from '../utils/constants';
+import { PROPERTIES_TYPE_GUARDS } from '../utils/type-guards';
 
 /**
  * Updates an element's properties with a value.
@@ -30,6 +32,12 @@ const propertyActions: Record<string, (element: HTMLElement, value: string) => v
   },
 
   [SRC_PROPERTY]: (element: HTMLElement, value: string) => {
+    const iframe = element.querySelector('iframe');
+    if (iframe) {
+      iframe.src = String(value);
+      return;
+    }
+
     element.setAttribute(SRC_PROPERTY, String(value));
     element.removeAttribute(SRCSET_PROPERTY);
   },
@@ -44,10 +52,16 @@ const propertyActions: Record<string, (element: HTMLElement, value: string) => v
   },
 
   [VALUE_PROPERTY]: (element: HTMLElement, value: string) => {
-    element.setAttribute(VALUE_PROPERTY, String(value));
+    if (PROPERTIES_TYPE_GUARDS[VALUE_PROPERTY](element)) {
+      element.value = String(value);
+    }
   },
 
   [CLASS_PROPERTY]: (element: HTMLElement, value: string) => {
     element.classList.add(String(value));
+  },
+
+  [HTML_PROPERTY]: (element: HTMLElement, value: string) => {
+    element.innerHTML = String(value);
   },
 };

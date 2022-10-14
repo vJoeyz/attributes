@@ -65,6 +65,7 @@ export const SRCSET_PROPERTY = `srcset`;
 export const SIZES_PROPERTY = `sizes`;
 export const VALUE_PROPERTY = `value`;
 export const CLASS_PROPERTY = `class`;
+export const HTML_PROPERTY = `html`;
 
 /**
  * Defines the JSON Flag Value schema.
