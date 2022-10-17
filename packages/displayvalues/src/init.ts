@@ -1,10 +1,10 @@
 import { isFormField } from '@finsweet/ts-utils';
-import { CMS_ATTRIBUTE_ATTRIBUTE } from 'global/constants/attributes';
+import { CMS_ATTRIBUTE_ATTRIBUTE, DISPLAY_VALUES_ATTRIBUTE } from 'global/constants/attributes';
 
 import { collectTargets } from './actions/collect';
 import { listenEvents } from './actions/events';
 import { syncValue } from './actions/sync';
-import { ATTRIBUTE, getSelector } from './utils/constants';
+import { getSelector } from './utils/constants';
 
 /**
  * Inits click events mirroring.
@@ -23,7 +23,7 @@ export const init = async (): Promise<NodeListOf<Element>> => {
 
   listenEvents();
 
-  window.fsAttributes[ATTRIBUTE].resolve?.(sourceElements);
+  window.fsAttributes[DISPLAY_VALUES_ATTRIBUTE].resolve?.(sourceElements);
 
   return sourceElements;
 };
