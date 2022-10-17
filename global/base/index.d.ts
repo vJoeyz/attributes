@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { CollectionListWrapperElement } from '@finsweet/ts-utils';
 
 import type { AnimationImport } from '$packages/animation/src/types';
@@ -17,6 +18,7 @@ type FsAttributesBase = {
   supportImport?: Promise<boolean>;
 
   push: (...args: FsAttributesCallback[]) => void;
+  destroy?: () => void;
 
   cms: {
     coreVersion?: string;
@@ -27,13 +29,12 @@ type FsAttributesBase = {
   };
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 interface FsAttributeInit<T = any> {
   version?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   init?: (...args: any[]) => T | Promise<T>;
   loading?: Promise<T>;
   resolve?: (value: T) => void;
+  destroy?: () => void;
 }
 
 type FsAttributesInit = {

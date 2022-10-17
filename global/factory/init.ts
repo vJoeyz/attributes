@@ -34,9 +34,9 @@ export const initAttribute = <AttributeKeys extends Record<string, string>>({
 
   const attribute = window.fsAttributes[attributeKey];
   attribute.version = version;
+  attribute.init = init;
 
-  if (preventsLoad) attribute.init = init;
-  else {
+  if (!preventsLoad) {
     window.Webflow ||= [];
     window.Webflow.push(() => init(attributes));
   }
@@ -60,6 +60,11 @@ const initAttributes = () => {
     push(...args) {
       for (const [attributeName, callback] of args) {
         this[attributeName]?.loading?.then(callback);
+      }
+    },
+    destroy() {
+      for (const attributeKey of attributesKeys) {
+        window.fsAttributes[attributeKey]?.destroy?.();
       }
     },
   } as FsAttributes;
