@@ -1,14 +1,28 @@
 import { simulateEvent } from '@finsweet/ts-utils';
 import { TABINDEX_KEY } from 'global/constants/a11ty';
 
+const DISALLOWED_INSTANCES = [
+  HTMLAnchorElement,
+  HTMLButtonElement,
+  HTMLInputElement,
+  HTMLTextAreaElement,
+  HTMLSelectElement,
+  HTMLVideoElement,
+  HTMLAudioElement,
+];
+
 /**
  * Makes sure all `div` and `li` elements that have a `tabindex` attribute emit a click event on Enter and Space keydown.
  */
 export const emitClickEvents = (): void => {
-  window.addEventListener('keydown', ({ target, key }) => {
+  window.addEventListener('keydown', (e) => {
+    const { target, key } = e;
+
     if (key !== 'Enter' && key !== ' ') return;
-    if (!(target instanceof HTMLDivElement || target instanceof HTMLLIElement)) return;
-    if (!target.getAttribute(TABINDEX_KEY)) return;
+    if (!target || (target as Element).getAttribute?.(TABINDEX_KEY)) return;
+    if (DISALLOWED_INSTANCES.some((instance) => target instanceof instance)) return;
+
+    e.preventDefault();
 
     simulateEvent(target, 'click');
   });
