@@ -1,5 +1,4 @@
-import { GREENHOUSE_ATTRIBUTE } from 'global/constants/attributes';
-
+import { GREENHOUSE_ATTRIBUTE } from '$global/constants/attributes';
 import { initAttribute } from '$global/factory';
 
 import { version } from '../package.json';
