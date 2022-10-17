@@ -30,18 +30,25 @@ export const init = async () => {
     }
   }, {});
 
-  document.addEventListener('visibilitychange', () => {
-    for (const [video, playState] of videoStore) {
-      if (document.hidden || !playState) video.pause();
-      else video.play();
-    }
-  });
-
   for (const video of videos) {
     video.autoplay = false;
     videoStore.set(video, null);
     observer.observe(video);
   }
+
+  const handleVisibilityChange = () => {
+    for (const [video, playState] of videoStore) {
+      if (document.hidden || !playState) video.pause();
+      else video.play();
+    }
+  };
+
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+
+  window.fsAttributes[AUTO_VIDEO_ATTRIBUTE].destroy = () => {
+    observer.disconnect();
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
+  };
 
   window.fsAttributes[AUTO_VIDEO_ATTRIBUTE].resolve?.(videoStore);
 };
