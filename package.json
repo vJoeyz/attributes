@@ -32,20 +32,20 @@
     "@changesets/cli": "^2.25.0",
     "@finsweet/eslint-config": "^1.1.5",
     "@finsweet/tsconfig": "^1.1.0",
-    "@playwright/test": "^1.26.1",
-    "@trivago/prettier-plugin-sort-imports": "^3.3.0",
-    "@typescript-eslint/eslint-plugin": "^5.39.0",
-    "@typescript-eslint/parser": "^5.39.0",
+    "@playwright/test": "^1.27.1",
+    "@trivago/prettier-plugin-sort-imports": "^3.3.1",
+    "@typescript-eslint/eslint-plugin": "^5.40.1",
+    "@typescript-eslint/parser": "^5.40.1",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.14.54",
-    "eslint": "^8.24.0",
+    "esbuild": "^0.15.11",
+    "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.7.1",
-    "serve": "^13.0.4",
+    "serve": "^14.0.1",
     "typescript": "^4.8.4"
   },
   "dependencies": {
-    "@finsweet/ts-utils": "^0.33.2"
+    "@finsweet/ts-utils": "^0.34.0"
   }
 }
