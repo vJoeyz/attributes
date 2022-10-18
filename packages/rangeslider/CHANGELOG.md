@@ -1,5 +1,11 @@
 # @finsweet/attributes-rangeslider
 
+## 1.7.4
+
+### Patch Changes
+
+- 40b65ad7: Added fallback to use browser language when html lang attribute is not available for `toLocaleString`
+
 ## 1.7.3
 
 ### Patch Changes
