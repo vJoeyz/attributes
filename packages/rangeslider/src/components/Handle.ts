@@ -126,7 +126,7 @@ export class Handle {
     this.setValue(index === 0 ? minRange : maxRange, false);
   }
 
-  private displayLocale(value: number) {
+  private formatValue(value: number) {
     try {
       return value.toLocaleString(document.documentElement?.lang);
     } catch {
@@ -175,7 +175,7 @@ export class Handle {
     element.setAttribute(ARIA_VALUENOW_KEY, stringValue);
 
     if (displayValueElement)
-      displayValueElement.textContent = formatValueDisplay ? this.displayLocale(newValue) : stringValue;
+      displayValueElement.textContent = formatValueDisplay ? this.formatValue(newValue) : stringValue;
 
     if (updateInputElement) this.updateInputElement();
 
