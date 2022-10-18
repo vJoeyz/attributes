@@ -126,6 +126,14 @@ export class Handle {
     this.setValue(index === 0 ? minRange : maxRange, false);
   }
 
+  private formatValue(value: number) {
+    try {
+      return value.toLocaleString(document.documentElement?.lang);
+    } catch {
+      return value.toLocaleString(window.navigator?.language || undefined);
+    }
+  }
+
   /**
    * Updates the Handle's position on the track.
    */
@@ -164,13 +172,10 @@ export class Handle {
 
     const stringValue = `${newValue}`;
 
-    const localeStringValue = newValue.toLocaleString(
-      document.documentElement?.lang || window.navigator?.language || undefined
-    );
-
     element.setAttribute(ARIA_VALUENOW_KEY, stringValue);
 
-    if (displayValueElement) displayValueElement.textContent = formatValueDisplay ? localeStringValue : stringValue;
+    if (displayValueElement)
+      displayValueElement.textContent = formatValueDisplay ? this.formatValue(newValue) : stringValue;
 
     if (updateInputElement) this.updateInputElement();
 
