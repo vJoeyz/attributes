@@ -1,6 +1,6 @@
 import type { Job, JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
 
-import { unescapeHTML } from '$global/helpers/html';
+import { unescapeHTML } from '$global/helpers';
 
 import { ATTRIBUTES, queryElement } from '../utils/constants';
 
