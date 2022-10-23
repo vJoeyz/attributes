@@ -1,4 +1,7 @@
+import { addListener } from '@finsweet/ts-utils';
+
 import { MIRROR_CLICK_ATTRIBUTE } from '$global/constants/attributes';
+import { finalizeAttribute } from '$global/factory';
 import { getInstanceIndex } from '$global/helpers';
 
 import { ATTRIBUTES, getSelector } from './constants';
@@ -13,7 +16,7 @@ const {
  * Inits click events mirroring.
  */
 export const init = (): void => {
-  window.addEventListener('click', ({ target }) => {
+  const removeListener = addListener(window, 'click', ({ target }) => {
     if (!(target instanceof Element)) return;
 
     const mirrorTrigger = target.closest(getSelector('element', 'trigger', { operator: 'prefixed' }));
@@ -35,5 +38,5 @@ export const init = (): void => {
     }
   });
 
-  window.fsAttributes[MIRROR_CLICK_ATTRIBUTE].resolve?.(undefined);
+  return finalizeAttribute(MIRROR_CLICK_ATTRIBUTE, undefined, () => removeListener());
 };
