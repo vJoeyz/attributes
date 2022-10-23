@@ -1,3 +1,5 @@
+import { addListener } from '@finsweet/ts-utils';
+
 import { ATTRIBUTES, getSelector } from './constants';
 import { disableScrolling, enableScrolling, findFirstScrollableElement, isScrollingDisabled } from './scroll';
 
@@ -5,8 +7,8 @@ import { disableScrolling, enableScrolling, findFirstScrollableElement, isScroll
  * Inits listening for click triggers.
  * @param preserveScrollTargets The targets where scrolling must be preserved.
  */
-export const initClickTriggers = (preserveScrollTargets: NodeListOf<Element>): void => {
-  window.addEventListener('click', ({ target }) => {
+export const initClickTriggers = (preserveScrollTargets: NodeListOf<Element>): (() => void) => {
+  const removeListener = addListener(window, 'click', ({ target }) => {
     if (!(target instanceof Element)) return;
 
     // Get the trigger
@@ -33,4 +35,6 @@ export const initClickTriggers = (preserveScrollTargets: NodeListOf<Element>): v
       }
     }
   });
+
+  return removeListener;
 };
