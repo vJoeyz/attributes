@@ -1,4 +1,4 @@
-import { setFormFieldValue } from '@finsweet/ts-utils';
+import { addListener, setFormFieldValue } from '@finsweet/ts-utils';
 
 import { ARIA_VALUEMAX_KEY, ARIA_VALUEMIN_KEY, ARIA_VALUENOW_KEY } from '$global/constants/a11ty';
 
@@ -9,6 +9,8 @@ import { HANDLE_INCREMENT_KEYS, HANDLE_KEYS } from '../utils/constants';
 import type { Fill } from './Fill';
 
 export class Handle {
+  public readonly destroy;
+
   private readonly index;
   private readonly minRange;
   private readonly maxRange;
@@ -77,7 +79,7 @@ export class Handle {
     setHandleA11ty(element, inputElement);
 
     this.setValue(startValue);
-    this.listenEvents();
+    this.destroy = this.listenEvents();
   }
 
   /**
@@ -86,8 +88,14 @@ export class Handle {
   private listenEvents() {
     const { element, inputElement } = this;
 
-    element.addEventListener('keydown', (e) => this.handleKeyDown(e));
-    inputElement?.addEventListener('change', () => this.handleInputChange());
+    const cleanups = [
+      addListener(element, 'keydown', (e) => this.handleKeyDown(e)),
+      addListener(inputElement, 'change', () => this.handleInputChange()),
+    ];
+
+    return () => {
+      for (const cleanup of cleanups) cleanup();
+    };
   }
 
   /**
