@@ -7,7 +7,7 @@ importers:
       '@changesets/changelog-git': ^0.1.13
       '@changesets/cli': ^2.25.0
       '@finsweet/eslint-config': ^1.1.5
-      '@finsweet/ts-utils': ^0.34.1
+      '@finsweet/ts-utils': ^0.35.0
       '@finsweet/tsconfig': ^1.1.0
       '@playwright/test': ^1.27.1
       '@trivago/prettier-plugin-sort-imports': ^3.3.1
@@ -22,7 +22,7 @@ importers:
       serve: ^14.0.1
       typescript: ^4.8.4
     dependencies:
-      '@finsweet/ts-utils': 0.34.1
+      '@finsweet/ts-utils': 0.35.0
     devDependencies:
       '@changesets/changelog-git': 0.1.13
       '@changesets/cli': 2.25.0
@@ -3094,8 +3094,8 @@ packages:
       typescript: 4.8.4
     dev: true
 
-  /@finsweet/ts-utils/0.34.1:
-    resolution: {integrity: sha512-8UIHCGPvjiOwPwy9z4+m46/5dWlIgzSXgzykOm2KlllYahsi+WUR92q7OwAalmheW/qvns/2gQHFPrricNWeJQ==}
+  /@finsweet/ts-utils/0.35.0:
+    resolution: {integrity: sha512-9luDSSPn1DN59MDvba7IzfrkX9ltMvAY61maznY9gKWA+5OIQ1wuRZd6MV98TX80j8akLiKV05ht6M0HCp2djA==}
     dev: false
 
   /@finsweet/tsconfig/1.1.0:
