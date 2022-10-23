@@ -11,7 +11,7 @@ import { queryElement } from './utils/constants';
 /**
  * Inits click events mirroring.
  */
-export const init = async (): Promise<NodeListOf<Element>> => {
+export const init = async (): Promise<Element[]> => {
   await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
 
   const sourceElements = queryElement('source', { operator: 'prefixed', all: true });

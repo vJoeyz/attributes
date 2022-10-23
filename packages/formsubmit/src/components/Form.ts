@@ -64,8 +64,8 @@ export class Form {
     redirectToNewTab?: boolean;
     enhance: boolean;
     disable: boolean;
-    ixTriggers: NodeListOf<Element>;
-    resetButtons: NodeListOf<Element>;
+    ixTriggers: Element[];
+    resetButtons: Element[];
   }) {
     this.form = form;
     this.formBlock = formBlock;
@@ -97,7 +97,7 @@ export class Form {
 
     const removeSubmitListener = addListener(form, 'submit', (e) => this.handleSubmit(e));
 
-    const removeResetListeners = [...resetButtons].map((resetButton) =>
+    const removeResetListeners = resetButtons.map((resetButton) =>
       addListener(resetButton, 'click', () => this.handleReset(false))
     );
 

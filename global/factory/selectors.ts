@@ -98,18 +98,18 @@ export const generateSelectors = <
       scope?: ParentNode;
       all: true;
     } & (AttributesValues[ElementKey] extends AttributeStaticValue ? AttributeStaticParams : AttributeDynamicParams)
-  ): NodeListOf<E>;
+  ): E[];
   function queryElement<E extends Element = Element, ElementKey extends AttributesValuesKeys = AttributesValuesKeys>(
     elementKey: ElementKey,
     params?: {
       scope?: ParentNode;
       all?: boolean;
     } & (AttributesValues[ElementKey] extends AttributeStaticValue ? AttributeStaticParams : AttributeDynamicParams)
-  ): NodeListOf<E> | E | null {
+  ): E[] | E | null {
     const selector = getSelector('element', elementKey, params);
     const scope = params?.scope || document;
 
-    return params?.all ? scope.querySelectorAll<E>(selector) : scope.querySelector<E>(selector);
+    return params?.all ? [...scope.querySelectorAll<E>(selector)] : scope.querySelector<E>(selector);
   }
 
   return [getSelector, queryElement] as const;

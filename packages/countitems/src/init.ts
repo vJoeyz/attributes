@@ -9,7 +9,7 @@ import { ATTRIBUTES, queryElement } from './constants';
 /**
  * Inits list items count.
  */
-export const init = async (): Promise<NodeListOf<Element>> => {
+export const init = async (): Promise<Element[]> => {
   await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
 
   const listReferences = queryElement('list', { operator: 'prefixed', all: true });

@@ -13,12 +13,7 @@ import { queryElement } from './utils/constants';
 export const init = async (): Promise<Form[]> => {
   await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
 
-  const formElements = [
-    ...queryElement('form', {
-      all: true,
-      operator: 'prefixed',
-    }),
-  ];
+  const formElements = queryElement('form', { all: true, operator: 'prefixed' });
 
   const formInstances = formElements.map(initFormInstance).filter(isNotEmpty);
 

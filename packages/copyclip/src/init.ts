@@ -31,7 +31,7 @@ export const init = async (): Promise<ClipboardJS[]> => {
 
   const copyTriggers = queryElement('trigger', { operator: 'prefixed', all: true });
 
-  const clipboardInstances = [...copyTriggers]
+  const clipboardInstances = copyTriggers
     .map((trigger) => {
       if (!(trigger instanceof HTMLElement)) return;
 

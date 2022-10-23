@@ -9,7 +9,7 @@ import { ATTRIBUTES, queryElement } from './utils/constants';
 export async function initStaticInstance(listInstance: CMSList) {
   const instanceIndex = listInstance.getInstanceIndex(ATTRIBUTES.element.key);
 
-  const staticElements = [...queryElement<HTMLDivElement>('staticItem', { all: true, instanceIndex })];
+  const staticElements = queryElement<HTMLDivElement>('staticItem', { all: true, instanceIndex });
 
   const staticElementsData = staticElements.reduce<Parameters<CMSList['addStaticItems']>['0']>((acc, itemElement) => {
     const order = itemElement.getAttribute(ATTRIBUTES.order.key);
