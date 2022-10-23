@@ -40,6 +40,6 @@
     "url": "https://sweetjs.finsweet.com/"
   },
   "dependencies": {
-    "clipboard": "^2.0.10"
+    "clipboard": "^2.0.11"
   }
 }
