@@ -13,17 +13,25 @@ const DISALLOWED_INSTANCES = [
 
 /**
  * Makes sure all `div` and `li` elements that have a `tabindex` attribute emit a click event on Enter and Space keydown.
+ *
+ * @returns A callback to remove the event listener.
  */
-export const emitClickEvents = (): void => {
-  window.addEventListener('keydown', (e) => {
+export const emitClickEvents = () => {
+  const handleKeydown = (e: KeyboardEvent) => {
     const { target, key } = e;
 
     if (key !== 'Enter' && key !== ' ') return;
-    if (!target || (target as Element).getAttribute?.(TABINDEX_KEY)) return;
+    if (!target || !(target as Element).getAttribute?.(TABINDEX_KEY)) return;
     if (DISALLOWED_INSTANCES.some((instance) => target instanceof instance)) return;
 
     e.preventDefault();
 
     simulateEvent(target, 'click');
-  });
+  };
+
+  window.addEventListener('keydown', handleKeydown);
+
+  return () => {
+    window.removeEventListener('keydown', handleKeydown);
+  };
 };

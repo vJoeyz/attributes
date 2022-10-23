@@ -7,11 +7,19 @@ import { queryElement } from '../utils/constants';
 /**
  * Observes [aria-controls] target visibility.
  * Sets the correspondent [aria-expanded] attribute value.
+ *
+ * @returns A callback to disconnect all observers.
  */
-export const observeAriaControls = (): void => {
-  const controllers = document.querySelectorAll(`[${ARIA_CONTROLS}]`);
+export const observeAriaControls = () => {
+  const controllers = [...document.querySelectorAll(`[${ARIA_CONTROLS}]`)];
 
-  for (const controller of controllers) observeTarget(controller);
+  const observers = controllers.map(observeTarget);
+
+  return () => {
+    for (const observer of observers) {
+      observer?.disconnect();
+    }
+  };
 };
 
 /**
@@ -54,6 +62,8 @@ const observeTarget = (controller: Element) => {
     attributes: true,
     attributeFilter: ['style', 'class'],
   });
+
+  return observer;
 };
 
 /**
