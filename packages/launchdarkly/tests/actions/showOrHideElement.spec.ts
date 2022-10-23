@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('InitFlagElement for showIf attribute', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('tests/fixtures/showOrHideElement');
+    await page.goto('packages/launchdarkly/tests/fixtures/showOrHideElement');
   });
 
   test.describe('Hide Element', async () => {
@@ -11,7 +11,7 @@ test.describe('InitFlagElement for showIf attribute', () => {
       const selector = '[data-test-id="title1"]';
       await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
-      const locator = await page.locator(selector);
+      const locator = page.locator(selector);
       await expect(locator).not.toBeVisible();
     });
 
@@ -20,7 +20,7 @@ test.describe('InitFlagElement for showIf attribute', () => {
       const selector = '[data-test-id="title1"]';
       await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
-      const locator = await page.locator(selector);
+      const locator = page.locator(selector);
       await expect(locator).not.toBeVisible();
     });
   });
@@ -31,7 +31,7 @@ test.describe('InitFlagElement for showIf attribute', () => {
       const selector = `[data-test-id="title1"]`;
       await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
-      const locator = await page.locator(selector);
+      const locator = page.locator(selector);
       await expect(locator).toBeVisible();
     });
 
@@ -40,7 +40,7 @@ test.describe('InitFlagElement for showIf attribute', () => {
       const selector = `[data-test-id="title2"]`;
       await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
-      const locator = await page.locator(selector);
+      const locator = page.locator(selector);
       await expect(locator).toBeVisible();
     });
 
@@ -49,7 +49,7 @@ test.describe('InitFlagElement for showIf attribute', () => {
       const selector = '[data-test-id="title-boolean"]';
       await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
-      const locator = await page.locator(selector);
+      const locator = page.locator(selector);
       await expect(locator).toBeVisible();
     });
   });

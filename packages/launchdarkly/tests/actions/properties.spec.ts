@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Update Element Property', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('tests/fixtures/setProperties');
+    await page.goto('packages/launchdarkly/tests/fixtures/setProperties');
   });
 
   test.describe('When flag is not set', async () => {
@@ -11,9 +11,9 @@ test.describe('Update Element Property', () => {
       const selector = '[data-test-id="image1"]';
       await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
-      const locator = await page.locator(selector);
+      const locator = page.locator(selector);
       const src = await locator.getAttribute('src');
-      await expect(src).toEqual('http://example.svg');
+      expect(src).toEqual('http://example.svg');
     });
   });
 
@@ -26,42 +26,42 @@ test.describe('Update Element Property', () => {
       selector = '[data-test-id="iframe-container"]';
       await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
-      const locator = await page.locator('[data-test-id="iframe"]');
+      const locator = page.locator('[data-test-id="iframe"]');
       const src = await locator.getAttribute('src');
-      await expect(src).toEqual('http://example2.svg');
+      expect(src).toEqual('http://example2.svg');
     });
 
     test('It updates src property and removes the srcset attribute', async ({ page }) => {
       selector = '[data-test-id="image1"]';
       await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
-      const locator = await page.locator(selector);
+      const locator = page.locator(selector);
       const src = await locator.getAttribute('src');
-      await expect(src).toEqual('http://example2.svg');
+      expect(src).toEqual('http://example2.svg');
 
       const srcset = await locator.getAttribute('srcset');
-      await expect(srcset).toBeNull();
+      expect(srcset).toBeNull();
     });
 
     test('It updates srcset property and removes the src attribute', async ({ page }) => {
       selector = '[data-test-id="image2"]';
       await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
-      const locator = await page.locator(selector);
+      const locator = page.locator(selector);
       const srcset = await locator.getAttribute('srcset');
-      await expect(srcset).toEqual('http://example2.svg');
+      expect(srcset).toEqual('http://example2.svg');
 
       const src = await locator.getAttribute('src');
-      await expect(src).toEqual(null);
+      expect(src).toEqual(null);
     });
 
     test('It sets the innerText of element when "setproperties" attribute is text', async ({ page }) => {
       selector = '[data-test-id="text1"]';
       await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
-      const locator = await page.locator('data-test-id=text1');
+      const locator = page.locator('data-test-id=text1');
       const textContent = await locator.innerText();
-      await expect(textContent).toEqual(titleText);
+      expect(textContent).toEqual(titleText);
     });
 
     test('It sets the value of element when "setproperties" attribute is "value"', async ({ page }) => {
@@ -73,15 +73,15 @@ test.describe('Update Element Property', () => {
 
       let elementValue;
       for (const selectorTestId of selectorTestIds) {
-        const locator = await page.locator(`[data-test-id="${selectorTestId}"]`);
+        const locator = page.locator(`[data-test-id="${selectorTestId}"]`);
         elementValue = await locator.inputValue();
-        await expect(elementValue).toEqual('123');
+        expect(elementValue).toEqual('123');
       }
 
       // handle for button
-      const locator = await page.locator(`[data-test-id="button1"]`);
+      const locator = page.locator(`[data-test-id="button1"]`);
       elementValue = await locator.getAttribute('value');
-      await expect(elementValue).toEqual('123');
+      expect(elementValue).toEqual('123');
     });
 
     test('It includes the classname as part of classList when attribute is "classname"', async ({ page }) => {
@@ -90,7 +90,7 @@ test.describe('Update Element Property', () => {
       selector = '[data-test-id="test_classname"]';
       await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
-      const locator = await page.locator(selector);
+      const locator = page.locator(selector);
       await expect(locator).toHaveClass(className);
     });
   });
@@ -99,14 +99,14 @@ test.describe('Update Element Property', () => {
     test('It hides fs-launchdarkly-element with "loader" value', async ({ page }) => {
       await page.evaluate(`fsLaunchDarkly.hideLoaders()`);
 
-      const loader = await page.locator('[data-test-id="loader"]');
+      const loader = page.locator('[data-test-id="loader"]');
       await expect(loader).not.toBeVisible();
     });
 
     test('It does not hide fs-launchdarkly-element with unsupported value', async ({ page }) => {
       await page.evaluate(`fsLaunchDarkly.hideLoaders()`);
 
-      const loader = await page.locator('[data-test-id="loader2"]');
+      const loader = page.locator('[data-test-id="loader2"]');
       await expect(loader).toBeVisible();
     });
   });

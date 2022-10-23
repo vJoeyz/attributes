@@ -2,41 +2,39 @@ import { test, expect } from '@playwright/test';
 import type { Page } from '@playwright/test';
 import type { LDFlagValue } from 'launchdarkly-js-client-sdk';
 
-const selectElement = (selector: string) => `document.querySelector('${selector}')`;
-
 async function itBehavesLikeNoPropertyIsSet(page: Page, flags: LDFlagValue) {
   const selector = '[data-test-id="image1"]';
   await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
-  const locator = await page.locator(selector);
+  const locator = page.locator(selector);
   const src = await locator.getAttribute('src');
-  await expect(src).toEqual('http://example.svg');
+  expect(src).toEqual('http://example.svg');
 
   const srcset = await locator.getAttribute('srcset');
-  await expect(srcset).toBeNull();
+  expect(srcset).toBeNull();
 
   const sizes = await locator.getAttribute('sizes');
-  await expect(sizes).toBeNull();
+  expect(sizes).toBeNull();
 }
 
 async function itBehavesLikePropertiesAreSet(page: Page, flags: string, srcsetValue: string, sizesValue: string) {
   const selector = '[data-test-id="image1"]';
   await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
-  const locator = await page.locator(selector);
+  const locator = page.locator(selector);
   const src = await locator.getAttribute('src');
-  await expect(src).toBeNull();
+  expect(src).toBeNull();
 
   const srcset = await locator.getAttribute('srcset');
-  await expect(srcset).toEqual(srcsetValue);
+  expect(srcset).toEqual(srcsetValue);
 
   const sizes = await locator.getAttribute('sizes');
-  await expect(sizes).toEqual(sizesValue);
+  expect(sizes).toEqual(sizesValue);
 }
 
 test.describe('Update Element Properties', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('tests/fixtures/updateJSONProperties');
+    await page.goto('packages/launchdarkly/tests/fixtures/updateJSONProperties');
   });
 
   test.describe('When flag is not set', async () => {
@@ -61,7 +59,7 @@ test.describe('Update Element Properties', () => {
       const selector = '[data-test-id="image1"]';
       await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
-      const locator = await page.locator(selector);
+      const locator = page.locator(selector);
       await expect(locator).not.toBeVisible();
     });
 
@@ -82,7 +80,7 @@ test.describe('Update Element Properties', () => {
       const selector = '[data-test-id="image1"]';
       await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
 
-      const locator = await page.locator(selector);
+      const locator = page.locator(selector);
       await expect(locator).not.toBeVisible();
     });
 
