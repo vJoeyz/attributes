@@ -1,4 +1,4 @@
-import { FormErrorElement, FORM_CSS_CLASSES, simulateEvent } from '@finsweet/ts-utils';
+import { FormErrorElement, FORM_CSS_CLASSES, simulateEvent, addListener } from '@finsweet/ts-utils';
 import type { FormBlockElement, FormSuccessElement } from '@finsweet/ts-utils';
 
 import { redirectUser } from '../actions/redirect';
@@ -18,6 +18,7 @@ export class Form {
   public readonly successMessage;
   public readonly errorMessage;
   public readonly submitButtons;
+  public readonly destroy;
 
   private redirect;
   private redirectTimeout;
@@ -85,7 +86,7 @@ export class Form {
     this.ixTriggers = ixTriggers;
     this.resetButtons = resetButtons;
 
-    this.listenEvents();
+    this.destroy = this.listenEvents();
   }
 
   /**
@@ -94,11 +95,16 @@ export class Form {
   private listenEvents() {
     const { form, resetButtons } = this;
 
-    form.addEventListener('submit', (e) => this.handleSubmit(e));
+    const removeSubmitListener = addListener(form, 'submit', (e) => this.handleSubmit(e));
 
-    for (const resetButton of resetButtons) {
-      resetButton.addEventListener('click', () => this.handleReset(false));
-    }
+    const removeResetListeners = [...resetButtons].map((resetButton) =>
+      addListener(resetButton, 'click', () => this.handleReset(false))
+    );
+
+    return () => {
+      removeSubmitListener();
+      for (const removeListener of removeResetListeners) removeListener();
+    };
   }
 
   /**
