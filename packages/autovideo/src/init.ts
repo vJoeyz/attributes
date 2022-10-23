@@ -1,6 +1,7 @@
-import { Debug } from '@finsweet/ts-utils';
+import { addListener } from '@finsweet/ts-utils';
 
 import { AUTO_VIDEO_ATTRIBUTE, CMS_ATTRIBUTE_ATTRIBUTE } from '$global/constants/attributes';
+import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
 
 import type { VideoStore } from './types';
 
@@ -8,14 +9,10 @@ import type { VideoStore } from './types';
  * Inits the attribute.
  */
 export const init = async () => {
-  await window.fsAttributes[CMS_ATTRIBUTE_ATTRIBUTE]?.loading;
+  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
 
   const videos = document.querySelectorAll('video');
-
-  if (!videos.length) {
-    Debug.alert('No videos were found in this page.', 'info');
-    return;
-  }
+  if (!videos.length) return;
 
   const videoStore: VideoStore = new Map();
 
@@ -36,19 +33,15 @@ export const init = async () => {
     observer.observe(video);
   }
 
-  const handleVisibilityChange = () => {
+  const removeListener = addListener(document, 'visibilitychange', () => {
     for (const [video, playState] of videoStore) {
       if (document.hidden || !playState) video.pause();
       else video.play();
     }
-  };
+  });
 
-  document.addEventListener('visibilitychange', handleVisibilityChange);
-
-  window.fsAttributes[AUTO_VIDEO_ATTRIBUTE].destroy = () => {
+  return finalizeAttribute(AUTO_VIDEO_ATTRIBUTE, videoStore, () => {
     observer.disconnect();
-    document.removeEventListener('visibilitychange', handleVisibilityChange);
-  };
-
-  window.fsAttributes[AUTO_VIDEO_ATTRIBUTE].resolve?.(videoStore);
+    removeListener();
+  });
 };
