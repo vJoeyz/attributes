@@ -4,6 +4,8 @@ import type { TOCItem } from '../components/TOCItem';
  * Observes when the TOC links' state changes.
  * @param tocWrapper
  * @param tocItems
+ *
+ * @returns The MutationObserver.
  */
 export const observeLinksState = (tocWrapper: HTMLElement, tocItems: TOCItem[]) => {
   const observer = new MutationObserver((mutations) => {
@@ -22,4 +24,6 @@ export const observeLinksState = (tocWrapper: HTMLElement, tocItems: TOCItem[]) 
     subtree: true,
     attributeFilter: ['class'],
   });
+
+  return observer;
 };
