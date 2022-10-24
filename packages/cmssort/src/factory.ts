@@ -1,8 +1,7 @@
 import { DROPDOWN_CSS_CLASSES } from '@finsweet/ts-utils';
 import type { Dropdown } from '@finsweet/ts-utils';
 
-import type { CMSList } from '$packages/cmscore';
-import { addListAnimation } from '$packages/cmscore';
+import type { CMSCore, CMSList } from '$packages/cmscore';
 
 import { listenListEvents } from './actions/events';
 import { initButtons } from './modes/buttons';
@@ -27,7 +26,7 @@ const {
  * @param listInstance The {@link CMSList} instance.
  * @returns An awaitable Promise.
  */
-export const initListSorting = async (listInstance: CMSList) => {
+export const initListSorting = async (listInstance: CMSList, cmsCore: CMSCore) => {
   const instanceIndex = listInstance.getInstanceIndex(elementKey);
 
   const triggers = document.querySelectorAll<HTMLElement>(getSelector('element', 'trigger', { instanceIndex }));
@@ -39,7 +38,7 @@ export const initListSorting = async (listInstance: CMSList) => {
   for (const item of items) item.collectProps({ fieldKey, typeKey });
 
   // Animation
-  addListAnimation(listInstance, { durationKey, easingKey });
+  cmsCore.addListAnimation(listInstance, { durationKey, easingKey });
 
   // Scroll Anchor Element
   if (!listInstance.scrollAnchor) {
