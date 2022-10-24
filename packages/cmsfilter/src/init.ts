@@ -1,6 +1,7 @@
 import { isNotEmpty } from '@finsweet/ts-utils';
 
 import { QUERY_PARAM_ATTRIBUTE, CMS_FILTER_ATTRIBUTE, CMS_ATTRIBUTE_ATTRIBUTE } from '$global/constants/attributes';
+import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
 import { importCMSCore } from '$global/import';
 import type { CMSCore, CMSList } from '$packages/cmscore';
 
@@ -16,18 +17,21 @@ export const init = async (): Promise<CMSFilters[]> => {
   const cmsCore = await importCMSCore();
   if (!cmsCore) return [];
 
-  await window.fsAttributes[CMS_ATTRIBUTE_ATTRIBUTE]?.loading;
-  await window.fsAttributes[QUERY_PARAM_ATTRIBUTE]?.loading;
+  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE, QUERY_PARAM_ATTRIBUTE);
 
   const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
-  const filtersInstances = (
+  const filtersData = (
     await Promise.all(listInstances.map((listInstance) => initFilters(listInstance, cmsCore)))
   ).filter(isNotEmpty);
 
-  window.fsAttributes[CMS_FILTER_ATTRIBUTE].resolve?.(filtersInstances);
+  const filtersInstances = filtersData.map(({ filtersInstance }) => filtersInstance);
 
-  return filtersInstances;
+  return finalizeAttribute(CMS_FILTER_ATTRIBUTE, filtersInstances, () => {
+    // TODO: Remove optional chaining after cmscore@1.9.0 has rolled out
+    for (const listInstance of listInstances) listInstance.destroy?.();
+    for (const { cleanup } of filtersData) cleanup();
+  });
 };
 
 /**
@@ -42,7 +46,13 @@ const initFilters = async (listInstance: CMSList, cmsCore: CMSCore) => {
   listenListEvents(filtersInstance, listInstance);
 
   // Tags
-  await createCMSTagsInstance(listInstance, filtersInstance);
+  const tagsInstance = await createCMSTagsInstance(listInstance, filtersInstance);
 
-  return filtersInstance;
+  return {
+    filtersInstance,
+    cleanup: () => {
+      filtersInstance.destroy();
+      tagsInstance?.destroy();
+    },
+  };
 };
