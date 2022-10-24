@@ -584,4 +584,12 @@ export class CMSList extends Emittery<CMSListEvents> {
 
     return getInstanceIndex(wrapper, key) || (list ? getInstanceIndex(list, key) : undefined);
   }
+
+  /**
+   * Destroys the instance.
+   */
+  public destroy() {
+    this.clearListeners();
+    window.fsAttributes.cmscore?.listInstances?.delete(this.wrapper);
+  }
 }
