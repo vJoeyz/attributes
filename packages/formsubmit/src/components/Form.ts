@@ -95,15 +95,15 @@ export class Form {
   private listenEvents() {
     const { form, resetButtons } = this;
 
-    const removeSubmitListener = addListener(form, 'submit', (e) => this.handleSubmit(e));
+    const submitCleanup = addListener(form, 'submit', (e) => this.handleSubmit(e));
 
-    const removeResetListeners = resetButtons.map((resetButton) =>
+    const resetCleanups = resetButtons.map((resetButton) =>
       addListener(resetButton, 'click', () => this.handleReset(false))
     );
 
     return () => {
-      removeSubmitListener();
-      for (const removeListener of removeResetListeners) removeListener();
+      submitCleanup();
+      for (const cleanup of resetCleanups) cleanup();
     };
   }
 

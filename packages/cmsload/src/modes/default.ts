@@ -52,13 +52,13 @@ export const initDefaultMode = async (listInstance: CMSList) => {
   };
 
   // Init
-  const removeClickListener = addListener(paginationNext, 'click', handleClicks);
+  const clickCleanup = addListener(paginationNext, 'click', handleClicks);
 
   /**
    * Destroys the `Pagination Next` button..
    */
   const conclude = () => {
-    removeClickListener();
+    clickCleanup();
     paginationNext.style.display = 'none';
   };
 

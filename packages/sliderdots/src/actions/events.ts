@@ -11,7 +11,7 @@ import type { DotsRelationship } from '../utils/types';
  * @returns A callback to remove the event listener.
  */
 export const listenClickEvents = (customSliderNav: HTMLElement, dotsRelationship: DotsRelationship) => {
-  const removeListener = addListener(customSliderNav, 'click', ({ target }) => {
+  const clickCleanup = addListener(customSliderNav, 'click', ({ target }) => {
     if (!(target instanceof Element)) return;
 
     const customDotTarget = target.closest(getSelector('element', 'content', { operator: 'prefixed' }));
@@ -22,5 +22,5 @@ export const listenClickEvents = (customSliderNav: HTMLElement, dotsRelationship
     if (dot) simulateEvent(dot, 'click');
   });
 
-  return removeListener;
+  return clickCleanup;
 };

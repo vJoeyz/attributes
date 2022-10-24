@@ -110,10 +110,10 @@ export const initDisplayTriggers = (preserveScrollTargets: NodeListOf<Element>):
     }
   }, 250);
 
-  const removeResizeListener = addListener(window, 'resize', debouncedStateChangeHandler);
+  const resizeCleanup = addListener(window, 'resize', debouncedStateChangeHandler);
 
   return () => {
     observer.disconnect();
-    removeResizeListener();
+    resizeCleanup();
   };
 };

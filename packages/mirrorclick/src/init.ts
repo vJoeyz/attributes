@@ -16,7 +16,7 @@ const {
  * Inits click events mirroring.
  */
 export const init = (): void => {
-  const removeListener = addListener(window, 'click', ({ target }) => {
+  const clickCleanup = addListener(window, 'click', ({ target }) => {
     if (!(target instanceof Element)) return;
 
     const mirrorTrigger = target.closest(getSelector('element', 'trigger', { operator: 'prefixed' }));
@@ -38,5 +38,5 @@ export const init = (): void => {
     }
   });
 
-  return finalizeAttribute(MIRROR_CLICK_ATTRIBUTE, undefined, () => removeListener());
+  return finalizeAttribute(MIRROR_CLICK_ATTRIBUTE, undefined, () => clickCleanup());
 };

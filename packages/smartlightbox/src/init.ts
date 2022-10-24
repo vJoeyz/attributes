@@ -18,7 +18,7 @@ let restoreUntransformedElement: (() => void) | undefined;
 export const init = async () => {
   await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
 
-  const removeListener = addListener(window, 'click', async ({ target }) => {
+  const clickCleanup = addListener(window, 'click', async ({ target }) => {
     if (!(target instanceof Element)) return;
 
     // Get the trigger
@@ -63,5 +63,5 @@ export const init = async () => {
     }, timeout);
   });
 
-  return finalizeAttribute(SMART_LIGHTBOX_ATTRIBUTE, undefined, () => removeListener());
+  return finalizeAttribute(SMART_LIGHTBOX_ATTRIBUTE, undefined, () => clickCleanup());
 };

@@ -10,7 +10,7 @@ import { ATTRIBUTES, getSelector, queryElement } from './constants';
  * Inits click events mirroring.
  */
 export const init = (): void => {
-  const removeListener = addListener(window, 'input', ({ target }) => {
+  const inputCleanup = addListener(window, 'input', ({ target }) => {
     if (!(target instanceof Element)) return;
 
     const mirrorTrigger = target.closest(getSelector('element', 'trigger', { operator: 'prefixed' }));
@@ -37,5 +37,5 @@ export const init = (): void => {
     setFormFieldValue(mirrorTarget, mirrorTrigger.value);
   });
 
-  return finalizeAttribute(MIRROR_INPUT_ATTRIBUTE, undefined, () => removeListener());
+  return finalizeAttribute(MIRROR_INPUT_ATTRIBUTE, undefined, () => inputCleanup());
 };

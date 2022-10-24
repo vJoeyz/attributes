@@ -8,7 +8,7 @@ import { addListener } from '@finsweet/ts-utils';
  * @returns A callback to remove the event listener.
  */
 export const listenTOCLinkClicks = (tocWrapper: HTMLElement, hideURLHash?: boolean) => {
-  const removeListener = addListener(tocWrapper, 'click', (e) => {
+  const clickCleanup = addListener(tocWrapper, 'click', (e) => {
     if (!(e.target instanceof Element)) return;
 
     const link = e.target.closest('a');
@@ -25,5 +25,5 @@ export const listenTOCLinkClicks = (tocWrapper: HTMLElement, hideURLHash?: boole
     });
   });
 
-  return removeListener;
+  return clickCleanup;
 };

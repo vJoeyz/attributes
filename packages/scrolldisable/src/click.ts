@@ -8,7 +8,7 @@ import { disableScrolling, enableScrolling, findFirstScrollableElement, isScroll
  * @param preserveScrollTargets The targets where scrolling must be preserved.
  */
 export const initClickTriggers = (preserveScrollTargets: NodeListOf<Element>): (() => void) => {
-  const removeListener = addListener(window, 'click', ({ target }) => {
+  const clickCleanup = addListener(window, 'click', ({ target }) => {
     if (!(target instanceof Element)) return;
 
     // Get the trigger
@@ -36,5 +36,5 @@ export const initClickTriggers = (preserveScrollTargets: NodeListOf<Element>): (
     }
   });
 
-  return removeListener;
+  return clickCleanup;
 };

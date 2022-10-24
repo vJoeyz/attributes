@@ -10,7 +10,7 @@ import type { SocialShareStoreData, SocialShareTypes } from '../utils/types';
  * @returns A callback to remove the event listener.
  */
 export const listenTriggerClicks = () => {
-  const removeListener = addListener(document, 'click', (e) => {
+  const clickCleanup = addListener(document, 'click', (e) => {
     const { target } = e;
     if (!(target instanceof Element)) return;
 
@@ -29,7 +29,7 @@ export const listenTriggerClicks = () => {
     }
   });
 
-  return removeListener;
+  return clickCleanup;
 };
 
 /**

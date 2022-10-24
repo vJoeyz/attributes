@@ -33,7 +33,7 @@ export const init = async () => {
     observer.observe(video);
   }
 
-  const removeListener = addListener(document, 'visibilitychange', () => {
+  const visibilityChangeCleanup = addListener(document, 'visibilitychange', () => {
     for (const [video, playState] of videoStore) {
       if (document.hidden || !playState) video.pause();
       else video.play();
@@ -42,6 +42,6 @@ export const init = async () => {
 
   return finalizeAttribute(AUTO_VIDEO_ATTRIBUTE, videoStore, () => {
     observer.disconnect();
-    removeListener();
+    visibilityChangeCleanup();
   });
 };

@@ -29,7 +29,7 @@ export const init = async (): Promise<NodeListOf<HTMLElement>> => {
   }
 
   // Listen events
-  const removeListener = addListener(window, 'click', (e) => {
+  const clickCleanup = addListener(window, 'click', (e) => {
     const { target } = e;
 
     if (!(target instanceof HTMLElement) || target instanceof HTMLAnchorElement) return;
@@ -45,5 +45,5 @@ export const init = async (): Promise<NodeListOf<HTMLElement>> => {
     return false;
   });
 
-  return finalizeAttribute(LINK_BLOCK_EDIT_ATTRIBUTE, elements, () => removeListener());
+  return finalizeAttribute(LINK_BLOCK_EDIT_ATTRIBUTE, elements, () => clickCleanup());
 };

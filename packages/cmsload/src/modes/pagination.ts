@@ -62,15 +62,15 @@ export const initPaginationMode = async (listInstance: CMSList) => {
   listInstance.on('renderitems', () => handleElements(listInstance, pageButtonsData, paginationCount));
 
   // Click events
-  const removeClickListener = addListener(paginationWrapper, 'click', (e) =>
+  const clickCleanup = addListener(paginationWrapper, 'click', (e) =>
     handlePaginationClicks(e, pageButtonsData, listInstance)
   );
 
   // Resize events
-  let removeResizeListener: () => void;
+  let resizeCleanup: () => void;
 
   if (pageButtonsData && hasBreakpoints) {
-    removeResizeListener = addListener(
+    resizeCleanup = addListener(
       window,
       'resize',
       debounce(() => {
@@ -85,8 +85,8 @@ export const initPaginationMode = async (listInstance: CMSList) => {
 
   // Return destroy callback
   return () => {
-    removeClickListener();
-    removeResizeListener?.();
+    clickCleanup();
+    resizeCleanup?.();
   };
 };
 
