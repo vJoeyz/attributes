@@ -16,7 +16,7 @@ export const init = async (): Promise<CMSList[]> => {
 
   const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
-  await Promise.all(listInstances.map(initListSorting));
+  await Promise.all(listInstances.map((listInstance) => initListSorting(listInstance, cmsCore)));
 
   window.fsAttributes[CMS_SORT_ATTRIBUTE].resolve?.(listInstances);
 
