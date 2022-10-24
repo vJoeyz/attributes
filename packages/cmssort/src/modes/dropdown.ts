@@ -1,4 +1,4 @@
-import { CURRENT_CSS_CLASS, Debug, DROPDOWN_CSS_CLASSES } from '@finsweet/ts-utils';
+import { addListener, CURRENT_CSS_CLASS, Debug, DROPDOWN_CSS_CLASSES } from '@finsweet/ts-utils';
 import type { Dropdown, DropdownToggle, DropdownList } from '@finsweet/ts-utils';
 
 import {
@@ -61,7 +61,7 @@ export const initDropdown = (dropdown: Dropdown, listInstance: CMSList) => {
   };
 
   // Listen events
-  dropdownList.addEventListener('click', async (e) => {
+  const clickCleanup = addListener(dropdownList, 'click', async (e) => {
     e.preventDefault();
 
     if (sorting) return;
@@ -105,7 +105,12 @@ export const initDropdown = (dropdown: Dropdown, listInstance: CMSList) => {
     sorting = false;
   });
 
-  return sortItems;
+  return {
+    sortItems,
+    cleanup: () => {
+      clickCleanup();
+    },
+  };
 };
 
 /**

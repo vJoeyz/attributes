@@ -1,4 +1,4 @@
-import type { MapEntries } from '@finsweet/ts-utils';
+import { addListener, MapEntries } from '@finsweet/ts-utils';
 
 import {
   ARIA_ROLE_KEY,
@@ -27,7 +27,7 @@ const {
  * @param listInstance The {@link CMSList} instance.
  * @param globalCSSClasses The state CSS classes (`asc` and `desc`) globally defined on the list.
  */
-export const initButtons = (buttons: NodeListOf<HTMLElement>, listInstance: CMSList, globalCSSClasses: CSSClasses) => {
+export const initButtons = (buttons: HTMLElement[], listInstance: CMSList, globalCSSClasses: CSSClasses) => {
   const buttonsState: ButtonsState = new Map();
 
   let sorting = false;
@@ -44,10 +44,10 @@ export const initButtons = (buttons: NodeListOf<HTMLElement>, listInstance: CMSL
     await sortListItems(listInstance, { sortKey, direction, addingItems });
   };
 
-  for (const button of buttons) {
+  const cleanups = buttons.map((button) => {
     prepareButton(button, buttonsState, globalCSSClasses);
 
-    button.addEventListener('click', async (e) => {
+    const clickCleanup = addListener(button, 'click', async (e) => {
       e.preventDefault();
 
       if (sorting) return;
@@ -73,9 +73,16 @@ export const initButtons = (buttons: NodeListOf<HTMLElement>, listInstance: CMSL
 
       sorting = false;
     });
-  }
 
-  return sortItems;
+    return clickCleanup;
+  });
+
+  return {
+    sortItems,
+    cleanup: () => {
+      for (const cleanup of cleanups) cleanup();
+    },
+  };
 };
 
 /**
