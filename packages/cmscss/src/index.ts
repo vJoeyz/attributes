@@ -1,7 +1,7 @@
+import { CMS_CSS_ATTRIBUTE } from '$global/constants/attributes';
 import { initAttribute } from '$global/factory';
 
 import { version } from '../package.json';
-import { ATTRIBUTE } from './constants';
 import { init } from './init';
 
 /**
@@ -10,5 +10,5 @@ import { init } from './init';
 initAttribute({
   init,
   version,
-  attributeKey: ATTRIBUTE,
+  attributeKey: CMS_CSS_ATTRIBUTE,
 });

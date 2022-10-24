@@ -14,6 +14,8 @@ export const CMS_ATTRIBUTE_ATTRIBUTE = 'cmsattribute';
 
 export const CMS_COMBINE_ATTRIBUTE = 'cmscombine';
 
+export const CMS_CSS_ATTRIBUTE = 'cmscss';
+
 export const CMS_FILTER_ATTRIBUTE = 'cmsfilter';
 
 export const CMS_LOAD_ATTRIBUTE = 'cmsload';
