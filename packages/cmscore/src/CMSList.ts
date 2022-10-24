@@ -235,7 +235,9 @@ export class CMSList extends Emittery<CMSListEvents> {
     // Items
     const items: CMSItem[] = [];
 
-    if (list) items.push(...collectionItems.map((element, index) => new CMSItem(element, list, index)));
+    if (list) {
+      items.push(...collectionItems.map((element, index) => new CMSItem(element, list, index)));
+    }
 
     this.items = items;
     this.validItems = items;
