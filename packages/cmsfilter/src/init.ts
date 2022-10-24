@@ -1,8 +1,8 @@
 import { isNotEmpty } from '@finsweet/ts-utils';
 
 import { QUERY_PARAM_ATTRIBUTE, CMS_FILTER_ATTRIBUTE, CMS_ATTRIBUTE_ATTRIBUTE } from '$global/constants/attributes';
-import type { CMSList } from '$packages/cmscore';
-import { importCMSCore } from '$packages/cmscore';
+import { importCMSCore } from '$global/import';
+import type { CMSCore, CMSList } from '$packages/cmscore';
 
 import { listenListEvents } from './actions/events';
 import type { CMSFilters } from './components/CMSFilters';
@@ -21,7 +21,9 @@ export const init = async (): Promise<CMSFilters[]> => {
 
   const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
-  const filtersInstances = (await Promise.all(listInstances.map(initFilters))).filter(isNotEmpty);
+  const filtersInstances = (
+    await Promise.all(listInstances.map((listInstance) => initFilters(listInstance, cmsCore)))
+  ).filter(isNotEmpty);
 
   window.fsAttributes[CMS_FILTER_ATTRIBUTE].resolve?.(filtersInstances);
 
@@ -32,9 +34,9 @@ export const init = async (): Promise<CMSFilters[]> => {
  * Creates a new {@link CMSFilters} instance for each {@link CMSList}.
  * @param listInstance The `CMSList` instance.
  */
-const initFilters = async (listInstance: CMSList) => {
+const initFilters = async (listInstance: CMSList, cmsCore: CMSCore) => {
   // Filters
-  const filtersInstance = createCMSFiltersInstance(listInstance);
+  const filtersInstance = createCMSFiltersInstance(listInstance, cmsCore);
   if (!filtersInstance) return;
 
   listenListEvents(filtersInstance, listInstance);

@@ -1,8 +1,8 @@
 import { removeTrailingSlash } from '@finsweet/ts-utils';
 
 import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_PREV_NEXT_ATTRIBUTE } from '$global/constants/attributes';
+import { importCMSCore } from '$global/import';
 import type { CMSItem, CMSList } from '$packages/cmscore';
-import { importCMSCore } from '$packages/cmscore';
 
 import { collectElements } from './collect';
 import { getSelector } from './constants';

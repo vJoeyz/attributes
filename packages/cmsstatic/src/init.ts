@@ -1,7 +1,7 @@
 import { CMS_STATIC_ATTRIBUTE, CMS_ATTRIBUTE_ATTRIBUTE } from 'global/constants/attributes';
 
+import { importCMSCore } from '$global/import';
 import type { CMSList } from '$packages/cmscore';
-import { importCMSCore } from '$packages/cmscore';
 
 import { initStaticInstance } from './factory';
 import { getSelector } from './utils/constants';

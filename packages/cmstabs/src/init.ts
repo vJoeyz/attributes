@@ -1,8 +1,8 @@
 import { restartWebflow } from '@finsweet/ts-utils';
 
 import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_TABS_ATTRIBUTE } from '$global/constants/attributes';
+import { importCMSCore } from '$global/import';
 import type { CMSList } from '$packages/cmscore';
-import { importCMSCore } from '$packages/cmscore';
 
 import { collectPopulateData } from './actions/collect';
 import { populateTabsFromLists } from './actions/populate';

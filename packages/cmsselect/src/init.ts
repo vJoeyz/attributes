@@ -1,6 +1,6 @@
 import { CMS_SELECT_ATTRIBUTE, CMS_LOAD_ATTRIBUTE, CMS_ATTRIBUTE_ATTRIBUTE } from '$global/constants/attributes';
+import { importCMSCore } from '$global/import';
 import type { CMSList } from '$packages/cmscore';
-import { importCMSCore } from '$packages/cmscore';
 
 import { getSelector } from './constants';
 import { populateSelectElement } from './populate';

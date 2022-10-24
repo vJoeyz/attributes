@@ -1,6 +1,6 @@
 import { CMS_ATTRIBUTE_ATTRIBUTE } from '$global/constants/attributes';
+import { importCMSCore } from '$global/import';
 import type { CMSList } from '$packages/cmscore';
-import { importCMSCore } from '$packages/cmscore';
 
 import { addCSSClasses } from './classes';
 import { ATTRIBUTE, getSelector } from './constants';

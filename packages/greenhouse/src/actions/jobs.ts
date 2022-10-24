@@ -1,7 +1,8 @@
 import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
 import type { JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
 
-import { CMSList, importCMSCore } from '$packages/cmscore';
+import { importCMSCore } from '$global/import';
+import type { CMSList } from '$packages/cmscore';
 
 import { ATTRIBUTES, SUPPORTED_NESTED_KEYS } from '../utils/constants';
 import { addJobsToCMSItems, addNestedJobsToCMSItems } from '../utils/lists';

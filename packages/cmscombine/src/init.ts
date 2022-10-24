@@ -1,6 +1,6 @@
 import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_COMBINE_ATTRIBUTE } from '$global/constants/attributes';
+import { importCMSCore } from '$global/import';
 import type { CMSList } from '$packages/cmscore';
-import { importCMSCore } from '$packages/cmscore';
 
 import { collectCombineData } from './collect';
 import { combineItemsToTarget } from './combine';
