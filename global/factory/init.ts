@@ -56,12 +56,15 @@ const initAttributes = () => {
 
   // Init FsAttributes
   const fsAttributes = {
+    // TODO: Remove this once cmscore@1.9.0 has rolled out
     cms: {},
+
     push(...args) {
       for (const [attributeName, callback] of args) {
         this[attributeName]?.loading?.then(callback);
       }
     },
+
     destroy() {
       for (const attributeKey of attributesKeys) {
         window.fsAttributes[attributeKey]?.destroy?.();

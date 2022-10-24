@@ -13,12 +13,15 @@ export const importSupport = async () => {
   const { fsAttributes, location } = window;
   const { host, searchParams } = new URL(location.href);
 
+  fsAttributes.support ||= {};
+  const { support } = fsAttributes;
+
   if (!host.includes('webflow.io') || !searchParams.has(ATTRIBUTES_SUPPORT_QUERY_PARAM)) return false;
 
-  if (fsAttributes.supportImport) return fsAttributes.supportImport;
+  if (support.import) return support.import;
 
   try {
-    fsAttributes.supportImport = new Promise((resolve, reject) => {
+    support.import = new Promise((resolve, reject) => {
       const script = document.createElement('script');
 
       script.src = ATTRIBUTES_SUPPORT_SOURCE;
@@ -31,5 +34,5 @@ export const importSupport = async () => {
     return false;
   }
 
-  return fsAttributes.supportImport;
+  return support.import;
 };

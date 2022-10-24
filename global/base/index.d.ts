@@ -14,13 +14,11 @@ type FsAttributesCallback =
   | ['cmsfilter', (value: CMSFilters[]) => void];
 
 type FsAttributesBase = {
-  animationImport?: AnimationImport;
-  supportImport?: Promise<boolean>;
-
   push: (...args: FsAttributesCallback[]) => void;
   destroy?: () => void;
 
-  cms: {
+  // TODO: Remove this after cmscore@1.9.0 has rolled out
+  cms?: {
     coreVersion?: string;
     coreImport?: CMSCoreImport;
     listElements?: CollectionListWrapperElement[];
@@ -38,6 +36,20 @@ interface FsAttributeInit<T = any> {
 }
 
 type FsAttributesInit = {
+  cmscore?: {
+    version?: string;
+    import?: CMSCoreImport;
+    listInstances?: Map<CollectionListWrapperElement, CMSList>;
+  };
+
+  animation?: FsAttributeInit & {
+    import?: AnimationImport;
+  };
+
+  support?: {
+    import?: Promise<boolean>;
+  };
+
   [key: string]: FsAttributeInit;
 };
 

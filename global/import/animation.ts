@@ -2,24 +2,25 @@ import { Debug } from '@finsweet/ts-utils';
 
 const ANIMATIONS_SOURCE = 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-animation@1/functions.js';
 
-type AnimationImport = typeof window.fsAttributes.animationImport;
-
 /**
  * Dynamically imports the `animation` package.
- * After the first import, it stores the response in {@link window.fsAttributes.animation}.
+ * After the first import, it stores the response in {@link window.fsAttributes.animation.import}.
  * @returns A `Promise` of the package response.
  */
-export const importAnimations = async (): Promise<AnimationImport> => {
+export const importAnimations = async () => {
   const { fsAttributes } = window;
 
-  if (fsAttributes.animationImport) return fsAttributes.animationImport;
+  fsAttributes.animation ||= {};
+  const { animation } = fsAttributes;
+
+  if (animation.import) {
+    return animation.import;
+  }
 
   try {
-    const animationsImport = import(ANIMATIONS_SOURCE);
+    animation.import = import(ANIMATIONS_SOURCE);
 
-    fsAttributes.animationImport = animationsImport;
-
-    return animationsImport;
+    return animation.import;
   } catch (error) {
     Debug.alert(`${error}`, 'error');
     return;
