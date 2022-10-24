@@ -1,6 +1,7 @@
 import type { CollectionListElement, CollectionItemElement } from '@finsweet/ts-utils';
 
-import { normalizePropKey } from './utils/props';
+import { normalizePropKey } from '$global/helpers';
+
 import type { CMSItemProps } from './utils/types';
 
 /**
@@ -41,6 +42,7 @@ export class CMSItem {
   /**
    * @param element The DOM element of the item.
    * @param list The parent Collection List.
+   * @param currentIndex The element's current index in the rendered DOM.
    */
   constructor(
     /**

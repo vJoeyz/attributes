@@ -7,8 +7,8 @@ import {
   ARIA_SORT_VALUES,
   TABINDEX_KEY,
 } from '$global/constants/a11ty';
+import { normalizePropKey } from '$global/helpers';
 import type { CMSList } from '$packages/cmscore';
-import { normalizePropKey } from '$packages/cmscore';
 
 import { sortListItems } from '../actions/sort';
 import { ATTRIBUTES } from '../utils/constants';

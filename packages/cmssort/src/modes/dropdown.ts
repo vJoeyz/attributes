@@ -8,9 +8,8 @@ import {
   ARIA_ROLE_VALUES,
   ARIA_SELECTED_KEY,
 } from '$global/constants/a11ty';
-import { closeDropdown } from '$global/helpers';
+import { closeDropdown, normalizePropKey } from '$global/helpers';
 import type { CMSList } from '$packages/cmscore';
-import { normalizePropKey } from '$packages/cmscore';
 
 import { sortListItems } from '../actions/sort';
 import { ATTRIBUTES, queryElement } from '../utils/constants';

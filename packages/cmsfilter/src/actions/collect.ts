@@ -8,7 +8,7 @@ import {
 } from '@finsweet/ts-utils';
 import type { FormBlockElement } from '@finsweet/ts-utils';
 
-import { normalizePropKey } from '$packages/cmscore';
+import { normalizePropKey } from '$global/helpers';
 
 import { ensureUniqueFormFieldId } from '../utils/a11ty';
 import { ATTRIBUTES, getSelector, MATCHES, MODES, queryElement, TAG_FORMATS } from '../utils/constants';

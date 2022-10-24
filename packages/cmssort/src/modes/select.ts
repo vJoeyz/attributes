@@ -1,5 +1,5 @@
+import { normalizePropKey } from '$global/helpers';
 import type { CMSList } from '$packages/cmscore';
-import { normalizePropKey } from '$packages/cmscore';
 
 import { sortListItems } from '../actions/sort';
 import type { SortingDirection, SortItemsCallback } from '../utils/types';
