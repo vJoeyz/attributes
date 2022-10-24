@@ -1,4 +1,4 @@
-import { simulateEvent } from '@finsweet/ts-utils';
+import { addListener, simulateEvent } from '@finsweet/ts-utils';
 import { TABINDEX_KEY } from 'global/constants/a11ty';
 
 const DISALLOWED_INSTANCES = [
@@ -29,9 +29,9 @@ export const emitClickEvents = () => {
     simulateEvent(target, 'click');
   };
 
-  window.addEventListener('keydown', handleKeydown);
+  const keydownCleanup = addListener(window, 'keydown', handleKeydown);
 
   return () => {
-    window.removeEventListener('keydown', handleKeydown);
+    keydownCleanup();
   };
 };
