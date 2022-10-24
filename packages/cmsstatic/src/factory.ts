@@ -1,4 +1,4 @@
-import { checkCMSCoreVersion, CMSList } from 'packages/cmscore/src';
+import type { CMSList } from 'packages/cmscore';
 
 import { ATTRIBUTES, queryElement } from './utils/constants';
 
@@ -28,8 +28,5 @@ export async function initStaticInstance(listInstance: CMSList) {
     return acc;
   }, []);
 
-  // TODO: Remove this once cmscore@1.8.0 has rolled out
-  if (checkCMSCoreVersion('>=', '1.8.0')) {
-    await listInstance.addStaticItems(staticElementsData);
-  }
+  await listInstance.addStaticItems(staticElementsData);
 }

@@ -22,8 +22,7 @@ export const populateSelectElement = (selectElement: HTMLSelectElement, cmsCore:
     const collectionListWrapper = displaySource.closest<CollectionListWrapperElement>(`.${CMS_CSS_CLASSES.wrapper}`);
     if (!collectionListWrapper) continue;
 
-    // TODO: Remove optional chaining after cmscore v1.6.5 has rolled out
-    const listIntance = cmsCore.createCMSListInstance?.(collectionListWrapper);
+    const listIntance = cmsCore.createCMSListInstance(collectionListWrapper);
     if (!listIntance) continue;
 
     listInstances.add(listIntance);
