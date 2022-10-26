@@ -6,12 +6,6 @@ export type AttributeValue = AttributeStaticValue | AttributeDynamicValue;
 export type AttributeOperator = 'prefixed' | 'suffixed' | 'contains';
 
 export interface AttributesDefinition {
-  element: {
-    key: string;
-    values: {
-      [valueKey: string]: AttributeValue;
-    };
-  };
   [name: string]: {
     key: string;
     values?: {
