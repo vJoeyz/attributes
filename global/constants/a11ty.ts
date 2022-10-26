@@ -1,11 +1,12 @@
 export const ARIA_ROLE_KEY = 'role';
-export const ARIA_ROLE_VALUES = {
-  slider: 'slider',
-  listbox: 'listbox',
-  option: 'option',
-  columnheader: 'columnheader',
-  link: 'link',
-} as const;
+export const enum ARIA_ROLE_VALUES {
+  slider = 'slider',
+  listbox = 'listbox',
+  option = 'option',
+  columnheader = 'columnheader',
+  link = 'link',
+  marquee = 'marquee',
+}
 export const TABINDEX_KEY = 'tabindex';
 export const ARIA_LABEL_KEY = 'aria-label';
 export const ARIA_LABELLEDBY_KEY = 'aria-labelledby';
@@ -21,7 +22,9 @@ export const ARIA_ACTIVEDESCENDANT_KEY = 'aria-activedescendant';
 export const ARIA_PRESSED_KEY = 'aria-pressed';
 export const ARIA_SORT_KEY = 'aria-sort';
 export const ARIA_CONTROLS = 'aria-controls';
-export const ARIA_SORT_VALUES = {
-  ascending: 'ascending',
-  descending: 'descending',
-} as const;
+export const ARIA_ROLEDESCRIPTION = 'aria-roledescription';
+export const ARIA_DESCRIPTION = 'aria-description';
+export const enum ARIA_SORT_VALUES {
+  ascending = 'ascending',
+  descending = 'descending',
+}
