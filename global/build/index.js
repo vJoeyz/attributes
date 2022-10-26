@@ -82,8 +82,18 @@ export const generateSchemaJSON = (__dirname) => {
  * @param {string} __dirname
  */
 export const generateChangesetsJSON = (__dirname) => {
-  const changelog = readFileSync(`${__dirname}/../CHANGELOG.md`, 'utf-8');
-  if (!changelog) throw new Error('Changelog not found while generating changesets.json');
+  const writeChangesets = (result) => writeFileSync(`${__dirname}/../changesets.json`, JSON.stringify(result));
+
+  try {
+    const changelog = readFileSync(`${__dirname}/../CHANGELOG.md`, 'utf-8');
+    if (!changelog) {
+      throw new Error('Changelog not found');
+    }
+  } catch (err) {
+    console.log(err.message);
+    writeChangesets({});
+    return;
+  }
 
   const result = changelog
     .split(/### Patch Changes|### Minor Changes|### Major Changes/)
@@ -101,5 +111,5 @@ export const generateChangesetsJSON = (__dirname) => {
     })
     .filter(Boolean);
 
-  writeFileSync(`${__dirname}/../changesets.json`, JSON.stringify(result));
+  writeChangesets(result);
 };
