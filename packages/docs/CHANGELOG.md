@@ -1,5 +1,11 @@
 # @finsweet/attributes-docs
 
+## 1.12.0
+
+### Minor Changes
+
+- e2fa5c6f: Created fs-attributes-numbercount
+
 ## 1.11.0
 
 ### Minor Changes
