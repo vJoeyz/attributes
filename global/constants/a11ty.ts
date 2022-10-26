@@ -22,6 +22,7 @@ export const ARIA_ACTIVEDESCENDANT_KEY = 'aria-activedescendant';
 export const ARIA_PRESSED_KEY = 'aria-pressed';
 export const ARIA_SORT_KEY = 'aria-sort';
 export const ARIA_CONTROLS = 'aria-controls';
+export const ARIA_ROLEDESCRIPTION = 'aria-roledescription';
 export const ARIA_DESCRIPTION = 'aria-description';
 export const enum ARIA_SORT_VALUES {
   ascending = 'ascending',
