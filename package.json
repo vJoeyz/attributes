@@ -18,6 +18,7 @@
   "homepage": "https://github.com/finsweet/attributes#readme",
   "scripts": {
     "build": "pnpm -r --filter \"./packages/**\" build",
+    "build:dev": "pnpm -r --filter \"./packages/**\" build:dev",
     "lint": "pnpm -r --filter \"./packages/**\" lint",
     "check": "pnpm -r --filter \"./packages/**\" check",
     "format": "pnpm -r --filter \"./packages/**\" format",

@@ -3,6 +3,7 @@ import { writeFileSync, readFileSync } from 'fs';
 import { pathToFileURL } from 'url';
 
 const production = process.env.NODE_ENV === 'production';
+const development = process.env.NODE_ENV === 'development';
 
 /**
  * Default Settings
@@ -13,7 +14,7 @@ export const defaultBuildSettings = {
   minify: production,
   sourcemap: !production,
   target: production ? 'es2017' : 'esnext',
-  watch: !production,
+  watch: development,
   define: {
     CMS_CORE_SOURCE: JSON.stringify(
       production
