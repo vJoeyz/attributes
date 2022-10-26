@@ -1,6 +1,7 @@
-import { isFormField, setFormFieldValue } from '@finsweet/ts-utils';
+import { addListener, isFormField, setFormFieldValue } from '@finsweet/ts-utils';
 
 import { MIRROR_INPUT_ATTRIBUTE } from '$global/constants/attributes';
+import { finalizeAttribute } from '$global/factory';
 import { getInstanceIndex } from '$global/helpers';
 
 import { ATTRIBUTES, getSelector, queryElement } from './constants';
@@ -9,7 +10,7 @@ import { ATTRIBUTES, getSelector, queryElement } from './constants';
  * Inits click events mirroring.
  */
 export const init = (): void => {
-  window.addEventListener('input', ({ target }) => {
+  const inputCleanup = addListener(window, 'input', ({ target }) => {
     if (!(target instanceof Element)) return;
 
     const mirrorTrigger = target.closest(getSelector('element', 'trigger', { operator: 'prefixed' }));
@@ -36,5 +37,5 @@ export const init = (): void => {
     setFormFieldValue(mirrorTarget, mirrorTrigger.value);
   });
 
-  window.fsAttributes[MIRROR_INPUT_ATTRIBUTE].resolve?.(undefined);
+  return finalizeAttribute(MIRROR_INPUT_ATTRIBUTE, undefined, () => inputCleanup());
 };

@@ -4,6 +4,8 @@ export const EXAMPLE_ATTRIBUTE = 'example';
 
 export const A11Y_ATTRIBUTE = 'a11y';
 
+export const ANIMATION_ATTRIBUTE = 'animation';
+
 export const AUTO_VIDEO_ATTRIBUTE = 'autovideo';
 
 export const CMS_CORE = 'cmscore';
@@ -11,6 +13,8 @@ export const CMS_CORE = 'cmscore';
 export const CMS_ATTRIBUTE_ATTRIBUTE = 'cmsattribute';
 
 export const CMS_COMBINE_ATTRIBUTE = 'cmscombine';
+
+export const CMS_CSS_ATTRIBUTE = 'cmscss';
 
 export const CMS_FILTER_ATTRIBUTE = 'cmsfilter';
 
@@ -35,6 +39,8 @@ export const CODE_HIGHLIGHT_ATTRIBUTE = 'codehighlight';
 export const COPY_CLIP_ATTRIBUTE = 'copyclip';
 
 export const COUNT_ITEMS_ATTRIBUTE = 'countitems';
+
+export const DISPLAY_VALUES_ATTRIBUTE = 'displayvalues';
 
 export const DOCS_ATTRIBUTE = 'docs';
 

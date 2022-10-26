@@ -1,4 +1,4 @@
-import { simulateEvent } from '@finsweet/ts-utils';
+import { addListener, simulateEvent } from '@finsweet/ts-utils';
 
 import { getSelector } from '../utils/constants';
 import type { DotsRelationship } from '../utils/types';
@@ -7,9 +7,11 @@ import type { DotsRelationship } from '../utils/types';
  * Listens for click events in the custom slider nav.
  * @param customSliderNav The `Custom Slider Nav`.
  * @param dotsRelationship A {@link DotsRelationship} array.
+ *
+ * @returns A callback to remove the event listener.
  */
 export const listenClickEvents = (customSliderNav: HTMLElement, dotsRelationship: DotsRelationship) => {
-  customSliderNav.addEventListener('click', ({ target }) => {
+  const clickCleanup = addListener(customSliderNav, 'click', ({ target }) => {
     if (!(target instanceof Element)) return;
 
     const customDotTarget = target.closest(getSelector('element', 'content', { operator: 'prefixed' }));
@@ -19,4 +21,6 @@ export const listenClickEvents = (customSliderNav: HTMLElement, dotsRelationship
 
     if (dot) simulateEvent(dot, 'click');
   });
+
+  return clickCleanup;
 };

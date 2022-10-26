@@ -1,4 +1,4 @@
-import { cloneNode, CMS_CSS_CLASSES, CURRENT_CSS_CLASS, isNotEmpty } from '@finsweet/ts-utils';
+import { addListener, cloneNode, CMS_CSS_CLASSES, CURRENT_CSS_CLASS, isNotEmpty } from '@finsweet/ts-utils';
 import debounce from 'just-debounce';
 
 import type { CMSList } from '$packages/cmscore';
@@ -15,8 +15,10 @@ const { paginationNext: paginationNextCSSClass, paginationPrevious: paginationPr
 /**
  * Inits the `Paginate` mode.
  * @param listInstance The {@link CMSList} instance.
+ *
+ * @returns A callback to destroy the event listeners.
  */
-export const initPaginationMode = async (listInstance: CMSList): Promise<void> => {
+export const initPaginationMode = async (listInstance: CMSList) => {
   const settingsData = getPaginationSettings(listInstance);
   if (!settingsData) return;
 
@@ -55,13 +57,21 @@ export const initPaginationMode = async (listInstance: CMSList): Promise<void> =
   // Set initial state
   listInstance.initPagination(showQueryParams);
 
-  //  Listen events
+  // Listen events
+  // Render events
   listInstance.on('renderitems', () => handleElements(listInstance, pageButtonsData, paginationCount));
 
-  paginationWrapper.addEventListener('click', (e) => handlePaginationClicks(e, pageButtonsData, listInstance));
+  // Click events
+  const clickCleanup = addListener(paginationWrapper, 'click', (e) =>
+    handlePaginationClicks(e, pageButtonsData, listInstance)
+  );
+
+  // Resize events
+  let resizeCleanup: () => void;
 
   if (pageButtonsData && hasBreakpoints) {
-    window.addEventListener(
+    resizeCleanup = addListener(
+      window,
       'resize',
       debounce(() => {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -72,6 +82,12 @@ export const initPaginationMode = async (listInstance: CMSList): Promise<void> =
 
   // Init items load
   await loadPaginatedItems(listInstance);
+
+  // Return destroy callback
+  return () => {
+    clickCleanup();
+    resizeCleanup?.();
+  };
 };
 
 /**

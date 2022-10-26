@@ -3,6 +3,8 @@ import { CMS_LOAD_ATTRIBUTE, CMS_FILTER_ATTRIBUTE } from 'global/constants/attri
 import type { CMSList } from 'packages/cmscore/src';
 import type { CMSFilters } from 'packages/cmsfilter/src/components/CMSFilters';
 
+import { awaitAttributesLoad } from '$global/factory';
+
 import { createFilters } from './actions/filter';
 import { createJobForm } from './actions/form';
 import { createCMSList, addJobsCMSList } from './actions/jobs';
@@ -16,12 +18,12 @@ export async function initJobsList(
   office: string | null,
   department: string | null
 ) {
-  const cmsLoadLists: CMSList[] = await window.fsAttributes[CMS_LOAD_ATTRIBUTE]?.loading;
-
-  const cmsFilterLists: CMSFilters[] = await window.fsAttributes[CMS_FILTER_ATTRIBUTE]?.loading;
+  const [cmsLoadLists, cmsFilterLists] = (await awaitAttributesLoad(CMS_LOAD_ATTRIBUTE, CMS_FILTER_ATTRIBUTE)) as [
+    CMSList[],
+    CMSFilters[]
+  ];
 
   const listJobsElement = queryElement<HTMLElement>(ATTRIBUTES.element.values.list);
-
   if (!listJobsElement) {
     return;
   }

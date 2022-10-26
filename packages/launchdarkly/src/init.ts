@@ -1,5 +1,7 @@
-import { LAUNCHDARKLY_ATTRIBUTE } from 'global/constants/attributes';
+import { CMS_ATTRIBUTE_ATTRIBUTE, LAUNCHDARKLY_ATTRIBUTE } from 'global/constants/attributes';
 import type { LDClient } from 'launchdarkly-js-client-sdk';
+
+import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
 
 import type { LaunchDarklyAttributes } from '../src/utils/types';
 import { initializeClient } from './actions/client';
@@ -11,6 +13,8 @@ import { IS_STAGING } from './utils/constants';
  * Inits the attribute.
  */
 export const init = async ({ devClientId, prodClientId, eventsToTrack }: LaunchDarklyAttributes): Promise<LDClient> => {
+  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+
   const clientId = IS_STAGING ? devClientId || prodClientId : prodClientId || devClientId;
   if (!clientId) {
     throw new Error('Client ID is required');
@@ -22,6 +26,5 @@ export const init = async ({ devClientId, prodClientId, eventsToTrack }: LaunchD
   initFlags(flags);
   hideLoaders();
 
-  window.fsAttributes[LAUNCHDARKLY_ATTRIBUTE].resolve?.(client);
-  return client;
+  return finalizeAttribute(LAUNCHDARKLY_ATTRIBUTE, client);
 };

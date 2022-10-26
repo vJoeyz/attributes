@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { CollectionListWrapperElement } from '@finsweet/ts-utils';
 
 import type { AnimationImport } from '$packages/animation/src/types';
@@ -13,12 +14,11 @@ type FsAttributesCallback =
   | ['cmsfilter', (value: CMSFilters[]) => void];
 
 type FsAttributesBase = {
-  animationImport?: AnimationImport;
-  supportImport?: Promise<boolean>;
-
   push: (...args: FsAttributesCallback[]) => void;
+  destroy?: () => void;
 
-  cms: {
+  // TODO: Remove this after cmscore@1.9.0 has rolled out
+  cms?: {
     coreVersion?: string;
     coreImport?: CMSCoreImport;
     listElements?: CollectionListWrapperElement[];
@@ -27,16 +27,29 @@ type FsAttributesBase = {
   };
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 interface FsAttributeInit<T = any> {
   version?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   init?: (...args: any[]) => T | Promise<T>;
   loading?: Promise<T>;
   resolve?: (value: T) => void;
+  destroy?: () => void;
 }
 
 type FsAttributesInit = {
+  cmscore?: {
+    version?: string;
+    import?: CMSCoreImport;
+    listInstances?: Map<CollectionListWrapperElement, CMSList>;
+  };
+
+  animation?: FsAttributeInit & {
+    import?: AnimationImport;
+  };
+
+  support?: {
+    import?: Promise<boolean>;
+  };
+
   [key: string]: FsAttributeInit;
 };
 

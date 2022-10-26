@@ -8,6 +8,8 @@ import { syncDotsProperties } from './sync';
  * @param sliderNav The original `Slider Nav`.
  * @param dotsRelationship A {@link DotsRelationship} array.
  * @param activeCSSClass The CSS class used for the `active` state.
+ *
+ * @returns The MutationObserver.
  */
 export const observeSliderNav = (
   sliderNav: SliderNavElement,
@@ -33,4 +35,6 @@ export const observeSliderNav = (
 
   const observer = new MutationObserver(callback);
   observer.observe(sliderNav, options);
+
+  return observer;
 };

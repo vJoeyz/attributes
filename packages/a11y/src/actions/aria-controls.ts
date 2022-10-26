@@ -7,18 +7,26 @@ import { queryElement } from '../utils/constants';
 /**
  * Observes [aria-controls] target visibility.
  * Sets the correspondent [aria-expanded] attribute value.
+ *
+ * @returns A callback to disconnect all observers.
  */
-export const observeAriaControls = (): void => {
-  const controllers = document.querySelectorAll(`[${ARIA_CONTROLS}]`);
+export const observeAriaControls = () => {
+  const controllers = [...document.querySelectorAll(`[${ARIA_CONTROLS}]`)];
 
-  for (const controller of controllers) observeTarget(controller);
+  const observers = controllers.map(observeTarget);
+
+  return () => {
+    for (const observer of observers) {
+      observer?.disconnect();
+    }
+  };
 };
 
 /**
  * Observes an [aria-controls] target.
  * Sets the correspondent [aria-expanded] attribute value.
  *
- * @param controller The [aria-controls] controller.
+ * @param controller The [aria-controls] controller element.
  */
 const observeTarget = (controller: Element) => {
   const targetSelector = controller.getAttribute(ARIA_CONTROLS);
@@ -36,16 +44,14 @@ const observeTarget = (controller: Element) => {
 
   setAriaExpanded(controller, visibilityState);
 
-  const observerCallback: MutationCallback = (mutations) => {
-    mutations.forEach(() => {
-      const newVisibilityState = isVisible(target);
+  const observerCallback: MutationCallback = () => {
+    const newVisibilityState = isVisible(target);
 
-      setAriaExpanded(controller, newVisibilityState);
+    setAriaExpanded(controller, newVisibilityState);
 
-      if (autoFocusTarget && !visibilityState && newVisibilityState) autoFocusTarget.focus();
+    if (autoFocusTarget && !visibilityState && newVisibilityState) autoFocusTarget.focus();
 
-      visibilityState = newVisibilityState;
-    });
+    visibilityState = newVisibilityState;
   };
 
   const debouncedObserverCallback = debounce(observerCallback, 100);
@@ -56,6 +62,8 @@ const observeTarget = (controller: Element) => {
     attributes: true,
     attributeFilter: ['style', 'class'],
   });
+
+  return observer;
 };
 
 /**
@@ -64,5 +72,5 @@ const observeTarget = (controller: Element) => {
  * @param expanded
  */
 const setAriaExpanded = (controller: Element, expanded: boolean) => {
-  controller.setAttribute(ARIA_EXPANDED_KEY, `${expanded}`);
+  controller.setAttribute(ARIA_EXPANDED_KEY, String(expanded));
 };

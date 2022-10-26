@@ -1,4 +1,5 @@
 import { CMS_ATTRIBUTE_ATTRIBUTE, FAV_CUSTOM_ATTRIBUTE } from '$global/constants/attributes';
+import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
 
 import { queryElement } from './constants';
 
@@ -6,7 +7,7 @@ import { queryElement } from './constants';
  * Inits setting a custom favicon to the current page.
  */
 export const init = async (): Promise<string | undefined> => {
-  await window.fsAttributes[CMS_ATTRIBUTE_ATTRIBUTE]?.loading;
+  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
 
   // Get the element's src, if existing.
   const srcElement = queryElement('src');
@@ -24,7 +25,5 @@ export const init = async (): Promise<string | undefined> => {
   // Append the new one
   document.head.appendChild(linkElement);
 
-  window.fsAttributes[FAV_CUSTOM_ATTRIBUTE].resolve?.(linkHref);
-
-  return linkHref;
+  return finalizeAttribute(FAV_CUSTOM_ATTRIBUTE, linkHref);
 };

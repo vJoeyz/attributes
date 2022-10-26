@@ -3,6 +3,7 @@ import { writeFileSync, readFileSync } from 'fs';
 import { pathToFileURL } from 'url';
 
 const production = process.env.NODE_ENV === 'production';
+const development = process.env.NODE_ENV === 'development';
 
 /**
  * Default Settings
@@ -13,7 +14,7 @@ export const defaultBuildSettings = {
   minify: production,
   sourcemap: !production,
   target: production ? 'es2017' : 'esnext',
-  watch: !production,
+  watch: development,
   define: {
     CMS_CORE_SOURCE: JSON.stringify(
       production
@@ -81,28 +82,24 @@ export const generateSchemaJSON = (__dirname) => {
  * @param {string} __dirname
  */
 export const generateChangesetsJSON = (__dirname) => {
-  if (!production) return;
+  const changelog = readFileSync(`${__dirname}/../CHANGELOG.md`, 'utf-8');
+  if (!changelog) throw new Error('Changelog not found while generating changesets.json');
 
-  esbuild.buildSync({
-    ...defaultBuildSettings,
-    entryPoints: ['api/changesets.ts'],
-    outfile: `temp/changesets.js`,
-    format: 'esm',
-  });
+  const result = changelog
+    .split(/### Patch Changes|### Minor Changes|### Major Changes/)
+    .map((match) => match.trim())
+    .join('')
+    .split(/\s##\s/)
+    .map((match) => {
+      const value = match.trim();
 
-  import(pathToFileURL(`${__dirname}/../temp/changesets.js`)).then(({ changesets }) => {
-    const fullChangesets = changesets.map((changeset) => {
-      const { version } = changeset;
+      const version = value.match(/\d\.\d\.\d/)?.[0];
+      const markdown = value.replace(/\d\.\d\.\d/, '');
+      if (!version || !markdown) return;
 
-      const markdown = readFileSync(`${__dirname}/../.changesets/${version}.md`, 'utf-8');
-      if (!markdown) throw new Error(`File ${version}.md doesn't exist.`);
+      return { version, markdown };
+    })
+    .filter(Boolean);
 
-      return {
-        ...changeset,
-        markdown,
-      };
-    });
-
-    writeFileSync(`${__dirname}/../changesets.json`, JSON.stringify(fullChangesets));
-  });
+  writeFileSync(`${__dirname}/../changesets.json`, JSON.stringify(result));
 };

@@ -1,6 +1,6 @@
 import { normalizeNumber } from 'global/helpers';
 
-import { checkCMSCoreVersion, CMSList } from '$packages/cmscore';
+import type { CMSList } from '$packages/cmscore';
 
 import type { SortingDirection } from '../utils/types';
 
@@ -73,16 +73,13 @@ export const sortListItems = async (
     });
 
     // Move static items back to their position
-    // TODO: Remove this once cmscore@1.8.0 has rolled out
-    if (checkCMSCoreVersion('>=', '1.8.0')) {
-      for (const staticItem of staticItems) {
-        const currentIndex = items.indexOf(staticItem);
+    for (const staticItem of staticItems) {
+      const currentIndex = items.indexOf(staticItem);
 
-        if (currentIndex < 0 || typeof staticItem.staticIndex !== 'number') continue;
+      if (currentIndex < 0 || typeof staticItem.staticIndex !== 'number') continue;
 
-        items.splice(currentIndex, 1);
-        items.splice(staticItem.staticIndex, 0, staticItem);
-      }
+      items.splice(currentIndex, 1);
+      items.splice(staticItem.staticIndex, 0, staticItem);
     }
   }
 
