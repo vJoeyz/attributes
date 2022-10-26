@@ -89,27 +89,27 @@ export const generateChangesetsJSON = (__dirname) => {
     if (!changelog) {
       throw new Error('Changelog not found');
     }
+
+    const result = changelog
+      .split(/### Patch Changes|### Minor Changes|### Major Changes/)
+      .map((match) => match.trim())
+      .join('')
+      .split(/\s##\s/)
+      .map((match) => {
+        const value = match.trim();
+
+        const version = value.match(/\d\.\d\.\d/)?.[0];
+        const markdown = value.replace(/\d\.\d\.\d/, '');
+        if (!version || !markdown) return;
+
+        return { version, markdown };
+      })
+      .filter(Boolean);
+
+    writeChangesets(result);
   } catch (err) {
     console.log(err.message);
     writeChangesets({});
     return;
   }
-
-  const result = changelog
-    .split(/### Patch Changes|### Minor Changes|### Major Changes/)
-    .map((match) => match.trim())
-    .join('')
-    .split(/\s##\s/)
-    .map((match) => {
-      const value = match.trim();
-
-      const version = value.match(/\d\.\d\.\d/)?.[0];
-      const markdown = value.replace(/\d\.\d\.\d/, '');
-      if (!version || !markdown) return;
-
-      return { version, markdown };
-    })
-    .filter(Boolean);
-
-  writeChangesets(result);
 };
