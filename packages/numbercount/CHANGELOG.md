@@ -1,5 +1,11 @@
 # @finsweet/attributes-numbercount
 
+## 1.1.1
+
+### Patch Changes
+
+- 43e99e66: Add a11y attributes to the number count elements
+
 ## 1.1.0
 
 ### Minor Changes
