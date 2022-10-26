@@ -56,6 +56,8 @@ export const MIRROR_CLICK_ATTRIBUTE = 'mirrorclick';
 
 export const MIRROR_INPUT_ATTRIBUTE = 'mirrorinput';
 
+export const NUMBER_COUNT_ATTRIBUTE = 'numbercount';
+
 export const LAUNCHDARKLY_ATTRIBUTE = 'launchdarkly';
 
 export const QUERY_PARAM_ATTRIBUTE = 'queryparam';
