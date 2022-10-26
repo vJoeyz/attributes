@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-cmsattribute",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Apply custom attributes with CMS fields. Use with CMS Collection List and Template page.",
   "homepage": "https://www.finsweet.com/attributes",
   "sideEffects": false,

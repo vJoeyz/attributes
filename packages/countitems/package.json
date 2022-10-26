@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-countitems",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Display the amount of CMS items of a Collection List.",
   "homepage": "https://www.finsweet.com/attributes",
   "sideEffects": false,
