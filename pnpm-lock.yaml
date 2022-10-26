@@ -170,6 +170,12 @@ importers:
   packages/mirrorinput:
     specifiers: {}
 
+  packages/numbercount:
+    specifiers:
+      just-throttle: ^4.0.1
+    dependencies:
+      just-throttle: 4.1.1
+
   packages/queryparam:
     specifiers: {}
 

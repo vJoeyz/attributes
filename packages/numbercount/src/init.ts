@@ -1,3 +1,5 @@
+import { isNotEmpty } from '@finsweet/ts-utils';
+
 import { CMS_ATTRIBUTE_ATTRIBUTE, NUMBER_COUNT_ATTRIBUTE } from '$global/constants/attributes';
 import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
 
@@ -12,9 +14,9 @@ export const init = async () => {
 
   const numberElements = queryElement('number', { operator: 'prefixed', all: true });
 
-  for (const numberElement of numberElements) {
-    initNumberCount(numberElement);
-  }
+  const cleanups = numberElements.map(initNumberCount).filter(isNotEmpty);
 
-  return finalizeAttribute(NUMBER_COUNT_ATTRIBUTE, numberElements);
+  return finalizeAttribute(NUMBER_COUNT_ATTRIBUTE, numberElements, () => {
+    for (const cleanup of cleanups) cleanup();
+  });
 };
