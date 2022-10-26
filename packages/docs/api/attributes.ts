@@ -30,6 +30,7 @@ import {
   FAV_CUSTOM_ATTRIBUTE,
   QUERY_PARAM_ATTRIBUTE,
   READ_TIME_ATTRIBUTE,
+  NUMBER_COUNT_ATTRIBUTE,
 } from '$global/constants/attributes';
 
 import type { AttributesData } from '../src/utils/types';
@@ -342,6 +343,19 @@ export const attributesData: AttributesData = [
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
     allowSupport: true,
+  },
+  {
+    key: NUMBER_COUNT_ATTRIBUTE,
+    title: 'Number Count',
+    description: 'Create a number count animation in Webflow.',
+    href: 'https://www.finsweet.com/attributes/number-count',
+    baseSrc: 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-numbercount@1',
+    scriptSrc: 'numbercount.js',
+    examplesSrc: 'examples.json',
+    loadMode: 'defer',
+    changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
+    allowSupport: false,
   },
   {
     key: RANGE_SLIDER_ATTRIBUTE,

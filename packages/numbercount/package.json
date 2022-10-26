@@ -1,13 +1,13 @@
 {
-  "name": "@finsweet/attributes-ATTRIBUTE_KEY",
+  "name": "@finsweet/attributes-numbercount",
   "version": "0.0.0",
-  "description": "ATTRIBUTE_DESCRIPTION.",
+  "description": "Create a number count animation in Webflow.",
   "homepage": "https://www.finsweet.com/attributes",
   "sideEffects": false,
   "type": "module",
-  "main": "ATTRIBUTE_KEY.js",
+  "main": "numbercount.js",
   "files": [
-    "ATTRIBUTE_KEY.js",
+    "numbercount.js",
     "examples.json",
     "schema.json",
     "changesets.json"
@@ -29,7 +29,8 @@
   "keywords": [
     "webflow",
     "attributes",
-    "no code"
+    "no code",
+    "number count"
   ],
   "author": {
     "name": "Finsweet",

@@ -82,24 +82,34 @@ export const generateSchemaJSON = (__dirname) => {
  * @param {string} __dirname
  */
 export const generateChangesetsJSON = (__dirname) => {
-  const changelog = readFileSync(`${__dirname}/../CHANGELOG.md`, 'utf-8');
-  if (!changelog) throw new Error('Changelog not found while generating changesets.json');
+  const writeChangesets = (result) => writeFileSync(`${__dirname}/../changesets.json`, JSON.stringify(result));
 
-  const result = changelog
-    .split(/### Patch Changes|### Minor Changes|### Major Changes/)
-    .map((match) => match.trim())
-    .join('')
-    .split(/\s##\s/)
-    .map((match) => {
-      const value = match.trim();
+  try {
+    const changelog = readFileSync(`${__dirname}/../CHANGELOG.md`, 'utf-8');
+    if (!changelog) {
+      throw new Error('Changelog not found');
+    }
 
-      const version = value.match(/\d\.\d\.\d/)?.[0];
-      const markdown = value.replace(/\d\.\d\.\d/, '');
-      if (!version || !markdown) return;
+    const result = changelog
+      .split(/### Patch Changes|### Minor Changes|### Major Changes/)
+      .map((match) => match.trim())
+      .join('')
+      .split(/\s##\s/)
+      .map((match) => {
+        const value = match.trim();
 
-      return { version, markdown };
-    })
-    .filter(Boolean);
+        const version = value.match(/\d\.\d\.\d/)?.[0];
+        const markdown = value.replace(/\d\.\d\.\d/, '');
+        if (!version || !markdown) return;
 
-  writeFileSync(`${__dirname}/../changesets.json`, JSON.stringify(result));
+        return { version, markdown };
+      })
+      .filter(Boolean);
+
+    writeChangesets(result);
+  } catch (err) {
+    console.log(err.message);
+    writeChangesets({});
+    return;
+  }
 };
