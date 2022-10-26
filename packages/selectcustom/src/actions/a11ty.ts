@@ -4,16 +4,14 @@ import { ARIA_HASPOPUP_KEY, ARIA_MULTISELECTABLE_KEY, ARIA_ROLE_KEY, ARIA_ROLE_V
 
 import type { OptionData } from '../utils/types';
 
-const { listbox: listboxRole, option: optionRole } = ARIA_ROLE_VALUES;
-
 /**
  * Adds `a11ty` attributes to the Dropdown elements.
  * @param dropdownToggle The {@link DropdownToggle} element.
  * @param dropdownList The {@link DropdownList} element.
  */
 export const setDropdownAria = (dropdownToggle: DropdownToggle, dropdownList: DropdownList) => {
-  dropdownToggle.setAttribute(ARIA_HASPOPUP_KEY, listboxRole);
-  dropdownList.setAttribute(ARIA_ROLE_KEY, listboxRole);
+  dropdownToggle.setAttribute(ARIA_HASPOPUP_KEY, ARIA_ROLE_VALUES.listbox);
+  dropdownList.setAttribute(ARIA_ROLE_KEY, ARIA_ROLE_VALUES.listbox);
   dropdownList.setAttribute(ARIA_MULTISELECTABLE_KEY, 'false');
 };
 
@@ -22,5 +20,5 @@ export const setDropdownAria = (dropdownToggle: DropdownToggle, dropdownList: Dr
  * @param element
  */
 export const setOptionAria = (element: OptionData['element']) => {
-  element.setAttribute(ARIA_ROLE_KEY, optionRole);
+  element.setAttribute(ARIA_ROLE_KEY, ARIA_ROLE_VALUES.option);
 };
