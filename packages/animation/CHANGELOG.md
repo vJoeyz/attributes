@@ -1,5 +1,12 @@
 # @finsweet/attributes-animation
 
+## 1.2.0
+
+### Minor Changes
+
+- 460f73c6: - Improved animation functions.
+  - Generated `esm` export.
+
 ## 1.1.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @finsweet/attributes-numbercount
 
+## 1.1.2
+
+### Patch Changes
+
+- 460f73c6: Fixed invalid attribute key in API
+
 ## 1.1.1
 
 ### Patch Changes

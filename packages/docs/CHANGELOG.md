@@ -1,5 +1,11 @@
 # @finsweet/attributes-docs
 
+## 1.12.2
+
+### Patch Changes
+
+- 460f73c6: Created `fs-modal` Attribute
+
 ## 1.12.1
 
 ### Patch Changes

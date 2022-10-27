@@ -1,5 +1,11 @@
 # @finsweet/attributes-a11y
 
+## 0.2.1
+
+### Patch Changes
+
+- 460f73c6: Ensure compatibility with modal and inputcounter
+
 ## 0.2.0
 
 ### Minor Changes
