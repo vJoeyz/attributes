@@ -4,6 +4,7 @@ import { getInstanceIndex, parseNumericAttribute } from '$global/helpers';
 
 import { handleButtons, handleResetButton } from './actions/buttons';
 import { handleInput } from './actions/input';
+import { addHideArrowsStylesheet } from './actions/style';
 import { ATTRIBUTES, DEFAULT_INITIAL_VALUE, getAttribute, queryElement } from './utils/constants';
 
 /**
@@ -14,6 +15,8 @@ import { ATTRIBUTES, DEFAULT_INITIAL_VALUE, getAttribute, queryElement } from '.
 export const initInputCounter = (inputElement: HTMLInputElement) => {
   const instanceIndex = getInstanceIndex(inputElement, ATTRIBUTES.element.key);
 
+  const showArrows = getAttribute(inputElement, 'showArrows');
+
   const rawInitialValue = getAttribute(inputElement, 'initial');
   const initialValue = parseNumericAttribute(rawInitialValue, DEFAULT_INITIAL_VALUE);
 
@@ -22,6 +25,9 @@ export const initInputCounter = (inputElement: HTMLInputElement) => {
   const resetButton = queryElement('reset', { instanceIndex });
 
   if (!incrementButton && !decrementButton) return;
+
+  // Hide number input arrows (spinners)
+  if (!showArrows) addHideArrowsStylesheet();
 
   // Handle input
   const cleanupInput = handleInput(inputElement);
