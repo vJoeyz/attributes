@@ -7,8 +7,10 @@ export const INPUT_ELEMENT_KEY = 'input';
 export const INCREMENT_ELEMENT_KEY = 'increment';
 export const DECREMENT_ELEMENT_KEY = 'decrement';
 export const RESET_ELEMENT_KEY = 'reset';
+export const STYLE_ELEMENT_KEY = 'style';
 
 export const INITIAL_SETTING_KEY = 'initial';
+export const SHOW_ARROWS_SETTING_KEY = 'showarrows';
 
 export const ATTRIBUTES = {
   element: {
@@ -33,6 +35,11 @@ export const ATTRIBUTES = {
        * Defines a reset button.
        */
       reset: generateDynamicAttibuteValue(RESET_ELEMENT_KEY),
+
+      /**
+       * Defines the stylesheet that contains the hide arrows CSS.
+       */
+      style: STYLE_ELEMENT_KEY,
     },
   },
 
@@ -42,8 +49,29 @@ export const ATTRIBUTES = {
   initial: {
     key: `${ATTRIBUTES_PREFIX}-${INITIAL_SETTING_KEY}`,
   },
+
+  /**
+   * Defines if the native number input arrows should be displayed.
+   */
+  showArrows: {
+    key: `${ATTRIBUTES_PREFIX}-${SHOW_ARROWS_SETTING_KEY}`,
+  },
 } as const;
 
 export const [getSelector, queryElement, getAttribute] = generateSelectors(ATTRIBUTES);
 
 export const DEFAULT_INITIAL_VALUE = 0;
+
+export const HIDE_ARROWS_STYLE = `<style ${ATTRIBUTES.element.key}="${STYLE_ELEMENT_KEY}">
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+</style>`;
