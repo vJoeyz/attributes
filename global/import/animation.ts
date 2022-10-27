@@ -1,6 +1,12 @@
 import { Debug } from '@finsweet/ts-utils';
 
-const ANIMATIONS_SOURCE = 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-animation@1/functions.js';
+import { ANIMATION_ATTRIBUTE } from '$global/constants/attributes';
+
+import { createImportURL } from './create';
+
+const ANIMATIONS_SOURCE = createImportURL(ANIMATION_ATTRIBUTE, '1', 'esm');
+
+// TODO: Migrate to unified ESM imports using {@link window.fsAttributes.import}
 
 /**
  * Dynamically imports the `animation` package.

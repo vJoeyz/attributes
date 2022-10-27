@@ -1,15 +1,17 @@
 {
-  "name": "@finsweet/attributes-animation",
-  "version": "1.1.0",
-  "description": "Web Animations API for Attributes.",
-  "main": "animation.js",
-  "files": [
-    "animation.js",
-    "animation.esm.js",
-    "functions.js"
-  ],
-  "type": "module",
+  "name": "@finsweet/attributes-modal",
+  "version": "0.0.0",
+  "description": "Create accessible modal popups easily on Webflow.",
+  "homepage": "https://www.finsweet.com/attributes",
   "sideEffects": false,
+  "type": "module",
+  "main": "modal.js",
+  "files": [
+    "modal.js",
+    "examples.json",
+    "schema.json",
+    "changesets.json"
+  ],
   "scripts": {
     "dev": "cross-env NODE_ENV=development node ./bin/build.js",
     "build:dev": "cross-env NODE_ENV=test node ./bin/build.js",
@@ -17,8 +19,8 @@
     "lint": "eslint ./src && prettier --check ./src",
     "check": "tsc --noEmit",
     "format": "prettier --write ./src",
-    "test": "",
-    "test:headed": ""
+    "test": "pnpm playwright test",
+    "test:headed": "pnpm playwright test --headed"
   },
   "repository": {
     "type": "git",
@@ -35,13 +37,5 @@
   },
   "bugs": {
     "url": "https://sweetjs.finsweet.com/"
-  },
-  "homepage": "https://www.finsweet.com/attributes",
-  "devDependencies": {
-    "@motionone/dom": "^10.14.2",
-    "@motionone/types": "^10.14.0"
-  },
-  "dependencies": {
-    "motion": "^10.14.2"
   }
 }

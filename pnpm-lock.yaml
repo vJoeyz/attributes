@@ -18,11 +18,13 @@ importers:
       eslint: ^8.26.0
       eslint-config-prettier: ^8.5.0
       eslint-plugin-prettier: ^4.2.1
+      nanoid: ^4.0.0
       prettier: ^2.7.1
       serve: ^14.0.1
       typescript: ^4.8.4
     dependencies:
       '@finsweet/ts-utils': 0.36.0
+      nanoid: 4.0.0
     devDependencies:
       '@changesets/changelog-git': 0.1.13
       '@changesets/cli': 2.25.0
@@ -49,9 +51,9 @@ importers:
 
   packages/animation:
     specifiers:
-      '@motionone/dom': ^10.10.0
-      '@motionone/types': ^10.9.0
-      motion: ^10.10.0
+      '@motionone/dom': ^10.14.2
+      '@motionone/types': ^10.14.0
+      motion: ^10.14.2
     dependencies:
       motion: 10.14.2
     devDependencies:
@@ -171,6 +173,9 @@ importers:
     specifiers: {}
 
   packages/mirrorinput:
+    specifiers: {}
+
+  packages/modal:
     specifiers: {}
 
   packages/numbercount:
@@ -13935,6 +13940,12 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
     dev: true
+
+  /nanoid/4.0.0:
+    resolution: {integrity: sha512-IgBP8piMxe/gf73RTQx7hmnhwz0aaEXYakvqZyE302IXW3HyVNhdNGC+O2MwMAVhLEnvXlvKtGbtJf6wvHihCg==}
+    engines: {node: ^14 || ^16 || >=18}
+    hasBin: true
+    dev: false
 
   /nanomatch/1.2.13:
     resolution: {integrity: sha512-fpoe2T0RbHwBTBUOftAfBPaDEi06ufaUai0mE6Yn1kacc3SnTErfb/h+X94VXzI64rKFHYImXSvdwGGCmwOqCA==}

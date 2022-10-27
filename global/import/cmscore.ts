@@ -1,9 +1,12 @@
 import { Debug } from '@finsweet/ts-utils';
 
-/**
- * Defined at {@link @global/build/index.js}
- */
-declare const CMS_CORE_SOURCE: string;
+import { CMS_CORE_ATTRIBUTE } from '$global/constants/attributes';
+
+import { createImportURL } from './create';
+
+const CMS_CORE_SOURCE = createImportURL(CMS_CORE_ATTRIBUTE, '1');
+
+// TODO: Migrate to unified ESM imports using {@link window.fsAttributes.import}
 
 /**
  * Dynamically imports the `cms/cmscore` package.

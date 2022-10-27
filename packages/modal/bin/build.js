@@ -10,9 +10,7 @@ import {
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-generateScript('src/index.ts', 'animation');
-generateScript('src/esm.ts', 'animation.esm', 'esm');
-generateScript('src/functions.ts', 'functions', 'esm');
+generateScript('src/index.ts', 'modal');
 generateExamplesJSON(__dirname);
 generateSchemaJSON(__dirname);
 generateChangesetsJSON(__dirname);

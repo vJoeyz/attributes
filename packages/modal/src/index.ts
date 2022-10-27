@@ -1,5 +1,6 @@
-import { NUMBER_COUNT_ATTRIBUTE } from '$global/constants/attributes';
+import { MODAL_ATTRIBUTE } from '$global/constants/attributes';
 import { initAttribute } from '$global/factory';
+import { importAnimations } from '$global/import';
 
 import { version } from '../package.json';
 import { init } from './init';
@@ -10,5 +11,7 @@ import { init } from './init';
 initAttribute({
   init,
   version,
-  attributeKey: NUMBER_COUNT_ATTRIBUTE,
+  attributeKey: MODAL_ATTRIBUTE,
 });
+
+importAnimations();
