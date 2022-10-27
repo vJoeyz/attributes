@@ -1,5 +1,11 @@
 # @finsweet/attributes-docs
 
+## 1.12.1
+
+### Patch Changes
+
+- 1ece2f42: Created `fs-inputcounter` Attribute
+
 ## 1.12.0
 
 ### Minor Changes
