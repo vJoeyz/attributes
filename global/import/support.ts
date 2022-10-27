@@ -14,5 +14,6 @@ export const importSupport = async () => {
 
   if (!host.includes('webflow.io') || !searchParams.has(ATTRIBUTES_SUPPORT_QUERY_PARAM)) return false;
 
-  return fsAttributes.import(SUPPORT_ATTRIBUTE, '1');
+  // TODO: Remove optional chaining once support for {@link window.fsAttributes.import} has rolled out
+  return fsAttributes.import?.(SUPPORT_ATTRIBUTE, '1');
 };
