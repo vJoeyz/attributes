@@ -1,7 +1,8 @@
 import { DROPDOWN_CSS_CLASSES, FORM_CSS_CLASSES, cloneNode, FormField } from '@finsweet/ts-utils';
 import type { JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
-import type { CMSFilters } from 'packages/cmsfilter/src/components/CMSFilters';
-import type { FiltersData } from 'packages/cmsfilter/src/utils/types';
+
+import type { CMSFilters } from '$packages/cmsfilter/src/components/CMSFilters';
+import type { FiltersData } from '$packages/cmsfilter/src/utils/types';
 
 import type { JobsFilters } from '../types';
 import { ATTRIBUTES, GH_DEPARTMENT, GH_OFFICE } from '../utils/constants';

@@ -1,5 +1,4 @@
-import { A11Y_ATTRIBUTE } from 'global/constants/attributes';
-
+import { A11Y_ATTRIBUTE } from '$global/constants/attributes';
 import { generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${A11Y_ATTRIBUTE}`;

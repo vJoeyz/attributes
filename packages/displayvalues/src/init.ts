@@ -1,6 +1,6 @@
 import { isFormField } from '@finsweet/ts-utils';
-import { CMS_ATTRIBUTE_ATTRIBUTE, DISPLAY_VALUES_ATTRIBUTE } from 'global/constants/attributes';
 
+import { CMS_ATTRIBUTE_ATTRIBUTE, DISPLAY_VALUES_ATTRIBUTE } from '$global/constants/attributes';
 import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
 
 import { collectTargets } from './actions/collect';

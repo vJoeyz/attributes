@@ -3,8 +3,7 @@ import {
   CMS_ATTRIBUTE_ATTRIBUTE,
   INPUT_COUNTER_ATTRIBUTE,
   MODAL_ATTRIBUTE,
-} from 'global/constants/attributes';
-
+} from '$global/constants/attributes';
 import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
 
 import { observeAriaControls } from './actions/aria-controls';

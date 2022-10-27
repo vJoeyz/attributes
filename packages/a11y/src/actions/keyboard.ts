@@ -1,5 +1,6 @@
 import { addListener, simulateEvent } from '@finsweet/ts-utils';
-import { TABINDEX_KEY } from 'global/constants/a11ty';
+
+import { TABINDEX_KEY } from '$global/constants/a11ty';
 
 const DISALLOWED_INSTANCES = [
   HTMLAnchorElement,

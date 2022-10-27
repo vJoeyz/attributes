@@ -1,8 +1,8 @@
 import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
-import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_LOAD_ATTRIBUTE } from 'global/constants/attributes';
-import type { CMSList } from 'packages/cmscore/src';
 
+import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_LOAD_ATTRIBUTE } from '$global/constants/attributes';
 import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
+import type { CMSList } from '$packages/cmscore/src';
 
 import { createCMSAttribute } from './factory';
 import { getSelector } from './utils/constants';
