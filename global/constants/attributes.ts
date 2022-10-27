@@ -14,6 +14,8 @@ export const CMS_ATTRIBUTE_ATTRIBUTE = 'cmsattribute';
 
 export const CMS_COMBINE_ATTRIBUTE = 'cmscombine';
 
+export const CMS_CORE_ATTRIBUTE = 'cmscore';
+
 export const CMS_CSS_ATTRIBUTE = 'cmscss';
 
 export const CMS_FILTER_ATTRIBUTE = 'cmsfilter';
@@ -58,6 +60,8 @@ export const MIRROR_CLICK_ATTRIBUTE = 'mirrorclick';
 
 export const MIRROR_INPUT_ATTRIBUTE = 'mirrorinput';
 
+export const MODAL_ATTRIBUTE = 'modal';
+
 export const NUMBER_COUNT_ATTRIBUTE = 'numbercount';
 
 export const LAUNCHDARKLY_ATTRIBUTE = 'launchdarkly';
@@ -77,6 +81,8 @@ export const SLIDER_DOTS_ATTRIBUTE = 'sliderdots';
 export const SMART_LIGHTBOX_ATTRIBUTE = 'smartlightbox';
 
 export const SOCIAL_SHARE_ATTRIBUTE = 'socialshare';
+
+export const SUPPORT_ATTRIBUTE = 'support';
 
 export const TOC_ATTRIBUTE = 'toc';
 
