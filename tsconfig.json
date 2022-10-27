@@ -8,10 +8,5 @@
       "$packages/*": ["packages/*"]
     }
   },
-  "exclude": [
-    "packages/components/**/*.ts",
-    "packages/cmssave/**/*.ts",
-    "packages/template/**/*.ts",
-    "packages/support/**/*.ts"
-  ]
+  "exclude": ["packages/components/**/*.ts", "packages/cmssave/**/*.ts", "packages/support/**/*.ts"]
 }
