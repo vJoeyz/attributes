@@ -1,5 +1,11 @@
 # @finsweet/attributes-inputcounter
 
+## 1.0.1
+
+### Patch Changes
+
+- d7c4051a: Prevent default behavior of buttons
+
 ## 1.0.0
 
 ### Major Changes
