@@ -26,8 +26,14 @@ export const handleButtons = (
   }
 
   // Set up listeners
-  const cleanupIncrement = addListener(incrementButton, 'click', () => inputElement.stepUp());
-  const cleanupDecrement = addListener(decrementButton, 'click', () => inputElement.stepDown());
+  const cleanupIncrement = addListener(incrementButton, 'click', (e) => {
+    e.preventDefault();
+    inputElement.stepUp();
+  });
+  const cleanupDecrement = addListener(decrementButton, 'click', (e) => {
+    e.preventDefault();
+    inputElement.stepDown();
+  });
 
   return () => {
     cleanupIncrement();
@@ -52,9 +58,10 @@ export const handleResetButton = (inputElement: HTMLInputElement, resetButton: E
   }
 
   // Set up listeners
-  const cleanupIncrement = addListener(resetButton, 'click', () => {
+  const cleanupReset = addListener(resetButton, 'click', (e) => {
+    e.preventDefault();
     setFormFieldValue(inputElement, initialValue.toString());
   });
 
-  return cleanupIncrement;
+  return cleanupReset;
 };
