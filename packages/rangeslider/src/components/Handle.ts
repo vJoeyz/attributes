@@ -1,10 +1,10 @@
 import { addListener, setFormFieldValue } from '@finsweet/ts-utils';
 
 import { ARIA_VALUEMAX_KEY, ARIA_VALUEMIN_KEY, ARIA_VALUENOW_KEY } from '$global/constants/a11ty';
+import { adjustValueToStep } from '$global/helpers';
 
 import { setHandleA11ty } from '../actions/a11ty';
 import { setHandleStyles } from '../actions/styles';
-import { adjustValueToStep } from '../actions/values';
 import { HANDLE_INCREMENT_KEYS, HANDLE_KEYS } from '../utils/constants';
 import type { Fill } from './Fill';
 

@@ -6,6 +6,7 @@ export const enum ARIA_ROLE_VALUES {
   columnheader = 'columnheader',
   link = 'link',
   marquee = 'marquee',
+  button = 'button',
 }
 export const TABINDEX_KEY = 'tabindex';
 export const ARIA_LABEL_KEY = 'aria-label';

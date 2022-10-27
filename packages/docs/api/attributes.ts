@@ -31,6 +31,7 @@ import {
   QUERY_PARAM_ATTRIBUTE,
   READ_TIME_ATTRIBUTE,
   NUMBER_COUNT_ATTRIBUTE,
+  INPUT_COUNTER_ATTRIBUTE,
 } from '$global/constants/attributes';
 
 import type { AttributesData } from '../src/utils/types';
@@ -485,5 +486,18 @@ export const attributesData: AttributesData = [
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
     allowSupport: true,
+  },
+  {
+    key: INPUT_COUNTER_ATTRIBUTE,
+    title: 'Input Counter',
+    description: 'Increment and decrement (+ and -) counter in a Webflow Form.',
+    href: 'https://www.finsweet.com/attributes/input-counter',
+    baseSrc: 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-inputcounter@1',
+    scriptSrc: 'inputcounter.js',
+    examplesSrc: 'examples.json',
+    loadMode: 'defer',
+    changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
+    allowSupport: false,
   },
 ];
