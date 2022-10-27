@@ -1,6 +1,6 @@
 import { addListener, isNotEmpty, setFormFieldValue } from '@finsweet/ts-utils';
 
-import { ARIA_CONTROLS, ARIA_LABEL_KEY, ARIA_ROLE_KEY, ARIA_ROLE_VALUES } from '$global/constants/a11ty';
+import { setButtonA11Y } from './a11y';
 
 /**
  * Handles the increment/buttons accessibility and functionality.
@@ -16,13 +16,10 @@ export const handleButtons = (
 ) => {
   // Set up aria
   for (const button of [incrementButton, decrementButton].filter(isNotEmpty)) {
-    button.setAttribute(ARIA_ROLE_KEY, ARIA_ROLE_VALUES.button);
-    button.setAttribute(ARIA_CONTROLS, inputElement.id);
+    const action = button === incrementButton ? 'Increment' : 'Decrement';
+    const label = `${action} the input value`;
 
-    if (!button.hasAttribute(ARIA_LABEL_KEY)) {
-      const action = button === incrementButton ? 'Increment' : 'Decrement';
-      button.setAttribute(ARIA_LABEL_KEY, `${action} the input value`);
-    }
+    setButtonA11Y(inputElement, button, label);
   }
 
   // Set up listeners
@@ -50,12 +47,9 @@ export const handleButtons = (
  */
 export const handleResetButton = (inputElement: HTMLInputElement, resetButton: Element, initialValue: number) => {
   // Set up aria
-  resetButton.setAttribute(ARIA_ROLE_KEY, ARIA_ROLE_VALUES.button);
-  resetButton.setAttribute(ARIA_CONTROLS, inputElement.id);
+  const label = `Reset the input value to ${initialValue}`;
 
-  if (!resetButton.hasAttribute(ARIA_LABEL_KEY)) {
-    resetButton.setAttribute(ARIA_LABEL_KEY, `Reset the input value to ${initialValue}`);
-  }
+  setButtonA11Y(inputElement, resetButton, label);
 
   // Set up listeners
   const cleanupReset = addListener(resetButton, 'click', (e) => {
