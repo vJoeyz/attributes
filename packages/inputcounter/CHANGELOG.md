@@ -1,5 +1,11 @@
 # @finsweet/attributes-inputcounter
 
+## 1.1.0
+
+### Minor Changes
+
+- 460f73c6: Improved a11y + fixed invalid attribute key in API
+
 ## 1.0.1
 
 ### Patch Changes
