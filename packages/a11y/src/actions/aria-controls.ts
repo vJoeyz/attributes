@@ -1,6 +1,7 @@
 import { isVisible } from '@finsweet/ts-utils';
-import { ARIA_CONTROLS, ARIA_EXPANDED_KEY } from 'global/constants/a11ty';
 import debounce from 'just-debounce';
+
+import { ARIA_CONTROLS, ARIA_EXPANDED_KEY } from '$global/constants/a11ty';
 
 import { queryElement } from '../utils/constants';
 

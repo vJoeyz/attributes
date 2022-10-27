@@ -1,7 +1,6 @@
-import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_LOAD_ATTRIBUTE, SOCIAL_SHARE_ATTRIBUTE } from 'global/constants/attributes';
-import type { CMSList } from 'packages/cmscore/src';
-
+import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_LOAD_ATTRIBUTE, SOCIAL_SHARE_ATTRIBUTE } from '$global/constants/attributes';
 import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
+import type { CMSList } from '$packages/cmscore/src';
 
 import { listenTriggerClicks } from './actions/trigger';
 import { createSocialShareInstances } from './factory';

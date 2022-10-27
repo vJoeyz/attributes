@@ -1,4 +1,4 @@
-import type { CMSList } from 'packages/cmscore';
+import type { CMSList } from '$packages/cmscore';
 
 import { ATTRIBUTES, queryElement } from './utils/constants';
 

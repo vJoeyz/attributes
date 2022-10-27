@@ -1,5 +1,4 @@
-import { normalizeNumber } from 'global/helpers';
-
+import { normalizeNumber } from '$global/helpers';
 import type { CMSList } from '$packages/cmscore';
 
 import type { SortingDirection } from '../utils/types';

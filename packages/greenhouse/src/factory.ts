@@ -1,9 +1,9 @@
 import type { FormField } from '@finsweet/ts-utils';
-import { CMS_LOAD_ATTRIBUTE, CMS_FILTER_ATTRIBUTE } from 'global/constants/attributes';
-import type { CMSList } from 'packages/cmscore/src';
-import type { CMSFilters } from 'packages/cmsfilter/src/components/CMSFilters';
 
+import { CMS_LOAD_ATTRIBUTE, CMS_FILTER_ATTRIBUTE } from '$global/constants/attributes';
 import { awaitAttributesLoad } from '$global/factory';
+import type { CMSList } from '$packages/cmscore/src';
+import type { CMSFilters } from '$packages/cmsfilter/src/components/CMSFilters';
 
 import { createFilters } from './actions/filter';
 import { createJobForm } from './actions/form';

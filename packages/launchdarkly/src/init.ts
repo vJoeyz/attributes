@@ -1,6 +1,6 @@
-import { CMS_ATTRIBUTE_ATTRIBUTE, LAUNCHDARKLY_ATTRIBUTE } from 'global/constants/attributes';
 import type { LDClient } from 'launchdarkly-js-client-sdk';
 
+import { CMS_ATTRIBUTE_ATTRIBUTE, LAUNCHDARKLY_ATTRIBUTE } from '$global/constants/attributes';
 import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
 
 import type { LaunchDarklyAttributes } from '../src/utils/types';

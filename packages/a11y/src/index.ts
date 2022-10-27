@@ -1,5 +1,4 @@
-import { A11Y_ATTRIBUTE } from 'global/constants/attributes';
-
+import { A11Y_ATTRIBUTE } from '$global/constants/attributes';
 import { initAttribute } from '$global/factory';
 
 import { version } from '../package.json';
