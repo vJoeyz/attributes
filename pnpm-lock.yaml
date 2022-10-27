@@ -49,9 +49,9 @@ importers:
 
   packages/animation:
     specifiers:
-      '@motionone/dom': ^10.10.0
-      '@motionone/types': ^10.9.0
-      motion: ^10.10.0
+      '@motionone/dom': ^10.14.2
+      '@motionone/types': ^10.14.0
+      motion: ^10.14.2
     dependencies:
       motion: 10.14.2
     devDependencies:
@@ -171,6 +171,9 @@ importers:
     specifiers: {}
 
   packages/mirrorinput:
+    specifiers: {}
+
+  packages/modal:
     specifiers: {}
 
   packages/numbercount:

@@ -1,4 +1,4 @@
-import { importSupport } from '$global/import';
+import { createImportURL, importSupport } from '$global/import';
 
 import { assessScript } from './assess';
 import { ATTRIBUTES, getSelector } from './constants';
@@ -50,11 +50,27 @@ const initAttributes = () => {
 
   // FsAttributes already exists so we just make sure that any newly imported <script> is also parsed and initted.
   if (window.fsAttributes && !Array.isArray(window.fsAttributes)) {
-    initLoadPromises(window.fsAttributes, attributesKeys);
+    initAttributesControls(window.fsAttributes, attributesKeys);
     return;
   }
 
   // Init FsAttributes
+  const fsAttributes = createFsAttributes(attributesKeys);
+
+  initAttributesControls(fsAttributes, attributesKeys);
+  runExistingCallbacks(fsAttributes);
+
+  window.fsAttributes = fsAttributes;
+  window.FsAttributes = window.fsAttributes;
+
+  importSupport();
+};
+
+/**
+ * Creates the base {@link window.fsAttributes} object.
+ * @param attributesKeys
+ */
+const createFsAttributes = (attributesKeys: string[]) => {
   const fsAttributes = {
     // TODO: Remove this once cmscore@1.9.0 has rolled out
     cms: {},
@@ -65,6 +81,24 @@ const initAttributes = () => {
       }
     },
 
+    // TODO: Support importing ESM versions
+    async import(attributeKey, version) {
+      const attribute = fsAttributes[attributeKey];
+      if (attribute) return attribute;
+
+      return new Promise((resolve) => {
+        const script = document.createElement('script');
+        script.src = createImportURL(attributeKey, version);
+        script.async = true;
+        script.onload = () => {
+          const [attributeControls] = initAttributesControls(fsAttributes, [attributeKey]);
+          resolve(attributeControls);
+        };
+
+        document.head.append(script);
+      });
+    },
+
     destroy() {
       for (const attributeKey of attributesKeys) {
         window.fsAttributes[attributeKey]?.destroy?.();
@@ -72,13 +106,7 @@ const initAttributes = () => {
     },
   } as FsAttributes;
 
-  initLoadPromises(fsAttributes, attributesKeys);
-  runExistingCallbacks(fsAttributes);
-
-  window.fsAttributes = fsAttributes;
-  window.FsAttributes = window.fsAttributes;
-
-  importSupport();
+  return fsAttributes;
 };
 
 /**
@@ -104,13 +132,14 @@ const getAttributesKeys = () => {
  * Sets a loading promise for each attribute package.
  * @param fsAttributes The {@link FsAttributes} object.
  */
-const initLoadPromises = (fsAttributes: FsAttributes, attributesKeys: string[]) => {
-  for (const attributeKey of attributesKeys) {
-    if (fsAttributes[attributeKey]) continue;
+const initAttributesControls = (fsAttributes: FsAttributes, attributesKeys: string[]) => {
+  const fsAttributesControls = attributesKeys.map((attributeKey) => {
+    let attribute = fsAttributes[attributeKey];
+    if (attribute) return attribute;
 
     fsAttributes[attributeKey] = {};
 
-    const attribute = fsAttributes[attributeKey];
+    attribute = fsAttributes[attributeKey];
 
     attribute.loading = new Promise((resolve) => {
       attribute.resolve = (value: unknown) => {
@@ -118,7 +147,11 @@ const initLoadPromises = (fsAttributes: FsAttributes, attributesKeys: string[]) 
         delete attribute.resolve;
       };
     });
-  }
+
+    return attribute;
+  });
+
+  return fsAttributesControls;
 };
 
 /**

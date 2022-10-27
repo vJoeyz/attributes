@@ -16,11 +16,7 @@ export const defaultBuildSettings = {
   target: production ? 'es2017' : 'esnext',
   watch: development,
   define: {
-    CMS_CORE_SOURCE: JSON.stringify(
-      production
-        ? 'https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmscore@1/cmscore.js'
-        : 'http://localhost:3000/packages/cmscore/cmscore.js'
-    ),
+    NODE_ENV: JSON.stringify(process.env.NODE_ENV),
   },
 };
 

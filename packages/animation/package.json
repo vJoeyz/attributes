@@ -5,6 +5,7 @@
   "main": "animation.js",
   "files": [
     "animation.js",
+    "animation.esm.js",
     "functions.js"
   ],
   "type": "module",
@@ -37,10 +38,10 @@
   },
   "homepage": "https://www.finsweet.com/attributes",
   "devDependencies": {
-    "@motionone/dom": "^10.10.0",
-    "@motionone/types": "^10.9.0"
+    "@motionone/dom": "^10.14.2",
+    "@motionone/types": "^10.14.0"
   },
   "dependencies": {
-    "motion": "^10.10.0"
+    "motion": "^10.14.2"
   }
 }

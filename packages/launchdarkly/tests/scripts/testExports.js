@@ -1,1 +1,549 @@
-"use strict";(()=>{var ne=Object.defineProperty,re=Object.defineProperties;var oe=Object.getOwnPropertyDescriptors;var x=Object.getOwnPropertySymbols;var k=Object.prototype.hasOwnProperty,C=Object.prototype.propertyIsEnumerable;var B=(e,t,n)=>t in e?ne(e,t,{enumerable:!0,configurable:!0,writable:!0,value:n}):e[t]=n,R=(e,t)=>{for(var n in t||(t={}))k.call(t,n)&&B(e,n,t[n]);if(x)for(var n of x(t))C.call(t,n)&&B(e,n,t[n]);return e},I=(e,t)=>re(e,oe(t));var N=(e,t)=>{var n={};for(var r in e)k.call(e,r)&&t.indexOf(r)<0&&(n[r]=e[r]);if(e!=null&&x)for(var r of x(e))t.indexOf(r)<0&&C.call(e,r)&&(n[r]=e[r]);return n};var $=class extends TypeError{constructor(t,n){let r,c=t,{message:i}=c,s=N(c,["message"]),{path:o}=t,a=o.length===0?i:`At path: ${o.join(".")} -- ${i}`;super(a),this.value=void 0,this.key=void 0,this.type=void 0,this.refinement=void 0,this.path=void 0,this.branch=void 0,this.failures=void 0,Object.assign(this,s),this.name=this.constructor.name,this.failures=()=>r!=null?r:r=[t,...n()]}};function ie(e){return l(e)&&typeof e[Symbol.iterator]=="function"}function l(e){return typeof e=="object"&&e!=null}function S(e){return typeof e=="string"?JSON.stringify(e):`${e}`}function se(e){let{done:t,value:n}=e.next();return t?void 0:n}function ce(e,t,n,r){if(e===!0)return;e===!1?e={}:typeof e=="string"&&(e={message:e});let{path:i,branch:s}=t,{type:o}=n,{refinement:a,message:c=`Expected a value of type \`${o}\`${a?` with refinement \`${a}\``:""}, but received: \`${S(r)}\``}=e;return I(R({value:r,type:o,refinement:a,key:i[i.length-1],path:i,branch:s},e),{message:c})}function*K(e,t,n,r){ie(e)||(e=[e]);for(let i of e){let s=ce(i,t,n,r);s&&(yield s)}}function*D(e,t,n){n===void 0&&(n={});let{path:r=[],branch:i=[e],coerce:s=!1,mask:o=!1}=n,a={path:r,branch:i};if(s&&(e=t.coercer(e,a),o&&t.type!=="type"&&l(t.schema)&&l(e)&&!Array.isArray(e)))for(let f in e)t.schema[f]===void 0&&delete e[f];let c="valid";for(let f of t.validator(e,a))c="not_valid",yield[f,void 0];for(let[f,u,E]of t.entries(e,a)){let p=D(u,E,{path:f===void 0?r:[...r,f],branch:f===void 0?i:[...i,u],coerce:s,mask:o});for(let b of p)b[0]?(c=b[0].refinement!=null?"not_refined":"not_valid",yield[b[0],void 0]):s&&(u=b[1],f===void 0?e=u:e instanceof Map?e.set(f,u):e instanceof Set?e.add(u):l(e)&&u!==void 0&&(e[f]=u))}if(c!=="not_valid")for(let f of t.refiner(e,a))c="not_refined",yield[f,void 0];c==="valid"&&(yield[void 0,e])}var T=class{constructor(t){this.TYPE=void 0,this.type=void 0,this.schema=void 0,this.coercer=void 0,this.validator=void 0,this.refiner=void 0,this.entries=void 0;let{type:n,schema:r,validator:i,refiner:s,coercer:o=c=>c,entries:a=function*(){}}=t;this.type=n,this.schema=r,this.entries=a,this.coercer=o,i?this.validator=(c,f)=>{let u=i(c,f);return K(u,f,this,c)}:this.validator=()=>[],s?this.refiner=(c,f)=>{let u=s(c,f);return K(u,f,this,c)}:this.refiner=()=>[]}assert(t){return fe(t,this)}create(t){return ae(t,this)}is(t){return P(t,this)}mask(t){return ue(t,this)}validate(t,n){return n===void 0&&(n={}),y(t,this,n)}};function fe(e,t){let n=y(e,t);if(n[0])throw n[0]}function ae(e,t){let n=y(e,t,{coerce:!0});if(n[0])throw n[0];return n[1]}function ue(e,t){let n=y(e,t,{coerce:!0,mask:!0});if(n[0])throw n[0];return n[1]}function P(e,t){return!y(e,t)[0]}function y(e,t,n){n===void 0&&(n={});let r=D(e,t,n),i=se(r);return i[0]?[new $(i[0],function*(){for(let o of r)o[0]&&(yield o[0])}),void 0]:[void 0,i[1]]}function H(e,t){return new T({type:e,schema:null,validator:t})}function v(){return H("boolean",e=>typeof e=="boolean")}function L(e){return new T(I(R({},e),{validator:(t,n)=>t===void 0||e.validator(t,n),refiner:(t,n)=>t===void 0||e.refiner(t,n)}))}function V(e,t){return new T({type:"record",schema:null,*entries(n){if(l(n))for(let r in n){let i=n[r];yield[r,r,e],yield[r,i,t]}},validator(n){return l(n)||`Expected an object, but received: ${S(n)}`}})}function O(){return H("string",e=>typeof e=="string"||`Expected a string, but received: ${S(e)}`)}function Y(e){let t=Object.keys(e);return new T({type:"type",schema:e,*entries(n){if(l(n))for(let r of t)yield[r,n[r],e[r]]},validator(n){return l(n)||`Expected an object, but received: ${S(n)}`}})}var F="launchdarkly";var j=(e,t)=>!!e&&t.includes(e);function g(e,t,n,r=!0){let i=n?[n]:[];if(!e)return i;let s=e.split(",").reduce((o,a)=>{let c=a.trim();return(!r||c)&&o.push(c),o},[]);if(t){let o=s.filter(a=>j(a,t));return o.length?o:i}return s}var G=e=>{let t=(i,s,o)=>{let a=e[i],{key:c,values:f}=a,u;if(!s)return`[${c}]`;let E=f==null?void 0:f[s];typeof E=="string"?u=E:u=E(o&&"instanceIndex"in o?o.instanceIndex:void 0);let p=o&&"caseInsensitive"in o&&o.caseInsensitive?"i":"";if(!(o!=null&&o.operator))return`[${c}="${u}"${p}]`;switch(o.operator){case"prefixed":return`[${c}^="${u}"${p}]`;case"suffixed":return`[${c}$="${u}"${p}]`;case"contains":return`[${c}*="${u}"${p}]`}};function n(i,s){let o=t("element",i,s),a=(s==null?void 0:s.scope)||document;return s!=null&&s.all?[...a.querySelectorAll(o)]:a.querySelector(o)}return[t,n,(i,s)=>{let o=e[s];return o?i.getAttribute(o.key):null}]};var d=`fs-${F}`,le="loader",de="devclientid",pe="prodclientid",Te="eventstotrack",me="flag",Ee="showif",ye="setproperties",Ae="cloak",m={element:{key:`${d}-element`,values:{loader:le}},devClientId:{key:`${d}-${de}`},prodClientId:{key:`${d}-${pe}`},eventsToTrack:{key:`${d}-${Te}`},flag:{key:`${d}-${me}`},showIf:{key:`${d}-${Ee}`},setProperties:{key:`${d}-${ye}`},cloak:{key:`${d}-${Ae}`}},[z,q]=G(m),X="text",_="src",h="srcset",U="sizes",A="value",J="class",W="html",Z=Y({show:L(v()),properties:L(V(O(),O()))}),Ce=window.location.origin.includes("webflow.io");var Q=()=>{let e=q("loader",{all:!0});for(let t of e)t.style.display="none"};var ee={[A](e){return e instanceof HTMLInputElement||e instanceof HTMLButtonElement||e instanceof HTMLSelectElement||e instanceof HTMLTextAreaElement}};var w=(e,t,n)=>{var i;let r=Array.isArray(t)?t:[t];for(let s of r)(i=M[s])==null||i.call(M,e,n)},M={[X]:(e,t)=>{e.innerText=String(t)},[_]:(e,t)=>{let n=e.querySelector("iframe");if(n){n.src=String(t);return}e.setAttribute(_,String(t)),e.removeAttribute(h)},[h]:(e,t)=>{e.setAttribute(h,String(t)),e.removeAttribute(_)},[U]:(e,t)=>{e.setAttribute(U,String(t))},[A]:(e,t)=>{ee[A](e)&&(e.value=String(t))},[J]:(e,t)=>{e.classList.add(String(t))},[W]:(e,t)=>{e.innerHTML=String(t)}};var te=e=>{let t=document.querySelectorAll(z("flag"));for(let n of t)be(n,e),n.removeAttribute(m.cloak.key)},be=(e,t)=>{let n=e.getAttribute(m.flag.key);if(!n)return;let r=t[n],i=e.getAttribute(m.showIf.key),s=e.getAttribute(m.setProperties.key);if(P(r,Z)){ge(e,r);return}let o=typeof r=="string"||typeof r=="number"||typeof r=="boolean"?String(r):void 0;i&&xe(e,i,o),s&&o&&Se(e,s,o)},xe=(e,t,n)=>{let r=g(t);!!n&&r.includes(n)||e.remove()},Se=(e,t,n)=>{let r=g(t);w(e,r,n)},ge=(e,{show:t,properties:n})=>{if(t===!1&&e.remove(),n)for(let r in n)w(e,r,n[r])};window.fsLaunchDarkly={initFlags:te,hideLoaders:Q};})();
+"use strict";
+(() => {
+  // ../../node_modules/.pnpm/superstruct@0.16.5/node_modules/superstruct/lib/index.mjs
+  var StructError = class extends TypeError {
+    constructor(failure, failures) {
+      let cached;
+      const {
+        message,
+        ...rest
+      } = failure;
+      const {
+        path
+      } = failure;
+      const msg = path.length === 0 ? message : `At path: ${path.join(".")} -- ${message}`;
+      super(msg);
+      this.value = void 0;
+      this.key = void 0;
+      this.type = void 0;
+      this.refinement = void 0;
+      this.path = void 0;
+      this.branch = void 0;
+      this.failures = void 0;
+      Object.assign(this, rest);
+      this.name = this.constructor.name;
+      this.failures = () => {
+        return cached ?? (cached = [failure, ...failures()]);
+      };
+    }
+  };
+  function isIterable(x) {
+    return isObject(x) && typeof x[Symbol.iterator] === "function";
+  }
+  function isObject(x) {
+    return typeof x === "object" && x != null;
+  }
+  function print(value) {
+    return typeof value === "string" ? JSON.stringify(value) : `${value}`;
+  }
+  function shiftIterator(input) {
+    const {
+      done,
+      value
+    } = input.next();
+    return done ? void 0 : value;
+  }
+  function toFailure(result, context, struct, value) {
+    if (result === true) {
+      return;
+    } else if (result === false) {
+      result = {};
+    } else if (typeof result === "string") {
+      result = {
+        message: result
+      };
+    }
+    const {
+      path,
+      branch
+    } = context;
+    const {
+      type: type2
+    } = struct;
+    const {
+      refinement,
+      message = `Expected a value of type \`${type2}\`${refinement ? ` with refinement \`${refinement}\`` : ""}, but received: \`${print(value)}\``
+    } = result;
+    return {
+      value,
+      type: type2,
+      refinement,
+      key: path[path.length - 1],
+      path,
+      branch,
+      ...result,
+      message
+    };
+  }
+  function* toFailures(result, context, struct, value) {
+    if (!isIterable(result)) {
+      result = [result];
+    }
+    for (const r of result) {
+      const failure = toFailure(r, context, struct, value);
+      if (failure) {
+        yield failure;
+      }
+    }
+  }
+  function* run(value, struct, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    const {
+      path = [],
+      branch = [value],
+      coerce = false,
+      mask: mask2 = false
+    } = options;
+    const ctx = {
+      path,
+      branch
+    };
+    if (coerce) {
+      value = struct.coercer(value, ctx);
+      if (mask2 && struct.type !== "type" && isObject(struct.schema) && isObject(value) && !Array.isArray(value)) {
+        for (const key in value) {
+          if (struct.schema[key] === void 0) {
+            delete value[key];
+          }
+        }
+      }
+    }
+    let status = "valid";
+    for (const failure of struct.validator(value, ctx)) {
+      status = "not_valid";
+      yield [failure, void 0];
+    }
+    for (let [k, v, s] of struct.entries(value, ctx)) {
+      const ts = run(v, s, {
+        path: k === void 0 ? path : [...path, k],
+        branch: k === void 0 ? branch : [...branch, v],
+        coerce,
+        mask: mask2
+      });
+      for (const t of ts) {
+        if (t[0]) {
+          status = t[0].refinement != null ? "not_refined" : "not_valid";
+          yield [t[0], void 0];
+        } else if (coerce) {
+          v = t[1];
+          if (k === void 0) {
+            value = v;
+          } else if (value instanceof Map) {
+            value.set(k, v);
+          } else if (value instanceof Set) {
+            value.add(v);
+          } else if (isObject(value)) {
+            if (v !== void 0)
+              value[k] = v;
+          }
+        }
+      }
+    }
+    if (status !== "not_valid") {
+      for (const failure of struct.refiner(value, ctx)) {
+        status = "not_refined";
+        yield [failure, void 0];
+      }
+    }
+    if (status === "valid") {
+      yield [void 0, value];
+    }
+  }
+  var Struct = class {
+    constructor(props) {
+      this.TYPE = void 0;
+      this.type = void 0;
+      this.schema = void 0;
+      this.coercer = void 0;
+      this.validator = void 0;
+      this.refiner = void 0;
+      this.entries = void 0;
+      const {
+        type: type2,
+        schema,
+        validator,
+        refiner,
+        coercer = (value) => value,
+        entries = function* () {
+        }
+      } = props;
+      this.type = type2;
+      this.schema = schema;
+      this.entries = entries;
+      this.coercer = coercer;
+      if (validator) {
+        this.validator = (value, context) => {
+          const result = validator(value, context);
+          return toFailures(result, context, this, value);
+        };
+      } else {
+        this.validator = () => [];
+      }
+      if (refiner) {
+        this.refiner = (value, context) => {
+          const result = refiner(value, context);
+          return toFailures(result, context, this, value);
+        };
+      } else {
+        this.refiner = () => [];
+      }
+    }
+    assert(value) {
+      return assert(value, this);
+    }
+    create(value) {
+      return create(value, this);
+    }
+    is(value) {
+      return is(value, this);
+    }
+    mask(value) {
+      return mask(value, this);
+    }
+    validate(value, options) {
+      if (options === void 0) {
+        options = {};
+      }
+      return validate(value, this, options);
+    }
+  };
+  function assert(value, struct) {
+    const result = validate(value, struct);
+    if (result[0]) {
+      throw result[0];
+    }
+  }
+  function create(value, struct) {
+    const result = validate(value, struct, {
+      coerce: true
+    });
+    if (result[0]) {
+      throw result[0];
+    } else {
+      return result[1];
+    }
+  }
+  function mask(value, struct) {
+    const result = validate(value, struct, {
+      coerce: true,
+      mask: true
+    });
+    if (result[0]) {
+      throw result[0];
+    } else {
+      return result[1];
+    }
+  }
+  function is(value, struct) {
+    const result = validate(value, struct);
+    return !result[0];
+  }
+  function validate(value, struct, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    const tuples = run(value, struct, options);
+    const tuple = shiftIterator(tuples);
+    if (tuple[0]) {
+      const error = new StructError(tuple[0], function* () {
+        for (const t of tuples) {
+          if (t[0]) {
+            yield t[0];
+          }
+        }
+      });
+      return [error, void 0];
+    } else {
+      const v = tuple[1];
+      return [void 0, v];
+    }
+  }
+  function define(name, validator) {
+    return new Struct({
+      type: name,
+      schema: null,
+      validator
+    });
+  }
+  function boolean() {
+    return define("boolean", (value) => {
+      return typeof value === "boolean";
+    });
+  }
+  function optional(struct) {
+    return new Struct({
+      ...struct,
+      validator: (value, ctx) => value === void 0 || struct.validator(value, ctx),
+      refiner: (value, ctx) => value === void 0 || struct.refiner(value, ctx)
+    });
+  }
+  function record(Key, Value) {
+    return new Struct({
+      type: "record",
+      schema: null,
+      *entries(value) {
+        if (isObject(value)) {
+          for (const k in value) {
+            const v = value[k];
+            yield [k, k, Key];
+            yield [k, v, Value];
+          }
+        }
+      },
+      validator(value) {
+        return isObject(value) || `Expected an object, but received: ${print(value)}`;
+      }
+    });
+  }
+  function string() {
+    return define("string", (value) => {
+      return typeof value === "string" || `Expected a string, but received: ${print(value)}`;
+    });
+  }
+  function type(schema) {
+    const keys = Object.keys(schema);
+    return new Struct({
+      type: "type",
+      schema,
+      *entries(value) {
+        if (isObject(value)) {
+          for (const k of keys) {
+            yield [k, value[k], schema[k]];
+          }
+        }
+      },
+      validator(value) {
+        return isObject(value) || `Expected an object, but received: ${print(value)}`;
+      }
+    });
+  }
+
+  // ../../global/constants/attributes.ts
+  var LAUNCHDARKLY_ATTRIBUTE = "launchdarkly";
+
+  // ../../node_modules/.pnpm/@finsweet+ts-utils@0.36.0/node_modules/@finsweet/ts-utils/dist/type-guards/isKeyOf.js
+  var isKeyOf = (key, source) => !!key && source.includes(key);
+
+  // ../../node_modules/.pnpm/@finsweet+ts-utils@0.36.0/node_modules/@finsweet/ts-utils/dist/helpers/extractCommaSeparatedValues.js
+  function extractCommaSeparatedValues(string2, compareSource, defaultValue, filterEmpty = true) {
+    const emptyValue = defaultValue ? [defaultValue] : [];
+    if (!string2)
+      return emptyValue;
+    const items = string2.split(",").reduce((accumulatedValue, currentValue) => {
+      const value = currentValue.trim();
+      if (!filterEmpty || value)
+        accumulatedValue.push(value);
+      return accumulatedValue;
+    }, []);
+    if (compareSource) {
+      const matches = items.filter((item) => isKeyOf(item, compareSource));
+      return matches.length ? matches : emptyValue;
+    }
+    return items;
+  }
+
+  // ../../global/factory/selectors.ts
+  var generateSelectors = (attributes) => {
+    const getSelector2 = (name, valueKey, params) => {
+      const attribute = attributes[name];
+      const { key: attributeKey, values } = attribute;
+      let attributeValue;
+      if (!valueKey)
+        return `[${attributeKey}]`;
+      const value = values?.[valueKey];
+      if (typeof value === "string")
+        attributeValue = value;
+      else
+        attributeValue = value(params && "instanceIndex" in params ? params.instanceIndex : void 0);
+      const caseInsensitive = params && "caseInsensitive" in params && params.caseInsensitive ? "i" : "";
+      if (!params?.operator)
+        return `[${attributeKey}="${attributeValue}"${caseInsensitive}]`;
+      switch (params.operator) {
+        case "prefixed":
+          return `[${attributeKey}^="${attributeValue}"${caseInsensitive}]`;
+        case "suffixed":
+          return `[${attributeKey}$="${attributeValue}"${caseInsensitive}]`;
+        case "contains":
+          return `[${attributeKey}*="${attributeValue}"${caseInsensitive}]`;
+      }
+    };
+    function queryElement2(elementKey, params) {
+      const selector = getSelector2("element", elementKey, params);
+      const scope = params?.scope || document;
+      return params?.all ? [...scope.querySelectorAll(selector)] : scope.querySelector(selector);
+    }
+    const getAttribute = (element, settingKey) => {
+      const attribute = attributes[settingKey];
+      if (!attribute)
+        return null;
+      return element.getAttribute(attribute.key);
+    };
+    return [getSelector2, queryElement2, getAttribute];
+  };
+
+  // src/utils/constants.ts
+  var ATTRIBUTES_PREFIX = `fs-${LAUNCHDARKLY_ATTRIBUTE}`;
+  var LOADER_ELEMENT_KEY = "loader";
+  var DEV_CLIENT_ID_SETTING_KEY = `devclientid`;
+  var PROD_CLIENT_ID_SETTING_KEY = `prodclientid`;
+  var EVENTS_TO_TRACK_SETTING_KEY = `eventstotrack`;
+  var FLAG_SETTING_KEY = `flag`;
+  var SHOW_IF_SETTING_KEY = `showif`;
+  var SET_PROPERTIES_SETTING_KEY = `setproperties`;
+  var CLOAK_SETTING_KEY = `cloak`;
+  var ATTRIBUTES = {
+    element: {
+      key: `${ATTRIBUTES_PREFIX}-element`,
+      values: {
+        loader: LOADER_ELEMENT_KEY
+      }
+    },
+    devClientId: {
+      key: `${ATTRIBUTES_PREFIX}-${DEV_CLIENT_ID_SETTING_KEY}`
+    },
+    prodClientId: {
+      key: `${ATTRIBUTES_PREFIX}-${PROD_CLIENT_ID_SETTING_KEY}`
+    },
+    eventsToTrack: {
+      key: `${ATTRIBUTES_PREFIX}-${EVENTS_TO_TRACK_SETTING_KEY}`
+    },
+    flag: {
+      key: `${ATTRIBUTES_PREFIX}-${FLAG_SETTING_KEY}`
+    },
+    showIf: {
+      key: `${ATTRIBUTES_PREFIX}-${SHOW_IF_SETTING_KEY}`
+    },
+    setProperties: {
+      key: `${ATTRIBUTES_PREFIX}-${SET_PROPERTIES_SETTING_KEY}`
+    },
+    cloak: {
+      key: `${ATTRIBUTES_PREFIX}-${CLOAK_SETTING_KEY}`
+    }
+  };
+  var [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
+  var TEXT_PROPERTY = `text`;
+  var SRC_PROPERTY = `src`;
+  var SRCSET_PROPERTY = `srcset`;
+  var SIZES_PROPERTY = `sizes`;
+  var VALUE_PROPERTY = `value`;
+  var CLASS_PROPERTY = `class`;
+  var HTML_PROPERTY = `html`;
+  var jsonFlagValueSchema = type({
+    show: optional(boolean()),
+    properties: optional(record(string(), string()))
+  });
+  var IS_STAGING = window.location.origin.includes("webflow.io");
+
+  // src/actions/loaders.ts
+  var hideLoaders = () => {
+    const allElements = queryElement("loader", { all: true });
+    for (const element of allElements) {
+      element.style.display = "none";
+    }
+  };
+
+  // src/utils/type-guards.ts
+  var PROPERTIES_TYPE_GUARDS = {
+    [VALUE_PROPERTY](element) {
+      return element instanceof HTMLInputElement || element instanceof HTMLButtonElement || element instanceof HTMLSelectElement || element instanceof HTMLTextAreaElement;
+    }
+  };
+
+  // src/actions/properties.ts
+  var updateElementProperty = (element, properties, value) => {
+    const propertiesToUpdate = Array.isArray(properties) ? properties : [properties];
+    for (const property of propertiesToUpdate) {
+      propertyActions[property]?.(element, value);
+    }
+  };
+  var propertyActions = {
+    [TEXT_PROPERTY]: (element, value) => {
+      element.innerText = String(value);
+    },
+    [SRC_PROPERTY]: (element, value) => {
+      const iframe = element.querySelector("iframe");
+      if (iframe) {
+        iframe.src = String(value);
+        return;
+      }
+      element.setAttribute(SRC_PROPERTY, String(value));
+      element.removeAttribute(SRCSET_PROPERTY);
+    },
+    [SRCSET_PROPERTY]: (element, value) => {
+      element.setAttribute(SRCSET_PROPERTY, String(value));
+      element.removeAttribute(SRC_PROPERTY);
+    },
+    [SIZES_PROPERTY]: (element, value) => {
+      element.setAttribute(SIZES_PROPERTY, String(value));
+    },
+    [VALUE_PROPERTY]: (element, value) => {
+      if (PROPERTIES_TYPE_GUARDS[VALUE_PROPERTY](element)) {
+        element.value = String(value);
+      }
+    },
+    [CLASS_PROPERTY]: (element, value) => {
+      element.classList.add(String(value));
+    },
+    [HTML_PROPERTY]: (element, value) => {
+      element.innerHTML = String(value);
+    }
+  };
+
+  // src/factory.ts
+  var initFlags = (flags) => {
+    const allFlagElements = document.querySelectorAll(getSelector("flag"));
+    for (const element of allFlagElements) {
+      initFlagElement(element, flags);
+      element.removeAttribute(ATTRIBUTES.cloak.key);
+    }
+  };
+  var initFlagElement = (element, flags) => {
+    const flagName = element.getAttribute(ATTRIBUTES.flag.key);
+    if (!flagName)
+      return;
+    const rawFlagValue = flags[flagName];
+    const rawShowIf = element.getAttribute(ATTRIBUTES.showIf.key);
+    const rawSetProperties = element.getAttribute(ATTRIBUTES.setProperties.key);
+    if (is(rawFlagValue, jsonFlagValueSchema)) {
+      initJSON(element, rawFlagValue);
+      return;
+    }
+    const flagValue = typeof rawFlagValue === "string" || typeof rawFlagValue === "number" || typeof rawFlagValue === "boolean" ? String(rawFlagValue) : void 0;
+    if (rawShowIf) {
+      initShowIf(element, rawShowIf, flagValue);
+    }
+    if (rawSetProperties && flagValue) {
+      initSetProperties(element, rawSetProperties, flagValue);
+    }
+  };
+  var initShowIf = (element, rawShowIf, flagValue) => {
+    const showConditions = extractCommaSeparatedValues(rawShowIf);
+    const show = !!flagValue && showConditions.includes(flagValue);
+    if (!show) {
+      element.remove();
+    }
+  };
+  var initSetProperties = (element, rawSetProperties, flagValue) => {
+    const properties = extractCommaSeparatedValues(rawSetProperties);
+    updateElementProperty(element, properties, flagValue);
+  };
+  var initJSON = (element, { show, properties }) => {
+    if (show === false) {
+      element.remove();
+    }
+    if (properties) {
+      for (const key in properties) {
+        updateElementProperty(element, key, properties[key]);
+      }
+    }
+  };
+
+  // src/testExports.ts
+  window.fsLaunchDarkly = {
+    initFlags,
+    hideLoaders
+  };
+})();
+//# sourceMappingURL=testExports.js.map
