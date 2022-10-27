@@ -3,10 +3,11 @@ import debounce from 'just-debounce';
 
 import { CMS_ATTRIBUTE_ATTRIBUTE, RANGE_SLIDER_ATTRIBUTE } from '$global/constants/attributes';
 import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
+import { adjustValueToStep } from '$global/helpers';
 
 import { getClientX } from './actions/events';
 import { getSettings } from './actions/settings';
-import { adjustValueToStep, getClosestValidHandle } from './actions/values';
+import { getClosestValidHandle } from './actions/values';
 import type { Handle } from './components/Handle';
 import { createFillInstance, createHandleInstances } from './factory';
 import { getSelector } from './utils/constants';

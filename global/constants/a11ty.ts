@@ -5,6 +5,7 @@ export const ARIA_ROLE_VALUES = {
   option: 'option',
   columnheader: 'columnheader',
   link: 'link',
+  button: 'button',
 } as const;
 export const TABINDEX_KEY = 'tabindex';
 export const ARIA_LABEL_KEY = 'aria-label';

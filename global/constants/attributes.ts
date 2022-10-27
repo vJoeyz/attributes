@@ -48,6 +48,8 @@ export const FAV_CUSTOM_ATTRIBUTE = 'favcustom';
 
 export const FORM_SUBMIT_ATTRIBUTE = 'formsubmit';
 
+export const INPUT_COUNTER_ATTRIBUTE = 'inputcounter';
+
 export const GREENHOUSE_ATTRIBUTE = 'greenhouse';
 
 export const LINK_BLOCK_EDIT_ATTRIBUTE = 'linkblockedit';
