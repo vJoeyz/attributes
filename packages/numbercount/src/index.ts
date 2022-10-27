@@ -1,4 +1,4 @@
-import { EXAMPLE_ATTRIBUTE } from '$global/constants/attributes';
+import { NUMBER_COUNT_ATTRIBUTE } from '$global/constants/attributes';
 import { initAttribute } from '$global/factory';
 
 import { version } from '../package.json';
@@ -10,5 +10,5 @@ import { init } from './init';
 initAttribute({
   init,
   version,
-  attributeKey: EXAMPLE_ATTRIBUTE,
+  attributeKey: NUMBER_COUNT_ATTRIBUTE,
 });
