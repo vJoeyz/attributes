@@ -1,5 +1,11 @@
 # @finsweet/attributes-a11y
 
+## 1.0.0
+
+### Major Changes
+
+- 1eb9c91e: Added support for `fs-accordion` + released official v1.0.0
+
 ## 0.2.1
 
 ### Patch Changes
