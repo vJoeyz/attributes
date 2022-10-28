@@ -12,7 +12,7 @@ export const ATTRIBUTES = {
       /**
        * Defines an element that should autofocus when a wrapper is displayed.
        */
-      autoFocus: AUTOFOCUS_ELEMENT_KEY,
+      // autoFocus: AUTOFOCUS_ELEMENT_KEY,
     },
   },
 } as const;
