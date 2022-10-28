@@ -1,4 +1,4 @@
-import type { SliderNavElement } from '@finsweet/ts-utils';
+import { isHTMLElement, SliderNavElement } from '@finsweet/ts-utils';
 
 import type { DotsRelationship } from '../utils/types';
 import { syncDotsProperties } from './sync';
@@ -18,7 +18,7 @@ export const observeSliderNav = (
 ) => {
   const callback: MutationCallback = (mutations) => {
     for (const { target } of mutations) {
-      if (!(target instanceof HTMLElement)) continue;
+      if (!isHTMLElement(target)) continue;
 
       const relationshipData = dotsRelationship.find(({ dot }) => dot === target);
       if (!relationshipData) continue;

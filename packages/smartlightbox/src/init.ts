@@ -1,4 +1,4 @@
-import { addListener } from '@finsweet/ts-utils';
+import { addListener, isElement } from '@finsweet/ts-utils';
 
 import { CMS_ATTRIBUTE_ATTRIBUTE, SMART_LIGHTBOX_ATTRIBUTE } from '$global/constants/attributes';
 import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
@@ -19,7 +19,7 @@ export const init = async () => {
   await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
 
   const clickCleanup = addListener(window, 'click', async ({ target }) => {
-    if (!(target instanceof Element)) return;
+    if (!isElement(target)) return;
 
     // Get the trigger
     const toggleTrigger = target.closest(getSelector('element', 'toggle', { operator: 'prefixed' }));

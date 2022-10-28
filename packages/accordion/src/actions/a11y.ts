@@ -1,5 +1,5 @@
 import {
-  ARIA_CONTROLS,
+  ARIA_CONTROLS_KEY,
   ARIA_LABELLEDBY_KEY,
   ARIA_LABEL_KEY,
   ARIA_ROLE_KEY,
@@ -18,7 +18,7 @@ export const setAccordionA11y = (trigger: HTMLElement, content: HTMLElement) => 
   const contentId = ensureUniqueId(content);
 
   trigger.setAttribute(ARIA_ROLE_KEY, ARIA_ROLE_VALUES.button);
-  trigger.setAttribute(ARIA_CONTROLS, contentId);
+  trigger.setAttribute(ARIA_CONTROLS_KEY, contentId);
   trigger.setAttribute(TABINDEX_KEY, '0');
 
   if (!content.hasAttribute(ARIA_LABELLEDBY_KEY) && !content.hasAttribute(ARIA_LABEL_KEY)) {

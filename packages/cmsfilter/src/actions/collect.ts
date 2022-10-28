@@ -3,6 +3,7 @@ import {
   FORM_CSS_CLASSES,
   getObjectEntries,
   isFormField,
+  isHTMLInputElement,
   isKeyOf,
   sameValues,
 } from '@finsweet/ts-utils';
@@ -130,7 +131,7 @@ export const collectFiltersData = (
     const checkboxOrRadioField = element.closest<HTMLLabelElement>(`.${checkboxFieldCSSClass}, .${radioFieldCSSClass}`);
 
     if (checkboxOrRadioField) {
-      const isCheckbox = element instanceof HTMLInputElement;
+      const isCheckbox = isHTMLInputElement(element);
 
       const value = isCheckbox ? 'true' : element.textContent || '';
 

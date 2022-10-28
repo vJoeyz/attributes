@@ -1,3 +1,10 @@
+import {
+  isHTMLButtonElement,
+  isHTMLInputElement,
+  isHTMLSelectElement,
+  isHTMLTextAreaElement,
+} from '@finsweet/ts-utils';
+
 import { VALUE_PROPERTY } from './constants';
 
 /**
@@ -12,10 +19,10 @@ export const PROPERTIES_TYPE_GUARDS = {
     element: Element
   ): element is HTMLInputElement | HTMLButtonElement | HTMLSelectElement | HTMLTextAreaElement {
     return (
-      element instanceof HTMLInputElement ||
-      element instanceof HTMLButtonElement ||
-      element instanceof HTMLSelectElement ||
-      element instanceof HTMLTextAreaElement
+      isHTMLInputElement(element) ||
+      isHTMLButtonElement(element) ||
+      isHTMLSelectElement(element) ||
+      isHTMLTextAreaElement(element)
     );
   },
 };

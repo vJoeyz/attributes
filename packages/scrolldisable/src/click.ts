@@ -1,4 +1,4 @@
-import { addListener } from '@finsweet/ts-utils';
+import { addListener, isElement, isHTMLElement } from '@finsweet/ts-utils';
 
 import { ATTRIBUTES, getSelector } from './constants';
 import { disableScrolling, enableScrolling, findFirstScrollableElement, isScrollingDisabled } from './scroll';
@@ -9,7 +9,7 @@ import { disableScrolling, enableScrolling, findFirstScrollableElement, isScroll
  */
 export const initClickTriggers = (preserveScrollTargets: NodeListOf<Element>): (() => void) => {
   const clickCleanup = addListener(window, 'click', ({ target }) => {
-    if (!(target instanceof Element)) return;
+    if (!isElement(target)) return;
 
     // Get the trigger
     const toggleTrigger = target.closest(getSelector('element', 'toggle'));
@@ -26,7 +26,7 @@ export const initClickTriggers = (preserveScrollTargets: NodeListOf<Element>): (
 
     // Handle action
     if (isScrollingDisabled() && enableTrigger) enableScrolling();
-    else if (!isScrollingDisabled() && disableTrigger instanceof HTMLElement) {
+    else if (!isScrollingDisabled() && isHTMLElement(disableTrigger)) {
       for (const target of new Set([
         ...preserveScrollTargets,
         findFirstScrollableElement(disableTrigger) || disableTrigger,

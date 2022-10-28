@@ -7,7 +7,7 @@ importers:
       '@changesets/changelog-git': ^0.1.13
       '@changesets/cli': ^2.25.0
       '@finsweet/eslint-config': ^1.1.5
-      '@finsweet/ts-utils': ^0.36.0
+      '@finsweet/ts-utils': ^0.37.1
       '@finsweet/tsconfig': ^1.1.0
       '@playwright/test': ^1.27.1
       '@trivago/prettier-plugin-sort-imports': ^3.3.1
@@ -23,7 +23,7 @@ importers:
       serve: ^14.0.1
       typescript: ^4.8.4
     dependencies:
-      '@finsweet/ts-utils': 0.36.0
+      '@finsweet/ts-utils': 0.37.1
       nanoid: 4.0.0
     devDependencies:
       '@changesets/changelog-git': 0.1.13
@@ -45,9 +45,14 @@ importers:
 
   packages/a11y:
     specifiers:
+      focus-trap: ^7.0.0
       just-debounce: ^1.1.0
     dependencies:
+      focus-trap: 7.0.0
       just-debounce: 1.1.0
+
+  packages/accordion:
+    specifiers: {}
 
   packages/animation:
     specifiers:
@@ -4083,8 +4088,8 @@ packages:
       typescript: 4.8.4
     dev: true
 
-  /@finsweet/ts-utils/0.36.0:
-    resolution: {integrity: sha512-lW9BEWsvV4MeCJG85Fx745Ek9oK8oe72+D6QwIrNiPO1tRgiTlmhitXPrqZ1/A53rvZn/ncLtCTbz3r3z6N2rw==}
+  /@finsweet/ts-utils/0.37.1:
+    resolution: {integrity: sha512-0FOt2L59DSltVmmvDfMUQDqkpIw7RY3sJDhbqX8DFUTb8UboktO2KQxFpmyJdhuTozOXq3NDEYTPDz76ZHMpsA==}
     dev: false
 
   /@finsweet/tsconfig/1.1.0:
@@ -10950,6 +10955,12 @@ packages:
       readable-stream: 2.3.7
     dev: true
 
+  /focus-trap/7.0.0:
+    resolution: {integrity: sha512-uT4Bl8TwU+5vVAx/DHil/1eVS54k9unqhK/vGy2KSh7esPmqgC0koAB9J2sJ+vtj8+vmiFyGk2unLkhNLQaxoA==}
+    dependencies:
+      tabbable: 6.0.1
+    dev: false
+
   /for-in/1.0.2:
     resolution: {integrity: sha512-7EwmXrOjyL+ChxMhmG5lnW9MPt1aIeZEwKhQzoBUdTV0N3zuwWDZYVJatDvZ2OyzPUvdIAZDsCetk3coyMfcnQ==}
     engines: {node: '>=0.10.0'}
@@ -16733,6 +16744,10 @@ packages:
   /synchronous-promise/2.0.16:
     resolution: {integrity: sha512-qImOD23aDfnIDNqlG1NOehdB9IYsn1V9oByPjKY1nakv2MQYCEMyX033/q+aEtYCpmYK1cv2+NTmlH+ra6GA5A==}
     dev: true
+
+  /tabbable/6.0.1:
+    resolution: {integrity: sha512-SYJSIgeyXW7EuX1ytdneO5e8jip42oHWg9xl/o3oTYhmXusZVgiA+VlPvjIN+kHii9v90AmzTZEBcsEvuAY+TA==}
+    dev: false
 
   /table/5.4.6:
     resolution: {integrity: sha512-wmEc8m4fjnob4gt5riFRtTu/6+4rSe12TpAELNSqHMfF3IqnA+CH37USM6/YR3qRZv7e56kAEAtd6nKZaxe0Ug==}

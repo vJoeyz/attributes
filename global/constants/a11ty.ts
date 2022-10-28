@@ -8,6 +8,7 @@ export const enum ARIA_ROLE_VALUES {
   marquee = 'marquee',
   button = 'button',
   radiogroup = 'radiogroup',
+  dialog = 'dialog',
 }
 export const TABINDEX_KEY = 'tabindex';
 export const ARIA_LABEL_KEY = 'aria-label';
@@ -22,9 +23,14 @@ export const ARIA_EXPANDED_KEY = 'aria-expanded';
 export const ARIA_CURRENT_KEY = 'aria-current';
 export const ARIA_ACTIVEDESCENDANT_KEY = 'aria-activedescendant';
 export const ARIA_PRESSED_KEY = 'aria-pressed';
-export const ARIA_CONTROLS = 'aria-controls';
-export const ARIA_ROLEDESCRIPTION = 'aria-roledescription';
-export const ARIA_DESCRIPTION = 'aria-description';
+export const ARIA_CONTROLS_KEY = 'aria-controls';
+export const ARIA_ROLEDESCRIPTION_KEY = 'aria-roledescription';
+export const ARIA_DESCRIPTION_KEY = 'aria-description';
+
+export const ARIA_MODAL_KEY = 'aria-modal';
+export const enum ARIA_MODAL_VALUES {
+  true = 'true',
+}
 
 export const ARIA_SORT_KEY = 'aria-sort';
 export const enum ARIA_SORT_VALUES {

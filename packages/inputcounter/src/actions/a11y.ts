@@ -1,4 +1,4 @@
-import { ARIA_CONTROLS, ARIA_LABEL_KEY, ARIA_ROLE_KEY, ARIA_ROLE_VALUES } from '$global/constants/a11ty';
+import { ARIA_CONTROLS_KEY, ARIA_LABEL_KEY, ARIA_ROLE_KEY, ARIA_ROLE_VALUES } from '$global/constants/a11ty';
 
 /**
  * Sets A11Y attributes to a button.
@@ -8,7 +8,7 @@ import { ARIA_CONTROLS, ARIA_LABEL_KEY, ARIA_ROLE_KEY, ARIA_ROLE_VALUES } from '
  */
 export const setButtonA11Y = (inputElement: HTMLInputElement, button: Element, label: string) => {
   button.setAttribute(ARIA_ROLE_KEY, ARIA_ROLE_VALUES.button);
-  button.setAttribute(ARIA_CONTROLS, inputElement.id);
+  button.setAttribute(ARIA_CONTROLS_KEY, inputElement.id);
 
   if (!button.hasAttribute(ARIA_LABEL_KEY)) {
     button.setAttribute(ARIA_LABEL_KEY, label);

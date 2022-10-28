@@ -1,3 +1,5 @@
+import { isHTMLSelectElement } from '@finsweet/ts-utils';
+
 import { CMS_SELECT_ATTRIBUTE, CMS_LOAD_ATTRIBUTE, CMS_ATTRIBUTE_ATTRIBUTE } from '$global/constants/attributes';
 import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
 import { importCMSCore } from '$global/import';
@@ -20,7 +22,7 @@ export const init = async (): Promise<CMSList[]> => {
   const listInstancesSet: Set<CMSList> = new Set();
 
   for (const targetElement of targetElements) {
-    if (!(targetElement instanceof HTMLSelectElement)) continue;
+    if (!isHTMLSelectElement(targetElement)) continue;
 
     const selectElementListInstances = populateSelectElement(targetElement, cmsCore);
 

@@ -8,7 +8,7 @@ import {
 import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
 
 import { observeAriaControls } from './actions/aria-controls';
-import { emitClickEvents } from './actions/keyboard';
+import { handleKeyboardEvents } from './actions/keyboard';
 
 /**
  * Inits the attribute.
@@ -16,11 +16,11 @@ import { emitClickEvents } from './actions/keyboard';
 export const init = async () => {
   await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE, MODAL_ATTRIBUTE, INPUT_COUNTER_ATTRIBUTE, ACCORDION_ATTRIBUTE);
 
-  const destroyClickEventsEmitter = emitClickEvents();
-  const destroyAriaControlsObservers = observeAriaControls();
+  const keyboardCleanup = handleKeyboardEvents();
+  const observersCleanup = observeAriaControls();
 
   return finalizeAttribute(A11Y_ATTRIBUTE, undefined, () => {
-    destroyClickEventsEmitter();
-    destroyAriaControlsObservers();
+    keyboardCleanup();
+    observersCleanup();
   });
 };

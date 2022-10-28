@@ -1,4 +1,4 @@
-import { addListener, cloneNode, Debug } from '@finsweet/ts-utils';
+import { addListener, cloneNode, Debug, isElement } from '@finsweet/ts-utils';
 
 import type { CMSList } from '$packages/cmscore';
 
@@ -54,7 +54,7 @@ export class CMSTags {
   private handleClick(e: MouseEvent) {
     const { target } = e;
 
-    if (!(target instanceof Element)) return;
+    if (!isElement(target)) return;
 
     const { hasRemoveTrigger, tagsData, listInstance } = this;
 

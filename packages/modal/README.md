@@ -6,5 +6,5 @@ Create accessible modal popups easily on Webflow.
 
 ```html
 <!-- [Attributes by Finsweet] Modal -->
-<script defer src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-modal@1/modal.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-modal@1/modal.js"></script>
 ```
