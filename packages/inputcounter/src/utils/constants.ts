@@ -60,8 +60,6 @@ export const ATTRIBUTES = {
 
 export const [getSelector, queryElement, getAttribute] = generateSelectors(ATTRIBUTES);
 
-export const DEFAULT_INITIAL_VALUE = 0;
-
 export const HIDE_ARROWS_STYLE = `<style ${ATTRIBUTES.element.key}="${STYLE_ELEMENT_KEY}">
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,

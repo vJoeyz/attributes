@@ -1,11 +1,11 @@
-import { setFormFieldValue } from '@finsweet/ts-utils';
+import { isNumber, setFormFieldValue } from '@finsweet/ts-utils';
 
 import { getInstanceIndex, parseNumericAttribute } from '$global/helpers';
 
 import { handleButtons, handleResetButton } from './actions/buttons';
 import { handleInput } from './actions/input';
 import { addHideArrowsStylesheet } from './actions/style';
-import { ATTRIBUTES, DEFAULT_INITIAL_VALUE, getAttribute, queryElement } from './utils/constants';
+import { ATTRIBUTES, getAttribute, queryElement } from './utils/constants';
 
 /**
  * Inits an input counter component.
@@ -18,7 +18,7 @@ export const initInputCounter = (inputElement: HTMLInputElement) => {
   const showArrows = getAttribute(inputElement, 'showArrows');
 
   const rawInitialValue = getAttribute(inputElement, 'initial');
-  const initialValue = parseNumericAttribute(rawInitialValue, DEFAULT_INITIAL_VALUE);
+  const initialValue = parseNumericAttribute(rawInitialValue);
 
   const incrementButton = queryElement('increment', { instanceIndex });
   const decrementButton = queryElement('decrement', { instanceIndex });
@@ -40,7 +40,9 @@ export const initInputCounter = (inputElement: HTMLInputElement) => {
   inputElement.type = 'number';
 
   // Set initial value
-  setFormFieldValue(inputElement, initialValue.toString());
+  if (isNumber(initialValue)) {
+    setFormFieldValue(inputElement, initialValue.toString());
+  }
 
   // Return cleanup
   return () => {
