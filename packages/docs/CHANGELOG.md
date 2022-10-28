@@ -1,5 +1,11 @@
 # @finsweet/attributes-docs
 
+## 1.12.3
+
+### Patch Changes
+
+- 3111ec89: Created `fs-starrating` Attribute.
+
 ## 1.12.2
 
 ### Patch Changes
