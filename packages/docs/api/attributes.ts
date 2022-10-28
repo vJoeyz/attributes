@@ -36,7 +36,6 @@ import {
   STAR_RATING_ATTRIBUTE,
   ACCORDION_ATTRIBUTE,
 } from '$global/constants/attributes';
-import { createImportURL } from '$global/import';
 
 import type { AttributesData } from '../src/utils/types';
 
