@@ -36,6 +36,7 @@ import {
   STAR_RATING_ATTRIBUTE,
   ACCORDION_ATTRIBUTE,
   A11Y_ATTRIBUTE,
+  INPUT_ACTIVE_ATTRIBUTE,
 } from '$global/constants/attributes';
 
 import type { AttributesData } from '../src/utils/types';
@@ -551,7 +552,20 @@ export const attributesData: AttributesData = [
     description: "Improve your Webflow project's accessibility.",
     href: createDocsHref('accessibility-javascript'),
     baseSrc: `https://cdn.jsdelivr.net/npm/@finsweet/attributes-${A11Y_ATTRIBUTE}@1`,
-    scriptSrc: `${ACCORDION_ATTRIBUTE}.js`,
+    scriptSrc: `${A11Y_ATTRIBUTE}.js`,
+    examplesSrc: 'examples.json',
+    loadMode: 'defer',
+    changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
+    allowSupport: false,
+  },
+  {
+    key: INPUT_ACTIVE_ATTRIBUTE,
+    title: 'Input Active Class',
+    description: 'Set custom active CSS classes for Webflow form elements.',
+    href: createDocsHref('input-active'),
+    baseSrc: `https://cdn.jsdelivr.net/npm/@finsweet/attributes-${INPUT_ACTIVE_ATTRIBUTE}@1`,
+    scriptSrc: `${INPUT_ACTIVE_ATTRIBUTE}.js`,
     examplesSrc: 'examples.json',
     loadMode: 'defer',
     changesetsSrc: 'changesets.json',
