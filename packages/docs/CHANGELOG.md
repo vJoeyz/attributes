@@ -1,5 +1,11 @@
 # @finsweet/attributes-docs
 
+## 1.12.6
+
+### Patch Changes
+
+- 489412f8: Created `fs-inputactive` Attribute.
+
 ## 1.12.5
 
 ### Patch Changes
