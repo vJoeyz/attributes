@@ -1,5 +1,11 @@
 # @finsweet/attributes-modal
 
+## 1.1.0
+
+### Minor Changes
+
+- 59aa74dd: Improved keyboard accessibility for modals/dialogs
+
 ## 1.0.1
 
 ### Patch Changes
