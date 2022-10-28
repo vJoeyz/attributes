@@ -33,4 +33,4 @@ export const ATTRIBUTES = {
 
 export const [getSelector, queryElement, getAttribute] = generateSelectors(ATTRIBUTES);
 
-export const DEFAULT_ACTIVE_CLASS = 'is-active';
+export const DEFAULT_ACTIVE_CLASS = `is-active-${STAR_RATING_ATTRIBUTE}`;
