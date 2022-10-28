@@ -1,3 +1,5 @@
+import { isNumber } from '@finsweet/ts-utils';
+
 import { normalizeNumber } from '$global/helpers';
 import type { CMSList } from '$packages/cmscore';
 
@@ -45,15 +47,14 @@ export const sortListItems = async (
 
       // Date & Number sorting
       const isDate = type === 'date';
-      const isNumber = type === 'number';
 
-      if (isDate || isNumber) {
+      if (isDate || isNumber(type)) {
         const [firstItemNumber, secondItemNumber] = [firstItemValue, secondItemValue].map((value) =>
           isDate ? new Date(value).getTime() : normalizeNumber(value)
         );
 
-        if (typeof firstItemNumber !== 'number' || isNaN(firstItemNumber)) return 1;
-        if (typeof secondItemNumber !== 'number' || isNaN(secondItemNumber)) return -1;
+        if (!isNumber(firstItemNumber) || isNaN(firstItemNumber)) return 1;
+        if (!isNumber(secondItemNumber) || isNaN(secondItemNumber)) return -1;
 
         if (direction === 'asc') return firstItemNumber - secondItemNumber;
 
@@ -75,7 +76,7 @@ export const sortListItems = async (
     for (const staticItem of staticItems) {
       const currentIndex = items.indexOf(staticItem);
 
-      if (currentIndex < 0 || typeof staticItem.staticIndex !== 'number') continue;
+      if (currentIndex < 0 || !isNumber(staticItem.staticIndex)) continue;
 
       items.splice(currentIndex, 1);
       items.splice(staticItem.staticIndex, 0, staticItem);

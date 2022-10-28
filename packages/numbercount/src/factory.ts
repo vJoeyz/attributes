@@ -1,3 +1,5 @@
+import { isNumber } from '@finsweet/ts-utils';
+
 import { parseNumericAttribute } from '$global/helpers';
 
 import { setNumberCountA11Y } from './actions/a11y';
@@ -17,7 +19,7 @@ export const initNumberCount = (numberElement: Element) => {
   const rawThreshold = getAttribute(numberElement, 'threshold');
 
   const end = parseNumericAttribute(rawEnd, extractNumberFromElement(numberElement));
-  if (typeof end !== 'number') return;
+  if (!isNumber(end)) return;
 
   const start = parseNumericAttribute(rawStart, DEFAULT_START_NUMBER);
   const duration = parseNumericAttribute(rawDuration, DEFAULT_DURATION);

@@ -1,4 +1,4 @@
-import type { CollectionListElement, CollectionItemElement } from '@finsweet/ts-utils';
+import { CollectionListElement, CollectionItemElement, isNumber } from '@finsweet/ts-utils';
 
 import { normalizePropKey } from '$global/helpers';
 
@@ -69,7 +69,7 @@ export class CMSItem {
   ) {
     this.href = element.querySelector('a')?.href;
 
-    const rendered = typeof currentIndex === 'number';
+    const rendered = isNumber(currentIndex);
 
     this.needsWebflowRestart = !rendered;
   }
