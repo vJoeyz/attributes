@@ -1,5 +1,6 @@
 import {
   A11Y_ATTRIBUTE,
+  ACCORDION_ATTRIBUTE,
   CMS_ATTRIBUTE_ATTRIBUTE,
   INPUT_COUNTER_ATTRIBUTE,
   MODAL_ATTRIBUTE,
@@ -13,7 +14,7 @@ import { emitClickEvents } from './actions/keyboard';
  * Inits the attribute.
  */
 export const init = async () => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE, MODAL_ATTRIBUTE, INPUT_COUNTER_ATTRIBUTE);
+  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE, MODAL_ATTRIBUTE, INPUT_COUNTER_ATTRIBUTE, ACCORDION_ATTRIBUTE);
 
   const destroyClickEventsEmitter = emitClickEvents();
   const destroyAriaControlsObservers = observeAriaControls();

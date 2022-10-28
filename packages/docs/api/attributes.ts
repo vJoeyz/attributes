@@ -34,8 +34,8 @@ import {
   INPUT_COUNTER_ATTRIBUTE,
   MODAL_ATTRIBUTE,
   STAR_RATING_ATTRIBUTE,
+  ACCORDION_ATTRIBUTE,
 } from '$global/constants/attributes';
-import { createImportURL } from '$global/import';
 
 import type { AttributesData } from '../src/utils/types';
 
@@ -513,7 +513,7 @@ export const attributesData: AttributesData = [
     baseSrc: `https://cdn.jsdelivr.net/npm/@finsweet/attributes-${MODAL_ATTRIBUTE}@1`,
     scriptSrc: `${MODAL_ATTRIBUTE}.js`,
     examplesSrc: 'examples.json',
-    loadMode: 'defer',
+    loadMode: 'async',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
     allowSupport: false,
@@ -525,6 +525,19 @@ export const attributesData: AttributesData = [
     href: createDocsHref('star-rating'),
     baseSrc: `https://cdn.jsdelivr.net/npm/@finsweet/attributes-${STAR_RATING_ATTRIBUTE}@1`,
     scriptSrc: `${STAR_RATING_ATTRIBUTE}.js`,
+    examplesSrc: 'examples.json',
+    loadMode: 'defer',
+    changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
+    allowSupport: false,
+  },
+  {
+    key: ACCORDION_ATTRIBUTE,
+    title: 'Accordion',
+    description: 'Create accessible accordions inside Webflow without Webflow Interactions.',
+    href: createDocsHref('star-rating'),
+    baseSrc: `https://cdn.jsdelivr.net/npm/@finsweet/attributes-${ACCORDION_ATTRIBUTE}@1`,
+    scriptSrc: `${ACCORDION_ATTRIBUTE}.js`,
     examplesSrc: 'examples.json',
     loadMode: 'defer',
     changesetsSrc: 'changesets.json',

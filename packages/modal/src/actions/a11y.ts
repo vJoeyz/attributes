@@ -1,5 +1,5 @@
 import { ARIA_CONTROLS, ARIA_ROLEDESCRIPTION, ARIA_ROLE_KEY, ARIA_ROLE_VALUES } from '$global/constants/a11ty';
-import { ensureUniqueId } from '$global/helpers/elements';
+import { ensureUniqueId } from '$global/helpers';
 
 /**
  * Sets A11Y Attributes to a modal.
