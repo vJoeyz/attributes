@@ -14,22 +14,22 @@ test.describe('starrating', () => {
     const star34 = page.getByTestId('star-3-4');
 
     // Default checked
-    await expect(star34).toHaveClass(/fs-starrating_active/);
+    await expect(star34).toHaveClass(/is-active-starrating/);
 
     // Hovering
-    await expect(star13).not.toHaveClass(/fs-starrating_active/);
+    await expect(star13).not.toHaveClass(/is-active-starrating/);
     await star13.hover();
-    await expect(star11).toHaveClass(/fs-starrating_active/);
-    await expect(star12).toHaveClass(/fs-starrating_active/);
-    await expect(star13).toHaveClass(/fs-starrating_active/);
+    await expect(star11).toHaveClass(/is-active-starrating/);
+    await expect(star12).toHaveClass(/is-active-starrating/);
+    await expect(star13).toHaveClass(/is-active-starrating/);
 
     // Selecting and hovering lower
     await star13.click();
     await star11.hover();
 
-    await expect(star11).toHaveClass(/fs-starrating_active/);
-    await expect(star12).toHaveClass(/fs-starrating_active/);
-    await expect(star13).toHaveClass(/fs-starrating_active/);
+    await expect(star11).toHaveClass(/is-active-starrating/);
+    await expect(star12).toHaveClass(/is-active-starrating/);
+    await expect(star13).toHaveClass(/is-active-starrating/);
 
     // Custom classes
     await star25.hover();
