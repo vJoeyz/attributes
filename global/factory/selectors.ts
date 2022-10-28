@@ -1,3 +1,5 @@
+import { isString } from '@finsweet/ts-utils';
+
 import type { AttributeOperator, AttributesDefinition, AttributeStaticValue, AttributeValue } from './types';
 
 /**
@@ -50,7 +52,7 @@ export const generateSelectors = <Attributes extends AttributesDefinition>(attri
 
     const value = values?.[valueKey] as AttributeValue;
 
-    if (typeof value === 'string') attributeValue = value;
+    if (isString(value)) attributeValue = value;
     else attributeValue = value(params && 'instanceIndex' in params ? params.instanceIndex : undefined);
 
     const caseInsensitive = params && 'caseInsensitive' in params && params.caseInsensitive ? 'i' : '';

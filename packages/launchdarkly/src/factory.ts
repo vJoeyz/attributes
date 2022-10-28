@@ -1,4 +1,4 @@
-import { extractCommaSeparatedValues } from '@finsweet/ts-utils';
+import { extractCommaSeparatedValues, isBoolean, isNumber, isString } from '@finsweet/ts-utils';
 import type { LDFlagSet } from 'launchdarkly-js-client-sdk';
 import { is } from 'superstruct';
 
@@ -43,9 +43,7 @@ const initFlagElement = (element: HTMLElement, flags: LDFlagSet) => {
 
   // Other values handling
   const flagValue =
-    typeof rawFlagValue === 'string' || typeof rawFlagValue === 'number' || typeof rawFlagValue === 'boolean'
-      ? String(rawFlagValue)
-      : undefined;
+    isString(rawFlagValue) || isNumber(rawFlagValue) || isBoolean(rawFlagValue) ? String(rawFlagValue) : undefined;
 
   // showif is explicitly defined
   if (rawShowIf) {

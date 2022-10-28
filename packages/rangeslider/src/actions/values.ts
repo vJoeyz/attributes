@@ -1,4 +1,4 @@
-import { isNotEmpty } from '@finsweet/ts-utils';
+import { isNotEmpty, isNumber } from '@finsweet/ts-utils';
 
 import type { HandleInstances } from '../utils/types';
 
@@ -14,7 +14,7 @@ export const getClosestValidHandle = (adjustedValue: number, [handle1, handle2]:
 
   const closestValue = getClosestValue(adjustedValue, [handle1Value, handle2Value]);
 
-  if (typeof closestValue !== 'number') return;
+  if (!isNumber(closestValue)) return;
 
   const [handle1MinValue, handle1MaxValue] = handle1.getConstraints();
 
