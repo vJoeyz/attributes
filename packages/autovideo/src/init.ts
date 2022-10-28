@@ -1,4 +1,4 @@
-import { addListener } from '@finsweet/ts-utils';
+import { addListener, isHTMLVideoElement } from '@finsweet/ts-utils';
 
 import { AUTO_VIDEO_ATTRIBUTE, CMS_ATTRIBUTE_ATTRIBUTE } from '$global/constants/attributes';
 import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
@@ -18,7 +18,7 @@ export const init = async () => {
 
   const observer = new IntersectionObserver((entries) => {
     for (const { target, isIntersecting } of entries) {
-      if (!(target instanceof HTMLVideoElement)) continue;
+      if (!isHTMLVideoElement(target)) continue;
 
       if (isIntersecting) target.play();
       else target.pause();

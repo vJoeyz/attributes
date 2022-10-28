@@ -1,4 +1,4 @@
-import { findTextNode, isNotEmpty } from '@finsweet/ts-utils';
+import { findTextNode, isHTMLElement, isNotEmpty } from '@finsweet/ts-utils';
 import type ClipboardJS from 'clipboard';
 
 import { CMS_ATTRIBUTE_ATTRIBUTE, COPY_CLIP_ATTRIBUTE } from '$global/constants/attributes';
@@ -33,7 +33,7 @@ export const init = async (): Promise<ClipboardJS[]> => {
 
   const clipboardInstances = copyTriggers
     .map((trigger) => {
-      if (!(trigger instanceof HTMLElement)) return;
+      if (!isHTMLElement(trigger)) return;
 
       // Get attributes
       const textToCopy = trigger.getAttribute(textKey);

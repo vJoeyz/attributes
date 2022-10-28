@@ -1,4 +1,4 @@
-import { addListener, isFormField, setFormFieldValue } from '@finsweet/ts-utils';
+import { addListener, isElement, isFormField, isHTMLInputElement, setFormFieldValue } from '@finsweet/ts-utils';
 
 import { MIRROR_INPUT_ATTRIBUTE } from '$global/constants/attributes';
 import { finalizeAttribute } from '$global/factory';
@@ -11,7 +11,7 @@ import { ATTRIBUTES, getSelector, queryElement } from './constants';
  */
 export const init = (): void => {
   const inputCleanup = addListener(window, 'input', ({ target }) => {
-    if (!(target instanceof Element)) return;
+    if (!isElement(target)) return;
 
     const mirrorTrigger = target.closest(getSelector('element', 'trigger', { operator: 'prefixed' }));
     if (!isFormField(mirrorTrigger)) return;
@@ -24,7 +24,7 @@ export const init = (): void => {
 
     // If must update the `checked` property
     if (
-      mirrorTarget instanceof HTMLInputElement &&
+      isHTMLInputElement(mirrorTarget) &&
       (mirrorTarget.type === 'checkbox' || mirrorTarget.type === 'radio') &&
       (mirrorTrigger as HTMLInputElement).checked !== mirrorTarget.checked
     ) {

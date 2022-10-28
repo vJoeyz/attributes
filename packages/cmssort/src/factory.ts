@@ -1,4 +1,4 @@
-import { DROPDOWN_CSS_CLASSES } from '@finsweet/ts-utils';
+import { DROPDOWN_CSS_CLASSES, isHTMLSelectElement } from '@finsweet/ts-utils';
 import type { Dropdown } from '@finsweet/ts-utils';
 
 import type { CMSCore, CMSList } from '$packages/cmscore';
@@ -55,7 +55,7 @@ export const initListSorting = async (listInstance: CMSList, cmsCore: CMSCore) =
 
   // Init mode
   const [firstTrigger] = triggers;
-  const isSelect = firstTrigger instanceof HTMLSelectElement;
+  const isSelect = isHTMLSelectElement(firstTrigger);
   const isDropdown = firstTrigger.closest<Dropdown>(`.${DROPDOWN_CSS_CLASSES.dropdown}`);
 
   const sortActions = isSelect

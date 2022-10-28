@@ -1,4 +1,4 @@
-import { addListener } from '@finsweet/ts-utils';
+import { addListener, isElement } from '@finsweet/ts-utils';
 
 /**
  * Prevents the TOC links from adding the hash in the URL.
@@ -9,7 +9,7 @@ import { addListener } from '@finsweet/ts-utils';
  */
 export const listenTOCLinkClicks = (tocWrapper: HTMLElement, hideURLHash?: boolean) => {
   const clickCleanup = addListener(tocWrapper, 'click', (e) => {
-    if (!(e.target instanceof Element)) return;
+    if (!isElement(e.target)) return;
 
     const link = e.target.closest('a');
     if (!link) return;

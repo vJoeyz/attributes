@@ -1,4 +1,4 @@
-import { addListener } from '@finsweet/ts-utils';
+import { addListener, isElement } from '@finsweet/ts-utils';
 
 import { getSelector, SOCIAL_SHARE_PLATFORMS } from '../utils/constants';
 import { stores } from '../utils/stores';
@@ -12,7 +12,7 @@ import type { SocialShareStoreData, SocialShareTypes } from '../utils/types';
 export const listenTriggerClicks = () => {
   const clickCleanup = addListener(document, 'click', (e) => {
     const { target } = e;
-    if (!(target instanceof Element)) return;
+    if (!isElement(target)) return;
 
     for (const key in SOCIAL_SHARE_PLATFORMS) {
       const platform = key as SocialShareTypes;

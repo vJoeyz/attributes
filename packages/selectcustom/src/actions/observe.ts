@@ -1,3 +1,4 @@
+import { isHTMLOptionElement } from '@finsweet/ts-utils';
 import debounce from 'just-debounce';
 
 import { ARIA_EXPANDED_KEY } from '$global/constants/a11ty';
@@ -54,7 +55,7 @@ const observeSelectElement = (settings: Settings) => {
 
   const observer = new MutationObserver((mutations) => {
     const hasMutatedOptions = mutations.some(({ addedNodes, removedNodes }) =>
-      [...addedNodes, ...removedNodes].some((node) => node instanceof HTMLOptionElement)
+      [...addedNodes, ...removedNodes].some(isHTMLOptionElement)
     );
 
     if (hasMutatedOptions) populateOptions(settings);

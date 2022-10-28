@@ -1,4 +1,12 @@
-import { addListener, cloneNode, CMS_CSS_CLASSES, CURRENT_CSS_CLASS, isNotEmpty } from '@finsweet/ts-utils';
+import {
+  addListener,
+  cloneNode,
+  CMS_CSS_CLASSES,
+  CURRENT_CSS_CLASS,
+  isElement,
+  isHTMLAnchorElement,
+  isNotEmpty,
+} from '@finsweet/ts-utils';
 import debounce from 'just-debounce';
 
 import type { CMSList } from '$packages/cmscore';
@@ -209,7 +217,7 @@ const createPageElement = (
   newElement.classList.remove(CURRENT_CSS_CLASS);
   newElement.textContent = `${targetPage}`;
 
-  if (newElement instanceof HTMLAnchorElement && pagesQuery) newElement.href = `?${pagesQuery}=${targetPage}`;
+  if (isHTMLAnchorElement(newElement) && pagesQuery) newElement.href = `?${pagesQuery}=${targetPage}`;
 
   return newElement;
 };
@@ -238,7 +246,7 @@ const updatePageElement = (element: HTMLElement, isCurrentPage: boolean) => {
 const handlePaginationClicks = (e: MouseEvent, pageButtonsData: PageButtonsData | undefined, listInstance: CMSList) => {
   const { target } = e;
 
-  if (!(target instanceof Element)) return;
+  if (!isElement(target)) return;
 
   const isPageButton = target.closest<HTMLElement>(getSelector('element', 'pageButton', { operator: 'prefixed' }));
   const isNextButton = target.closest(`.${paginationNextCSSClass}`);

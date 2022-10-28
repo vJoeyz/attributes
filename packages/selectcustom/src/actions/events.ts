@@ -1,4 +1,4 @@
-import { addListener } from '@finsweet/ts-utils';
+import { addListener, isElement } from '@finsweet/ts-utils';
 
 import { ARROW_DOWN_KEY, ARROW_UP_KEY, SPACE_KEY, TAB_KEY } from '$global/constants/keyboard';
 import { closeDropdown } from '$global/helpers';
@@ -18,7 +18,7 @@ import { updateOptionsState } from './state';
 const getClickedOptionData = (e: Event, { optionsStore }: Settings) => {
   const { target } = e;
 
-  if (!(target instanceof Element)) return;
+  if (!isElement(target)) return;
 
   const optionElement = target.closest('a');
   if (!optionElement) return;

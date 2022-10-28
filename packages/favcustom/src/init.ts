@@ -1,3 +1,5 @@
+import { isHTMLImageElement } from '@finsweet/ts-utils';
+
 import { CMS_ATTRIBUTE_ATTRIBUTE, FAV_CUSTOM_ATTRIBUTE } from '$global/constants/attributes';
 import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
 
@@ -11,7 +13,7 @@ export const init = async (): Promise<string | undefined> => {
 
   // Get the element's src, if existing.
   const srcElement = queryElement('src');
-  const elementSrc = srcElement instanceof HTMLImageElement ? srcElement.src : undefined;
+  const elementSrc = isHTMLImageElement(srcElement) ? srcElement.src : undefined;
   const linkHref = elementSrc;
 
   if (!linkHref) return;

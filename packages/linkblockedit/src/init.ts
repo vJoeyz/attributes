@@ -1,4 +1,4 @@
-import { addListener } from '@finsweet/ts-utils';
+import { addListener, isHTMLAnchorElement, isHTMLElement } from '@finsweet/ts-utils';
 
 import { ARIA_LABEL_KEY, ARIA_ROLE_KEY, ARIA_ROLE_VALUES, TABINDEX_KEY } from '$global/constants/a11ty';
 import { CMS_ATTRIBUTE_ATTRIBUTE, LINK_BLOCK_EDIT_ATTRIBUTE } from '$global/constants/attributes';
@@ -32,7 +32,7 @@ export const init = async (): Promise<NodeListOf<HTMLElement>> => {
   const clickCleanup = addListener(window, 'click', (e) => {
     const { target } = e;
 
-    if (!(target instanceof HTMLElement) || target instanceof HTMLAnchorElement) return;
+    if (!isHTMLElement(target) || isHTMLAnchorElement(target)) return;
 
     const parentElement = target.closest(getSelector('element', 'parent'));
     if (!parentElement) return;

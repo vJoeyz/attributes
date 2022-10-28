@@ -1,4 +1,4 @@
-import { addListener } from '@finsweet/ts-utils';
+import { addListener, isElement } from '@finsweet/ts-utils';
 
 import { getClosestRadioField, getClosestGroup, queryStar, queryRadio } from '../utils/helpers';
 import { setClasses } from './classes';
@@ -28,7 +28,7 @@ export const listenEvents = () => {
  * @param e
  */
 const handleGroupHover = ({ target }: Event) => {
-  if (!(target instanceof Element)) return;
+  if (!isElement(target)) return;
 
   const radioField = getClosestRadioField(target);
   if (!radioField) return;
@@ -58,7 +58,7 @@ const handleGroupHover = ({ target }: Event) => {
  */
 const handleGroupUnhover = ({ target }: Event) => {
   if (!activeGroupsStore.size) return;
-  if (!(target instanceof Element)) return;
+  if (!isElement(target)) return;
 
   for (const activeGroup of activeGroupsStore) {
     const group = getClosestGroup(target);

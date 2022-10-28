@@ -1,4 +1,4 @@
-import { addListener, simulateEvent } from '@finsweet/ts-utils';
+import { addListener, isElement, simulateEvent } from '@finsweet/ts-utils';
 
 import { getSelector } from '../utils/constants';
 import type { DotsRelationship } from '../utils/types';
@@ -12,7 +12,7 @@ import type { DotsRelationship } from '../utils/types';
  */
 export const listenClickEvents = (customSliderNav: HTMLElement, dotsRelationship: DotsRelationship) => {
   const clickCleanup = addListener(customSliderNav, 'click', ({ target }) => {
-    if (!(target instanceof Element)) return;
+    if (!isElement(target)) return;
 
     const customDotTarget = target.closest(getSelector('element', 'content', { operator: 'prefixed' }));
     if (!customDotTarget) return;
