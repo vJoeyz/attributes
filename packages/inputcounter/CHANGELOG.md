@@ -1,5 +1,11 @@
 # @finsweet/attributes-inputcounter
 
+## 1.2.2
+
+### Patch Changes
+
+- ddc110dc: Removed default initial value. Now users have to explicitly set an initial value using `fs-inputcounter-initial`.
+
 ## 1.2.1
 
 ### Patch Changes
