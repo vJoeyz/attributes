@@ -45,16 +45,20 @@ export const handleButtons = (
  * @param initialValue
  * @returns A cleanup callback.
  */
-export const handleResetButton = (inputElement: HTMLInputElement, resetButton: Element, initialValue: number) => {
+export const handleResetButton = (
+  inputElement: HTMLInputElement,
+  resetButton: Element,
+  initialValue: number | null
+) => {
   // Set up aria
-  const label = `Reset the input value to ${initialValue}`;
+  const label = `Reset the input value`;
 
   setButtonA11Y(inputElement, resetButton, label);
 
   // Set up listeners
   const cleanupReset = addListener(resetButton, 'click', (e) => {
     e.preventDefault();
-    setFormFieldValue(inputElement, initialValue.toString());
+    setFormFieldValue(inputElement, initialValue?.toString() || '');
   });
 
   return cleanupReset;
