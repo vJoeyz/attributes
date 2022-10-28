@@ -82,6 +82,8 @@ export const SMART_LIGHTBOX_ATTRIBUTE = 'smartlightbox';
 
 export const SOCIAL_SHARE_ATTRIBUTE = 'socialshare';
 
+export const STAR_RATING_ATTRIBUTE = 'starrating';
+
 export const SUPPORT_ATTRIBUTE = 'support';
 
 export const TOC_ATTRIBUTE = 'toc';
