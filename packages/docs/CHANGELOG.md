@@ -1,5 +1,11 @@
 # @finsweet/attributes-docs
 
+## 1.12.4
+
+### Patch Changes
+
+- 1eb9c91e: Created `fs-accordion` Attribute.
+
 ## 1.12.3
 
 ### Patch Changes
