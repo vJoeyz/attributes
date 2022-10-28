@@ -1,5 +1,11 @@
 # @finsweet/attributes-docs
 
+## 1.12.5
+
+### Patch Changes
+
+- 239d236b: Added info about `fs-a11y`
+
 ## 1.12.4
 
 ### Patch Changes
