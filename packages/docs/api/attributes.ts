@@ -33,6 +33,7 @@ import {
   NUMBER_COUNT_ATTRIBUTE,
   INPUT_COUNTER_ATTRIBUTE,
   MODAL_ATTRIBUTE,
+  STAR_RATING_ATTRIBUTE,
 } from '$global/constants/attributes';
 import { createImportURL } from '$global/import';
 
@@ -511,6 +512,19 @@ export const attributesData: AttributesData = [
     href: createDocsHref('modal'),
     baseSrc: createImportURL(MODAL_ATTRIBUTE, '1'),
     scriptSrc: `${MODAL_ATTRIBUTE}.js`,
+    examplesSrc: 'examples.json',
+    loadMode: 'defer',
+    changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
+    allowSupport: false,
+  },
+  {
+    key: STAR_RATING_ATTRIBUTE,
+    title: 'Star Rating',
+    description: 'Star rating radio button component inside any Webflow form.',
+    href: createDocsHref('star-rating'),
+    baseSrc: createImportURL(STAR_RATING_ATTRIBUTE, '1'),
+    scriptSrc: `${STAR_RATING_ATTRIBUTE}.js`,
     examplesSrc: 'examples.json',
     loadMode: 'defer',
     changesetsSrc: 'changesets.json',

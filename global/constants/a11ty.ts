@@ -7,6 +7,7 @@ export const enum ARIA_ROLE_VALUES {
   link = 'link',
   marquee = 'marquee',
   button = 'button',
+  radiogroup = 'radiogroup',
 }
 export const TABINDEX_KEY = 'tabindex';
 export const ARIA_LABEL_KEY = 'aria-label';
