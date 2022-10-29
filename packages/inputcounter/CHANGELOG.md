@@ -1,5 +1,11 @@
 # @finsweet/attributes-inputcounter
 
+## 1.2.3
+
+### Patch Changes
+
+- fbd4f6c2: Add tabindex="0" to the buttons automatically
+
 ## 1.2.2
 
 ### Patch Changes
