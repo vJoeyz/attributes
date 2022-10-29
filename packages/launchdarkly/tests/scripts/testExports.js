@@ -323,10 +323,21 @@
   // ../../global/constants/attributes.ts
   var LAUNCHDARKLY_ATTRIBUTE = "launchdarkly";
 
-  // ../../node_modules/.pnpm/@finsweet+ts-utils@0.36.0/node_modules/@finsweet/ts-utils/dist/type-guards/isKeyOf.js
+  // ../../node_modules/.pnpm/@finsweet+ts-utils@0.37.1/node_modules/@finsweet/ts-utils/dist/type-guards/instances.js
+  var isHTMLInputElement = (target) => target instanceof HTMLInputElement;
+  var isHTMLSelectElement = (target) => target instanceof HTMLSelectElement;
+  var isHTMLTextAreaElement = (target) => target instanceof HTMLTextAreaElement;
+  var isHTMLButtonElement = (target) => target instanceof HTMLButtonElement;
+
+  // ../../node_modules/.pnpm/@finsweet+ts-utils@0.37.1/node_modules/@finsweet/ts-utils/dist/type-guards/isKeyOf.js
   var isKeyOf = (key, source) => !!key && source.includes(key);
 
-  // ../../node_modules/.pnpm/@finsweet+ts-utils@0.36.0/node_modules/@finsweet/ts-utils/dist/helpers/extractCommaSeparatedValues.js
+  // ../../node_modules/.pnpm/@finsweet+ts-utils@0.37.1/node_modules/@finsweet/ts-utils/dist/type-guards/primitives.js
+  var isString = (value) => typeof value === "string";
+  var isNumber = (value) => typeof value === "number";
+  var isBoolean = (value) => typeof value === "boolean";
+
+  // ../../node_modules/.pnpm/@finsweet+ts-utils@0.37.1/node_modules/@finsweet/ts-utils/dist/helpers/extractCommaSeparatedValues.js
   function extractCommaSeparatedValues(string2, compareSource, defaultValue, filterEmpty = true) {
     const emptyValue = defaultValue ? [defaultValue] : [];
     if (!string2)
@@ -353,7 +364,7 @@
       if (!valueKey)
         return `[${attributeKey}]`;
       const value = values?.[valueKey];
-      if (typeof value === "string")
+      if (isString(value))
         attributeValue = value;
       else
         attributeValue = value(params && "instanceIndex" in params ? params.instanceIndex : void 0);
@@ -447,7 +458,7 @@
   // src/utils/type-guards.ts
   var PROPERTIES_TYPE_GUARDS = {
     [VALUE_PROPERTY](element) {
-      return element instanceof HTMLInputElement || element instanceof HTMLButtonElement || element instanceof HTMLSelectElement || element instanceof HTMLTextAreaElement;
+      return isHTMLInputElement(element) || isHTMLButtonElement(element) || isHTMLSelectElement(element) || isHTMLTextAreaElement(element);
     }
   };
 
@@ -510,7 +521,7 @@
       initJSON(element, rawFlagValue);
       return;
     }
-    const flagValue = typeof rawFlagValue === "string" || typeof rawFlagValue === "number" || typeof rawFlagValue === "boolean" ? String(rawFlagValue) : void 0;
+    const flagValue = isString(rawFlagValue) || isNumber(rawFlagValue) || isBoolean(rawFlagValue) ? String(rawFlagValue) : void 0;
     if (rawShowIf) {
       initShowIf(element, rawShowIf, flagValue);
     }
