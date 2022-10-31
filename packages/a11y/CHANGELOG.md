@@ -1,5 +1,11 @@
 # @finsweet/attributes-a11y
 
+## 1.1.1
+
+### Patch Changes
+
+- db4cbc24: Only observe `aria-expanded` and dialogs
+
 ## 1.1.0
 
 ### Minor Changes
