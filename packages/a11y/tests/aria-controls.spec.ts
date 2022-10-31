@@ -17,15 +17,43 @@ test.describe('aria-controls', () => {
     await expect(header).toHaveAttribute('aria-expanded', 'true');
   });
 
-  test('fs-a11y-element="autofocus" focuses an element', async ({ page }) => {
+  test('Skips elements without aria-expanded', async ({ page }) => {
     const header = page.getByTestId('header-2');
     const content = page.getByTestId('content-2');
-    const button = page.getByTestId('button-2');
 
     await expect(content).toBeHidden();
+    await expect(header).not.toHaveAttribute('aria-expanded', /(.*?)/);
 
     await header.click();
     await expect(content).toBeVisible();
-    await expect(button).toBeFocused();
+    await expect(header).not.toHaveAttribute('aria-expanded', /(.*?)/);
+  });
+
+  test('Traps focus in doalogs', async ({ page }) => {
+    const modal = page.getByTestId('modal');
+    const openModalButton = page.getByTestId('open-modal');
+    const closeModalButton = page.getByTestId('close-modal');
+    const link1 = page.getByTestId('link-1');
+    const link2 = page.getByTestId('link-2');
+
+    await expect(modal).toBeHidden();
+
+    await openModalButton.click();
+    await expect(modal).toBeVisible();
+    await expect(closeModalButton).toBeFocused();
+
+    await page.keyboard.press('Tab');
+    await expect(link1).toBeFocused();
+
+    await page.keyboard.press('Tab');
+    await expect(link2).toBeFocused();
+
+    await page.keyboard.press('Tab');
+    await expect(closeModalButton).toBeFocused();
+
+    await page.keyboard.press('Enter');
+    await expect(modal).toBeHidden();
+
+    await expect(openModalButton).toBeFocused();
   });
 });

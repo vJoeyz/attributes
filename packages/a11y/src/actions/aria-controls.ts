@@ -2,7 +2,7 @@ import { isNotEmpty, isVisible } from '@finsweet/ts-utils';
 import { createFocusTrap } from 'focus-trap';
 import debounce from 'just-debounce';
 
-import { ARIA_CONTROLS_KEY, ARIA_EXPANDED_KEY, ARIA_ROLE_KEY, ARIA_ROLE_VALUES } from '$global/constants/a11ty';
+import { ARIA_CONTROLS_KEY, ARIA_EXPANDED_KEY, ARIA_ROLE_KEY, ARIA_ROLE_VALUES } from '$global/constants/a11y';
 
 /**
  * Observes [aria-controls] target visibility.
@@ -37,27 +37,25 @@ const observeTarget = (controller: Element) => {
     return;
   }
 
-  // Dialog
+  // Has aria-expanded
+  const hasAriaExpanded = controller.hasAttribute(ARIA_EXPANDED_KEY);
+
+  // Is dialog
   const targetIsDialog = target.getAttribute(ARIA_ROLE_KEY) === ARIA_ROLE_VALUES.dialog;
   const trap = targetIsDialog ? createFocusTrap(target, { returnFocusOnDeactivate: true }) : null;
 
-  // Expanded
-  let expanded = isVisible(target);
+  if (!hasAriaExpanded && !targetIsDialog) return;
 
-  setAriaExpanded(controller, expanded);
+  // Observe
+  setAriaExpanded(controller, target);
 
   const observerCallback: MutationCallback = () => {
-    const hasExpanded = isVisible(target);
-
-    setAriaExpanded(controller, hasExpanded);
-
+    const hasExpanded = setAriaExpanded(controller, target);
     if (hasExpanded) {
       trap?.activate();
     } else {
       trap?.deactivate();
     }
-
-    expanded = hasExpanded;
   };
 
   const debouncedObserverCallback = debounce(observerCallback, 100);
@@ -78,8 +76,12 @@ const observeTarget = (controller: Element) => {
 /**
  * Sets the [aria-expanded] attribute value to a controller.
  * @param controller
- * @param expanded
+ * @param target
  */
-const setAriaExpanded = (controller: Element, expanded: boolean) => {
-  controller.setAttribute(ARIA_EXPANDED_KEY, String(expanded));
+const setAriaExpanded = (controller: Element, target: HTMLElement) => {
+  const hasExpanded = isVisible(target);
+
+  controller.setAttribute(ARIA_EXPANDED_KEY, String(hasExpanded));
+
+  return hasExpanded;
 };

@@ -11,7 +11,7 @@ import type { FormBlockElement } from '@finsweet/ts-utils';
 
 import { normalizePropKey } from '$global/helpers';
 
-import { ensureUniqueFormFieldId } from '../utils/a11ty';
+import { ensureUniqueFormFieldId } from '../utils/a11y';
 import { ATTRIBUTES, getSelector, MATCHES, MODES, queryElement, TAG_FORMATS } from '../utils/constants';
 import type { FilterData, FilterElement, FiltersData, ResetButtonsData } from '../utils/types';
 import { handleFilterInput } from './input';

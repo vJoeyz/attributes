@@ -6,7 +6,7 @@ import {
   ARIA_ROLEDESCRIPTION_KEY,
   ARIA_ROLE_KEY,
   ARIA_ROLE_VALUES,
-} from '$global/constants/a11ty';
+} from '$global/constants/a11y';
 import { ensureUniqueId } from '$global/helpers';
 
 /**
