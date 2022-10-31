@@ -223,7 +223,7 @@ const createPageElement = (
 };
 
 /**
- * Updates the CSS and `a11ty` of a page element.
+ * Updates the CSS and `a11y` of a page element.
  * @param element The page element.
  * @param isCurrentPage Defines if the element points to the current active page.
  */

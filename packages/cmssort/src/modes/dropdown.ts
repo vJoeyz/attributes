@@ -7,7 +7,7 @@ import {
   ARIA_ROLE_KEY,
   ARIA_ROLE_VALUES,
   ARIA_SELECTED_KEY,
-} from '$global/constants/a11ty';
+} from '$global/constants/a11y';
 import { closeDropdown, normalizePropKey } from '$global/helpers';
 import type { CMSList } from '$packages/cmscore';
 
@@ -181,7 +181,7 @@ const collectDropdownLabelData = (dropdownToggle: DropdownToggle): DropdownLabel
 };
 
 /**
- * Adds `a11ty` attributes to the Dropdown elements.
+ * Adds `a11y` attributes to the Dropdown elements.
  * @param dropdownToggle The {@link DropdownToggle} element.
  * @param dropdownList The {@link DropdownList} element.
  */

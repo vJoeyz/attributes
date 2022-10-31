@@ -1,4 +1,4 @@
-import { ARIA_ROLE_KEY, ARIA_ROLE_VALUES } from '$global/constants/a11ty';
+import { ARIA_ROLE_KEY, ARIA_ROLE_VALUES } from '$global/constants/a11y';
 
 import { setClasses } from './actions/classes';
 import { getAllRadios } from './utils/helpers';

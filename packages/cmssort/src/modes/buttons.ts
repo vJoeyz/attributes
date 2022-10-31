@@ -1,12 +1,6 @@
 import { addListener, MapEntries } from '@finsweet/ts-utils';
 
-import {
-  ARIA_ROLE_KEY,
-  ARIA_ROLE_VALUES,
-  ARIA_SORT_KEY,
-  ARIA_SORT_VALUES,
-  TABINDEX_KEY,
-} from '$global/constants/a11ty';
+import { ARIA_ROLE_KEY, ARIA_ROLE_VALUES, ARIA_SORT_KEY, ARIA_SORT_VALUES, TABINDEX_KEY } from '$global/constants/a11y';
 import { normalizePropKey } from '$global/helpers';
 import type { CMSList } from '$packages/cmscore';
 
@@ -88,7 +82,7 @@ export const initButtons = (buttons: HTMLElement[], listInstance: CMSList, globa
 /**
  * - Inits the button state.
  * - Clears state CSS classes.
- * - Adds `a11ty` attributes.
+ * - Adds `a11y` attributes.
  * - Stores CSS Class overrides.
  * @param button The button element.
  * @param buttonsState The {@link ButtonsState} object.
@@ -133,7 +127,7 @@ const clearClasses = (...[button, { cssClasses }]: MapEntries<ButtonsState>[numb
 };
 
 /**
- * Sets `a11ty` attributes to a button.
+ * Sets `a11y` attributes to a button.
  * @param button The button element.
  * @param direction The direction state of the button.
  */

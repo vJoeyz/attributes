@@ -4,7 +4,7 @@ import {
   ARIA_ROLE_KEY,
   ARIA_ROLE_VALUES,
   TABINDEX_KEY,
-} from '$global/constants/a11ty';
+} from '$global/constants/a11y';
 
 /**
  * Sets A11Y attributes to a button.

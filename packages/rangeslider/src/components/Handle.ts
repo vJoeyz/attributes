@@ -1,9 +1,9 @@
 import { addListener, setFormFieldValue } from '@finsweet/ts-utils';
 
-import { ARIA_VALUEMAX_KEY, ARIA_VALUEMIN_KEY, ARIA_VALUENOW_KEY } from '$global/constants/a11ty';
+import { ARIA_VALUEMAX_KEY, ARIA_VALUEMIN_KEY, ARIA_VALUENOW_KEY } from '$global/constants/a11y';
 import { adjustValueToStep } from '$global/helpers';
 
-import { setHandleA11ty } from '../actions/a11ty';
+import { setHandleA11Y } from '../actions/a11y';
 import { setHandleStyles } from '../actions/styles';
 import { HANDLE_INCREMENT_KEYS, HANDLE_KEYS } from '../utils/constants';
 import type { Fill } from './Fill';
@@ -76,7 +76,7 @@ export class Handle {
     this.trackWidth = trackWidth;
 
     setHandleStyles(element);
-    setHandleA11ty(element, inputElement);
+    setHandleA11Y(element, inputElement);
 
     this.setValue(startValue);
     this.destroy = this.listenEvents();

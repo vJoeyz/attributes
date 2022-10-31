@@ -1,7 +1,7 @@
 import { cloneNode, findTextNode } from '@finsweet/ts-utils';
 
 import type { OptionData, Settings } from '../utils/types';
-import { setOptionAria } from './a11ty';
+import { setOptionAria } from './a11y';
 import { toggleResetVisibility, updateOptionsState } from './state';
 
 /**
