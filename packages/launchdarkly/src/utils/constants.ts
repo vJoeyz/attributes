@@ -66,6 +66,7 @@ export const SIZES_PROPERTY = `sizes`;
 export const VALUE_PROPERTY = `value`;
 export const CLASS_PROPERTY = `class`;
 export const HTML_PROPERTY = `html`;
+export const HREF_PROPERTY = `href`;
 
 /**
  * Defines the JSON Flag Value schema.

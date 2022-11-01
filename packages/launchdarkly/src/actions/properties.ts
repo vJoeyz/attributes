@@ -6,6 +6,7 @@ import {
   VALUE_PROPERTY,
   CLASS_PROPERTY,
   HTML_PROPERTY,
+  HREF_PROPERTY,
 } from '../utils/constants';
 import { PROPERTIES_TYPE_GUARDS } from '../utils/type-guards';
 
@@ -63,5 +64,9 @@ const propertyActions: Record<string, (element: HTMLElement, value: string) => v
 
   [HTML_PROPERTY]: (element: HTMLElement, value: string) => {
     element.innerHTML = String(value);
+  },
+
+  [HREF_PROPERTY]: (element: HTMLElement, value: string) => {
+    element.setAttribute(HREF_PROPERTY, String(value));
   },
 };

@@ -19,7 +19,8 @@ test.describe('Update Element Property', () => {
 
   test.describe('When flag is set', async () => {
     const titleText = 'abc';
-    let flags = `{testing: 'http://example2.svg', testing2: '${titleText}'}`;
+    const innerHTMLContent = `<span>${titleText}</span>`;
+    let flags = `{testing: 'http://example2.svg','testing-html': '${innerHTMLContent}', testing2: '${titleText}'}`;
     let selector: string;
 
     test('It updates src property of a nested iframe', async ({ page }) => {
@@ -53,6 +54,23 @@ test.describe('Update Element Property', () => {
 
       const src = await locator.getAttribute('src');
       expect(src).toEqual(null);
+    });
+
+    test('It updates href property of an element', async ({ page }) => {
+      selector = '[data-test-id="anchor1"]';
+      await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
+
+      const locator = page.locator(selector);
+      const href = await locator.getAttribute('href');
+      expect(href).toEqual('http://example2.svg');
+    });
+
+    test('It updates innerHTML of an element', async ({ page }) => {
+      selector = '[data-test-id="div1"]';
+      await page.evaluate(`fsLaunchDarkly.initFlags(${flags})`);
+
+      const innerHTML = await page.locator(selector).innerHTML();
+      expect(innerHTML).toEqual(innerHTMLContent);
     });
 
     test('It sets the innerText of element when "setproperties" attribute is text', async ({ page }) => {
