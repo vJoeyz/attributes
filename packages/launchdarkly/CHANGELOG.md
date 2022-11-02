@@ -1,5 +1,11 @@
 # @finsweet/attributes-launchdarkly
 
+## 0.2.0
+
+### Minor Changes
+
+- 076f14bc: Added support for `href` properties.
+
 ## 0.1.0
 
 ### Minor Changes
