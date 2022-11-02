@@ -7,7 +7,7 @@ import { test, expect } from '@playwright/test';
  */
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('https://fs-attributes.webflow.io/cms/cmsfilter');
+  await page.goto('http://fs-attributes.webflow.io/cms/cmsfilter');
 });
 
 test.describe('fs-cmsfilter-allowsubmit', () => {

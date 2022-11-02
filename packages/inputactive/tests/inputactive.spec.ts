@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('https://fs-attributes.webflow.io/inputactive');
+  await page.goto('http://fs-attributes.webflow.io/inputactive');
 });
 
 test.describe('inputactive', () => {
