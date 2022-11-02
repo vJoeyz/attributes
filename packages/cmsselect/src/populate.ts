@@ -1,6 +1,6 @@
-import { CMS_CSS_CLASSES, CollectionListWrapperElement } from '@finsweet/ts-utils';
+import type { CollectionListWrapperElement } from '@finsweet/ts-utils';
 
-import { getInstanceIndex } from '$global/helpers';
+import { getCMSElementSelector, getInstanceIndex } from '$global/helpers';
 import type { CMSList, CMSCore } from '$packages/cmscore';
 
 import { ATTRIBUTES, getSelector } from './constants';
@@ -19,7 +19,7 @@ export const populateSelectElement = (selectElement: HTMLSelectElement, cmsCore:
   for (const displaySource of displaySources) {
     addSelectOption(selectElement, displaySource, optionsMemo);
 
-    const collectionListWrapper = displaySource.closest<CollectionListWrapperElement>(`.${CMS_CSS_CLASSES.wrapper}`);
+    const collectionListWrapper = displaySource.closest<CollectionListWrapperElement>(getCMSElementSelector('wrapper'));
     if (!collectionListWrapper) continue;
 
     const listIntance = cmsCore.createCMSListInstance(collectionListWrapper);

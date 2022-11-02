@@ -1,4 +1,3 @@
-import { getCollectionElements } from '@finsweet/ts-utils';
 import type {
   CollectionListWrapperElement,
   CollectionListElement,
@@ -9,7 +8,7 @@ import type {
 } from '@finsweet/ts-utils';
 import Emittery from 'emittery';
 
-import { getInstanceIndex } from '$global/helpers';
+import { getInstanceIndex, getCollectionElements } from '$global/helpers';
 import type { Animation } from '$packages/animation/src/types';
 
 import { CMSItem } from './CMSItem';

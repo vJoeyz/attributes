@@ -1,6 +1,6 @@
-import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
 import type { JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
 
+import { getCMSElementSelector } from '$global/helpers';
 import { importCMSCore } from '$global/import';
 import type { CMSList } from '$packages/cmscore';
 
@@ -37,7 +37,7 @@ export function getNestedKey(listInstance: CMSList): string | null {
 
   const { element } = templateItem;
 
-  const nestedList = element.querySelector<HTMLDivElement>(`.${CMS_CSS_CLASSES.wrapper}`);
+  const nestedList = element.querySelector<HTMLDivElement>(getCMSElementSelector('wrapper'));
 
   if (!nestedList) {
     return null;

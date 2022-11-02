@@ -1,5 +1,6 @@
-import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
 import type { FormField } from '@finsweet/ts-utils';
+
+import { getCMSElementSelector } from '$global/helpers';
 
 /**
  * Makes sure a `FormField` element has a unique ID, as when using them inside `Collection Lists`, Webflow tends to use the same ID for all children.
@@ -10,7 +11,7 @@ import type { FormField } from '@finsweet/ts-utils';
  * @returns Nothing, it mutates the element's ID.
  */
 export const ensureUniqueFormFieldId = (element: FormField, index: number) => {
-  const isDynamic = element.closest(`.${CMS_CSS_CLASSES.item}`);
+  const isDynamic = element.closest(getCMSElementSelector('item'));
   if (!isDynamic) return;
 
   element.id = `${element.id}-${index}`;

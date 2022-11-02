@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('https://fs-attributes.webflow.io/accordion');
+  await page.goto('http://fs-attributes.webflow.io/accordion');
 });
 
 test.describe('accordion', () => {
