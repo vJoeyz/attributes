@@ -1,8 +1,6 @@
-import { getCollectionElements } from '@finsweet/ts-utils';
-
 import { CMS_ATTRIBUTE_ATTRIBUTE, COUNT_ITEMS_ATTRIBUTE } from '$global/constants/attributes';
 import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
-import { getInstanceIndex } from '$global/helpers';
+import { getInstanceIndex, getCollectionElements } from '$global/helpers';
 
 import { ATTRIBUTES, queryElement } from './constants';
 

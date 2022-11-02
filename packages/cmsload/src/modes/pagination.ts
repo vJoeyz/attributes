@@ -1,7 +1,6 @@
 import {
   addListener,
   cloneNode,
-  CMS_CSS_CLASSES,
   CURRENT_CSS_CLASS,
   isElement,
   isHTMLAnchorElement,
@@ -9,6 +8,7 @@ import {
 } from '@finsweet/ts-utils';
 import debounce from 'just-debounce';
 
+import { getCMSElementSelector } from '$global/helpers';
 import type { CMSList } from '$packages/cmscore';
 
 import { loadPaginatedItems } from '../actions/load';
@@ -18,7 +18,6 @@ import { getSelector } from '../utils/constants';
 import type { PageButtonsData } from '../utils/types';
 
 // Constants
-const { paginationNext: paginationNextCSSClass, paginationPrevious: paginationPreviousCSSClass } = CMS_CSS_CLASSES;
 
 /**
  * Inits the `Paginate` mode.
@@ -249,8 +248,8 @@ const handlePaginationClicks = (e: MouseEvent, pageButtonsData: PageButtonsData 
   if (!isElement(target)) return;
 
   const isPageButton = target.closest<HTMLElement>(getSelector('element', 'pageButton', { operator: 'prefixed' }));
-  const isNextButton = target.closest(`.${paginationNextCSSClass}`);
-  const isPreviousButton = target.closest(`.${paginationPreviousCSSClass}`);
+  const isNextButton = target.closest(getCMSElementSelector('paginationNext'));
+  const isPreviousButton = target.closest(getCMSElementSelector('paginationPrevious'));
 
   if (!isPageButton && !isNextButton && !isPreviousButton) return;
 

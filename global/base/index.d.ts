@@ -12,7 +12,8 @@ type FsAttributesCallback =
       'cmsload' | 'cmsnest' | 'cmscombine' | 'cmsprevnext' | 'cmsslider' | 'cmssort' | 'cmstabs',
       (value: CMSList[]) => void
     ]
-  | ['cmsfilter', (value: CMSFilters[]) => void];
+  | ['cmsfilter', (value: CMSFilters[]) => void]
+  | [string, (value: any) => void];
 
 type FsAttributesBase = {
   /**

@@ -1,7 +1,6 @@
-import { CMS_CSS_CLASSES } from '@finsweet/ts-utils';
-
 import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_LOAD_ATTRIBUTE } from '$global/constants/attributes';
 import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
+import { getCMSElementSelector } from '$global/helpers';
 import type { CMSList } from '$packages/cmscore/src';
 
 import { createCMSAttribute } from './factory';
@@ -14,7 +13,7 @@ export const init = async (): Promise<void> => {
   const targets = document.querySelectorAll<HTMLElement>(getSelector('target'));
 
   for (const targetElement of targets) {
-    const targetScope = targetElement.closest<HTMLElement>(`.${CMS_CSS_CLASSES.item}`) || document;
+    const targetScope = targetElement.closest<HTMLElement>(getCMSElementSelector('item')) || document;
 
     createCMSAttribute(targetElement, targetScope);
   }
