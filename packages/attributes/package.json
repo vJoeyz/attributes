@@ -1,0 +1,25 @@
+{
+  "name": "attributes",
+  "version": "0.0.0",
+  "description": "Finsweet Attributes. This package is not being used currently, we just published it to reserve the name in npm :)",
+  "homepage": "https://www.finsweet.com/attributes",
+  "type": "module",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/finsweet/attributes.git"
+  },
+  "keywords": [
+    "webflow",
+    "attributes",
+    "autovideo",
+    "no code"
+  ],
+  "author": {
+    "name": "Finsweet",
+    "url": "https://www.finsweet.com/"
+  },
+  "bugs": {
+    "url": "https://sweetjs.finsweet.com/"
+  }
+}
