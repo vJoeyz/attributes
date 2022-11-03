@@ -2,7 +2,6 @@ import {
   AUTO_VIDEO_ATTRIBUTE,
   CMS_ATTRIBUTE_ATTRIBUTE,
   CMS_COMBINE_ATTRIBUTE,
-  CMS_CORE,
   CMS_FILTER_ATTRIBUTE,
   CMS_LOAD_ATTRIBUTE,
   CMS_NEST_ATTRIBUTE,
@@ -37,6 +36,7 @@ import {
   ACCORDION_ATTRIBUTE,
   A11Y_ATTRIBUTE,
   INPUT_ACTIVE_ATTRIBUTE,
+  CMS_CORE_ATTRIBUTE,
 } from '$global/constants/attributes';
 
 import type { AttributesData } from '../src/utils/types';
@@ -88,12 +88,12 @@ export const attributesData: AttributesData = [
     allowSupport: true,
   },
   {
-    key: CMS_CORE,
+    key: CMS_CORE_ATTRIBUTE,
     title: 'CMS Core',
     description: 'Core functionalities of all cms Attributes.',
     href: createDocsHref('api/cms-core'),
-    baseSrc: `https://cdn.jsdelivr.net/npm/@finsweet/attributes-${CMS_CORE}@1`,
-    scriptSrc: `${CMS_CORE}.js`,
+    baseSrc: `https://cdn.jsdelivr.net/npm/@finsweet/attributes-${CMS_CORE_ATTRIBUTE}@1`,
+    scriptSrc: `${CMS_CORE_ATTRIBUTE}.js`,
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
     allowSupport: false,
