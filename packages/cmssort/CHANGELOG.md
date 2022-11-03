@@ -1,5 +1,11 @@
 # @finsweet/attributes-cmssort
 
+## 1.13.1
+
+### Patch Changes
+
+- 5e90c912: Fixed `fs-cmssort-type="number"` sorting issues.
+
 ## 1.13.0
 
 ### Minor Changes
