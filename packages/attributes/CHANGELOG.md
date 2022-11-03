@@ -2,6 +2,6 @@
 
 ## 0.0.1
 
-### Minor Changes
+### Patch Changes
 
 - c84d1bd8: Published attributes package.
