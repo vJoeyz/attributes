@@ -46,11 +46,12 @@ export const sortListItems = async (
       const { type } = firstItemProp;
 
       // Date & Number sorting
-      const isDate = type === 'date';
+      const isDateSorting = type === 'date';
+      const isNumberSorting = type === 'number';
 
-      if (isDate || isNumber(type)) {
+      if (isDateSorting || isNumberSorting) {
         const [firstItemNumber, secondItemNumber] = [firstItemValue, secondItemValue].map((value) =>
-          isDate ? new Date(value).getTime() : normalizeNumber(value)
+          isDateSorting ? new Date(value).getTime() : normalizeNumber(value)
         );
 
         if (!isNumber(firstItemNumber) || isNaN(firstItemNumber)) return 1;
