@@ -1,5 +1,11 @@
 # @finsweet/attributes-modal
 
+## 1.1.2
+
+### Patch Changes
+
+- 3f506ed9: Add tabindex="0" to all open/close triggers to ensure non-interactive elements like <div> are keyboard actionable.
+
 ## 1.1.1
 
 ### Patch Changes
