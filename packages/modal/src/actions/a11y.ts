@@ -9,6 +9,7 @@ import {
   ARIA_ROLEDESCRIPTION_KEY,
   ARIA_ROLE_KEY,
   ARIA_ROLE_VALUES,
+  TABINDEX_KEY,
 } from '$global/constants/a11y';
 import { ensureUniqueId } from '$global/helpers';
 
@@ -26,6 +27,7 @@ export const setModalA11Y = (modalElement: HTMLElement, openTriggers: Element[],
   modalElement.setAttribute(ARIA_MODAL_KEY, ARIA_MODAL_VALUES.true);
 
   for (const trigger of [...openTriggers, ...closeTriggers]) {
+    trigger.setAttribute(TABINDEX_KEY, '0');
     trigger.setAttribute(ARIA_ROLE_KEY, ARIA_ROLE_VALUES.button);
     trigger.setAttribute(ARIA_CONTROLS_KEY, modalId);
     trigger.setAttribute(ARIA_HASPOPUP_KEY, ARIA_ROLE_VALUES.dialog);
