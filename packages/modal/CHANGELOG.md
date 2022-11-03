@@ -1,5 +1,11 @@
 # @finsweet/attributes-modal
 
+## 1.1.1
+
+### Patch Changes
+
+- 647ca498: Improved a11y attributes handling.
+
 ## 1.1.0
 
 ### Minor Changes
