@@ -1,7 +1,7 @@
 # attributes
 
-## 1.0.0
+## 0.0.1
 
-### Major Changes
+### Minor Changes
 
 - c84d1bd8: Published attributes package.
