@@ -22,17 +22,20 @@ export const setModalA11Y = (modalElement: HTMLElement, openTriggers: Element[],
 
   for (const trigger of [...openTriggers, ...closeTriggers]) {
     trigger.setAttribute(ARIA_ROLE_KEY, ARIA_ROLE_VALUES.button);
-    trigger.setAttribute(ARIA_ROLEDESCRIPTION_KEY, 'open');
     trigger.setAttribute(ARIA_CONTROLS_KEY, modalId);
     trigger.setAttribute(ARIA_HASPOPUP_KEY, ARIA_ROLE_VALUES.dialog);
     ensureUniqueId(trigger);
   }
 
   for (const trigger of openTriggers) {
-    trigger.setAttribute(ARIA_ROLEDESCRIPTION_KEY, 'open');
+    if (!trigger.hasAttribute(ARIA_ROLEDESCRIPTION_KEY)) {
+      trigger.setAttribute(ARIA_ROLEDESCRIPTION_KEY, 'open-modal-trigger');
+    }
   }
 
   for (const trigger of closeTriggers) {
-    trigger.setAttribute(ARIA_ROLEDESCRIPTION_KEY, 'close');
+    if (!trigger.hasAttribute(ARIA_ROLEDESCRIPTION_KEY)) {
+      trigger.setAttribute(ARIA_ROLEDESCRIPTION_KEY, 'close-modal-trigger');
+    }
   }
 };
