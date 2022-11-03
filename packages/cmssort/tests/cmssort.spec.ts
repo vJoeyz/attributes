@@ -6,6 +6,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('cmssort', () => {
   test('Sorts correctly', async ({ page }) => {
+    await page.evaluate(async () => new Promise((resolve) => window.fsAttributes.push(['cmsload', resolve])));
     await page.evaluate(async () => new Promise((resolve) => window.fsAttributes.push(['cmssort', resolve])));
 
     // HTML Select Dropdown
@@ -33,11 +34,19 @@ test.describe('cmssort', () => {
 
     await trigger1.selectOption('number');
     await page.waitForTimeout(500);
-    await expect(listItems1.first()).toHaveText(/Project 20/);
+    await expect(listItems1.first()).toHaveText(/Project 31/);
 
     await trigger1.selectOption('number-desc');
     await page.waitForTimeout(500);
     await expect(listItems1.first()).toHaveText(/Project 3/);
+
+    await trigger1.selectOption('number-string');
+    await page.waitForTimeout(500);
+    await expect(listItems1.first()).toHaveText(/Project 22/);
+
+    await trigger1.selectOption('number-string-desc');
+    await page.waitForTimeout(500);
+    await expect(listItems1.first()).toHaveText(/Project 33/);
 
     // Buttons
     const triggers2 = page.locator('[fs-cmssort-element="trigger-2"]');
@@ -69,7 +78,7 @@ test.describe('cmssort', () => {
 
     await numberTrigger.click();
     await page.waitForTimeout(500);
-    await expect(listItems2.first()).toHaveText(/Project 20/);
+    await expect(listItems2.first()).toHaveText(/Project 31/);
 
     await numberTrigger.click();
     await page.waitForTimeout(500);
