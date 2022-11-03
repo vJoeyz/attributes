@@ -1,6 +1,6 @@
 {
   "name": "attributes",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Finsweet Attributes. This package is not being used currently, we just published it to reserve the name in npm :)",
   "homepage": "https://www.finsweet.com/attributes",
   "type": "module",
