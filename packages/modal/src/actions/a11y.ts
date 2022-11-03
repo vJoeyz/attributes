@@ -1,5 +1,8 @@
+import { isVisible } from '@finsweet/ts-utils';
+
 import {
   ARIA_CONTROLS_KEY,
+  ARIA_EXPANDED_KEY,
   ARIA_HASPOPUP_KEY,
   ARIA_MODAL_KEY,
   ARIA_MODAL_VALUES,
@@ -17,6 +20,8 @@ import { ensureUniqueId } from '$global/helpers';
  */
 export const setModalA11Y = (modalElement: HTMLElement, openTriggers: Element[], closeTriggers: Element[]) => {
   const modalId = ensureUniqueId(modalElement);
+  const expanded = isVisible(modalElement);
+
   modalElement.setAttribute(ARIA_ROLE_KEY, ARIA_ROLE_VALUES.dialog);
   modalElement.setAttribute(ARIA_MODAL_KEY, ARIA_MODAL_VALUES.true);
 
@@ -24,6 +29,7 @@ export const setModalA11Y = (modalElement: HTMLElement, openTriggers: Element[],
     trigger.setAttribute(ARIA_ROLE_KEY, ARIA_ROLE_VALUES.button);
     trigger.setAttribute(ARIA_CONTROLS_KEY, modalId);
     trigger.setAttribute(ARIA_HASPOPUP_KEY, ARIA_ROLE_VALUES.dialog);
+    trigger.setAttribute(ARIA_EXPANDED_KEY, String(expanded));
     ensureUniqueId(trigger);
   }
 
