@@ -3,6 +3,7 @@ import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
 
 import { listenCMSLoad } from './actions/cms';
 import { initVideoHLS } from './actions/video';
+import { hlsInstancesStore } from './utils/stores';
 
 /**
  * Inits the attribute.
@@ -11,12 +12,12 @@ export const init = async () => {
   await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
 
   const videos = document.querySelectorAll('video');
+  videos.forEach(initVideoHLS);
 
-  const hlsInstances = [...videos].map(initVideoHLS);
+  await listenCMSLoad();
 
-  listenCMSLoad(hlsInstances);
-
-  return finalizeAttribute(VIDEO_HLS_ATTRIBUTE, hlsInstances, () => {
-    for (const hlsInstance of hlsInstances) hlsInstance?.destroy();
+  return finalizeAttribute(VIDEO_HLS_ATTRIBUTE, hlsInstancesStore, () => {
+    for (const [, hlsInstance] of hlsInstancesStore) hlsInstance.destroy();
+    hlsInstancesStore.clear();
   });
 };
