@@ -323,6 +323,12 @@ importers:
     dependencies:
       slugify: 1.6.5
 
+  packages/videohls:
+    specifiers:
+      hls.js: ^1.2.4
+    dependencies:
+      hls.js: 1.2.4
+
 packages:
 
   /@adobe/css-tools/4.0.1:
@@ -11620,6 +11626,10 @@ packages:
     resolution: {integrity: sha512-ig1eqDzJaB0pqEvlPVIpSSyMaO92bH1N2rJpLMN/nX396wTpDA4Eq0uK+7I/2XG17pFaaKE0kjV/XPeGt7Evjw==}
     engines: {node: '>=12.0.0'}
     dev: true
+
+  /hls.js/1.2.4:
+    resolution: {integrity: sha512-yC3K79Kzq1W+OgjT12JxKMDXv9DbfvulppxmPBl7D04SaTyd2IwWk5eNASQV1mUaPlKbjr16yI9292qpSGo0ig==}
+    dev: false
 
   /hmac-drbg/1.0.1:
     resolution: {integrity: sha512-Tti3gMqLdZfhOQY1Mzf/AanLiqh1WTiJgEj26ZuYQ9fbkLomzGchCws4FyrSd4VkpBfiNhaE1On+lOz894jvXg==}

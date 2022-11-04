@@ -37,6 +37,7 @@ import {
   A11Y_ATTRIBUTE,
   INPUT_ACTIVE_ATTRIBUTE,
   CMS_CORE_ATTRIBUTE,
+  VIDEO_HLS_ATTRIBUTE,
 } from '$global/constants/attributes';
 
 import type { AttributesData } from '../src/utils/types';
@@ -568,6 +569,19 @@ export const attributesData: AttributesData = [
     scriptSrc: `${INPUT_ACTIVE_ATTRIBUTE}.js`,
     examplesSrc: 'examples.json',
     loadMode: 'defer',
+    changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
+    allowSupport: false,
+  },
+  {
+    key: VIDEO_HLS_ATTRIBUTE,
+    title: 'Video HLS',
+    description: 'Implement hls.js to a Webflow project.',
+    href: createDocsHref('video-hls'),
+    baseSrc: `https://cdn.jsdelivr.net/npm/@finsweet/attributes-${VIDEO_HLS_ATTRIBUTE}@1`,
+    scriptSrc: `${VIDEO_HLS_ATTRIBUTE}.js`,
+    examplesSrc: 'examples.json',
+    loadMode: 'async',
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
     allowSupport: false,
