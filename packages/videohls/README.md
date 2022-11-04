@@ -6,5 +6,5 @@ Implement [hls.js](https://github.com/video-dev/hls.js/) to a Webflow project.
 
 ```html
 <!-- [Attributes by Finsweet] Video HLS -->
-<script defer src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-videohls@1/videohls.js"></script>
+<script async src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-videohls@1/videohls.js"></script>
 ```
