@@ -1,5 +1,11 @@
 # @finsweet/attributes-docs
 
+## 1.12.7
+
+### Patch Changes
+
+- 95fba640: Created `fs-videohls` Attribute.
+
 ## 1.12.6
 
 ### Patch Changes
