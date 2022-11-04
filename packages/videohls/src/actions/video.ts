@@ -1,4 +1,5 @@
 import Hls from 'hls.js';
+import { hlsInstancesStore } from 'src/utils/stores';
 
 import { getAttribute } from '../utils/constants';
 
@@ -9,6 +10,7 @@ import { getAttribute } from '../utils/constants';
  * @returns The HLS instance.
  */
 export const initVideoHLS = (video: HTMLVideoElement) => {
+  if (hlsInstancesStore.get(video)) return;
   if (video.canPlayType('application/vnd.apple.mpegurl') || !Hls.isSupported()) return;
 
   const hlsManifestURL = getHLSManifestURL(video);
@@ -18,6 +20,8 @@ export const initVideoHLS = (video: HTMLVideoElement) => {
 
   hlsInstance.loadSource(hlsManifestURL);
   hlsInstance.attachMedia(video);
+
+  hlsInstancesStore.set(video, hlsInstance);
 
   return hlsInstance;
 };
