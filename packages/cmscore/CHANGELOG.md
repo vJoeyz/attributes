@@ -1,5 +1,11 @@
 # @finsweet/attributes-cmscore
 
+## 1.10.2
+
+### Patch Changes
+
+- 466bb3f3: Update Emittery to fix #process conflict.
+
 ## 1.10.1
 
 ### Patch Changes
