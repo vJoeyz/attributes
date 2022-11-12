@@ -38,6 +38,6 @@
   },
   "homepage": "https://www.finsweet.com/attributes",
   "dependencies": {
-    "emittery": "^1.0.0"
+    "emittery": "^1.0.1"
   }
 }
