@@ -1,6 +1,7 @@
 import { ACCORDION_ATTRIBUTE, CMS_ATTRIBUTE_ATTRIBUTE, CMS_LOAD_ATTRIBUTE } from '$global/constants/attributes';
 import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
 import { importA11Y } from '$global/import/a11y';
+import type { CMSList } from '$packages/cmscore/src';
 
 import { queryAllAccordions } from './actions/query';
 import { initAccordionGroups } from './factory';
@@ -18,9 +19,9 @@ export const init = async () => {
   // Wait for CMSLoad to render all accordions, only if required
   const usesCMSLoad = accordions.some((accordion) => accordion.closest(CMS_LOAD_LIST_ELEMENT_SELECTOR));
   if (usesCMSLoad) {
-    await awaitAttributesLoad(CMS_LOAD_ATTRIBUTE);
+    const listInstances: CMSList[] = (await awaitAttributesLoad(CMS_LOAD_ATTRIBUTE))[0];
 
-    accordions = queryAllAccordions();
+    accordions = queryAllAccordions(listInstances);
   }
 
   // Init all groups
