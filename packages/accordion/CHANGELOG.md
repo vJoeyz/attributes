@@ -1,5 +1,11 @@
 # @finsweet/attributes-accordion
 
+## 1.1.1
+
+### Patch Changes
+
+- 11c1abab: Follow up to v1.1.0: Also include support for loaded items that are not appended to the DOM yet, which can happen when combining accordion + cmsload + cmsfilter.
+
 ## 1.1.0
 
 ### Minor Changes
