@@ -9,7 +9,8 @@
   "files": [
     "formsubmit.js",
     "examples.json",
-    "schema.json"
+    "schema.json",
+    "changesets.json"
   ],
   "scripts": {
     "dev": "cross-env NODE_ENV=development node ./bin/build.js",

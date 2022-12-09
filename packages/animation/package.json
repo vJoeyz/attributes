@@ -6,7 +6,8 @@
   "files": [
     "animation.js",
     "animation.esm.js",
-    "functions.js"
+    "functions.js",
+    "changesets.json"
   ],
   "type": "module",
   "sideEffects": false,
