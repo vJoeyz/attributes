@@ -12,7 +12,8 @@
     "api.js",
     "support.js",
     "attributes.json",
-    "changesets.json"
+    "changesets.json",
+    "examples.json"
   ],
   "scripts": {
     "dev": "cross-env NODE_ENV=development node ./bin/build.js",
