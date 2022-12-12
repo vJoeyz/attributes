@@ -113,7 +113,7 @@ const handleDropdownToggleArrowKeyEvents = ({ key }: KeyboardEvent, { optionsSto
   if (key !== ARROW_DOWN_KEY) return;
 
   const firstOption = optionsStore.find(({ hidden }) => !hidden);
-  const focusedOption = optionsStore.find(({ focused }) => focused);
+  const focusedOption = optionsStore.find(({ focused, selected }) => focused || selected);
 
   if (focusedOption) {
     focusedOption.element.focus();
