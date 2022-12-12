@@ -34,7 +34,7 @@ const initComboBox = (referenceElement: HTMLElement) => {
   const settings = collectSettings(referenceElement);
   if (!settings) return;
 
-  populateOptions(settings);
+  populateOptions(settings, '', false, true);
 
   const disconnectObservers = observeElements(settings);
   const removeEventListeners = listenEvents(settings);

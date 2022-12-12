@@ -10,9 +10,9 @@ import type { OptionData, Settings } from '../utils/types';
  * This also determines whether the close icon should show or hide
  * @param settings The instance {@link Settings}.
  * @param selectedOption The selected {@link OptionData}, if existing.
- * @param {boolean} close if dropdown should be closed.
+ * @param {boolean} close if dropdown should be closed or opened
  */
-export const updateOptionsState = (settings: Settings, selectedOption?: OptionData, close = true) => {
+export const updateOptionsState = (settings: Settings, selectedOption?: OptionData, close = false) => {
   const { selectElement, optionsStore, inputElement, clearDropdown } = settings;
 
   if (selectedOption) {

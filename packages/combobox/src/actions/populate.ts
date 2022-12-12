@@ -10,8 +10,15 @@ import { updateOptionsState } from './state';
  * @param {string} inputValue Value from input field.
  * @param {boolean} showAll if dropdown should show all or filtered options.
  * @param {boolean} isTyping user is searching.
+ * @param {boolean} initialLoad if dropdown is loaded for the first time.
  */
-export const populateOptions = (settings: Settings, inputValue = '', showAll = false, isSearching = false) => {
+export const populateOptions = (
+  settings: Settings,
+  inputValue = '',
+  showAll = false,
+  isSearching = false,
+  initialLoad = false
+) => {
   const {
     optionsStore,
     optionTemplate,
@@ -70,6 +77,6 @@ export const populateOptions = (settings: Settings, inputValue = '', showAll = f
 
   if (!inputValue && selectedOption && label) {
     const labelText = label.textContent || '';
-    updateOptionsState(settings, { ...selectedOption, value: '', text: labelText }, false);
+    updateOptionsState(settings, { ...selectedOption, value: '', text: labelText }, initialLoad);
   }
 };
