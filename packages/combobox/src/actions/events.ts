@@ -1,7 +1,7 @@
 import { addListener, isElement } from '@finsweet/ts-utils';
 
 import { ARIA_EXPANDED_KEY } from '$global/constants/a11y';
-import { ARROW_DOWN_KEY, ARROW_UP_KEY, SPACE_KEY, TAB_KEY } from '$global/constants/keyboard';
+import { ARROW_DOWN_KEY, ARROW_UP_KEY, ENTER_KEY, SPACE_KEY, TAB_KEY } from '$global/constants/keyboard';
 import { closeDropdown } from '$global/helpers';
 
 import { CONTROL_KEYS, DROPDOWN_IS_OPEN } from '../utils/constants';
@@ -97,6 +97,7 @@ const handleDropdownListKeydownEvents = (e: KeyboardEvent, settings: Settings) =
  */
 const handleDropdownListFocusEvents = (e: FocusEvent, focused: boolean, settings: Settings) => {
   const optionData = getClickedOptionData(e, settings);
+  console.log('optionData focused In', optionData);
   if (!optionData) return;
 
   optionData.focused = focused;
@@ -111,9 +112,22 @@ const handleDropdownToggleArrowKeyEvents = ({ key }: KeyboardEvent, { optionsSto
   if (key !== ARROW_DOWN_KEY) return;
 
   const firstOption = optionsStore.find(({ hidden }) => !hidden);
-  if (!firstOption) return;
+  const focusedOption = optionsStore.find(({ focused }) => focused);
 
-  firstOption.element.focus();
+  console.log('firstOption', firstOption);
+  console.log('focusedOption', focusedOption);
+
+  if (focusedOption) {
+    focusedOption.element.focus();
+    return;
+  }
+
+  if (firstOption) {
+    firstOption.element.focus();
+    return;
+  }
+
+  return;
 };
 
 /**
@@ -136,6 +150,9 @@ const handleSelectChangeEvents = (settings: Settings) => {
  * @param settings The instance {@link Settings}.
  */
 const handleInputChangeEvents = (e: KeyboardEvent, settings: Settings) => {
+  const { key } = e;
+  if (key === ENTER_KEY || key === ARROW_DOWN_KEY || key === ARROW_UP_KEY) return;
+
   const referenceInput = e.target as HTMLInputElement;
   const inputValue = referenceInput.value.toLowerCase() ?? '';
 
