@@ -8,7 +8,7 @@ import { updateOptionsState } from './state';
  * Populates the custom options based on the `HTMLSelectElement`'s options.
  * @param settings The instance {@link Settings}.
  * @param {string} inputValue Value from input field.
- * @param {boolean} showAll Value from input field.
+ * @param {boolean} showAll if dropdown should show all or filtered options.
  * @param {boolean} isTyping user is searching.
  */
 export const populateOptions = (settings: Settings, inputValue = '', showAll = false, isSearching = false) => {

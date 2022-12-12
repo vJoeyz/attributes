@@ -97,7 +97,7 @@ const handleDropdownListKeydownEvents = (e: KeyboardEvent, settings: Settings) =
  */
 const handleDropdownListFocusEvents = (e: FocusEvent, focused: boolean, settings: Settings) => {
   const optionData = getClickedOptionData(e, settings);
-  console.log('optionData focused In', optionData);
+
   if (!optionData) return;
 
   optionData.focused = focused;
@@ -105,6 +105,7 @@ const handleDropdownListFocusEvents = (e: FocusEvent, focused: boolean, settings
 
 /**
  * Handles arrow keys events on the dropdown list.
+ * Targets the focused option, or the first option if none is focused.
  * @param e The Event object.
  * @param settings The instance {@link Settings}.
  */
@@ -113,9 +114,6 @@ const handleDropdownToggleArrowKeyEvents = ({ key }: KeyboardEvent, { optionsSto
 
   const firstOption = optionsStore.find(({ hidden }) => !hidden);
   const focusedOption = optionsStore.find(({ focused }) => focused);
-
-  console.log('firstOption', firstOption);
-  console.log('focusedOption', focusedOption);
 
   if (focusedOption) {
     focusedOption.element.focus();
@@ -151,18 +149,16 @@ const handleSelectChangeEvents = (settings: Settings) => {
  */
 const handleInputChangeEvents = (e: KeyboardEvent, settings: Settings) => {
   const { key } = e;
-  if (key === ENTER_KEY || key === ARROW_DOWN_KEY || key === ARROW_UP_KEY) return;
+  if (key === ARROW_DOWN_KEY || key === ARROW_UP_KEY) return;
 
   const referenceInput = e.target as HTMLInputElement;
   const inputValue = referenceInput.value.toLowerCase() ?? '';
 
-  populateOptions(settings, inputValue, false, true);
-
   if (!settings.dropdownToggle.classList.contains(DROPDOWN_IS_OPEN)) {
-    settings.dropdownToggle.classList.add(DROPDOWN_IS_OPEN);
-    settings.dropdownToggle.setAttribute(ARIA_EXPANDED_KEY, 'true');
-    settings.dropdownToggle.parentElement?.querySelector('nav')?.classList.add(DROPDOWN_IS_OPEN);
+    closeDropdown(settings.dropdownToggle);
   }
+
+  populateOptions(settings, inputValue, !inputValue, true);
 };
 /**
  * Shows the dropdown if hidden.
@@ -170,9 +166,7 @@ const handleInputChangeEvents = (e: KeyboardEvent, settings: Settings) => {
  */
 const handleInputClickEvents = (settings: Settings) => {
   if (!settings.dropdownToggle.classList.contains(DROPDOWN_IS_OPEN)) {
-    settings.dropdownToggle.classList.add(DROPDOWN_IS_OPEN);
-    settings.dropdownToggle.setAttribute(ARIA_EXPANDED_KEY, 'true');
-    settings.dropdownToggle.parentElement?.querySelector('nav')?.classList.add(DROPDOWN_IS_OPEN);
+    closeDropdown(settings.dropdownToggle);
   }
 };
 
@@ -181,12 +175,11 @@ const handleInputClickEvents = (settings: Settings) => {
  * @param settings The instance {@link Settings}.
  */
 const handleClearDropdown = (settings: Settings) => {
-  const { selectElement, dropdownToggle } = settings;
+  const { selectElement, dropdownToggle, inputElement } = settings;
 
+  inputElement.value = '';
   selectElement.value = '';
-
-  const changeEvent = new Event('change');
-  selectElement.dispatchEvent(changeEvent);
+  populateOptions(settings, '', true, true);
 
   closeDropdown(dropdownToggle);
 };

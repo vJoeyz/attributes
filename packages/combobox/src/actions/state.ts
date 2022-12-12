@@ -26,6 +26,7 @@ export const updateOptionsState = (settings: Settings, selectedOption?: OptionDa
     const selected = element === selectedOption?.element;
 
     optionData.selected = selected;
+    optionData.focused = selected;
 
     element.classList[selected ? 'add' : 'remove'](CURRENT_CSS_CLASS);
     element.setAttribute(ARIA_SELECTED_KEY, `${selected}`);
