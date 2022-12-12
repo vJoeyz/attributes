@@ -38,6 +38,7 @@ import {
   INPUT_ACTIVE_ATTRIBUTE,
   CMS_CORE_ATTRIBUTE,
   VIDEO_HLS_ATTRIBUTE,
+  DOCS_ATTRIBUTE,
 } from '$global/constants/attributes';
 
 import type { AttributesData } from '../src/utils/types';
@@ -254,6 +255,19 @@ export const attributesData: AttributesData = [
     changesetsSrc: 'changesets.json',
     readmeSrc: 'README.md',
     allowSupport: true,
+  },
+  {
+    key: DOCS_ATTRIBUTE,
+    title: 'Docs',
+    description: 'Internal logic for the Attributes documentation.',
+    href: createDocsHref(''),
+    baseSrc: `https://cdn.jsdelivr.net/npm/@finsweet/attributes-${DOCS_ATTRIBUTE}@1`,
+    scriptSrc: `${DOCS_ATTRIBUTE}.js`,
+    examplesSrc: 'examples.json',
+    loadMode: 'defer',
+    changesetsSrc: 'changesets.json',
+    readmeSrc: 'README.md',
+    allowSupport: false,
   },
   {
     key: FORM_SUBMIT_ATTRIBUTE,

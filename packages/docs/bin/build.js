@@ -3,7 +3,12 @@ import { writeFileSync } from 'fs';
 import { dirname } from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';
 
-import { defaultBuildSettings, generateChangesetsJSON, generateScript } from '../../../global/build/index.js';
+import {
+  defaultBuildSettings,
+  generateChangesetsJSON,
+  generateExamplesJSON,
+  generateScript,
+} from '../../../global/build/index.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -29,4 +34,5 @@ generateScript('src/changelog/index.ts', 'changelog');
 generateScript('src/api/index.ts', 'api');
 generateScript('src/support/index.ts', 'support');
 generateChangesetsJSON(__dirname);
+generateExamplesJSON(__dirname);
 generateAttributesJSON();
