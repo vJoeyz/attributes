@@ -1,5 +1,11 @@
 # @finsweet/attributes-docs
 
+## 1.12.10
+
+### Patch Changes
+
+- 97af4abf: Added missing `examples.json` file in package.json
+
 ## 1.12.9
 
 ### Patch Changes
