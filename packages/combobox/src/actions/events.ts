@@ -1,6 +1,5 @@
-import { addListener, isElement } from '@finsweet/ts-utils';
+import { addListener, isElement, setFormFieldValue } from '@finsweet/ts-utils';
 
-import { ARIA_EXPANDED_KEY } from '$global/constants/a11y';
 import { ARROW_DOWN_KEY, ARROW_UP_KEY, ENTER_KEY, SPACE_KEY, TAB_KEY } from '$global/constants/keyboard';
 import { closeDropdown } from '$global/helpers';
 
@@ -45,6 +44,8 @@ const handleDropdownListClickEvents = (e: MouseEvent | KeyboardEvent, settings: 
   if (!optionData) return;
 
   if (!optionData.selected) updateOptionsState(settings, optionData);
+
+  setFormFieldValue(settings.inputElement, optionData.value);
 
   closeDropdown(settings.dropdownToggle);
 };
