@@ -1,5 +1,11 @@
 # @finsweet/attributes-docs
 
+## 1.12.9
+
+### Patch Changes
+
+- 2930a679: Added copy/paste examples.
+
 ## 1.12.8
 
 ### Patch Changes
