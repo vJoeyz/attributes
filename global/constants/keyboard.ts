@@ -1,6 +1,7 @@
 export const SPACE_KEY = ' ';
 export const ENTER_KEY = 'Enter';
 export const TAB_KEY = 'Tab';
+export const BACKSPACE_KEY = 'Backspace';
 export const ARROW_UP_KEY = 'ArrowUp';
 export const ARROW_DOWN_KEY = 'ArrowDown';
 export const ARROW_RIGHT_KEY = 'ArrowRight';

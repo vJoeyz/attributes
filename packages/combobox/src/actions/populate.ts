@@ -1,10 +1,13 @@
 import { cloneNode, findTextNode } from '@finsweet/ts-utils';
+import { toggleDropdownCloseIcon } from 'src/utils';
 
 import { ARIA_HIDDEN_KEY, TABINDEX_KEY } from '$global/constants/a11y';
 
 import type { OptionData, Settings } from '../utils/types';
 import { setOptionAria } from './a11y';
 import { updateOptionsState } from './state';
+
+let hideCloseIcon = false;
 
 /**
  * Populates the custom options based on the `HTMLSelectElement`'s options.
@@ -18,7 +21,7 @@ export const populateOptions = (
   settings: Settings,
   inputValue = '',
   showAll = false,
-  isSearching = false,
+  isTyping = false,
   initialLoad = false
 ) => {
   const {
@@ -29,12 +32,16 @@ export const populateOptions = (
     noResultsTemplate,
     selectElement,
     clearDropdown,
+    inputElement,
+    navListElement,
     selectElement: { options, value: currentValue },
   } = settings;
 
-  clearDropdown?.setAttribute(TABINDEX_KEY, '-1');
+  clearDropdown?.setAttribute(TABINDEX_KEY, '0');
+  inputElement?.parentElement?.setAttribute(TABINDEX_KEY, '-1');
   selectElement.setAttribute(ARIA_HIDDEN_KEY, 'true');
   selectElement.setAttribute(TABINDEX_KEY, '-1');
+  navListElement.setAttribute(TABINDEX_KEY, '-1');
 
   // Clear existing options
   noResultsTemplate?.remove();
@@ -46,23 +53,19 @@ export const populateOptions = (
 
   let selectedOption: OptionData | undefined;
 
-  const optionsListing = Array.from(options).filter((item) => {
-    // skip options with no values or no text
-    if (!item.value || !item.textContent) return false;
+  const optionsConfigured = Array.from(options).filter((item) => item.value && item.textContent);
+  const optionsFiltered = optionsConfigured.filter((item) =>
+    item.text.trim().toLowerCase().includes(inputValue.trim().toLowerCase())
+  );
 
-    if (showAll) return true;
-
-    return item.value.trim().toLowerCase().includes(inputValue.toLowerCase().trim());
-  });
-
-  if (optionsListing.length === 0 && noResultsTemplate) {
+  if (optionsFiltered.length === 0 && noResultsTemplate) {
     optionsList.appendChild(noResultsTemplate);
 
     return;
   }
 
   // Create new options
-  for (const { value, text } of optionsListing) {
+  for (const { value, text } of showAll ? optionsConfigured : optionsFiltered) {
     const element = cloneNode(optionTemplate) as HTMLAnchorElement;
 
     const textNode = findTextNode(element) || element;
@@ -86,11 +89,19 @@ export const populateOptions = (
 
     optionsStore.push(optionData);
   }
-  if (!isSearching) updateOptionsState(settings, selectedOption);
+  if (isTyping) {
+    updateOptionsState(settings, selectedOption);
+  }
 
   if (!inputValue && selectedOption && label) {
     const labelText = label.textContent || '';
+
     updateOptionsState(settings, { ...selectedOption, value: '', text: labelText }, initialLoad);
   }
-  (clearDropdown as HTMLElement).style.display = 'none';
+
+  if (!hideCloseIcon) {
+    hideCloseIcon = true;
+
+    toggleDropdownCloseIcon(settings, '');
+  }
 };

@@ -1,11 +1,9 @@
 import { isHTMLOptionElement } from '@finsweet/ts-utils';
 import debounce from 'just-debounce';
 
-import { ARIA_EXPANDED_KEY } from '$global/constants/a11y';
-
+import { toggleDropdownCloseIcon } from '../utils';
 import type { Settings } from '../utils/types';
 import { populateOptions } from './populate';
-import { toggleResetVisibility } from './state';
 
 /**
  * Observes when the dropdown list is opened/closed.
@@ -14,7 +12,7 @@ import { toggleResetVisibility } from './state';
  * @returns The MutationObserver.
  */
 const observeDropdownList = (settings: Settings) => {
-  const { dropdownList, optionsStore, hideInitial } = settings;
+  const { dropdownList, optionsStore, hideInitial, inputElement } = settings;
 
   const callback: MutationCallback = debounce(() => {
     const selectedOption = optionsStore.find(({ selected }) => selected);
@@ -22,7 +20,7 @@ const observeDropdownList = (settings: Settings) => {
 
     if (!selectedOption || !firstNonHiddenOption) return;
 
-    if (hideInitial) window.requestAnimationFrame(() => toggleResetVisibility(!!selectedOption.value, settings));
+    if (hideInitial) window.requestAnimationFrame(() => toggleDropdownCloseIcon(settings));
   }, 20);
 
   const observer = new MutationObserver(callback);

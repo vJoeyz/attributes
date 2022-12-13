@@ -1,9 +1,9 @@
 import { addListener, isElement, setFormFieldValue } from '@finsweet/ts-utils';
 
 import { ARIA_EXPANDED_KEY } from '$global/constants/a11y';
-import { ARROW_DOWN_KEY, ARROW_UP_KEY, ENTER_KEY, SPACE_KEY, TAB_KEY } from '$global/constants/keyboard';
+import { ARROW_DOWN_KEY, ARROW_UP_KEY, BACKSPACE_KEY, ENTER_KEY, SPACE_KEY, TAB_KEY } from '$global/constants/keyboard';
 
-import { toggleDropdown } from '../utils';
+import { toggleDropdown, toggleDropdownCloseIcon } from '../utils';
 import { CONTROL_KEYS } from '../utils/constants';
 import type { Settings } from '../utils/types';
 import { populateOptions } from './populate';
@@ -61,6 +61,10 @@ const handleTabKeyEvents = (e: KeyboardEvent, settings: Settings) => {
 
   if (shiftKey) e.preventDefault();
 
+  if (e.target) {
+    (e.target as HTMLAnchorElement).click();
+    settings.inputElement.focus();
+  }
   toggleDropdown(settings, shiftKey);
 };
 
@@ -149,21 +153,57 @@ const handleSelectChangeEvents = (settings: Settings) => {
  * Handles `change` events on the `inputElement` and updates the dropdown.
  * @param settings The instance {@link Settings}.
  */
-const handleInputChangeEvents = (e: KeyboardEvent, settings: Settings) => {
+const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
   const { key } = e;
   const { dropdownToggle } = settings;
   e.preventDefault();
 
-  if (key === ARROW_DOWN_KEY || key === ARROW_UP_KEY || key === ENTER_KEY) return;
-
   const referenceInput = e.target as HTMLInputElement;
-  const inputValue = referenceInput.value.toLowerCase() ?? '';
+
+  const inputValue = referenceInput.value.toLowerCase().trim() ?? '';
+
+  if (key === ARROW_UP_KEY || key === ENTER_KEY || key === TAB_KEY) return;
+
+  if (key === BACKSPACE_KEY && inputValue.length === 0) {
+    populateOptions(settings, '', true, true);
+    return;
+  }
+
+  if (key === BACKSPACE_KEY && inputValue.length > 0) {
+    populateOptions(settings, inputValue, !inputValue, true);
+    toggleDropdownCloseIcon(settings, inputValue);
+
+    if (dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) !== 'true') {
+      toggleDropdown(settings);
+    }
+
+    return;
+  }
+
+  if (key === ARROW_DOWN_KEY && inputValue.length > 0) {
+    populateOptions(settings, inputValue, true, true);
+    toggleDropdown(settings);
+    return;
+  }
 
   if (dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) !== 'true') {
     toggleDropdown(settings);
   }
 
+  toggleDropdownCloseIcon(settings, inputValue);
   populateOptions(settings, inputValue, !inputValue, true);
+};
+
+/**
+ * Adds two way data binding.
+ * Handles `change` events on the `inputElement` and updates the dropdown.
+ * @param settings The instance {@link Settings}.
+ */
+const handleInputChangeEvents = (e: Event, settings: Settings) => {
+  const target = e.target as HTMLInputElement;
+  const inputValue = target.value.toLowerCase().trim() ?? '';
+
+  toggleDropdownCloseIcon(settings, inputValue);
 };
 /**
  * Shows the dropdown if hidden.
@@ -213,7 +253,8 @@ export const listenEvents = (settings: Settings) => {
 
     addListener(selectElement, 'change', () => handleSelectChangeEvents(settings)),
 
-    addListener(inputElement, 'keyup', (e) => handleInputChangeEvents(e, settings)),
+    addListener(inputElement, 'keyup', (e) => handleInputKeyUpEvents(e, settings)),
+    addListener(inputElement, 'change', (e) => handleInputChangeEvents(e, settings)),
     addListener(inputElement, 'click', () => handleInputClickEvents(settings)),
 
     addListener(clearDropdown, 'click', () => handleClearDropdown(settings)),

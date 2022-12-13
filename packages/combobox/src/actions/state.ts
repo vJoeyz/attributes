@@ -2,7 +2,7 @@ import { CURRENT_CSS_CLASS, setFormFieldValue } from '@finsweet/ts-utils';
 
 import { ARIA_SELECTED_KEY, TABINDEX_KEY } from '$global/constants/a11y';
 
-import { toggleDropdown } from '../utils';
+import { toggleDropdown, toggleDropdownCloseIcon } from '../utils';
 import type { OptionData, Settings } from '../utils/types';
 
 /**
@@ -15,7 +15,7 @@ import type { OptionData, Settings } from '../utils/types';
 export const updateOptionsState = (settings: Settings, selectedOption?: OptionData, close = false) => {
   const { selectElement, optionsStore, clearDropdown } = settings;
 
-  if (selectedOption) {
+  if (selectedOption && selectedOption.value) {
     setFormFieldValue(selectElement, selectedOption.value);
   }
 
@@ -29,28 +29,9 @@ export const updateOptionsState = (settings: Settings, selectedOption?: OptionDa
 
     element.classList[selected ? 'add' : 'remove'](CURRENT_CSS_CLASS);
     element.setAttribute(ARIA_SELECTED_KEY, `${selected}`);
-    element.setAttribute(TABINDEX_KEY, selected ? '0' : '-1');
+    element.setAttribute(TABINDEX_KEY, '0');
   }
 
   if (close) toggleDropdown(settings);
-
-  // hide or show close icon
-  if (selectElement.value) {
-    (clearDropdown as HTMLElement).style.display = 'flex';
-  } else {
-    (clearDropdown as HTMLElement).style.display = 'none';
-  }
-};
-
-/**
- * Toggles the visibility of the reset option.
- * @param show `true` to show, `false` to hide.
- * @param settings The instance {@link Settings}.
- */
-export const toggleResetVisibility = (show: boolean, { optionsStore }: Settings) => {
-  const resetOption = optionsStore.find(({ value }) => !value);
-  if (!resetOption) return;
-
-  resetOption.hidden = !show;
-  resetOption.element.style.display = show ? '' : 'none';
+  toggleDropdownCloseIcon(settings);
 };

@@ -19,8 +19,9 @@ export const collectSettings = (referenceElement: HTMLElement) => {
 
   const selectElement = dropdown.querySelector('select');
   const inputElement = dropdown.querySelector('input');
+  const navListElement = queryElement('dropdown')?.querySelector('nav');
 
-  if (!selectElement || !inputElement) return;
+  if (!selectElement || !inputElement || !navListElement) return;
 
   const dropdownToggle = dropdown.querySelector<DropdownToggle>(`.${DROPDOWN_CSS_CLASSES.dropdownToggle}`);
   const dropdownList = dropdown.querySelector<DropdownList>(`.${DROPDOWN_CSS_CLASSES.dropdownList}`);
@@ -44,7 +45,7 @@ export const collectSettings = (referenceElement: HTMLElement) => {
   const defaultOption = Array.from(selectElement.querySelectorAll('option')).find((opt) => opt.value === '');
 
   const noResultsTemplate = queryElement('noResults');
-  const clearDropdown = queryElement('clearDropdown');
+  const clearDropdown = queryElement('clearDropdown') as HTMLElement;
 
   for (const element of [optionTemplate]) {
     if (!element) continue;
@@ -70,5 +71,6 @@ export const collectSettings = (referenceElement: HTMLElement) => {
     inputElement,
     clearDropdown,
     defaultOption,
+    navListElement,
   };
 };
