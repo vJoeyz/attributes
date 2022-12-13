@@ -38,9 +38,14 @@ export const populateOptions = (
 
   let selectedOption: OptionData | undefined;
 
-  const optionsListing = Array.from(options).filter((item) =>
-    showAll ? item : item.value.trim().toLowerCase().includes(inputValue.toLowerCase().trim())
-  );
+  const optionsListing = Array.from(options).filter((item) => {
+    // skip options with no values or no text
+    if (!item.value || !item.textContent) return false;
+
+    if (showAll) return true;
+
+    return item.value.trim().toLowerCase().includes(inputValue.toLowerCase().trim());
+  });
 
   if (optionsListing.length === 0 && noResultsTemplate) {
     optionsList.appendChild(noResultsTemplate);

@@ -45,7 +45,7 @@ const handleDropdownListClickEvents = (e: MouseEvent | KeyboardEvent, settings: 
 
   if (!optionData.selected) updateOptionsState(settings, optionData);
 
-  setFormFieldValue(settings.inputElement, optionData.value);
+  setFormFieldValue(settings.inputElement, optionData.text);
 
   closeDropdown(settings.dropdownToggle);
 };
