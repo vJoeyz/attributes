@@ -109,8 +109,7 @@ const initializeAttributes = (
     inputElement?.setAttribute(REQUIRED_KEY, 'required');
   }
   inputElement?.setAttribute(ROLE_KEY, 'combobox');
-  // TODO:  what should come in place of aria-activedescendant? option-0?
-  inputElement?.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, 'option-0');
+
   inputElement?.setAttribute(AUTOCOMPLETE_KEY, 'off');
   inputElement?.setAttribute(AUTOCAPITALIZE_KEY, 'off');
   const navListElementId = navListElement.getAttribute('id');
@@ -123,4 +122,5 @@ const initializeAttributes = (
   navListElement.setAttribute(TABINDEX_KEY, '-1');
 
   clearDropdown?.setAttribute(TABINDEX_KEY, '0');
+  clearDropdown?.setAttribute(ROLE_KEY, 'button');
 };
