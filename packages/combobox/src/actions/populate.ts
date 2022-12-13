@@ -28,9 +28,11 @@ export const populateOptions = (
     label,
     noResultsTemplate,
     selectElement,
+    clearDropdown,
     selectElement: { options, value: currentValue },
   } = settings;
 
+  clearDropdown?.setAttribute(TABINDEX_KEY, '-1');
   selectElement.setAttribute(ARIA_HIDDEN_KEY, 'true');
   selectElement.setAttribute(TABINDEX_KEY, '-1');
 
@@ -90,4 +92,5 @@ export const populateOptions = (
     const labelText = label.textContent || '';
     updateOptionsState(settings, { ...selectedOption, value: '', text: labelText }, initialLoad);
   }
+  (clearDropdown as HTMLElement).style.display = 'none';
 };
