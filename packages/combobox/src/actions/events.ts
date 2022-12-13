@@ -73,11 +73,18 @@ const handleTabKeyEvents = (e: KeyboardEvent, settings: Settings) => {
  * @param e The Event object.
  * @param settings The instance {@link Settings}.
  */
-const handleDropdownListArrowKeyEvents = ({ key }: KeyboardEvent, { optionsStore }: Settings) => {
+const handleDropdownListArrowKeyEvents = ({ key }: KeyboardEvent, settings: Settings) => {
+  const { optionsStore } = settings;
   const focusedOptionIndex = optionsStore.findIndex(({ focused }) => focused);
   if (focusedOptionIndex < 0) return;
 
   const nextOption = optionsStore[key === ARROW_UP_KEY ? focusedOptionIndex - 1 : focusedOptionIndex + 1];
+
+  if (key === ARROW_UP_KEY && !nextOption) {
+    toggleDropdown(settings, true);
+
+    return;
+  }
   nextOption?.element.focus();
 };
 
