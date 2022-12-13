@@ -162,7 +162,7 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
 
   const inputValue = referenceInput.value.toLowerCase().trim() ?? '';
 
-  if (key === ARROW_UP_KEY || key === ENTER_KEY || key === TAB_KEY) return;
+  if (key === ARROW_UP_KEY || key === ENTER_KEY || key === TAB_KEY || key === SPACE_KEY) return;
 
   if (key === BACKSPACE_KEY && inputValue.length === 0) {
     populateOptions(settings, '', true, true);
@@ -224,12 +224,15 @@ const handleInputClickEvents = (settings: Settings) => {
  * Resets `combobox` selections and clears input field value
  * @param settings The instance {@link Settings}.
  */
-const handleClearDropdown = (settings: Settings) => {
+const handleClearDropdownClickEvents = (e: MouseEvent | KeyboardEvent, settings: Settings) => {
   const { selectElement, inputElement, optionsStore } = settings;
 
   inputElement.value = '';
   selectElement.value = '';
+
   populateOptions(settings, '', true, true);
+
+  if (settings.dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'false') return;
 
   if (settings.dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true' && optionsStore.length > 0) {
     const [firstOption] = optionsStore;
@@ -240,12 +243,11 @@ const handleClearDropdown = (settings: Settings) => {
 /**
  * Handles key events on the dropdown toggle.
  */
-const handleClearDropdownKeyEvents = (e: KeyboardEvent, settings: Settings) => {
+const handleClearDropdownKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
   const { key } = e as KeyboardEvent;
 
-  if (key === ENTER_KEY || key === SPACE_KEY) handleClearDropdown(settings);
-
-  return;
+  if (key !== ENTER_KEY && key !== SPACE_KEY) return;
+  handleClearDropdownClickEvents(e, settings);
 };
 
 /**
@@ -271,8 +273,8 @@ export const listenEvents = (settings: Settings) => {
     addListener(inputElement, 'change', (e) => handleInputChangeEvents(e, settings)),
     addListener(inputElement, 'click', () => handleInputClickEvents(settings)),
 
-    addListener(clearDropdown, 'click', () => handleClearDropdown(settings)),
-    addListener(clearDropdown, 'keyup', (e) => handleClearDropdownKeyEvents(e, settings)),
+    addListener(clearDropdown, 'click', (e) => handleClearDropdownClickEvents(e, settings)),
+    addListener(clearDropdown, 'keyup', (e) => handleClearDropdownKeyUpEvents(e, settings)),
   ];
 
   return () => {
