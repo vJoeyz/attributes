@@ -1,7 +1,7 @@
 import { cloneNode, findTextNode } from '@finsweet/ts-utils';
 import { toggleDropdownCloseIcon } from 'src/utils';
 
-import { ARIA_HIDDEN_KEY, TABINDEX_KEY } from '$global/constants/a11y';
+import { ARIA_HIDDEN_KEY, ARIA_POSINSET_KEY, ARIA_SETSIZE_KEY, ID_KEY, TABINDEX_KEY } from '$global/constants/a11y';
 
 import type { OptionData, Settings } from '../utils/types';
 import { setOptionAria } from './a11y';
@@ -30,18 +30,9 @@ export const populateOptions = (
     optionsList,
     label,
     noResultsTemplate,
-    selectElement,
-    clearDropdown,
     inputElement,
-    navListElement,
     selectElement: { options, value: currentValue },
   } = settings;
-
-  clearDropdown?.setAttribute(TABINDEX_KEY, '0');
-  inputElement?.parentElement?.setAttribute(TABINDEX_KEY, '-1');
-  selectElement.setAttribute(ARIA_HIDDEN_KEY, 'true');
-  selectElement.setAttribute(TABINDEX_KEY, '-1');
-  navListElement.setAttribute(TABINDEX_KEY, '-1');
 
   // Clear existing options
   noResultsTemplate?.remove();
@@ -64,12 +55,22 @@ export const populateOptions = (
     return;
   }
 
+  const optionsArr = showAll ? optionsConfigured : optionsFiltered;
+
   // Create new options
-  for (const { value, text } of showAll ? optionsConfigured : optionsFiltered) {
+  for (const { value, text } of optionsArr) {
     const element = cloneNode(optionTemplate) as HTMLAnchorElement;
 
     const textNode = findTextNode(element) || element;
     textNode.textContent = text;
+
+    // TODO: This option ID is currently hardcoded. Ask if this is needed, or it can be set in webflow.
+    const id = `fs-option-${value.toLowerCase().trim().replace(/\s/g, '-')}`;
+    element.setAttribute(ID_KEY, id);
+    element.setAttribute(ARIA_SETSIZE_KEY, `${optionsArr.length}`);
+
+    const index = optionsArr.findIndex((item) => item.value === value);
+    element.setAttribute(ARIA_POSINSET_KEY, `${index + 1}`);
 
     setOptionAria(element);
 

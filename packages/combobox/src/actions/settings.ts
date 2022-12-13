@@ -1,10 +1,22 @@
 import { DROPDOWN_CSS_CLASSES, findTextNode, isHTMLAnchorElement } from '@finsweet/ts-utils';
 import type { Dropdown, DropdownList, DropdownToggle } from '@finsweet/ts-utils';
 
-import { ARIA_CURRENT_KEY, TABINDEX_KEY } from '$global/constants/a11y';
+import {
+  ARIA_ACTIVEDESCENDANT_KEY,
+  ARIA_AUTOCOMPLETE_KEY,
+  ARIA_CONTROLS_KEY,
+  ARIA_CURRENT_KEY,
+  ARIA_HIDDEN_KEY,
+  AUTOCAPITALIZE_KEY,
+  AUTOCOMPLETE_KEY,
+  NAME_KEY,
+  REQUIRED_KEY,
+  ROLE_KEY,
+  TABINDEX_KEY,
+} from '$global/constants/a11y';
 
 import { ATTRIBUTES, getSelector, queryElement } from '../utils/constants';
-import type { OptionsStore } from '../utils/types';
+import type { OptionsStore, Settings } from '../utils/types';
 import { setDropdownAria } from './a11y';
 
 /**
@@ -58,6 +70,7 @@ export const collectSettings = (referenceElement: HTMLElement) => {
 
   const hideInitial = referenceElement.getAttribute(ATTRIBUTES.hideInitial.key) === ATTRIBUTES.hideInitial.values.true;
 
+  initializeAttributes(inputElement, selectElement, navListElement, clearDropdown);
   return {
     optionsStore,
     selectElement,
@@ -73,4 +86,41 @@ export const collectSettings = (referenceElement: HTMLElement) => {
     defaultOption,
     navListElement,
   };
+};
+
+/**
+ * Initializes the attributes for the dropdown.
+ * @param inputElement The input element.
+ * @param selectElement The select element.
+ * @param navListElement The nav list element.
+ * @param clearDropdown The clear dropdown element.
+ */
+const initializeAttributes = (
+  inputElement: HTMLInputElement,
+  selectElement: HTMLSelectElement,
+  navListElement: HTMLElement,
+  clearDropdown: HTMLElement
+) => {
+  inputElement?.parentElement?.setAttribute(TABINDEX_KEY, '-1');
+  inputElement?.removeAttribute(NAME_KEY);
+  inputElement?.setAttribute(TABINDEX_KEY, '0');
+  inputElement?.removeAttribute('data-name');
+  if (selectElement.hasAttribute(REQUIRED_KEY)) {
+    inputElement?.setAttribute(REQUIRED_KEY, 'required');
+  }
+  inputElement?.setAttribute(ROLE_KEY, 'combobox');
+  // TODO:  what should come in place of aria-activedescendant? option-0?
+  inputElement?.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, 'option-0');
+  inputElement?.setAttribute(AUTOCOMPLETE_KEY, 'off');
+  inputElement?.setAttribute(AUTOCAPITALIZE_KEY, 'off');
+  const navListElementId = navListElement.getAttribute('id');
+  inputElement?.setAttribute(ARIA_CONTROLS_KEY, navListElementId || '');
+  inputElement?.setAttribute(ARIA_AUTOCOMPLETE_KEY, 'list');
+
+  selectElement.setAttribute(ARIA_HIDDEN_KEY, 'true');
+  selectElement.setAttribute(TABINDEX_KEY, '-1');
+
+  navListElement.setAttribute(TABINDEX_KEY, '-1');
+
+  clearDropdown?.setAttribute(TABINDEX_KEY, '0');
 };
