@@ -225,13 +225,27 @@ const handleInputClickEvents = (settings: Settings) => {
  * @param settings The instance {@link Settings}.
  */
 const handleClearDropdown = (settings: Settings) => {
-  const { selectElement, inputElement } = settings;
+  const { selectElement, inputElement, optionsStore } = settings;
 
   inputElement.value = '';
   selectElement.value = '';
   populateOptions(settings, '', true, true);
 
-  toggleDropdown(settings);
+  if (settings.dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true' && optionsStore.length > 0) {
+    const [firstOption] = optionsStore;
+    firstOption.element.focus();
+  }
+};
+
+/**
+ * Handles key events on the dropdown toggle.
+ */
+const handleClearDropdownKeyEvents = (e: KeyboardEvent, settings: Settings) => {
+  const { key } = e as KeyboardEvent;
+
+  if (key === ENTER_KEY || key === SPACE_KEY) handleClearDropdown(settings);
+
+  return;
 };
 
 /**
@@ -258,6 +272,7 @@ export const listenEvents = (settings: Settings) => {
     addListener(inputElement, 'click', () => handleInputClickEvents(settings)),
 
     addListener(clearDropdown, 'click', () => handleClearDropdown(settings)),
+    addListener(clearDropdown, 'keyup', (e) => handleClearDropdownKeyEvents(e, settings)),
   ];
 
   return () => {
