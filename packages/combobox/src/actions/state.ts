@@ -1,8 +1,8 @@
 import { CURRENT_CSS_CLASS, setFormFieldValue } from '@finsweet/ts-utils';
 
 import { ARIA_SELECTED_KEY, TABINDEX_KEY } from '$global/constants/a11y';
-import { closeDropdown } from '$global/helpers';
 
+import { toggleDropdown } from '../utils';
 import type { OptionData, Settings } from '../utils/types';
 
 /**
@@ -32,7 +32,7 @@ export const updateOptionsState = (settings: Settings, selectedOption?: OptionDa
     element.setAttribute(TABINDEX_KEY, selected ? '0' : '-1');
   }
 
-  if (close) closeDropdown(settings.dropdownToggle);
+  if (close) toggleDropdown(settings);
 
   // hide or show close icon
   if (selectElement.value) {

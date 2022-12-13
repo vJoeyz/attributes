@@ -14,20 +14,13 @@ import { toggleResetVisibility } from './state';
  * @returns The MutationObserver.
  */
 const observeDropdownList = (settings: Settings) => {
-  const { dropdownToggle, dropdownList, optionsStore, hideInitial, inputElement } = settings;
+  const { dropdownList, optionsStore, hideInitial } = settings;
 
   const callback: MutationCallback = debounce(() => {
     const selectedOption = optionsStore.find(({ selected }) => selected);
     const firstNonHiddenOption = optionsStore.find(({ hidden }) => !hidden);
 
     if (!selectedOption || !firstNonHiddenOption) return;
-
-    const isOpen = dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true';
-
-    if (isOpen) {
-      inputElement.focus();
-      return;
-    }
 
     if (hideInitial) window.requestAnimationFrame(() => toggleResetVisibility(!!selectedOption.value, settings));
   }, 20);

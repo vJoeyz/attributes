@@ -1,9 +1,10 @@
 import { addListener, isElement, setFormFieldValue } from '@finsweet/ts-utils';
 
+import { ARIA_EXPANDED_KEY } from '$global/constants/a11y';
 import { ARROW_DOWN_KEY, ARROW_UP_KEY, ENTER_KEY, SPACE_KEY, TAB_KEY } from '$global/constants/keyboard';
-import { closeDropdown } from '$global/helpers';
 
-import { CONTROL_KEYS, DROPDOWN_IS_OPEN } from '../utils/constants';
+import { toggleDropdown } from '../utils';
+import { CONTROL_KEYS } from '../utils/constants';
 import type { Settings } from '../utils/types';
 import { populateOptions } from './populate';
 import { updateOptionsState } from './state';
@@ -47,7 +48,7 @@ const handleDropdownListClickEvents = (e: MouseEvent | KeyboardEvent, settings: 
 
   setFormFieldValue(settings.inputElement, optionData.text);
 
-  closeDropdown(settings.dropdownToggle);
+  toggleDropdown(settings);
 };
 
 /**
@@ -55,12 +56,12 @@ const handleDropdownListClickEvents = (e: MouseEvent | KeyboardEvent, settings: 
  * @param e The Event object.
  * @param settings The instance {@link Settings}.
  */
-const handleTabKeyEvents = (e: KeyboardEvent, { dropdownToggle }: Settings) => {
+const handleTabKeyEvents = (e: KeyboardEvent, settings: Settings) => {
   const { shiftKey } = e;
 
   if (shiftKey) e.preventDefault();
 
-  closeDropdown(dropdownToggle, shiftKey);
+  toggleDropdown(settings, shiftKey);
 };
 
 /**
@@ -150,13 +151,16 @@ const handleSelectChangeEvents = (settings: Settings) => {
  */
 const handleInputChangeEvents = (e: KeyboardEvent, settings: Settings) => {
   const { key } = e;
-  if (key === ARROW_DOWN_KEY || key === ARROW_UP_KEY) return;
+  const { dropdownToggle } = settings;
+  e.preventDefault();
+
+  if (key === ARROW_DOWN_KEY || key === ARROW_UP_KEY || key === ENTER_KEY) return;
 
   const referenceInput = e.target as HTMLInputElement;
   const inputValue = referenceInput.value.toLowerCase() ?? '';
 
-  if (!settings.dropdownToggle.classList.contains(DROPDOWN_IS_OPEN)) {
-    closeDropdown(settings.dropdownToggle);
+  if (dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) !== 'true') {
+    toggleDropdown(settings);
   }
 
   populateOptions(settings, inputValue, !inputValue, true);
@@ -166,9 +170,14 @@ const handleInputChangeEvents = (e: KeyboardEvent, settings: Settings) => {
  * @param settings The instance {@link Settings}.
  */
 const handleInputClickEvents = (settings: Settings) => {
-  if (!settings.dropdownToggle.classList.contains(DROPDOWN_IS_OPEN)) {
-    closeDropdown(settings.dropdownToggle);
+  const { dropdownToggle, inputElement } = settings;
+
+  const toggled = dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true';
+  if (!toggled) {
+    toggleDropdown(settings);
   }
+
+  inputElement.setAttribute(ARIA_EXPANDED_KEY, !toggled ? 'true' : 'false');
 };
 
 /**
@@ -176,13 +185,13 @@ const handleInputClickEvents = (settings: Settings) => {
  * @param settings The instance {@link Settings}.
  */
 const handleClearDropdown = (settings: Settings) => {
-  const { selectElement, dropdownToggle, inputElement } = settings;
+  const { selectElement, inputElement } = settings;
 
   inputElement.value = '';
   selectElement.value = '';
   populateOptions(settings, '', true, true);
 
-  closeDropdown(dropdownToggle);
+  toggleDropdown(settings);
 };
 
 /**

@@ -1,5 +1,7 @@
 import { cloneNode, findTextNode } from '@finsweet/ts-utils';
 
+import { ARIA_HIDDEN_KEY, TABINDEX_KEY } from '$global/constants/a11y';
+
 import type { OptionData, Settings } from '../utils/types';
 import { setOptionAria } from './a11y';
 import { updateOptionsState } from './state';
@@ -25,8 +27,12 @@ export const populateOptions = (
     optionsList,
     label,
     noResultsTemplate,
+    selectElement,
     selectElement: { options, value: currentValue },
   } = settings;
+
+  selectElement.setAttribute(ARIA_HIDDEN_KEY, 'true');
+  selectElement.setAttribute(TABINDEX_KEY, '-1');
 
   // Clear existing options
   noResultsTemplate?.remove();
