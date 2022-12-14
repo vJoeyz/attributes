@@ -1,7 +1,7 @@
 import { cloneNode, findTextNode } from '@finsweet/ts-utils';
 import { toggleDropdownCloseIcon } from 'src/utils';
 
-import { ARIA_HIDDEN_KEY, ARIA_POSINSET_KEY, ARIA_SETSIZE_KEY, ID_KEY, TABINDEX_KEY } from '$global/constants/a11y';
+import { ARIA_POSINSET_KEY, ARIA_SETSIZE_KEY, ID_KEY } from '$global/constants/a11y';
 
 import type { OptionData, Settings } from '../utils/types';
 import { setOptionAria } from './a11y';
@@ -30,7 +30,6 @@ export const populateOptions = (
     optionsList,
     label,
     noResultsTemplate,
-    inputElement,
     selectElement: { options, value: currentValue },
   } = settings;
 

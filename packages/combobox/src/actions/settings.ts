@@ -2,7 +2,6 @@ import { DROPDOWN_CSS_CLASSES, findTextNode, isHTMLAnchorElement } from '@finswe
 import type { Dropdown, DropdownList, DropdownToggle } from '@finsweet/ts-utils';
 
 import {
-  ARIA_ACTIVEDESCENDANT_KEY,
   ARIA_AUTOCOMPLETE_KEY,
   ARIA_CONTROLS_KEY,
   ARIA_CURRENT_KEY,
@@ -16,7 +15,7 @@ import {
 } from '$global/constants/a11y';
 
 import { ATTRIBUTES, getSelector, queryElement } from '../utils/constants';
-import type { OptionsStore, Settings } from '../utils/types';
+import type { OptionsStore } from '../utils/types';
 import { setDropdownAria } from './a11y';
 
 /**

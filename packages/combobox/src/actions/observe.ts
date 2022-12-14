@@ -12,7 +12,7 @@ import { populateOptions } from './populate';
  * @returns The MutationObserver.
  */
 const observeDropdownList = (settings: Settings) => {
-  const { dropdownList, optionsStore, hideInitial, inputElement } = settings;
+  const { dropdownList, optionsStore, hideInitial } = settings;
 
   const callback: MutationCallback = debounce(() => {
     const selectedOption = optionsStore.find(({ selected }) => selected);

@@ -13,7 +13,7 @@ import type { OptionData, Settings } from '../utils/types';
  * @param {boolean} close if dropdown should be closed or opened
  */
 export const updateOptionsState = (settings: Settings, selectedOption?: OptionData, close = false) => {
-  const { selectElement, optionsStore, clearDropdown } = settings;
+  const { selectElement, optionsStore } = settings;
 
   if (selectedOption && selectedOption.value) {
     setFormFieldValue(selectElement, selectedOption.value);
