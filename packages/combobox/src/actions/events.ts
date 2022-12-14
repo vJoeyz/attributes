@@ -112,7 +112,22 @@ const handleDropdownListArrowKeyEvents = ({ key }: KeyboardEvent, settings: Sett
 };
 
 /**
- * Handles keyboard events on the dropdown list.
+ * Handles keyboard keyup events on the dropdown list.
+ * @param e The Event object.
+ * @param settings The instance {@link Settings}.
+ */
+const handleDropdownListKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
+  const { key } = e;
+
+  if (key === ARROW_UP_KEY || key === ARROW_DOWN_KEY) {
+    const optionId = (e.target as HTMLAnchorElement).getAttribute(ID_KEY);
+
+    settings.inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, `${optionId || ''}`);
+  }
+};
+
+/**
+ * Handles keyboard keydown events on the dropdown list.
  * @param e The Event object.
  * @param settings The instance {@link Settings}.
  */
@@ -315,6 +330,7 @@ export const listenEvents = (settings: Settings) => {
 
     addListener(dropdownList, 'click', (e) => handleDropdownListMouseEvents(e, settings)),
     addListener(dropdownList, 'keydown', (e) => handleDropdownListKeydownEvents(e, settings)),
+    addListener(dropdownList, 'keyup', (e) => handleDropdownListKeyUpEvents(e, settings)),
     addListener(dropdownList, 'focusin', (e) => handleDropdownListFocusEvents(e, true, settings)),
     addListener(dropdownList, 'focusout', (e) => handleDropdownListFocusEvents(e, false, settings)),
     addListener(dropdownList, 'mouseover', (e) => handleDropdownListMouseEvents(e, settings)),
