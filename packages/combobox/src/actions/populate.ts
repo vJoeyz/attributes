@@ -55,7 +55,7 @@ export const populateOptions = (
     return;
   }
 
-  const optionsArr = showAll ? optionsConfigured : optionsFiltered;
+  const optionsArr = (showAll ? optionsConfigured : optionsFiltered).sort((a, b) => a.value.localeCompare(b.value));
 
   // Create new options
   for (const { value, text } of optionsArr) {
