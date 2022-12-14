@@ -196,7 +196,6 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
   const { key } = e;
   const { dropdownToggle } = settings;
   e.preventDefault();
-  console.log('key', key);
 
   const referenceInput = e.target as HTMLInputElement;
 
@@ -265,19 +264,18 @@ const handleInputClickEvents = (settings: Settings) => {
  * @param settings The instance {@link Settings}.
  */
 const handleClearDropdownClickEvents = (e: MouseEvent | KeyboardEvent, settings: Settings) => {
-  const { selectElement, inputElement, optionsStore } = settings;
+  const { selectElement, inputElement } = settings;
 
   inputElement.value = '';
   selectElement.value = '';
 
   populateOptions(settings, '', true, true);
 
-  if (settings.dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'false') return;
+  setTimeout(() => {
+    inputElement.focus();
+  }, 300);
 
-  if (settings.dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true' && optionsStore.length > 0) {
-    const [firstOption] = optionsStore;
-    firstOption.element.focus();
-  }
+  // TODO: why close icon triggers dropdown toggle click event?
 };
 
 /**
