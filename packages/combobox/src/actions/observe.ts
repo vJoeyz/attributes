@@ -1,7 +1,7 @@
 import { isHTMLOptionElement } from '@finsweet/ts-utils';
 import debounce from 'just-debounce';
 
-import { ARIA_ACTIVEDESCENDANT_KEY, ARIA_EXPANDED_KEY } from '$global/constants/a11y';
+import { ARIA_ACTIVEDESCENDANT_KEY, ARIA_EXPANDED_KEY, ID_KEY } from '$global/constants/a11y';
 
 import { toggleDropdownCloseIcon } from '../utils';
 import { DROPDOWN_IS_OPEN } from '../utils/constants';
@@ -24,21 +24,23 @@ const observeDropdownList = (settings: Settings) => {
         const currentStateIsOpen = (mutation.target as HTMLDivElement).classList.contains(DROPDOWN_IS_OPEN);
         if (prevDropdownState !== currentStateIsOpen) {
           prevDropdownState = currentStateIsOpen;
+        }
 
-          const selectValue = selectElement.value;
+        inputElement.setAttribute(ARIA_EXPANDED_KEY, `${currentStateIsOpen}`);
+        const selectValue = selectElement.value;
 
-          if (!currentStateIsOpen && !selectValue) {
-            inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, '');
-          }
+        const selectedOption = Array.from(optionsStore).find(
+          (el) => el.value.toLowerCase().trim() === selectValue.toLowerCase().trim()
+        );
+        if (selectedOption) {
+          const id = selectedOption.element.getAttribute(ID_KEY);
+          inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, `${id}`);
           return;
         }
 
-        if (!currentStateIsOpen) {
+        if (!currentStateIsOpen || !selectedOption) {
           inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, '');
-          inputElement.setAttribute(ARIA_EXPANDED_KEY, 'false');
-          return;
         }
-        inputElement.setAttribute(ARIA_EXPANDED_KEY, 'true');
       }
     });
 
