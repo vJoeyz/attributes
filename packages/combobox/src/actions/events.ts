@@ -5,6 +5,7 @@ import {
   ARROW_DOWN_KEY,
   ARROW_UP_KEY,
   BACKSPACE_KEY,
+  CLICK,
   ENTER_KEY,
   ESCAPE_KEY,
   SPACE_KEY,
@@ -13,7 +14,7 @@ import {
 
 import { toggleDropdown, toggleDropdownCloseIcon } from '../utils';
 import { CONTROL_KEYS } from '../utils/constants';
-import type { Settings } from '../utils/types';
+import type { OptionData, Settings } from '../utils/types';
 import { populateOptions } from './populate';
 import { updateOptionsState } from './state';
 
@@ -40,11 +41,12 @@ const getClickedOptionData = (e: Event, { optionsStore }: Settings) => {
 };
 
 /**
- * Handles click events on the dropdown list.
+ * Handles dropdown mouse events: hover
+ * Updates input field aria-activedescendant attribute with the option id.
  * @param e The Event object.
  * @param settings The instance {@link Settings}.
  */
-const handleDropdownListClickEvents = (e: MouseEvent | KeyboardEvent, settings: Settings) => {
+const handleDropdownListMouseEvents = (e: MouseEvent | KeyboardEvent, settings: Settings) => {
   if (e.target === settings.selectElement) return;
 
   e.preventDefault();
@@ -52,12 +54,23 @@ const handleDropdownListClickEvents = (e: MouseEvent | KeyboardEvent, settings: 
   const optionData = getClickedOptionData(e, settings);
   if (!optionData) return;
 
-  if (!optionData.selected) updateOptionsState(settings, optionData);
-
-  setFormFieldValue(settings.inputElement, optionData.text);
   const optionId = optionData?.element?.getAttribute(ID_KEY);
   settings.inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, `${optionId || ''}`);
 
+  const isClick = e.type === CLICK;
+  const isEnterOrSpace = (e as KeyboardEvent).key === ENTER_KEY || (e as KeyboardEvent).key === SPACE_KEY;
+
+  if (isEnterOrSpace || isClick) handleDropdownListClickEvents(e, optionData, settings);
+};
+/**
+ * Handles click events on the dropdown list.
+ * @param e The Event object.
+ * @param settings The instance {@link Settings}.
+ */
+const handleDropdownListClickEvents = (e: MouseEvent | KeyboardEvent, optionData: OptionData, settings: Settings) => {
+  if (!optionData.selected) updateOptionsState(settings, optionData);
+
+  setFormFieldValue(settings.inputElement, optionData.text);
   toggleDropdown(settings);
 };
 
@@ -113,7 +126,7 @@ const handleDropdownListKeydownEvents = (e: KeyboardEvent, settings: Settings) =
 
   if (!CONTROL_KEYS.includes(key)) return;
 
-  if (key === SPACE_KEY) handleDropdownListClickEvents(e, settings);
+  if (key === SPACE_KEY) handleDropdownListMouseEvents(e, settings);
   else if (key === TAB_KEY) handleTabKeyEvents(e, settings);
   else if (key === ARROW_UP_KEY || key === ARROW_DOWN_KEY) handleDropdownListArrowKeyEvents(e, settings);
 };
@@ -300,10 +313,11 @@ export const listenEvents = (settings: Settings) => {
   const cleanups = [
     addListener(dropdownToggle, 'keydown', (e) => handleDropdownToggleArrowKeyEvents(e, settings)),
 
-    addListener(dropdownList, 'click', (e) => handleDropdownListClickEvents(e, settings)),
+    addListener(dropdownList, 'click', (e) => handleDropdownListMouseEvents(e, settings)),
     addListener(dropdownList, 'keydown', (e) => handleDropdownListKeydownEvents(e, settings)),
     addListener(dropdownList, 'focusin', (e) => handleDropdownListFocusEvents(e, true, settings)),
     addListener(dropdownList, 'focusout', (e) => handleDropdownListFocusEvents(e, false, settings)),
+    addListener(dropdownList, 'mouseover', (e) => handleDropdownListMouseEvents(e, settings)),
 
     addListener(selectElement, 'change', () => handleSelectChangeEvents(settings)),
 
