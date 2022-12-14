@@ -57,6 +57,13 @@ export const populateOptions = (
 
   const optionsArr = (showAll ? optionsConfigured : optionsFiltered).sort((a, b) => a.value.localeCompare(b.value));
 
+  // TODO: Maybe this can be set on webflow?
+  if (optionsArr.length > 5) {
+    (optionsList as HTMLDivElement).style.maxHeight = '12.1em';
+    (optionsList as HTMLDivElement).style.overflowY = 'scroll';
+    (optionsList as HTMLDivElement).style.overflowX = 'hidden';
+  }
+
   // Create new options
   for (const { value, text } of optionsArr) {
     const element = cloneNode(optionTemplate) as HTMLAnchorElement;
