@@ -1,7 +1,15 @@
 import { addListener, isElement, setFormFieldValue } from '@finsweet/ts-utils';
 
 import { ARIA_ACTIVEDESCENDANT_KEY, ARIA_EXPANDED_KEY, ID_KEY } from '$global/constants/a11y';
-import { ARROW_DOWN_KEY, ARROW_UP_KEY, BACKSPACE_KEY, ENTER_KEY, SPACE_KEY, TAB_KEY } from '$global/constants/keyboard';
+import {
+  ARROW_DOWN_KEY,
+  ARROW_UP_KEY,
+  BACKSPACE_KEY,
+  ENTER_KEY,
+  ESCAPE_KEY,
+  SPACE_KEY,
+  TAB_KEY,
+} from '$global/constants/keyboard';
 
 import { toggleDropdown, toggleDropdownCloseIcon } from '../utils';
 import { CONTROL_KEYS } from '../utils/constants';
@@ -98,6 +106,11 @@ const handleDropdownListArrowKeyEvents = ({ key }: KeyboardEvent, settings: Sett
 const handleDropdownListKeydownEvents = (e: KeyboardEvent, settings: Settings) => {
   const { key } = e;
 
+  if (key === ESCAPE_KEY) {
+    handleEscapeKeyEvents(e, settings);
+    return;
+  }
+
   if (!CONTROL_KEYS.includes(key)) return;
 
   if (key === SPACE_KEY) handleDropdownListClickEvents(e, settings);
@@ -156,6 +169,23 @@ const handleSelectChangeEvents = (settings: Settings) => {
 
   updateOptionsState(settings, selectedOption);
 };
+/**
+ * Listens to the `input` escape key events.
+ * @param e The Event object.
+ * @param settings The instance {@link Settings}.
+ */
+const handleEscapeKeyEvents = (e: KeyboardEvent, settings: Settings) => {
+  const { key } = e;
+
+  if (key === ESCAPE_KEY) {
+    e.preventDefault();
+
+    // delay for 300ms, there is a strange behaviour when the dropdown is closed it focuses on input's parent element instead of input.
+    setTimeout(() => {
+      settings.inputElement.focus();
+    }, 300);
+  }
+};
 
 /**
  * Adds two way data binding.
@@ -166,6 +196,7 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
   const { key } = e;
   const { dropdownToggle } = settings;
   e.preventDefault();
+  console.log('key', key);
 
   const referenceInput = e.target as HTMLInputElement;
 
@@ -279,6 +310,7 @@ export const listenEvents = (settings: Settings) => {
     addListener(selectElement, 'change', () => handleSelectChangeEvents(settings)),
 
     addListener(inputElement, 'keyup', (e) => handleInputKeyUpEvents(e, settings)),
+    addListener(inputElement, 'keydown', (e) => handleEscapeKeyEvents(e, settings)),
     addListener(inputElement, 'change', (e) => handleInputChangeEvents(e, settings)),
     addListener(inputElement, 'click', () => handleInputClickEvents(settings)),
 
