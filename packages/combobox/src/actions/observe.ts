@@ -1,6 +1,8 @@
 import { isHTMLOptionElement } from '@finsweet/ts-utils';
 import debounce from 'just-debounce';
 
+import { ARIA_ACTIVEDESCENDANT_KEY, ARIA_EXPANDED_KEY } from '$global/constants/a11y';
+
 import { toggleDropdownCloseIcon } from '../utils';
 import type { Settings } from '../utils/types';
 import { populateOptions } from './populate';
@@ -12,9 +14,33 @@ import { populateOptions } from './populate';
  * @returns The MutationObserver.
  */
 const observeDropdownList = (settings: Settings) => {
-  const { dropdownList, optionsStore, hideInitial } = settings;
+  const { dropdownList, navListElement, optionsStore, selectElement, inputElement, hideInitial } = settings;
+  let prevDropdownState = navListElement.classList.contains('w--open');
 
-  const callback: MutationCallback = debounce(() => {
+  const callback: MutationCallback = debounce((mutations: MutationRecord[]) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === 'class') {
+        const currentStateIsOpen = (mutation.target as HTMLDivElement).classList.contains('w--open');
+        if (prevDropdownState !== currentStateIsOpen) {
+          prevDropdownState = currentStateIsOpen;
+
+          const selectValue = selectElement.value;
+
+          if (!currentStateIsOpen && !selectValue) {
+            inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, '');
+          }
+          return;
+        }
+
+        if (!currentStateIsOpen) {
+          inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, '');
+          inputElement.setAttribute(ARIA_EXPANDED_KEY, 'false');
+          return;
+        }
+        inputElement.setAttribute(ARIA_EXPANDED_KEY, 'true');
+      }
+    });
+
     const selectedOption = optionsStore.find(({ selected }) => selected);
     const firstNonHiddenOption = optionsStore.find(({ hidden }) => !hidden);
 
