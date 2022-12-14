@@ -4,6 +4,7 @@ import debounce from 'just-debounce';
 import { ARIA_ACTIVEDESCENDANT_KEY, ARIA_EXPANDED_KEY } from '$global/constants/a11y';
 
 import { toggleDropdownCloseIcon } from '../utils';
+import { DROPDOWN_IS_OPEN } from '../utils/constants';
 import type { Settings } from '../utils/types';
 import { populateOptions } from './populate';
 
@@ -15,12 +16,12 @@ import { populateOptions } from './populate';
  */
 const observeDropdownList = (settings: Settings) => {
   const { dropdownList, navListElement, optionsStore, selectElement, inputElement, hideInitial } = settings;
-  let prevDropdownState = navListElement.classList.contains('w--open');
+  let prevDropdownState = navListElement.classList.contains(DROPDOWN_IS_OPEN);
 
   const callback: MutationCallback = debounce((mutations: MutationRecord[]) => {
     mutations.forEach((mutation) => {
       if (mutation.attributeName === 'class') {
-        const currentStateIsOpen = (mutation.target as HTMLDivElement).classList.contains('w--open');
+        const currentStateIsOpen = (mutation.target as HTMLDivElement).classList.contains(DROPDOWN_IS_OPEN);
         if (prevDropdownState !== currentStateIsOpen) {
           prevDropdownState = currentStateIsOpen;
 
