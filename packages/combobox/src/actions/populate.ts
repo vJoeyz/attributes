@@ -70,9 +70,10 @@ export const populateOptions = (
     const textNode = findTextNode(element) || element;
     textNode.textContent = text;
 
-    // TODO: This option ID is currently hardcoded. Ask if this is needed, or it can be set in webflow.
+    const elementId = element.getAttribute(ID_KEY) || '';
     const id = `fs-option-${value.toLowerCase().trim().replace(/\s/g, '-')}`;
-    element.setAttribute(ID_KEY, id);
+
+    element.setAttribute(ID_KEY, elementId || id);
     element.setAttribute(ARIA_SETSIZE_KEY, `${optionsArr.length}`);
 
     const index = optionsArr.findIndex((item) => item.value === value);
