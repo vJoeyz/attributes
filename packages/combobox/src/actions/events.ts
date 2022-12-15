@@ -293,6 +293,7 @@ const handleInputClickEvents = (settings: Settings) => {
  */
 const handleClearDropdownClickEvents = (e: MouseEvent | KeyboardEvent, settings: Settings) => {
   const { selectElement, inputElement } = settings;
+  e.stopPropagation();
 
   inputElement.value = '';
   selectElement.value = '';
@@ -311,6 +312,7 @@ const handleClearDropdownClickEvents = (e: MouseEvent | KeyboardEvent, settings:
  */
 const handleClearDropdownKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
   const { key } = e as KeyboardEvent;
+  e.stopPropagation();
 
   if (key !== ENTER_KEY && key !== SPACE_KEY) return;
   handleClearDropdownClickEvents(e, settings);
