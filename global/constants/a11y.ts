@@ -24,6 +24,7 @@ export const ARIA_CURRENT_KEY = 'aria-current';
 export const ARIA_ACTIVEDESCENDANT_KEY = 'aria-activedescendant';
 export const ARIA_PRESSED_KEY = 'aria-pressed';
 export const ARIA_CONTROLS_KEY = 'aria-controls';
+export const ARIA_OWNS_KEY = 'aria-owns';
 export const ARIA_ROLEDESCRIPTION_KEY = 'aria-roledescription';
 export const ARIA_DESCRIPTION_KEY = 'aria-description';
 export const ARIA_HIDDEN_KEY = 'aria-hidden';

@@ -5,9 +5,13 @@ import {
   ARIA_AUTOCOMPLETE_KEY,
   ARIA_CONTROLS_KEY,
   ARIA_CURRENT_KEY,
+  ARIA_EXPANDED_KEY,
   ARIA_HIDDEN_KEY,
+  ARIA_LABEL_KEY,
+  ARIA_OWNS_KEY,
   AUTOCAPITALIZE_KEY,
   AUTOCOMPLETE_KEY,
+  ID_KEY,
   NAME_KEY,
   REQUIRED_KEY,
   ROLE_KEY,
@@ -36,7 +40,9 @@ export const collectSettings = (referenceElement: HTMLElement) => {
 
   const dropdownToggle = dropdown.querySelector<DropdownToggle>(`.${DROPDOWN_CSS_CLASSES.dropdownToggle}`);
   const dropdownList = dropdown.querySelector<DropdownList>(`.${DROPDOWN_CSS_CLASSES.dropdownList}`);
-  if (!dropdownToggle || !dropdownList) return;
+
+  const dropdownToggleArrow = queryElement<HTMLElement>('dropdownArrow');
+  if (!dropdownToggle || !dropdownList || !dropdownToggleArrow) return;
 
   setDropdownAria(dropdownToggle, dropdownList);
 
@@ -69,7 +75,7 @@ export const collectSettings = (referenceElement: HTMLElement) => {
 
   const hideInitial = referenceElement.getAttribute(ATTRIBUTES.hideInitial.key) === ATTRIBUTES.hideInitial.values.true;
 
-  initializeAttributes(inputElement, selectElement, navListElement, clearDropdown);
+  initializeAttributes(inputElement, selectElement, navListElement, clearDropdown, dropdownToggleArrow);
   return {
     optionsStore,
     selectElement,
@@ -98,7 +104,8 @@ const initializeAttributes = (
   inputElement: HTMLInputElement,
   selectElement: HTMLSelectElement,
   navListElement: HTMLElement,
-  clearDropdown: HTMLElement
+  clearDropdown: HTMLElement,
+  dropdownToggleArrow: HTMLElement
 ) => {
   inputElement?.parentElement?.setAttribute(TABINDEX_KEY, '-1');
   inputElement?.removeAttribute(NAME_KEY);
@@ -110,10 +117,11 @@ const initializeAttributes = (
   inputElement?.setAttribute(ROLE_KEY, 'combobox');
 
   inputElement?.setAttribute(AUTOCOMPLETE_KEY, 'off');
-  inputElement?.setAttribute(AUTOCAPITALIZE_KEY, 'off');
-  const navListElementId = navListElement.getAttribute('id');
-  inputElement?.setAttribute(ARIA_CONTROLS_KEY, navListElementId || '');
+  const navListElementId = navListElement.getAttribute('id') || '';
+  inputElement?.setAttribute(ARIA_CONTROLS_KEY, navListElementId);
+  inputElement?.setAttribute(ARIA_OWNS_KEY, navListElementId);
   inputElement?.setAttribute(ARIA_AUTOCOMPLETE_KEY, 'list');
+  inputElement?.setAttribute(ARIA_EXPANDED_KEY, 'false');
 
   selectElement.setAttribute(ARIA_HIDDEN_KEY, 'true');
   selectElement.setAttribute(TABINDEX_KEY, '-1');
@@ -122,4 +130,6 @@ const initializeAttributes = (
 
   clearDropdown?.setAttribute(TABINDEX_KEY, '0');
   clearDropdown?.setAttribute(ROLE_KEY, 'button');
+
+  dropdownToggleArrow?.setAttribute(ARIA_LABEL_KEY, 'Toggle combobox');
 };
