@@ -303,8 +303,6 @@ const handleClearDropdownClickEvents = (e: MouseEvent | KeyboardEvent, settings:
   setTimeout(() => {
     inputElement.focus();
   }, 300);
-
-  // TODO: why close icon triggers dropdown toggle click event?
 };
 
 /**
