@@ -310,10 +310,9 @@ const handleClearDropdownClickEvents = (e: MouseEvent | KeyboardEvent, settings:
 /**
  * Handles key events on the dropdown toggle.
  */
-const handleClearDropdownKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
+const handleClearDropdownKeyUpEvents = (e: KeyboardEvent | MouseEvent, settings: Settings) => {
   const { key } = e as KeyboardEvent;
   e.stopPropagation();
-
   if (key !== ENTER_KEY && key !== SPACE_KEY) return;
   handleClearDropdownClickEvents(e, settings);
 };
@@ -346,6 +345,8 @@ export const listenEvents = (settings: Settings) => {
 
     addListener(clearDropdown, 'click', (e) => handleClearDropdownClickEvents(e, settings)),
     addListener(clearDropdown, 'keyup', (e) => handleClearDropdownKeyUpEvents(e, settings)),
+    addListener(clearDropdown, 'mouseup', (e) => handleClearDropdownKeyUpEvents(e, settings)),
+    addListener(clearDropdown, 'keydown', (e) => handleClearDropdownKeyUpEvents(e, settings)),
   ];
 
   return () => {
