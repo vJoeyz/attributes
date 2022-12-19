@@ -20,7 +20,9 @@ export const init = async (): Promise<void> => {
   // URL hash Anchor
   scrollToAnchor();
 
-  await restartWebflow();
+  if (cleanups.length) {
+    await restartWebflow();
+  }
 
   // TODO: Finish API
   return finalizeAttribute(TOC_ATTRIBUTE, undefined, () => {
