@@ -8,9 +8,9 @@ import type { Settings } from './types';
  * @param focusInputElement Defaults to `true`.
  */
 export const toggleDropdown = (settings: Settings, focusInputElement = true) => {
-  const { dropdownToggle, inputElement } = settings;
+  const { dropdownToggle } = settings;
 
-  if (focusInputElement) inputElement.focus();
+  if (focusInputElement) focusOnInput(settings);
 
   simulateEvent(dropdownToggle, ['click', 'mouseup']);
 };
@@ -36,4 +36,15 @@ export const toggleDropdownCloseIcon = (settings: Settings, inputValue = '') => 
     clearDropdown.style.display = 'none';
     return;
   }
+};
+
+/**
+ * `focusOnInput()` focuses the input element.
+ * @param settings A {@link Settings} element.
+ */
+
+export const focusOnInput = (settings: Settings) => {
+  const { inputElement } = settings;
+
+  inputElement.focus();
 };

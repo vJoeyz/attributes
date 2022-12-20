@@ -12,7 +12,7 @@ import {
   TAB_KEY,
 } from '$global/constants/keyboard';
 
-import { toggleDropdown, toggleDropdownCloseIcon } from '../utils';
+import { focusOnInput, toggleDropdown, toggleDropdownCloseIcon } from '../utils';
 import { CONTROL_KEYS } from '../utils/constants';
 import type { OptionData, Settings } from '../utils/types';
 import { populateOptions } from './populate';
@@ -86,7 +86,7 @@ const handleTabKeyEvents = (e: KeyboardEvent, settings: Settings) => {
 
   if (e.target) {
     (e.target as HTMLAnchorElement).click();
-    settings.inputElement.focus();
+    focusOnInput(settings);
   }
   toggleDropdown(settings, shiftKey);
 };
@@ -133,9 +133,10 @@ const handleDropdownListKeyUpEvents = (e: KeyboardEvent, settings: Settings) => 
  */
 const handleDropdownListKeydownEvents = (e: KeyboardEvent, settings: Settings) => {
   const { key } = e;
+  e.stopPropagation();
 
   if (key === ESCAPE_KEY) {
-    handleEscapeKeyEvents(e, settings);
+    handleClearInput(e, settings);
     return;
   }
 
@@ -198,20 +199,15 @@ const handleSelectChangeEvents = (settings: Settings) => {
   updateOptionsState(settings, selectedOption);
 };
 /**
- * Listens to the `input` escape key events.
+ * Listens to the `input` escape key or focusout events.
  * @param e The Event object.
  * @param settings The instance {@link Settings}.
  */
-const handleEscapeKeyEvents = (e: KeyboardEvent, settings: Settings) => {
-  const { key } = e;
+const handleClearInput = (e: KeyboardEvent, settings: Settings) => {
+  const { key } = e as KeyboardEvent;
 
   if (key === ESCAPE_KEY) {
-    e.preventDefault();
-
-    // delay for 300ms, there is a strange behaviour when the dropdown is closed it focuses on input's parent element instead of input.
-    setTimeout(() => {
-      settings.inputElement.focus();
-    }, 300);
+    focusOnInput(settings);
   }
 };
 
@@ -300,9 +296,7 @@ const handleClearDropdownClickEvents = (e: MouseEvent | KeyboardEvent, settings:
 
   populateOptions(settings, '', true, true);
 
-  setTimeout(() => {
-    inputElement.focus();
-  }, 300);
+  focusOnInput(settings);
 };
 
 /**
@@ -333,11 +327,14 @@ export const listenEvents = (settings: Settings) => {
     addListener(dropdownList, 'focusin', (e) => handleDropdownListFocusEvents(e, true, settings)),
     addListener(dropdownList, 'focusout', (e) => handleDropdownListFocusEvents(e, false, settings)),
     addListener(dropdownList, 'mouseover', (e) => handleDropdownListMouseEvents(e, settings)),
+    addListener(dropdownList, 'mouseup', (e) => {
+      return;
+    }),
 
     addListener(selectElement, 'change', () => handleSelectChangeEvents(settings)),
 
     addListener(inputElement, 'keyup', (e) => handleInputKeyUpEvents(e, settings)),
-    addListener(inputElement, 'keydown', (e) => handleEscapeKeyEvents(e, settings)),
+    addListener(inputElement, 'keydown', (e) => handleClearInput(e, settings)),
     addListener(inputElement, 'change', (e) => handleInputChangeEvents(e, settings)),
     addListener(inputElement, 'click', () => handleInputClickEvents(settings)),
 

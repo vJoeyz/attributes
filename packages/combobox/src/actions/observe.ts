@@ -1,4 +1,4 @@
-import { isHTMLOptionElement } from '@finsweet/ts-utils';
+import { isHTMLOptionElement, setFormFieldValue } from '@finsweet/ts-utils';
 import debounce from 'just-debounce';
 
 import { ARIA_ACTIVEDESCENDANT_KEY, ARIA_EXPANDED_KEY, ID_KEY } from '$global/constants/a11y';
@@ -40,6 +40,8 @@ const observeDropdownList = (settings: Settings) => {
 
         if (!currentStateIsOpen || !selectedOption) {
           inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, '');
+          inputElement.value = '';
+          toggleDropdownCloseIcon(settings);
         }
       }
     });
