@@ -266,6 +266,14 @@ const handleInputChangeEvents = (e: Event, settings: Settings) => {
   const target = e.target as HTMLInputElement;
   const inputValue = target.value.toLowerCase().trim() ?? '';
 
+  const selectedOption = settings.optionsStore.find(({ selected }) => selected);
+
+  if (!selectedOption) {
+    settings.inputElement.value = '';
+
+    return;
+  }
+
   toggleDropdownCloseIcon(settings, inputValue);
 };
 /**

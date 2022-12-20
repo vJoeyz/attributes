@@ -90,6 +90,7 @@ test.describe('combobox', () => {
 
     await comboboxInput.focus();
     await comboboxInput.type('test');
+    await comboboxInput.dispatchEvent('change');
 
     await expect(comboboxNav).toHaveClass(/w--open/);
 
@@ -114,6 +115,8 @@ test.describe('combobox', () => {
 
     await comboboxInput.focus();
     await comboboxInput.type('test');
+
+    await comboboxInput.dispatchEvent('change');
 
     await expect(comboboxNav).toHaveClass(/w--open/);
 

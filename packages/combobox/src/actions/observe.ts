@@ -3,7 +3,7 @@ import debounce from 'just-debounce';
 
 import { ARIA_ACTIVEDESCENDANT_KEY, ARIA_EXPANDED_KEY, ID_KEY } from '$global/constants/a11y';
 
-import { toggleDropdownCloseIcon } from '../utils';
+import { focusOnInput, toggleDropdownCloseIcon } from '../utils';
 import { DROPDOWN_IS_OPEN } from '../utils/constants';
 import type { Settings } from '../utils/types';
 import { populateOptions } from './populate';
@@ -40,8 +40,8 @@ const observeDropdownList = (settings: Settings) => {
 
         if (!currentStateIsOpen || !selectedOption) {
           inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, '');
-          inputElement.value = '';
           toggleDropdownCloseIcon(settings);
+          focusOnInput(settings);
         }
       }
     });
