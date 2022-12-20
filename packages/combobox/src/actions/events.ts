@@ -239,6 +239,11 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
   )
     return;
 
+  if (key === ESCAPE_KEY) {
+    handleClearInput(e, settings);
+    return;
+  }
+
   if (key === BACKSPACE_KEY && inputValue.length === 0) {
     populateOptions(settings, '', true, true);
     return;
@@ -263,26 +268,11 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
 };
 
 /**
- * Adds two way data binding.
- * Handles `change` events on the `inputElement` and updates the dropdown.
- * @param settings The instance {@link Settings}.
- */
-const handleInputChangeEvents = (e: Event, settings: Settings) => {
-  const selectedOption = settings.optionsStore.find(({ selected }) => selected);
-
-  if (!selectedOption) {
-    settings.inputElement.value = '';
-
-    return;
-  }
-};
-
-/**
- * updates input value and select value
+ * Listens to `updateComboboxInputField` custom event and updates input value and select value
  * @param settings The instance {@link Settings}.
  */
 const updateInputField = (e: Event, settings: Settings) => {
-  const { optionsStore, inputElement } = settings;
+  const { optionsStore, inputElement, dropdownToggle } = settings;
   const input = e.target as HTMLInputElement;
 
   const selectedOption = optionsStore.find(({ selected }) => selected);
@@ -292,6 +282,14 @@ const updateInputField = (e: Event, settings: Settings) => {
 
   if (selectedOption && selectedValue !== inputValue) {
     inputElement.value = selectedText;
+    return;
+  }
+
+  const dropdownIsClosed = dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'false';
+  const activeElement = document.activeElement as HTMLElement;
+
+  if (dropdownIsClosed && activeElement !== inputElement) {
+    inputElement.value = '';
   }
 };
 /**
@@ -361,7 +359,6 @@ export const listenEvents = (settings: Settings) => {
     addListener(selectElement, 'change', () => handleSelectChangeEvents(settings)),
 
     addListener(inputElement, 'keyup', (e) => handleInputKeyUpEvents(e, settings)),
-    addListener(inputElement, 'change', (e) => handleInputChangeEvents(e, settings)),
     addListener(inputElement, 'click', () => handleInputClickEvents(settings)),
     addListener(inputElement, 'updateComboboxInputField', (e) => updateInputField(e, settings)),
 
