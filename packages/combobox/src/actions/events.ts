@@ -229,15 +229,13 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
 
   const dropdownIsOpen = dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true';
 
-  if (
-    key === ARROW_UP_KEY ||
-    key === ENTER_KEY ||
-    key === TAB_KEY ||
-    key === SPACE_KEY ||
-    key === ARROW_RIGHT_KEY ||
-    key === ARROW_LEFT_KEY
-  )
+  if (key === ENTER_KEY || key === TAB_KEY || key === SPACE_KEY || key === ARROW_RIGHT_KEY || key === ARROW_LEFT_KEY)
     return;
+
+  if (key === ARROW_UP_KEY && dropdownIsOpen) {
+    toggleDropdown(settings, true);
+    return;
+  }
 
   if (key === ESCAPE_KEY) {
     handleClearInput(e, settings);
