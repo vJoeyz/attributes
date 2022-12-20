@@ -103,30 +103,4 @@ test.describe('combobox', () => {
 
     await expect(comboboxClearDropdown).toHaveCSS('display', 'none');
   });
-
-  test('Combobox input on blur if nothing has been selected, should clear input field and close dropdown', async ({
-    page,
-  }) => {
-    const comboboxDropdown = page.locator('[fs-combobox-element="dropdown"]');
-    const comboboxInput = comboboxDropdown.locator('input');
-    const comboboxClearDropdown = page.locator('[fs-combobox-element="clear"]');
-
-    const comboboxNav = comboboxDropdown.locator('nav');
-
-    await comboboxInput.focus();
-    await comboboxInput.type('test');
-
-    await comboboxInput.dispatchEvent('change');
-
-    await expect(comboboxNav).toHaveClass(/w--open/);
-
-    await page.click('body');
-
-    await expect(comboboxNav).not.toHaveClass(/w--open/);
-
-    const inputValue = await comboboxInput.inputValue();
-    await expect(inputValue).toEqual('');
-
-    await expect(comboboxClearDropdown).toHaveCSS('display', 'none');
-  });
 });

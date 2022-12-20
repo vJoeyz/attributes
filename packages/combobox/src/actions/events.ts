@@ -220,8 +220,9 @@ const handleClearInput = (e: KeyboardEvent, settings: Settings) => {
  */
 const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
   const { key } = e;
-  const { dropdownToggle } = settings;
+  const { dropdownToggle, optionsStore, inputElement } = settings;
   e.preventDefault();
+  const selectedOption = optionsStore.find(({ selected }) => selected);
 
   const referenceInput = e.target as HTMLInputElement;
 
@@ -232,8 +233,19 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
   if (key === ENTER_KEY || key === TAB_KEY || key === SPACE_KEY || key === ARROW_RIGHT_KEY || key === ARROW_LEFT_KEY)
     return;
 
+  if (key === ARROW_DOWN_KEY && !dropdownIsOpen) {
+    toggleDropdown(settings, false);
+
+    if (!selectedOption && optionsStore.length > 0 && !inputElement.value) {
+      const [firstOption] = optionsStore;
+      setTimeout(() => {
+        firstOption.element.focus();
+      }, 200);
+    }
+    return;
+  }
   if (key === ARROW_UP_KEY && dropdownIsOpen) {
-    toggleDropdown(settings, true);
+    toggleDropdown(settings);
     return;
   }
 
@@ -259,8 +271,9 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
     return;
   }
 
-  if (!dropdownIsOpen && (inputValue || key === ARROW_DOWN_KEY)) toggleDropdown(settings);
-  if (!dropdownIsOpen) populateOptions(settings, inputValue, true, true);
+  if (!dropdownIsOpen && (inputValue || key === ARROW_DOWN_KEY) && key !== ARROW_UP_KEY) {
+    toggleDropdown(settings);
+  }
 
   populateOptions(settings, inputValue, !inputValue, true);
 };
@@ -298,12 +311,15 @@ const handleInputClickEvents = (settings: Settings) => {
   const { dropdownToggle, inputElement } = settings;
 
   const toggled = dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true';
+  inputElement.setAttribute(ARIA_EXPANDED_KEY, `${!toggled}`);
+
+  if (toggled && inputElement.value.length > 0) {
+    return;
+  }
   if (!toggled) {
     populateOptions(settings, '', true, true);
     toggleDropdown(settings);
   }
-
-  inputElement.setAttribute(ARIA_EXPANDED_KEY, !toggled ? 'true' : 'false');
 };
 
 /**

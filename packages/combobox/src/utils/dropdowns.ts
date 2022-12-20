@@ -46,6 +46,9 @@ export const toggleDropdownCloseIcon = (settings: Settings, inputValue = '') => 
 export const focusOnInput = (settings: Settings) => {
   const { inputElement } = settings;
 
+  const end = inputElement.value.length;
+
+  inputElement.setSelectionRange(end, end);
   inputElement.focus();
 };
 

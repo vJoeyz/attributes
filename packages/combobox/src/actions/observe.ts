@@ -51,11 +51,6 @@ const observeDropdownList = (settings: Settings) => {
           inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, '');
           focusOnInput(settings);
         }
-
-        if (currentStateIsOpen && !selectedOption && optionsStore.length > 0) {
-          const [firstOption] = optionsStore;
-          firstOption.element.focus();
-        }
       }
     });
 
