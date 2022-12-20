@@ -67,30 +67,6 @@ test.describe('combobox', () => {
     await expect(comboboxNav).not.toHaveClass(/w--open/);
   });
 
-  test('Combobox input can accept input and escape key closes dropdown.', async ({ page }) => {
-    const comboboxDropdown = page.locator('[fs-combobox-element="dropdown"]');
-    const comboboxInput = comboboxDropdown.locator('input');
-    const comboboxLabels = page.locator('[fs-combobox-element="label"]');
-    const comboboxCount = await comboboxLabels.count();
-    const comboboxNav = comboboxDropdown.locator('nav');
-
-    const randomLabel = comboboxLabels.nth(Math.floor(Math.random() * comboboxCount));
-    const randomLabelText = await randomLabel.textContent();
-
-    if (randomLabelText) {
-      await comboboxInput.focus();
-      await await comboboxInput.type(randomLabelText);
-
-      const inputValue = await comboboxInput.inputValue();
-      await expect(inputValue).toEqual(randomLabelText);
-
-      await expect(comboboxNav).toHaveClass(/w--open/);
-
-      await page.keyboard.press('Escape');
-
-      await expect(comboboxNav).not.toHaveClass(/w--open/);
-    }
-  });
   test('Combobox input arrow down key opens dropdown', async ({ page }) => {
     const comboboxDropdown = page.locator('[fs-combobox-element="dropdown"]');
     const comboboxInput = comboboxDropdown.locator('input');
@@ -101,5 +77,53 @@ test.describe('combobox', () => {
     await comboboxInput.press('ArrowDown');
 
     await expect(comboboxNav).toHaveClass(/w--open/);
+  });
+
+  test('Combobox input on escape key if nothing has been selected, it should clear input field and close dropdown', async ({
+    page,
+  }) => {
+    const comboboxDropdown = page.locator('[fs-combobox-element="dropdown"]');
+    const comboboxInput = comboboxDropdown.locator('input');
+    const comboboxClearDropdown = page.locator('[fs-combobox-element="clear"]');
+
+    const comboboxNav = comboboxDropdown.locator('nav');
+
+    await comboboxInput.focus();
+    await comboboxInput.type('test');
+
+    await expect(comboboxNav).toHaveClass(/w--open/);
+
+    await comboboxInput.press('Escape');
+
+    await expect(comboboxNav).not.toHaveClass(/w--open/);
+
+    const inputValue = await comboboxInput.inputValue();
+    await expect(inputValue).toEqual('');
+
+    await expect(comboboxClearDropdown).toHaveCSS('display', 'none');
+  });
+
+  test('Combobox input on blur if nothing has been selected, should clear input field and close dropdown', async ({
+    page,
+  }) => {
+    const comboboxDropdown = page.locator('[fs-combobox-element="dropdown"]');
+    const comboboxInput = comboboxDropdown.locator('input');
+    const comboboxClearDropdown = page.locator('[fs-combobox-element="clear"]');
+
+    const comboboxNav = comboboxDropdown.locator('nav');
+
+    await comboboxInput.focus();
+    await comboboxInput.type('test');
+
+    await expect(comboboxNav).toHaveClass(/w--open/);
+
+    await page.click('body');
+
+    await expect(comboboxNav).not.toHaveClass(/w--open/);
+
+    const inputValue = await comboboxInput.inputValue();
+    await expect(inputValue).toEqual('');
+
+    await expect(comboboxClearDropdown).toHaveCSS('display', 'none');
   });
 });
