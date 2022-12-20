@@ -303,6 +303,7 @@ const handleInputClickEvents = (settings: Settings) => {
 
   const toggled = dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true';
   if (!toggled) {
+    populateOptions(settings, '', true, true);
     toggleDropdown(settings);
   }
 
