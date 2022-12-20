@@ -48,3 +48,12 @@ export const focusOnInput = (settings: Settings) => {
 
   inputElement.focus();
 };
+
+/**
+ * dispatches custom event `updateComboboxInputField`
+ */
+export const updateComboboxInputField = (settings: Settings) => {
+  const event = new Event('updateComboboxInputField');
+
+  settings.inputElement.dispatchEvent(event);
+};

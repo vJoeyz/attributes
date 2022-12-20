@@ -3,6 +3,8 @@ import { addListener, isElement, setFormFieldValue } from '@finsweet/ts-utils';
 import { ARIA_ACTIVEDESCENDANT_KEY, ARIA_EXPANDED_KEY, ID_KEY } from '$global/constants/a11y';
 import {
   ARROW_DOWN_KEY,
+  ARROW_LEFT_KEY,
+  ARROW_RIGHT_KEY,
   ARROW_UP_KEY,
   BACKSPACE_KEY,
   CLICK,
@@ -12,7 +14,7 @@ import {
   TAB_KEY,
 } from '$global/constants/keyboard';
 
-import { focusOnInput, toggleDropdown, toggleDropdownCloseIcon } from '../utils';
+import { focusOnInput, toggleDropdown } from '../utils';
 import { CONTROL_KEYS } from '../utils/constants';
 import type { OptionData, Settings } from '../utils/types';
 import { populateOptions } from './populate';
@@ -225,7 +227,17 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
 
   const inputValue = referenceInput.value.toLowerCase().trim() ?? '';
 
-  if (key === ARROW_UP_KEY || key === ENTER_KEY || key === TAB_KEY || key === SPACE_KEY) return;
+  const dropdownIsOpen = dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true';
+
+  if (
+    key === ARROW_UP_KEY ||
+    key === ENTER_KEY ||
+    key === TAB_KEY ||
+    key === SPACE_KEY ||
+    key === ARROW_RIGHT_KEY ||
+    key === ARROW_LEFT_KEY
+  )
+    return;
 
   if (key === BACKSPACE_KEY && inputValue.length === 0) {
     populateOptions(settings, '', true, true);
@@ -234,12 +246,7 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
 
   if (key === BACKSPACE_KEY && inputValue.length > 0) {
     populateOptions(settings, inputValue, !inputValue, true);
-    toggleDropdownCloseIcon(settings, inputValue);
-
-    if (dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) !== 'true') {
-      toggleDropdown(settings);
-    }
-
+    if (!dropdownIsOpen) toggleDropdown(settings);
     return;
   }
 
@@ -249,11 +256,9 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
     return;
   }
 
-  if (dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) !== 'true') {
-    toggleDropdown(settings);
-  }
+  if (!dropdownIsOpen && (inputValue || key === ARROW_DOWN_KEY)) toggleDropdown(settings);
+  if (!dropdownIsOpen) populateOptions(settings, inputValue, true, true);
 
-  toggleDropdownCloseIcon(settings, inputValue);
   populateOptions(settings, inputValue, !inputValue, true);
 };
 
@@ -263,9 +268,6 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
  * @param settings The instance {@link Settings}.
  */
 const handleInputChangeEvents = (e: Event, settings: Settings) => {
-  const target = e.target as HTMLInputElement;
-  const inputValue = target.value.toLowerCase().trim() ?? '';
-
   const selectedOption = settings.optionsStore.find(({ selected }) => selected);
 
   if (!selectedOption) {
@@ -273,8 +275,24 @@ const handleInputChangeEvents = (e: Event, settings: Settings) => {
 
     return;
   }
+};
 
-  toggleDropdownCloseIcon(settings, inputValue);
+/**
+ * updates input value and select value
+ * @param settings The instance {@link Settings}.
+ */
+const updateInputField = (e: Event, settings: Settings) => {
+  const { optionsStore, inputElement } = settings;
+  const input = e.target as HTMLInputElement;
+
+  const selectedOption = optionsStore.find(({ selected }) => selected);
+  const selectedText = selectedOption?.text ?? '';
+  const selectedValue = selectedOption?.value ?? '';
+  const inputValue = input.value;
+
+  if (selectedOption && selectedValue !== inputValue) {
+    inputElement.value = selectedText;
+  }
 };
 /**
  * Shows the dropdown if hidden.
@@ -342,9 +360,9 @@ export const listenEvents = (settings: Settings) => {
     addListener(selectElement, 'change', () => handleSelectChangeEvents(settings)),
 
     addListener(inputElement, 'keyup', (e) => handleInputKeyUpEvents(e, settings)),
-    addListener(inputElement, 'keydown', (e) => handleClearInput(e, settings)),
     addListener(inputElement, 'change', (e) => handleInputChangeEvents(e, settings)),
     addListener(inputElement, 'click', () => handleInputClickEvents(settings)),
+    addListener(inputElement, 'updateComboboxInputField', (e) => updateInputField(e, settings)),
 
     addListener(clearDropdown, 'click', (e) => handleClearDropdownClickEvents(e, settings)),
     addListener(clearDropdown, 'keyup', (e) => handleClearDropdownKeyUpEvents(e, settings)),

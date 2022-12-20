@@ -9,9 +9,7 @@ import {
   ARIA_HIDDEN_KEY,
   ARIA_LABEL_KEY,
   ARIA_OWNS_KEY,
-  AUTOCAPITALIZE_KEY,
   AUTOCOMPLETE_KEY,
-  ID_KEY,
   NAME_KEY,
   REQUIRED_KEY,
   ROLE_KEY,
@@ -130,6 +128,7 @@ const initializeAttributes = (
 
   clearDropdown?.setAttribute(TABINDEX_KEY, '0');
   clearDropdown?.setAttribute(ROLE_KEY, 'button');
+  clearDropdown.style.display = 'none';
 
   dropdownToggleArrow?.setAttribute(ARIA_LABEL_KEY, 'Toggle combobox');
 };

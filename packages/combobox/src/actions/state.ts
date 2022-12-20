@@ -33,5 +33,5 @@ export const updateOptionsState = (settings: Settings, selectedOption?: OptionDa
   }
 
   if (close) toggleDropdown(settings);
-  toggleDropdownCloseIcon(settings);
+  toggleDropdownCloseIcon(settings, selectedOption?.value || '');
 };

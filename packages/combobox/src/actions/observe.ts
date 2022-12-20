@@ -1,9 +1,9 @@
-import { isHTMLOptionElement, setFormFieldValue } from '@finsweet/ts-utils';
+import { isHTMLOptionElement } from '@finsweet/ts-utils';
 import debounce from 'just-debounce';
 
 import { ARIA_ACTIVEDESCENDANT_KEY, ARIA_EXPANDED_KEY, ID_KEY } from '$global/constants/a11y';
 
-import { focusOnInput, toggleDropdownCloseIcon } from '../utils';
+import { focusOnInput, toggleDropdownCloseIcon, updateComboboxInputField } from '../utils';
 import { DROPDOWN_IS_OPEN } from '../utils/constants';
 import type { Settings } from '../utils/types';
 import { populateOptions } from './populate';
@@ -15,23 +15,32 @@ import { populateOptions } from './populate';
  * @returns The MutationObserver.
  */
 const observeDropdownList = (settings: Settings) => {
-  const { dropdownList, navListElement, optionsStore, selectElement, inputElement, hideInitial } = settings;
+  const { dropdownList, navListElement, optionsStore, selectElement, inputElement } = settings;
   let prevDropdownState = navListElement.classList.contains(DROPDOWN_IS_OPEN);
+  let currentStateIsOpen = false;
 
   const callback: MutationCallback = debounce((mutations: MutationRecord[]) => {
     mutations.forEach((mutation) => {
       if (mutation.attributeName === 'class') {
-        const currentStateIsOpen = (mutation.target as HTMLDivElement).classList.contains(DROPDOWN_IS_OPEN);
+        const selectValue = selectElement.value;
+
+        const selectedOption = Array.from(optionsStore).find(
+          (el) => el?.value.toLowerCase().trim() === selectValue?.toLowerCase().trim()
+        );
+
+        toggleDropdownCloseIcon(settings, selectedOption?.value || '');
+
+        currentStateIsOpen = (mutation.target as HTMLDivElement).classList.contains(DROPDOWN_IS_OPEN);
         if (prevDropdownState !== currentStateIsOpen) {
           prevDropdownState = currentStateIsOpen;
         }
 
-        inputElement.setAttribute(ARIA_EXPANDED_KEY, `${currentStateIsOpen}`);
-        const selectValue = selectElement.value;
+        if (!currentStateIsOpen) {
+          updateComboboxInputField(settings);
+        }
 
-        const selectedOption = Array.from(optionsStore).find(
-          (el) => el.value.toLowerCase().trim() === selectValue.toLowerCase().trim()
-        );
+        inputElement.setAttribute(ARIA_EXPANDED_KEY, `${currentStateIsOpen}`);
+
         if (selectedOption) {
           const id = selectedOption.element.getAttribute(ID_KEY);
           inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, `${id}`);
@@ -40,7 +49,6 @@ const observeDropdownList = (settings: Settings) => {
 
         if (!currentStateIsOpen || !selectedOption) {
           inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, '');
-          toggleDropdownCloseIcon(settings);
           focusOnInput(settings);
         }
       }
@@ -48,10 +56,9 @@ const observeDropdownList = (settings: Settings) => {
 
     const selectedOption = optionsStore.find(({ selected }) => selected);
     const firstNonHiddenOption = optionsStore.find(({ hidden }) => !hidden);
+    toggleDropdownCloseIcon(settings, selectedOption?.value || '');
 
     if (!selectedOption || !firstNonHiddenOption) return;
-
-    if (hideInitial) window.requestAnimationFrame(() => toggleDropdownCloseIcon(settings));
   }, 20);
 
   const observer = new MutationObserver(callback);
