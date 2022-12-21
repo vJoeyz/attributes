@@ -38,6 +38,8 @@ export const CMS_TABS_ATTRIBUTE = 'cmstabs';
 
 export const CODE_HIGHLIGHT_ATTRIBUTE = 'codehighlight';
 
+export const COMPONENT_ATTRIBUTE = 'component';
+
 export const COPY_CLIP_ATTRIBUTE = 'copyclip';
 
 export const COUNT_ITEMS_ATTRIBUTE = 'countitems';
