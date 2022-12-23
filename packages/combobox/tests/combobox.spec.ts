@@ -85,93 +85,26 @@ test.describe('combobox', () => {
     const comboboxDropdown = page.locator('[fs-combobox-element="dropdown"]');
     const comboboxInput = comboboxDropdown.locator('input');
     const comboboxClearDropdown = page.locator('[fs-combobox-element="clear"]');
+    const select = comboboxDropdown.locator('select');
 
     const comboboxNav = comboboxDropdown.locator('nav');
 
     await comboboxInput.focus();
     await comboboxInput.type('test');
-    await comboboxInput.dispatchEvent('change');
 
     await expect(comboboxNav).toHaveClass(/w--open/);
 
-    await comboboxInput.press('Escape');
+    await comboboxNav.press('Escape');
 
     await expect(comboboxNav).not.toHaveClass(/w--open/);
 
-    const inputValue = await comboboxInput.inputValue();
-    await expect(inputValue).toEqual('');
+    const selectedValue = await select.getAttribute('value');
+    if (!selectedValue) {
+      const inputValue = await comboboxInput.inputValue();
+      await expect(inputValue).toEqual('');
 
-    await expect(comboboxClearDropdown).toHaveCSS('display', 'none');
-  });
-  test('Combobox input arrow down key opens dropdown and if selected option exists, it should focus on it', async ({
-    page,
-  }) => {
-    const comboboxDropdown = page.locator('[fs-combobox-element="dropdown"]');
-    const comboboxInput = comboboxDropdown.locator('input');
-    const comboboxNav = comboboxDropdown.locator('nav');
-    const comboboxOptions = comboboxNav.locator('a');
-    const select = comboboxDropdown.locator('select');
-
-    await comboboxInput.focus();
-    // open dropdown
-    await comboboxInput.press('ArrowDown');
-    await expect(comboboxNav).toHaveClass(/w--open/);
-
-    // click on random option
-    // get random number within 0 and comboboxOptions count
-    const randomOptionIndex = Math.floor(Math.random() * (await comboboxOptions.count()));
-    const randomOption = comboboxOptions.nth(randomOptionIndex);
-    await randomOption.click();
-
-    // expect dropdown to be closed
-    await expect(comboboxNav).not.toHaveClass(/w--open/);
-
-    await page.waitForTimeout(200);
-
-    // expect input field to have a value
-    const inputValue = await comboboxInput.inputValue();
-    await expect(inputValue).not.toEqual('');
-
-    // expect select element to have a value
-    const selectValue = await select.inputValue();
-    await expect(selectValue).not.toEqual('');
-
-    // get tag name for active element
-    const activeElement = await page.evaluate(() => document.activeElement?.tagName);
-    await expect(activeElement).toEqual('INPUT');
-
-    // press arrow
-    await comboboxInput.press('ArrowDown');
-    // expect dropdown to be open
-    await expect(comboboxNav).toHaveClass(/w--open/);
-
-    // get index of selected option
-    const selectedOptionIndex = await page.evaluate(() => {
-      const options = document.querySelectorAll('[fs-combobox-element="dropdown"] nav a');
-      const selectedOption = Array.from(options).find((option) => option.classList.contains('w--current'));
-      if (selectedOption) {
-        return Array.from(options).indexOf(selectedOption);
-      }
-      return false;
-    });
-
-    // random index to equal selected option index
-    await expect(randomOptionIndex).toEqual(selectedOptionIndex);
-
-    // comboboxOptions press arrow down
-    await comboboxDropdown.press('ArrowDown');
-
-    const selectedOptionId = await page.evaluate(() => document.activeElement?.getAttribute('id'));
-    const inputFieldActiveDescendant = await comboboxInput.getAttribute('aria-activedescendant');
-
-    await expect(inputFieldActiveDescendant).toEqual(selectedOptionId);
-
-    await comboboxDropdown.press('ArrowUp');
-
-    const selectedOptionId2 = await page.evaluate(() => document.activeElement?.getAttribute('id'));
-    const inputFieldActiveDescendant2 = await comboboxInput.getAttribute('aria-activedescendant');
-
-    expect(inputFieldActiveDescendant2).toEqual(selectedOptionId2);
+      await expect(comboboxClearDropdown).toHaveCSS('display', 'none');
+    }
   });
 
   test('Combobox should show clear icon only when selected option value matches input value', async ({ page }) => {
@@ -179,6 +112,7 @@ test.describe('combobox', () => {
     const comboboxInput = comboboxDropdown.locator('input');
     const comboboxNav = comboboxDropdown.locator('nav');
     const comboboxOptions = comboboxNav.locator('a');
+    const select = comboboxDropdown.locator('select');
     const comboboxClearDropdown = page.locator('[fs-combobox-element="clear"]');
 
     await expect(comboboxClearDropdown).toHaveCSS('display', 'none');
@@ -204,10 +138,71 @@ test.describe('combobox', () => {
     await comboboxInput.press('Backspace');
     await expect(comboboxClearDropdown).toHaveCSS('display', 'none');
 
-    await comboboxInput.fill('');
+    await comboboxInput.type('');
+
     await expect(comboboxClearDropdown).toHaveCSS('display', 'none');
 
     await comboboxInput.press('Escape');
-    await expect(comboboxClearDropdown).toHaveCSS('display', 'flex');
+
+    await expect(comboboxNav).not.toHaveAttribute('aria-expanded', 'true');
+
+    const selectedValue = await select.getAttribute('value');
+
+    if (selectedValue) {
+      await expect(comboboxClearDropdown).toHaveCSS('display', 'flex');
+    }
+  });
+
+  test('Combobox whenever it is opened and if selected option does not exist, it should focus on first option', async ({
+    page,
+  }) => {
+    const comboboxDropdown = page.locator('[fs-combobox-element="dropdown"]');
+    const comboboxInput = comboboxDropdown.locator('input');
+    const comboboxNav = comboboxDropdown.locator('nav');
+    const comboboxOptions = comboboxNav.locator('a');
+
+    await comboboxInput.focus();
+
+    await comboboxInput.press('ArrowDown');
+    await expect(comboboxNav).toHaveClass(/w--open/);
+
+    const firstOption = comboboxOptions.nth(0);
+
+    await page.waitForTimeout(200);
+
+    const activeElement = await page.evaluate(() => document.activeElement?.getAttribute('id'));
+    const firstOptionId = await firstOption.getAttribute('id');
+
+    await expect(activeElement).toEqual(firstOptionId);
+  });
+
+  test('Combobox whenever it is opened and something is typed, arrow up should close dropdown and arrow down should focus on first element on the list if no selected option is found', async ({
+    page,
+  }) => {
+    const comboboxDropdown = page.locator('[fs-combobox-element="dropdown"]');
+    const comboboxInput = comboboxDropdown.locator('input');
+    const comboboxNav = comboboxDropdown.locator('nav');
+    const comboboxOptions = comboboxNav.locator('a');
+
+    await comboboxInput.type('a');
+
+    await expect(comboboxNav).toHaveClass(/w--open/);
+
+    await comboboxInput.press('ArrowUp');
+
+    await expect(comboboxNav).not.toHaveClass(/w--open/);
+
+    await comboboxInput.press('ArrowDown');
+
+    await expect(comboboxNav).toHaveClass(/w--open/);
+
+    const firstOption = comboboxOptions.nth(0);
+
+    await page.waitForTimeout(200);
+
+    const activeElement = await page.evaluate(() => document.activeElement?.getAttribute('id'));
+    const firstOptionId = await firstOption.getAttribute('id');
+
+    await expect(activeElement).toEqual(firstOptionId);
   });
 });

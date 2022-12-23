@@ -135,6 +135,7 @@ const handleDropdownListKeyUpEvents = (e: KeyboardEvent, settings: Settings) => 
  */
 const handleDropdownListKeydownEvents = (e: KeyboardEvent, settings: Settings) => {
   const { key } = e;
+
   e.stopPropagation();
 
   if (key === ESCAPE_KEY) {
@@ -206,10 +207,19 @@ const handleSelectChangeEvents = (settings: Settings) => {
  * @param settings The instance {@link Settings}.
  */
 const handleClearInput = (e: KeyboardEvent, settings: Settings) => {
-  const { key } = e as KeyboardEvent;
+  const { inputElement, selectElement } = settings;
 
-  if (key === ESCAPE_KEY) {
-    focusOnInput(settings);
+  const selected = settings.optionsStore.find(({ selected }) => selected);
+
+  if (!selected) {
+    inputElement.value = '';
+    selectElement.value = '';
+  }
+
+  const dropdownIsOpen = settings.dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true';
+
+  if (dropdownIsOpen) {
+    toggleDropdown(settings);
   }
 };
 
@@ -230,19 +240,27 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
 
   const dropdownIsOpen = dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true';
 
+  if (key === ESCAPE_KEY) {
+    handleClearInput(e, settings);
+    return;
+  }
+
   if (key === ENTER_KEY || key === TAB_KEY || key === SPACE_KEY || key === ARROW_RIGHT_KEY || key === ARROW_LEFT_KEY)
     return;
 
   if (key === ARROW_DOWN_KEY && !dropdownIsOpen) {
     toggleDropdown(settings, false);
 
-    if (!selectedOption && optionsStore.length > 0 && !inputElement.value) {
-      const [firstOption] = optionsStore;
+    if (!selectedOption && optionsStore.length > 0) {
+      const [firstOption] = optionsStore.filter(({ hidden }) => !hidden);
+
       setTimeout(() => {
         firstOption.element.focus();
       }, 200);
+
       return;
     }
+
     if (selectedOption) {
       setTimeout(() => {
         selectedOption.element.focus();
@@ -253,11 +271,6 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
   }
   if (key === ARROW_UP_KEY && dropdownIsOpen) {
     toggleDropdown(settings);
-    return;
-  }
-
-  if (key === ESCAPE_KEY) {
-    handleClearInput(e, settings);
     return;
   }
 
