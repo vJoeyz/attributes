@@ -21,20 +21,22 @@ export const toggleDropdown = (settings: Settings, focusInputElement = true) => 
  * @param {string} inputValue The value of the input field. Defaults to empty string.
  */
 export const toggleDropdownCloseIcon = (settings: Settings, inputValue = '') => {
-  const { clearDropdown } = settings;
-
+  const { clearDropdown, optionsStore, inputElement } = settings;
   if (!clearDropdown) return;
 
-  const closeIconIsHidden = clearDropdown.style.display === 'none';
-
-  if (inputValue && closeIconIsHidden) {
-    clearDropdown.style.display = 'flex';
-    return;
-  }
+  const selected = optionsStore.find((option) => option.selected)?.text ?? '';
 
   if (!inputValue) {
     clearDropdown.style.display = 'none';
     return;
+  }
+
+  const matches = selected.toLowerCase() === inputElement.value.toLowerCase();
+
+  if (matches) {
+    clearDropdown.style.display = 'flex';
+  } else {
+    clearDropdown.style.display = 'none';
   }
 };
 

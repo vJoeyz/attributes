@@ -28,8 +28,6 @@ const observeDropdownList = (settings: Settings) => {
           (el) => el?.value.toLowerCase().trim() === selectValue?.toLowerCase().trim()
         );
 
-        toggleDropdownCloseIcon(settings, selectedOption?.value || '');
-
         currentStateIsOpen = (mutation.target as HTMLDivElement).classList.contains(DROPDOWN_IS_OPEN);
         if (prevDropdownState !== currentStateIsOpen) {
           prevDropdownState = currentStateIsOpen;
