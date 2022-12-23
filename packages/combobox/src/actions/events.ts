@@ -230,7 +230,7 @@ const handleClearInput = (e: KeyboardEvent, settings: Settings) => {
  */
 const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
   const { key } = e;
-  const { dropdownToggle, optionsStore, inputElement } = settings;
+  const { dropdownToggle, optionsStore } = settings;
   e.preventDefault();
   const selectedOption = optionsStore.find(({ selected }) => selected);
 

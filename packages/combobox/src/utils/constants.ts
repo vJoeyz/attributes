@@ -9,7 +9,6 @@ export const DROPDOWN_IS_OPEN = 'w--open';
 export const DROPDOWN_ELEMENT_KEY = 'dropdown';
 export const LABEL_ELEMENT_KEY = 'label';
 export const CLEAR_DROPDOWN_SELECTION = 'clear';
-export const DROPDOWN_ARROW = 'arrow';
 export const RESET_OPTION_KEY = 'option-reset';
 
 export const INPUT_FIELD = 'input';
@@ -26,11 +25,6 @@ export const ATTRIBUTES = {
        * Defines a dropdown element.
        */
       dropdown: DROPDOWN_ELEMENT_KEY,
-
-      /**
-       * Defines a dropdown icon that can toggle dropdown.
-       */
-      dropdownArrow: DROPDOWN_ARROW,
 
       /**
        * Defines the label that displays the currently selected option.

@@ -7,7 +7,6 @@ import {
   ARIA_CURRENT_KEY,
   ARIA_EXPANDED_KEY,
   ARIA_HIDDEN_KEY,
-  ARIA_LABEL_KEY,
   ARIA_OWNS_KEY,
   AUTOCOMPLETE_KEY,
   NAME_KEY,
@@ -39,8 +38,7 @@ export const collectSettings = (referenceElement: HTMLElement) => {
   const dropdownToggle = dropdown.querySelector<DropdownToggle>(`.${DROPDOWN_CSS_CLASSES.dropdownToggle}`);
   const dropdownList = dropdown.querySelector<DropdownList>(`.${DROPDOWN_CSS_CLASSES.dropdownList}`);
 
-  const dropdownToggleArrow = queryElement<HTMLElement>('dropdownArrow');
-  if (!dropdownToggle || !dropdownList || !dropdownToggleArrow) return;
+  if (!dropdownToggle || !dropdownList) return;
 
   setDropdownAria(dropdownToggle, dropdownList);
 
@@ -73,7 +71,7 @@ export const collectSettings = (referenceElement: HTMLElement) => {
 
   const hideInitial = referenceElement.getAttribute(ATTRIBUTES.hideInitial.key) === ATTRIBUTES.hideInitial.values.true;
 
-  initializeAttributes(inputElement, selectElement, navListElement, clearDropdown, dropdownToggleArrow);
+  initializeAttributes(inputElement, selectElement, navListElement, clearDropdown);
   return {
     optionsStore,
     selectElement,
@@ -102,8 +100,7 @@ const initializeAttributes = (
   inputElement: HTMLInputElement,
   selectElement: HTMLSelectElement,
   navListElement: HTMLElement,
-  clearDropdown: HTMLElement,
-  dropdownToggleArrow: HTMLElement
+  clearDropdown: HTMLElement
 ) => {
   inputElement?.parentElement?.setAttribute(TABINDEX_KEY, '-1');
   inputElement?.removeAttribute(NAME_KEY);
@@ -129,6 +126,4 @@ const initializeAttributes = (
   clearDropdown?.setAttribute(TABINDEX_KEY, '0');
   clearDropdown?.setAttribute(ROLE_KEY, 'button');
   clearDropdown.style.display = 'none';
-
-  dropdownToggleArrow?.setAttribute(ARIA_LABEL_KEY, 'Toggle combobox');
 };
