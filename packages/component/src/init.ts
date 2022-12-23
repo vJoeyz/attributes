@@ -1,8 +1,9 @@
-import { CMS_ATTRIBUTE_ATTRIBUTE, COMPONENT_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
+import { CMS_ATTRIBUTE_ATTRIBUTE } from '$global/constants/attributes';
+import { awaitAttributesLoad } from '$global/factory';
 
 import { getAbsoluteSource } from './actions/absolute_source';
 import { logHello } from './actions/console';
+import { getExternalSource } from './actions/external_source';
 import { getRelativeSource } from './actions/relative_source';
 
 /**
@@ -14,6 +15,5 @@ export const init = async () => {
   logHello();
   getAbsoluteSource();
   getRelativeSource();
-
-  return finalizeAttribute(COMPONENT_ATTRIBUTE);
+  getExternalSource();
 };

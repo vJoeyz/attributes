@@ -11,6 +11,7 @@ export const getAbsoluteSource = async () => {
   const currentURL = new URL(hrefURL);
   let sourceURL = '';
   const goodSources: string[] = [];
+
   const sources = document.querySelectorAll('[fs-component-source]');
   for (const source of sources) {
     if (!source) return;
@@ -30,8 +31,16 @@ export const getAbsoluteSource = async () => {
   const components = document.querySelectorAll('[fs-component-id]');
 
   for (const component of components) {
+    // check that the source component has the same fs-component-source than the source URL
     if (!component) return;
-    componentId = component.getAttribute('fs-component-id') as string;
+    if (
+      component.getAttribute('fs-component-source') !== sourceURL &&
+      isAbsoluteURL(component.getAttribute('fs-component-source') as string)
+    ) {
+      componentId = component.getAttribute('fs-component-id') as string;
+    }
+
+    // componentId = component.getAttribute('fs-component-id') as string;
   }
 
   // 5 - fetch the source page and get the element by id
