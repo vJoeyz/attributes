@@ -110,7 +110,6 @@ const handleDropdownListArrowKeyEvents = ({ key }: KeyboardEvent, settings: Sett
 
     return;
   }
-  console.log('arrow down');
   nextOption?.element.focus();
 };
 
@@ -135,7 +134,6 @@ const handleDropdownListKeyUpEvents = (e: KeyboardEvent, settings: Settings) => 
  * @param settings The instance {@link Settings}.
  */
 const handleDropdownListKeydownEvents = (e: KeyboardEvent, settings: Settings) => {
-  console.log('arrow');
   const { key } = e;
   e.stopPropagation();
 
