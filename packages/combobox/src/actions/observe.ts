@@ -24,6 +24,9 @@ const observeDropdownList = (settings: Settings) => {
     mutations.forEach((mutation) => {
       if (mutation.attributeName === 'class') {
         const selectValue = selectElement.value;
+        const inputValue = inputElement.value;
+        const dropdownToggleKey = inputElement.getAttribute(FS_DROPDOWN_TOGGLE_KEY);
+        const firstOption = Array.from(optionsStore).find((el) => !el.hidden);
 
         const selectedOption = Array.from(optionsStore).find(
           (el) => el?.value.toLowerCase().trim() === selectValue?.toLowerCase().trim()
@@ -44,8 +47,6 @@ const observeDropdownList = (settings: Settings) => {
           const id = selectedOption.element.getAttribute(ID_KEY);
           inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, `${id}`);
 
-          const dropdownToggleKey = inputElement.getAttribute(FS_DROPDOWN_TOGGLE_KEY);
-
           if (currentStateIsOpen && dropdownToggleKey === ARROW_DOWN_KEY) {
             selectedOption.element.focus();
             return;
@@ -61,11 +62,15 @@ const observeDropdownList = (settings: Settings) => {
           return;
         }
 
+        if (!selectedOption && inputValue && currentStateIsOpen && firstOption) {
+          if (dropdownToggleKey === ARROW_DOWN_KEY) firstOption.element.focus();
+          if (dropdownToggleKey === CLICK) focusOnInput(settings);
+
+          return;
+        }
+
         if (currentStateIsOpen && !selectedOption) {
           inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, '');
-
-          const dropdownToggleKey = inputElement.getAttribute(FS_DROPDOWN_TOGGLE_KEY);
-          const firstOption = Array.from(optionsStore).find((el) => !el.hidden);
 
           if (dropdownToggleKey === ARROW_DOWN_KEY && firstOption) {
             firstOption.element.focus();
