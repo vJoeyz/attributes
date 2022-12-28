@@ -38,13 +38,11 @@ test.describe('combobox', () => {
 
     // open dropdown
     await comboboxInput.click();
-    await page.waitForTimeout(300);
     // expect nav class to include w--open
     await expect(comboboxNav).toHaveClass(/w--open/);
 
     // close dropdown
     await comboboxInput.click();
-    await page.waitForTimeout(300);
     await expect(comboboxNav).not.toHaveClass(/w--open/);
   });
 
@@ -149,8 +147,6 @@ test.describe('combobox', () => {
 
     const firstOption = comboboxOptions.nth(0);
 
-    await page.waitForTimeout(200);
-
     const activeElement = await page.evaluate(() => document.activeElement?.getAttribute('id'));
     const firstOptionId = await firstOption.getAttribute('id');
 
@@ -178,8 +174,6 @@ test.describe('combobox', () => {
     await expect(comboboxNav).toHaveClass(/w--open/);
 
     const firstOption = comboboxOptions.nth(0);
-
-    await page.waitForTimeout(200);
 
     const activeElement = await page.evaluate(() => document.activeElement?.getAttribute('id'));
     const firstOptionId = await firstOption.getAttribute('id');
