@@ -9,7 +9,6 @@ test.describe('combobox', () => {
   test('Combobox initializes properly', async ({ page }) => {
     const comboboxDropdown = page.locator('[fs-combobox-element="dropdown"]');
     const comboboxClearDropdown = page.locator('[fs-combobox-element="clear"]');
-    const comboboxArrowDown = page.locator('[fs-combobox-element="arrow"]');
     const comboboxLabels = page.locator('[fs-combobox-element="label"]');
     const comboboxInput = comboboxDropdown.locator('input');
     const comboboSelect = comboboxDropdown.locator('select');
@@ -27,26 +26,8 @@ test.describe('combobox', () => {
 
     await expect(comboboxDropdown).toBeVisible();
     await expect(comboboxClearDropdown).toHaveCSS('display', 'none');
-    await expect(comboboxArrowDown).toBeVisible();
     await expect(comboboxInput).toBeVisible();
     await expect(comboboxInput).toBeEditable();
-  });
-
-  test('Combobox opens and closes by clicking on arrow.', async ({ page }) => {
-    const comboboxDropdown = page.locator('[fs-combobox-element="dropdown"]');
-    const comboboxArrowDown = page.locator('[fs-combobox-element="arrow"]');
-
-    const comboboxNav = comboboxDropdown.locator('nav');
-
-    // open dropdown
-    await comboboxArrowDown.click();
-    await page.waitForTimeout(300);
-    await expect(comboboxNav).toHaveClass(/w--open/);
-
-    // close dropdown
-    await comboboxArrowDown.click();
-    await page.waitForTimeout(300);
-    await expect(comboboxNav).not.toHaveClass(/w--open/);
   });
 
   test('Combobox opens and closes by clicking on input.', async ({ page }) => {
