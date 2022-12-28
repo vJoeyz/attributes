@@ -205,11 +205,21 @@ const handleSelectChangeEvents = (settings: Settings) => {
  * Listens to the `input` escape key or focusout events.
  * @param e The Event object.
  * @param settings The instance {@link Settings}.
+ * @param fromInput Whether the event was triggered from the input element.
  */
-const handleClearInput = (e: KeyboardEvent, settings: Settings) => {
+const handleClearInput = (e: KeyboardEvent | FocusEvent, settings: Settings, fromInput = false) => {
   const { inputElement, selectElement } = settings;
 
   const selected = settings.optionsStore.find(({ selected }) => selected);
+
+  if (fromInput) {
+    const relatedTarget = (e as FocusEvent).relatedTarget as HTMLElement;
+    if (relatedTarget) return;
+
+    inputElement.value = '';
+    selectElement.value = '';
+    return;
+  }
 
   if (!selected) {
     inputElement.value = '';
@@ -319,13 +329,6 @@ const updateInputField = (e: Event, settings: Settings) => {
     inputElement.value = selectedText;
     return;
   }
-
-  const dropdownIsClosed = dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'false';
-  const activeElement = document.activeElement as HTMLElement;
-
-  if (dropdownIsClosed && activeElement !== inputElement) {
-    inputElement.value = '';
-  }
 };
 /**
  * Shows the dropdown if hidden.
@@ -400,6 +403,7 @@ export const listenEvents = (settings: Settings) => {
 
     addListener(inputElement, 'keyup', (e) => handleInputKeyUpEvents(e, settings)),
     addListener(inputElement, 'click', (e) => handleInputClickEvents(e, settings)),
+    addListener(inputElement, 'blur', (e) => handleClearInput(e, settings, true)),
     addListener(inputElement, 'updateComboboxInputField', (e) => updateInputField(e, settings)),
 
     addListener(clearDropdown, 'click', (e) => handleClearDropdownClickEvents(e, settings)),
