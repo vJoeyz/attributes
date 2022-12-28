@@ -2,9 +2,10 @@ import { isHTMLOptionElement } from '@finsweet/ts-utils';
 import debounce from 'just-debounce';
 
 import { ARIA_ACTIVEDESCENDANT_KEY, ARIA_EXPANDED_KEY, ID_KEY } from '$global/constants/a11y';
+import { ARROW_DOWN_KEY, CLICK } from '$global/constants/keyboard';
 
 import { focusOnInput, toggleDropdownCloseIcon, updateComboboxInputField } from '../utils';
-import { DROPDOWN_IS_OPEN } from '../utils/constants';
+import { DROPDOWN_IS_OPEN, FS_DROPDOWN_TOGGLE_KEY } from '../utils/constants';
 import type { Settings } from '../utils/types';
 import { populateOptions } from './populate';
 
@@ -42,11 +43,38 @@ const observeDropdownList = (settings: Settings) => {
         if (selectedOption) {
           const id = selectedOption.element.getAttribute(ID_KEY);
           inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, `${id}`);
+
+          const dropdownToggleKey = inputElement.getAttribute(FS_DROPDOWN_TOGGLE_KEY);
+
+          if (currentStateIsOpen && dropdownToggleKey === ARROW_DOWN_KEY) {
+            selectedOption.element.focus();
+            return;
+          }
+          if (currentStateIsOpen && dropdownToggleKey === CLICK) {
+            selectedOption.element.focus();
+            focusOnInput(settings);
+            return;
+          }
+
+          if (!currentStateIsOpen) focusOnInput(settings);
+
           return;
         }
 
-        if (!currentStateIsOpen || !selectedOption) {
+        if (currentStateIsOpen && !selectedOption) {
           inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, '');
+
+          const dropdownToggleKey = inputElement.getAttribute(FS_DROPDOWN_TOGGLE_KEY);
+          const firstOption = Array.from(optionsStore).find((el) => !el.hidden);
+
+          if (dropdownToggleKey === ARROW_DOWN_KEY && firstOption) {
+            firstOption.element.focus();
+            return;
+          }
+
+          focusOnInput(settings);
+        }
+        if (!currentStateIsOpen) {
           focusOnInput(settings);
         }
       }

@@ -11,6 +11,8 @@ export const LABEL_ELEMENT_KEY = 'label';
 export const CLEAR_DROPDOWN_SELECTION = 'clear';
 export const RESET_OPTION_KEY = 'option-reset';
 
+export const FS_DROPDOWN_TOGGLE_KEY = 'fs-dropdown-toggle-key';
+
 export const INPUT_FIELD = 'input';
 export const NO_RESULTS = 'empty';
 

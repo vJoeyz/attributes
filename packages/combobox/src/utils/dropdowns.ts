@@ -7,10 +7,8 @@ import type { Settings } from './types';
  * @param settings A {@link Settings} element.
  * @param focusInputElement Defaults to `true`.
  */
-export const toggleDropdown = (settings: Settings, focusInputElement = true) => {
+export const toggleDropdown = (settings: Settings) => {
   const { dropdownToggle } = settings;
-
-  if (focusInputElement) focusOnInput(settings);
 
   simulateEvent(dropdownToggle, ['click', 'mouseup']);
 };

@@ -15,7 +15,7 @@ import {
 } from '$global/constants/keyboard';
 
 import { focusOnInput, toggleDropdown } from '../utils';
-import { CONTROL_KEYS } from '../utils/constants';
+import { CONTROL_KEYS, FS_DROPDOWN_TOGGLE_KEY } from '../utils/constants';
 import type { OptionData, Settings } from '../utils/types';
 import { populateOptions } from './populate';
 import { updateOptionsState } from './state';
@@ -90,7 +90,7 @@ const handleTabKeyEvents = (e: KeyboardEvent, settings: Settings) => {
     (e.target as HTMLAnchorElement).click();
     focusOnInput(settings);
   }
-  toggleDropdown(settings, shiftKey);
+  toggleDropdown(settings);
 };
 
 /**
@@ -106,7 +106,7 @@ const handleDropdownListArrowKeyEvents = ({ key }: KeyboardEvent, settings: Sett
   const nextOption = optionsStore[key === ARROW_UP_KEY ? focusedOptionIndex - 1 : focusedOptionIndex + 1];
 
   if (key === ARROW_UP_KEY && !nextOption) {
-    toggleDropdown(settings, true);
+    toggleDropdown(settings);
 
     return;
   }
@@ -230,7 +230,7 @@ const handleClearInput = (e: KeyboardEvent, settings: Settings) => {
  */
 const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
   const { key } = e;
-  const { dropdownToggle, optionsStore } = settings;
+  const { dropdownToggle, optionsStore, inputElement } = settings;
   e.preventDefault();
   const selectedOption = optionsStore.find(({ selected }) => selected);
 
@@ -239,6 +239,10 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
   const inputValue = referenceInput.value.toLowerCase().trim() ?? '';
 
   const dropdownIsOpen = dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true';
+
+  if (key === ARROW_DOWN_KEY) {
+    inputElement.setAttribute(FS_DROPDOWN_TOGGLE_KEY, ARROW_DOWN_KEY);
+  }
 
   if (key === ESCAPE_KEY) {
     handleClearInput(e, settings);
@@ -249,22 +253,18 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
     return;
 
   if (key === ARROW_DOWN_KEY && !dropdownIsOpen) {
-    toggleDropdown(settings, false);
+    toggleDropdown(settings);
 
     if (!selectedOption && optionsStore.length > 0) {
       const [firstOption] = optionsStore.filter(({ hidden }) => !hidden);
 
-      setTimeout(() => {
-        firstOption.element.focus();
-      }, 200);
+      firstOption.element.focus();
 
       return;
     }
 
     if (selectedOption) {
-      setTimeout(() => {
-        selectedOption.element.focus();
-      }, 200);
+      selectedOption.element.focus();
       return;
     }
     return;
@@ -327,19 +327,21 @@ const updateInputField = (e: Event, settings: Settings) => {
  * Shows the dropdown if hidden.
  * @param settings The instance {@link Settings}.
  */
-const handleInputClickEvents = (settings: Settings) => {
+const handleInputClickEvents = (e: MouseEvent, settings: Settings) => {
+  e.stopPropagation();
+
   const { dropdownToggle, inputElement } = settings;
+
+  inputElement.setAttribute(FS_DROPDOWN_TOGGLE_KEY, CLICK);
 
   const toggled = dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true';
   inputElement.setAttribute(ARIA_EXPANDED_KEY, `${!toggled}`);
 
-  if (toggled && inputElement.value.length > 0) {
+  if (toggled) {
     return;
   }
-  if (!toggled) {
-    populateOptions(settings, '', true, true);
-    toggleDropdown(settings);
-  }
+  populateOptions(settings, '', true, true);
+  toggleDropdown(settings);
 };
 
 /**
@@ -393,7 +395,7 @@ export const listenEvents = (settings: Settings) => {
     addListener(selectElement, 'change', () => handleSelectChangeEvents(settings)),
 
     addListener(inputElement, 'keyup', (e) => handleInputKeyUpEvents(e, settings)),
-    addListener(inputElement, 'click', () => handleInputClickEvents(settings)),
+    addListener(inputElement, 'click', (e) => handleInputClickEvents(e, settings)),
     addListener(inputElement, 'updateComboboxInputField', (e) => updateInputField(e, settings)),
 
     addListener(clearDropdown, 'click', (e) => handleClearDropdownClickEvents(e, settings)),
