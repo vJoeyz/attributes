@@ -268,6 +268,7 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
 
   if (key === ARROW_DOWN_KEY && !dropdownIsOpen) {
     toggleDropdown(settings);
+    populateOptions(settings, '', true, true);
 
     if (!selectedOption && optionsStore.length > 0) {
       const [firstOption] = optionsStore.filter(({ hidden }) => !hidden);
