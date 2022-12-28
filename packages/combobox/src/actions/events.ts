@@ -232,6 +232,10 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
   const { key } = e;
   const { dropdownToggle, optionsStore, inputElement } = settings;
   e.preventDefault();
+  e.stopPropagation();
+
+  inputElement.setAttribute(FS_DROPDOWN_TOGGLE_KEY, CLICK);
+
   const selectedOption = optionsStore.find(({ selected }) => selected);
 
   const referenceInput = e.target as HTMLInputElement;
