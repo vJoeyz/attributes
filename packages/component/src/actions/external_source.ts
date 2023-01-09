@@ -3,20 +3,11 @@
  * @returns the same element than the source element.
  * @param element The element to fetch the component from.
  */
-
-/**
- * 1 - get the source URL
- * 2 - check that the source URL belongs to a different Webflow project
- * 3 - get the ID (that defines the component to copy in the source page)
- * 4 - fetch the source page and get the element by ID
- * 5 - extract the HTML from the component's ID
- * 6 - get the target element by ID
- * 7 - parse the source CSS and inline it before the target HTML
- * 7 - replace the target element's HTML and CSS with the source element's HTML and CSS
- */
 import { isAbsoluteURL } from 'src/utils/isAbsoluteURL';
 import { isExternalURL } from 'src/utils/isExternal';
 import { isSameWebflowProject } from 'src/utils/isSameWebflowProject';
+
+import { logHello } from './console';
 
 export const getExternalSource = async () => {
   let sourceURL = '';
@@ -46,9 +37,11 @@ export const getExternalSource = async () => {
       const html = await response.text();
       const doc = new DOMParser().parseFromString(html, 'text/html');
       const element = doc.documentElement;
+
       if (!element) return;
 
       let sourceComponentHTML: HTMLElement | undefined;
+
       const sourceComponents = doc.querySelectorAll('[fs-component-id]');
 
       for (const sourceComponent of sourceComponents) {
@@ -77,7 +70,28 @@ export const getExternalSource = async () => {
         targetHTML !== undefined
       ) {
         // TODO: parse the source CSS and inline it before the target HTML
-        targetHTML.innerHTML = sourceComponentHTML.innerHTML;
+
+        // 1 - create a variable and use querySelector to get the style tag
+        // 2 - use getComputedStyle to get the CSS rules on the new variable
+        // 3 - use the rules to create a new style tag and append it to the target HTML (see how to inline it)
+
+        const sourceComponentStyles = getComputedStyle(sourceComponentHTML);
+        console.log(sourceComponentStyles);
+
+        const applyStyle = (elem: any) => {
+          for (const key in elem) {
+            const prop = key.replace(/\-([a-z])/g, (value) => value[1].toUpperCase());
+            elem.style[prop] = elem[key];
+          }
+        };
+
+        if (sourceComponentStyles) {
+          applyStyle(targetHTML);
+        }
+
+        targetHTML.outerHTML = sourceComponentHTML.outerHTML;
+
+        console.log(targetHTML.outerHTML);
       } else {
         console.error('No component found');
       }
