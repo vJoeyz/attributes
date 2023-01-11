@@ -1,5 +1,10 @@
 lockfileVersion: 5.4
 
+patchedDependencies:
+  body-scroll-lock@4.0.0-beta.0:
+    hash: okec7jrxvk2nysywuuwlnnfvtu
+    path: patches/body-scroll-lock@4.0.0-beta.0.patch
+
 importers:
 
   .:
@@ -216,7 +221,7 @@ importers:
       body-scroll-lock: ^4.0.0-beta.0
       just-debounce: ^1.1.0
     dependencies:
-      body-scroll-lock: 4.0.0-beta.0
+      body-scroll-lock: 4.0.0-beta.0_okec7jrxvk2nysywuuwlnnfvtu
       just-debounce: 1.1.0
     devDependencies:
       '@types/body-scroll-lock': 3.1.0
@@ -7262,9 +7267,10 @@ packages:
       - supports-color
     dev: true
 
-  /body-scroll-lock/4.0.0-beta.0:
+  /body-scroll-lock/4.0.0-beta.0_okec7jrxvk2nysywuuwlnnfvtu:
     resolution: {integrity: sha512-a7tP5+0Mw3YlUJcGAKUqIBkYYGlYxk2fnCasq/FUph1hadxlTRjF+gAcZksxANnaMnALjxEddmSi/H3OR8ugcQ==}
     dev: false
+    patched: true
 
   /boolbase/1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
@@ -15169,6 +15175,7 @@ packages:
 
   /sourcemap-codec/1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
+    deprecated: Please use @jridgewell/sourcemap-codec instead
     dev: true
 
   /space-separated-tokens/1.1.5:
