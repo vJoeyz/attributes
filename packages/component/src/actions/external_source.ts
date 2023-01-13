@@ -7,6 +7,8 @@ import { isAbsoluteURL } from 'src/utils/isAbsoluteURL';
 import { isExternalURL } from 'src/utils/isExternal';
 import { isSameWebflowProject } from 'src/utils/isSameWebflowProject';
 
+import { logHello } from './console';
+
 export const getExternalSource = async () => {
   let sourceURL = '';
   const goodSources: string[] = [];
@@ -36,22 +38,6 @@ export const getExternalSource = async () => {
       const doc = new DOMParser().parseFromString(html, 'text/html');
       const element = doc.documentElement;
 
-      console.log('element', element);
-
-      // CSS file fetching
-      const links = element.querySelectorAll('link[rel="stylesheet"]');
-      for (const link of links) {
-        const href = link.getAttribute('href');
-        if (href?.endsWith('.css')) {
-          const cssResponse = await fetch(`https://api.finsweet.com/cors?url=${href}`);
-          const css = await cssResponse.text();
-          console.log('css', css);
-
-          // TODO: use csstree to parse the CSS file
-          // const ast = csstree.parse(css);
-        }
-      }
-
       if (!element) return;
 
       let sourceComponentHTML: HTMLElement | undefined;
@@ -61,6 +47,7 @@ export const getExternalSource = async () => {
       for (const sourceComponent of sourceComponents) {
         if (!sourceComponent) return;
 
+        // const componentStyles = getComputedStyle(sourceComponent);
         sourceComponentHTML = sourceComponent as HTMLElement;
       }
 
@@ -82,7 +69,29 @@ export const getExternalSource = async () => {
         targetHTML !== null &&
         targetHTML !== undefined
       ) {
+        // TODO: parse the source CSS and inline it before the target HTML
+
+        // 1 - create a variable and use querySelector to get the style tag
+        // 2 - use getComputedStyle to get the CSS rules on the new variable
+        // 3 - use the rules to create a new style tag and append it to the target HTML (see how to inline it)
+
+        const sourceComponentStyles = getComputedStyle(sourceComponentHTML);
+        console.log(sourceComponentStyles);
+
+        const applyStyle = (elem: any) => {
+          for (const key in elem) {
+            const prop = key.replace(/\-([a-z])/g, (value) => value[1].toUpperCase());
+            elem.style[prop] = elem[key];
+          }
+        };
+
+        if (sourceComponentStyles) {
+          applyStyle(targetHTML);
+        }
+
         targetHTML.outerHTML = sourceComponentHTML.outerHTML;
+
+        console.log(targetHTML.outerHTML);
       } else {
         console.error('No component found');
       }
