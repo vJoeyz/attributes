@@ -3,11 +3,10 @@
  * @returns the same element than the source element.
  * @param element The element to fetch the component from.
  */
+import * as csstree from 'css-tree';
 import { isAbsoluteURL } from 'src/utils/isAbsoluteURL';
 import { isExternalURL } from 'src/utils/isExternal';
 import { isSameWebflowProject } from 'src/utils/isSameWebflowProject';
-
-import { logHello } from './console';
 
 export const getExternalSource = async () => {
   let sourceURL = '';
@@ -38,6 +37,53 @@ export const getExternalSource = async () => {
       const doc = new DOMParser().parseFromString(html, 'text/html');
       const element = doc.documentElement;
 
+      // CSS file fetching
+      let ast: csstree.CssNode;
+
+      const links = element.querySelectorAll('link[rel="stylesheet"]');
+      for (const link of links) {
+        const href = link.getAttribute('href');
+        if (href?.endsWith('.css')) {
+          const cssResponse = await fetch(`https://api.finsweet.com/cors?url=${href}`);
+          const css = await cssResponse.text();
+
+          ast = csstree.parse(css);
+        }
+      }
+
+      const getAst = (css: string) => {
+        return csstree.parse(css);
+      };
+
+      const findCssRules = (classes: string[]) => {
+        getAst(csstree.generate(ast));
+        const rules: csstree.CssNode[] = [];
+        csstree.walk(ast, {
+          visit: 'Rule',
+          enter: (node) => {
+            if (node.prelude) {
+              const selector = csstree.generate(node.prelude);
+              for (const className of classes) {
+                if (selector.includes(className)) {
+                  rules.push(node.block);
+                  break;
+                }
+              }
+            }
+          },
+        });
+
+        const stringifiedCSS = [];
+        for (const rule of rules) {
+          stringifiedCSS.push(csstree.generate(rule as csstree.CssNode));
+        }
+
+        const joinedCSS = stringifiedCSS.join('');
+        const cleanedCSS = joinedCSS.replace(/{|}/g, '');
+
+        return cleanedCSS;
+      };
+
       if (!element) return;
 
       let sourceComponentHTML: HTMLElement | undefined;
@@ -46,8 +92,6 @@ export const getExternalSource = async () => {
 
       for (const sourceComponent of sourceComponents) {
         if (!sourceComponent) return;
-
-        // const componentStyles = getComputedStyle(sourceComponent);
         sourceComponentHTML = sourceComponent as HTMLElement;
       }
 
@@ -63,38 +107,21 @@ export const getExternalSource = async () => {
         }
       }
 
+      let css;
+
       if (
         sourceComponentHTML !== null &&
         sourceComponentHTML !== undefined &&
         targetHTML !== null &&
         targetHTML !== undefined
       ) {
-        // TODO: parse the source CSS and inline it before the target HTML
-
-        // 1 - create a variable and use querySelector to get the style tag
-        // 2 - use getComputedStyle to get the CSS rules on the new variable
-        // 3 - use the rules to create a new style tag and append it to the target HTML (see how to inline it)
-
-        const sourceComponentStyles = getComputedStyle(sourceComponentHTML);
-        console.log(sourceComponentStyles);
-
-        const applyStyle = (elem: any) => {
-          for (const key in elem) {
-            const prop = key.replace(/\-([a-z])/g, (value) => value[1].toUpperCase());
-            elem.style[prop] = elem[key];
-          }
-        };
-
-        if (sourceComponentStyles) {
-          applyStyle(targetHTML);
-        }
-
-        targetHTML.outerHTML = sourceComponentHTML.outerHTML;
-
-        console.log(targetHTML.outerHTML);
+        css = findCssRules(Array.from(sourceComponentHTML.classList));
+        targetHTML.innerHTML = sourceComponentHTML.innerHTML;
       } else {
         console.error('No component found');
       }
+
+      if (css) targetHTML?.setAttribute('style', css);
     }
   };
   fetchAll(goodSources);
