@@ -41,9 +41,9 @@ test.describe('combobox', () => {
     // expect nav class to include w--open
     await expect(comboboxNav).toHaveClass(/w--open/);
 
-    // close dropdown
+    // second click should not close dropdown
     await comboboxInput.click();
-    await expect(comboboxNav).not.toHaveClass(/w--open/);
+    await expect(comboboxNav).toHaveClass(/w--open/);
   });
 
   test('Combobox input arrow down key opens dropdown', async ({ page }) => {
