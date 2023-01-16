@@ -211,6 +211,7 @@ const handleClearInput = (e: KeyboardEvent | FocusEvent, settings: Settings, fro
   const { inputElement, selectElement } = settings;
 
   const selected = settings.optionsStore.find(({ selected }) => selected);
+  if (selected) return;
 
   if (fromInput) {
     const relatedTarget = (e as FocusEvent).relatedTarget as HTMLElement;
@@ -337,6 +338,7 @@ const updateInputField = (e: Event, settings: Settings) => {
  */
 const handleInputClickEvents = (e: MouseEvent, settings: Settings) => {
   e.stopPropagation();
+  e.preventDefault();
 
   const { dropdownToggle, inputElement } = settings;
 
@@ -348,6 +350,7 @@ const handleInputClickEvents = (e: MouseEvent, settings: Settings) => {
   if (toggled) {
     return;
   }
+
   populateOptions(settings, '', true, true);
   toggleDropdown(settings);
 };
@@ -387,6 +390,14 @@ const handleClearDropdownKeyUpEvents = (e: KeyboardEvent | MouseEvent, settings:
 export const listenEvents = (settings: Settings) => {
   const { dropdownToggle, dropdownList, selectElement, inputElement, clearDropdown } = settings;
 
+  dropdownToggle.onmouseup = (e) => {
+    // I believe webflow natively adds this event listener to the dropdown, we need to clear it out
+    // so we can handle the click event ourselves.
+    e.stopPropagation();
+    e.preventDefault();
+    return;
+  };
+
   const cleanups = [
     addListener(dropdownToggle, 'keydown', (e) => handleDropdownToggleArrowKeyEvents(e, settings)),
 
@@ -397,13 +408,18 @@ export const listenEvents = (settings: Settings) => {
     addListener(dropdownList, 'focusout', (e) => handleDropdownListFocusEvents(e, false, settings)),
     addListener(dropdownList, 'mouseover', (e) => handleDropdownListMouseEvents(e, settings)),
     addListener(dropdownList, 'mouseup', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       return;
     }),
 
     addListener(selectElement, 'change', () => handleSelectChangeEvents(settings)),
 
-    addListener(inputElement, 'keyup', (e) => handleInputKeyUpEvents(e, settings)),
+    addListener(inputElement, 'keyup', (e) => {
+      handleInputKeyUpEvents(e, settings);
+    }),
     addListener(inputElement, 'click', (e) => handleInputClickEvents(e, settings)),
+    addListener(inputElement, 'mouseup', (e) => handleInputClickEvents(e, settings)),
     addListener(inputElement, 'blur', (e) => handleClearInput(e, settings, true)),
     addListener(inputElement, 'updateComboboxInputField', (e) => updateInputField(e, settings)),
 
