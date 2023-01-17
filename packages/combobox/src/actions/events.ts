@@ -140,6 +140,12 @@ const handleDropdownListKeydownEvents = (e: KeyboardEvent, settings: Settings) =
 
   if (key === ESCAPE_KEY) {
     handleClearInput(e, settings);
+
+    const dropdownIsOpen = settings.dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true';
+
+    if (dropdownIsOpen) {
+      toggleDropdown(settings);
+    }
     return;
   }
 
@@ -261,6 +267,10 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
 
   if (key === ESCAPE_KEY) {
     handleClearInput(e, settings);
+
+    if (dropdownIsOpen) {
+      toggleDropdown(settings);
+    }
     return;
   }
 
