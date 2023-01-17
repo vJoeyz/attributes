@@ -62,6 +62,9 @@ const handleDropdownListMouseEvents = (e: MouseEvent | KeyboardEvent, settings: 
     if (lastCursorPos.x !== currentCursorPos.x || lastCursorPos.y !== currentCursorPos.y) {
       // mouse moved
       lastCursorPos = currentCursorPos;
+      /// remove scrollPaddingTop
+      settings.navListElement.style.scrollPaddingTop = '0px';
+      settings.navListElement.style.scrollPaddingBottom = '0px';
       handleDropdownListFocusEvents(e as FocusEvent, true, settings);
     }
   }
@@ -208,32 +211,31 @@ const handleDropdownListFocusEvents = (e: FocusEvent, focused: boolean, settings
  * @param e The Event object.
  * @param settings The instance {@link Settings}.
  */
-const handleDropdownToggleArrowKeyEvents = (e: KeyboardEvent, { optionsStore, navListElement }: Settings) => {
+const handleDropdownToggleArrowKeyEvents = (
+  e: KeyboardEvent,
+  { optionsStore, navListElement, optionTemplate }: Settings
+) => {
   const { key } = e;
 
   e.stopPropagation();
 
+  const height = optionTemplate.offsetHeight > 0 ? optionTemplate.offsetHeight : 40;
+
+  navListElement.style.scrollPaddingTop = `${height + 10}px`;
+  navListElement.style.scrollPaddingBottom = `${height + 10}px`;
+
   if (key !== ARROW_DOWN_KEY) return;
 
   const firstOption = optionsStore.find(({ hidden }) => !hidden);
-  const focusedOption = optionsStore.find(({ focused, selected }) => focused);
+  const focusedOption = optionsStore.find(({ focused }) => focused);
 
   if (focusedOption) {
-    const height = focusedOption.element.offsetHeight > 0 ? focusedOption.element.offsetHeight : 45;
-
-    navListElement.style.scrollPaddingTop = `${height + 10}px`;
-    navListElement.style.scrollPaddingBottom = `${height + 10}px`;
     focusedOption.element.focus();
 
     return;
   }
 
   if (firstOption) {
-    const height = firstOption.element.offsetHeight > 0 ? firstOption.element.offsetHeight : 45;
-
-    navListElement.style.scrollPaddingTop = `${height + 10}px`;
-    navListElement.style.scrollPaddingBottom = `${height + 10}px`;
-
     firstOption.element.focus();
 
     return;
