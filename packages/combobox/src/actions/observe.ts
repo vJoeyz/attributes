@@ -87,7 +87,6 @@ const observeDropdownList = (settings: Settings) => {
 
     const selectedOption = optionsStore.find(({ selected }) => selected);
     const firstNonHiddenOption = optionsStore.find(({ hidden }) => !hidden);
-    toggleDropdownCloseIcon(settings, selectedOption?.value || '');
 
     if (!selectedOption || !firstNonHiddenOption) return;
   }, 20);

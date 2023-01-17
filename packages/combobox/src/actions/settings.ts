@@ -39,6 +39,7 @@ export const collectSettings = (referenceElement: HTMLElement) => {
   const dropdownList = dropdown.querySelector<DropdownList>(`.${DROPDOWN_CSS_CLASSES.dropdownList}`);
 
   if (!dropdownToggle || !dropdownList) return;
+  dropdownToggle.setAttribute('disabled', 'disabled');
 
   setDropdownAria(dropdownToggle, dropdownList);
 

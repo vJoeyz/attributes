@@ -14,7 +14,7 @@ import {
   TAB_KEY,
 } from '$global/constants/keyboard';
 
-import { focusOnInput, toggleDropdown } from '../utils';
+import { focusOnInput, toggleDropdown, toggleDropdownCloseIcon } from '../utils';
 import { CONTROL_KEYS, FS_DROPDOWN_TOGGLE_KEY } from '../utils/constants';
 import type { OptionData, Settings } from '../utils/types';
 import { populateOptions } from './populate';
@@ -175,7 +175,10 @@ const handleDropdownListFocusEvents = (e: FocusEvent, focused: boolean, settings
  * @param e The Event object.
  * @param settings The instance {@link Settings}.
  */
-const handleDropdownToggleArrowKeyEvents = ({ key }: KeyboardEvent, { optionsStore }: Settings) => {
+const handleDropdownToggleArrowKeyEvents = (e: KeyboardEvent, { optionsStore }: Settings) => {
+  const { key } = e;
+
+  e.stopPropagation();
   if (key !== ARROW_DOWN_KEY) return;
 
   const firstOption = optionsStore.find(({ hidden }) => !hidden);
@@ -205,6 +208,7 @@ const handleSelectChangeEvents = (settings: Settings) => {
   const selectedOption = optionsStore.find(({ value }) => value === selectElement.value);
   if (!selectedOption) return;
 
+  toggleDropdownCloseIcon(settings, selectElement.value, selectElement.value);
   updateOptionsState(settings, selectedOption);
 };
 /**
@@ -216,8 +220,19 @@ const handleSelectChangeEvents = (settings: Settings) => {
 const handleClearInput = (e: KeyboardEvent | FocusEvent, settings: Settings, fromInput = false) => {
   const { inputElement, selectElement } = settings;
 
+  if (!fromInput) {
+    focusOnInput(settings);
+  }
+
+  toggleDropdownCloseIcon(settings, selectElement.value, selectElement.value);
+
   const selected = settings.optionsStore.find(({ selected }) => selected);
   if (selected) return;
+
+  if (selectElement.value) {
+    inputElement.value = selectElement.options[selectElement.selectedIndex].text;
+    return;
+  }
 
   if (fromInput) {
     const relatedTarget = (e as FocusEvent).relatedTarget as HTMLElement;
@@ -321,6 +336,7 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
     toggleDropdown(settings);
   }
 
+  toggleDropdownCloseIcon(settings);
   populateOptions(settings, inputValue, !inputValue, true);
 };
 
