@@ -29,7 +29,7 @@ export const updateOptionsState = (settings: Settings, selectedOption?: OptionDa
 
     element.classList[selected ? 'add' : 'remove'](CURRENT_CSS_CLASS);
     element.setAttribute(ARIA_SELECTED_KEY, `${selected}`);
-    element.setAttribute(TABINDEX_KEY, '0');
+    element.setAttribute(TABINDEX_KEY, '-1');
   }
 
   if (close) toggleDropdown(settings);

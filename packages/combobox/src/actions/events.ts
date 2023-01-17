@@ -1,6 +1,6 @@
 import { addListener, isElement, setFormFieldValue } from '@finsweet/ts-utils';
 
-import { ARIA_ACTIVEDESCENDANT_KEY, ARIA_EXPANDED_KEY, ID_KEY } from '$global/constants/a11y';
+import { ARIA_ACTIVEDESCENDANT_KEY, ARIA_EXPANDED_KEY, ID_KEY, TABINDEX_KEY } from '$global/constants/a11y';
 import {
   ARROW_DOWN_KEY,
   ARROW_LEFT_KEY,
@@ -52,6 +52,8 @@ const handleDropdownListMouseEvents = (e: MouseEvent | KeyboardEvent, settings: 
   if (e.target === settings.selectElement) return;
 
   e.preventDefault();
+
+  handleDropdownListFocusEvents(e as FocusEvent, true, settings);
 
   const optionData = getClickedOptionData(e, settings);
   if (!optionData) return;
@@ -167,6 +169,14 @@ const handleDropdownListFocusEvents = (e: FocusEvent, focused: boolean, settings
   if (!optionData) return;
 
   optionData.focused = focused;
+  optionData.element.setAttribute(TABINDEX_KEY, '0');
+
+  settings.optionsStore.forEach((option) => {
+    if (option !== optionData) {
+      option.focused = false;
+      option.element.setAttribute(TABINDEX_KEY, '-1');
+    }
+  });
 };
 
 /**
@@ -191,6 +201,7 @@ const handleDropdownToggleArrowKeyEvents = (e: KeyboardEvent, { optionsStore }: 
 
   if (firstOption) {
     firstOption.element.focus();
+
     return;
   }
 
