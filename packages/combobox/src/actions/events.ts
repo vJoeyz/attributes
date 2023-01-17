@@ -187,8 +187,6 @@ const handleDropdownListFocusEvents = (e: FocusEvent, focused: boolean, settings
 
   const previouslyFocused = settings.optionsStore.find(({ focused }) => focused);
 
-  // if (previouslyFocused === optionData) return;
-
   const previouslyFocusedIsFocusable = previouslyFocused?.element?.getAttribute(TABINDEX_KEY) === '0';
 
   if (previouslyFocused && previouslyFocusedIsFocusable) {
