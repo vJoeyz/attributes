@@ -187,20 +187,14 @@ const handleDropdownListFocusEvents = (e: FocusEvent, focused: boolean, settings
 
   const previouslyFocused = settings.optionsStore.find(({ focused }) => focused);
 
-  const previouslyFocusedIsFocusable = previouslyFocused?.element?.getAttribute(TABINDEX_KEY) === '0';
-
-  if (previouslyFocused && previouslyFocusedIsFocusable) {
+  if (previouslyFocused) {
     previouslyFocused?.element.setAttribute(TABINDEX_KEY, '-1');
     previouslyFocused.focused = false;
   }
 
-  const optionIsNotFocusable = optionData.element.getAttribute(TABINDEX_KEY)?.toString() === '-1';
-
-  if (optionIsNotFocusable) {
-    optionData.element.setAttribute(TABINDEX_KEY, '0');
-    optionData.focused = focused;
-    optionData.element.focus();
-  }
+  optionData.element.setAttribute(TABINDEX_KEY, '0');
+  optionData.focused = focused;
+  optionData.element.focus();
 };
 
 /**
