@@ -32,6 +32,7 @@ export const collectSettings = (referenceElement: HTMLElement) => {
   const selectElement = dropdown.querySelector('select');
   const inputElement = dropdown.querySelector('input');
   const navListElement = queryElement('dropdown')?.querySelector('nav');
+  const { body } = document;
 
   if (!selectElement || !inputElement || !navListElement) return;
 
@@ -87,6 +88,7 @@ export const collectSettings = (referenceElement: HTMLElement) => {
     clearDropdown,
     defaultOption,
     navListElement,
+    body,
   };
 };
 

@@ -18,22 +18,32 @@ export const toggleDropdown = (settings: Settings) => {
 /**
  * `toggleDropdownCloseIcon()` handles show/hide state of the dropdown close icon.
  * @param settings A {@link Settings} element.
- * @param {string} inputValue The value of the input field. Defaults to empty string.
- * @param {string} selectValue The value of the select field. Defaults to empty string.
  */
-export const toggleDropdownCloseIcon = (settings: Settings, inputValue = '', selectValue = '') => {
-  const { clearDropdown } = settings;
-  if (!clearDropdown) return;
+export const toggleDropdownCloseIcon = (settings: Settings) => {
+  const { clearDropdown, inputElement, optionsStore, selectElement } = settings;
 
-  if (!inputValue || !selectValue) {
-    clearDropdown.style.display = 'none';
+  const selectedOption = optionsStore.find(({ value }) => value === selectElement.value);
+
+  if (selectedOption) {
+    const selectedText = selectedOption.text.toLowerCase();
+    const inputElValue = inputElement.value?.toLowerCase();
+
+    if (!inputElValue) {
+      clearDropdown.style.display = 'none';
+      return;
+    }
+
+    if (inputElValue && inputElValue !== selectedText) {
+      clearDropdown.style.display = 'none';
+      return;
+    }
+
+    clearDropdown.style.display = 'block';
+
     return;
   }
 
-  if (selectValue) {
-    clearDropdown.style.display = 'flex';
-    return;
-  }
+  clearDropdown.style.display = 'none';
 };
 
 /**

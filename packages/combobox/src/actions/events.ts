@@ -20,6 +20,7 @@ import type { OptionData, Settings } from '../utils/types';
 import { populateOptions } from './populate';
 import { updateOptionsState } from './state';
 
+let lastCursorPos = { x: 0, y: 0 };
 /**
  * Returns the {@link OptionData} of an event target.
  *
@@ -49,11 +50,21 @@ const getClickedOptionData = (e: Event, { optionsStore }: Settings) => {
  * @param settings The instance {@link Settings}.
  */
 const handleDropdownListMouseEvents = (e: MouseEvent | KeyboardEvent, settings: Settings) => {
-  if (e.target === settings.selectElement) return;
+  const target = e.target as HTMLElement;
+
+  if (target === settings.selectElement) return;
 
   e.preventDefault();
 
-  handleDropdownListFocusEvents(e as FocusEvent, true, settings);
+  if (target.tagName === 'A' && e.type === 'mousemove') {
+    const mouseEvent = e as MouseEvent;
+    const currentCursorPos = { x: mouseEvent.clientX, y: mouseEvent.clientY };
+    if (lastCursorPos.x !== currentCursorPos.x || lastCursorPos.y !== currentCursorPos.y) {
+      // mouse moved
+      lastCursorPos = currentCursorPos;
+      handleDropdownListFocusEvents(e as FocusEvent, true, settings);
+    }
+  }
 
   const optionData = getClickedOptionData(e, settings);
   if (!optionData) return;
@@ -124,6 +135,7 @@ const handleDropdownListKeyUpEvents = (e: KeyboardEvent, settings: Settings) => 
   const { key } = e;
 
   if (key === ARROW_UP_KEY || key === ARROW_DOWN_KEY) {
+    settings.navListElement.style.pointerEvents = 'none';
     const optionId = (e.target as HTMLAnchorElement).getAttribute(ID_KEY);
 
     settings.inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, `${optionId || ''}`);
@@ -168,12 +180,26 @@ const handleDropdownListFocusEvents = (e: FocusEvent, focused: boolean, settings
 
   if (!optionData) return;
 
-  if (e.relatedTarget && (e.type === 'focusin' || e.type === 'mouseover')) {
-    (e.relatedTarget as HTMLAnchorElement).setAttribute(TABINDEX_KEY, '-1');
+  if (e.type === 'focusout') return;
+
+  const previouslyFocused = settings.optionsStore.find(({ focused }) => focused);
+
+  // if (previouslyFocused === optionData) return;
+
+  const previouslyFocusedIsFocusable = previouslyFocused?.element?.getAttribute(TABINDEX_KEY) === '0';
+
+  if (previouslyFocused && previouslyFocusedIsFocusable) {
+    previouslyFocused?.element.setAttribute(TABINDEX_KEY, '-1');
+    previouslyFocused.focused = false;
   }
 
-  optionData.focused = focused;
-  optionData.element.setAttribute(TABINDEX_KEY, '0');
+  const optionIsNotFocusable = optionData.element.getAttribute(TABINDEX_KEY)?.toString() === '-1';
+
+  if (optionIsNotFocusable) {
+    optionData.element.setAttribute(TABINDEX_KEY, '0');
+    optionData.focused = focused;
+    optionData.element.focus();
+  }
 };
 
 /**
@@ -182,21 +208,32 @@ const handleDropdownListFocusEvents = (e: FocusEvent, focused: boolean, settings
  * @param e The Event object.
  * @param settings The instance {@link Settings}.
  */
-const handleDropdownToggleArrowKeyEvents = (e: KeyboardEvent, { optionsStore }: Settings) => {
+const handleDropdownToggleArrowKeyEvents = (e: KeyboardEvent, { optionsStore, navListElement }: Settings) => {
   const { key } = e;
 
   e.stopPropagation();
+
   if (key !== ARROW_DOWN_KEY) return;
 
   const firstOption = optionsStore.find(({ hidden }) => !hidden);
-  const focusedOption = optionsStore.find(({ focused, selected }) => focused || selected);
+  const focusedOption = optionsStore.find(({ focused, selected }) => focused);
 
   if (focusedOption) {
+    const height = focusedOption.element.offsetHeight > 0 ? focusedOption.element.offsetHeight : 45;
+
+    navListElement.style.scrollPaddingTop = `${height + 10}px`;
+    navListElement.style.scrollPaddingBottom = `${height + 10}px`;
     focusedOption.element.focus();
+
     return;
   }
 
   if (firstOption) {
+    const height = firstOption.element.offsetHeight > 0 ? firstOption.element.offsetHeight : 45;
+
+    navListElement.style.scrollPaddingTop = `${height + 10}px`;
+    navListElement.style.scrollPaddingBottom = `${height + 10}px`;
+
     firstOption.element.focus();
 
     return;
@@ -216,7 +253,10 @@ const handleSelectChangeEvents = (settings: Settings) => {
   const selectedOption = optionsStore.find(({ value }) => value === selectElement.value);
   if (!selectedOption) return;
 
-  toggleDropdownCloseIcon(settings, selectElement.value, selectElement.value);
+  setFormFieldValue(settings.inputElement, selectedOption.text);
+  settings.inputElement.dispatchEvent(new Event('change'));
+
+  toggleDropdownCloseIcon(settings);
   updateOptionsState(settings, selectedOption);
 };
 /**
@@ -232,7 +272,7 @@ const handleClearInput = (e: KeyboardEvent | FocusEvent, settings: Settings, fro
     focusOnInput(settings);
   }
 
-  toggleDropdownCloseIcon(settings, selectElement.value, selectElement.value);
+  toggleDropdownCloseIcon(settings);
 
   const selected = settings.optionsStore.find(({ selected }) => selected);
   if (selected) return;
@@ -273,7 +313,6 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
   const { dropdownToggle, optionsStore, inputElement } = settings;
   e.preventDefault();
   e.stopPropagation();
-
   inputElement.setAttribute(FS_DROPDOWN_TOGGLE_KEY, CLICK);
 
   const selectedOption = optionsStore.find(({ selected }) => selected);
@@ -363,6 +402,8 @@ const updateInputField = (e: Event, settings: Settings) => {
 
   if (selectedOption && selectedValue !== inputValue) {
     inputElement.value = selectedText;
+
+    toggleDropdownCloseIcon(settings);
     return;
   }
 };
@@ -411,28 +452,47 @@ const handleClearDropdownClickEvents = (e: MouseEvent | KeyboardEvent, settings:
 const handleClearDropdownKeyUpEvents = (e: KeyboardEvent | MouseEvent, settings: Settings) => {
   const { key } = e as KeyboardEvent;
   e.stopPropagation();
+
   if (key !== ENTER_KEY && key !== SPACE_KEY) return;
   handleClearDropdownClickEvents(e, settings);
 };
 
 /**
- * Listens for click events on the custom elements.
+ * This handles mouse movements on the body element and manipulates dropdown list pointer events.
+ * @param e MouseEvent
+ * @param  settings {@link Settings}
+ */
+const handleBodyMouseMovements = (e: MouseEvent, settings: Settings) => {
+  if (settings.navListElement.style.pointerEvents === 'none') {
+    settings.navListElement.style.pointerEvents = 'auto';
+  }
+};
+
+/**
+ * Function that accepts an event object and stops propagation and default behavior.
+ */
+const cleanupBubble = (e: Event) => {
+  e.preventDefault();
+  e.stopPropagation();
+};
+
+/**
+ * Listens for multiple events on the custom elements.
  * @param settings The instance {@link Settings}.
- *
  * @returns A callback to remove all event listeners.
  */
 export const listenEvents = (settings: Settings) => {
-  const { dropdownToggle, dropdownList, selectElement, inputElement, clearDropdown } = settings;
+  const { dropdownToggle, dropdownList, selectElement, inputElement, clearDropdown, body } = settings;
 
   dropdownToggle.onmouseup = (e) => {
     // I believe webflow natively adds this event listener to the dropdown, we need to clear it out
     // so we can handle the click event ourselves.
-    e.stopPropagation();
-    e.preventDefault();
+    cleanupBubble(e);
     return;
   };
 
   const cleanups = [
+    addListener(body, 'mousemove', (e) => handleBodyMouseMovements(e, settings)),
     addListener(dropdownToggle, 'keydown', (e) => handleDropdownToggleArrowKeyEvents(e, settings)),
 
     addListener(dropdownList, 'click', (e) => handleDropdownListMouseEvents(e, settings)),
@@ -440,18 +500,14 @@ export const listenEvents = (settings: Settings) => {
     addListener(dropdownList, 'keyup', (e) => handleDropdownListKeyUpEvents(e, settings)),
     addListener(dropdownList, 'focusin', (e) => handleDropdownListFocusEvents(e, true, settings)),
     addListener(dropdownList, 'focusout', (e) => handleDropdownListFocusEvents(e, false, settings)),
-    addListener(dropdownList, 'mouseover', (e) => handleDropdownListMouseEvents(e, settings)),
-    addListener(dropdownList, 'mouseup', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      return;
-    }),
+    addListener(dropdownList, 'mousemove', (e) => handleDropdownListMouseEvents(e, settings)),
+
+    addListener(dropdownList, 'mouseenter', cleanupBubble),
+    addListener(dropdownList, 'mouseup', cleanupBubble),
 
     addListener(selectElement, 'change', () => handleSelectChangeEvents(settings)),
 
-    addListener(inputElement, 'keyup', (e) => {
-      handleInputKeyUpEvents(e, settings);
-    }),
+    addListener(inputElement, 'keyup', (e) => handleInputKeyUpEvents(e, settings)),
     addListener(inputElement, 'click', (e) => handleInputClickEvents(e, settings)),
     addListener(inputElement, 'mouseup', (e) => handleInputClickEvents(e, settings)),
     addListener(inputElement, 'blur', (e) => handleClearInput(e, settings, true)),
