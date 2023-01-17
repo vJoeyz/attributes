@@ -345,7 +345,7 @@ const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
  * @param settings The instance {@link Settings}.
  */
 const updateInputField = (e: Event, settings: Settings) => {
-  const { optionsStore, inputElement, dropdownToggle } = settings;
+  const { optionsStore, inputElement } = settings;
   const input = e.target as HTMLInputElement;
 
   const selectedOption = optionsStore.find(({ selected }) => selected);

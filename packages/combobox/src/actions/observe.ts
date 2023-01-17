@@ -4,7 +4,7 @@ import debounce from 'just-debounce';
 import { ARIA_ACTIVEDESCENDANT_KEY, ARIA_EXPANDED_KEY, ID_KEY } from '$global/constants/a11y';
 import { ARROW_DOWN_KEY, CLICK } from '$global/constants/keyboard';
 
-import { focusOnInput, toggleDropdownCloseIcon, updateComboboxInputField } from '../utils';
+import { focusOnInput, updateComboboxInputField } from '../utils';
 import { DROPDOWN_IS_OPEN, FS_DROPDOWN_TOGGLE_KEY } from '../utils/constants';
 import type { Settings } from '../utils/types';
 import { populateOptions } from './populate';
