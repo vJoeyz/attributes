@@ -168,15 +168,12 @@ const handleDropdownListFocusEvents = (e: FocusEvent, focused: boolean, settings
 
   if (!optionData) return;
 
+  if (e.relatedTarget && (e.type === 'focusin' || e.type === 'mouseover')) {
+    (e.relatedTarget as HTMLAnchorElement).setAttribute(TABINDEX_KEY, '-1');
+  }
+
   optionData.focused = focused;
   optionData.element.setAttribute(TABINDEX_KEY, '0');
-
-  settings.optionsStore.forEach((option) => {
-    if (option !== optionData) {
-      option.focused = false;
-      option.element.setAttribute(TABINDEX_KEY, '-1');
-    }
-  });
 };
 
 /**

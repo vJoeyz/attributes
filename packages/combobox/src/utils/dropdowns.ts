@@ -1,5 +1,7 @@
 import { simulateEvent } from '@finsweet/ts-utils';
 
+import { TABINDEX_KEY } from '$global/constants/a11y';
+
 import type { Settings } from './types';
 
 /**
@@ -46,6 +48,7 @@ export const focusOnInput = (settings: Settings) => {
 
   inputElement.setSelectionRange(end, end);
   inputElement.focus();
+  inputElement.setAttribute(TABINDEX_KEY, '0');
 };
 
 /**
