@@ -8,6 +8,18 @@ import { isAbsoluteURL } from 'src/utils/isAbsoluteURL';
 import { isExternalURL } from 'src/utils/isExternal';
 import { isSameWebflowProject } from 'src/utils/isSameWebflowProject';
 
+const PSEUDO_CLASSES = [
+  ':active',
+  ':hover',
+  ':focus',
+  ':visited',
+  ':link',
+  ':first-child',
+  ':last-child',
+  'checked',
+  'disabled',
+];
+
 export const getExternalSource = async () => {
   let sourceURL = '';
   const goodSources: string[] = [];
@@ -64,9 +76,12 @@ export const getExternalSource = async () => {
             if (node.prelude) {
               const selector = csstree.generate(node.prelude);
               for (const className of classes) {
-                if (selector.includes(className)) {
-                  rules.push(node.block);
-                  break;
+                for (const pseudo of PSEUDO_CLASSES) {
+                  const classNameWithPseudo = `${className}${pseudo}`;
+                  if (selector.includes(className || classNameWithPseudo)) {
+                    rules.push(node.block);
+                    break;
+                  }
                 }
               }
             }
