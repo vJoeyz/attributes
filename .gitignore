@@ -35,3 +35,4 @@ packages/*/*.js
 packages/*/*.js.map
 
 .idea
+.DS_Store
