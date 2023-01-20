@@ -4,21 +4,10 @@
  * @param element The element to fetch the component from.
  */
 import * as csstree from 'css-tree';
+import { PSEUDO_CLASSES } from 'src/utils/constants';
 import { isAbsoluteURL } from 'src/utils/isAbsoluteURL';
 import { isExternalURL } from 'src/utils/isExternal';
 import { isSameWebflowProject } from 'src/utils/isSameWebflowProject';
-
-const PSEUDO_CLASSES = [
-  ':active',
-  ':hover',
-  ':focus',
-  ':visited',
-  ':link',
-  ':first-child',
-  ':last-child',
-  'checked',
-  'disabled',
-];
 
 export const getExternalSource = async () => {
   let sourceURL = '';
@@ -26,7 +15,7 @@ export const getExternalSource = async () => {
 
   const sources = document.querySelectorAll('[fs-component-source]');
   for (const source of sources) {
-    if (!source) return;
+    if (!source) continue;
     sourceURL = source.getAttribute('fs-component-source') as string;
     if (isAbsoluteURL(sourceURL)) {
       if (!(await isSameWebflowProject(window.location.origin, sourceURL))) goodSources.push(sourceURL);
@@ -124,12 +113,7 @@ export const getExternalSource = async () => {
 
       let css;
 
-      if (
-        sourceComponentHTML !== null &&
-        sourceComponentHTML !== undefined &&
-        targetHTML !== null &&
-        targetHTML !== undefined
-      ) {
+      if (sourceComponentHTML && targetHTML) {
         css = findCssRules(Array.from(sourceComponentHTML.classList));
         targetHTML.innerHTML = sourceComponentHTML.innerHTML;
       } else {

@@ -15,7 +15,7 @@ export const getRelativeSource = async () => {
 
   const sources = document.querySelectorAll('[fs-component-source]');
   for (const source of sources) {
-    if (!source) return;
+    if (!source) continue;
     sourceURL = source.getAttribute('fs-component-source') as string;
     // 2 - verify that the source URL is a relative URL
     if (isRelativeURL(sourceURL)) {
@@ -65,7 +65,7 @@ export const getRelativeSource = async () => {
       const targets = document.querySelectorAll(`[fs-component-id="${componentId}"]`);
 
       for (const target of targets) {
-        if (!target) return;
+        if (!target) continue;
         // check if the target's source URL is a relative URL
         if (!isRelativeURL(target.getAttribute('fs-component-source') as string)) return;
 
