@@ -62,9 +62,7 @@ const handleDropdownListMouseEvents = (e: MouseEvent | KeyboardEvent, settings: 
     if (lastCursorPos.x !== currentCursorPos.x || lastCursorPos.y !== currentCursorPos.y) {
       // mouse moved
       lastCursorPos = currentCursorPos;
-      /// remove scrollPaddingTop
-      settings.navListElement.style.scrollPaddingTop = '0px';
-      settings.navListElement.style.scrollPaddingBottom = '0px';
+
       handleDropdownListFocusEvents(e as FocusEvent, true, settings);
     }
   }
@@ -212,9 +210,6 @@ const handleDropdownToggleArrowKeyEvents = (
   e.stopPropagation();
 
   const height = optionTemplate.offsetHeight > 0 ? optionTemplate.offsetHeight : 40;
-
-  navListElement.style.scrollPaddingTop = `${height + 10}px`;
-  navListElement.style.scrollPaddingBottom = `${height + 10}px`;
 
   if (key !== ARROW_DOWN_KEY) return;
 
