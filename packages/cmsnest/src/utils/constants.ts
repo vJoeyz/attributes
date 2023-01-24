@@ -29,4 +29,4 @@ export const ATTRIBUTES = {
   empty: { key: `${ATTRIBUTES_PREFIX}-${EMPTY_SETTING_KEY}` },
 } as const;
 
-export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
+export const [getSelector, queryElement, getAttribute] = generateSelectors(ATTRIBUTES);

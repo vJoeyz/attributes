@@ -21,7 +21,6 @@ export const init = async (): Promise<CMSList[]> => {
   await Promise.all(listInstances.map((listInstance) => initListNesting(listInstance, cmsCore)));
 
   return finalizeAttribute(CMS_NEST_ATTRIBUTE, listInstances, () => {
-    // TODO: Remove optional chaining after cmscore@1.9.0 has rolled out
-    for (const listInstance of listInstances) listInstance.destroy?.();
+    for (const listInstance of listInstances) listInstance.destroy();
   });
 };
