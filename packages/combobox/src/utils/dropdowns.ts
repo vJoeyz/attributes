@@ -1,6 +1,6 @@
-import { simulateEvent } from '@finsweet/ts-utils';
+import { isElement, simulateEvent } from '@finsweet/ts-utils';
 
-import { TABINDEX_KEY } from '$global/constants/a11y';
+import { ARIA_ACTIVEDESCENDANT_KEY, ID_KEY, TABINDEX_KEY } from '$global/constants/a11y';
 
 import type { Settings } from './types';
 
@@ -68,4 +68,48 @@ export const updateComboboxInputField = (settings: Settings) => {
   const event = new Event('updateComboboxInputField');
 
   settings.inputElement.dispatchEvent(event);
+};
+
+/**
+ * This function sets the `aria-activedescendant` attribute on the input element.
+ * @param inputElement input element
+ * @param focusedElement element that is currently focused
+ */
+export const setActiveDescendant = (
+  inputElement: HTMLInputElement,
+  focusedElement: HTMLAnchorElement | HTMLOptionElement
+) => {
+  const optionId = focusedElement.getAttribute(ID_KEY);
+
+  inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, `${optionId || ''}`);
+};
+
+/**
+ * Returns the {@link OptionData} of an event target.
+ *
+ * @param e The Event object.
+ * @param settings The instance {@link Settings}.
+ *
+ * @returns The {@link OptionData} object, if found.
+ */
+export const getClickedOptionData = (e: Event, { optionsStore }: Settings) => {
+  const { target } = e;
+
+  if (!isElement(target)) return;
+
+  const optionElement = target.closest('a');
+  if (!optionElement) return;
+
+  const optionData = optionsStore.find(({ element }) => element === optionElement);
+  if (!optionData) return;
+
+  return optionData;
+};
+
+/**
+ * Function that accepts an event object and stops propagation and default behavior.
+ */
+export const cleanupBubble = (e: Event) => {
+  e.preventDefault();
+  e.stopPropagation();
 };

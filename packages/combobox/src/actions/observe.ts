@@ -37,8 +37,8 @@ const observeDropdownList = (settings: Settings) => {
           prevDropdownState = currentStateIsOpen;
         }
 
-        if (!currentStateIsOpen) {
-          updateComboboxInputField(settings);
+        if (!selectedOption && currentStateIsOpen) {
+          navListElement.scrollTop = 0;
         }
 
         inputElement.setAttribute(ARIA_EXPANDED_KEY, `${currentStateIsOpen}`);
@@ -80,7 +80,10 @@ const observeDropdownList = (settings: Settings) => {
           focusOnInput(settings);
         }
         if (!currentStateIsOpen) {
+          updateComboboxInputField(settings);
           focusOnInput(settings);
+
+          if (!selectedOption) inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, '');
         }
       }
     });
