@@ -126,8 +126,28 @@ const handleDropdownListArrowKeyEvents = ({ key }: KeyboardEvent, settings: Sett
     return;
   }
 
-  nextOption?.element.focus();
   navListElement.style.pointerEvents = 'none';
+
+  const nextEl = nextOption?.element;
+
+  nextEl.focus();
+
+  const previousEL = optionsStore[focusedOptionIndex]?.element;
+
+  const optionBottom = previousEL.offsetTop + previousEL.offsetHeight;
+  const currentBottom = navListElement.scrollTop + navListElement.offsetHeight;
+
+  if (optionBottom > currentBottom) {
+    navListElement.scrollTop = optionBottom - navListElement.offsetHeight;
+    return;
+  }
+
+  if (previousEL.offsetTop < navListElement.scrollTop) {
+    navListElement.scrollTop = previousEL.offsetTop;
+    return;
+  }
+
+  navListElement.scrollTop = previousEL.offsetTop;
 
   setActiveDescendant(inputElement, nextOption?.element);
 };
