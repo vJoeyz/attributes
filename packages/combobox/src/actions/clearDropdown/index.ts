@@ -9,10 +9,6 @@ import { populateOptions } from '../populate';
  * @param settings The instance {@link Settings}.
  */
 export const handleClearDropdownClickEvents = (e: MouseEvent | KeyboardEvent, settings: Settings) => {
-  const { key } = e as KeyboardEvent;
-
-  if (key !== ENTER_KEY && key !== SPACE_KEY) return;
-
   const { selectElement, inputElement } = settings;
   e.stopPropagation();
   e.preventDefault();
