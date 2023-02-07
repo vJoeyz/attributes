@@ -1,6 +1,6 @@
 import { ENTER_KEY, SPACE_KEY } from '$global/constants/keyboard';
 
-import { focusOnInput } from '../../utils';
+import { focusOnInput, toggleDropdownCloseIcon } from '../../utils';
 import type { Settings } from '../../utils/types';
 import { populateOptions } from '../populate';
 
@@ -9,8 +9,13 @@ import { populateOptions } from '../populate';
  * @param settings The instance {@link Settings}.
  */
 export const handleClearDropdownClickEvents = (e: MouseEvent | KeyboardEvent, settings: Settings) => {
+  const { key } = e as KeyboardEvent;
+
+  if (key !== ENTER_KEY && key !== SPACE_KEY) return;
+
   const { selectElement, inputElement } = settings;
   e.stopPropagation();
+  e.preventDefault();
 
   inputElement.value = '';
   selectElement.value = '';
@@ -18,6 +23,8 @@ export const handleClearDropdownClickEvents = (e: MouseEvent | KeyboardEvent, se
   populateOptions(settings, '', true, true);
 
   focusOnInput(settings);
+
+  toggleDropdownCloseIcon(settings);
 };
 
 /**
