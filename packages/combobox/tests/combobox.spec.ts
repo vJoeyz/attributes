@@ -180,4 +180,21 @@ test.describe('combobox', () => {
 
     await expect(activeElement).toEqual(firstOptionId);
   });
+
+  test('Combobox input enter key should not submit form', async ({ page }) => {
+    const comboboxDropdown = page.locator('[fs-combobox-element="dropdown"]');
+    const comboboxInput = comboboxDropdown.locator('input');
+    const comboboxNav = comboboxDropdown.locator('nav');
+
+    await comboboxInput.focus();
+
+    await comboboxInput.type('test');
+
+    await comboboxInput.press('Enter');
+
+    // timeout to check if form is submitted, webflow will trigger form to display none natively if form is submitted
+    await page.waitForTimeout(2000);
+    await expect(comboboxNav).toBeVisible();
+    await expect(comboboxInput).toBeVisible();
+  });
 });
