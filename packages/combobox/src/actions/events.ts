@@ -1,6 +1,8 @@
 import { addListener } from '@finsweet/ts-utils';
 
-import { cleanupBubble } from '../utils';
+import { ARIA_EXPANDED_KEY } from '$global/constants/a11y';
+
+import { cleanupBubble, toggleDropdown } from '../utils';
 import type { Settings } from '../utils/types';
 import { handleBodyMouseMovements } from './body';
 import { handleClearDropdown, handleClearDropdownClickEvents } from './clearDropdown';
@@ -10,7 +12,13 @@ import {
   handleDropdownListMouseEvents,
 } from './dropdownList';
 import { handleDropdownToggleArrowKeyEvents } from './dropdownToggle';
-import { handleClearInput, handleInputClickEvents, handleInputKeydownEvents, updateInputField } from './input';
+import {
+  handleClearInput,
+  handleInputClickEvents,
+  handleInputKeyDownEvents,
+  handleInputKeyUpEvents,
+  updateInputField,
+} from './input';
 import { handleSelectChangeEvents } from './selectElement';
 
 /**
@@ -34,7 +42,6 @@ export const listenEvents = (settings: Settings) => {
 
     addListener(dropdownList, 'click', (e) => handleDropdownListMouseEvents(e, settings)),
     addListener(dropdownList, 'keydown', (e) => handleDropdownListKeydownEvents(e, settings)),
-    // addListener(dropdownList, 'keyup', (e) => handleDropdownListKeyUpEvents(e, settings)),
     addListener(dropdownList, 'focusin', (e) => handleDropdownListFocusEvents(e, true, settings)),
     addListener(dropdownList, 'focusout', (e) => handleDropdownListFocusEvents(e, false, settings)),
     addListener(dropdownList, 'mousemove', (e) => handleDropdownListMouseEvents(e, settings)),
@@ -44,7 +51,15 @@ export const listenEvents = (settings: Settings) => {
 
     addListener(selectElement, 'change', () => handleSelectChangeEvents(settings)),
 
-    addListener(inputElement, 'keydown', (e) => handleInputKeydownEvents(e, settings)),
+    addListener(inputElement, 'keyup', (e) => handleInputKeyUpEvents(e, settings)),
+    addListener(inputElement, 'input', (e) => {
+      const dropdownIsOpen = dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true';
+
+      if (!dropdownIsOpen) {
+        toggleDropdown(settings);
+      }
+    }),
+    addListener(inputElement, 'keydown', (e) => handleInputKeyDownEvents(e, settings)),
     addListener(inputElement, 'click', (e) => handleInputClickEvents(e, settings)),
     addListener(inputElement, 'mouseup', (e) => handleInputClickEvents(e, settings)),
     addListener(inputElement, 'blur', (e) => handleClearInput(e, settings, true)),

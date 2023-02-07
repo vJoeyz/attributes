@@ -57,7 +57,10 @@ const observeDropdownList = (settings: Settings) => {
             return;
           }
 
-          if (!currentStateIsOpen) focusOnInput(settings);
+          if (!currentStateIsOpen) {
+            updateComboboxInputField(settings);
+            focusOnInput(settings);
+          }
 
           return;
         }

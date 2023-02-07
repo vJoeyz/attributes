@@ -1,21 +1,14 @@
 import { setFormFieldValue } from '@finsweet/ts-utils';
 
 import { ARIA_ACTIVEDESCENDANT_KEY, ARIA_EXPANDED_KEY, ID_KEY, TABINDEX_KEY } from '$global/constants/a11y';
-import {
-  ARROW_DOWN_KEY,
-  ARROW_UP_KEY,
-  CLICK,
-  ENTER_KEY,
-  ESCAPE_KEY,
-  SPACE_KEY,
-  TAB_KEY,
-} from '$global/constants/keyboard';
+import { ARROW_DOWN_KEY, ARROW_UP_KEY, CLICK, ENTER_KEY, ESCAPE_KEY, TAB_KEY } from '$global/constants/keyboard';
 
 import { focusOnInput, getClickedOptionData, setActiveDescendant, toggleDropdown } from '../../utils';
 import { CONTROL_KEYS } from '../../utils/constants';
 import type { OptionData, Settings } from '../../utils/types';
 import { handleClearInput } from '../input';
 import { updateOptionsState } from '../state';
+import { cleanupBubble } from './../../utils/dropdowns';
 
 let lastCursorPos = { x: 0, y: 0 };
 
@@ -62,9 +55,8 @@ export const handleDropdownListMouseEvents = (e: MouseEvent | KeyboardEvent, set
   settings.inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, `${optionId || ''}`);
 
   const isClick = e.type === CLICK;
-  const isEnterOrSpace = (e as KeyboardEvent).key === ENTER_KEY || (e as KeyboardEvent).key === SPACE_KEY;
 
-  if (isEnterOrSpace || isClick) handleDropdownListClickEvents(e, optionData, settings);
+  if (isClick) handleDropdownListClickEvents(e, optionData, settings);
 };
 
 /**
@@ -89,6 +81,26 @@ export const handleDropdownListFocusEvents = (e: FocusEvent, focused: boolean, s
   optionData.element.setAttribute(TABINDEX_KEY, '0');
   optionData.focused = focused;
   optionData.element.focus();
+
+  const nextEl = optionData.element;
+  const { navListElement } = settings;
+
+  setActiveDescendant(settings.inputElement, optionData.element);
+
+  const optionBottom = nextEl.offsetTop + nextEl.offsetHeight;
+  const currentBottom = navListElement.scrollTop + navListElement.offsetHeight;
+
+  if (optionBottom > currentBottom) {
+    navListElement.scrollTop = optionBottom - navListElement.offsetHeight;
+    return;
+  }
+
+  if (nextEl.offsetTop < navListElement.scrollTop) {
+    navListElement.scrollTop = nextEl.offsetTop;
+    return;
+  }
+
+  navListElement.scrollTop = nextEl.offsetTop;
 };
 
 /**
@@ -113,8 +125,11 @@ const handleTabKeyEvents = (e: KeyboardEvent, settings: Settings) => {
  * @param e The Event object.
  * @param settings The instance {@link Settings}.
  */
-const handleDropdownListArrowKeyEvents = ({ key }: KeyboardEvent, settings: Settings) => {
+const handleDropdownListArrowKeyEvents = (e: KeyboardEvent, settings: Settings) => {
+  cleanupBubble(e);
   const { optionsStore, inputElement, navListElement } = settings;
+
+  const { key } = e;
   const focusedOptionIndex = optionsStore.findIndex(({ focused }) => focused);
   if (focusedOptionIndex < 0) return;
 
@@ -130,11 +145,11 @@ const handleDropdownListArrowKeyEvents = ({ key }: KeyboardEvent, settings: Sett
 
   const nextEl = nextOption?.element;
 
+  if (!nextEl) return;
+
   nextEl.focus();
 
-  const previousEL = optionsStore[focusedOptionIndex]?.element;
-
-  const optionBottom = previousEL.offsetTop + previousEL.offsetHeight;
+  const optionBottom = nextEl.offsetTop + nextEl.offsetHeight;
   const currentBottom = navListElement.scrollTop + navListElement.offsetHeight;
 
   if (optionBottom > currentBottom) {
@@ -142,12 +157,12 @@ const handleDropdownListArrowKeyEvents = ({ key }: KeyboardEvent, settings: Sett
     return;
   }
 
-  if (previousEL.offsetTop < navListElement.scrollTop) {
-    navListElement.scrollTop = previousEL.offsetTop;
+  if (nextEl.offsetTop < navListElement.scrollTop) {
+    navListElement.scrollTop = nextEl.offsetTop;
     return;
   }
 
-  navListElement.scrollTop = previousEL.offsetTop;
+  navListElement.scrollTop = nextEl.offsetTop;
 
   setActiveDescendant(inputElement, nextOption?.element);
 };
@@ -160,7 +175,7 @@ const handleDropdownListArrowKeyEvents = ({ key }: KeyboardEvent, settings: Sett
 export const handleDropdownListKeydownEvents = (e: KeyboardEvent, settings: Settings) => {
   const { key } = e;
 
-  e.stopPropagation();
+  cleanupBubble(e);
 
   if (key === ESCAPE_KEY) {
     handleClearInput(e, settings);
@@ -173,9 +188,14 @@ export const handleDropdownListKeydownEvents = (e: KeyboardEvent, settings: Sett
     return;
   }
 
+  const enterKeyPressed = key === ENTER_KEY;
+
+  const optionData = getClickedOptionData(e, settings);
+
+  if (enterKeyPressed && optionData) handleDropdownListClickEvents(e, optionData, settings);
+
   if (!CONTROL_KEYS.includes(key)) return;
 
-  if (key === SPACE_KEY) handleDropdownListMouseEvents(e, settings);
-  else if (key === TAB_KEY) handleTabKeyEvents(e, settings);
+  if (key === TAB_KEY) handleTabKeyEvents(e, settings);
   else if (key === ARROW_UP_KEY || key === ARROW_DOWN_KEY) handleDropdownListArrowKeyEvents(e, settings);
 };

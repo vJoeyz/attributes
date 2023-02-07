@@ -17,16 +17,41 @@ import { FS_DROPDOWN_TOGGLE_KEY } from '../../utils/constants';
 import type { Settings } from '../../utils/types';
 import { populateOptions } from '../populate';
 
-/**
- * Adds two way data binding.
- * Handles `change` events on the `inputElement` and updates the dropdown.
- * @param settings The instance {@link Settings}.
- */
-export const handleInputKeydownEvents = (e: KeyboardEvent, settings: Settings) => {
+export const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
+  e.stopPropagation();
+  e.stopImmediatePropagation();
+
+  const { dropdownToggle, inputElement } = settings;
+
+  const { key } = e;
+  const referenceInput = e.target as HTMLInputElement;
+
+  const inputValue = referenceInput.value.toLowerCase().trim() ?? '';
+  populateOptions(settings, inputValue, !inputValue, true);
+
+  const dropdownIsOpen = dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true';
+
+  if (key === ARROW_DOWN_KEY) {
+    if (!dropdownIsOpen) toggleDropdown(settings);
+
+    if (inputValue.length > 0) {
+      populateOptions(settings, inputValue, false, true);
+    } else {
+      populateOptions(settings, '', true, true);
+    }
+
+    inputElement.setAttribute(FS_DROPDOWN_TOGGLE_KEY, ARROW_DOWN_KEY);
+
+    focusOnDropdownItem(settings);
+    return;
+  }
+};
+export const handleInputKeyDownEvents = (e: KeyboardEvent, settings: Settings) => {
+  e.stopPropagation();
+
   const { key } = e;
   const { dropdownToggle, inputElement } = settings;
-  e.preventDefault();
-  e.stopPropagation();
+
   inputElement.setAttribute(FS_DROPDOWN_TOGGLE_KEY, CLICK);
 
   const referenceInput = e.target as HTMLInputElement;
@@ -44,23 +69,15 @@ export const handleInputKeydownEvents = (e: KeyboardEvent, settings: Settings) =
     return;
   }
 
-  if (key === ENTER_KEY || key === TAB_KEY || key === SPACE_KEY || key === ARROW_RIGHT_KEY || key === ARROW_LEFT_KEY)
+  if (
+    key === ENTER_KEY ||
+    key === ARROW_DOWN_KEY ||
+    key === TAB_KEY ||
+    key === SPACE_KEY ||
+    key === ARROW_RIGHT_KEY ||
+    key === ARROW_LEFT_KEY
+  )
     return;
-
-  if (key === ARROW_DOWN_KEY) {
-    if (!dropdownIsOpen) toggleDropdown(settings);
-
-    if (inputValue.length > 0) {
-      populateOptions(settings, inputValue, true, true);
-    } else {
-      populateOptions(settings, '', true, true);
-    }
-
-    inputElement.setAttribute(FS_DROPDOWN_TOGGLE_KEY, ARROW_DOWN_KEY);
-
-    focusOnDropdownItem(settings);
-    return;
-  }
 
   if (key === ARROW_UP_KEY && dropdownIsOpen) {
     toggleDropdown(settings);
@@ -78,7 +95,7 @@ export const handleInputKeydownEvents = (e: KeyboardEvent, settings: Settings) =
     return;
   }
 
-  if (!dropdownIsOpen && (inputValue || key === ARROW_DOWN_KEY) && key !== ARROW_UP_KEY) {
+  if (!dropdownIsOpen && inputValue && key !== ARROW_UP_KEY) {
     toggleDropdown(settings);
   }
 
@@ -125,12 +142,8 @@ export const handleClearInput = (e: KeyboardEvent | FocusEvent, settings: Settin
   toggleDropdownCloseIcon(settings);
 
   const selected = settings.optionsStore.find(({ selected }) => selected);
-  if (selected) return;
 
-  if (selectElement.value) {
-    inputElement.value = selectElement.options[selectElement.selectedIndex].text;
-    return;
-  }
+  if (selected) return;
 
   if (fromInput) {
     const relatedTarget = (e as FocusEvent).relatedTarget as HTMLElement;
