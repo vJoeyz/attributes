@@ -17,6 +17,11 @@ import { FS_DROPDOWN_TOGGLE_KEY } from '../../utils/constants';
 import type { Settings } from '../../utils/types';
 import { populateOptions } from '../populate';
 
+/**
+ * Handles `keyup` events on the `inputElement` and updates the dropdown.
+ * @param e The `keyup` event.
+ * @param settings The instance {@link Settings}.
+ */
 export const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
   e.stopPropagation();
   e.stopImmediatePropagation();
@@ -46,6 +51,11 @@ export const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => 
     return;
   }
 };
+/**
+ * Handles `keydown` events on the `inputElement` and updates the dropdown.
+ * @param e The `keydown` event.
+ * @param settings The instance {@link Settings}.
+ */
 export const handleInputKeyDownEvents = (e: KeyboardEvent, settings: Settings) => {
   e.stopPropagation();
 
