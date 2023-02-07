@@ -82,25 +82,7 @@ export const handleDropdownListFocusEvents = (e: FocusEvent, focused: boolean, s
   optionData.focused = focused;
   optionData.element.focus();
 
-  const nextEl = optionData.element;
-  const { navListElement } = settings;
-
   setActiveDescendant(settings.inputElement, optionData.element);
-
-  const optionBottom = nextEl.offsetTop + nextEl.offsetHeight;
-  const currentBottom = navListElement.scrollTop + navListElement.offsetHeight;
-
-  if (optionBottom > currentBottom) {
-    navListElement.scrollTop = optionBottom - navListElement.offsetHeight;
-    return;
-  }
-
-  if (nextEl.offsetTop < navListElement.scrollTop) {
-    navListElement.scrollTop = nextEl.offsetTop;
-    return;
-  }
-
-  navListElement.scrollTop = nextEl.offsetTop;
 };
 
 /**
