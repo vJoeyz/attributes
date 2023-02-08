@@ -131,36 +131,22 @@ const handleDropdownListArrowKeyEvents = (e: KeyboardEvent, settings: Settings) 
 
   nextEl.focus();
 
-  setActiveDescendant(inputElement, nextOption?.element);
-
   const optionBottom = nextEl.offsetTop + nextEl.offsetHeight;
   const currentBottom = navListElement.scrollTop + navListElement.offsetHeight;
 
-  if (key === ARROW_DOWN_KEY) {
-    if (optionBottom < currentBottom) {
-      navListElement.scrollTop = optionBottom - navListElement.offsetHeight;
-      return;
-    }
-
-    if (nextEl.offsetTop > navListElement.scrollTop) {
-      navListElement.scrollTop = nextEl.offsetTop;
-      return;
-    }
-
-    navListElement.scrollTop = nextEl.offsetTop;
-  } else {
-    if (optionBottom > currentBottom) {
-      navListElement.scrollTop = optionBottom - navListElement.offsetHeight;
-      return;
-    }
-
-    if (nextEl.offsetTop < navListElement.scrollTop) {
-      navListElement.scrollTop = nextEl.offsetTop;
-      return;
-    }
-
-    navListElement.scrollTop = nextEl.offsetTop;
+  if (optionBottom > currentBottom) {
+    navListElement.scrollTop = optionBottom - navListElement.offsetHeight;
+    return;
   }
+
+  if (nextEl.offsetTop < navListElement.scrollTop) {
+    navListElement.scrollTop = nextEl.offsetTop;
+    return;
+  }
+
+  navListElement.scrollTop = nextEl.offsetTop;
+
+  setActiveDescendant(inputElement, nextOption?.element);
 };
 
 /**

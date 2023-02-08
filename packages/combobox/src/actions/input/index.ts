@@ -25,6 +25,31 @@ import { populateOptions } from '../populate';
 export const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => {
   e.stopPropagation();
   e.stopImmediatePropagation();
+
+  const { dropdownToggle, inputElement } = settings;
+
+  const { key } = e;
+  const referenceInput = e.target as HTMLInputElement;
+
+  const inputValue = referenceInput.value.toLowerCase().trim() ?? '';
+  populateOptions(settings, inputValue, !inputValue, true);
+
+  const dropdownIsOpen = dropdownToggle.getAttribute(ARIA_EXPANDED_KEY) === 'true';
+
+  if (key === ARROW_DOWN_KEY) {
+    if (!dropdownIsOpen) toggleDropdown(settings);
+
+    if (inputValue.length > 0) {
+      populateOptions(settings, inputValue, false, true);
+    } else {
+      populateOptions(settings, '', true, true);
+    }
+
+    inputElement.setAttribute(FS_DROPDOWN_TOGGLE_KEY, ARROW_DOWN_KEY);
+
+    focusOnDropdownItem(settings);
+    return;
+  }
 };
 /**
  * Handles `keydown` events on the `inputElement` and updates the dropdown.
@@ -55,25 +80,15 @@ export const handleInputKeyDownEvents = (e: KeyboardEvent, settings: Settings) =
     return;
   }
 
-  if (key === ENTER_KEY || key === TAB_KEY || key === SPACE_KEY || key === ARROW_RIGHT_KEY || key === ARROW_LEFT_KEY)
+  if (
+    key === ENTER_KEY ||
+    key === ARROW_DOWN_KEY ||
+    key === TAB_KEY ||
+    key === SPACE_KEY ||
+    key === ARROW_RIGHT_KEY ||
+    key === ARROW_LEFT_KEY
+  )
     return;
-
-  if (key === ARROW_DOWN_KEY) {
-    if (!dropdownIsOpen) {
-      toggleDropdown(settings);
-    }
-
-    if (inputValue.length > 0) {
-      populateOptions(settings, inputValue, true, true);
-    } else {
-      populateOptions(settings, '', true, true);
-    }
-
-    inputElement.setAttribute(FS_DROPDOWN_TOGGLE_KEY, ARROW_DOWN_KEY);
-
-    focusOnDropdownItem(settings);
-    return;
-  }
 
   if (key === ARROW_UP_KEY && dropdownIsOpen) {
     toggleDropdown(settings);
