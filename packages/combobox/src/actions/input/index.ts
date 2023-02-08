@@ -61,11 +61,6 @@ export const handleInputKeyDownEvents = (e: KeyboardEvent, settings: Settings) =
 
   const { key } = e;
 
-  if (key === ENTER_KEY) {
-    e.preventDefault();
-    return;
-  }
-
   const { dropdownToggle, inputElement } = settings;
 
   inputElement.setAttribute(FS_DROPDOWN_TOGGLE_KEY, CLICK);
@@ -86,6 +81,7 @@ export const handleInputKeyDownEvents = (e: KeyboardEvent, settings: Settings) =
   }
 
   if (
+    key === ENTER_KEY ||
     key === ARROW_DOWN_KEY ||
     key === TAB_KEY ||
     key === SPACE_KEY ||

@@ -28,8 +28,10 @@ export const handleClearDropdownClickEvents = (e: MouseEvent | KeyboardEvent, se
  */
 export const handleClearDropdown = (e: KeyboardEvent | MouseEvent, settings: Settings) => {
   const { key } = e as KeyboardEvent;
-  e.stopPropagation();
 
-  if (key !== ENTER_KEY && key !== SPACE_KEY) return;
-  handleClearDropdownClickEvents(e, settings);
+  if (key === ENTER_KEY || key === SPACE_KEY) {
+    e.stopPropagation();
+    e.preventDefault();
+    handleClearDropdownClickEvents(e, settings);
+  }
 };

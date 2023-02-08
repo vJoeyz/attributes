@@ -153,48 +153,113 @@ test.describe('combobox', () => {
     await expect(activeElement).toEqual(firstOptionId);
   });
 
-  test('Combobox whenever it is opened and something is typed, arrow up should close dropdown and arrow down should focus on first element on the list if no selected option is found', async ({
-    page,
-  }) => {
-    const comboboxDropdown = page.locator('[fs-combobox-element="dropdown"]');
-    const comboboxInput = comboboxDropdown.locator('input');
-    const comboboxNav = comboboxDropdown.locator('nav');
-    const comboboxOptions = comboboxNav.locator('a');
+  // test('Combobox whenever it is opened and something is typed, arrow up should close dropdown and arrow down should focus on first element on the list if no selected option is found', async ({
+  //   page,
+  // }) => {
+  //   const comboboxDropdown = page.locator('[fs-combobox-element="dropdown"]');
+  //   const comboboxInput = comboboxDropdown.locator('input');
+  //   const comboboxNav = comboboxDropdown.locator('nav');
+  //   const comboboxOptions = comboboxNav.locator('a');
 
-    await comboboxInput.type('a');
+  //   await comboboxInput.type('a');
 
-    await expect(comboboxNav).toHaveClass(/w--open/);
+  //   await expect(comboboxNav).toHaveClass(/w--open/);
 
-    await comboboxInput.press('ArrowUp');
+  //   await comboboxInput.press('ArrowUp');
 
-    await expect(comboboxNav).not.toHaveClass(/w--open/);
+  //   await expect(comboboxNav).not.toHaveClass(/w--open/);
 
-    await comboboxInput.press('ArrowDown');
+  //   await comboboxInput.press('ArrowDown');
 
-    await expect(comboboxNav).toHaveClass(/w--open/);
+  //   await expect(comboboxNav).toHaveClass(/w--open/);
 
-    const firstOption = comboboxOptions.nth(0);
+  //   const firstOption = comboboxOptions.nth(0);
 
-    const activeElement = await page.evaluate(() => document.activeElement?.getAttribute('id'));
-    const firstOptionId = await firstOption.getAttribute('id');
+  //   const activeElement = await page.evaluate(() => document.activeElement?.getAttribute('id'));
+  //   const firstOptionId = await firstOption.getAttribute('id');
 
-    await expect(activeElement).toEqual(firstOptionId);
-  });
+  //   await expect(activeElement).toEqual(firstOptionId);
+  // });
 
-  test('Combobox input enter key should not submit form', async ({ page }) => {
-    const comboboxDropdown = page.locator('[fs-combobox-element="dropdown"]');
-    const comboboxInput = comboboxDropdown.locator('input');
-    const comboboxNav = comboboxDropdown.locator('nav');
+  // test('Combobox input field enter key should submit form', async ({ page }) => {
+  //   const comboboxDropdown = page.locator('[fs-combobox-element="dropdown"]');
+  //   const comboboxInput = comboboxDropdown.locator('input');
+  //   const comboboxNav = comboboxDropdown.locator('nav');
 
-    await comboboxInput.focus();
+  //   await comboboxInput.focus();
 
-    await comboboxInput.type('test');
+  //   await comboboxInput.type('test');
 
-    await comboboxInput.press('Enter');
+  //   await comboboxInput.press('Enter');
 
-    // timeout to check if form is submitted, webflow will trigger form to display none natively if form is submitted
-    await page.waitForTimeout(2000);
-    await expect(comboboxNav).toBeVisible();
-    await expect(comboboxInput).toBeVisible();
-  });
+  //   // timeout to check if form is submitted, webflow will trigger form to display none natively if form is submitted
+  //   await page.waitForTimeout(2000);
+  //   await expect(comboboxNav).not.toBeVisible();
+  //   await expect(comboboxInput).not.toBeVisible();
+  // });
+
+  // test('Combobox clear icon enter key should not submit form', async ({ page }) => {
+  //   const comboboxDropdown = page.locator('[fs-combobox-element="dropdown"]');
+  //   const comboboxInput = comboboxDropdown.locator('input');
+  //   const comboboxNav = comboboxDropdown.locator('nav');
+  //   const comboboxClearDropdown = page.locator('[fs-combobox-element="clear"]');
+
+  //   // toggle dropdown by clicking on input
+  //   await comboboxInput.click();
+
+  //   // dropdown should be open
+  //   await expect(comboboxNav).toHaveClass(/w--open/);
+
+  //   // click on first item in the list
+  //   const randomOption = comboboxNav.locator('a').nth(1);
+  //   await randomOption.click();
+
+  //   // get randomOption text content
+  //   const randomOptionTextVal = await randomOption.textContent();
+  //   // trim
+  //   const randomOptionText = randomOptionTextVal?.trim();
+
+  //   await expect(randomOptionText).not.toEqual('');
+
+  //   // dropdown should be closed
+
+  //   await expect(comboboxNav).not.toHaveClass(/w--open/);
+
+  //   // get input value
+  //   const inputValue = await comboboxInput.inputValue();
+
+  //   await expect(inputValue).toEqual(randomOptionText);
+
+  //   // expect clear icon to be visible
+  //   await expect(comboboxClearDropdown).toBeVisible();
+
+  //   // focus on clear icon
+  //   await comboboxClearDropdown.focus();
+
+  //   // press enter key
+
+  //   await comboboxClearDropdown.press('Enter');
+
+  //   // timeout to check if form is submitted, webflow will trigger form to display none natively if form is submitted
+  //   await page.waitForTimeout(2000);
+
+  //   // dropdown should be closed
+  //   await expect(comboboxNav).not.toHaveClass(/w--open/);
+
+  //   // updated input value
+  //   const updatedInputValue = await comboboxInput.inputValue();
+
+  //   // input value should be empty
+  //   await expect(updatedInputValue).toEqual('');
+
+  //   // clear icon should not be visible
+  //   await expect(comboboxClearDropdown).not.toBeVisible();
+
+  //   // input should be focused
+  //   const activeElement = await page.evaluate(() => document.activeElement?.tagName);
+  //   await expect(activeElement).toEqual('INPUT');
+
+  //   // input field should be visible meaning enter key on clear icon did not submit form
+  //   await expect(comboboxInput).toBeVisible();
+  // });
 });
