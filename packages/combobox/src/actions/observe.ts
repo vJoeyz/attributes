@@ -43,6 +43,12 @@ const observeDropdownList = (settings: Settings) => {
 
         inputElement.setAttribute(ARIA_EXPANDED_KEY, `${currentStateIsOpen}`);
 
+        if (currentStateIsOpen) {
+          const toFocus = selectedOption || firstOption;
+
+          if (toFocus) toFocus.element.focus();
+        }
+
         if (selectedOption) {
           const id = selectedOption.element.getAttribute(ID_KEY);
           inputElement.setAttribute(ARIA_ACTIVEDESCENDANT_KEY, `${id}`);
@@ -66,7 +72,9 @@ const observeDropdownList = (settings: Settings) => {
         }
 
         if (!selectedOption && inputValue && currentStateIsOpen && firstOption) {
-          if (dropdownToggleKey === ARROW_DOWN_KEY) firstOption.element.focus();
+          if (dropdownToggleKey === ARROW_DOWN_KEY) {
+            firstOption.element.focus();
+          }
           if (dropdownToggleKey === CLICK) focusOnInput(settings);
 
           return;
