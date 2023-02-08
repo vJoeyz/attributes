@@ -41,6 +41,12 @@ const observeDropdownList = (settings: Settings) => {
           navListElement.scrollTop = 0;
         }
 
+        if (currentStateIsOpen) {
+          const toFocus = selectedOption || firstOption;
+
+          if (toFocus) toFocus.element.focus();
+        }
+
         inputElement.setAttribute(ARIA_EXPANDED_KEY, `${currentStateIsOpen}`);
 
         if (selectedOption) {
