@@ -59,12 +59,8 @@ export const buildFile = async ({ entryFile, outName, format }) => {
     entryPoints: [entryPoint],
   });
 
-  if (PRODUCTION) {
-    await context.rebuild();
-    return context.dispose();
-  }
-
   if (!DEVELOPMENT) {
+    await context.rebuild();
     return context.dispose();
   }
 
