@@ -25,7 +25,8 @@ const defaultBuildSettings = {
   target: PRODUCTION ? 'es2019' : 'esnext',
   inject: LIVE_RELOAD ? [join(__dirname, 'live-reload.js')] : undefined,
   define: {
-    SERVE_PORT: `${SERVE_PORT}`,
+    SERVE_PORT: JSON.stringify(SERVE_PORT),
+    NODE_ENV: JSON.stringify(process.env.NODE_ENV),
   },
 };
 
