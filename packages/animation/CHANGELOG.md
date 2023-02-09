@@ -1,5 +1,11 @@
 # @finsweet/attributes-animation
 
+## 1.2.2
+
+### Patch Changes
+
+- c0a0c3ce: chore: updated `motion` dependency
+
 ## 1.2.1
 
 ### Patch Changes
