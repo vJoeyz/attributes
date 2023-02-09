@@ -132,6 +132,12 @@ importers:
     devDependencies:
       highlight.js: 11.6.0
 
+  packages/combobox:
+    specifiers:
+      just-debounce: ^1.1.0
+    dependencies:
+      just-debounce: 1.1.0
+
   packages/copyclip:
     specifiers:
       clipboard: ^2.0.11
