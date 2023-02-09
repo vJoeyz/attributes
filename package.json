@@ -20,6 +20,7 @@
     "build": "pnpm -r --filter \"./packages/**\" build",
     "build:dev": "pnpm -r --filter \"./packages/**\" build:dev",
     "lint": "pnpm -r --filter \"./packages/**\" lint",
+    "lint:fix": "pnpm -r --filter \"./packages/**\" lint:fix",
     "check": "pnpm -r --filter \"./packages/**\" check",
     "format": "pnpm -r --filter \"./packages/**\" format",
     "test": "pnpm -r --filter \"./packages/**\" --filter !@finsweet/attributes-support test --workspace-concurrency=1",

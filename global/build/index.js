@@ -1,7 +1,9 @@
+/* eslint-disable no-console */
+
 import * as esbuild from 'esbuild';
-import { dirname, join, resolve } from 'path';
 import { writeFileSync } from 'fs';
 import { access } from 'fs/promises';
+import { dirname, join, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
 const PRODUCTION = process.env.NODE_ENV === 'production';
