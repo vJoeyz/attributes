@@ -4,7 +4,7 @@ import { normalizePropKey } from '$global/helpers';
 import type { CMSCore } from '$packages/cmscore';
 
 import { ATTRIBUTES, getAttribute, getSelector } from '../utils/constants';
-import type { NestSources, ExternalNestTargets, ManualNestTargets } from '../utils/types';
+import type { ExternalNestTargets, ManualNestTargets, NestSources } from '../utils/types';
 
 /**
  * Queries the existing CMS Collections on the page that will be nested inside the main list instance.
