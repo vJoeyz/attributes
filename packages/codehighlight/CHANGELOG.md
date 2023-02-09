@@ -1,5 +1,11 @@
 # @finsweet/attributes-codehighlight
 
+## 1.5.2
+
+### Patch Changes
+
+- d8668014: chore: updated `highlight.js` dependency
+
 ## 1.5.1
 
 ### Patch Changes
