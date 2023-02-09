@@ -1,6 +1,6 @@
 import type { AttributeExamples } from '$global/types/examples';
 
-export const examples: AttributeExamples = [
+const examples: AttributeExamples = [
   {
     title: 'Code Highlight',
     description: 'Highlights a code block using the Webflow theme.',
@@ -291,3 +291,5 @@ export const examples: AttributeExamples = [
     },
   },
 ];
+
+export default examples;

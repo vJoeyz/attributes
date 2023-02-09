@@ -1,6 +1,6 @@
 import type { AttributeExamples } from '$global/types/examples';
 
-export const examples: AttributeExamples = [
+const examples: AttributeExamples = [
   {
     title: 'Query Param Example 1',
     description: 'Add query param value in plain text and in a text input',
@@ -482,3 +482,5 @@ export const examples: AttributeExamples = [
     },
   },
 ];
+
+export default examples;

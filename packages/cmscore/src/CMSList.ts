@@ -1,19 +1,19 @@
 import type {
-  CollectionListWrapperElement,
-  CollectionListElement,
   CollectionItemElement,
+  CollectionListElement,
+  CollectionListWrapperElement,
+  PageCountElement,
   PaginationButtonElement,
   PaginationWrapperElement,
-  PageCountElement,
 } from '@finsweet/ts-utils';
 import Emittery from 'emittery';
 
-import { getInstanceIndex, getCollectionElements } from '$global/helpers';
+import { getCollectionElements, getInstanceIndex } from '$global/helpers';
 import type { Animation } from '$packages/animation/src/types';
 
 import { CMSItem } from './CMSItem';
 import { updateItemsCount } from './utils/items';
-import { storePaginationData, setPaginationQueryParams } from './utils/pagination';
+import { setPaginationQueryParams, storePaginationData } from './utils/pagination';
 import { renderListItems } from './utils/render';
 import type { CMSListEvents } from './utils/types';
 

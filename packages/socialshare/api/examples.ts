@@ -1,6 +1,6 @@
 import type { AttributeExamples } from '$global/types/examples';
 
-export const examples: AttributeExamples = [
+const examples: AttributeExamples = [
   {
     title: 'Social Share (All platforms)',
     description: 'Premade social share buttons for all platforms.',
@@ -513,3 +513,5 @@ export const examples: AttributeExamples = [
     },
   },
 ];
+
+export default examples;
