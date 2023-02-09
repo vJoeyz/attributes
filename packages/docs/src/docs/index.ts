@@ -1,6 +1,6 @@
 import type { AttributeExamples } from '$global/types/examples';
 
-import { attributesData } from '../../api/attributes';
+import attributesData from '../../api/attributes';
 import { ATTRIBUTES } from '../utils/constants';
 import { initCollapseOptions } from './collapse-options';
 import { initCopyExampleButtons } from './copy-examples';

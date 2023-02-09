@@ -1,6 +1,6 @@
 import type { AttributeExamples } from '$global/types/examples';
 
-export const examples: AttributeExamples = [
+const examples: AttributeExamples = [
   {
     title: 'CMS Filter + static non-CMS elements',
     description: 'CMS Filter working with non-CMS static elements.',
@@ -1872,3 +1872,5 @@ export const examples: AttributeExamples = [
     },
   },
 ];
+
+export default examples;
