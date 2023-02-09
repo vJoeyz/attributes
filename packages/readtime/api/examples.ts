@@ -1,6 +1,6 @@
 import type { AttributeExamples } from '$global/types/examples';
 
-export const examples: AttributeExamples = [
+const examples: AttributeExamples = [
   {
     title: 'Read time of a Rich Text element',
     description: 'Displays the estimaded read time of a block of text.',
@@ -1035,3 +1035,5 @@ export const examples: AttributeExamples = [
     },
   },
 ];
+
+export default examples;

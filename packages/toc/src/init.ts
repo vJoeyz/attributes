@@ -1,6 +1,6 @@
 import { isNotEmpty, restartWebflow } from '@finsweet/ts-utils';
 
-import { TOC_ATTRIBUTE, RICH_TEXT_ATTRIBUTE, CMS_ATTRIBUTE_ATTRIBUTE } from '$global/constants/attributes';
+import { CMS_ATTRIBUTE_ATTRIBUTE, RICH_TEXT_ATTRIBUTE, TOC_ATTRIBUTE } from '$global/constants/attributes';
 import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
 
 import { scrollToAnchor } from './actions/scroll';
