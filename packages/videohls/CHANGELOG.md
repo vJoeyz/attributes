@@ -1,5 +1,11 @@
 # @finsweet/attributes-videohls
 
+## 1.0.3
+
+### Patch Changes
+
+- 0b49f9f1: chore: updated `hls.js` dependency
+
 ## 1.0.2
 
 ### Patch Changes

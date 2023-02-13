@@ -1,5 +1,11 @@
 # @finsweet/attributes-a11y
 
+## 1.1.2
+
+### Patch Changes
+
+- 2b52be38: chore: update `focus-trap` dependency
+
 ## 1.1.1
 
 ### Patch Changes
