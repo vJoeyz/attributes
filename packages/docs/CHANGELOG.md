@@ -1,5 +1,11 @@
 # @finsweet/attributes-docs
 
+## 1.12.11
+
+### Patch Changes
+
+- ae1a4ffe: Add combobox into attributes and add combobox examples data into combobox/api
+
 ## 1.12.10
 
 ### Patch Changes
