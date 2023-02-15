@@ -15,27 +15,12 @@ const examples: AttributeExamples = [
             classes: ['50b14e7d-64a9-3bcf-1bd7-a1122a7cae75'],
             children: ['4397c877-7b78-83c3-b6aa-758cc9066072', '4397c877-7b78-83c3-b6aa-758cc9066076'],
             data: {
-              search: {
-                exclude: true,
-              },
-              xattr: [
-                {
-                  name: 'fs-combobox-element',
-                  value: 'dropdown',
-                },
-              ],
+              search: { exclude: true },
+              xattr: [{ name: 'fs-combobox-element', value: 'dropdown' }],
               displayName: '',
-              dropdown: {
-                type: 'wrapper',
-              },
-              attr: {
-                'data-hover': false,
-                'data-delay': 0,
-                id: '',
-              },
-              visibility: {
-                conditions: [],
-              },
+              dropdown: { type: 'wrapper' },
+              attr: { 'data-hover': false, 'data-delay': 0, id: '' },
+              visibility: { conditions: [] },
               tag: 'div',
             },
           },
@@ -51,20 +36,12 @@ const examples: AttributeExamples = [
               'dd2bb2ce-fbb3-ff24-53b8-8afa495ce848',
             ],
             data: {
-              search: {
-                exclude: false,
-              },
+              search: { exclude: false },
               xattr: [],
               displayName: '',
-              dropdown: {
-                type: 'toggle',
-              },
-              attr: {
-                id: '',
-              },
-              visibility: {
-                conditions: [],
-              },
+              dropdown: { type: 'toggle' },
+              attr: { id: '' },
+              visibility: { conditions: [] },
               tag: 'div',
             },
           },
@@ -75,112 +52,34 @@ const examples: AttributeExamples = [
             classes: ['c9374ae8-bd12-171b-864d-944b2ca19824'],
             children: [],
             data: {
-              attr: {
-                id: 'field-3',
-                name: 'field-3',
-                'data-name': 'Field 3',
-                required: false,
-                multiple: false,
-              },
+              attr: { id: 'field-3', name: 'field-3', 'data-name': 'Field 3', required: false, multiple: false },
               form: {
                 type: 'select',
                 opts: [
-                  {
-                    t: 'Select one...',
-                    v: '',
-                  },
-                  {
-                    t: 'Arsenal',
-                    v: 'arsenal',
-                  },
-                  {
-                    t: 'Liverpool',
-                    v: 'liverpool',
-                  },
-                  {
-                    t: 'Barcelona',
-                    v: 'barcelona',
-                  },
-                  {
-                    t: 'Sevilla',
-                    v: 'sevilla',
-                  },
-                  {
-                    t: 'Brentford',
-                    v: 'brentford',
-                  },
-                  {
-                    t: 'Zenit',
-                    v: 'zenit',
-                  },
-                  {
-                    t: 'Juventus',
-                    v: 'juventus',
-                  },
-                  {
-                    t: 'Napoli',
-                    v: 'napoli',
-                  },
-                  {
-                    t: 'PSG',
-                    v: 'psg',
-                  },
-                  {
-                    t: 'Marseille',
-                    v: 'marseille',
-                  },
-                  {
-                    t: 'Monaco',
-                    v: 'monaco',
-                  },
-                  {
-                    t: 'Lille',
-                    v: 'lille',
-                  },
-                  {
-                    t: 'Nantes',
-                    v: 'nantes',
-                  },
-                  {
-                    t: 'Rangers',
-                    v: 'rangers',
-                  },
-                  {
-                    t: 'Porto',
-                    v: 'porto',
-                  },
-                  {
-                    t: 'Benfica',
-                    v: 'benfica',
-                  },
-                  {
-                    t: 'Olympiacos',
-                    v: 'olympiacos',
-                  },
-                  {
-                    t: 'Ajax',
-                    v: 'ajax',
-                  },
-                  {
-                    t: 'Lazio',
-                    v: 'lazio',
-                  },
-                  {
-                    t: 'Freiburg',
-                    v: 'freiburg',
-                  },
-                  {
-                    t: 'Atalanta',
-                    v: 'atalanta',
-                  },
-                  {
-                    t: 'Sporting',
-                    v: 'sporting',
-                  },
-                  {
-                    t: 'Udinese',
-                    v: 'udinese',
-                  },
+                  { t: 'Select one...', v: '' },
+                  { t: 'Arsenal', v: 'arsenal' },
+                  { t: 'Liverpool', v: 'liverpool' },
+                  { t: 'Barcelona', v: 'barcelona' },
+                  { t: 'Sevilla', v: 'sevilla' },
+                  { t: 'Brentford', v: 'brentford' },
+                  { t: 'Zenit', v: 'zenit' },
+                  { t: 'Juventus', v: 'juventus' },
+                  { t: 'Napoli', v: 'napoli' },
+                  { t: 'PSG', v: 'psg' },
+                  { t: 'Marseille', v: 'marseille' },
+                  { t: 'Monaco', v: 'monaco' },
+                  { t: 'Lille', v: 'lille' },
+                  { t: 'Nantes', v: 'nantes' },
+                  { t: 'Rangers', v: 'rangers' },
+                  { t: 'Porto', v: 'porto' },
+                  { t: 'Benfica', v: 'benfica' },
+                  { t: 'Olympiacos', v: 'olympiacos' },
+                  { t: 'Ajax', v: 'ajax' },
+                  { t: 'Lazio', v: 'lazio' },
+                  { t: 'Freiburg', v: 'freiburg' },
+                  { t: 'Atalanta', v: 'atalanta' },
+                  { t: 'Sporting', v: 'sporting' },
+                  { t: 'Udinese', v: 'udinese' },
                 ],
                 name: 'Field 3',
               },
@@ -204,14 +103,8 @@ const examples: AttributeExamples = [
                 disabled: false,
                 required: true,
               },
-              form: {
-                type: 'input',
-                name: 'Field 2',
-                passwordPage: false,
-              },
-              visibility: {
-                conditions: [true],
-              },
+              form: { type: 'input', name: 'Field 2', passwordPage: false },
+              visibility: { conditions: [true] },
             },
           },
           {
@@ -223,22 +116,11 @@ const examples: AttributeExamples = [
             v: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">\n  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />\n</svg>',
             data: {
               insideRTE: false,
-              search: {
-                exclude: true,
-              },
+              search: { exclude: true },
               xattr: [
-                {
-                  name: 'fs-combobox-element',
-                  value: 'clear',
-                },
-                {
-                  name: 'tabindex',
-                  value: '0',
-                },
-                {
-                  name: 'role',
-                  value: 'button',
-                },
+                { name: 'fs-combobox-element', value: 'option-reset' },
+                { name: 'tabindex', value: '0' },
+                { name: 'role', value: 'button' },
               ],
               embed: {
                 type: 'html',
@@ -261,9 +143,7 @@ const examples: AttributeExamples = [
             v: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">\n  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />\n</svg>',
             data: {
               insideRTE: false,
-              search: {
-                exclude: true,
-              },
+              search: { exclude: true },
               embed: {
                 type: 'html',
                 meta: {
@@ -283,20 +163,12 @@ const examples: AttributeExamples = [
             classes: ['4bd5ad3a-790c-348d-e004-c10b00a3950d'],
             children: ['912e7081-f717-d195-ae73-161d206e1649', 'ddd70407-1fbc-f15b-28b3-3c01e8cf749e'],
             data: {
-              search: {
-                exclude: false,
-              },
+              search: { exclude: false },
               xattr: [],
               displayName: '',
-              dropdown: {
-                type: 'list',
-              },
-              attr: {
-                id: '',
-              },
-              visibility: {
-                conditions: [],
-              },
+              dropdown: { type: 'list' },
+              attr: { id: '' },
+              visibility: { conditions: [] },
               tag: 'nav',
             },
           },
@@ -307,35 +179,17 @@ const examples: AttributeExamples = [
             classes: ['886cf8e3-2d47-f26b-032e-08e429575688'],
             children: ['72b34cb5-dbc6-0a0f-d188-c279c1005dd9'],
             data: {
-              search: {
-                exclude: false,
-              },
-              xattr: [
-                {
-                  name: 'fs-combobox-element',
-                  value: 'empty',
-                },
-              ],
+              search: { exclude: false },
+              xattr: [{ name: 'fs-combobox-element', value: 'empty' }],
               text: true,
               displayName: '',
-              devlink: {
-                runtimeProps: {},
-                slot: '',
-              },
-              attr: {
-                id: '',
-              },
-              visibility: {
-                conditions: [],
-              },
+              devlink: { runtimeProps: {}, slot: '' },
+              attr: { id: '' },
+              visibility: { conditions: [] },
               tag: 'div',
             },
           },
-          {
-            _id: '72b34cb5-dbc6-0a0f-d188-c279c1005dd9',
-            text: true,
-            v: 'No results found',
-          },
+          { _id: '72b34cb5-dbc6-0a0f-d188-c279c1005dd9', text: true, v: 'No results found' },
           {
             _id: 'ddd70407-1fbc-f15b-28b3-3c01e8cf749e',
             type: 'Link',
@@ -343,27 +197,15 @@ const examples: AttributeExamples = [
             classes: ['dfe9eabe-52cf-675c-66d3-fa5d2a362986'],
             children: ['6213eb4f-7a41-5a6a-8c88-a63ef15e2978', 'ddd70407-1fbc-f15b-28b3-3c01e8cf74a0'],
             data: {
-              search: {
-                exclude: false,
-              },
+              search: { exclude: false },
               xattr: [],
               block: 'inline',
               displayName: '',
-              devlink: {
-                runtimeProps: {},
-                slot: '',
-              },
-              attr: {
-                id: '',
-                href: '#',
-              },
-              visibility: {
-                conditions: [],
-              },
+              devlink: { runtimeProps: {}, slot: '' },
+              attr: { id: '', href: '#' },
+              visibility: { conditions: [] },
               button: false,
-              link: {
-                mode: 'external',
-              },
+              link: { mode: 'external' },
             },
           },
           {
@@ -375,9 +217,7 @@ const examples: AttributeExamples = [
             v: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">\n  <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />\n</svg>',
             data: {
               insideRTE: false,
-              search: {
-                exclude: true,
-              },
+              search: { exclude: true },
               embed: {
                 type: 'html',
                 meta: {
@@ -397,35 +237,17 @@ const examples: AttributeExamples = [
             classes: [],
             children: ['674dea5f-3153-f306-f10a-a1f6ffd43a2f'],
             data: {
-              search: {
-                exclude: false,
-              },
-              xattr: [
-                {
-                  name: 'fs-combobox-element',
-                  value: 'label',
-                },
-              ],
+              search: { exclude: false },
+              xattr: [{ name: 'fs-combobox-element', value: 'label' }],
               text: true,
               displayName: '',
-              devlink: {
-                runtimeProps: {},
-                slot: '',
-              },
-              attr: {
-                id: '',
-              },
-              visibility: {
-                conditions: [],
-              },
+              devlink: { runtimeProps: {}, slot: '' },
+              attr: { id: '' },
+              visibility: { conditions: [] },
               tag: 'div',
             },
           },
-          {
-            _id: '674dea5f-3153-f306-f10a-a1f6ffd43a2f',
-            text: true,
-            v: 'Option Value',
-          },
+          { _id: '674dea5f-3153-f306-f10a-a1f6ffd43a2f', text: true, v: 'Option Value' },
         ],
         styles: [
           {
@@ -596,11 +418,7 @@ const examples: AttributeExamples = [
         ],
         assets: [],
         ix1: [],
-        ix2: {
-          interactions: [],
-          events: [],
-          actionLists: [],
-        },
+        ix2: { interactions: [], events: [], actionLists: [] },
       },
       meta: {
         unlinkedSymbolCount: 0,

@@ -40,7 +40,7 @@ export const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => 
     if (!dropdownIsOpen) toggleDropdown(settings);
 
     if (inputValue.length > 0) {
-      populateOptions(settings, inputValue, false, true);
+      populateOptions(settings, inputValue, true, true);
     } else {
       populateOptions(settings, '', true, true);
     }

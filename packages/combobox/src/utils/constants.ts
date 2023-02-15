@@ -8,12 +8,10 @@ export const DROPDOWN_IS_OPEN = 'w--open';
 
 export const DROPDOWN_ELEMENT_KEY = 'dropdown';
 export const LABEL_ELEMENT_KEY = 'label';
-export const CLEAR_DROPDOWN_SELECTION = 'clear';
-export const RESET_OPTION_KEY = 'option-reset';
+export const CLEAR_DROPDOWN_SELECTION = 'option-reset';
 
 export const FS_DROPDOWN_TOGGLE_KEY = 'fs-dropdown-toggle-key';
 
-export const INPUT_FIELD = 'input';
 export const NO_RESULTS = 'empty';
 
 export const HIDE_INITIAL_SETTING_KEY = 'hideinitial';
@@ -34,19 +32,9 @@ export const ATTRIBUTES = {
       label: LABEL_ELEMENT_KEY,
 
       /**
-       * Defines an option that will remove the selected value.
-       */
-      resetOption: RESET_OPTION_KEY,
-
-      /**
        * Defines an option that will clear dropdown selection and input field.
        */
       clearDropdown: CLEAR_DROPDOWN_SELECTION,
-
-      /**
-       * Defines an option that will remove the selected value.
-       */
-      inputField: INPUT_FIELD,
 
       /**
        * Defines a state where no results were found from `input` field search.
