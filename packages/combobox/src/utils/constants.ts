@@ -8,8 +8,7 @@ export const DROPDOWN_IS_OPEN = 'w--open';
 
 export const DROPDOWN_ELEMENT_KEY = 'dropdown';
 export const LABEL_ELEMENT_KEY = 'label';
-export const CLEAR_DROPDOWN_SELECTION = 'clear';
-export const RESET_OPTION_KEY = 'option-reset';
+export const CLEAR_DROPDOWN_SELECTION = 'option-reset';
 
 export const FS_DROPDOWN_TOGGLE_KEY = 'fs-dropdown-toggle-key';
 
@@ -32,11 +31,6 @@ export const ATTRIBUTES = {
        * Defines the label that displays the currently selected option.
        */
       label: LABEL_ELEMENT_KEY,
-
-      /**
-       * Defines an option that will remove the selected value.
-       */
-      resetOption: RESET_OPTION_KEY,
 
       /**
        * Defines an option that will clear dropdown selection and input field.
