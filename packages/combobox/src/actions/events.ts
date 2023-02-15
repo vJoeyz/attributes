@@ -44,8 +44,7 @@ export const listenEvents = (settings: Settings) => {
     addListener(dropdownList, 'keydown', (e) => handleDropdownListKeydownEvents(e, settings)),
     addListener(dropdownList, 'focusin', (e) => handleDropdownListFocusEvents(e, true, settings)),
     addListener(dropdownList, 'focusout', (e) => handleDropdownListFocusEvents(e, false, settings)),
-    addListener(dropdownList, 'mouseover', (e) => handleDropdownListMouseEvents(e, settings)),
-    addListener(dropdownList, 'mouseout', (e) => handleDropdownListMouseEvents(e, settings)),
+    addListener(dropdownList, 'mousemove', (e) => handleDropdownListMouseEvents(e, settings)),
 
     addListener(dropdownList, 'mouseenter', cleanupBubble),
     addListener(dropdownList, 'mouseup', cleanupBubble),
