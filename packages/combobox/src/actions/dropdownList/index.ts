@@ -10,8 +10,6 @@ import { handleClearInput } from '../input';
 import { updateOptionsState } from '../state';
 import { cleanupBubble } from './../../utils/dropdowns';
 
-let lastCursorPos = { x: 0, y: 0 };
-
 /**
  * Handles click events on the dropdown list.
  * @param e The Event object.
@@ -37,15 +35,19 @@ export const handleDropdownListMouseEvents = (e: MouseEvent | KeyboardEvent, set
 
   e.preventDefault();
 
-  if (target.tagName === 'A' && e.type === 'mousemove') {
-    const mouseEvent = e as MouseEvent;
-    const currentCursorPos = { x: mouseEvent.clientX, y: mouseEvent.clientY };
-    if (lastCursorPos.x !== currentCursorPos.x || lastCursorPos.y !== currentCursorPos.y) {
-      // mouse moved
-      lastCursorPos = currentCursorPos;
+  if (target.tagName === 'A' && e.type === 'mouseover') {
+    handleDropdownListFocusEvents(e as FocusEvent, true, settings);
+  }
 
-      handleDropdownListFocusEvents(e as FocusEvent, true, settings);
+  if (target.tagName === 'A' && e.type === 'mouseout') {
+    const focusedElement = settings.optionsStore.find(({ focused }) => focused);
+
+    if (focusedElement) {
+      focusedElement.element.setAttribute(TABINDEX_KEY, '-1');
+      focusedElement.focused = false;
     }
+
+    return;
   }
 
   const optionData = getClickedOptionData(e, settings);
