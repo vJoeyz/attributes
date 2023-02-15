@@ -12,7 +12,6 @@ export const CLEAR_DROPDOWN_SELECTION = 'option-reset';
 
 export const FS_DROPDOWN_TOGGLE_KEY = 'fs-dropdown-toggle-key';
 
-export const INPUT_FIELD = 'input';
 export const NO_RESULTS = 'empty';
 
 export const HIDE_INITIAL_SETTING_KEY = 'hideinitial';
@@ -36,11 +35,6 @@ export const ATTRIBUTES = {
        * Defines an option that will clear dropdown selection and input field.
        */
       clearDropdown: CLEAR_DROPDOWN_SELECTION,
-
-      /**
-       * Defines an option that will remove the selected value.
-       */
-      inputField: INPUT_FIELD,
 
       /**
        * Defines a state where no results were found from `input` field search.
