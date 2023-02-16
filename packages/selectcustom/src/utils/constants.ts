@@ -6,7 +6,8 @@ const ATTRIBUTES_PREFIX = `fs-${SELECT_CUSTOM_ATTRIBUTE}`;
 
 export const DROPDOWN_ELEMENT_KEY = 'dropdown';
 export const LABEL_ELEMENT_KEY = 'label';
-export const RESET_OPTION_KEY = 'option-reset';
+export const RESET_OPTION_KEY_FALLBACK = 'option-reset';
+export const RESET_OPTION_KEY = 'option-clear';
 
 export const HIDE_INITIAL_SETTING_KEY = 'hideinitial';
 export const HIDE_INITIAL_SETTING_VALUES = { true: 'true' };
@@ -29,6 +30,11 @@ export const ATTRIBUTES = {
        * Defines an option that will remove the selected value.
        */
       resetOption: RESET_OPTION_KEY,
+
+      /**
+       * Defines an option that will remove the selected value. This is a fallback value for backwards compatibility.
+       */
+      resetOptionFallback: RESET_OPTION_KEY_FALLBACK,
     },
   },
 
