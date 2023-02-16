@@ -10,7 +10,7 @@ const { navMenu: navMenuCSSClass } = NAVBAR_CSS_CLASSES;
 // Store
 const displayTriggersStore: Map<
   HTMLElement,
-  { visible: boolean; firstScrollableElement: HTMLElement; matchMedia?: string | null }
+  { firstScrollableElement: HTMLElement; visible?: boolean; matchMedia?: string | null }
 > = new Map();
 
 /**
@@ -35,8 +35,10 @@ const handleStateChange = (trigger: HTMLElement, preserveScrollTargets: NodeList
 
   // Perform actions
   if (wasVisibleBefore) enableScrolling();
-  else if (visible) {
-    for (const target of new Set([...preserveScrollTargets, firstScrollableElement])) disableScrolling(target);
+  if (visible) {
+    for (const target of new Set([...preserveScrollTargets, firstScrollableElement])) {
+      disableScrolling(target);
+    }
   }
 
   // Store new state
@@ -88,7 +90,6 @@ export const initDisplayTriggers = (preserveScrollTargets: NodeListOf<Element>):
 
     // Store the trigger's data
     displayTriggersStore.set(trigger, {
-      visible: isVisible(trigger),
       firstScrollableElement,
       matchMedia,
     });
