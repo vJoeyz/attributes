@@ -1,5 +1,11 @@
 # @finsweet/attributes-combobox
 
+## 1.0.3
+
+### Patch Changes
+
+- 27807bca: revert to mousemove event when scrolling
+
 ## 1.0.2
 
 ### Patch Changes
