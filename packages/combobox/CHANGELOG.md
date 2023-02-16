@@ -1,5 +1,11 @@
 # @finsweet/attributes-combobox
 
+## 1.0.4
+
+### Patch Changes
+
+- f8dfa119: Update combobox clear icon to `fs-combobox-element="clear"` instead of `fs-combobox-element="option-reset"` and also fix arrow down action when searching results.
+
 ## 1.0.3
 
 ### Patch Changes
