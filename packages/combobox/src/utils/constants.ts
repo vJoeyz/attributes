@@ -8,7 +8,7 @@ export const DROPDOWN_IS_OPEN = 'w--open';
 
 export const DROPDOWN_ELEMENT_KEY = 'dropdown';
 export const LABEL_ELEMENT_KEY = 'label';
-export const CLEAR_DROPDOWN_SELECTION = 'option-reset';
+export const CLEAR_DROPDOWN_SELECTION = 'clear';
 
 export const FS_DROPDOWN_TOGGLE_KEY = 'fs-dropdown-toggle-key';
 
