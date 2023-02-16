@@ -118,7 +118,7 @@ const examples: AttributeExamples = [
               insideRTE: false,
               search: { exclude: true },
               xattr: [
-                { name: 'fs-combobox-element', value: 'option-reset' },
+                { name: 'fs-combobox-element', value: 'clear' },
                 { name: 'tabindex', value: '0' },
                 { name: 'role', value: 'button' },
               ],
