@@ -31,26 +31,19 @@ export const collectSettings = (referenceElement: HTMLElement) => {
     findTextNode(dropdownToggle) ||
     dropdownToggle;
 
-  const optionTemplateDefault = dropdownList.querySelector(
-    `a:not(${getSelector('element', 'resetOption', { operator: 'prefixed' })})`
-  );
-  const optionTemplateFallback = dropdownList.querySelector(
-    `a:not(${getSelector('element', 'resetOptionFallback', { operator: 'prefixed' })})`
-  );
+  const resetOptionSelector = [
+    getSelector('element', 'resetOption', { operator: 'prefixed' }),
+    getSelector('element', 'resetOptionFallback', { operator: 'prefixed' }),
+  ].join(', ');
 
-  const optionTemplate = optionTemplateDefault || optionTemplateFallback;
+  const optionTemplate = dropdownList.querySelector(`a:not(${resetOptionSelector})`);
 
   if (!isHTMLAnchorElement(optionTemplate)) return;
 
   const optionsList = optionTemplate.parentElement;
   if (!optionsList) return;
 
-  const rawEmptyOptionDefault = queryElement('resetOption', { operator: 'prefixed', scope: dropdownList });
-  const rawEmptyOptionFallback = queryElement('resetOptionFallback', { operator: 'prefixed', scope: dropdownList });
-
-  const rawEmptyOption = rawEmptyOptionDefault || rawEmptyOptionFallback;
-
-  const emptyOption = isHTMLAnchorElement(rawEmptyOption) ? rawEmptyOption : undefined;
+  const emptyOption = dropdownList.querySelector(resetOptionSelector) as HTMLAnchorElement | null;
 
   for (const element of [optionTemplate, emptyOption]) {
     if (!element) continue;
