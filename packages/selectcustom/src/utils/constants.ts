@@ -7,7 +7,7 @@ const ATTRIBUTES_PREFIX = `fs-${SELECT_CUSTOM_ATTRIBUTE}`;
 export const DROPDOWN_ELEMENT_KEY = 'dropdown';
 export const LABEL_ELEMENT_KEY = 'label';
 export const RESET_OPTION_KEY_FALLBACK = 'option-reset';
-export const RESET_OPTION_KEY = 'option-clear';
+export const RESET_OPTION_KEY = 'clear';
 
 export const HIDE_INITIAL_SETTING_KEY = 'hideinitial';
 export const HIDE_INITIAL_SETTING_VALUES = { true: 'true' };
