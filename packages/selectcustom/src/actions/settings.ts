@@ -43,7 +43,7 @@ export const collectSettings = (referenceElement: HTMLElement) => {
   const optionsList = optionTemplate.parentElement;
   if (!optionsList) return;
 
-  const emptyOption = dropdownList.querySelector(resetOptionSelector) as HTMLAnchorElement | null;
+  const emptyOption = dropdownList.querySelector<HTMLAnchorElement>(resetOptionSelector);
 
   for (const element of [optionTemplate, emptyOption]) {
     if (!element) continue;
