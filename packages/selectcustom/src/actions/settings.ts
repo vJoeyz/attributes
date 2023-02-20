@@ -31,16 +31,19 @@ export const collectSettings = (referenceElement: HTMLElement) => {
     findTextNode(dropdownToggle) ||
     dropdownToggle;
 
-  const optionTemplate = dropdownList.querySelector(
-    `a:not(${getSelector('element', 'resetOption', { operator: 'prefixed' })})`
-  );
+  const resetOptionSelector = [
+    getSelector('element', 'resetOption', { operator: 'prefixed' }),
+    getSelector('element', 'resetOptionFallback', { operator: 'prefixed' }),
+  ].join(', ');
+
+  const optionTemplate = dropdownList.querySelector(`a:not(${resetOptionSelector})`);
+
   if (!isHTMLAnchorElement(optionTemplate)) return;
 
   const optionsList = optionTemplate.parentElement;
   if (!optionsList) return;
 
-  const rawEmptyOption = queryElement('resetOption', { operator: 'prefixed', scope: dropdownList });
-  const emptyOption = isHTMLAnchorElement(rawEmptyOption) ? rawEmptyOption : undefined;
+  const emptyOption = dropdownList.querySelector<HTMLAnchorElement>(resetOptionSelector);
 
   for (const element of [optionTemplate, emptyOption]) {
     if (!element) continue;
