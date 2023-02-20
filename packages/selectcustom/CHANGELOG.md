@@ -1,5 +1,11 @@
 # @finsweet/attributes-selectcustom
 
+## 1.7.1
+
+### Patch Changes
+
+- 37e0cd7a: Update fs-selectcustom-element attribute value to clear instead of option-reset and added option-reset as a fallback for backward compatibility. Tests for the same have been included also.
+
 ## 1.7.0
 
 ### Minor Changes
