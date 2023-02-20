@@ -1,5 +1,6 @@
 ---
 '@finsweet/attributes-richtext': minor
+'@finsweet/attributes-cmscore': minor
 '@finsweet/attributes-cmsload': minor
 '@finsweet/attributes-cmsnest': minor
 ---
