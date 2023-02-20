@@ -3,9 +3,8 @@ import { generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${COMPONENT_ATTRIBUTE}`;
 
-export const COMPONENT_ELEMENT_KEY = 'component';
-export const EXAMPLE_SETTING_KEY = 'example';
-export const EXAMPLE_SETTING_VALUES = { value: 'value' };
+export const SOURCE_SETTING_KEY = 'source';
+export const COMPONENT_ID_SETTING_KEY = 'id';
 export const PSEUDO_CLASSES = [
   ':active',
   ':hover',
@@ -19,22 +18,18 @@ export const PSEUDO_CLASSES = [
 ];
 
 export const ATTRIBUTES = {
-  element: {
-    key: `${ATTRIBUTES_PREFIX}-element`,
-    values: {
-      /**
-       * This is an element example definition.
-       */
-      component: COMPONENT_ELEMENT_KEY,
-    },
+  /**
+   * Defines a component source.
+   */
+  source: {
+    key: `${ATTRIBUTES_PREFIX}-${SOURCE_SETTING_KEY}`,
   },
 
   /**
-   * Defines a setting example definition.
+   * Defines a component source.
    */
-  example: {
-    key: `${ATTRIBUTES_PREFIX}-${EXAMPLE_SETTING_KEY}`,
-    values: EXAMPLE_SETTING_VALUES,
+  componentId: {
+    key: `${ATTRIBUTES_PREFIX}-${COMPONENT_ID_SETTING_KEY}`,
   },
 } as const;
 
