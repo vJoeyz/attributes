@@ -1,5 +1,11 @@
 # @finsweet/attributes-scrolldisable
 
+## 1.6.2
+
+### Patch Changes
+
+- dc0f0dba: fix: support disabling scrolling when `fs-scrolldisable-element="when-visible"` is used on an element that it's displayed on page load.
+
 ## 1.6.1
 
 ### Patch Changes
