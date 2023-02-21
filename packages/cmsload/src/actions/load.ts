@@ -52,21 +52,18 @@ const chainedPagesLoad = async (listInstance: CMSList): Promise<void> => {
    * @param href The URL to load.
    */
   const loadPage = async (href: string) => {
-    try {
-      // Fetch the page
-      const page = await fetchPageDocument(href);
+    // Fetch the page
+    const page = await fetchPageDocument(href);
+    if (!page) return;
 
-      // Check for recursion (action: `all`)
-      const nextPageURL = await parseLoadedPage(page, listInstance);
+    // Check for recursion (action: `all`)
+    const nextPageURL = await parseLoadedPage(page, listInstance);
 
-      if (!nextPageURL || pageLinks.includes(nextPageURL)) return;
+    if (!nextPageURL || pageLinks.includes(nextPageURL)) return;
 
-      pageLinks.push(nextPageURL);
+    pageLinks.push(nextPageURL);
 
-      await loadPage(nextPageURL);
-    } catch (error) {
-      return;
-    }
+    await loadPage(nextPageURL);
   };
 
   await loadPage(href);
@@ -92,13 +89,10 @@ const parallelItemsLoad = async (listInstance: CMSList, totalPages: number) => {
 
   // Previous Pages
   for (let pageNumber = currentPage - 1; pageNumber >= 1; pageNumber--) {
-    try {
-      const page = await fetchPageDocument(`${origin}${pathname}?${pagesQuery}=${pageNumber}`);
+    const page = await fetchPageDocument(`${origin}${pathname}?${pagesQuery}=${pageNumber}`);
+    if (!page) return;
 
-      await parseLoadedPage(page, listInstance, 'unshift');
-    } catch (error) {
-      return;
-    }
+    await parseLoadedPage(page, listInstance, 'unshift');
   }
 
   // Next Pages
@@ -108,16 +102,13 @@ const parallelItemsLoad = async (listInstance: CMSList, totalPages: number) => {
     fetchPromises[pageNumber] = (async () => {
       const previousPromise = fetchPromises[pageNumber - 1];
 
-      try {
-        const page = await fetchPageDocument(`${origin}${pathname}?${pagesQuery}=${pageNumber}`);
+      const page = await fetchPageDocument(`${origin}${pathname}?${pagesQuery}=${pageNumber}`);
 
-        await previousPromise;
+      await previousPromise;
 
-        await parseLoadedPage(page, listInstance);
-      } catch (error) {
-        await previousPromise;
-        return;
-      }
+      if (!page) return;
+
+      await parseLoadedPage(page, listInstance);
     })();
   }
 
