@@ -33,10 +33,10 @@ packages/**/examples.json
 packages/**/schema.json
 
 packages/*/*.js
+packages/*/*.js.map
+
 !packages/support/*.js
 
-packages/*/*.json
-packages/*/*.js.map
 
 .idea
 .DS_Store
