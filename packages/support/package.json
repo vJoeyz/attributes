@@ -28,7 +28,7 @@
     "@sveltejs/eslint-config": "sveltejs/eslint-config",
     "@tsconfig/svelte": "^2.0.0",
     "@types/jest": "^27.0.3",
-    "eslint": "^8.33.0",
+    "eslint": "^8.34.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jest": "^27.2.1",
     "eslint-plugin-svelte3": "^4.0.0",

@@ -1,4 +1,4 @@
-import { test, expect, type Locator } from '@playwright/test';
+import { expect, type Locator, test } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://fs-attributes.webflow.io/cmsselect');
