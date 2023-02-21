@@ -1,5 +1,13 @@
-export type ComponentTarget = {
-  element: HTMLElement;
+export type ComponentTargetData = {
+  target: HTMLElement;
   componentId: string;
-  source: string | null;
+  source: URL;
+  loadCSS: boolean;
+  autoRender: boolean;
+  resetIx: boolean;
+};
+
+export type ComponentData = ComponentTargetData & {
+  component: HTMLElement;
+  shadowRoot?: ShadowRoot;
 };

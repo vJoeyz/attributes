@@ -1,21 +1,43 @@
 import { isNotEmpty } from '@finsweet/ts-utils';
-import type { ComponentTarget } from 'src/utils/types';
+import type { ComponentTargetData } from 'src/utils/types';
 
 import { getAttribute, getSelector } from '../utils/constants';
 
 /**
  * Collects the component targets.
+ * @param proxy A CORS proxy to use for external sources.
  */
-export const collectComponentTargets = () => {
+export const collectComponentTargetsData = (proxy: string | null) => {
   const targetElements = document.querySelectorAll<HTMLElement>(getSelector('componentId'));
-  const targetsData: ComponentTarget[] = [...targetElements]
-    .map((element) => {
-      const componentId = getAttribute(element, 'componentId');
-      if (!componentId) return;
+  const targetsData: ComponentTargetData[] = [...targetElements]
+    .map((target) => {
+      const componentId = getAttribute(target, 'componentId');
+      const rawSource = getAttribute(target, 'source');
+      const rawLoadCSS = getAttribute(target, 'css');
+      const rawAutoRender = getAttribute(target, 'render');
+      const rawResetIx = getAttribute(target, 'resetIx');
 
-      const source = getAttribute(element, 'source');
+      if (!componentId || !rawSource) return;
 
-      return { element, source, componentId };
+      const loadCSS = !rawLoadCSS || rawLoadCSS === 'true';
+      const autoRender = !rawAutoRender || rawAutoRender === 'true';
+      const resetIx = rawResetIx === 'true';
+
+      let source: URL;
+
+      try {
+        source = new URL(rawSource, window.location.origin);
+
+        // If source is external, prefix it with the proxy if provided
+        if (source.origin !== window.location.origin && proxy) {
+          source = new URL(proxy + source.href);
+        }
+      } catch (err) {
+        // Source is invalid
+        return;
+      }
+
+      return { target, componentId, source, loadCSS, autoRender, resetIx };
     })
     .filter(isNotEmpty);
 
