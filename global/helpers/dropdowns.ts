@@ -1,5 +1,5 @@
-import { simulateEvent } from '@finsweet/ts-utils';
 import type { DropdownToggle } from '@finsweet/ts-utils';
+import { simulateEvent } from '@finsweet/ts-utils';
 
 /**
  * Closes a dropdown.
