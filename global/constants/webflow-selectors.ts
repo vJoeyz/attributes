@@ -1,4 +1,4 @@
-import { SLIDER_CSS_CLASSES, DROPDOWN_CSS_CLASSES, TABS_CSS_CLASSES } from '@finsweet/ts-utils';
+import { DROPDOWN_CSS_CLASSES, SLIDER_CSS_CLASSES, TABS_CSS_CLASSES } from '@finsweet/ts-utils';
 
 import { getCMSElementSelector } from '$global/helpers';
 import type { DOMSelector } from '$global/types/schema';

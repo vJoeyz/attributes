@@ -1,5 +1,11 @@
 # @finsweet/attributes-richtext
 
+## 1.10.0
+
+### Minor Changes
+
+- 18071e97: feat: improve loading speeds by leveraging IndexedDB and caching all requests from the same Webflow project.
+
 ## 1.9.0
 
 ### Minor Changes

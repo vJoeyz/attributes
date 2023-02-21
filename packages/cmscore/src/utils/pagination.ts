@@ -6,8 +6,6 @@ import type { CMSList } from '..';
 
 const { location, history } = window;
 
-let memoizedInitialPageRequest: Promise<Document> | undefined;
-
 /**
  * Extracts the {@link URLSearchParams} from a list's Pagination Button.
  * @param paginationButton A {@link PaginationButtonElement}.
@@ -51,31 +49,26 @@ const extractPaginationQuery = async ({ paginationNext, paginationPrevious, inde
 
   // If there's more than one `searchParam` we need to fetch the original page to find the correspondent pageQuery.
   else {
-    try {
-      const { origin, pathname } = location;
+    const { origin, pathname } = location;
 
-      memoizedInitialPageRequest ||= fetchPageDocument(origin + pathname);
+    const initialPage = await fetchPageDocument(origin + pathname);
+    if (!initialPage) return;
 
-      const initialPage = await memoizedInitialPageRequest;
+    const initialCollectionListWrappers = getCollectionListWrappers([], initialPage);
 
-      const initialCollectionListWrappers = getCollectionListWrappers([], initialPage);
+    const initialCollectionListWrapper = initialCollectionListWrappers[index];
 
-      const initialCollectionListWrapper = initialCollectionListWrappers[index];
+    if (!initialCollectionListWrapper) return;
 
-      if (!initialCollectionListWrapper) return;
+    const initialPaginationNext = getCollectionElements(initialCollectionListWrapper, 'next');
 
-      const initialPaginationNext = getCollectionElements(initialCollectionListWrapper, 'next');
+    const [initialPageEntry] = getPaginationSearchEntries(initialPaginationNext) || [];
 
-      const [initialPageEntry] = getPaginationSearchEntries(initialPaginationNext) || [];
+    if (!initialPageEntry) return;
 
-      if (!initialPageEntry) return;
+    [pagesQuery] = initialPageEntry;
 
-      [pagesQuery] = initialPageEntry;
-
-      [, rawTargetPage] = searchEntries.find(([query]) => query === pagesQuery) || [];
-    } catch (error) {
-      return;
-    }
+    [, rawTargetPage] = searchEntries.find(([query]) => query === pagesQuery) || [];
   }
 
   if (!pagesQuery || !rawTargetPage) return;
