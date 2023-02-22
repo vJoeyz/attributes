@@ -7,13 +7,13 @@ const memoryCache = new Map<string, Promise<string>>();
  * Fetches and parses an external page.
  * Stores the page response in a {@link IDBDatabase} if the page belongs to the same site.
  *
- * @param href The URL of the page.
+ * @param source The URL of the page.
  *
  * @returns The page's {@link Document} if successful, `null` otherwise.
  */
-export const fetchPageDocument = async (href: string) => {
+export const fetchPageDocument = async (source: string | URL) => {
   try {
-    const url = new URL(href, window.location.origin);
+    const url = new URL(source, window.location.origin);
 
     // Try to create a DB instance.
     const siteId = getSiteId();
