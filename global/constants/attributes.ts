@@ -38,6 +38,10 @@ export const CMS_TABS_ATTRIBUTE = 'cmstabs';
 
 export const CODE_HIGHLIGHT_ATTRIBUTE = 'codehighlight';
 
+export const COMBO_BOX_ATTRIBUTE = 'combobox';
+
+export const COMPONENT_ATTRIBUTE = 'component';
+
 export const COPY_CLIP_ATTRIBUTE = 'copyclip';
 
 export const COUNT_ITEMS_ATTRIBUTE = 'countitems';
@@ -77,8 +81,6 @@ export const RICH_TEXT_ATTRIBUTE = 'richtext';
 export const SCROLL_DISABLE_ATTRIBUTE = 'scrolldisable';
 
 export const SELECT_CUSTOM_ATTRIBUTE = 'selectcustom';
-
-export const COMBO_BOX_ATTRIBUTE = 'combobox';
 
 export const SLIDER_DOTS_ATTRIBUTE = 'sliderdots';
 
