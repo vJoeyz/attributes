@@ -48,13 +48,11 @@ export const collectFiltersElements = (
   const submitButton = formBlock.querySelector<HTMLInputElement>('input[type="submit"]');
 
   const resetButtonElements = [
-    formBlock.querySelectorAll<HTMLElement>(getSelector('element', 'reset', { operator: 'prefixed' })),
-    formBlock.querySelectorAll<HTMLElement>(getSelector('element', 'resetFallback', { operator: 'prefixed' })),
-  ].find((resetButtons) => resetButtons.length > 0);
+    ...queryElement<HTMLElement>('reset', { scope: formBlock, operator: 'prefixed', all: true }),
+    ...queryElement<HTMLElement>('resetFallback', { scope: formBlock, operator: 'prefixed', all: true }),
+  ];
 
   const resetButtonsData: ResetButtonsData = new Map();
-
-  if (!resetButtonElements) return { form, submitButton, resetButtonsData };
 
   for (const resetButton of resetButtonElements) {
     const rawFilterKeys = resetButton.getAttribute(resetKey);
