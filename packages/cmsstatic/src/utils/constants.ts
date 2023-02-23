@@ -1,5 +1,5 @@
 import { CMS_STATIC_ATTRIBUTE } from '$global/constants/attributes';
-import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${CMS_STATIC_ATTRIBUTE}`;
 
@@ -37,6 +37,6 @@ export const ATTRIBUTES = {
     key: `${ATTRIBUTES_PREFIX}-${INTERACTIVE_SETTING_KEY}`,
     values: INTERACTIVE_SETTING_VALUES,
   },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

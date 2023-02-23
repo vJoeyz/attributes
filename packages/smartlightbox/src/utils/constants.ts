@@ -1,5 +1,5 @@
 import { SMART_LIGHTBOX_ATTRIBUTE } from '$global/constants/attributes';
-import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${SMART_LIGHTBOX_ATTRIBUTE}`;
 
@@ -41,6 +41,6 @@ export const ATTRIBUTES = {
    * Defines the timeout to wait before triggering the `close` state.
    */
   wait: { key: `${ATTRIBUTES_PREFIX}-${WAIT_SETTING_KEY}` },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

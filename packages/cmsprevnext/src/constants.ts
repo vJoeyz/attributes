@@ -1,5 +1,5 @@
 import { CMS_PREV_NEXT_ATTRIBUTE } from '$global/constants/attributes';
-import { generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${CMS_PREV_NEXT_ATTRIBUTE}`;
 
@@ -39,6 +39,6 @@ export const ATTRIBUTES = {
       nextEmpty: NEXT_EMPTY_ELEMENT_KEY,
     },
   },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

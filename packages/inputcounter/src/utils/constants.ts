@@ -1,5 +1,5 @@
 import { INPUT_COUNTER_ATTRIBUTE } from '$global/constants/attributes';
-import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${INPUT_COUNTER_ATTRIBUTE}`;
 
@@ -62,7 +62,7 @@ export const ATTRIBUTES = {
   showArrows: {
     key: `${ATTRIBUTES_PREFIX}-${SHOW_ARROWS_SETTING_KEY}`,
   },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement, getAttribute] = generateSelectors(ATTRIBUTES);
 

@@ -1,6 +1,6 @@
 import { SELECT_CUSTOM_ATTRIBUTE } from '$global/constants/attributes';
 import { ARROW_DOWN_KEY, ARROW_UP_KEY, SPACE_KEY, TAB_KEY } from '$global/constants/keyboard';
-import { generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${SELECT_CUSTOM_ATTRIBUTE}`;
 
@@ -42,7 +42,7 @@ export const ATTRIBUTES = {
    * Defines if the reset option should be hidden whenever there isn't an active selection.
    */
   hideInitial: { key: `${ATTRIBUTES_PREFIX}-${HIDE_INITIAL_SETTING_KEY}`, values: HIDE_INITIAL_SETTING_VALUES },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 

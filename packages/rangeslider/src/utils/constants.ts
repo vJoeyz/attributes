@@ -1,6 +1,6 @@
 import { RANGE_SLIDER_ATTRIBUTE } from '$global/constants/attributes';
 import { ARROW_DOWN_KEY, ARROW_LEFT_KEY, ARROW_RIGHT_KEY, ARROW_UP_KEY } from '$global/constants/keyboard';
-import { generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${RANGE_SLIDER_ATTRIBUTE}` as const;
 
@@ -84,7 +84,7 @@ export const ATTRIBUTES = {
    * Defaults to {@link UPDATE_ACTION_SETTING_VALUES.move}
    */
   updateAction: { key: `${ATTRIBUTES_PREFIX}-${UPDATE_ACTION_SETTING_KEY}`, values: UPDATE_ACTION_SETTING_VALUES },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 

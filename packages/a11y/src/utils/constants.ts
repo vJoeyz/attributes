@@ -1,5 +1,5 @@
 import { A11Y_ATTRIBUTE } from '$global/constants/attributes';
-import { generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${A11Y_ATTRIBUTE}`;
 
@@ -15,6 +15,6 @@ export const ATTRIBUTES = {
       // autoFocus: AUTOFOCUS_ELEMENT_KEY,
     },
   },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

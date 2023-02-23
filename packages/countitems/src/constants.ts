@@ -1,5 +1,5 @@
 import { COUNT_ITEMS_ATTRIBUTE } from '$global/constants/attributes';
-import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${COUNT_ITEMS_ATTRIBUTE}`;
 
@@ -21,6 +21,6 @@ export const ATTRIBUTES = {
       value: generateDynamicAttibuteValue(VALUE_ELEMENT_KEY),
     },
   },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

@@ -1,5 +1,5 @@
 import { QUERY_PARAM_ATTRIBUTE } from '$global/constants/attributes';
-import { generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${QUERY_PARAM_ATTRIBUTE}`;
 
@@ -22,6 +22,6 @@ export const ATTRIBUTES = {
     key: `${ATTRIBUTES_PREFIX}-${REMOVE_QUERY_SETTING_KEY}`,
     values: REMOVE_QUERY_SETTING_VALUES,
   },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

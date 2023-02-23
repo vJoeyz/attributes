@@ -1,5 +1,5 @@
 import { DOCS_ATTRIBUTE } from '$global/constants/attributes';
-import { generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 export const ATTRIBUTES_PREFIX = `fs-${DOCS_ATTRIBUTE}`;
 
@@ -39,7 +39,7 @@ export const ATTRIBUTES = {
    * Set to the document body.
    */
   attribute: { key: `${ATTRIBUTES_PREFIX}-attribute` },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 

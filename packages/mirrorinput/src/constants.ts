@@ -1,5 +1,5 @@
 import { MIRROR_INPUT_ATTRIBUTE } from '$global/constants/attributes';
-import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${MIRROR_INPUT_ATTRIBUTE}`;
 
@@ -24,6 +24,6 @@ export const ATTRIBUTES = {
       target: generateDynamicAttibuteValue(TARGET_ELEMENT_KEY),
     },
   },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

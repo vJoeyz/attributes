@@ -1,7 +1,7 @@
 import type { WebflowBreakpoint } from '@finsweet/ts-utils';
 
 import { CMS_LOAD_ATTRIBUTE } from '$global/constants/attributes';
-import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${CMS_LOAD_ATTRIBUTE}`;
 
@@ -169,7 +169,7 @@ export const ATTRIBUTES = {
    * Only works with {@link MODE_SETTING_VALUES.pagination} mode.
    */
   showQuery: { key: `${ATTRIBUTES_PREFIX}-${SHOW_QUERY_SETTING_KEY}`, values: SHOW_QUERY_SETTING_VALUES },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 

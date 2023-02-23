@@ -1,5 +1,5 @@
 import { CMS_SORT_ATTRIBUTE } from '$global/constants/attributes';
-import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${CMS_SORT_ATTRIBUTE}`;
 
@@ -84,7 +84,7 @@ export const ATTRIBUTES = {
    * Defines if a button should trigger `desc` sorting on first click.
    */
   reverse: { key: `${ATTRIBUTES_PREFIX}-${REVERSE_SETTING_KEY}`, values: { true: 'true' } },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 

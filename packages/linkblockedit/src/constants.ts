@@ -1,5 +1,5 @@
 import { LINK_BLOCK_EDIT_ATTRIBUTE } from '$global/constants/attributes';
-import { generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${LINK_BLOCK_EDIT_ATTRIBUTE}`;
 
@@ -21,6 +21,6 @@ export const ATTRIBUTES = {
    * Defines a global selector to query multiple `parent` elements.
    */
   selector: { key: `${ATTRIBUTES_PREFIX}-${SELECTOR_SETTING_KEY}` },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
