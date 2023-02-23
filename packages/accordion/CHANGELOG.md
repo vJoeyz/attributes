@@ -1,5 +1,11 @@
 # @finsweet/attributes-accordion
 
+## 1.1.2
+
+### Patch Changes
+
+- a5e353b6: force all initially hidden accordions to start closed, as the library can't determine if the content is collapsed or not
+
 ## 1.1.1
 
 ### Patch Changes
