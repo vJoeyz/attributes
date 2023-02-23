@@ -1,5 +1,5 @@
 import { SCROLL_DISABLE_ATTRIBUTE } from '$global/constants/attributes';
-import { generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${SCROLL_DISABLE_ATTRIBUTE}`;
 
@@ -63,7 +63,7 @@ export const ATTRIBUTES = {
    * It's set to the `<script>` tag, `true` by default.
    */
   gap: { key: `${ATTRIBUTES_PREFIX}-${GAP_SETTING_KEY}`, values: { true: 'true', false: 'false' } },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 

@@ -1,6 +1,7 @@
 import { ATTRIBUTES_PREFIX } from '$global/constants/attributes';
 
 import { generateSelectors } from './selectors';
+import type { AttributesDefinition } from './types';
 
 /**
  * Constants
@@ -25,6 +26,6 @@ export const ATTRIBUTES = {
    * Defines a developer script that is not imported from JsDelivr.
    */
   dev: { key: `${ATTRIBUTES_PREFIX}-dev` },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

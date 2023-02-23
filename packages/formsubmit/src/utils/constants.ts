@@ -1,5 +1,5 @@
 import { FORM_SUBMIT_ATTRIBUTE } from '$global/constants/attributes';
-import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${FORM_SUBMIT_ATTRIBUTE}`;
 
@@ -112,6 +112,6 @@ export const ATTRIBUTES = {
     key: `${ATTRIBUTES_PREFIX}-${ENHANCE_SETTING_KEY}`,
     values: ENHANCE_SETTING_VALUES,
   },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

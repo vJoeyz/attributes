@@ -1,5 +1,5 @@
 import { CMS_COMBINE_ATTRIBUTE } from '$global/constants/attributes';
-import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${CMS_COMBINE_ATTRIBUTE}`;
 
@@ -21,6 +21,6 @@ export const ATTRIBUTES = {
       itemsCount: generateDynamicAttibuteValue(ITEMS_COUNT_ELEMENT_KEY),
     },
   },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

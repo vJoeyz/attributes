@@ -1,5 +1,5 @@
 import { TOC_ATTRIBUTE } from '$global/constants/attributes';
-import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${TOC_ATTRIBUTE}`;
 
@@ -61,7 +61,7 @@ export const ATTRIBUTES = {
    * Defines if the links hash should be removed from the URL.
    */
   hideURLHash: { key: `${ATTRIBUTES_PREFIX}-${HIDE_URL_HASH_SETTING_KEY}`, values: HIDE_URL_HASH_SETTING_VALUES },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 

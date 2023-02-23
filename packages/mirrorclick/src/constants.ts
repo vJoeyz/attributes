@@ -1,5 +1,5 @@
 import { MIRROR_CLICK_ATTRIBUTE } from '$global/constants/attributes';
-import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${MIRROR_CLICK_ATTRIBUTE}`;
 
@@ -31,6 +31,6 @@ export const ATTRIBUTES = {
    * Defines a delay to wait until the click event is replicated on the target.
    */
   delay: { key: `${ATTRIBUTES_PREFIX}-${DELAY_SETTING_KEY}` },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

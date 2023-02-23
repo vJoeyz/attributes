@@ -1,5 +1,5 @@
 import { EXAMPLE_ATTRIBUTE } from '$global/constants/attributes';
-import { generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${EXAMPLE_ATTRIBUTE}`;
 
@@ -25,6 +25,6 @@ export const ATTRIBUTES = {
     key: `${ATTRIBUTES_PREFIX}-${EXAMPLE_SETTING_KEY}`,
     values: EXAMPLE_SETTING_VALUES,
   },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement, getAttribute] = generateSelectors(ATTRIBUTES);

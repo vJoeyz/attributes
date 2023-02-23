@@ -1,5 +1,5 @@
 import { COMPONENT_ATTRIBUTE } from '$global/constants/attributes';
-import { generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${COMPONENT_ATTRIBUTE}`;
 
@@ -63,6 +63,6 @@ export const ATTRIBUTES = {
    * Defines if Webflow should be restarted after rendering the loaded components.
    */
   resetIx: { key: `${ATTRIBUTES_PREFIX}-${RESET_IX_SETTING_KEY}`, values: { true: 'true' } },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement, getAttribute] = generateSelectors(ATTRIBUTES);

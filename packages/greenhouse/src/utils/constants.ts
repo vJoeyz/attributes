@@ -1,5 +1,5 @@
 import { GREENHOUSE_ATTRIBUTE } from '$global/constants/attributes';
-import { generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${GREENHOUSE_ATTRIBUTE}`;
 
@@ -80,7 +80,6 @@ export const ATTRIBUTES = {
    */
   queryparam: {
     key: `${ATTRIBUTES_PREFIX}-${QUERY_PARAM_SETTING_KEY}`,
-    default: DEFAULT_QUERY_PARAM_SETTING_KEY,
   },
   board: {
     key: `${ATTRIBUTES_PREFIX}-${BOARD_SETTING_KEY}`,
@@ -92,7 +91,7 @@ export const ATTRIBUTES = {
   display: {
     key: `${ATTRIBUTES_PREFIX}-${DISPLAY_SETTING_KEY}`,
   },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 

@@ -1,5 +1,5 @@
 import { NUMBER_COUNT_ATTRIBUTE } from '$global/constants/attributes';
-import { generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${NUMBER_COUNT_ATTRIBUTE}`;
 
@@ -51,7 +51,7 @@ export const ATTRIBUTES = {
   threshold: {
     key: `${ATTRIBUTES_PREFIX}-${THRESHOLD_SETTING_KEY}`,
   },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement, getAttribute] = generateSelectors(ATTRIBUTES);
 

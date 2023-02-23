@@ -2,7 +2,7 @@ import { CMS_ATTRIBUTE_ATTRIBUTE, GREENHOUSE_ATTRIBUTE } from '$global/constants
 import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
 
 import { initJob, initJobsList } from './factory';
-import { ATTRIBUTES, GH_DEPARTMENT, GH_OFFICE } from './utils/constants';
+import { DEFAULT_QUERY_PARAM_SETTING_KEY, GH_DEPARTMENT, GH_OFFICE } from './utils/constants';
 
 /**
  * Inits the attribute.
@@ -17,7 +17,7 @@ export const init = async ({
   await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
 
   // init params
-  queryParam ??= ATTRIBUTES.queryparam.default;
+  queryParam ??= DEFAULT_QUERY_PARAM_SETTING_KEY;
 
   if (!board) {
     return;

@@ -1,7 +1,7 @@
 import { boolean, optional, record, string, type } from 'superstruct';
 
 import { LAUNCHDARKLY_ATTRIBUTE } from '$global/constants/attributes';
-import { generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${LAUNCHDARKLY_ATTRIBUTE}`;
 
@@ -52,7 +52,7 @@ export const ATTRIBUTES = {
   cloak: {
     key: `${ATTRIBUTES_PREFIX}-${CLOAK_SETTING_KEY}`,
   },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 
