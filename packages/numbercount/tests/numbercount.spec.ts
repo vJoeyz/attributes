@@ -17,4 +17,18 @@ test.describe('Animates the numbers', () => {
 
     await expect(numberElement).toHaveText(rawEnd);
   });
+
+  test('Formats numbers using a locale', async ({ page }) => {
+    const numberElement = page.getByTestId('number-2');
+    const rawEnd = (await numberElement.getAttribute('fs-numbercount-end'))!;
+    const rawDuration = await numberElement.getAttribute('fs-numbercount-duration');
+    const locale = (await numberElement.getAttribute('fs-numbercount-locale'))!;
+
+    const duration = Number(rawDuration);
+    const end = Number(rawEnd);
+
+    await page.waitForTimeout(duration);
+
+    await expect(numberElement).toHaveText(end.toLocaleString(locale));
+  });
 });
