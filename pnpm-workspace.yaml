@@ -3,3 +3,4 @@ packages:
   - 'packages/*'
   - '!packages/cmssave'
   - '!packages/template'
+  - '!packages/support'
