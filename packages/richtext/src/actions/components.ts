@@ -11,11 +11,6 @@ import {
 } from '../utils/regex';
 
 /**
- * Caches the fetched external source documents.
- */
-const sourceDocumentsStore: Map<string, Promise<Document | undefined>> = new Map();
-
-/**
  * Memoizes the queried components.
  */
 const componentsStore: Array<{ element: HTMLElement; componentKey: string; source?: string }> = [];
