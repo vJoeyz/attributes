@@ -3,7 +3,7 @@ import { isNotEmpty, restartWebflow } from '@finsweet/ts-utils';
 import { fetchPageDocument } from '$global/helpers';
 
 import { ATTRIBUTES } from './utils/constants';
-import { isSameWebflowProject } from './utils/helpers';
+import { convertRelativeUrlsToAbsolute, isSameWebflowProject } from './utils/helpers';
 import type { ComponentData, ComponentTargetData } from './utils/types';
 
 /**
@@ -28,9 +28,9 @@ export const initComponents = async (componentTargetsData: ComponentTargetData[]
  * @returns The component data.
  */
 const initComponent = async (componentTargetData: ComponentTargetData): Promise<ComponentData | undefined> => {
-  const { target, componentId, source, loadCSS, autoRender } = componentTargetData;
+  const { target, componentId, proxiedSource, source, loadCSS, autoRender } = componentTargetData;
 
-  const page = await fetchPageDocument(source);
+  const page = await fetchPageDocument(proxiedSource || source);
   if (!page) return;
 
   const component = page.querySelector<HTMLElement>(`[${ATTRIBUTES.componentId.key}="${componentId}"]`);
@@ -60,6 +60,9 @@ const initComponent = async (componentTargetData: ComponentTargetData): Promise<
       shadowRoot.append(styleTag);
     }
   }
+
+  // Convert relative URLs to absolute URLs
+  convertRelativeUrlsToAbsolute(component, source);
 
   // Render the component
   if (autoRender) {

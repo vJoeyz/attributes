@@ -24,20 +24,21 @@ export const collectComponentTargetsData = (proxy: string | null) => {
       const resetIx = rawResetIx === 'true';
 
       let source: URL;
+      let proxiedSource: URL | undefined;
 
       try {
         source = new URL(rawSource, window.location.origin);
 
         // If source is external, prefix it with the proxy if provided
         if (source.origin !== window.location.origin && proxy) {
-          source = new URL(proxy + source.href);
+          proxiedSource = new URL(proxy + source.href);
         }
       } catch (err) {
         // Source is invalid
         return;
       }
 
-      return { target, componentId, source, loadCSS, autoRender, resetIx };
+      return { target, componentId, source, proxiedSource, loadCSS, autoRender, resetIx };
     })
     .filter(isNotEmpty);
 
