@@ -9,7 +9,18 @@ test.describe('inputcounter', () => {
     const input = page.getByTestId('input');
     const incrementButton = page.getByTestId('increment');
     const decrementButton = page.getByTestId('decrement');
-    const resetButton = page.getByTestId('reset');
+    const resetBtn = page.getByTestId('reset');
+    const clearBtn = page.getByTestId('clear');
+
+    let resetButton;
+
+    if (await resetBtn.isVisible()) {
+      resetButton = resetBtn;
+    }
+
+    if (await clearBtn.isVisible()) {
+      resetButton = clearBtn;
+    }
 
     // Initial
     await expect(input).toHaveValue('0.5');
@@ -42,7 +53,25 @@ test.describe('inputcounter', () => {
     await expect(input).toHaveValue('1');
 
     // Reset
-    await resetButton.click();
-    await expect(input).toHaveValue('0.5');
+    if (resetButton) {
+      // Reset to initial
+      await resetButton?.click();
+      await expect(input).toHaveValue('0.5');
+    } else {
+      // If no reset button is found, fail the test
+      expect(false).toBe(true);
+    }
+  });
+
+  test('Change reset button attribute value from reset to clear is backward compatible', async ({ page }) => {
+    const clearButtons = page.locator('[fs-inputcounter-element^="clear"]');
+    const resetButtons = page.locator('[fs-inputcounter-element^="reset"]');
+
+    const countClearButtons = await clearButtons.count();
+    const countResetButtons = await resetButtons.count();
+
+    const eitherIsGreaterThanZero = countClearButtons > 0 || countResetButtons > 0;
+
+    expect(eitherIsGreaterThanZero).toBe(true);
   });
 });
