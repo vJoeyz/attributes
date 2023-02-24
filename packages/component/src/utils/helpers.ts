@@ -5,7 +5,7 @@ import { getSiteId } from '@finsweet/ts-utils';
  * @param page
  * @returns True if the page is from the same Webflow project, false otherwise.
  */
-export const isSameWebflowProject = async (page: Document) => {
+export const isSameWebflowProject = (page: Document) => {
   const currentPageSiteId = getSiteId();
   const fetchedPageSiteId = getSiteId(page);
 
