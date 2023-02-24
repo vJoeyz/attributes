@@ -1,5 +1,11 @@
 # @finsweet/attributes-cmsnest
 
+## 1.10.1
+
+### Patch Changes
+
+- 134a2150: fix: prevent blocking IndexedDB transactions when other browser tabs request the same DB.
+
 ## 1.10.0
 
 ### Minor Changes
