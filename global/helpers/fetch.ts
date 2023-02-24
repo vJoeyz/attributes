@@ -111,6 +111,11 @@ const fetchAndCachePageInDB = async (db: IDBDatabase, url: URL, siteId: string, 
   return page;
 };
 
+/**
+ * Checks if a fetched page document is from the same Webflow site as the current page.
+ * @param page The fetched page document.
+ * @param siteId The current site ID.
+ */
 const isPageSameSite = (page: Document, siteId: string) => {
   const pageSiteId = getSiteId(page);
   return pageSiteId && pageSiteId === siteId;
