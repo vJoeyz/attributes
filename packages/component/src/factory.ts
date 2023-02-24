@@ -1,9 +1,8 @@
-import { isNotEmpty, restartWebflow } from '@finsweet/ts-utils';
+import { cloneNode, isNotEmpty, restartWebflow } from '@finsweet/ts-utils';
 
-import { fetchPageDocument } from '$global/helpers';
-
+import { getComponentPage } from './actions/prefetch';
 import { ATTRIBUTES } from './utils/constants';
-import { isSameWebflowProject } from './utils/helpers';
+import { convertRelativeUrlsToAbsolute, isSameWebflowProject } from './utils/helpers';
 import type { ComponentData, ComponentTargetData } from './utils/types';
 
 /**
@@ -12,7 +11,7 @@ import type { ComponentData, ComponentTargetData } from './utils/types';
  * @returns The components data.
  */
 export const initComponents = async (componentTargetsData: ComponentTargetData[]): Promise<ComponentData[]> => {
-  const componentsData = (await Promise.all(componentTargetsData.map(initComponent))).filter(isNotEmpty);
+  const componentsData = componentTargetsData.map(initComponent).filter(isNotEmpty);
 
   const shouldResetIx = componentsData.some(({ resetIx }) => resetIx);
   if (shouldResetIx) {
@@ -27,16 +26,19 @@ export const initComponents = async (componentTargetsData: ComponentTargetData[]
  * @param componentTargetData
  * @returns The component data.
  */
-const initComponent = async (componentTargetData: ComponentTargetData): Promise<ComponentData | undefined> => {
-  const { target, componentId, source, loadCSS, autoRender } = componentTargetData;
+const initComponent = (componentTargetData: ComponentTargetData): ComponentData | undefined => {
+  const { target, componentId, proxiedSource, source, loadCSS, autoRender } = componentTargetData;
 
-  const page = await fetchPageDocument(source);
+  const page = getComponentPage(proxiedSource || source);
   if (!page) return;
 
-  const component = page.querySelector<HTMLElement>(`[${ATTRIBUTES.componentId.key}="${componentId}"]`);
+  let component = page.querySelector<HTMLElement>(`[${ATTRIBUTES.componentId.key}="${componentId}"]`);
   if (!component) return;
 
-  const isSameSite = await isSameWebflowProject(page);
+  // We need to clone the component because other components might be using the same node
+  component = cloneNode(component);
+
+  const isSameSite = isSameWebflowProject(page);
   if (isSameSite) {
     if (autoRender) target.append(component);
 
@@ -60,6 +62,9 @@ const initComponent = async (componentTargetData: ComponentTargetData): Promise<
       shadowRoot.append(styleTag);
     }
   }
+
+  // Convert relative URLs to absolute URLs
+  convertRelativeUrlsToAbsolute(component, source);
 
   // Render the component
   if (autoRender) {
