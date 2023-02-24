@@ -1,5 +1,11 @@
 # @finsweet/attributes-cmscore
 
+## 1.11.2
+
+### Patch Changes
+
+- 9d623872: enhancement: enabled external documents caching when fetching resources from non-Webflow projects.
+
 ## 1.11.1
 
 ### Patch Changes
