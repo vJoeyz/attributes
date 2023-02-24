@@ -1,5 +1,6 @@
 import { cloneNode, isNotEmpty, restartWebflow } from '@finsweet/ts-utils';
 
+import { attachPageStyles } from './actions/css';
 import { getComponentPage } from './actions/prefetch';
 import { ATTRIBUTES } from './utils/constants';
 import { convertRelativeUrlsToAbsolute, isSameWebflowProject } from './utils/helpers';
@@ -11,7 +12,7 @@ import type { ComponentData, ComponentTargetData } from './utils/types';
  * @returns The components data.
  */
 export const initComponents = async (componentTargetsData: ComponentTargetData[]): Promise<ComponentData[]> => {
-  const componentsData = componentTargetsData.map(initComponent).filter(isNotEmpty);
+  const componentsData = (await Promise.all(componentTargetsData.map(initComponent))).filter(isNotEmpty);
 
   const shouldResetIx = componentsData.some(({ resetIx }) => resetIx);
   if (shouldResetIx) {
@@ -26,7 +27,7 @@ export const initComponents = async (componentTargetsData: ComponentTargetData[]
  * @param componentTargetData
  * @returns The component data.
  */
-const initComponent = (componentTargetData: ComponentTargetData): ComponentData | undefined => {
+const initComponent = async (componentTargetData: ComponentTargetData): Promise<ComponentData | undefined> => {
   const { target, componentId, proxiedSource, source, loadCSS, autoRender } = componentTargetData;
 
   const page = getComponentPage(proxiedSource || source);
@@ -56,11 +57,7 @@ const initComponent = (componentTargetData: ComponentTargetData): ComponentData 
   if (loadCSS) {
     shadowRoot = target.attachShadow({ mode: 'open' });
 
-    const styleTags = page.querySelectorAll('style, link[rel="stylesheet"]');
-
-    for (const styleTag of styleTags) {
-      shadowRoot.append(styleTag);
-    }
+    await attachPageStyles(shadowRoot, page);
   }
 
   // Convert relative URLs to absolute URLs

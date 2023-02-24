@@ -14,5 +14,7 @@ initAttribute({
   attributeKey: COMPONENT_ATTRIBUTE,
   scriptAttributes: {
     proxy: ATTRIBUTES.proxy.key,
+    cacheKey: ATTRIBUTES.cacheKey.key,
+    cacheVersion: ATTRIBUTES.cacheVersion.key,
   },
 });

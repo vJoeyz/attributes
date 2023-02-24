@@ -7,7 +7,7 @@ import { getAttribute, getSelector } from '../utils/constants';
  * Collects the component targets.
  * @param proxy A CORS proxy to use for external sources.
  */
-export const collectComponentTargetsData = (proxy: string | null) => {
+export const collectComponentTargetsData = (proxy?: string | null) => {
   const targetElements = document.querySelectorAll<HTMLElement>(getSelector('componentId'));
   const targetsData: ComponentTargetData[] = [...targetElements]
     .map((target) => {

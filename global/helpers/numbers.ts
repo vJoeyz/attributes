@@ -14,9 +14,15 @@ export const normalizeNumber = (value: string) => {
  * @param rawValue The raw string. Example: "20", "-25.3"...
  * @param fallback A value to fall back to when the parsed value is not valid.
  */
-export function parseNumericAttribute(rawValue: string | null, fallback: number): number;
-export function parseNumericAttribute(rawValue: string | null, fallback?: number | null): number | null;
-export function parseNumericAttribute(rawValue: string | null, fallback?: number | null): number | null {
+export function parseNumericAttribute(rawValue: string | number | null | undefined, fallback: number): number;
+export function parseNumericAttribute(
+  rawValue: string | number | null | undefined,
+  fallback?: number | null
+): number | null;
+export function parseNumericAttribute(
+  rawValue: string | number | null | undefined,
+  fallback?: number | null
+): number | null {
   if (!rawValue) return fallback ?? null;
 
   const value = Number(rawValue);
