@@ -13,6 +13,7 @@ const memoryCache = new Map<string, Promise<string>>();
  * @param params.cacheExternal Whether to cache external documents.
  * If set to true, it will follow a [stale-while-revalidate](https://web.dev/stale-while-revalidate/) strategy.
  *
+ * @param params.cacheKey Defines a manual database name for the IndexedDB instance.
  * @param params.cacheVersion Defines a manual version for the IndexedDB instance.
  *
  * @returns The page's {@link Document} if successful, `null` otherwise.
