@@ -8,12 +8,20 @@ import { initComponents } from './factory';
 /**
  * Inits the attribute.
  */
-export const init = async ({ proxy }: { proxy: string | null }) => {
+export const init = async ({
+  proxy,
+  cacheKey,
+  cacheVersion,
+}: {
+  proxy?: string | null;
+  cacheKey?: string | null;
+  cacheVersion?: string | number | null;
+} = {}) => {
   await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
 
   const componentTargetsData = collectComponentTargetsData(proxy);
 
-  await prefetchComponentsPages(componentTargetsData);
+  await prefetchComponentsPages(componentTargetsData, cacheKey, cacheVersion);
 
   const componentsData = await initComponents(componentTargetsData);
 

@@ -8,6 +8,8 @@ export const COMPONENT_ID_SETTING_KEY = 'id';
 export const CSS_SETTING_KEY = 'css';
 export const RENDER_SETTING_KEY = 'render';
 export const PROXY_SETTING_KEY = 'proxy';
+export const CACHE_KEY_SETTING_KEY = 'cachekey';
+export const CACHE_VERSION_SETTING_KEY = 'cacheversion';
 export const RESET_IX_SETTING_KEY = 'resetix';
 
 export const ATTRIBUTES = {
@@ -57,6 +59,20 @@ export const ATTRIBUTES = {
    */
   proxy: {
     key: `${ATTRIBUTES_PREFIX}-${PROXY_SETTING_KEY}`,
+  },
+
+  /**
+   * Defines a cache key for the fetched external components.
+   */
+  cacheKey: {
+    key: `${ATTRIBUTES_PREFIX}-${CACHE_KEY_SETTING_KEY}`,
+  },
+
+  /**
+   * Defines a cache version for the fetched external components.
+   */
+  cacheVersion: {
+    key: `${ATTRIBUTES_PREFIX}-${CACHE_VERSION_SETTING_KEY}`,
   },
 
   /**
