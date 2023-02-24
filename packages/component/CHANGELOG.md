@@ -1,5 +1,18 @@
 # @finsweet/attributes-component
 
+## 1.1.0
+
+### Minor Changes
+
+- 5c40136c: feat: when importing an external component, automatically convert all the relative urls to absolute using the source origin as the base.
+  ie:
+
+  - Footer is imported from `https://attributes.finsweet.com/styleguides`.
+  - Contains relative links like `/agency`.
+  - Links are rewritten to be `https://wf.finsweet.com/agency`.
+
+- 459e6f62: feat: use a [stale-while-revalidate](https://web.dev/stale-while-revalidate/) approach when serving components from external sources.
+
 ## 1.0.0
 
 ### Major Changes
