@@ -1,5 +1,15 @@
 # @finsweet/attributes-component
 
+## 1.2.0
+
+### Minor Changes
+
+- a46aeb57: enhancement: wait until an external component's CSS has fully loaded before appending that component to the DOM. This avoids flashing the raw HTML without styles in slow connections.
+
+### Patch Changes
+
+- 9d623872: enhancement: enabled external documents caching when fetching resources from non-Webflow projects.
+
 ## 1.1.0
 
 ### Minor Changes
