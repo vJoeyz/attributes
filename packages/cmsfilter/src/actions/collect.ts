@@ -20,6 +20,7 @@ import { handleFilterInput } from './input';
 const {
   field: { key: fieldKey },
   reset: { key: resetKey },
+  resetFallback: { key: resetFallbackKey },
   range: { key: rangeKey },
   match: { key: matchKey },
   tagFormat: { key: tagFormatKey },
@@ -47,13 +48,15 @@ export const collectFiltersElements = (
   const form = formBlock.querySelector('form') as HTMLFormElement;
   const submitButton = formBlock.querySelector<HTMLInputElement>('input[type="submit"]');
 
-  const resetButtonElements = formBlock.querySelectorAll<HTMLElement>(
-    getSelector('element', 'reset', { operator: 'prefixed' })
-  );
+  const resetButtonElements = [
+    ...queryElement<HTMLElement>('reset', { scope: formBlock, operator: 'prefixed', all: true }),
+    ...queryElement<HTMLElement>('resetFallback', { scope: formBlock, operator: 'prefixed', all: true }),
+  ];
+
   const resetButtonsData: ResetButtonsData = new Map();
 
   for (const resetButton of resetButtonElements) {
-    const rawFilterKeys = resetButton.getAttribute(resetKey);
+    const rawFilterKeys = resetButton.getAttribute(resetKey) || resetButton.getAttribute(resetFallbackKey);
     const filterKeys = rawFilterKeys
       ? [...new Set(extractCommaSeparatedValues(rawFilterKeys))].map((filterKey) => normalizePropKey(filterKey))
       : [];
