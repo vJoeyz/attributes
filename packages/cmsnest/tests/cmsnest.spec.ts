@@ -36,16 +36,16 @@ test.describe('cmsnest', () => {
     const collectionItems = collectionList.locator(':scope > .w-dyn-item');
     const categoriesList = collectionItems.first().locator('[fs-cmsnest-collection="categories"] > .w-dyn-items');
     const categoriesItems = categoriesList.locator(':scope > .w-dyn-item');
-    const servicesList = categoriesItems.first().locator('[fs-cmsnest-collection="services"] > .w-dyn-items');
+    const servicesList = collectionItems.first().locator('[fs-cmsnest-collection="services"] > .w-dyn-items');
     const servicesItems = servicesList.locator(':scope > .w-dyn-item');
     const colors1List = servicesItems.first().locator('[fs-cmsnest-collection="colors"] > .w-dyn-items');
     const colors1Items = colors1List.locator(':scope > .w-dyn-item');
-    const colors2Empty = servicesItems.nth(1).locator('[fs-cmsnest-collection="colors"] > [fs-cmsnest-empty="colors"]');
+    const colors2Empty = servicesItems.last().locator('[fs-cmsnest-collection="colors"] > [fs-cmsnest-empty="colors"]');
 
     expect(await categoriesItems.count()).toBe(5);
-    expect(await servicesItems.count()).toBe(2);
-    expect(await colors1Items.count()).toBe(1);
-    await expect(colors1Items.first()).toHaveText(/Blue/);
+    expect(await servicesItems.count()).toBe(5);
+    expect(await colors1Items.count()).toBe(3);
+    await expect(colors1Items.first()).toHaveText(/Red/);
     await expect(colors2Empty).toBeVisible();
   });
 });

@@ -35,26 +35,43 @@ export const getNestSources = ({ createCMSListInstances }: CMSCore): NestSources
  * @returns A `Map` with the `collectionKey` as the keys and `HTMLElement` targets as the values.
  */
 export const getNestTargets = (itemElement: CollectionItemElement) => {
+  // Query nest targets
+  const nestTargetElements = itemElement.querySelectorAll<HTMLElement>(`${getSelector('collection')}:not(a)`);
+
+  // Group nest targets by collection
+  const targetsByCollection = [...nestTargetElements].reduce((acc, nestTarget) => {
+    const collectionId = normalizePropKey(getAttribute(nestTarget, 'collection'));
+    if (!collectionId) return acc;
+
+    const nestTargets = acc.get(collectionId) || [];
+
+    nestTargets.push(nestTarget);
+
+    acc.set(collectionId, nestTargets);
+
+    return acc;
+  }, new Map<string, HTMLElement[]>());
+
+  // Determine if the slugs are defined manually or have to be fetched
   const manualNestTargets: ManualNestTargets = new Map();
   const externalNestTargets: ExternalNestTargets = new Map();
 
-  const nestTargetElements = itemElement.querySelectorAll<HTMLElement>(`${getSelector('collection')}:not(a)`);
+  for (const [collectionId, nestTargets] of targetsByCollection) {
+    // If there's only 1 target, always fetch the item template page
+    if (nestTargets.length === 1) {
+      externalNestTargets.set(collectionId, nestTargets[0]);
+      continue;
+    }
 
-  for (const nestTarget of nestTargetElements) {
-    const collectionId = normalizePropKey(getAttribute(nestTarget, 'collection'));
-    if (!collectionId) continue;
+    // If there are multiple targets, check if the slugs are defined manually
+    const slugsElement = nestTargets.find(({ textContent }) => textContent?.trim().length) || nestTargets[0];
+    const nestTarget =
+      nestTargets.find((nestTarget) => nestTarget !== slugsElement) || nestTargets[nestTargets.length - 1];
 
-    const slugs = extractCommaSeparatedValues(nestTarget.textContent);
+    const slugs = extractCommaSeparatedValues(slugsElement.textContent);
 
     // Slugs to nest are defined manually
-    if (slugs.length) {
-      manualNestTargets.set(collectionId, { slugs, nestTarget });
-    }
-
-    // Or have to be fetched
-    else {
-      externalNestTargets.set(collectionId, nestTarget);
-    }
+    manualNestTargets.set(collectionId, { slugs, nestTarget });
   }
 
   return { manualNestTargets, externalNestTargets };
