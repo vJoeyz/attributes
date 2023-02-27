@@ -57,21 +57,20 @@ export const getNestTargets = (itemElement: CollectionItemElement) => {
   const externalNestTargets: ExternalNestTargets = new Map();
 
   for (const [collectionId, nestTargets] of targetsByCollection) {
-    // If there's only 1 target, always fetch the item template page
-    if (nestTargets.length === 1) {
-      externalNestTargets.set(collectionId, nestTargets[0]);
+    const nestTarget = nestTargets.find((nestTarget) => nestTarget.matches(getSelector('element', 'nestTarget')));
+    const slugsElement = nestTargets.find((nestTarget) => nestTarget.matches(getSelector('element', 'slugs')));
+
+    // Slugs to nest are defined manually
+    if (nestTarget && slugsElement) {
+      const slugs = extractCommaSeparatedValues(slugsElement.textContent);
+
+      manualNestTargets.set(collectionId, { slugs, nestTarget });
       continue;
     }
 
-    // If there are multiple targets, check if the slugs are defined manually
-    const slugsElement = nestTargets.find(({ textContent }) => textContent?.trim().length) || nestTargets[0];
-    const nestTarget =
-      nestTargets.find((nestTarget) => nestTarget !== slugsElement) || nestTargets[nestTargets.length - 1];
-
-    const slugs = extractCommaSeparatedValues(slugsElement.textContent);
-
-    // Slugs to nest are defined manually
-    manualNestTargets.set(collectionId, { slugs, nestTarget });
+    // Otherwise treat the first element as the nest target
+    // and always fetch as external
+    externalNestTargets.set(collectionId, nestTargets[0]);
   }
 
   return { manualNestTargets, externalNestTargets };

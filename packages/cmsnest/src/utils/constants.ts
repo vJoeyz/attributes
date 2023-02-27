@@ -4,6 +4,8 @@ import { type AttributesDefinition, generateSelectors } from '$global/factory';
 const ATTRIBUTES_PREFIX = `fs-${CMS_NEST_ATTRIBUTE}`;
 
 export const LIST_ELEMENT_KEY = 'list';
+export const NEST_TARGET_SETTING_KEY = 'nest-target';
+export const SLUGS_SETTING_KEY = 'slugs';
 export const COLLECTION_SETTING_KEY = 'collection';
 export const EMPTY_SETTING_KEY = 'empty';
 
@@ -15,6 +17,16 @@ export const ATTRIBUTES = {
        * Defines a list to be combined into the target.
        */
       list: LIST_ELEMENT_KEY,
+
+      /**
+       * Defines a target element where a list will be nested into.
+       */
+      nestTarget: NEST_TARGET_SETTING_KEY,
+
+      /**
+       * Defines an element that contains a comma-separated list of slugs.
+       */
+      slugs: SLUGS_SETTING_KEY,
     },
   },
 
