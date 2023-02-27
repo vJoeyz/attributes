@@ -12,7 +12,7 @@ export const generateDynamicAttibuteValue = (value: string) => {
 };
 
 /**
- * @returns A `getSelector` callback for the passed `attributes` object.
+ * @returns [`getSelector`, `queryElement`, `getAttribute`] callbacks for the passed `attributes` object.
  * @param attributes An object containing all attribute keys and values.
  */
 export const generateSelectors = <Attributes extends AttributesDefinition>(attributes: Attributes) => {

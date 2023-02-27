@@ -1,10 +1,17 @@
 import type { CMSList } from '$packages/cmscore';
 
-interface NestSource {
+export type NestSource = {
   listInstance: CMSList;
   emptyElement: HTMLElement | null;
-}
+};
 
 export type NestSources = Map<string, NestSource>;
 
-export type NestTargets = Map<string, HTMLElement>;
+export type ManualNestTargets = Map<
+  string,
+  {
+    nestTarget: HTMLElement;
+    slugs: string[];
+  }
+>;
+export type ExternalNestTargets = Map<string, HTMLElement>;
