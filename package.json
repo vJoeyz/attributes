@@ -31,21 +31,21 @@
   "devDependencies": {
     "@changesets/changelog-git": "^0.1.14",
     "@changesets/cli": "^2.26.0",
-    "@finsweet/eslint-config": "^2.0.1",
+    "@finsweet/eslint-config": "^2.0.2",
     "@finsweet/tsconfig": "^1.2.0",
-    "@playwright/test": "^1.30.0",
-    "@typescript-eslint/eslint-plugin": "^5.51.0",
-    "@typescript-eslint/parser": "^5.51.0",
+    "@playwright/test": "^1.31.1",
+    "@typescript-eslint/eslint-plugin": "^5.53.0",
+    "@typescript-eslint/parser": "^5.53.0",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.17.6",
-    "eslint": "^8.33.0",
+    "esbuild": "^0.17.10",
+    "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.4",
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@finsweet/ts-utils": "^0.37.3",
+    "@finsweet/ts-utils": "^0.38.0",
     "nanoid": "^4.0.1"
   },
   "pnpm": {

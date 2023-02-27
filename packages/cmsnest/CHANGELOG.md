@@ -1,5 +1,23 @@
 # @finsweet/attributes-cmsnest
 
+## 1.10.2
+
+### Patch Changes
+
+- 9d623872: enhancement: enabled external documents caching when fetching resources from non-Webflow projects.
+
+## 1.10.1
+
+### Patch Changes
+
+- 134a2150: fix: prevent blocking IndexedDB transactions when other browser tabs request the same DB.
+
+## 1.10.0
+
+### Minor Changes
+
+- 18071e97: feat: improve loading speeds by leveraging IndexedDB and caching all requests from the same Webflow project.
+
 ## 1.9.0
 
 ### Minor Changes

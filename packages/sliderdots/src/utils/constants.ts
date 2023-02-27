@@ -1,5 +1,5 @@
 import { SLIDER_DOTS_ATTRIBUTE } from '$global/constants/attributes';
-import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${SLIDER_DOTS_ATTRIBUTE}`;
 
@@ -42,7 +42,7 @@ export const ATTRIBUTES = {
     key: `${ATTRIBUTES_PREFIX}-${REMOVE_SETTING_KEY}`,
     values: { true: 'true' },
   },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 

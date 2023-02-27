@@ -1,5 +1,5 @@
 import { CMS_LOAD_ATTRIBUTE, VIDEO_HLS_ATTRIBUTE } from '$global/constants/attributes';
-import { generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${VIDEO_HLS_ATTRIBUTE}`;
 
@@ -12,7 +12,7 @@ export const ATTRIBUTES = {
   manifest: {
     key: `${ATTRIBUTES_PREFIX}-${MANIFEST_SETTING_KEY}`,
   },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement, getAttribute] = generateSelectors(ATTRIBUTES);
 

@@ -1,5 +1,5 @@
 import { ANIMATION_ATTRIBUTE } from '$global/constants/attributes';
-import { generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${ANIMATION_ATTRIBUTE}`;
 
@@ -21,6 +21,6 @@ export const ATTRIBUTES = {
       value2: 'value2',
     },
   },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

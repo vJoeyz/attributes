@@ -1,5 +1,5 @@
 import { CMS_ATTRIBUTE_ATTRIBUTE } from '$global/constants/attributes';
-import { generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${CMS_ATTRIBUTE_ATTRIBUTE}`;
 
@@ -22,6 +22,6 @@ export const ATTRIBUTES = {
    * Defines a value to construct an attribute.
    */
   value: { key: `${ATTRIBUTES_PREFIX}-${VALUE_SETTING_KEY}` },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

@@ -1,5 +1,5 @@
 import { CMS_FILTER_ATTRIBUTE } from '$global/constants/attributes';
-import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${CMS_FILTER_ATTRIBUTE}`;
 
@@ -14,9 +14,11 @@ export const TAG_TEMPLATE_ELEMENT_KEY = 'tag-template';
 export const TAG_TEXT_ELEMENT_KEY = 'tag-text';
 export const TAG_REMOVE_ELEMENT_KEY = 'tag-remove';
 export const SCROLL_ANCHOR_ELEMENT_KEY = 'scroll-anchor';
-export const RESET_ELEMENT_KEY = 'reset';
+export const RESET_ELEMENT_KEY = 'clear';
+export const RESET_ELEMENT_KEY_FALLBACK = 'reset';
 export const FIELD_SETTING_KEY = 'field';
-export const RESET_SETTING_KEY = 'reset';
+export const RESET_SETTING_KEY = 'clear';
+export const RESET_SETTING_KEY_FALLBACK = 'reset';
 export const MATCH_SETTING_KEY = 'match';
 export const MATCH_SETTING_VALUES = { any: 'any', all: 'all' } as const;
 export const RANGE_SETTING_KEY = 'range';
@@ -103,6 +105,11 @@ export const ATTRIBUTES = {
        * Defines a button that resets all filters when clicked.
        */
       reset: RESET_ELEMENT_KEY,
+
+      /**
+       * Defines a button that resets all filters when clicked. (fallback)
+       */
+      resetFallback: RESET_ELEMENT_KEY_FALLBACK,
     },
   },
 
@@ -115,6 +122,11 @@ export const ATTRIBUTES = {
    * Defines a specific field key to be resetted when clicking a Reset button.
    */
   reset: { key: `${ATTRIBUTES_PREFIX}-${RESET_SETTING_KEY}` },
+
+  /**
+   * Defines a specific field key to be resetted when clicking a Reset button. (fallback)
+   */
+  resetFallback: { key: `${ATTRIBUTES_PREFIX}-${RESET_SETTING_KEY_FALLBACK}` },
 
   /**
    * Defines the matching mode.
@@ -200,7 +212,7 @@ export const ATTRIBUTES = {
    * Defines the duration of the list animation.
    */
   duration: { key: `${ATTRIBUTES_PREFIX}-${DURATION_SETTING_KEY}` },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 

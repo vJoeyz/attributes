@@ -1,4 +1,4 @@
-import { generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 export const ATTRIBUTE = 'cmssave';
 
@@ -41,7 +41,7 @@ export const ATTRIBUTES = {
    * Defines an `Empty State` element.
    */
   empty: { key: `${ATTRIBUTES_PREFIX}-${EMPTY_SETTING_KEY}` },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 

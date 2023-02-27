@@ -1,5 +1,11 @@
 # @finsweet/attributes-cmsfilter
 
+## 1.16.1
+
+### Patch Changes
+
+- 1cfbca90: Update examples data and use clear attribute value inplace of option-reset, reset will be used as a fallback, may be removed completely in future.
+
 ## 1.16.0
 
 ### Minor Changes

@@ -1,12 +1,11 @@
 import { cloneNode } from '@finsweet/ts-utils';
 
-import { getCollectionElements, getCollectionListWrappers, normalizePropKey } from '$global/helpers';
+import { fetchPageDocument, getCollectionElements, getCollectionListWrappers, normalizePropKey } from '$global/helpers';
 import type { CMSCore, CMSItem } from '$packages/cmscore';
 
 import { ATTRIBUTES, getSelector } from '../utils/constants';
 import type { ExternalNestTargets, ManualNestTargets, NestSource, NestSources } from '../utils/types';
 import { getNestTargets } from './collect';
-import { fetchTemplatePage } from './fetch';
 
 /**
  * Fetches each Collection Item's Template Page, checks which nested items belong to it, and appends the nested collection only containing the correspondent items.
@@ -81,7 +80,7 @@ const nestExternalItems = async (
   if (!externalNestTargets.size || !item.href) return;
 
   // Fetch the Collection Item's Template Page
-  const page = await fetchTemplatePage(item.href);
+  const page = await fetchPageDocument(item.href);
   if (!page) return;
 
   // Get the existing lists to nest

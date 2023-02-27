@@ -22,7 +22,8 @@ export const initInputCounter = (inputElement: HTMLInputElement) => {
 
   const incrementButton = queryElement('increment', { instanceIndex });
   const decrementButton = queryElement('decrement', { instanceIndex });
-  const resetButton = queryElement('reset', { instanceIndex });
+
+  const resetButton = queryElement('reset', { instanceIndex }) || queryElement('resetFallback', { instanceIndex });
 
   if (!incrementButton && !decrementButton) return;
 

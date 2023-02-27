@@ -1,5 +1,5 @@
 import { FAV_CUSTOM_ATTRIBUTE } from '$global/constants/attributes';
-import { generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${FAV_CUSTOM_ATTRIBUTE}`;
 
@@ -21,6 +21,6 @@ export const ATTRIBUTES = {
    * Defines the URL source of the image to be set as the favicon.
    */
   src: { key: `${ATTRIBUTES_PREFIX}-${SRC_SETTING_KEY}` },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

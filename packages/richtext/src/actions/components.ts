@@ -1,5 +1,7 @@
 import { Debug } from '@finsweet/ts-utils';
 
+import { fetchPageDocument } from '$global/helpers';
+
 import { ATTRIBUTES } from '../utils/constants';
 import {
   HAS_COMPONENT_TEMPLATE_REGEX,
@@ -7,11 +9,6 @@ import {
   MUSTACHE_DELIMITERS_REGEX,
   TRAILING_SLASH_REGEX,
 } from '../utils/regex';
-
-/**
- * Caches the fetched external source documents.
- */
-const sourceDocumentsStore: Map<string, Promise<Document | undefined>> = new Map();
 
 /**
  * Memoizes the queried components.
@@ -84,7 +81,7 @@ const queryComponent = async (componentKey: string, source?: string): Promise<HT
   const storedComponent = componentsStore.find((data) => data.componentKey === componentKey && data.source === source);
   if (storedComponent) return storedComponent.element;
 
-  const externalDocument = source ? await fetchSourceDocument(source) : undefined;
+  const externalDocument = source ? await fetchPageDocument(source) : undefined;
 
   const element = (externalDocument || document).querySelector<HTMLElement>(
     `[${ATTRIBUTES.component.key}="${componentKey}"]`
@@ -103,33 +100,4 @@ const queryComponent = async (componentKey: string, source?: string): Promise<HT
   }
 
   return element;
-};
-
-/**
- * Fetches and caches an external source document.
- * @param source An external source where the component is located.
- * @returns A {@link Document} promise, if valid.
- */
-const fetchSourceDocument = (source: string): Promise<Document | undefined> => {
-  const externalDocument = sourceDocumentsStore.get(source);
-  if (externalDocument) return externalDocument;
-
-  const externalDocumentPromise = new Promise<Document | undefined>(async (resolve) => {
-    let externalDocument: Document | undefined;
-
-    try {
-      const response = await fetch(source);
-      const data = await response.text();
-
-      const parser = new DOMParser();
-      externalDocument = parser.parseFromString(data, 'text/html');
-    } catch (error) {
-      Debug.alert(`[${source}] is not a valid source.`, 'info');
-    }
-
-    resolve(externalDocument);
-  });
-
-  sourceDocumentsStore.set(source, externalDocumentPromise);
-  return externalDocumentPromise;
 };

@@ -40,7 +40,14 @@ export const handleInputKeyUpEvents = (e: KeyboardEvent, settings: Settings) => 
     if (!dropdownIsOpen) toggleDropdown(settings);
 
     if (inputValue.length > 0) {
-      populateOptions(settings, inputValue, false, true);
+      const selected = settings.optionsStore.find(({ selected }) => selected);
+      const inputIsEqualToSelectedOption = selected?.value.toLocaleLowerCase() === inputValue.toLowerCase();
+
+      if (selected && inputIsEqualToSelectedOption) {
+        populateOptions(settings, inputValue, true, true);
+      } else {
+        populateOptions(settings, inputValue, false, true);
+      }
     } else {
       populateOptions(settings, '', true, true);
     }

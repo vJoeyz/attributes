@@ -1,5 +1,5 @@
 import { ACCORDION_ATTRIBUTE, CMS_LOAD_ATTRIBUTE } from '$global/constants/attributes';
-import { generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${ACCORDION_ATTRIBUTE}`;
 
@@ -68,7 +68,7 @@ export const ATTRIBUTES = {
    * Defaults to {@link DEFAULT_ACTIVE_CLASS} when not defined.
    */
   active: { key: `${ATTRIBUTES_PREFIX}-${ACTIVE_SETTING_KEY}` },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement, getAttribute] = generateSelectors(ATTRIBUTES);
 

@@ -1,5 +1,5 @@
 import { MODAL_ATTRIBUTE } from '$global/constants/attributes';
-import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${MODAL_ATTRIBUTE}`;
 
@@ -54,7 +54,7 @@ export const ATTRIBUTES = {
    * Defines the display property after animating.
    */
   display: { key: `${ATTRIBUTES_PREFIX}-${DISPLAY_SETTING_KEY}` },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement, getAttribute] = generateSelectors(ATTRIBUTES);
 

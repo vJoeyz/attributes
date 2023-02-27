@@ -1,12 +1,13 @@
 import { INPUT_COUNTER_ATTRIBUTE } from '$global/constants/attributes';
-import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${INPUT_COUNTER_ATTRIBUTE}`;
 
 export const INPUT_ELEMENT_KEY = 'input';
 export const INCREMENT_ELEMENT_KEY = 'increment';
 export const DECREMENT_ELEMENT_KEY = 'decrement';
-export const RESET_ELEMENT_KEY = 'reset';
+export const RESET_ELEMENT_KEY = 'clear';
+export const RESET_ELEMENT_KEY_FALLBACK = 'reset';
 export const STYLE_ELEMENT_KEY = 'style';
 
 export const INITIAL_SETTING_KEY = 'initial';
@@ -37,6 +38,11 @@ export const ATTRIBUTES = {
       reset: generateDynamicAttibuteValue(RESET_ELEMENT_KEY),
 
       /**
+       * Defines a reset button (fallback) for backward compatibility.
+       */
+      resetFallback: generateDynamicAttibuteValue(RESET_ELEMENT_KEY_FALLBACK),
+
+      /**
        * Defines the stylesheet that contains the hide arrows CSS.
        */
       style: STYLE_ELEMENT_KEY,
@@ -56,7 +62,7 @@ export const ATTRIBUTES = {
   showArrows: {
     key: `${ATTRIBUTES_PREFIX}-${SHOW_ARROWS_SETTING_KEY}`,
   },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement, getAttribute] = generateSelectors(ATTRIBUTES);
 

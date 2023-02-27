@@ -1,5 +1,5 @@
 import { SOCIAL_SHARE_ATTRIBUTE } from '$global/constants/attributes';
-import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${SOCIAL_SHARE_ATTRIBUTE}`;
 
@@ -85,16 +85,14 @@ export const ATTRIBUTES = {
    */
   width: {
     key: `${ATTRIBUTES_PREFIX}-${HEIGHT_SETTING_KEY}`,
-    default: DEFAULT_WIDTH_SETTING_KEY,
   },
   /**
    * Defines the height of popup window.
    */
   height: {
     key: `${ATTRIBUTES_PREFIX}-${WIDTH_SETTING_KEY}`,
-    default: DEFAULT_HEIGHT_SETTING_KEY,
   },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 

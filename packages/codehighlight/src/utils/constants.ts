@@ -1,5 +1,5 @@
 import { CODE_HIGHLIGHT_ATTRIBUTE } from '$global/constants/attributes';
-import { generateSelectors } from '$global/factory/selectors';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${CODE_HIGHLIGHT_ATTRIBUTE}`;
 
@@ -24,7 +24,7 @@ export const ATTRIBUTES = {
   theme: {
     key: `${ATTRIBUTES_PREFIX}-${THEME_SETTING_KEY}`,
   },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 

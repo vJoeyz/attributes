@@ -1,5 +1,5 @@
 import { NUMBER_COUNT_ATTRIBUTE } from '$global/constants/attributes';
-import { generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${NUMBER_COUNT_ATTRIBUTE}`;
 
@@ -8,6 +8,7 @@ export const START_SETTING_KEY = 'start';
 export const END_SETTING_KEY = 'end';
 export const DURATION_SETTING_KEY = 'duration';
 export const THRESHOLD_SETTING_KEY = 'threshold';
+export const LOCALE_SETTING_KEY = 'locale';
 
 export const ATTRIBUTES = {
   element: {
@@ -51,7 +52,18 @@ export const ATTRIBUTES = {
   threshold: {
     key: `${ATTRIBUTES_PREFIX}-${THRESHOLD_SETTING_KEY}`,
   },
-} as const;
+
+  /**
+   * If defined, the library will format the number using the provided locale.
+   * Users can define any BCP 47 language tag or use `auto` to use the browser's locale.
+   */
+  locale: {
+    key: `${ATTRIBUTES_PREFIX}-${LOCALE_SETTING_KEY}`,
+    values: {
+      auto: 'auto',
+    },
+  },
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement, getAttribute] = generateSelectors(ATTRIBUTES);
 

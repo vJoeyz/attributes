@@ -1,5 +1,5 @@
 import { CMS_CSS_ATTRIBUTE } from '$global/constants/attributes';
-import { generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${CMS_CSS_ATTRIBUTE}`;
 
@@ -17,6 +17,6 @@ export const ATTRIBUTES = {
   pseudo: { key: `${ATTRIBUTES_PREFIX}-pseudo` },
 
   class: { key: `${ATTRIBUTES_PREFIX}-class` },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

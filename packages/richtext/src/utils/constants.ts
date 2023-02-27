@@ -1,5 +1,5 @@
 import { RICH_TEXT_ATTRIBUTE } from '$global/constants/attributes';
-import { generateSelectors } from '$global/factory/selectors';
+import { type AttributesDefinition, generateSelectors } from '$global/factory';
 
 const ATTRIBUTES_PREFIX = `fs-${RICH_TEXT_ATTRIBUTE}`;
 
@@ -33,7 +33,7 @@ export const ATTRIBUTES = {
    * Defines if Webflow should be restarted after loading new items.
    */
   resetIx: { key: `${ATTRIBUTES_PREFIX}-${RESET_IX_SETTING_KEY}`, values: { true: 'true' } },
-} as const;
+} as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
 

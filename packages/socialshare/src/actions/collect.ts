@@ -1,4 +1,4 @@
-import { ATTRIBUTES, queryElement } from './../utils/constants';
+import { ATTRIBUTES, DEFAULT_HEIGHT_SETTING_KEY, DEFAULT_WIDTH_SETTING_KEY, queryElement } from './../utils/constants';
 import type {
   FacebookSocialShare,
   PinterestSocialShare,
@@ -78,8 +78,8 @@ export function collectSocialData(
   instanceIndex: number | undefined,
   scope: HTMLElement | undefined
 ): SocialShare {
-  const width = collectSize(socialShareButton, ATTRIBUTES.width.key, ATTRIBUTES.width.default);
-  const height = collectSize(socialShareButton, ATTRIBUTES.height.key, ATTRIBUTES.height.default);
+  const width = collectSize(socialShareButton, ATTRIBUTES.width.key, DEFAULT_WIDTH_SETTING_KEY);
+  const height = collectSize(socialShareButton, ATTRIBUTES.height.key, DEFAULT_HEIGHT_SETTING_KEY);
 
   const contentElement = queryElement<HTMLElement>('content', { instanceIndex, operator: 'prefixed', scope });
   const contentText = contentElement ? contentElement.textContent : null;

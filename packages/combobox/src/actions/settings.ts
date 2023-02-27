@@ -50,7 +50,7 @@ export const collectSettings = (referenceElement: HTMLElement) => {
     dropdownToggle;
 
   const optionTemplate = dropdownList.querySelector(
-    `a:not(${getSelector('element', 'resetOption', { operator: 'prefixed' })})`
+    `a:not(${getSelector('element', 'clearDropdown', { operator: 'prefixed' })})`
   );
   if (!isHTMLAnchorElement(optionTemplate)) return;
 
