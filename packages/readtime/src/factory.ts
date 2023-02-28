@@ -1,6 +1,6 @@
 import { getInstanceIndex } from '$global/helpers';
 
-import { ATTRIBUTES, DEFAULT_DECIMALS, DEFAULT_WPM, queryElement } from './utils/constants';
+import { ATTRIBUTES, DEFAULT_WPM, queryElement } from './utils/constants';
 
 /**
  * Inits the read time for an instance.
