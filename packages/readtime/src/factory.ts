@@ -23,4 +23,14 @@ export const initReadTime = (timeElement: Element) => {
 
   timeElement.textContent = Number(readTime.toFixed(decimals)) < 1 ? '1' : readTime.toFixed(decimals);
 
+  const parentWrapper = timeElement.parentElement as HTMLDivElement;
+
+  if (!parentWrapper) return;
+  
+  const [, , minuteText] = parentWrapper.childNodes;
+
+  if (!minuteText) return;
+
+  // plural vs singular
+  minuteText.textContent = Number(readTime.toFixed(decimals)) < 1 ? ' minute' : ' minutes';
 };
