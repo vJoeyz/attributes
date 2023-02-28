@@ -20,5 +20,7 @@ export const initReadTime = (timeElement: Element) => {
 
   const readTime = wordsCount / wpm;
 
-  timeElement.textContent = readTime.toFixed(decimals);
+
+  timeElement.textContent = Number(readTime.toFixed(decimals)) < 1 ? '1' : readTime.toFixed(decimals);
+
 };
