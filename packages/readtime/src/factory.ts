@@ -1,6 +1,6 @@
 import { getInstanceIndex } from '$global/helpers';
 
-import { ATTRIBUTES, DEFAULT_DECIMALS, DEFAULT_WPM, queryElement } from './utils/constants';
+import { ATTRIBUTES, DEFAULT_WPM, queryElement } from './utils/constants';
 
 /**
  * Inits the read time for an instance.
@@ -14,11 +14,11 @@ export const initReadTime = (timeElement: Element) => {
   if (!contentsElement) return;
 
   const wpm = Number(timeElement.getAttribute(ATTRIBUTES.wpm.key)) || DEFAULT_WPM;
-  const decimals = Number(timeElement.getAttribute(ATTRIBUTES.decimals.key)) || DEFAULT_DECIMALS;
+  const decimals = Number(timeElement.getAttribute(ATTRIBUTES.decimals.key));
 
   const wordsCount = contentsElement.innerText.match(/[\w\d\’\'-]+/gi)?.length ?? 0;
 
   const readTime = wordsCount / wpm;
 
-  timeElement.textContent = readTime.toFixed(decimals);
+  timeElement.textContent = !decimals && readTime < 0.5 ? '1' : readTime.toFixed(decimals);
 };
