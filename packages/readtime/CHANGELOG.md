@@ -1,5 +1,11 @@
 # @finsweet/attributes-readtime
 
+## 1.2.3
+
+### Patch Changes
+
+- 1b3142f0: Fix bug regarding read time, for small paragraphs, default to 1 minute. Add examples data for select custom and input counter
+
 ## 1.2.2
 
 ### Patch Changes
