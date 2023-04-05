@@ -26,7 +26,9 @@ export const animateNumberCount = (
 
       numberElement.textContent = valueToString(flooredValue, locale);
       value = newValue;
-    } else {
+    }
+
+    if (value >= end) {
       numberElement.textContent = valueToString(end, locale);
     }
   };
