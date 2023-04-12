@@ -1,5 +1,11 @@
 # @finsweet/attributes-cmscore
 
+## 1.12.1
+
+### Patch Changes
+
+- f3a8dd92: Support `fs-cmsstatic-repeat` for elements defined as interactive (`fs-cmsstatic-interactive="true"`).
+
 ## 1.12.0
 
 ### Minor Changes
