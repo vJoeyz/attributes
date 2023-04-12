@@ -1,5 +1,11 @@
 # @finsweet/attributes-cmssort
 
+## 1.13.2
+
+### Patch Changes
+
+- 02469177: Improved support for `cmsstatic`.
+
 ## 1.13.1
 
 ### Patch Changes
