@@ -1,5 +1,5 @@
 import type { SliderElement } from '@finsweet/ts-utils';
-import { SLIDER_CSS_CLASSES, SliderNavElement } from '@finsweet/ts-utils';
+import { SLIDER_CSS_CLASSES, type SliderNavElement } from '@finsweet/ts-utils';
 
 import { CMS_SLIDER_ATTRIBUTE } from '$global/constants/attributes';
 import { getInstanceIndex } from '$global/helpers';

@@ -1,4 +1,4 @@
-import { FormField, isHTMLInputElement } from '@finsweet/ts-utils';
+import { type FormField, isHTMLInputElement } from '@finsweet/ts-utils';
 
 import type { Form } from '../components/Form';
 import { getSelector } from '../utils/constants';

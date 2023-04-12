@@ -1,4 +1,4 @@
-import { addListener, MapEntries } from '@finsweet/ts-utils';
+import { addListener, type MapEntries } from '@finsweet/ts-utils';
 
 import { ARIA_ROLE_KEY, ARIA_ROLE_VALUES, ARIA_SORT_KEY, ARIA_SORT_VALUES, TABINDEX_KEY } from '$global/constants/a11y';
 import { normalizePropKey } from '$global/helpers';
