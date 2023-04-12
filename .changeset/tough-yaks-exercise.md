@@ -1,8 +1,6 @@
 ---
 '@finsweet/attributes-cmsstatic': minor
 '@finsweet/attributes-cmscore': minor
-'@finsweet/attributes-cmsfilter': patch
-'@finsweet/attributes-cmssort': patch
 ---
 
 Added new `fs-cmsstatic-repeat="{REPEAT_INDEX}"` Attribute. When applied to an `fs-cmsstatic` element, this element will be automatically cloned and replicated through the entire list following the repeat index.
