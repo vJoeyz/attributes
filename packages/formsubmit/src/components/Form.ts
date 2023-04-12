@@ -1,5 +1,5 @@
 import type { FormBlockElement, FormSuccessElement } from '@finsweet/ts-utils';
-import { addListener, FORM_CSS_CLASSES, FormErrorElement, simulateEvent } from '@finsweet/ts-utils';
+import { addListener, FORM_CSS_CLASSES, type FormErrorElement, simulateEvent } from '@finsweet/ts-utils';
 
 import { redirectUser } from '../actions/redirect';
 import { collectPreventResetFields, resetForm } from '../actions/reset';

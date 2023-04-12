@@ -1,4 +1,10 @@
-import { cloneNode, DROPDOWN_CSS_CLASSES, FORM_CSS_CLASSES, FormField, isHTMLSelectElement } from '@finsweet/ts-utils';
+import {
+  cloneNode,
+  DROPDOWN_CSS_CLASSES,
+  FORM_CSS_CLASSES,
+  type FormField,
+  isHTMLSelectElement,
+} from '@finsweet/ts-utils';
 import type { JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
 
 import type { CMSFilters } from '$packages/cmsfilter/src/components/CMSFilters';

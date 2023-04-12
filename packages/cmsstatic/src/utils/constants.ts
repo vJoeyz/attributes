@@ -8,6 +8,7 @@ export const STATIC_ITEM_ELEMENT_KEY = 'static-item';
 export const ORDER_SETTING_KEY = 'order';
 export const INTERACTIVE_SETTING_KEY = 'interactive';
 export const INTERACTIVE_SETTING_VALUES = { true: 'true' } as const;
+export const REPEAT_SETTING_KEY = 'repeat';
 
 export const ATTRIBUTES = {
   element: {
@@ -25,18 +26,26 @@ export const ATTRIBUTES = {
   },
 
   /**
-   * Defines the order of static element in list.
+   * Defines the order of the static element in list.
    */
   order: {
     key: `${ATTRIBUTES_PREFIX}-${ORDER_SETTING_KEY}`,
   },
+
   /**
-   * Defines if element will be strict static or will interact with load, filters, order.
+   * Defines if the element will be strict static or will interact with load, filters, order.
    */
   interactive: {
     key: `${ATTRIBUTES_PREFIX}-${INTERACTIVE_SETTING_KEY}`,
     values: INTERACTIVE_SETTING_VALUES,
   },
+
+  /**
+   * Defines if the element will be repeated in the list.
+   */
+  repeat: {
+    key: `${ATTRIBUTES_PREFIX}-${REPEAT_SETTING_KEY}`,
+  },
 } as const satisfies AttributesDefinition;
 
-export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
+export const [getSelector, queryElement, getAttribute] = generateSelectors(ATTRIBUTES);

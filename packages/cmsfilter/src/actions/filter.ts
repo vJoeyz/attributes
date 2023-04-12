@@ -1,4 +1,4 @@
-import { isNumber, isUndefined } from '@finsweet/ts-utils';
+import { isUndefined } from '@finsweet/ts-utils';
 
 import { normalizeDate, normalizeNumber } from '$global/helpers';
 import type { CMSItem } from '$packages/cmscore';
@@ -44,10 +44,6 @@ const checkFilterValidity = (
     elements: filterElements,
   }: FiltersData[number]
 ) => {
-  if (isNumber(item.staticIndex)) {
-    return true;
-  }
-
   const filterValues = [...values];
   if (!filterValues.length) return true;
 

@@ -27,7 +27,7 @@ export const sortListItems = async (
     addingItems?: boolean;
   }
 ) => {
-  const { items, staticItems } = listInstance;
+  const { items } = listInstance;
 
   const validSortKey = !!direction && !!sortKey && items.some(({ props }) => sortKey in props);
 
@@ -72,16 +72,6 @@ export const sortListItems = async (
 
       return secondItemValue.localeCompare(firstItemValue, undefined, collatorOptions);
     });
-
-    // Move static items back to their position
-    for (const staticItem of staticItems) {
-      const currentIndex = items.indexOf(staticItem);
-
-      if (currentIndex < 0 || !isNumber(staticItem.staticIndex)) continue;
-
-      items.splice(currentIndex, 1);
-      items.splice(staticItem.staticIndex, 0, staticItem);
-    }
   }
 
   // Render the new order
