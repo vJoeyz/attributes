@@ -1,6 +1,7 @@
+import { parseNumericAttribute } from '$global/helpers';
 import type { CMSList } from '$packages/cmscore';
 
-import { ATTRIBUTES, queryElement } from './utils/constants';
+import { ATTRIBUTES, getAttribute, queryElement } from './utils/constants';
 
 /**
  * Inits static elements for a CMSList.
@@ -12,9 +13,12 @@ export async function initStaticInstance(listInstance: CMSList) {
   const staticElements = queryElement<HTMLDivElement>('staticItem', { all: true, instanceIndex });
 
   const staticElementsData = staticElements.reduce<Parameters<CMSList['addStaticItems']>['0']>((acc, itemElement) => {
-    const order = itemElement.getAttribute(ATTRIBUTES.order.key);
+    const order = getAttribute(itemElement, 'order');
 
-    const interactive = itemElement.getAttribute(ATTRIBUTES.interactive.key) === ATTRIBUTES.interactive.values.true;
+    const interactive = getAttribute(itemElement, 'interactive') === ATTRIBUTES.interactive.values.true;
+
+    const rawRepeat = getAttribute(itemElement, 'repeat');
+    const repeat = parseNumericAttribute(rawRepeat);
 
     const staticIndex = order === null ? 0 : parseInt(order);
     const targetIndex = isNaN(staticIndex) || staticIndex <= 0 ? 0 : staticIndex - 1;
@@ -23,6 +27,7 @@ export async function initStaticInstance(listInstance: CMSList) {
       itemElement,
       interactive,
       targetIndex,
+      repeat,
     });
 
     return acc;

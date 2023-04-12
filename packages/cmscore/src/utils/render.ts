@@ -15,7 +15,7 @@ type AnchorData = [CMSItem, number, CMSItem | undefined];
  * @param animateList Defines if the list should be animated.
  */
 export const renderListItems = async (listInstance: CMSList, animateItems = false, animateList = true) => {
-  const { items, itemsPerPage, paginationActive, currentPage, emptyState: oldEmptyState } = listInstance;
+  const { items, staticItems, itemsPerPage, paginationActive, currentPage, emptyState: oldEmptyState } = listInstance;
 
   // Collect items and recalculate the total pages
   const validItems: CMSItem[] = [];
@@ -40,6 +40,30 @@ export const renderListItems = async (listInstance: CMSList, animateItems = fals
       if (matchesCurrentPage) itemsToShow.push(item);
       else if (rendered) itemsToHide.push(item);
     } else if (rendered) itemsToHide.push(item);
+  }
+
+  // Inject static items)
+  if (staticItems.length) {
+    const itemsToShowLength = itemsToShow.length;
+
+    for (const staticItem of staticItems) {
+      const { staticIndex } = staticItem;
+      if (!isNumber(staticIndex)) continue;
+
+      if (staticIndex >= itemsToShowLength) {
+        itemsToHide.push(staticItem);
+        continue;
+      }
+
+      itemsToShow.splice(staticIndex, 0, staticItem);
+    }
+
+    for (const item of itemsToShow.slice(itemsPerPage)) {
+      const rendered = isNumber(item.currentIndex);
+      if (rendered) itemsToHide.push(item);
+    }
+
+    itemsToShow.length = Math.min(itemsToShow.length, itemsPerPage);
   }
 
   // Set new properties
