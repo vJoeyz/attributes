@@ -291,25 +291,24 @@ export class CMSList extends Emittery<CMSListEvents> {
     if (!list) return;
 
     const newItems = itemsData.flatMap(({ itemElement, targetIndex, interactive, repeat }) => {
+      let newItem: CMSItem;
+
       // Interactive items are added as regular elements
       if (interactive) {
-        const newItem = new CMSItem(itemElement, list);
+        newItem = new CMSItem(itemElement, list);
 
         for (const array of [items, originalItemsOrder]) {
           array.splice(targetIndex, 0, newItem);
         }
-
-        return newItem;
       }
 
       // Non-interactive items are added as static items
-      const newStaticItems: CMSItem[] = [];
+      else {
+        newItem = new CMSItem(itemElement, list, targetIndex);
+        staticItems.push(newItem);
+      }
 
-      const newItem = new CMSItem(itemElement, list, targetIndex);
-
-      newStaticItems.push(newItem);
-      staticItems.push(newItem);
-
+      // Handle dynamic repeats
       if (repeat) {
         let index = targetIndex + repeat;
 
@@ -317,10 +316,7 @@ export class CMSList extends Emittery<CMSListEvents> {
           while (index < this.items.length) {
             const clone = cloneNode(itemElement);
 
-            const newItem = new CMSItem(clone, list, index);
-
-            newStaticItems.push(newItem);
-            staticItems.push(newItem);
+            this.addStaticItems([{ interactive, itemElement: clone, targetIndex: index }]);
 
             index += repeat;
           }
@@ -331,7 +327,7 @@ export class CMSList extends Emittery<CMSListEvents> {
         handleRepeatStaticItems();
       }
 
-      return newStaticItems;
+      return newItem;
     });
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
