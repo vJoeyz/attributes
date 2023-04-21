@@ -47,3 +47,4 @@ export const enum ARIA_SORT_VALUES {
   ascending = 'ascending',
   descending = 'descending',
 }
+export const CONTENT_EDITABLE_KEY = 'contenteditable';
