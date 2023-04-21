@@ -1,5 +1,11 @@
 # @finsweet/attributes-a11y
 
+## 1.1.3
+
+### Patch Changes
+
+- 3d5fa9b6: fix: prevent treating `contenteditable` elements as potential buttons
+
 ## 1.1.2
 
 ### Patch Changes
