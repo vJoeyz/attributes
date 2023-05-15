@@ -1,5 +1,11 @@
 # @finsweet/attributes-cmsload
 
+## 1.12.0
+
+### Minor Changes
+
+- 09d4bbf8: Added new `fs-cmsload-cache="false"` and `fs-cmsnest-cache="false"` options to allow opting out of IndexedDB caching.
+
 ## 1.11.2
 
 ### Patch Changes
