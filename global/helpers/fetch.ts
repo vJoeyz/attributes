@@ -44,7 +44,7 @@ export const fetchPageDocument = async (
     const dbVersion = publishDate?.getTime() ?? cacheVersion ?? 1;
     const db = dbName ? await createCacheDB(dbName, dbVersion) : null;
 
-    // If no caching enabler or no DB created, fetch the page and store it in the memory cache.
+    // If no caching enabled or no DB created, fetch the page and store it in the memory cache.
     if (!cache || !db) {
       const { page } = await fetchAndCachePageInMemory(url);
       return page;
