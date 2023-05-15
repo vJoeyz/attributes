@@ -8,6 +8,8 @@ export const NEST_TARGET_SETTING_KEY = 'nest-target';
 export const SLUGS_SETTING_KEY = 'slugs';
 export const COLLECTION_SETTING_KEY = 'collection';
 export const EMPTY_SETTING_KEY = 'empty';
+export const CACHE_SETTING_KEY = 'cache';
+export const CACHE_SETTING_VALUES = { false: 'false' } as const;
 
 export const ATTRIBUTES = {
   element: {
@@ -39,6 +41,12 @@ export const ATTRIBUTES = {
    * Defines an `Empty State` element.
    */
   empty: { key: `${ATTRIBUTES_PREFIX}-${EMPTY_SETTING_KEY}` },
+
+  /**
+   * Defines if the documents should be cached after fetching them.
+   * Defaults to `true`.
+   */
+  cacheItems: { key: `${ATTRIBUTES_PREFIX}-${CACHE_SETTING_KEY}`, values: CACHE_SETTING_VALUES },
 } as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement, getAttribute] = generateSelectors(ATTRIBUTES);

@@ -197,6 +197,11 @@ export class CMSList extends Emittery<CMSListEvents> {
   public restartTabs = false;
 
   /**
+   * Defines if loaded CMS Items can be cached using IndexedDB after fetching them.
+   */
+  public cacheItems = true;
+
+  /**
    * A Promise that resolves when the previous rendering task finishes.
    */
   private renderingQueue?: Promise<CMSItem[]>;

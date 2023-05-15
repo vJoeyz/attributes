@@ -11,6 +11,8 @@ import { populateNestedCollections } from './populate';
  */
 export const listenListEvents = (listInstance: CMSList, nestSources: NestSources, cmsCore: CMSCore) => {
   listInstance.on('shouldnest', async (newItems) => {
-    await Promise.all(newItems.map((newItem) => populateNestedCollections(newItem, nestSources, cmsCore)));
+    await Promise.all(
+      newItems.map((newItem) => populateNestedCollections(newItem, nestSources, listInstance.cacheItems, cmsCore))
+    );
   });
 };

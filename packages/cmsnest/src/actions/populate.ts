@@ -9,12 +9,15 @@ import { getNestTargets } from './collect';
 
 /**
  * Fetches each Collection Item's Template Page, checks which nested items belong to it, and appends the nested collection only containing the correspondent items.
- * @param cmsItem A `CMSItem` instance.
+ * @param item A `CMSItem` instance.
  * @param nestSources The {@link NestSources} object.
+ * @param cache Whether to cache the fetched pages or not.
+ * @param cmsCore The {@link CMSCore} instance.
  */
 export const populateNestedCollections = async (
   item: CMSItem,
   nestSources: NestSources,
+  cache: boolean,
   cmsCore: CMSCore
 ): Promise<void> => {
   // Get the nest targets
@@ -22,8 +25,8 @@ export const populateNestedCollections = async (
 
   // Perform nesting
   await Promise.all([
-    nestManualItems(manualNestTargets, nestSources, cmsCore),
-    nestExternalItems(externalNestTargets, item, nestSources, cmsCore),
+    nestManualItems(manualNestTargets, nestSources, cache, cmsCore),
+    nestExternalItems(externalNestTargets, item, nestSources, cache, cmsCore),
   ]);
 };
 
@@ -31,11 +34,17 @@ export const populateNestedCollections = async (
  * Nests all the items that have been defined manually as a comma-separated list in the target element.
  * @param manualNestTargets
  * @param nestSources
+ * @param cache
  * @param cmsCore
  *
  * @returns A Promise that fulfills when all nesting and recursive nestings finish.
  */
-const nestManualItems = (manualNestTargets: ManualNestTargets, nestSources: NestSources, cmsCore: CMSCore) => {
+const nestManualItems = (
+  manualNestTargets: ManualNestTargets,
+  nestSources: NestSources,
+  cache: boolean,
+  cmsCore: CMSCore
+) => {
   return Promise.all(
     [...manualNestTargets].map(([collectionId, { nestTarget, slugs }]) => {
       const nestSource = nestSources.get(collectionId);
@@ -55,7 +64,7 @@ const nestManualItems = (manualNestTargets: ManualNestTargets, nestSources: Nest
         }
       });
 
-      return nestItems(nestTarget, itemsToNest, nestSource, nestSources, cmsCore);
+      return nestItems(nestTarget, itemsToNest, nestSource, nestSources, cache, cmsCore);
     })
   );
 };
@@ -73,6 +82,7 @@ const nestExternalItems = async (
   externalNestTargets: ExternalNestTargets,
   item: CMSItem,
   nestSources: NestSources,
+  cache: boolean,
   cmsCore: CMSCore
 ) => {
   const { CMSList } = cmsCore;
@@ -80,7 +90,7 @@ const nestExternalItems = async (
   if (!externalNestTargets.size || !item.href) return;
 
   // Fetch the Collection Item's Template Page
-  const page = await fetchPageDocument(item.href);
+  const page = await fetchPageDocument(item.href, { cache });
   if (!page) return;
 
   // Get the existing lists to nest
@@ -114,7 +124,7 @@ const nestExternalItems = async (
         return items;
       }, []);
 
-      await nestItems(nestTarget, itemsToNest, nestSource, nestSources, cmsCore);
+      await nestItems(nestTarget, itemsToNest, nestSource, nestSources, cache, cmsCore);
     })
   );
 };
@@ -126,6 +136,7 @@ const nestExternalItems = async (
  * @param itemsToNest
  * @param nestSource
  * @param nestSources
+ * @param cache
  * @param cmsCore
  *
  * @returns A Promise that fulfills when all nesting and recursive nestings finish.
@@ -135,6 +146,7 @@ const nestItems = async (
   itemsToNest: CMSItem[],
   { listInstance, emptyElement }: NestSource,
   nestSources: NestSources,
+  cache: boolean,
   cmsCore: CMSCore
 ) => {
   const { CMSItem } = cmsCore;
@@ -162,7 +174,7 @@ const nestItems = async (
 
         // Recursive populate the new nested item
         const item = new CMSItem(newCollectionItem, newCollectionWrapper);
-        return populateNestedCollections(item, nestSources, cmsCore);
+        return populateNestedCollections(item, nestSources, cache, cmsCore);
       })
     );
   }

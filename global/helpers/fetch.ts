@@ -10,6 +10,8 @@ const memoryCache = new Map<string, Promise<string>>();
  *
  * @param source The URL of the page.
  *
+ * @param params.cache Whether to cache fetched documents. Defaults to `true`.
+ *
  * @param params.cacheExternal Whether to cache external documents.
  * If set to true, it will follow a [stale-while-revalidate](https://web.dev/stale-while-revalidate/) strategy.
  *
@@ -20,7 +22,12 @@ const memoryCache = new Map<string, Promise<string>>();
  */
 export const fetchPageDocument = async (
   source: string | URL,
-  { cacheExternal, cacheKey, cacheVersion }: { cacheExternal?: boolean; cacheKey?: string; cacheVersion?: number } = {}
+  {
+    cache = true,
+    cacheExternal,
+    cacheKey,
+    cacheVersion,
+  }: { cache?: boolean; cacheExternal?: boolean; cacheKey?: string; cacheVersion?: number } = {}
 ): Promise<Document | null> => {
   try {
     const url = new URL(source, window.location.origin);
@@ -37,8 +44,8 @@ export const fetchPageDocument = async (
     const dbVersion = publishDate?.getTime() ?? cacheVersion ?? 1;
     const db = dbName ? await createCacheDB(dbName, dbVersion) : null;
 
-    // If no DB, fetch the page and store it in the memory cache.
-    if (!db) {
+    // If no caching enabler or no DB created, fetch the page and store it in the memory cache.
+    if (!cache || !db) {
       const { page } = await fetchAndCachePageInMemory(url);
       return page;
     }
