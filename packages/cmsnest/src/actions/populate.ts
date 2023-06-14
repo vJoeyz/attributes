@@ -1,9 +1,8 @@
-import { cloneNode } from '@finsweet/ts-utils';
+import { CMSItem, CMSList } from '@finsweet/attributes-cmscore';
+import { fetchPageDocument, normalizePropKey } from '@finsweet/attributes-utils';
+import { cloneNode, getCollectionElements, getCollectionListWrappers } from '@finsweet/ts-utils';
 
-import { fetchPageDocument, getCollectionElements, getCollectionListWrappers, normalizePropKey } from '$global/helpers';
-import type { CMSCore, CMSItem } from '$packages/cmscore';
-
-import { ATTRIBUTES, getSelector } from '../utils/constants';
+import { getAttribute, getSettingSelector } from '../utils/selectors';
 import type { ExternalNestTargets, ManualNestTargets, NestSource, NestSources } from '../utils/types';
 import { getNestTargets } from './collect';
 
@@ -12,21 +11,19 @@ import { getNestTargets } from './collect';
  * @param item A `CMSItem` instance.
  * @param nestSources The {@link NestSources} object.
  * @param cache Whether to cache the fetched pages or not.
- * @param cmsCore The {@link CMSCore} instance.
  */
 export const populateNestedCollections = async (
   item: CMSItem,
   nestSources: NestSources,
-  cache: boolean,
-  cmsCore: CMSCore
+  cache: boolean
 ): Promise<void> => {
   // Get the nest targets
   const { manualNestTargets, externalNestTargets } = getNestTargets(item.element);
 
   // Perform nesting
   await Promise.all([
-    nestManualItems(manualNestTargets, nestSources, cache, cmsCore),
-    nestExternalItems(externalNestTargets, item, nestSources, cache, cmsCore),
+    nestManualItems(manualNestTargets, nestSources, cache),
+    nestExternalItems(externalNestTargets, item, nestSources, cache),
   ]);
 };
 
@@ -35,16 +32,10 @@ export const populateNestedCollections = async (
  * @param manualNestTargets
  * @param nestSources
  * @param cache
- * @param cmsCore
  *
  * @returns A Promise that fulfills when all nesting and recursive nestings finish.
  */
-const nestManualItems = (
-  manualNestTargets: ManualNestTargets,
-  nestSources: NestSources,
-  cache: boolean,
-  cmsCore: CMSCore
-) => {
+const nestManualItems = (manualNestTargets: ManualNestTargets, nestSources: NestSources, cache: boolean) => {
   return Promise.all(
     [...manualNestTargets].map(([collectionId, { nestTarget, slugs }]) => {
       const nestSource = nestSources.get(collectionId);
@@ -64,7 +55,7 @@ const nestManualItems = (
         }
       });
 
-      return nestItems(nestTarget, itemsToNest, nestSource, nestSources, cache, cmsCore);
+      return nestItems(nestTarget, itemsToNest, nestSource, nestSources, cache);
     })
   );
 };
@@ -74,7 +65,6 @@ const nestManualItems = (
  * @param externalNestTargets
  * @param item
  * @param nestSources
- * @param cmsCore
  *
  * @returns A Promise that fulfills when all nesting and recursive nestings finish.
  */
@@ -82,11 +72,8 @@ const nestExternalItems = async (
   externalNestTargets: ExternalNestTargets,
   item: CMSItem,
   nestSources: NestSources,
-  cache: boolean,
-  cmsCore: CMSCore
+  cache: boolean
 ) => {
-  const { CMSList } = cmsCore;
-
   if (!externalNestTargets.size || !item.href) return;
 
   // Fetch the Collection Item's Template Page
@@ -94,7 +81,7 @@ const nestExternalItems = async (
   if (!page) return;
 
   // Get the existing lists to nest
-  const pageCollectionListWrappers = getCollectionListWrappers([getSelector('collection')], page);
+  const pageCollectionListWrappers = getCollectionListWrappers([getSettingSelector('collection')], page);
 
   // Populate the nested CMS lists only with the correspondent nested items
   // Also, make sure that the Collections in the Template Page are not duplicated
@@ -104,7 +91,9 @@ const nestExternalItems = async (
     pageCollectionListWrappers.map(async (pageCollectionListWrapper, index) => {
       const pageListInstance = new CMSList(pageCollectionListWrapper, index);
 
-      const collectionId = normalizePropKey(pageListInstance.getAttribute(ATTRIBUTES.collection.key));
+      const rawCollectionId = getAttribute(pageListInstance.listOrWrapper, 'collection');
+      const collectionId = normalizePropKey(rawCollectionId);
+
       if (!collectionId || processedPageCollections.has(collectionId)) return;
 
       processedPageCollections.add(collectionId);
@@ -124,7 +113,7 @@ const nestExternalItems = async (
         return items;
       }, []);
 
-      await nestItems(nestTarget, itemsToNest, nestSource, nestSources, cache, cmsCore);
+      await nestItems(nestTarget, itemsToNest, nestSource, nestSources, cache);
     })
   );
 };
@@ -137,7 +126,6 @@ const nestExternalItems = async (
  * @param nestSource
  * @param nestSources
  * @param cache
- * @param cmsCore
  *
  * @returns A Promise that fulfills when all nesting and recursive nestings finish.
  */
@@ -146,11 +134,8 @@ const nestItems = async (
   itemsToNest: CMSItem[],
   { listInstance, emptyElement }: NestSource,
   nestSources: NestSources,
-  cache: boolean,
-  cmsCore: CMSCore
+  cache: boolean
 ) => {
-  const { CMSItem } = cmsCore;
-
   if (!itemsToNest.length && !emptyElement) return;
 
   const nestTargetParent = nestTarget.parentElement;
@@ -174,7 +159,7 @@ const nestItems = async (
 
         // Recursive populate the new nested item
         const item = new CMSItem(newCollectionItem, newCollectionWrapper);
-        return populateNestedCollections(item, nestSources, cache, cmsCore);
+        return populateNestedCollections(item, nestSources, cache);
       })
     );
   }

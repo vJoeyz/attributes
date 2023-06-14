@@ -3,7 +3,7 @@ import {
   ARIA_ROLE_KEY,
   ARIA_ROLE_VALUES,
   ARIA_ROLEDESCRIPTION_KEY,
-} from '$global/constants/a11y';
+} from '@finsweet/attributes-utils';
 
 /**
  * Sets A11Y attributes to the number count element.

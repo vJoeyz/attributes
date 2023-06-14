@@ -1,38 +1,29 @@
+import { type FsAttributeInit } from '@finsweet/attributes-utils';
 import { addListener, isElement } from '@finsweet/ts-utils';
-
-import { CMS_ATTRIBUTE_ATTRIBUTE, SMART_LIGHTBOX_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
 
 import { getLightboxElement } from './actions/collect';
 import { moveElementToBody } from './actions/move';
-import { ATTRIBUTES, getSelector } from './utils/constants';
+import { getAttribute, getElementSelector } from './utils/selectors';
 
 // State
 let restoreUntransformedElement: (() => void) | undefined;
 
-/**
- * Inits untransform handler.
- * The CSS style is injected to the `<head>`.
- * The click events are listened for the triggers.
- */
-export const init = async () => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
-
+export const init: FsAttributeInit = () => {
   const clickCleanup = addListener(window, 'click', async ({ target }) => {
     if (!isElement(target)) return;
 
     // Get the trigger
-    const toggleTrigger = target.closest(getSelector('element', 'toggle', { operator: 'prefixed' }));
+    const toggleTrigger = target.closest(getElementSelector('trigger-toggle'));
 
     const onTrigger =
       !restoreUntransformedElement && toggleTrigger
         ? toggleTrigger
-        : target.closest(getSelector('element', 'open', { operator: 'prefixed' }));
+        : target.closest(getElementSelector('trigger-open'));
 
     const offTrigger =
       restoreUntransformedElement && toggleTrigger
         ? toggleTrigger
-        : target.closest(getSelector('element', 'close', { operator: 'prefixed' }));
+        : target.closest(getElementSelector('trigger-close'));
 
     const trigger = onTrigger || offTrigger;
 
@@ -41,7 +32,7 @@ export const init = async () => {
     if ((onTrigger && restoreUntransformedElement) || (offTrigger && !restoreUntransformedElement)) return;
 
     // Get the timeout value
-    const timeoutValue = trigger.getAttribute(ATTRIBUTES.wait.key);
+    const timeoutValue = getAttribute(trigger, 'wait');
     const timeout = timeoutValue ? parseInt(timeoutValue) : undefined;
 
     // ON
@@ -63,5 +54,9 @@ export const init = async () => {
     }, timeout);
   });
 
-  return finalizeAttribute(SMART_LIGHTBOX_ATTRIBUTE, undefined, () => clickCleanup());
+  return {
+    destroy() {
+      clickCleanup();
+    },
+  };
 };

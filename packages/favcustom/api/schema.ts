@@ -1,7 +1,7 @@
-import { IMAGE } from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+import type { AttributeSchema } from '@finsweet/attributes-utils';
+import { IMAGE } from '@finsweet/attributes-utils';
 
-import { SRC_ELEMENT_KEY } from '../src/constants';
+import { SRC_ELEMENT_KEY } from '../src/utils/constants';
 
 const schema: AttributeSchema = {
   elements: [

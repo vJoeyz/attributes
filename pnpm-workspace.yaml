@@ -1,6 +1,3 @@
 packages:
-  - 'global/*'
   - 'packages/*'
-  - '!packages/cmssave'
   - '!packages/template'
-  - '!packages/support'

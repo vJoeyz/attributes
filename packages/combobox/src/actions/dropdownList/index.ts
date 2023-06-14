@@ -1,7 +1,16 @@
+import {
+  ARIA_ACTIVEDESCENDANT_KEY,
+  ARIA_EXPANDED_KEY,
+  ARROW_DOWN_KEY,
+  ARROW_UP_KEY,
+  CLICK,
+  ENTER_KEY,
+  ESCAPE_KEY,
+  ID_KEY,
+  TAB_KEY,
+  TABINDEX_KEY,
+} from '@finsweet/attributes-utils';
 import { setFormFieldValue } from '@finsweet/ts-utils';
-
-import { ARIA_ACTIVEDESCENDANT_KEY, ARIA_EXPANDED_KEY, ID_KEY, TABINDEX_KEY } from '$global/constants/a11y';
-import { ARROW_DOWN_KEY, ARROW_UP_KEY, CLICK, ENTER_KEY, ESCAPE_KEY, TAB_KEY } from '$global/constants/keyboard';
 
 import { focusOnInput, getClickedOptionData, setActiveDescendant, toggleDropdown } from '../../utils';
 import { CONTROL_KEYS } from '../../utils/constants';

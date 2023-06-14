@@ -1,27 +1,26 @@
-import { CMS_LOAD_ATTRIBUTE } from '$global/constants/attributes';
-import { finalizeAttribute } from '$global/factory';
-import { importCMSCore } from '$global/import';
-import type { CMSList } from '$packages/cmscore';
+import { createCMSListInstances } from '@finsweet/attributes-cmscore';
+import { awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
 
 import { initLoadInstance } from './factory';
-import { getSelector } from './utils/constants';
+import { getElementSelector } from './utils/selectors';
 
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<CMSList[]> => {
-  const cmsCore = await importCMSCore();
-  if (!cmsCore) return [];
+export const init: FsAttributeInit = async () => {
+  await awaitWebflowReady();
 
   // Create the list instances
-  const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
+  const listInstances = createCMSListInstances([getElementSelector('list')]);
 
   // Init the modes
-  const cleanups = await Promise.all(listInstances.map((listInstance) => initLoadInstance(listInstance, cmsCore)));
+  const cleanups = await Promise.all(listInstances.map((listInstance) => initLoadInstance(listInstance)));
 
-  return finalizeAttribute(CMS_LOAD_ATTRIBUTE, listInstances, () => {
-    // TODO: Remove optional chaining after cmscore@1.9.0 has rolled out
-    for (const listInstance of listInstances) listInstance.destroy?.();
-    for (const cleanup of cleanups) cleanup?.();
-  });
+  return {
+    result: listInstances,
+    destroy() {
+      for (const listInstance of listInstances) listInstance.destroy();
+      for (const cleanup of cleanups) cleanup?.();
+    },
+  };
 };

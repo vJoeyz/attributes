@@ -1,40 +1,28 @@
+import { addListAnimation, type CMSList } from '@finsweet/attributes-cmscore';
+import { parseNumericAttribute } from '@finsweet/attributes-utils';
 import type { FormBlockElement } from '@finsweet/ts-utils';
 import { FORM_CSS_CLASSES, isKeyOf } from '@finsweet/ts-utils';
-
-import type { CMSCore, CMSList } from '$packages/cmscore';
 
 import { CMSFilters } from './components/CMSFilters';
 import { CMSTags } from './components/CMSTags';
 import {
-  ATTRIBUTES,
   DEFAULT_ACTIVE_CSS_CLASS,
   DEFAULT_DEBOUNCING,
   DEFAULT_HIGHLIGHT_CSS_CLASS,
-  queryElement,
+  SETTINGS,
   TAG_FORMATS,
 } from './utils/constants';
-
-// Constants destructuring
-const {
-  element: { key: elementKey },
-  duration: { key: durationKey },
-  easing: { key: easingKey },
-  showQuery: { key: showQueryKey, values: showQueryValues },
-  allowSubmit: { key: allowSubmitKey, values: allowSubmitValues },
-  tagFormat: { key: tagsFormatKey },
-  highlight: { key: highlightKey, values: highlightValues },
-  highlightCSS: { key: highlightCSSKey },
-  activeCSS: { key: activeCSSKey },
-  debouncing: { key: debouncingKey },
-} = ATTRIBUTES;
+import { getAttribute, getInstanceIndex, hasAttributeValue, queryElement } from './utils/selectors';
 
 /**
  * Creates a new {@link CMSFilters} instance.
  * @param listInstance The {@link CMSList} instance.
  * @returns The new instance, if valid.
  */
-export const createCMSFiltersInstance = (listInstance: CMSList, cmsCore: CMSCore): CMSFilters | undefined => {
-  const instanceIndex = listInstance.getInstanceIndex(elementKey);
+export const createCMSFiltersInstance = (listInstance: CMSList): CMSFilters | undefined => {
+  const { listOrWrapper } = listInstance;
+
+  const instanceIndex = getInstanceIndex(listOrWrapper);
 
   // Base elements
   const filters = queryElement('filters', { instanceIndex });
@@ -44,43 +32,43 @@ export const createCMSFiltersInstance = (listInstance: CMSList, cmsCore: CMSCore
   if (!formBlock) return;
 
   // Empty State Element
-  const emptyElement = queryElement<HTMLElement>('empty', { instanceIndex });
+  const emptyElement = queryElement('empty', { instanceIndex });
   if (emptyElement) listInstance.addEmptyElement(emptyElement);
 
   // Initial State Element
-  const initialElement = queryElement<HTMLElement>('initial', { instanceIndex });
+  const initialElement = queryElement('initial', { instanceIndex });
   if (initialElement) listInstance.initialElement = initialElement;
 
   // Scroll Anchor Element
   if (!listInstance.scrollAnchor) {
-    const scrollAnchor = queryElement<HTMLElement>('scrollAnchor', { instanceIndex });
+    const scrollAnchor = queryElement('scroll-anchor', { instanceIndex });
     if (scrollAnchor) listInstance.scrollAnchor = scrollAnchor;
   }
 
   // Items Count Element
   if (!listInstance.itemsCount) {
-    const itemsCount = queryElement<HTMLElement>('itemsCount', { instanceIndex });
+    const itemsCount = queryElement('items-count', { instanceIndex });
     if (itemsCount) listInstance.addItemsCount(itemsCount);
   }
 
   // Results Count Element
-  const resultsElement = queryElement<HTMLElement>('resultsCount', { instanceIndex });
+  const resultsElement = queryElement('results-count', { instanceIndex });
 
   // Query Params
-  const showQueryParams = listInstance.getAttribute(showQueryKey) === showQueryValues.true;
+  const showQueryParams = hasAttributeValue(listOrWrapper, 'showquery', 'true');
 
   // Allow Form Submission
-  const allowSubmit = listInstance.getAttribute(allowSubmitKey) === allowSubmitValues.true;
+  const allowSubmit = hasAttributeValue(listOrWrapper, 'allowsubmit', 'true');
 
   // Highlight
-  const highlightAll = listInstance.getAttribute(highlightKey) === highlightValues.true;
-  const highlightCSSClass = listInstance.getAttribute(highlightCSSKey) || DEFAULT_HIGHLIGHT_CSS_CLASS;
+  const highlightAll = hasAttributeValue(listOrWrapper, 'highlight', 'true');
+  const highlightCSSClass = getAttribute(listOrWrapper, 'highlightclass') || DEFAULT_HIGHLIGHT_CSS_CLASS;
 
   // Active CSS
-  const activeCSSClass = listInstance.getAttribute(activeCSSKey) || DEFAULT_ACTIVE_CSS_CLASS;
+  const activeCSSClass = getAttribute(listOrWrapper, 'active') || DEFAULT_ACTIVE_CSS_CLASS;
 
   // Debouncing
-  const debouncing = parseFloat(listInstance.getAttribute(debouncingKey) || DEFAULT_DEBOUNCING);
+  const debouncing = parseNumericAttribute(getAttribute(listOrWrapper, 'debounce'), DEFAULT_DEBOUNCING);
 
   // Create instance
   const filtersInstance = new CMSFilters(formBlock, listInstance, {
@@ -94,7 +82,7 @@ export const createCMSFiltersInstance = (listInstance: CMSList, cmsCore: CMSCore
   });
 
   // Add animation
-  cmsCore.addListAnimation(listInstance, { durationKey, easingKey });
+  addListAnimation(listInstance, { durationKey: SETTINGS.duration.key, easingKey: SETTINGS.easing.key });
 
   return filtersInstance;
 };
@@ -109,12 +97,14 @@ export const createCMSTagsInstance = async (
   listInstance: CMSList,
   filtersInstance: CMSFilters
 ): Promise<CMSTags | undefined> => {
-  const instanceIndex = listInstance.getInstanceIndex(elementKey);
+  const { listOrWrapper } = listInstance;
 
-  const tagTemplate = queryElement<HTMLElement>('tagTemplate', { instanceIndex });
+  const instanceIndex = getInstanceIndex(listOrWrapper);
+
+  const tagTemplate = queryElement('tag-template', { instanceIndex });
   if (!tagTemplate) return;
 
-  const rawTagsFormat = listInstance.getAttribute(tagsFormatKey);
+  const rawTagsFormat = getAttribute(listOrWrapper, 'tagformat');
   const globalTagsFormat = isKeyOf(rawTagsFormat, TAG_FORMATS) ? rawTagsFormat : undefined;
 
   const tagsInstance = new CMSTags(tagTemplate, filtersInstance, listInstance, globalTagsFormat);

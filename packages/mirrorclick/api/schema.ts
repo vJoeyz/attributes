@@ -1,7 +1,7 @@
-import { ANY_ELEMENT, BUTTON, DIV_BLOCK, LINK_BLOCK, TEXT_LINK } from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+import type { AttributeSchema } from '@finsweet/attributes-utils';
+import { ANY_ELEMENT, BUTTON, DIV_BLOCK, LINK_BLOCK, TEXT_LINK } from '@finsweet/attributes-utils';
 
-import { DELAY_SETTING_KEY, TARGET_ELEMENT_KEY, TRIGGER_ELEMENT_KEY } from '../src/constants';
+import { DELAY_SETTING_KEY, TARGET_ELEMENT_KEY, TRIGGER_ELEMENT_KEY } from '../src/utils/constants';
 
 const schema: AttributeSchema = {
   elements: [

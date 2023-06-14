@@ -1,6 +1,5 @@
+import { animations, easings } from '@finsweet/attributes-utils';
 import { getObjectKeys, isKeyOf } from '@finsweet/ts-utils';
-
-import { importAnimations } from '$global/import';
 
 import type { CMSList } from '..';
 import { DEFAULT_LIST_ANIMATION_DURATION } from './constants';
@@ -10,22 +9,16 @@ import { DEFAULT_LIST_ANIMATION_DURATION } from './constants';
  * @param listInstance The `CMSList` instance.
  * @param propKeys
  */
-export const addListAnimation = async (
+export const addListAnimation = (
   listInstance: CMSList,
   { durationKey, easingKey }: { durationKey: string; easingKey: string }
 ) => {
-  const animationsImport = await importAnimations();
-  if (!animationsImport) return;
+  const { fade } = animations;
 
-  const {
-    animations: { fade },
-    easings,
-  } = animationsImport;
+  const { listAnimation, listOrWrapper } = listInstance;
 
-  const { listAnimation } = listInstance;
-
-  const animationDuration = listInstance.getAttribute(durationKey);
-  const animationEasing = listInstance.getAttribute(easingKey);
+  const animationDuration = listOrWrapper.getAttribute(durationKey);
+  const animationEasing = listOrWrapper.getAttribute(easingKey);
 
   if (listAnimation && !animationDuration && !animationEasing) return;
 
@@ -55,7 +48,7 @@ export const addListAnimation = async (
  * @param listInstance The `CMSList` instance.
  * @param propKeys
  */
-export const addItemsAnimation = async (
+export const addItemsAnimation = (
   listInstance: CMSList,
   {
     animationKey,
@@ -64,19 +57,16 @@ export const addItemsAnimation = async (
     staggerKey,
   }: { animationKey: string; durationKey: string; easingKey: string; staggerKey: string }
 ) => {
-  const animationsImport = await importAnimations();
-  if (!animationsImport) return;
+  const { listOrWrapper } = listInstance;
 
-  const { animations, easings } = animationsImport;
-
-  const animationName = listInstance.getAttribute(animationKey);
+  const animationName = listOrWrapper.getAttribute(animationKey);
   const animationFunctions = isKeyOf(animationName, getObjectKeys(animations))
     ? animations[animationName]
     : animations.fade;
 
-  const animationDuration = listInstance.getAttribute(durationKey);
-  const animationEasing = listInstance.getAttribute(easingKey);
-  const animationStagger = listInstance.getAttribute(staggerKey);
+  const animationDuration = listOrWrapper.getAttribute(durationKey);
+  const animationEasing = listOrWrapper.getAttribute(easingKey);
+  const animationStagger = listOrWrapper.getAttribute(staggerKey);
 
   listInstance.itemsAnimation = {
     ...animationFunctions,

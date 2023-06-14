@@ -1,30 +1,18 @@
-import { EXAMPLE_ATTRIBUTE } from '$global/constants/attributes';
-import { type AttributesDefinition, generateSelectors } from '$global/factory';
+import { type AttributeElements, type AttributeSettings } from '@finsweet/attributes-utils';
 
-const ATTRIBUTES_PREFIX = `fs-${EXAMPLE_ATTRIBUTE}`;
+export const ELEMENTS = [
+  /**
+   * This is an element example definition.
+   */
+  'example',
+] as const satisfies AttributeElements;
 
-export const EXAMPLE_ELEMENT_KEY = 'example';
-export const EXAMPLE_SETTING_KEY = 'example';
-export const EXAMPLE_SETTING_VALUES = { value: 'value' };
-
-export const ATTRIBUTES = {
-  element: {
-    key: `${ATTRIBUTES_PREFIX}-element`,
-    values: {
-      /**
-       * This is an element example definition.
-       */
-      example: EXAMPLE_ELEMENT_KEY,
-    },
-  },
-
+export const SETTINGS = {
   /**
    * Defines a setting example definition.
    */
   example: {
-    key: `${ATTRIBUTES_PREFIX}-${EXAMPLE_SETTING_KEY}`,
-    values: EXAMPLE_SETTING_VALUES,
+    key: 'example',
+    values: { value: 'value' },
   },
-} as const satisfies AttributesDefinition;
-
-export const [getSelector, queryElement, getAttribute] = generateSelectors(ATTRIBUTES);
+} as const satisfies AttributeSettings;

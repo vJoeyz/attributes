@@ -1,14 +1,13 @@
+import { fetchPageDocument } from '@finsweet/attributes-utils';
 import { Debug } from '@finsweet/ts-utils';
 
-import { fetchPageDocument } from '$global/helpers';
-
-import { ATTRIBUTES } from '../utils/constants';
 import {
   HAS_COMPONENT_TEMPLATE_REGEX,
   IS_EXTERNAL_COMPONENT_REGEX,
   MUSTACHE_DELIMITERS_REGEX,
   TRAILING_SLASH_REGEX,
 } from '../utils/regex';
+import { getSettingSelector } from '../utils/selectors';
 
 /**
  * Memoizes the queried components.
@@ -84,7 +83,7 @@ const queryComponent = async (componentKey: string, source?: string): Promise<HT
   const externalDocument = source ? await fetchPageDocument(source) : undefined;
 
   const element = (externalDocument || document).querySelector<HTMLElement>(
-    `[${ATTRIBUTES.component.key}="${componentKey}"]`
+    getSettingSelector('component', undefined, componentKey)
   );
 
   if (!element) Debug.alert(`No components were found with the [${componentKey}] key.`, 'info');

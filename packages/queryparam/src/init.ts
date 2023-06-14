@@ -1,19 +1,21 @@
-import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_FILTER_ATTRIBUTE, QUERY_PARAM_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
+import { awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
 
 import { queryParamFactory } from './factory';
-import { ATTRIBUTES } from './utils/constants';
+import { SETTINGS } from './utils/constants';
+import { getSettingSelector } from './utils/selectors';
 
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<void> => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await awaitWebflowReady();
 
   const url = new URL(window.location.href);
 
   for (const [paramKey, paramValue] of [...url.searchParams]) {
-    const queryParamElements = [...document.querySelectorAll<HTMLElement>(`[${ATTRIBUTES.name.key}="${paramKey}"]`)];
+    const queryParamElements = [
+      ...document.querySelectorAll<HTMLElement>(getSettingSelector('name', undefined, paramKey)),
+    ];
 
     if (queryParamElements.length < 1) {
       continue;
@@ -21,12 +23,12 @@ export const init = async (): Promise<void> => {
 
     queryParamFactory(queryParamElements, paramValue);
 
-    if (window.fsAttributes[CMS_FILTER_ATTRIBUTE]) {
+    if (window.fsAttributes.process.has('cmsfilter')) {
       continue;
     }
 
     const removeParamFromUrl = queryParamElements.some((element) => {
-      return element.hasAttribute(ATTRIBUTES.removeQuery.key);
+      return element.hasAttribute(SETTINGS.removequery.key);
     });
 
     if (removeParamFromUrl) {
@@ -36,5 +38,5 @@ export const init = async (): Promise<void> => {
 
   history.replaceState(null, '', url.toString());
 
-  return finalizeAttribute(QUERY_PARAM_ATTRIBUTE);
+  return {};
 };

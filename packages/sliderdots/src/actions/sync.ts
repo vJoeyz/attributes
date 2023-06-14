@@ -1,6 +1,5 @@
+import { ARIA_LABEL_KEY, ARIA_PRESSED_KEY, ARIA_ROLE_KEY, TABINDEX_KEY } from '@finsweet/attributes-utils';
 import { SLIDER_CSS_CLASSES } from '@finsweet/ts-utils';
-
-import { ARIA_LABEL_KEY, ARIA_PRESSED_KEY, ARIA_ROLE_KEY, TABINDEX_KEY } from '$global/constants/a11y';
 
 import type { DotsRelationship } from '../utils/types';
 

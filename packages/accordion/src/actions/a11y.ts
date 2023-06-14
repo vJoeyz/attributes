@@ -4,9 +4,9 @@ import {
   ARIA_LABELLEDBY_KEY,
   ARIA_ROLE_KEY,
   ARIA_ROLE_VALUES,
+  ensureUniqueId,
   TABINDEX_KEY,
-} from '$global/constants/a11y';
-import { ensureUniqueId } from '$global/helpers';
+} from '@finsweet/attributes-utils';
 
 /**
  * Sets the correspondent aria attributes to the elements.

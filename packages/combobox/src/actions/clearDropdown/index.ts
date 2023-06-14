@@ -1,4 +1,4 @@
-import { ENTER_KEY, SPACE_KEY } from '$global/constants/keyboard';
+import { ENTER_KEY, SPACE_KEY } from '@finsweet/attributes-utils';
 
 import { focusOnInput, toggleDropdownCloseIcon } from '../../utils';
 import type { Settings } from '../../utils/types';

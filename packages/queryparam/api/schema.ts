@@ -1,5 +1,5 @@
-import { ALL_INPUTS, HEADING, PARAGRAPH, SELECT, TEXT_BLOCK } from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+import type { AttributeSchema } from '@finsweet/attributes-utils';
+import { ALL_INPUTS, HEADING, PARAGRAPH, SELECT, TEXT_BLOCK } from '@finsweet/attributes-utils';
 
 import { NAME_SETTING_KEY, REMOVE_QUERY_SETTING_KEY } from '../src/utils/constants';
 

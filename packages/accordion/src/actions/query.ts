@@ -1,13 +1,13 @@
-import type { CMSList } from '$packages/cmscore/src';
+import type { CMSList } from '@finsweet/attributes-cmscore';
 
-import { queryElement } from '../utils/constants';
+import { queryAllElements } from '../utils/selectors';
 
 /**
  * @returns All the accordion elements on the page.
  * @param listInstances The `cmsload` instances. If provided, all the loaded accordions will also be added.
  */
 export const queryAllAccordions = (listInstances?: CMSList[]) => {
-  const allAccordions = queryAccordions();
+  const allAccordions = queryAllElements('accordion');
 
   if (!listInstances) return allAccordions;
 
@@ -15,7 +15,7 @@ export const queryAllAccordions = (listInstances?: CMSList[]) => {
 
   for (const { items } of listInstances) {
     for (const { element } of items) {
-      const accordions = queryAccordions(element);
+      const accordions = queryAllElements('accordion', { scope: element });
 
       for (const accordion of accordions) {
         allAccordionsSet.add(accordion);
@@ -25,10 +25,3 @@ export const queryAllAccordions = (listInstances?: CMSList[]) => {
 
   return [...allAccordionsSet];
 };
-
-/**
- * @returns All the accordion children of an element.
- * @param scope
- */
-const queryAccordions = (scope?: Element) =>
-  queryElement<HTMLElement>('accordion', { scope, operator: 'prefixed', all: true });

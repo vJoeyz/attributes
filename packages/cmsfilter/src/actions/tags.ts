@@ -1,4 +1,4 @@
-import { queryElement } from '../utils/constants';
+import { queryElement } from '../utils/selectors';
 import type { TagData, TagFormat } from '../utils/types';
 
 /**
@@ -33,5 +33,5 @@ export const updateTagText = (
  * Checks if a tag has a specific `tag-remove` defined element.
  * @param tagElement
  */
-// prettier-ignore
-export const hasRemoveTrigger = (tagElement: HTMLElement): boolean => !!queryElement('tagRemove', { operator: 'prefixed', scope: tagElement });
+export const hasRemoveTrigger = (tagElement: HTMLElement): boolean =>
+  !!queryElement('tag-remove', { scope: tagElement });

@@ -1,14 +1,8 @@
+import { parseNumericAttribute } from '@finsweet/attributes-utils';
 import { extractCommaSeparatedValues, isKeyOf, isNotEmpty } from '@finsweet/ts-utils';
 
-import { parseNumericAttribute } from '$global/helpers';
-
-import {
-  ATTRIBUTES,
-  DEFAULT_ACTIVE_CLASS,
-  getAttribute,
-  queryElement,
-  SINGLE_SETTING_VALUES,
-} from '../utils/constants';
+import { DEFAULT_ACTIVE_CLASS, SETTINGS } from '../utils/constants';
+import { getAttribute, hasAttributeValue, queryElement } from '../utils/selectors';
 import type { AccordionGroupData, InitialState } from '../utils/types';
 
 /**
@@ -17,14 +11,14 @@ import type { AccordionGroupData, InitialState } from '../utils/types';
  * @returns A new {@link AccordionGroupData} object.
  */
 export const getGroupSettings = (group: HTMLElement): AccordionGroupData => {
-  const single = getAttribute(group, 'single') === SINGLE_SETTING_VALUES.true;
+  const single = hasAttributeValue(group, 'single', 'true');
   const rawInitial = getAttribute(group, 'initial');
   const activeClass = getAttribute(group, 'active') || DEFAULT_ACTIVE_CLASS;
 
   let initial: InitialState;
 
   if (rawInitial) {
-    if (isKeyOf(rawInitial, Object.values(ATTRIBUTES.initial.values))) {
+    if (isKeyOf(rawInitial, Object.values(SETTINGS.initial.values))) {
       initial = rawInitial;
     } else {
       const rawInitialValues = extractCommaSeparatedValues(rawInitial);
@@ -41,9 +35,10 @@ export const getGroupSettings = (group: HTMLElement): AccordionGroupData => {
  * @param groupData
  */
 export const getAccordionSettings = (accordion: HTMLElement, groupData: AccordionGroupData) => {
-  const trigger = queryElement<HTMLElement>('trigger', { operator: 'prefixed', scope: accordion });
-  const content = queryElement<HTMLElement>('content', { operator: 'prefixed', scope: accordion });
-  const arrow = queryElement<HTMLElement>('arrow', { operator: 'prefixed', scope: accordion });
+  const scope = accordion;
+  const trigger = queryElement('trigger', { scope });
+  const content = queryElement('content', { scope });
+  const arrow = queryElement('arrow', { scope });
 
   if (!trigger || !content) return;
 

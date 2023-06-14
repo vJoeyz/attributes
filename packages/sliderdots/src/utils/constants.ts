@@ -1,49 +1,35 @@
-import { SLIDER_DOTS_ATTRIBUTE } from '$global/constants/attributes';
-import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributeElements, type AttributeSettings, SLIDER_DOTS_ATTRIBUTE } from '@finsweet/attributes-utils';
 
-const ATTRIBUTES_PREFIX = `fs-${SLIDER_DOTS_ATTRIBUTE}`;
+export const ELEMENTS = [
+  /**
+   * Defines a slider to instantiate.
+   */
+  'slider',
 
-export const SLIDER_ELEMENT_KEY = 'slider';
-export const CONTENT_ELEMENT_KEY = 'content';
-export const SLIDER_NAV_ELEMENT_KEY = 'slider-nav';
-export const ACTIVE_SETTING_KEY = 'active';
-export const REMOVE_SETTING_KEY = 'remove';
+  /**
+   * Defines the content to be added to the slider dot.
+   */
+  'content',
 
-export const ATTRIBUTES = {
-  element: {
-    key: `${ATTRIBUTES_PREFIX}-element`,
-    values: {
-      /**
-       * Defines a slider to instantiate.
-       */
-      slider: generateDynamicAttibuteValue(SLIDER_ELEMENT_KEY),
+  /**
+   * Defines a custom Slide Nav.
+   */
+  'slider-nav',
+] as const satisfies AttributeElements;
 
-      /**
-       * Defines the content to be added to the slider dot.
-       */
-      content: generateDynamicAttibuteValue(CONTENT_ELEMENT_KEY),
-
-      /**
-       * Defines a custom Slide Nav.
-       */
-      sliderNav: generateDynamicAttibuteValue(SLIDER_NAV_ELEMENT_KEY),
-    },
-  },
-
+export const SETTINGS = {
   /**
    * Defines the `active` CSS class. Defaults to {@link DEFAULT_ACTIVE_CSS_CLASS}.
    */
-  active: { key: `${ATTRIBUTES_PREFIX}-${ACTIVE_SETTING_KEY}` },
+  active: { key: 'active' },
 
   /**
    * Defines if the content should be removed or just duplicated.
    */
   remove: {
-    key: `${ATTRIBUTES_PREFIX}-${REMOVE_SETTING_KEY}`,
+    key: 'remove',
     values: { true: 'true' },
   },
-} as const satisfies AttributesDefinition;
+} as const satisfies AttributeSettings;
 
-export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
-
-export const DEFAULT_ACTIVE_CSS_CLASS = `${ATTRIBUTES_PREFIX}_active`;
+export const DEFAULT_ACTIVE_CSS_CLASS = `fs-${SLIDER_DOTS_ATTRIBUTE}_active`;

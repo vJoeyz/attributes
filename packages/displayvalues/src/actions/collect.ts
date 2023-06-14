@@ -1,8 +1,6 @@
 import type { FormField } from '@finsweet/ts-utils';
 
-import { getInstanceIndex } from '$global/helpers';
-
-import { ATTRIBUTES, queryElement } from '../utils/constants';
+import { getInstanceIndex, queryAllElements } from '../utils/selectors';
 import { relationshipsStore } from '../utils/stores';
 
 /**
@@ -10,9 +8,9 @@ import { relationshipsStore } from '../utils/stores';
  * @param sourceElement
  */
 export const collectTargets = (sourceElement: FormField) => {
-  const instanceIndex = getInstanceIndex(sourceElement, ATTRIBUTES.element.key);
+  const instanceIndex = getInstanceIndex(sourceElement);
 
-  const displayTargets = queryElement<HTMLElement>('target', { instanceIndex, all: true });
+  const displayTargets = queryAllElements('target', { instanceIndex });
   if (!displayTargets.length) return;
 
   relationshipsStore.set(sourceElement, displayTargets);

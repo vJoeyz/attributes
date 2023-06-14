@@ -1,18 +1,24 @@
-import type { Dropdown, DropdownList, DropdownToggle } from '@finsweet/ts-utils';
-import { addListener, CURRENT_CSS_CLASS, Debug, DROPDOWN_CSS_CLASSES, isElement } from '@finsweet/ts-utils';
-
+import type { CMSList } from '@finsweet/attributes-cmscore';
 import {
   ARIA_HASPOPUP_KEY,
   ARIA_MULTISELECTABLE_KEY,
   ARIA_ROLE_KEY,
   ARIA_ROLE_VALUES,
   ARIA_SELECTED_KEY,
-} from '$global/constants/a11y';
-import { closeDropdown, normalizePropKey } from '$global/helpers';
-import type { CMSList } from '$packages/cmscore';
+  normalizePropKey,
+} from '@finsweet/attributes-utils';
+import type { Dropdown, DropdownList, DropdownToggle } from '@finsweet/ts-utils';
+import {
+  addListener,
+  closeDropdown,
+  CURRENT_CSS_CLASS,
+  Debug,
+  DROPDOWN_CSS_CLASSES,
+  isElement,
+} from '@finsweet/ts-utils';
 
 import { sortListItems } from '../actions/sort';
-import { ATTRIBUTES, queryElement } from '../utils/constants';
+import { getAttribute, queryElement } from '../utils/selectors';
 import type {
   DropdownLabelData,
   DropdownOption,
@@ -21,16 +27,14 @@ import type {
   SortItemsCallback,
 } from '../utils/types';
 
-const { dropdownToggle: dropdownToggleCSSClass, dropdownList: dropdownListCSSClass } = DROPDOWN_CSS_CLASSES;
-
 /**
  * Inits sorting on a `Dropdown` component.
  * @param dropdown The {@link Dropdown} element.
  * @param listInstance The {@link CMSList} instance.
  */
 export const initDropdown = (dropdown: Dropdown, listInstance: CMSList) => {
-  const dropdownToggle = dropdown.querySelector<DropdownToggle>(`.${dropdownToggleCSSClass}`);
-  const dropdownList = dropdown.querySelector<DropdownList>(`.${dropdownListCSSClass}`);
+  const dropdownToggle = dropdown.querySelector<DropdownToggle>(`.${DROPDOWN_CSS_CLASSES.dropdownToggle}`);
+  const dropdownList = dropdown.querySelector<DropdownList>(`.${DROPDOWN_CSS_CLASSES.dropdownList}`);
 
   if (!dropdownToggle || !dropdownList) {
     Debug.alert('The cmssort Dropdown is missing a toggle or a list.', 'error');
@@ -128,7 +132,7 @@ const collectDropdownOptions = (dropdownList: DropdownList) => {
   for (const element of options) {
     element.setAttribute(ARIA_ROLE_KEY, ARIA_ROLE_VALUES.option);
 
-    const fieldKey = element.getAttribute(ATTRIBUTES.field.key);
+    const fieldKey = getAttribute(element, 'field');
 
     let sortKey: string | undefined;
     let direction: SortingDirection | undefined;
@@ -160,7 +164,7 @@ const collectDropdownOptions = (dropdownList: DropdownList) => {
  * @returns A {@link DropdownLabelData} object, if existing.
  */
 const collectDropdownLabelData = (dropdownToggle: DropdownToggle): DropdownLabelData | undefined => {
-  const dropdownLabel = queryElement('dropdownLabel', { operator: 'prefixed', scope: dropdownToggle });
+  const dropdownLabel = queryElement('dropdown-label', { scope: dropdownToggle });
   if (!dropdownLabel) return;
 
   const originalHTML = dropdownLabel.innerHTML;

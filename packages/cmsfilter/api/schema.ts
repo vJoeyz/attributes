@@ -1,3 +1,4 @@
+import type { AttributeSchema } from '@finsweet/attributes-utils';
 import {
   BUTTON,
   CHECKBOX,
@@ -17,8 +18,7 @@ import {
   TEXT_BLOCK,
   TEXT_INPUT_FIELD,
   TEXT_LINK,
-} from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+} from '@finsweet/attributes-utils';
 
 import {
   ACTIVE_CLASS_SETTING_KEY,

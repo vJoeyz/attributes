@@ -1,10 +1,9 @@
+import { adjustValueToStep } from '@finsweet/attributes-utils';
 import { Debug, isNotEmpty } from '@finsweet/ts-utils';
-
-import { adjustValueToStep } from '$global/helpers';
 
 import { Fill } from './components/Fill';
 import { Handle } from './components/Handle';
-import { ATTRIBUTES } from './utils/constants';
+import { getAttribute } from './utils/selectors';
 import type { HandleInstances, RangeSliderSettings } from './utils/types';
 
 /**
@@ -26,9 +25,7 @@ export const createHandleInstances = ({
   const handles = handleElements
     .slice(0, 2)
     .map((handleElement, index) => {
-      const rawStartValue = parseFloat(
-        handleElement.getAttribute(ATTRIBUTES.start.key) || `${index === 0 ? minRange : maxRange}`
-      );
+      const rawStartValue = parseFloat(getAttribute(handleElement, 'start') || `${index === 0 ? minRange : maxRange}`);
 
       let startValue = adjustValueToStep(rawStartValue, step, precision, minRange);
 

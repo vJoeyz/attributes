@@ -1,8 +1,12 @@
+import {
+  ARIA_ACTIVEDESCENDANT_KEY,
+  ARIA_EXPANDED_KEY,
+  ARROW_DOWN_KEY,
+  CLICK,
+  ID_KEY,
+} from '@finsweet/attributes-utils';
 import { isHTMLOptionElement } from '@finsweet/ts-utils';
 import debounce from 'just-debounce';
-
-import { ARIA_ACTIVEDESCENDANT_KEY, ARIA_EXPANDED_KEY, ID_KEY } from '$global/constants/a11y';
-import { ARROW_DOWN_KEY, CLICK } from '$global/constants/keyboard';
 
 import { focusOnInput, updateComboboxInputField } from '../utils';
 import { DROPDOWN_IS_OPEN, FS_DROPDOWN_TOGGLE_KEY } from '../utils/constants';

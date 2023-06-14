@@ -1,27 +1,29 @@
+import { awaitAttributeLoaded, awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
 import { isNotEmpty } from '@finsweet/ts-utils';
-
-import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_SELECT_ATTRIBUTE, SELECT_CUSTOM_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
 
 import { listenEvents } from './actions/events';
 import { observeElements } from './actions/observe';
 import { populateOptions } from './actions/populate';
 import { collectSettings } from './actions/settings';
-import { queryElement } from './utils/constants';
+import { queryAllElements } from './utils/selectors';
 
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<HTMLElement[]> => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE, CMS_SELECT_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await awaitWebflowReady();
+  await awaitAttributeLoaded('cmsselect');
 
-  const referenceElements = queryElement<HTMLElement>('dropdown', { all: true, operator: 'prefixed' });
+  const referenceElements = queryAllElements('dropdown');
 
   const cleanups = referenceElements.map(initCustomSelect).filter(isNotEmpty);
 
-  return finalizeAttribute(SELECT_CUSTOM_ATTRIBUTE, referenceElements, () => {
-    for (const cleanup of cleanups) cleanup();
-  });
+  return {
+    result: referenceElements,
+    destroy() {
+      for (const cleanup of cleanups) cleanup();
+    },
+  };
 };
 
 /**

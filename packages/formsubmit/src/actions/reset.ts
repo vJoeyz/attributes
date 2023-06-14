@@ -1,7 +1,7 @@
 import { type FormField, isHTMLInputElement } from '@finsweet/ts-utils';
 
 import type { Form } from '../components/Form';
-import { getSelector } from '../utils/constants';
+import { getSettingSelector } from '../utils/selectors';
 import type { FieldData } from '../utils/types';
 
 /**
@@ -30,7 +30,7 @@ export const collectPreventResetFields = (form: HTMLFormElement) => {
   const fields = [...form.querySelectorAll<FormField>('input, select, textarea')];
 
   const fieldsData = fields.reduce<FieldData[]>((acc, element) => {
-    const shouldPreventReset = element.closest(getSelector('preventReset'));
+    const shouldPreventReset = element.closest(getSettingSelector('preventreset'));
     if (!shouldPreventReset) return acc;
 
     const { value } = element;

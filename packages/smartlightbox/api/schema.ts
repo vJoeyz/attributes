@@ -1,5 +1,5 @@
-import { BUTTON, DIV_BLOCK, LIGHTBOX, LINK_BLOCK, TEXT_LINK } from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+import type { AttributeSchema } from '@finsweet/attributes-utils';
+import { BUTTON, DIV_BLOCK, LIGHTBOX, LINK_BLOCK, TEXT_LINK } from '@finsweet/attributes-utils';
 
 import {
   LIGHTBOX_ELEMENT_KEY,

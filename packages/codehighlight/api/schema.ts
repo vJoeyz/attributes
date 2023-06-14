@@ -1,5 +1,5 @@
-import { EMBED_CODE, PARENT_WRAPPER, PRE_CODE } from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+import type { AttributeSchema } from '@finsweet/attributes-utils';
+import { EMBED_CODE, PARENT_WRAPPER, PRE_CODE } from '@finsweet/attributes-utils';
 
 import { CODE_ELEMENT_KEY, THEME_SETTING_KEY } from './../src/utils/constants';
 

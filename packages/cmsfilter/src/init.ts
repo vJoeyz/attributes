@@ -1,46 +1,42 @@
+import { type CMSList, createCMSListInstances } from '@finsweet/attributes-cmscore';
+import { awaitAttributeLoaded, awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
 import { isNotEmpty } from '@finsweet/ts-utils';
 
-import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_FILTER_ATTRIBUTE, QUERY_PARAM_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
-import { importCMSCore } from '$global/import';
-import type { CMSCore, CMSList } from '$packages/cmscore';
-
 import { listenListEvents } from './actions/events';
-import type { CMSFilters } from './components/CMSFilters';
 import { createCMSFiltersInstance, createCMSTagsInstance } from './factory';
-import { getSelector } from './utils/constants';
+import { getElementSelector } from './utils/selectors';
 
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<CMSFilters[]> => {
-  const cmsCore = await importCMSCore();
-  if (!cmsCore) return [];
+export const init: FsAttributeInit = async () => {
+  await awaitWebflowReady();
+  await awaitAttributeLoaded('queryparam');
 
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE, QUERY_PARAM_ATTRIBUTE);
+  const listInstances = createCMSListInstances([getElementSelector('list')]);
 
-  const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
-
-  const filtersData = (
-    await Promise.all(listInstances.map((listInstance) => initFilters(listInstance, cmsCore)))
-  ).filter(isNotEmpty);
+  const filtersData = (await Promise.all(listInstances.map((listInstance) => initFilters(listInstance)))).filter(
+    isNotEmpty
+  );
 
   const filtersInstances = filtersData.map(({ filtersInstance }) => filtersInstance);
 
-  return finalizeAttribute(CMS_FILTER_ATTRIBUTE, filtersInstances, () => {
-    // TODO: Remove optional chaining after cmscore@1.9.0 has rolled out
-    for (const listInstance of listInstances) listInstance.destroy?.();
-    for (const { cleanup } of filtersData) cleanup();
-  });
+  return {
+    result: filtersInstances,
+    destroy() {
+      for (const listInstance of listInstances) listInstance.destroy();
+      for (const { cleanup } of filtersData) cleanup();
+    },
+  };
 };
 
 /**
  * Creates a new {@link CMSFilters} instance for each {@link CMSList}.
  * @param listInstance The `CMSList` instance.
  */
-const initFilters = async (listInstance: CMSList, cmsCore: CMSCore) => {
+const initFilters = async (listInstance: CMSList) => {
   // Filters
-  const filtersInstance = createCMSFiltersInstance(listInstance, cmsCore);
+  const filtersInstance = createCMSFiltersInstance(listInstance);
   if (!filtersInstance) return;
 
   listenListEvents(filtersInstance, listInstance);

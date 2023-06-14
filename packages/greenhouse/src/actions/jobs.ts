@@ -1,18 +1,14 @@
+import { type CMSList, createCMSListInstance } from '@finsweet/attributes-cmscore';
+import { getCMSElementSelector } from '@finsweet/attributes-utils';
 import type { JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
 
-import { getCMSElementSelector } from '$global/helpers';
-import { importCMSCore } from '$global/import';
-import type { CMSList } from '$packages/cmscore';
-
-import { ATTRIBUTES, SUPPORTED_NESTED_KEYS } from '../utils/constants';
+import { SUPPORTED_NESTED_KEYS } from '../utils/constants';
 import { addJobsToCMSItems, addNestedJobsToCMSItems } from '../utils/lists';
+import { getAttribute, queryAllElements } from '../utils/selectors';
 
 export async function createCMSList(listWrapper: HTMLElement, queryParam: string, jobs: JobWithContent[]) {
-  const cmsCore = await importCMSCore();
-  if (!cmsCore) return [];
-
   // Create the list instances
-  const listInstance = cmsCore.createCMSListInstance(listWrapper);
+  const listInstance = createCMSListInstance(listWrapper);
 
   if (!listInstance) {
     return;
@@ -43,8 +39,8 @@ export function getNestedKey(listInstance: CMSList): string | null {
     return null;
   }
 
-  const groupBy = [...element.querySelectorAll<HTMLElement>(`[${ATTRIBUTES.element.key}]`)].find((groupElement) => {
-    const elementAttribute = groupElement.getAttribute(ATTRIBUTES.element.key);
+  const groupBy = queryAllElements(undefined, { scope: element }).find((groupElement) => {
+    const elementAttribute = getAttribute(groupElement, 'element');
 
     if (!elementAttribute) {
       return false;
@@ -53,5 +49,5 @@ export function getNestedKey(listInstance: CMSList): string | null {
     return (groupElement.contains(element) === false && SUPPORTED_NESTED_KEYS.includes(elementAttribute)) || false;
   });
 
-  return (groupBy && groupBy.getAttribute(ATTRIBUTES.element.key)) || null;
+  return (groupBy && getAttribute(groupBy, 'element')) || null;
 }

@@ -1,12 +1,4 @@
-import type {
-  addItemsAnimation,
-  addListAnimation,
-  checkCMSCoreVersion,
-  CMSItem,
-  CMSList,
-  createCMSListInstance,
-  createCMSListInstances,
-} from '..';
+import type { CMSItem } from '..';
 
 /**
  * `CMSList` Types
@@ -77,19 +69,3 @@ export interface CMSItemProps {
     range?: string | null;
   };
 }
-
-/**
- * Dynamic Import type
- */
-export interface CMSCore {
-  version: string;
-  CMSList: typeof CMSList;
-  CMSItem: typeof CMSItem;
-  createCMSListInstances: typeof createCMSListInstances;
-  createCMSListInstance: typeof createCMSListInstance;
-  addListAnimation: typeof addListAnimation;
-  addItemsAnimation: typeof addItemsAnimation;
-  checkCMSCoreVersion: typeof checkCMSCoreVersion;
-}
-
-export type CMSCoreImport = Promise<CMSCore | undefined>;

@@ -1,6 +1,5 @@
+import { normalizePropKey } from '@finsweet/attributes-utils';
 import { extractCommaSeparatedValues, setFormFieldValue } from '@finsweet/ts-utils';
-
-import { normalizePropKey } from '$global/helpers';
 
 import type { CMSFilters } from '../components/CMSFilters';
 import type { FiltersData } from '../utils/types';

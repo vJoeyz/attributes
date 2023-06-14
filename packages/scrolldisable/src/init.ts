@@ -1,32 +1,36 @@
-import { CMS_ATTRIBUTE_ATTRIBUTE, SCROLL_DISABLE_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
+import { awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
 
 import { initClickTriggers } from './click';
-import { ATTRIBUTES, getSelector } from './constants';
 import { initDisplayTriggers } from './display';
 import { setReserveScrollBarGap } from './scroll';
+import { getSettingSelector, hasAttributeValue, queryAllElements } from './utils/selectors';
 
 /**
  * Inits the scrolldisable functionalities.
  */
-export const init = async () => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await awaitWebflowReady();
 
-  const preserveScrollTargets = document.querySelectorAll(getSelector('element', 'preserve'));
+  const preserveScrollTargets = queryAllElements('preserve');
 
   let reserveScrollbarGap = true;
 
-  const reserveGapElement = document.querySelector(getSelector('gap'));
-  const disableReserveGap = reserveGapElement?.getAttribute(ATTRIBUTES.gap.key) === ATTRIBUTES.gap.values.false;
-  if (disableReserveGap) reserveScrollbarGap = false;
+  const reserveGapElement = document.querySelector(getSettingSelector('gap'));
+
+  const disableReserveGap = reserveGapElement && hasAttributeValue(reserveGapElement, 'gap', 'false');
+  if (disableReserveGap) {
+    reserveScrollbarGap = false;
+  }
 
   setReserveScrollBarGap(reserveScrollbarGap);
 
   const destroyClickListeners = initClickTriggers(preserveScrollTargets);
   const destroyDisplayListeners = initDisplayTriggers(preserveScrollTargets);
 
-  return finalizeAttribute(SCROLL_DISABLE_ATTRIBUTE, undefined, () => {
-    destroyClickListeners();
-    destroyDisplayListeners();
-  });
+  return {
+    destroy() {
+      destroyClickListeners();
+      destroyDisplayListeners();
+    },
+  };
 };

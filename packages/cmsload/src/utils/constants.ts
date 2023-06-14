@@ -1,127 +1,93 @@
+import { type AttributeElements, type AttributeSettings } from '@finsweet/attributes-utils';
 import type { WebflowBreakpoint } from '@finsweet/ts-utils';
 
-import { CMS_LOAD_ATTRIBUTE } from '$global/constants/attributes';
-import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
-
-const ATTRIBUTES_PREFIX = `fs-${CMS_LOAD_ATTRIBUTE}`;
-
-export const LIST_ELEMENT_KEY = 'list';
-export const LOADER_ELEMENT_KEY = 'loader';
-export const ITEMS_COUNT_ELEMENT_KEY = 'items-count';
-export const VISIBLE_COUNT_ELEMENT_KEY = 'visible-count';
-export const VISIBLE_COUNT_FROM_ELEMENT_KEY = 'visible-count-from';
-export const VISIBLE_COUNT_TO_ELEMENT_KEY = 'visible-count-to';
-export const SCROLL_ANCHOR_ELEMENT_KEY = 'scroll-anchor';
-export const PAGE_BUTTON_ELEMENT_KEY = 'page-button';
-export const PAGE_DOTS_ELEMENT_KEY = 'page-dots';
-export const EMPTY_ELEMENT_KEY = 'empty';
-
-export const MODE_SETTING_KEY = 'mode';
-export const MODE_SETTING_VALUES = {
+export const ELEMENTS = [
   /**
-   * Renders items at the bottom of the page.
+   * Defines a list to be instantiated.
    */
-  loadUnder: 'load-under',
+  'list',
 
   /**
-   * All items will be rendered at once.
+   * Defines a node that will be displayed when loading new items.
    */
-  renderAll: 'render-all',
+  'loader',
 
   /**
-   * Pagination will be created.
+   * Defines an element where to display the total items of the list.
    */
-  pagination: 'pagination',
+  'items-count',
 
   /**
-   * Items will be loaded when the user reaches the bottom of the Collection List.
-   * Threshold can be defined with {@link ATTRIBUTES.threshold}.
+   * Defines an element where to display the amount of visible items.
    */
-  infinite: 'infinite',
-} as const;
-export const THRESHOLD_SETTING_KEY = 'threshold';
-export const PAGE_SIBLINGS_SETTING_KEY = 'pagesiblings';
-export const PAGE_BOUNDARY_SETTING_KEY = 'pageboundary';
-export const ANIMATION_SETTING_KEY = 'animation';
-export const EASING_SETTING_KEY = 'easing';
-export const DURATION_SETTING_KEY = 'duration';
-export const STAGGER_SETTING_KEY = 'stagger';
-export const RESET_IX_SETTING_KEY = 'resetix';
-export const RESET_IX_SETTING_VALUES = { true: 'true' } as const;
-export const SHOW_QUERY_SETTING_KEY = 'showquery';
-export const SHOW_QUERY_SETTING_VALUES = { true: 'true' } as const;
-export const CACHE_SETTING_KEY = 'cache';
-export const CACHE_SETTING_VALUES = { false: 'false' } as const;
+  'visible-count',
 
-export const ATTRIBUTES = {
-  element: {
-    key: `${ATTRIBUTES_PREFIX}-element`,
-    values: {
-      /**
-       * Defines a list to be instantiated.
-       */
-      list: generateDynamicAttibuteValue(LIST_ELEMENT_KEY),
+  /**
+   * Defines an element where to display the lower range of visible items.
+   */
+  'visible-count-from',
 
-      /**
-       * Defines a node that will be displayed when loading new items.
-       */
-      loader: generateDynamicAttibuteValue(LOADER_ELEMENT_KEY),
+  /**
+   * Defines an element where to display the upper range of visible items.
+   */
+  'visible-count-to',
 
-      /**
-       * Defines an element where to display the total items of the list.
-       */
-      itemsCount: generateDynamicAttibuteValue(ITEMS_COUNT_ELEMENT_KEY),
+  /**
+   * Defines an element where to scroll the view every time a page in `Pagination` mode is switched.
+   */
+  'scroll-anchor',
 
-      /**
-       * Defines an element where to display the amount of visible items.
-       */
-      visibleCount: generateDynamicAttibuteValue(VISIBLE_COUNT_ELEMENT_KEY),
+  /**
+   * Defines the Empty State element for when there are no elements to show.
+   */
+  'empty',
 
-      /**
-       * Defines an element where to display the lower range of visible items.
-       */
-      visibleCountFrom: generateDynamicAttibuteValue(VISIBLE_COUNT_FROM_ELEMENT_KEY),
+  /**
+   * Defines the template element to generate all page buttons for the `paginate` mode.
+   */
+  'page-button',
 
-      /**
-       * Defines an element where to display the upper range of visible items.
-       */
-      visibleCountTo: generateDynamicAttibuteValue(VISIBLE_COUNT_TO_ELEMENT_KEY),
+  /**
+   * Defines the template element to create the page dots separators.
+   */
+  'page-dots',
+] as const satisfies AttributeElements;
 
-      /**
-       * Defines an element where to scroll the view every time a page in `Pagination` mode is switched.
-       */
-      scrollAnchor: generateDynamicAttibuteValue(SCROLL_ANCHOR_ELEMENT_KEY),
-
-      /**
-       * Defines the Empty State element for when there are no elements to show.
-       */
-      empty: generateDynamicAttibuteValue(EMPTY_ELEMENT_KEY),
-
-      /**
-       * Defines the template element to generate all page buttons for the `paginate` mode.
-       */
-      pageButton: PAGE_BUTTON_ELEMENT_KEY,
-
-      /**
-       * Defines the template element to create the page dots separators.
-       */
-      pageDots: PAGE_DOTS_ELEMENT_KEY,
-    },
-  },
-
+export const SETTINGS = {
   /**
    * Defines the loading mode.
    */
   mode: {
-    key: `${ATTRIBUTES_PREFIX}-${MODE_SETTING_KEY}`,
-    values: MODE_SETTING_VALUES,
+    key: 'mode',
+    values: {
+      /**
+       * Renders items at the bottom of the page.
+       */
+      loadUnder: 'load-under',
+
+      /**
+       * All items will be rendered at once.
+       */
+      renderAll: 'render-all',
+
+      /**
+       * Pagination will be created.
+       */
+      pagination: 'pagination',
+
+      /**
+       * Items will be loaded when the user reaches the bottom of the Collection List.
+       * Threshold can be defined with {@link ATTRIBUTES.threshold}.
+       */
+      infinite: 'infinite',
+    },
   },
 
   /**
    * Defines the scrolling threshold to trigger a new page load in `infinite` mode.
    * Defaults to {@link DEFAULT_INFINITE_THRESHOLD}.
    */
-  threshold: { key: `${ATTRIBUTES_PREFIX}-${THRESHOLD_SETTING_KEY}` },
+  threshold: { key: 'threshold' },
 
   /**
    * Defines the amount of digits to display either side of the current page.
@@ -129,7 +95,7 @@ export const ATTRIBUTES = {
    *
    * Defaults to {@link DEFAULT_PAGE_SIBLINGS}.
    */
-  pageSiblings: { key: `${ATTRIBUTES_PREFIX}-${PAGE_SIBLINGS_SETTING_KEY}` },
+  pagesiblings: { key: 'pagesiblings' },
 
   /**
    * Defines the amount of digits to display at the start and end of a page buttons list.
@@ -137,51 +103,55 @@ export const ATTRIBUTES = {
    *
    * Defaults to {@link DEFAULT_PAGE_BOUNDARY}.
    */
-  pageBoundary: { key: `${ATTRIBUTES_PREFIX}-${PAGE_BOUNDARY_SETTING_KEY}` },
+  pageboundary: { key: 'pageboundary' },
 
   /**
    * Defines the animation to use when appending elements to the list.
    * Allowed values are defined in {@link "packages/animations"}.
    */
-  animation: { key: `${ATTRIBUTES_PREFIX}-${ANIMATION_SETTING_KEY}` },
+  animation: { key: 'animation' },
 
   /**
    * Defines the easing function of the animation.
    * Allowed values are defined in {@link "packages/animations"}.
    */
-  easing: { key: `${ATTRIBUTES_PREFIX}-${EASING_SETTING_KEY}` },
+  easing: { key: 'easing' },
 
   /**
    * Defines the duration of the animation.
    */
-  duration: { key: `${ATTRIBUTES_PREFIX}-${DURATION_SETTING_KEY}` },
+  duration: { key: 'duration' },
 
   /**
    * Defines if animations should be staggered.
    */
-  stagger: { key: `${ATTRIBUTES_PREFIX}-${STAGGER_SETTING_KEY}` },
+  stagger: { key: 'stagger' },
 
   /**
    * Defines if Webflow should be restarted after loading new items.
    */
-  resetIx: { key: `${ATTRIBUTES_PREFIX}-${RESET_IX_SETTING_KEY}`, values: RESET_IX_SETTING_VALUES },
+  resetix: {
+    key: 'resetix',
+    values: { true: 'true' },
+  },
 
   /**
    * Defines if the pagination query params should be displayed on the URL.
-   * Only works with {@link MODE_SETTING_VALUES.pagination} mode.
+   * Only works with {@link SETTINGS.mode.values.pagination} mode.
    */
-  showQuery: { key: `${ATTRIBUTES_PREFIX}-${SHOW_QUERY_SETTING_KEY}`, values: SHOW_QUERY_SETTING_VALUES },
+  showquery: { key: 'showquery', values: { true: 'true' } },
 
   /**
    * Defines if the documents should be cached after fetching them.
    * Defaults to `true`.
    */
-  cacheItems: { key: `${ATTRIBUTES_PREFIX}-${CACHE_SETTING_KEY}`, values: CACHE_SETTING_VALUES },
-} as const satisfies AttributesDefinition;
+  cache: {
+    key: 'cache',
+    values: { false: 'false' },
+  },
+} as const satisfies AttributeSettings;
 
-export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
-
-export const DEFAULT_INFINITE_THRESHOLD = '-20';
+export const DEFAULT_INFINITE_THRESHOLD = -20;
 
 export const DEFAULT_PAGE_SIBLINGS = 1;
 export const DEFAULT_PAGE_BOUNDARY = 1;

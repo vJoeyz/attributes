@@ -1,4 +1,4 @@
-import { valueToString } from 'src/utils/helpers';
+import { valueToString } from '../utils/helpers';
 
 /**
  * Animates a number element.
@@ -13,7 +13,7 @@ export const animateNumberCount = (
   start: number,
   end: number,
   duration: number,
-  locale?: string | true
+  locale?: string | true | null
 ) => {
   const increment = (end - start) / duration;
 

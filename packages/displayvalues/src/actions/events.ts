@@ -1,6 +1,6 @@
 import { addListener, isElement, isFormField } from '@finsweet/ts-utils';
 
-import { getSelector } from '../utils/constants';
+import { getElementSelector } from '../utils/selectors';
 import { syncValue } from './sync';
 
 /**
@@ -11,7 +11,7 @@ export const listenEvents = () => {
   const inputCleanup = addListener(window, 'input', ({ target }: Event) => {
     if (!isElement(target)) return;
 
-    const sourceElement = target.closest(getSelector('element', 'source', { operator: 'prefixed' }));
+    const sourceElement = target.closest(getElementSelector('source'));
 
     if (isFormField(sourceElement)) {
       syncValue(sourceElement);

@@ -1,4 +1,4 @@
-import type { AnimationFunctions, Easings } from '$packages/animation/src/types';
+import type { AnimationFunctions, Easings } from '@finsweet/attributes-utils';
 
 import type { DISPLAY_PROPERTIES } from './constants';
 

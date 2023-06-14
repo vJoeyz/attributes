@@ -1,11 +1,9 @@
 import type { FormBlockElement } from '@finsweet/ts-utils';
 import { FORM_CSS_CLASSES } from '@finsweet/ts-utils';
 
-import { getInstanceIndex } from '$global/helpers';
-
 import { Form } from './components/Form';
 import { parseActionAttribute } from './utils/attributes';
-import { ATTRIBUTES, queryElement } from './utils/constants';
+import { getAttribute, getInstanceIndex, hasAttributeValue, queryAllElements } from './utils/selectors';
 
 /**
  * Creates a new formsubmit instance.
@@ -18,30 +16,31 @@ export const initFormInstance = (formElement: Element) => {
   const form = formBlock.querySelector('form');
   if (!form) return;
 
-  const instanceIndex = getInstanceIndex(formElement, ATTRIBUTES.element.key);
-  const ixTriggers = queryElement('ixTrigger', { instanceIndex, all: true });
-  const resetButtons = queryElement('reset', { instanceIndex, all: true });
+  const instanceIndex = getInstanceIndex(formElement);
+
+  const ixTriggers = queryAllElements('ix-trigger', { instanceIndex });
+  const resetButtons = queryAllElements('reset', { instanceIndex });
 
   // Reset
-  const rawReset = formElement.getAttribute(ATTRIBUTES.reset.key);
+  const rawReset = getAttribute(formElement, 'reset');
   const [reset, resetTimeout] = parseActionAttribute(rawReset);
 
   // Reload
-  const rawReload = formElement.getAttribute(ATTRIBUTES.reload.key);
+  const rawReload = getAttribute(formElement, 'reload');
   const [reload, reloadTimeout] = parseActionAttribute(rawReload);
 
   // Redirect
-  const rawRedirect = formElement.getAttribute(ATTRIBUTES.redirect.key);
+  const rawRedirect = getAttribute(formElement, 'redirect');
   const [redirect, redirectTimeout] = parseActionAttribute(rawRedirect);
-  const redirectUrl = formElement.getAttribute(ATTRIBUTES.redirectUrl.key);
-  const redirectToNewTab =
-    formElement.getAttribute(ATTRIBUTES.redirectNewTab.key) === ATTRIBUTES.redirectNewTab.values.true;
+
+  const redirectUrl = getAttribute(formElement, 'redirecturl');
+  const redirectToNewTab = hasAttributeValue(formElement, 'redirectnewtab', 'true');
 
   // Disable
-  const disable = formElement.getAttribute(ATTRIBUTES.disable.key) === ATTRIBUTES.disable.values.true;
+  const disable = hasAttributeValue(formElement, 'disable', 'true');
 
   // Enhance
-  const enhance = formElement.getAttribute(ATTRIBUTES.enhance.key) === ATTRIBUTES.enhance.values.true;
+  const enhance = hasAttributeValue(formElement, 'enhance', 'true');
 
   const formInstance = new Form({
     form,

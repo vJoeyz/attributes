@@ -1,12 +1,11 @@
+import { CMSItem, CMSList } from '@finsweet/attributes-cmscore';
+import { getCMSElementSelector } from '@finsweet/attributes-utils';
 import { isNotEmpty } from '@finsweet/ts-utils';
 import type { JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
 
-import { getCMSElementSelector } from '$global/helpers';
-import { CMSItem, CMSList } from '$packages/cmscore';
-
-import { ATTRIBUTES } from '../utils/constants';
 import { filterJobsByKey, getDepartmentsOrOfficesFromJobs } from '../utils/jobs';
 import { populateJob } from '../utils/populate';
+import { getSettingSelector } from './selectors';
 
 export function addJobsToCMSItems(listInstance: CMSList, jobs: JobWithContent[], queryParam: string) {
   const element = getListTemplate(listInstance);
@@ -104,7 +103,7 @@ export function appendNestedJobsToCMSItems(
 }
 
 function setMainGroup(mainItem: HTMLDivElement, attributeGroup: string, valueGroup: string) {
-  const groupByLabel = mainItem.querySelector<HTMLElement>(`[${ATTRIBUTES.element.key}="${attributeGroup}"]`);
+  const groupByLabel = mainItem.querySelector<HTMLElement>(getSettingSelector('element', undefined, attributeGroup));
 
   if (groupByLabel) {
     groupByLabel.textContent = valueGroup;

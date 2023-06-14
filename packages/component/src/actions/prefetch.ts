@@ -1,6 +1,6 @@
-import type { ComponentTargetData } from 'src/utils/types';
+import { fetchPageDocument, parseNumericAttribute } from '@finsweet/attributes-utils';
 
-import { fetchPageDocument, parseNumericAttribute } from '$global/helpers';
+import type { ComponentTargetData } from '../utils/types';
 
 const componentsPages: Record<string, Document | null> = {};
 
@@ -13,13 +13,13 @@ const componentsPages: Record<string, Document | null> = {};
  * So with this trick we filter and prefetch all the pages before initting the components.
  *
  * @param componentsData
- * @param cacheKey
- * @param cacheVersion
+ * @param cachekey
+ * @param cacheversion
  */
 export const prefetchComponentsPages = async (
   componentTargetsData: ComponentTargetData[],
-  cacheKey?: string | null,
-  cacheVersion?: string | number | null
+  cachekey?: string | null,
+  cacheversion?: string | null
 ) => {
   const uniqueSourcesToFetch = [
     ...new Set(componentTargetsData.map(({ proxiedSource, source }) => proxiedSource?.href || source.href)),
@@ -29,8 +29,8 @@ export const prefetchComponentsPages = async (
     uniqueSourcesToFetch.map(async (href) => {
       const page = await fetchPageDocument(href, {
         cacheExternal: true,
-        cacheKey: cacheKey || undefined,
-        cacheVersion: parseNumericAttribute(cacheVersion, 1),
+        cacheKey: cachekey || undefined,
+        cacheVersion: parseNumericAttribute(cacheversion, 1),
       });
 
       return [href, page] as const;

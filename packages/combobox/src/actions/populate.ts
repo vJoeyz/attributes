@@ -1,6 +1,5 @@
+import { ARIA_POSINSET_KEY, ARIA_SETSIZE_KEY, ID_KEY } from '@finsweet/attributes-utils';
 import { cloneNode, findTextNode } from '@finsweet/ts-utils';
-
-import { ARIA_POSINSET_KEY, ARIA_SETSIZE_KEY, ID_KEY } from '$global/constants/a11y';
 
 import type { OptionData, Settings } from '../utils/types';
 import { setOptionAria } from './a11y';

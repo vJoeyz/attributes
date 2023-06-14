@@ -1,13 +1,13 @@
-import type { CMSList } from '$packages/cmscore';
+import type { CMSList } from '@finsweet/attributes-cmscore';
 
-import { ATTRIBUTES } from '../utils/constants';
+import { SETTINGS } from '../utils/constants';
 import type { SortItemsCallback } from '../utils/types';
 
 // Constants destructuring
 const {
   field: { key: fieldKey },
   type: { key: typeKey },
-} = ATTRIBUTES;
+} = SETTINGS;
 
 /**
  * Reacts to a `CMSList` events.

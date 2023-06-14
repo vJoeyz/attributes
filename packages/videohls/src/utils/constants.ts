@@ -1,19 +1,12 @@
-import { CMS_LOAD_ATTRIBUTE, VIDEO_HLS_ATTRIBUTE } from '$global/constants/attributes';
-import { type AttributesDefinition, generateSelectors } from '$global/factory';
+import { type AttributeElements, type AttributeSettings, CMS_LOAD_ATTRIBUTE } from '@finsweet/attributes-utils';
 
-const ATTRIBUTES_PREFIX = `fs-${VIDEO_HLS_ATTRIBUTE}`;
+export const ELEMENTS = [] as const satisfies AttributeElements;
 
-export const MANIFEST_SETTING_KEY = 'manifest';
-
-export const ATTRIBUTES = {
+export const SETTINGS = {
   /**
    * Defines an HLS manifest URL.
    */
-  manifest: {
-    key: `${ATTRIBUTES_PREFIX}-${MANIFEST_SETTING_KEY}`,
-  },
-} as const satisfies AttributesDefinition;
+  manifest: { key: 'manifest' },
+} as const satisfies AttributeSettings;
 
-export const [getSelector, queryElement, getAttribute] = generateSelectors(ATTRIBUTES);
-
-export const CMS_LOAD_LIST_ELEMENT_SELECTOR = `[fs-${CMS_LOAD_ATTRIBUTE}-element^="list"]`;
+export const CMS_LOAD_LIST_ELEMENT_SELECTOR = `[fs-${CMS_LOAD_ATTRIBUTE}-element="list"]`;

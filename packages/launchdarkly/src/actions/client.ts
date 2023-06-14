@@ -1,8 +1,6 @@
 import { extractCommaSeparatedValues } from '@finsweet/ts-utils';
 import { initialize, type LDClient } from 'launchdarkly-js-client-sdk';
 
-import type { LaunchDarklyAttributes } from '../utils/types';
-
 /**
  * Initializes the Launch Darkly client.
  * Starts tracking any events passed.
@@ -10,10 +8,7 @@ import type { LaunchDarklyAttributes } from '../utils/types';
  * @param clientId
  * @param eventsToTrack
  */
-export const initializeClient = async (
-  clientId: string,
-  eventsToTrack: LaunchDarklyAttributes['eventsToTrack']
-): Promise<LDClient> => {
+export const initializeClient = async (clientId: string, eventsToTrack?: string | null): Promise<LDClient> => {
   const client = initialize(clientId, { anonymous: true });
   await client.waitForInitialization();
 

@@ -1,6 +1,5 @@
-import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_LOAD_ATTRIBUTE, SOCIAL_SHARE_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
-import type { CMSList } from '$packages/cmscore/src';
+import type { CMSList } from '@finsweet/attributes-cmscore';
+import { awaitAttributeLoaded, awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
 
 import { listenTriggerClicks } from './actions/trigger';
 import { createSocialShareInstances } from './factory';
@@ -9,8 +8,8 @@ import { stores } from './utils/stores';
 /**
  * Inits the attribute.
  */
-export const init = async () => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await awaitWebflowReady();
 
   // Init global click listener
   const removeClickListener = listenTriggerClicks();
@@ -19,7 +18,7 @@ export const init = async () => {
   createSocialShareInstances();
 
   // create button from dynamic list in memory
-  const listInstances: CMSList[] = (await awaitAttributesLoad(CMS_LOAD_ATTRIBUTE))[0] || [];
+  const listInstances: CMSList[] = (await awaitAttributeLoaded('cmsload')) || [];
 
   for (const { items } of listInstances) {
     for (const { element } of items) {
@@ -27,7 +26,10 @@ export const init = async () => {
     }
   }
 
-  return finalizeAttribute(SOCIAL_SHARE_ATTRIBUTE, stores, () => {
-    removeClickListener();
-  });
+  return {
+    result: stores,
+    destroy() {
+      removeClickListener();
+    },
+  };
 };

@@ -1,71 +1,48 @@
-import { NUMBER_COUNT_ATTRIBUTE } from '$global/constants/attributes';
-import { type AttributesDefinition, generateSelectors } from '$global/factory';
+import { type AttributeElements, type AttributeSettings } from '@finsweet/attributes-utils';
 
-const ATTRIBUTES_PREFIX = `fs-${NUMBER_COUNT_ATTRIBUTE}`;
+export const ELEMENTS = [
+  /**
+   * Defines an element with a number to be animated.
+   */
+  'number',
+] as const satisfies AttributeElements;
 
-export const NUMBER_ELEMENT_KEY = 'number';
-export const START_SETTING_KEY = 'start';
-export const END_SETTING_KEY = 'end';
-export const DURATION_SETTING_KEY = 'duration';
-export const THRESHOLD_SETTING_KEY = 'threshold';
-export const LOCALE_SETTING_KEY = 'locale';
-
-export const ATTRIBUTES = {
-  element: {
-    key: `${ATTRIBUTES_PREFIX}-element`,
-    values: {
-      /**
-       * Defines an element with a number to be animated.
-       */
-      number: NUMBER_ELEMENT_KEY,
-    },
-  },
-
+export const SETTINGS = {
   /**
    * Defines the start number in the count.
    * If not defined, the library will default to {@link DEFAULT_START_NUMBER}.
    */
-  start: {
-    key: `${ATTRIBUTES_PREFIX}-${START_SETTING_KEY}`,
-  },
+  start: { key: 'start' },
 
   /**
    * Defines the end number in the count.
    * If not defined, the library will try to extract it from the `number` element.
    */
-  end: {
-    key: `${ATTRIBUTES_PREFIX}-${END_SETTING_KEY}`,
-  },
+  end: { key: 'end' },
 
   /**
    * Defines the count speed.
    * If not defined, it will default to {@link DEFAULT_DURATION}.
    */
-  duration: {
-    key: `${ATTRIBUTES_PREFIX}-${DURATION_SETTING_KEY}`,
-  },
+  duration: { key: 'duration' },
 
   /**
    * Defines the intersection observer threshold.
    * If not defined, it will default to {@link DEFAULT_THRESHOLD}.
    */
-  threshold: {
-    key: `${ATTRIBUTES_PREFIX}-${THRESHOLD_SETTING_KEY}`,
-  },
+  threshold: { key: 'threshold' },
 
   /**
    * If defined, the library will format the number using the provided locale.
    * Users can define any BCP 47 language tag or use `auto` to use the browser's locale.
    */
   locale: {
-    key: `${ATTRIBUTES_PREFIX}-${LOCALE_SETTING_KEY}`,
+    key: 'locale',
     values: {
       auto: 'auto',
     },
   },
-} as const satisfies AttributesDefinition;
-
-export const [getSelector, queryElement, getAttribute] = generateSelectors(ATTRIBUTES);
+} as const satisfies AttributeSettings;
 
 export const DEFAULT_START_NUMBER = 0;
 

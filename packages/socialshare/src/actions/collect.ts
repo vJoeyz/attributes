@@ -1,4 +1,5 @@
-import { ATTRIBUTES, DEFAULT_HEIGHT_SETTING_KEY, DEFAULT_WIDTH_SETTING_KEY, queryElement } from './../utils/constants';
+import { getAttribute, getSettingSelector, queryElement } from '../utils/selectors';
+import { DEFAULT_HEIGHT_SETTING_KEY, DEFAULT_WIDTH_SETTING_KEY, SETTINGS } from './../utils/constants';
 import type {
   FacebookSocialShare,
   PinterestSocialShare,
@@ -14,7 +15,7 @@ export function collectFacebookData(
 ): FacebookSocialShare {
   const socialData = collectSocialData(trigger, 'facebook', instanceIndex, scope);
 
-  const hashtagsElement = queryElement<HTMLElement>('facebookHashtags', { instanceIndex, operator: 'prefixed', scope });
+  const hashtagsElement = queryElement('facebook-hashtags', { instanceIndex, scope });
   const hashtagsText = hashtagsElement ? hashtagsElement.textContent : null;
 
   return {
@@ -31,11 +32,11 @@ export function collectTwitterData(
 ): TwitterSocialShare {
   const socialData = collectSocialData(trigger, 'twitter', instanceIndex, scope);
 
-  const hashtagsElement = queryElement<HTMLElement>('twitterHashtags', { instanceIndex, operator: 'prefixed', scope });
+  const hashtagsElement = queryElement('twitter-hashtags', { instanceIndex, scope });
   const hashtagsText =
     hashtagsElement && hashtagsElement.textContent ? hashtagsElement.textContent.replace(/[^a-zA-Z0-9_,]/g, '') : null;
 
-  const usernameElement = queryElement<HTMLElement>('twitterUsername', { instanceIndex, operator: 'prefixed', scope });
+  const usernameElement = queryElement('twitter-username', { instanceIndex, scope });
   const userNameText = usernameElement ? usernameElement.textContent : null;
 
   return {
@@ -53,14 +54,10 @@ export function collectPinterestData(
 ): PinterestSocialShare {
   const socialData = collectSocialData(trigger, 'pinterest', instanceIndex, scope);
 
-  const imageElement = queryElement<HTMLImageElement>('pinterestImage', { instanceIndex, operator: 'prefixed', scope });
+  const imageElement = queryElement<HTMLImageElement>('pinterest-image', { instanceIndex, scope });
   const imageSrc = imageElement && imageElement.src ? imageElement.src : null;
 
-  const descriptionElement = queryElement<HTMLElement>('pinterestDescription', {
-    instanceIndex,
-    operator: 'prefixed',
-    scope,
-  });
+  const descriptionElement = queryElement('pinterest-description', { instanceIndex, scope });
 
   const descriptionText = descriptionElement ? descriptionElement.textContent : null;
 
@@ -78,14 +75,15 @@ export function collectSocialData(
   instanceIndex: number | undefined,
   scope: HTMLElement | undefined
 ): SocialShare {
-  const width = collectSize(socialShareButton, ATTRIBUTES.width.key, DEFAULT_WIDTH_SETTING_KEY);
-  const height = collectSize(socialShareButton, ATTRIBUTES.height.key, DEFAULT_HEIGHT_SETTING_KEY);
+  const width = collectSize(socialShareButton, 'width', DEFAULT_WIDTH_SETTING_KEY);
+  const height = collectSize(socialShareButton, 'height', DEFAULT_HEIGHT_SETTING_KEY);
 
-  const contentElement = queryElement<HTMLElement>('content', { instanceIndex, operator: 'prefixed', scope });
+  const contentElement = queryElement('content', { instanceIndex, scope });
   const contentText = contentElement ? contentElement.textContent : null;
 
-  const urlElement = queryElement<HTMLElement>('url', { instanceIndex, operator: 'prefixed', scope });
+  const urlElement = queryElement('url', { instanceIndex, scope });
   const contentUrl = urlElement && urlElement.textContent ? urlElement.textContent : window.location.href;
+
   return {
     content: contentText,
     url: contentUrl,
@@ -95,22 +93,20 @@ export function collectSocialData(
   };
 }
 
-export function collectSize(button: HTMLElement, selector: string, defaultValue: number): number {
-  const buttonWidth = button.getAttribute(selector);
+export function collectSize(button: HTMLElement, settingKey: keyof typeof SETTINGS, defaultValue: number): number {
+  const buttonWidth = getAttribute(button, settingKey);
 
   if (buttonWidth) {
     const value = parseInt(buttonWidth);
     return isNaN(value) ? defaultValue : value;
   }
 
-  const closestElementWidth = button.closest(`[${selector}]`);
-
+  const closestElementWidth = button.closest(getSettingSelector(settingKey));
   if (!closestElementWidth) {
     return defaultValue;
   }
 
-  const closestWidth = closestElementWidth.getAttribute(selector);
-
+  const closestWidth = getAttribute(closestElementWidth, settingKey);
   if (!closestWidth) {
     return defaultValue;
   }

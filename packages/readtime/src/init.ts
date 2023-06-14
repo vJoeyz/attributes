@@ -1,20 +1,19 @@
-import { CMS_ATTRIBUTE_ATTRIBUTE, READ_TIME_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
+import { awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
 
 import { initReadTime } from './factory';
-import { queryElement } from './utils/constants';
+import { queryAllElements } from './utils/selectors';
 
 /**
  * Inits the attribute.
  */
-export const init = async () => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await awaitWebflowReady();
 
-  const timeElements = queryElement('time', { operator: 'prefixed', all: true });
+  const timeElements = queryAllElements('time');
 
   for (const timeElement of timeElements) {
     initReadTime(timeElement);
   }
 
-  return finalizeAttribute(READ_TIME_ATTRIBUTE);
+  return {};
 };

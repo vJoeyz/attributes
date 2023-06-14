@@ -1,15 +1,8 @@
-import type { TabsElement } from '@finsweet/ts-utils';
-import { TABS_CSS_CLASSES } from '@finsweet/ts-utils';
+import type { CMSList } from '@finsweet/attributes-cmscore';
+import { TABS_CSS_CLASSES, type TabsElement } from '@finsweet/ts-utils';
 
-import type { CMSList } from '$packages/cmscore';
-
-import { ATTRIBUTES, getSelector } from '../utils/constants';
+import { getElementSelector, getInstanceIndex, hasAttributeValue } from '../utils/selectors';
 import type { PopulateData } from '../utils/types';
-
-const {
-  element: { key: elementKey },
-  resetIx: { key: resetIxKey, values: resetIxValues },
-} = ATTRIBUTES;
 
 /**
  * Collects the source lists and the Tabs target to populate.
@@ -21,11 +14,13 @@ export const collectPopulateData = (listInstances: CMSList[]): [PopulateData[], 
   let restartIx = false;
 
   for (const listInstance of listInstances) {
-    const instanceIndex = listInstance.getInstanceIndex(elementKey);
+    const { listOrWrapper } = listInstance;
+
+    const instanceIndex = getInstanceIndex(listOrWrapper);
 
     // Get the slider target
     const tabsElement = document.querySelector<TabsElement>(
-      `.${TABS_CSS_CLASSES.tabs}${getSelector('element', 'tabs', { instanceIndex })}`
+      `.${TABS_CSS_CLASSES.tabs}${getElementSelector('tabs', { instanceIndex })}`
     );
 
     if (!tabsElement) continue;
@@ -37,8 +32,8 @@ export const collectPopulateData = (listInstances: CMSList[]): [PopulateData[], 
     data.listInstances.push(listInstance);
 
     // Check if IX2 must be restarted
-    restartIx ||= tabsElement.getAttribute(resetIxKey) === resetIxValues.true;
-    restartIx ||= listInstance.getAttribute(resetIxKey) === resetIxValues.true;
+    restartIx ||= hasAttributeValue(tabsElement, 'resetix', 'true');
+    restartIx ||= hasAttributeValue(listOrWrapper, 'resetix', 'true');
   }
 
   // Filter out invalid instances

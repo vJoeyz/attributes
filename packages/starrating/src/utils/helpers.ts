@@ -1,12 +1,12 @@
 import { FORM_CSS_CLASSES } from '@finsweet/ts-utils';
 
-import { getSelector, queryElement } from './constants';
+import { getElementSelector, queryElement } from './selectors';
 
 /**
  * @returns The closest star rating group parent from a target.
  * @param target
  */
-export const getClosestGroup = (target: Element) => target.closest(getSelector('element', 'group'));
+export const getClosestGroup = (target: Element) => target.closest(getElementSelector('group'));
 
 /**
  * @returns The closest Radio Field parent from a target.
@@ -19,7 +19,7 @@ export const getClosestRadioField = (target: Element) =>
  * @returns A child star element of the provided scope.
  * @param scope
  */
-export const queryStar = (scope: Element) => queryElement('star', { operator: 'prefixed', scope });
+export const queryStar = (scope: Element) => queryElement('star', { scope });
 
 /**
  *

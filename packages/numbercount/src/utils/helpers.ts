@@ -22,7 +22,7 @@ export const extractNumberFromElement = (numberElement: Element) => {
  * @param value The value to convert.
  * @param locale The locale to use. if existing.
  */
-export const valueToString = (value: number, locale?: string | true) => {
+export const valueToString = (value: number, locale?: string | true | null) => {
   if (locale) {
     return value.toLocaleString(isString(locale) ? locale : undefined);
   }

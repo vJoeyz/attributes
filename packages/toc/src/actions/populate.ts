@@ -1,7 +1,8 @@
 import { cloneNode } from '@finsweet/ts-utils';
 
 import { TOCItem } from '../components/TOCItem';
-import { ANCHOR_SELECTOR, getSelector, queryElement } from '../utils/constants';
+import { ANCHOR_SELECTOR } from '../utils/constants';
+import { getElementSelector, queryElement } from '../utils/selectors';
 import type { HeadingData, LinkData } from '../utils/types';
 
 /**
@@ -32,7 +33,7 @@ export const populateLinks = (headingsData: HeadingData[], linksData: LinkData[]
     const linkWrapper = levelMemo?.component || tocWrapper;
     const component = cloneNode(linkData.component);
 
-    const referenceNode = queryElement('link', { scope: component, operator: 'prefixed' });
+    const referenceNode = queryElement('link', { scope: component });
     if (!referenceNode) continue;
 
     const linkElement = referenceNode.closest('a');
@@ -43,9 +44,7 @@ export const populateLinks = (headingsData: HeadingData[], linksData: LinkData[]
     );
     if (!anchor) continue;
 
-    const ixTrigger = component.querySelector<HTMLElement>(
-      `:scope > ${getSelector('element', 'ixTrigger', { operator: 'prefixed' })}`
-    );
+    const ixTrigger = component.querySelector<HTMLElement>(`:scope > ${getElementSelector('ix-trigger')}`);
 
     const tocItem = new TOCItem({
       linkWrapper,

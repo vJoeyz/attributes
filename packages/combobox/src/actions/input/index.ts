@@ -1,5 +1,5 @@
-import { ARIA_EXPANDED_KEY } from '$global/constants/a11y';
 import {
+  ARIA_EXPANDED_KEY,
   ARROW_DOWN_KEY,
   ARROW_LEFT_KEY,
   ARROW_RIGHT_KEY,
@@ -10,7 +10,7 @@ import {
   ESCAPE_KEY,
   SPACE_KEY,
   TAB_KEY,
-} from '$global/constants/keyboard';
+} from '@finsweet/attributes-utils';
 
 import { focusOnInput, setActiveDescendant, toggleDropdown, toggleDropdownCloseIcon } from '../../utils';
 import { FS_DROPDOWN_TOGGLE_KEY } from '../../utils/constants';

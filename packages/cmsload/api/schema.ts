@@ -1,3 +1,4 @@
+import type { AttributeSchema } from '@finsweet/attributes-utils';
 import {
   BUTTON,
   COLLECTION_LIST,
@@ -11,8 +12,7 @@ import {
   TEXT_BLOCK,
   TEXT_ELEMENT,
   TEXT_LINK,
-} from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+} from '@finsweet/attributes-utils';
 
 import {
   ANIMATION_SETTING_KEY,

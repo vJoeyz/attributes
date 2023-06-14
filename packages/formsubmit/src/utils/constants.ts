@@ -1,65 +1,39 @@
-import { FORM_SUBMIT_ATTRIBUTE } from '$global/constants/attributes';
-import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributeElements, type AttributeSettings } from '@finsweet/attributes-utils';
 
-const ATTRIBUTES_PREFIX = `fs-${FORM_SUBMIT_ATTRIBUTE}`;
+export const ELEMENTS = [
+  /**
+   * Defines a form element.
+   */
+  'form',
 
-export const FORM_ELEMENT_KEY = 'form';
-export const RESET_ELEMENT_KEY = 'reset';
-export const IX_TRIGGER_ELEMENT_KEY = 'ix-trigger';
+  /**
+   * Defines an element that, when clicked, should reset the form.
+   */
+  'reset',
 
-export const RESET_SETTING_KEY = 'reset';
-export const RESET_SETTING_VALUES = { true: 'true' };
-export const PREVENT_RESET_SETTING_KEY = 'preventreset';
-export const PREVENT_RESET_SETTING_VALUES = { true: 'true' };
-export const RELOAD_SETTING_KEY = 'reload';
-export const RELOAD_SETTING_VALUES = { true: 'true' };
-export const REDIRECT_SETTING_KEY = 'redirect';
-export const REDIRECT_SETTING_VALUES = { true: 'true' };
-export const REDIRECT_URL_SETTING_KEY = 'redirecturl';
-export const REDIRECT_NEW_TAB_SETTING_KEY = 'redirectnewtab';
-export const REDIRECT_NEW_TAB_SETTING_VALUES = { true: 'true' };
-export const ENHANCE_SETTING_KEY = 'enhance';
-export const ENHANCE_SETTING_VALUES = { true: 'true' };
-export const DISABLE_SETTING_KEY = 'disable';
-export const DISABLE_SETTING_VALUES = { true: 'true' };
+  /**
+   * Defines an element that should be clicked after form submission, triggering a Mouse Click interaction.
+   */
+  'ix-trigger',
+] as const satisfies AttributeElements;
 
-export const ATTRIBUTES = {
-  element: {
-    key: `${ATTRIBUTES_PREFIX}-element`,
-    values: {
-      /**
-       * Defines a form element.
-       */
-      form: generateDynamicAttibuteValue(FORM_ELEMENT_KEY),
-
-      /**
-       * Defines an element that, when clicked, should reset the form.
-       */
-      reset: generateDynamicAttibuteValue(RESET_ELEMENT_KEY),
-
-      /**
-       * Defines an element that should be clicked after form submission, triggering a Mouse Click interaction.
-       */
-      ixTrigger: generateDynamicAttibuteValue(IX_TRIGGER_ELEMENT_KEY),
-    },
-  },
-
+export const SETTINGS = {
   /**
    * Defines if the form should reset all inputs after submission.
    * If set to true, it resets automatically.
    * If set to a number in miliseconds, it will timeout before resetting.
    */
   reset: {
-    key: `${ATTRIBUTES_PREFIX}-${RESET_SETTING_KEY}`,
-    values: RESET_SETTING_VALUES,
+    key: 'reset',
+    values: { true: 'true' },
   },
 
   /**
    * Defines an element (or a wrapper of multiple elements) that should preserve the value when resetting the form.
    */
-  preventReset: {
-    key: `${ATTRIBUTES_PREFIX}-${PREVENT_RESET_SETTING_KEY}`,
-    values: PREVENT_RESET_SETTING_VALUES,
+  preventreset: {
+    key: 'preventreset',
+    values: { true: 'true' },
   },
 
   /**
@@ -68,8 +42,8 @@ export const ATTRIBUTES = {
    * If set to a number in miliseconds, it will timeout before reloading.
    */
   reload: {
-    key: `${ATTRIBUTES_PREFIX}-${RELOAD_SETTING_KEY}`,
-    values: RELOAD_SETTING_VALUES,
+    key: 'reload',
+    values: { true: 'true' },
   },
 
   /**
@@ -78,40 +52,38 @@ export const ATTRIBUTES = {
    * If set to a number in miliseconds, it will timeout before redirecting.
    */
   redirect: {
-    key: `${ATTRIBUTES_PREFIX}-${REDIRECT_SETTING_KEY}`,
-    values: REDIRECT_SETTING_VALUES,
+    key: 'redirect',
+    values: { true: 'true' },
   },
 
   /**
    * Defines the URL to redirect the user.
    */
-  redirectUrl: {
-    key: `${ATTRIBUTES_PREFIX}-${REDIRECT_URL_SETTING_KEY}`,
+  redirecturl: {
+    key: 'redirecturl',
   },
 
   /**
    * Defines the redirect target, either on place or on a new tab.
    */
-  redirectNewTab: {
-    key: `${ATTRIBUTES_PREFIX}-${REDIRECT_NEW_TAB_SETTING_KEY}`,
-    values: REDIRECT_NEW_TAB_SETTING_VALUES,
+  redirectnewtab: {
+    key: 'redirectnewtab',
+    values: { true: 'true' },
   },
 
   /**
    * Defines if the form should be disabled, preventing all submissions.
    */
   disable: {
-    key: `${ATTRIBUTES_PREFIX}-${DISABLE_SETTING_KEY}`,
-    values: DISABLE_SETTING_VALUES,
+    key: 'disable',
+    values: { true: 'true' },
   },
 
   /**
    * Sends the data to the form action as a custom JavaScript Fetch instead of reloading the page.
    */
   enhance: {
-    key: `${ATTRIBUTES_PREFIX}-${ENHANCE_SETTING_KEY}`,
-    values: ENHANCE_SETTING_VALUES,
+    key: 'enhance',
+    values: { true: 'true' },
   },
-} as const satisfies AttributesDefinition;
-
-export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
+} as const satisfies AttributeSettings;

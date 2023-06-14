@@ -1,27 +1,18 @@
-import { QUERY_PARAM_ATTRIBUTE } from '$global/constants/attributes';
-import { type AttributesDefinition, generateSelectors } from '$global/factory';
+import { type AttributeElements, type AttributeSettings } from '@finsweet/attributes-utils';
 
-const ATTRIBUTES_PREFIX = `fs-${QUERY_PARAM_ATTRIBUTE}`;
+export const ELEMENTS = [] as const satisfies AttributeElements;
 
-export const NAME_SETTING_KEY = 'name';
-export const REMOVE_QUERY_SETTING_KEY = 'removequery';
-export const REMOVE_QUERY_SETTING_VALUES = { true: 'true' } as const;
-
-export const ATTRIBUTES = {
+export const SETTINGS = {
   /**
    * Defines the query param keys
    */
-  name: {
-    key: `${ATTRIBUTES_PREFIX}-${NAME_SETTING_KEY}`,
-  },
+  name: { key: 'name' },
 
   /**
    * Defines if query param should be removed after loading the page.
    */
-  removeQuery: {
-    key: `${ATTRIBUTES_PREFIX}-${REMOVE_QUERY_SETTING_KEY}`,
-    values: REMOVE_QUERY_SETTING_VALUES,
+  removequery: {
+    key: 'removequery',
+    values: { true: 'true' },
   },
-} as const satisfies AttributesDefinition;
-
-export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
+} as const satisfies AttributeSettings;

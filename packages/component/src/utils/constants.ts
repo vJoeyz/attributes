@@ -1,30 +1,20 @@
-import { COMPONENT_ATTRIBUTE } from '$global/constants/attributes';
-import { type AttributesDefinition, generateSelectors } from '$global/factory';
+import type { AttributeElements, AttributeSettings } from '@finsweet/attributes-utils';
 
-const ATTRIBUTES_PREFIX = `fs-${COMPONENT_ATTRIBUTE}`;
+export const ELEMENTS = [] as const satisfies AttributeElements;
 
-export const SOURCE_SETTING_KEY = 'source';
-export const COMPONENT_ID_SETTING_KEY = 'id';
-export const CSS_SETTING_KEY = 'css';
-export const RENDER_SETTING_KEY = 'render';
-export const PROXY_SETTING_KEY = 'proxy';
-export const CACHE_KEY_SETTING_KEY = 'cachekey';
-export const CACHE_VERSION_SETTING_KEY = 'cacheversion';
-export const RESET_IX_SETTING_KEY = 'resetix';
-
-export const ATTRIBUTES = {
+export const SETTINGS = {
   /**
    * Defines a component source.
    */
   source: {
-    key: `${ATTRIBUTES_PREFIX}-${SOURCE_SETTING_KEY}`,
+    key: 'source',
   },
 
   /**
    * Defines a component source.
    */
-  componentId: {
-    key: `${ATTRIBUTES_PREFIX}-${COMPONENT_ID_SETTING_KEY}`,
+  id: {
+    key: 'id',
   },
 
   /**
@@ -34,7 +24,7 @@ export const ATTRIBUTES = {
    * Defaults to `true`.
    */
   css: {
-    key: `${ATTRIBUTES_PREFIX}-${CSS_SETTING_KEY}`,
+    key: 'css',
     values: {
       true: 'true',
     },
@@ -48,7 +38,7 @@ export const ATTRIBUTES = {
    * Defaults to `true`.
    */
   render: {
-    key: `${ATTRIBUTES_PREFIX}-${RENDER_SETTING_KEY}`,
+    key: 'render',
     values: {
       true: 'true',
     },
@@ -58,27 +48,25 @@ export const ATTRIBUTES = {
    * Defines a CORS Proxy prefix.
    */
   proxy: {
-    key: `${ATTRIBUTES_PREFIX}-${PROXY_SETTING_KEY}`,
+    key: 'proxy',
   },
 
   /**
    * Defines a cache key for the fetched external components.
    */
-  cacheKey: {
-    key: `${ATTRIBUTES_PREFIX}-${CACHE_KEY_SETTING_KEY}`,
+  cachekey: {
+    key: 'cachekey',
   },
 
   /**
    * Defines a cache version for the fetched external components.
    */
-  cacheVersion: {
-    key: `${ATTRIBUTES_PREFIX}-${CACHE_VERSION_SETTING_KEY}`,
+  cacheversion: {
+    key: 'cacheversion',
   },
 
   /**
    * Defines if Webflow should be restarted after rendering the loaded components.
    */
-  resetIx: { key: `${ATTRIBUTES_PREFIX}-${RESET_IX_SETTING_KEY}`, values: { true: 'true' } },
-} as const satisfies AttributesDefinition;
-
-export const [getSelector, queryElement, getAttribute] = generateSelectors(ATTRIBUTES);
+  resetix: { key: 'resetix', values: { true: 'true' } },
+} as const satisfies AttributeSettings;

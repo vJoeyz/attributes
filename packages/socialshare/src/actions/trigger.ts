@@ -1,6 +1,7 @@
 import { addListener, isElement } from '@finsweet/ts-utils';
 
-import { getSelector, SOCIAL_SHARE_PLATFORMS } from '../utils/constants';
+import { SOCIAL_SHARE_PLATFORMS } from '../utils/constants';
+import { getElementSelector } from '../utils/selectors';
 import { stores } from '../utils/stores';
 import type { SocialShareStoreData, SocialShareTypes } from '../utils/types';
 
@@ -17,10 +18,7 @@ export const listenTriggerClicks = () => {
     for (const key in SOCIAL_SHARE_PLATFORMS) {
       const platform = key as SocialShareTypes;
 
-      const trigger = target.closest<HTMLElement>(
-        getSelector('element', platform, { operator: 'prefixed', caseInsensitive: true })
-      );
-
+      const trigger = target.closest<HTMLElement>(getElementSelector(platform));
       if (!trigger) continue;
 
       const socialShareData = stores[platform].get(trigger);

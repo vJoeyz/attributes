@@ -1,7 +1,7 @@
-import { COLLECTION_ITEM, SELECT, TEXT_ELEMENT } from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+import type { AttributeSchema } from '@finsweet/attributes-utils';
+import { COLLECTION_ITEM, SELECT, TEXT_ELEMENT } from '@finsweet/attributes-utils';
 
-import { SELECT_ELEMENT_KEY, TEXT_VALUE_ELEMENT_KEY } from '../src/constants';
+import { SELECT_ELEMENT_KEY, TEXT_VALUE_ELEMENT_KEY } from '../src/utils/constants';
 
 const schema: AttributeSchema = {
   elements: [

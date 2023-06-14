@@ -1,3 +1,4 @@
+import type { AttributeSchema } from '@finsweet/attributes-utils';
 import {
   BUTTON,
   DIV_BLOCK,
@@ -7,8 +8,7 @@ import {
   PARAGRAPH,
   TEXT_BLOCK,
   TEXT_LINK,
-} from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+} from '@finsweet/attributes-utils';
 
 import {
   DEFAULT_SUCCESS_CSS_CLASS,
@@ -20,7 +20,7 @@ import {
   TARGET_ELEMENT_KEY,
   TEXT_SETTING_KEY,
   TRIGGER_ELEMENT_KEY,
-} from './../src/constants';
+} from '../src/utils/constants';
 
 const schema: AttributeSchema = {
   elements: [

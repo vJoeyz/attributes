@@ -1,15 +1,15 @@
+import { animations, easings } from '@finsweet/attributes-utils';
 import { getObjectKeys, isKeyOf } from '@finsweet/ts-utils';
 
-import type { AnimationModule } from '$packages/animation/src/types';
-
-import { DISPLAY_PROPERTIES, getAttribute } from '../utils/constants';
+import { DISPLAY_PROPERTIES } from '../utils/constants';
+import { getAttribute } from '../utils/selectors';
 import type { AnimationSettings } from '../utils/types';
 
 /**
  * Extracts the animation settings of an element.
  * @param element
  */
-export const getAnimationSettings = (element: Element, { animations, easings }: AnimationModule): AnimationSettings => {
+export const getAnimationSettings = (element: Element): AnimationSettings => {
   const animationName = getAttribute(element, 'animation');
   const actions = isKeyOf(animationName, getObjectKeys(animations)) ? animations[animationName] : animations.fade;
 

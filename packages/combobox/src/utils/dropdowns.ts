@@ -1,6 +1,5 @@
+import { ARIA_ACTIVEDESCENDANT_KEY, ID_KEY, TABINDEX_KEY } from '@finsweet/attributes-utils';
 import { isElement, simulateEvent } from '@finsweet/ts-utils';
-
-import { ARIA_ACTIVEDESCENDANT_KEY, ID_KEY, TABINDEX_KEY } from '$global/constants/a11y';
 
 import type { Settings } from './types';
 

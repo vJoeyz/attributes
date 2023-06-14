@@ -1,4 +1,4 @@
-import type { CMSCore, CMSList } from '$packages/cmscore';
+import type { CMSList } from '@finsweet/attributes-cmscore';
 
 import type { NestSources } from '../utils/types';
 import { populateNestedCollections } from './populate';
@@ -7,12 +7,11 @@ import { populateNestedCollections } from './populate';
  * Listen for events emitted from the `CMSList` instances.
  * @param listInstance A {@link CMSList} instance.
  * @param nestSources The stored {@link NestSources}.
- * @param cmsCore The {@link CMSCore} import.
  */
-export const listenListEvents = (listInstance: CMSList, nestSources: NestSources, cmsCore: CMSCore) => {
+export const listenListEvents = (listInstance: CMSList, nestSources: NestSources) => {
   listInstance.on('shouldnest', async (newItems) => {
     await Promise.all(
-      newItems.map((newItem) => populateNestedCollections(newItem, nestSources, listInstance.cacheItems, cmsCore))
+      newItems.map((newItem) => populateNestedCollections(newItem, nestSources, listInstance.cacheItems))
     );
   });
 };

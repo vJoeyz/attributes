@@ -4,7 +4,7 @@ import { setAccordionA11y } from './actions/a11y';
 import { setActiveClass } from './actions/classes';
 import { closeContent, openContent } from './actions/content';
 import { getAccordionSettings, getGroupSettings } from './actions/settings';
-import { getSelector } from './utils/constants';
+import { getElementSelector } from './utils/selectors';
 import type { AccordionData, AccordionGroupData } from './utils/types';
 
 /**
@@ -16,7 +16,7 @@ import type { AccordionData, AccordionGroupData } from './utils/types';
 export const initAccordionGroups = (accordions: HTMLElement[]) => {
   // Init groups
   const groupsStore = accordions.reduce<Map<HTMLElement, AccordionGroupData>>((store, accordion) => {
-    const group = accordion.closest<HTMLElement>(getSelector('element', 'group')) || document.body;
+    const group = accordion.closest<HTMLElement>(getElementSelector('group')) || document.body;
 
     let groupData = store.get(group);
 
@@ -36,7 +36,7 @@ export const initAccordionGroups = (accordions: HTMLElement[]) => {
     return store;
   }, new Map());
 
-  const groupsData = groupsStore.values();
+  const groupsData = [...groupsStore.values()];
 
   // Set initial state
   for (const groupData of groupsData) {

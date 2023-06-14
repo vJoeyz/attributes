@@ -1,7 +1,7 @@
-import type { CMSItem, CMSList } from '$packages/cmscore';
+import type { CMSItem, CMSList } from '@finsweet/attributes-cmscore';
 
 import type { CMSFilters } from '../components/CMSFilters';
-import { ATTRIBUTES } from '../utils/constants';
+import { SETTINGS } from '../utils/constants';
 import { displayFilterElements } from './display';
 import { toggleHighlight } from './highlight';
 import { syncFilterKeyResults, updateFilterKeyResults, updateListResults } from './results';
@@ -10,7 +10,7 @@ const {
   field: { key: fieldKey },
   range: { key: rangeKey },
   type: { key: typeKey },
-} = ATTRIBUTES;
+} = SETTINGS;
 
 /**
  * Listens for events on the `CMSList` and triggers the correspondent actions.
@@ -21,7 +21,9 @@ export const listenListEvents = (filtersInstance: CMSFilters, listInstance: CMSL
   const { highlightResults, showFilterResults, hideEmptyFilters } = filtersInstance;
 
   listInstance.on('shouldcollectprops', (items: CMSItem[]) => {
-    for (const item of items) item.collectProps({ fieldKey, rangeKey, typeKey });
+    for (const item of items) {
+      item.collectProps({ fieldKey, rangeKey, typeKey });
+    }
   });
 
   listInstance.on('shouldfilter', async () => await filtersInstance.applyFilters(true));
@@ -39,7 +41,9 @@ export const listenListEvents = (filtersInstance: CMSFilters, listInstance: CMSL
   });
 
   listInstance.once('nestinitialitems').then(async (items: CMSItem[]) => {
-    for (const item of items) item.collectProps({ fieldKey, rangeKey, typeKey });
+    for (const item of items) {
+      item.collectProps({ fieldKey, rangeKey, typeKey });
+    }
 
     await filtersInstance.applyFilters(true);
     await listInstance.renderItems(true);

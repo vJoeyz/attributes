@@ -1,21 +1,21 @@
 import { isNotEmpty } from '@finsweet/ts-utils';
-import type { ComponentTargetData } from 'src/utils/types';
 
-import { getAttribute, getSelector } from '../utils/constants';
+import { getAttribute, getSettingSelector } from '../utils/selectors';
+import type { ComponentTargetData } from '../utils/types';
 
 /**
  * Collects the component targets.
  * @param proxy A CORS proxy to use for external sources.
  */
 export const collectComponentTargetsData = (proxy?: string | null) => {
-  const targetElements = document.querySelectorAll<HTMLElement>(getSelector('componentId'));
+  const targetElements = document.querySelectorAll<HTMLElement>(getSettingSelector('id'));
   const targetsData: ComponentTargetData[] = [...targetElements]
     .map((target) => {
-      const componentId = getAttribute(target, 'componentId');
+      const componentId = getAttribute(target, 'id');
       const rawSource = getAttribute(target, 'source');
       const rawLoadCSS = getAttribute(target, 'css');
       const rawAutoRender = getAttribute(target, 'render');
-      const rawResetIx = getAttribute(target, 'resetIx');
+      const rawResetIx = getAttribute(target, 'resetix');
 
       if (!componentId || !rawSource) return;
 

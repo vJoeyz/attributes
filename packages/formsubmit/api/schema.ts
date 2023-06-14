@@ -1,3 +1,4 @@
+import type { AttributeSchema } from '@finsweet/attributes-utils';
 import {
   ANY_ELEMENT,
   BUTTON,
@@ -8,8 +9,7 @@ import {
   INPUT,
   LINK_BLOCK,
   TEXT_BLOCK,
-} from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+} from '@finsweet/attributes-utils';
 
 import {
   DISABLE_SETTING_KEY,

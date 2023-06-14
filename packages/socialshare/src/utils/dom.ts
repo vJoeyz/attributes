@@ -1,6 +1,5 @@
+import { getCMSElementSelector } from '@finsweet/attributes-utils';
 import type { CollectionItemElement } from '@finsweet/ts-utils';
-
-import { getCMSElementSelector } from '$global/helpers';
 
 /**
  * @returns A parent CMS Item element, if existing.

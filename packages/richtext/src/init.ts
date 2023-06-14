@@ -1,34 +1,28 @@
+import { awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
 import type { RichTextBlockElement } from '@finsweet/ts-utils';
 import { restartWebflow, RICH_TEXT_BLOCK_CSS_CLASS } from '@finsweet/ts-utils';
 
-import { CMS_ATTRIBUTE_ATTRIBUTE, RICH_TEXT_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
-
 import { getValidTextElements } from './actions/collect';
 import { parseTextElement } from './actions/parse';
-import { ATTRIBUTES, getSelector } from './utils/constants';
-
-// Constants
-const {
-  sanitize: { key: sanitizeKey, values: sanitizeValues },
-  resetIx: { key: resetIxKey, values: resetIxValues },
-} = ATTRIBUTES;
+import { getElementSelector, hasAttributeValue } from './utils/selectors';
 
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<HTMLDivElement[]> => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await awaitWebflowReady();
 
   const rtbElements = [
     ...document.querySelectorAll<RichTextBlockElement>(
-      `.${RICH_TEXT_BLOCK_CSS_CLASS}${getSelector('element', 'richText', { operator: 'prefixed' })}`
+      `.${RICH_TEXT_BLOCK_CSS_CLASS}${getElementSelector('rich-text')}`
     ),
   ];
 
   await Promise.all(rtbElements.map(initRtbElement));
 
-  return finalizeAttribute(RICH_TEXT_ATTRIBUTE, rtbElements);
+  return {
+    result: rtbElements,
+  };
 };
 
 /**
@@ -36,8 +30,8 @@ export const init = async (): Promise<HTMLDivElement[]> => {
  * @param element
  */
 const initRtbElement = async (element: RichTextBlockElement) => {
-  const sanitize = element.getAttribute(sanitizeKey) === sanitizeValues.true;
-  const resetIx = element.getAttribute(resetIxKey) === resetIxValues.true;
+  const sanitize = hasAttributeValue(element, 'sanitize', 'true');
+  const resetIx = hasAttributeValue(element, 'resetix', 'true');
   const textElements = getValidTextElements(element);
 
   await Promise.all(textElements.map((textElement) => parseTextElement(textElement, sanitize)));

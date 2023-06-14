@@ -1,7 +1,7 @@
-import { FORM_INPUT } from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+import type { AttributeSchema } from '@finsweet/attributes-utils';
+import { FORM_INPUT } from '@finsweet/attributes-utils';
 
-import { TARGET_ELEMENT_KEY, TRIGGER_ELEMENT_KEY } from './../src/constants';
+import { TARGET_ELEMENT_KEY, TRIGGER_ELEMENT_KEY } from '../src/utils/constants';
 
 const schema: AttributeSchema = {
   elements: [

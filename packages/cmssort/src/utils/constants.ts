@@ -1,57 +1,38 @@
-import { CMS_SORT_ATTRIBUTE } from '$global/constants/attributes';
-import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributeElements, type AttributeSettings } from '@finsweet/attributes-utils';
 
-const ATTRIBUTES_PREFIX = `fs-${CMS_SORT_ATTRIBUTE}`;
+export const ELEMENTS = [
+  /**
+   * Defines a list to be combined into the target.
+   */
+  'list',
 
-export const LIST_ELEMENT_KEY = 'list';
-export const TRIGGER_ELEMENT_KEY = 'trigger';
-export const DROPDOWN_LABEL_ELEMENT_KEY = 'dropdown-label';
-export const SCROLL_ANCHOR_ELEMENT_KEY = 'scroll-anchor';
+  /**
+   * Defines the `Previous` placeholder target.
+   */
+  'trigger',
 
-export const FIELD_SETTING_KEY = 'field';
-export const TYPE_SETTING_KEY = 'type';
-export const EASING_SETTING_KEY = 'easing';
-export const DURATION_SETTING_KEY = 'duration';
-export const ASC_CLASS_SETTING_KEY = 'asc';
-export const DESC_CLASS_SETTING_KEY = 'desc';
-export const REVERSE_SETTING_KEY = 'reverse';
+  /**
+   * Defines a Dropdown label.
+   */
+  'dropdown-label',
 
-export const ATTRIBUTES = {
-  element: {
-    key: `${ATTRIBUTES_PREFIX}-element`,
-    values: {
-      /**
-       * Defines a list to be combined into the target.
-       */
-      list: generateDynamicAttibuteValue(LIST_ELEMENT_KEY),
+  /**
+   * Defines an element where to scroll the view every time a filter is applied.
+   */
+  'scroll-anchor',
+] as const satisfies AttributeElements;
 
-      /**
-       * Defines the `Previous` placeholder target.
-       */
-      trigger: generateDynamicAttibuteValue(TRIGGER_ELEMENT_KEY),
-
-      /**
-       * Defines a Dropdown label.
-       */
-      dropdownLabel: generateDynamicAttibuteValue(DROPDOWN_LABEL_ELEMENT_KEY),
-
-      /**
-       * Defines an element where to scroll the view every time a filter is applied.
-       */
-      scrollAnchor: generateDynamicAttibuteValue(SCROLL_ANCHOR_ELEMENT_KEY),
-    },
-  },
-
+export const SETTINGS = {
   /**
    * Defines a field key to sort items.
    */
-  field: { key: `${ATTRIBUTES_PREFIX}-${FIELD_SETTING_KEY}` },
+  field: { key: 'field' },
 
   /**
    * Defines the type of the values to sort.
    */
   type: {
-    key: `${ATTRIBUTES_PREFIX}-${TYPE_SETTING_KEY}`,
+    key: 'type',
     values: {
       date: 'date',
     },
@@ -61,32 +42,30 @@ export const ATTRIBUTES = {
    * Defines the easing function of the list animation.
    * Allowed values are defined in {@link "packages/animations"}.
    */
-  easing: { key: `${ATTRIBUTES_PREFIX}-${EASING_SETTING_KEY}` },
+  easing: { key: 'easing' },
 
   /**
    * Defines the duration of the list animation.
    */
-  duration: { key: `${ATTRIBUTES_PREFIX}-${DURATION_SETTING_KEY}` },
+  duration: { key: 'duration' },
 
   /**
    * Defines the CSS Class for the `asc` state.
    * Defaults to {@link DEFAULT_ASC_CLASS}.
    */
-  ascClass: { key: `${ATTRIBUTES_PREFIX}-${ASC_CLASS_SETTING_KEY}` },
+  asc: { key: 'asc' },
 
   /**
    * Defines the CSS Class for the `desc` state.
    * Defaults to {@link DEFAULT_DESC_CLASS}.
    */
-  descClass: { key: `${ATTRIBUTES_PREFIX}-${DESC_CLASS_SETTING_KEY}` },
+  desc: { key: 'desc' },
 
   /**
    * Defines if a button should trigger `desc` sorting on first click.
    */
-  reverse: { key: `${ATTRIBUTES_PREFIX}-${REVERSE_SETTING_KEY}`, values: { true: 'true' } },
-} as const satisfies AttributesDefinition;
+  reverse: { key: 'reverse', values: { true: 'true' } },
+} as const satisfies AttributeSettings;
 
-export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
-
-export const DEFAULT_ASC_CLASS = `${ATTRIBUTES_PREFIX}_asc`;
-export const DEFAULT_DESC_CLASS = `${ATTRIBUTES_PREFIX}_desc`;
+export const DEFAULT_ASC_CLASS = 'fs-cmssort_asc';
+export const DEFAULT_DESC_CLASS = 'fs-cmssort_desc';

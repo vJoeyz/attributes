@@ -35,9 +35,9 @@
     "url": "https://www.finsweet.com/"
   },
   "devDependencies": {
-    "@types/marked": "^4.0.8"
+    "@types/marked": "^5.0.0"
   },
   "dependencies": {
-    "marked": "^4.2.12"
+    "marked": "^5.1.0"
   }
 }

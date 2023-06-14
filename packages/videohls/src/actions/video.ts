@@ -1,7 +1,7 @@
 import Hls from 'hls.js';
-import { hlsInstancesStore } from 'src/utils/stores';
 
-import { getAttribute } from '../utils/constants';
+import { getAttribute } from '../utils/selectors';
+import { hlsInstancesStore } from '../utils/stores';
 
 /**
  * Inits hls.js on a video that supports it.

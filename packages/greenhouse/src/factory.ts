@@ -1,16 +1,14 @@
+import type { CMSList } from '@finsweet/attributes-cmscore';
+import type { CMSFilters } from '@finsweet/attributes-cmsfilter';
+import { awaitAttributeLoaded } from '@finsweet/attributes-utils';
 import type { FormField } from '@finsweet/ts-utils';
-
-import { CMS_FILTER_ATTRIBUTE, CMS_LOAD_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad } from '$global/factory';
-import type { CMSList } from '$packages/cmscore/src';
-import type { CMSFilters } from '$packages/cmsfilter/src/components/CMSFilters';
 
 import { createFilters } from './actions/filter';
 import { createJobForm } from './actions/form';
 import { addJobsCMSList, createCMSList } from './actions/jobs';
-import { ATTRIBUTES, queryElement } from './utils/constants';
 import { fetchJob, fetchJobs } from './utils/jobs';
 import { populateJob } from './utils/populate';
+import { getSettingSelector, queryElement } from './utils/selectors';
 
 export async function initJobsList(
   boardId: string,
@@ -18,12 +16,10 @@ export async function initJobsList(
   office: string | null,
   department: string | null
 ) {
-  const [cmsLoadLists, cmsFilterLists] = (await awaitAttributesLoad(CMS_LOAD_ATTRIBUTE, CMS_FILTER_ATTRIBUTE)) as [
-    CMSList[],
-    CMSFilters[]
-  ];
+  const cmsLoadLists = (await awaitAttributeLoaded('cmsload')) as CMSList[];
+  const cmsFilterLists = (await awaitAttributeLoaded('cmsfilter')) as CMSFilters[];
 
-  const listJobsElement = queryElement<HTMLElement>(ATTRIBUTES.element.values.list);
+  const listJobsElement = queryElement('list');
   if (!listJobsElement) {
     return;
   }
@@ -38,7 +34,7 @@ export async function initJobsList(
   }
 
   // filters
-  const filtersElements = document.querySelectorAll<FormField>(`[${ATTRIBUTES.filter.key}]`);
+  const filtersElements = document.querySelectorAll<FormField>(getSettingSelector('filter'));
 
   if (cmsFilterLists && filtersElements.length > 0) {
     await createFilters(queryParam, cmsFilterLists, [...filtersElements], jobs);
@@ -55,7 +51,7 @@ export async function initJob(boardId: string, jobId: string) {
   populateJob(job, undefined, null);
 
   // jobs
-  const applicationForm = queryElement<HTMLFormElement>(ATTRIBUTES.element.values.form);
+  const applicationForm = queryElement<HTMLFormElement>('form');
 
   if (applicationForm) {
     createJobForm(job, jobId, boardId, applicationForm);

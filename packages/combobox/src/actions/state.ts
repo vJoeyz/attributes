@@ -1,6 +1,5 @@
+import { ARIA_SELECTED_KEY, TABINDEX_KEY } from '@finsweet/attributes-utils';
 import { CURRENT_CSS_CLASS, setFormFieldValue } from '@finsweet/ts-utils';
-
-import { ARIA_SELECTED_KEY, TABINDEX_KEY } from '$global/constants/a11y';
 
 import { toggleDropdown } from '../utils';
 import type { OptionData, Settings } from '../utils/types';

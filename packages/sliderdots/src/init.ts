@@ -1,27 +1,26 @@
+import { awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
 import type { SliderElement } from '@finsweet/ts-utils';
 import { isNotEmpty, SLIDER_CSS_CLASSES } from '@finsweet/ts-utils';
 
-import { CMS_ATTRIBUTE_ATTRIBUTE, SLIDER_DOTS_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
-
 import { createSliderDots } from './factory';
-import { getSelector } from './utils/constants';
+import { getElementSelector } from './utils/selectors';
 
 /**
  * Inits the custom slider dots.
  */
-export const init = async () => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await awaitWebflowReady();
 
   const sliders = [
-    ...document.querySelectorAll<SliderElement>(
-      `.${SLIDER_CSS_CLASSES.slider}${getSelector('element', 'slider', { operator: 'prefixed' })}`
-    ),
+    ...document.querySelectorAll<SliderElement>(`.${SLIDER_CSS_CLASSES.slider}${getElementSelector('slider')}`),
   ];
 
   const cleanups = (await Promise.all(sliders.map(createSliderDots))).filter(isNotEmpty);
 
-  return finalizeAttribute(SLIDER_DOTS_ATTRIBUTE, sliders, () => {
-    for (const cleanup of cleanups) cleanup();
-  });
+  return {
+    result: sliders,
+    destroy() {
+      for (const cleanup of cleanups) cleanup();
+    },
+  };
 };

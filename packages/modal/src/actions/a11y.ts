@@ -1,5 +1,3 @@
-import { isVisible } from '@finsweet/ts-utils';
-
 import {
   ARIA_CONTROLS_KEY,
   ARIA_EXPANDED_KEY,
@@ -10,9 +8,10 @@ import {
   ARIA_ROLE_KEY,
   ARIA_ROLE_VALUES,
   ARIA_ROLEDESCRIPTION_KEY,
+  ensureUniqueId,
   TABINDEX_KEY,
-} from '$global/constants/a11y';
-import { ensureUniqueId } from '$global/helpers';
+} from '@finsweet/attributes-utils';
+import { isVisible } from '@finsweet/ts-utils';
 
 /**
  * Sets A11Y Attributes to a modal.

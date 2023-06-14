@@ -1,3 +1,4 @@
+import type { AttributeSchema } from '@finsweet/attributes-utils';
 import {
   ANY_ELEMENT,
   DIV_BLOCK,
@@ -5,8 +6,7 @@ import {
   LINK_BLOCK,
   RICH_TEXT_BLOCK,
   TEXT_BLOCK,
-} from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+} from '@finsweet/attributes-utils';
 
 import {
   CONTENTS_ELEMENT_KEY,

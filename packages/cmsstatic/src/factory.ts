@@ -1,21 +1,21 @@
-import { parseNumericAttribute } from '$global/helpers';
-import type { CMSList } from '$packages/cmscore';
+import type { CMSList } from '@finsweet/attributes-cmscore';
+import { parseNumericAttribute } from '@finsweet/attributes-utils';
 
-import { ATTRIBUTES, getAttribute, queryElement } from './utils/constants';
+import { getAttribute, getInstanceIndex, hasAttributeValue, queryAllElements } from './utils/selectors';
 
 /**
  * Inits static elements for a CMSList.
  * @param listInstance
  */
 export async function initStaticInstance(listInstance: CMSList) {
-  const instanceIndex = listInstance.getInstanceIndex(ATTRIBUTES.element.key);
+  const instanceIndex = getInstanceIndex(listInstance.listOrWrapper);
 
-  const staticElements = queryElement<HTMLDivElement>('staticItem', { all: true, instanceIndex });
+  const staticElements = queryAllElements<HTMLDivElement>('static-item', { instanceIndex });
 
   const staticElementsData = staticElements.reduce<Parameters<CMSList['addStaticItems']>['0']>((acc, itemElement) => {
     const order = getAttribute(itemElement, 'order');
 
-    const interactive = getAttribute(itemElement, 'interactive') === ATTRIBUTES.interactive.values.true;
+    const interactive = hasAttributeValue(itemElement, 'interactive', 'true');
 
     const rawRepeat = getAttribute(itemElement, 'repeat');
     const repeat = parseNumericAttribute(rawRepeat);

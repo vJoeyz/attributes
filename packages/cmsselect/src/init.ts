@@ -1,30 +1,24 @@
+import type { CMSList } from '@finsweet/attributes-cmscore';
+import { awaitAttributeLoaded, awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
 import { isHTMLSelectElement } from '@finsweet/ts-utils';
 
-import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_LOAD_ATTRIBUTE, CMS_SELECT_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
-import { importCMSCore } from '$global/import';
-import type { CMSList } from '$packages/cmscore';
-
-import { queryElement } from './constants';
-import { populateSelectElement } from './populate';
+import { populateSelectElement } from './actions/populate';
+import { queryAllElements } from './utils/selectors';
 
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<CMSList[]> => {
-  const cmsCore = await importCMSCore();
-  if (!cmsCore) return [];
+export const init: FsAttributeInit = async () => {
+  await awaitWebflowReady();
 
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
-
-  const targetElements = queryElement('select', { operator: 'prefixed', all: true });
+  const targetElements = queryAllElements('select');
 
   const listInstancesSet: Set<CMSList> = new Set();
 
   for (const targetElement of targetElements) {
     if (!isHTMLSelectElement(targetElement)) continue;
 
-    const selectElementListInstances = populateSelectElement(targetElement, cmsCore);
+    const selectElementListInstances = populateSelectElement(targetElement);
 
     for (const listIntance of selectElementListInstances) {
       listInstancesSet.add(listIntance);
@@ -33,10 +27,12 @@ export const init = async (): Promise<CMSList[]> => {
 
   const listInstances = [...listInstancesSet];
 
-  await awaitAttributesLoad(CMS_LOAD_ATTRIBUTE);
+  await awaitAttributeLoaded('cmsload');
 
-  return finalizeAttribute(CMS_SELECT_ATTRIBUTE, listInstances, () => {
-    // TODO: Remove optional chaining after cmscore@1.9.0 has rolled out
-    for (const listInstance of listInstances) listInstance.destroy?.();
-  });
+  return {
+    result: listInstances,
+    destroy() {
+      for (const listInstance of listInstances) listInstance.destroy();
+    },
+  };
 };

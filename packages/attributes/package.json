@@ -1,0 +1,84 @@
+{
+  "name": "@finsweet/attributes",
+  "version": "0.0.0",
+  "description": "Finsweet Attributes.",
+  "homepage": "https://www.finsweet.com/attributes",
+  "type": "module",
+  "main": "ATTRIBUTE_KEY.js",
+  "files": [
+    "ATTRIBUTE_KEY.js",
+    "examples.json",
+    "schema.json",
+    "changesets.json"
+  ],
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development node ./bin/build.js",
+    "build": "cross-env NODE_ENV=production node ./bin/build.js",
+    "lint": "eslint ./src && prettier --check ./src",
+    "lint:fix": "eslint ./src --fix",
+    "check": "tsc --noEmit",
+    "test": "pnpm playwright test",
+    "test:headed": "pnpm playwright test --headed"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/finsweet/attributes.git"
+  },
+  "keywords": [
+    "webflow",
+    "attributes",
+    "no code"
+  ],
+  "author": {
+    "name": "Finsweet",
+    "url": "https://www.finsweet.com/"
+  },
+  "bugs": {
+    "url": "https://finsweet.com/attributes/support"
+  },
+  "dependencies": {
+    "@finsweet/attributes-a11y": "workspace:*",
+    "@finsweet/attributes-accordion": "workspace:*",
+    "@finsweet/attributes-autovideo": "workspace:*",
+    "@finsweet/attributes-cmscombine": "workspace:*",
+    "@finsweet/attributes-cmsfilter": "workspace:*",
+    "@finsweet/attributes-cmsload": "workspace:*",
+    "@finsweet/attributes-cmsnest": "workspace:*",
+    "@finsweet/attributes-cmsprevnext": "workspace:*",
+    "@finsweet/attributes-cmsselect": "workspace:*",
+    "@finsweet/attributes-cmsslider": "workspace:*",
+    "@finsweet/attributes-cmssort": "workspace:*",
+    "@finsweet/attributes-cmsstatic": "workspace:*",
+    "@finsweet/attributes-cmstabs": "workspace:*",
+    "@finsweet/attributes-codehighlight": "workspace:*",
+    "@finsweet/attributes-combobox": "workspace:*",
+    "@finsweet/attributes-component": "workspace:*",
+    "@finsweet/attributes-copyclip": "workspace:*",
+    "@finsweet/attributes-countitems": "workspace:*",
+    "@finsweet/attributes-displayvalues": "workspace:*",
+    "@finsweet/attributes-favcustom": "workspace:*",
+    "@finsweet/attributes-formsubmit": "workspace:*",
+    "@finsweet/attributes-greenhouse": "workspace:*",
+    "@finsweet/attributes-inputactive": "workspace:*",
+    "@finsweet/attributes-inputcounter": "workspace:*",
+    "@finsweet/attributes-launchdarkly": "workspace:*",
+    "@finsweet/attributes-linkblockedit": "workspace:*",
+    "@finsweet/attributes-mirrorclick": "workspace:*",
+    "@finsweet/attributes-mirrorinput": "workspace:*",
+    "@finsweet/attributes-modal": "workspace:*",
+    "@finsweet/attributes-numbercount": "workspace:*",
+    "@finsweet/attributes-queryparam": "workspace:*",
+    "@finsweet/attributes-rangeslider": "workspace:*",
+    "@finsweet/attributes-readtime": "workspace:*",
+    "@finsweet/attributes-richtext": "workspace:*",
+    "@finsweet/attributes-scrolldisable": "workspace:*",
+    "@finsweet/attributes-selectcustom": "workspace:*",
+    "@finsweet/attributes-sliderdots": "workspace:*",
+    "@finsweet/attributes-smartlightbox": "workspace:*",
+    "@finsweet/attributes-socialshare": "workspace:*",
+    "@finsweet/attributes-starrating": "workspace:*",
+    "@finsweet/attributes-toc": "workspace:*",
+    "@finsweet/attributes-videohls": "workspace:*",
+    "@finsweet/attributes-utils": "workspace:*"
+  }
+}

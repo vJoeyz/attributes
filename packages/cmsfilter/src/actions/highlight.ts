@@ -1,4 +1,4 @@
-import type { CMSItem } from '$packages/cmscore';
+import type { CMSItem } from '@finsweet/attributes-cmscore';
 
 /**
  * Adds/removes highlighting to the maching prop elements of a specific `CMSItem`.

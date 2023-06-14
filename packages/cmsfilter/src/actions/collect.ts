@@ -1,3 +1,4 @@
+import { normalizePropKey, parseNumericAttribute } from '@finsweet/attributes-utils';
 import type { FormBlockElement } from '@finsweet/ts-utils';
 import {
   extractCommaSeparatedValues,
@@ -9,30 +10,17 @@ import {
   sameValues,
 } from '@finsweet/ts-utils';
 
-import { normalizePropKey } from '$global/helpers';
-
 import { ensureUniqueFormFieldId } from '../utils/a11y';
-import { ATTRIBUTES, getSelector, MATCHES, MODES, queryElement, TAG_FORMATS } from '../utils/constants';
+import { MATCHES, MODES, TAG_FORMATS } from '../utils/constants';
+import {
+  getAttribute,
+  getSettingSelector,
+  hasAttributeValue,
+  queryAllElements,
+  queryElement,
+} from '../utils/selectors';
 import type { FilterData, FilterElement, FiltersData, ResetButtonsData } from '../utils/types';
 import { handleFilterInput } from './input';
-
-// Constants
-const {
-  field: { key: fieldKey },
-  reset: { key: resetKey },
-  resetFallback: { key: resetFallbackKey },
-  range: { key: rangeKey },
-  match: { key: matchKey },
-  tagFormat: { key: tagFormatKey },
-  tagCategory: { key: tagCategoryKey },
-  hideEmpty: { key: hideEmptyKey, values: hideEmptyValues },
-  highlight: { key: highlightKey, values: highlightValues },
-  highlightCSS: { key: highlightCSSKey },
-  activeCSS: { key: activeCSSKey },
-  debouncing: { key: debouncingKey },
-} = ATTRIBUTES;
-
-const { checkboxField: checkboxFieldCSSClass, radioField: radioFieldCSSClass } = FORM_CSS_CLASSES;
 
 /**
  * Collects the base elements of the Filters system: the form, submit button and reset buttons.
@@ -48,15 +36,12 @@ export const collectFiltersElements = (
   const form = formBlock.querySelector('form') as HTMLFormElement;
   const submitButton = formBlock.querySelector<HTMLInputElement>('input[type="submit"]');
 
-  const resetButtonElements = [
-    ...queryElement<HTMLElement>('reset', { scope: formBlock, operator: 'prefixed', all: true }),
-    ...queryElement<HTMLElement>('resetFallback', { scope: formBlock, operator: 'prefixed', all: true }),
-  ];
+  const resetButtonElements = [...queryAllElements('clear', { scope: formBlock })];
 
   const resetButtonsData: ResetButtonsData = new Map();
 
   for (const resetButton of resetButtonElements) {
-    const rawFilterKeys = resetButton.getAttribute(resetKey) || resetButton.getAttribute(resetFallbackKey);
+    const rawFilterKeys = getAttribute(resetButton, 'clear');
     const filterKeys = rawFilterKeys
       ? [...new Set(extractCommaSeparatedValues(rawFilterKeys))].map((filterKey) => normalizePropKey(filterKey))
       : [];
@@ -92,11 +77,11 @@ export const collectFiltersData = (
 ): FiltersData => {
   const filtersData: FiltersData = [];
 
-  const elements = form.querySelectorAll<HTMLElement>(getSelector('field'));
+  const elements = form.querySelectorAll<HTMLElement>(getSettingSelector('field'));
 
   elements.forEach((element, index) => {
     // Collect the filter keys
-    const rawFilterKeys = element.getAttribute(fieldKey);
+    const rawFilterKeys = getAttribute(element, 'field');
     if (!rawFilterKeys) return;
 
     const originalFilterKeys = [...new Set(extractCommaSeparatedValues(rawFilterKeys))];
@@ -131,7 +116,9 @@ export const collectFiltersData = (
     if (!existingData) filtersData.push(filterData);
 
     // Handle Checkboxes or Radios
-    const checkboxOrRadioField = element.closest<HTMLLabelElement>(`.${checkboxFieldCSSClass}, .${radioFieldCSSClass}`);
+    const checkboxOrRadioField = element.closest<HTMLLabelElement>(
+      `.${FORM_CSS_CLASSES.checkboxField}, .${FORM_CSS_CLASSES.radioField}`
+    );
 
     if (checkboxOrRadioField) {
       const isCheckbox = isHTMLInputElement(element);
@@ -142,12 +129,11 @@ export const collectFiltersData = (
 
       ensureUniqueFormFieldId(fieldElement, index);
 
-      const resultsElement = queryElement<HTMLElement>('filterResultsCount', {
-        operator: 'prefixed',
+      const resultsElement = queryElement('filter-results-count', {
         scope: checkboxOrRadioField,
       });
 
-      const mustHideEmpty = element.getAttribute(hideEmptyKey) === hideEmptyValues.true;
+      const mustHideEmpty = hasAttributeValue(element, 'hideempty', 'true');
       const hideEmpty = mustHideEmpty ? checkboxOrRadioField : undefined;
 
       const elementData: FilterElement = {
@@ -212,24 +198,21 @@ const collectGlobalFilterSettings = (
   highlightAll: boolean,
   globalHighlightCSSClass: string
 ) => {
-  const [rawMatch, rawTagFormat, rawActiveCSSClass, rawDebouncing, rawHighlight, rawHighlightCSSClass] = [
-    matchKey,
-    tagFormatKey,
-    activeCSSKey,
-    debouncingKey,
-    highlightKey,
-    highlightCSSKey,
-  ].map((key) => element.getAttribute(key));
+  const rawMatch = getAttribute(element, 'match');
+  const rawTagFormat = getAttribute(element, 'tagformat');
+  const rawActiveCSSClass = getAttribute(element, 'active');
+  const rawDebouncing = getAttribute(element, 'debounce');
+  const rawHighlightCSSClass = getAttribute(element, 'highlightclass');
 
   const match = isKeyOf(rawMatch, MATCHES) ? rawMatch : undefined;
   const tagFormat = isKeyOf(rawTagFormat, TAG_FORMATS) ? rawTagFormat : undefined;
-  const tagCategory = element.getAttribute(tagCategoryKey);
+  const tagCategory = getAttribute(element, 'tagcategory');
   const activeCSSClass = rawActiveCSSClass || globalActiveCSSClass;
-  const debouncing = rawDebouncing ? parseFloat(rawDebouncing) : globalDebouncing;
-  const highlight = highlightAll || rawHighlight === highlightValues.true;
+  const debouncing = parseNumericAttribute(rawDebouncing, globalDebouncing);
+  const highlight = highlightAll || hasAttributeValue(element, 'highlight', 'true');
   const highlightCSSClass = rawHighlightCSSClass || globalHighlightCSSClass;
 
-  const rawMode = element.getAttribute(rangeKey);
+  const rawMode = getAttribute(element, 'range');
 
   let filterMode: FilterData['mode'] | undefined;
   let elementMode: FilterElement['mode'] | undefined;

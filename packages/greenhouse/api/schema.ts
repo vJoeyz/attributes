@@ -1,3 +1,4 @@
+import type { AttributeSchema } from '@finsweet/attributes-utils';
 import {
   COLLECTION_LIST,
   FORM_INPUT,
@@ -5,8 +6,7 @@ import {
   RICH_TEXT_BLOCK,
   TEXT_BLOCK,
   TEXT_LINK,
-} from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+} from '@finsweet/attributes-utils';
 
 import {
   APPLY_ELEMENT_KEY,

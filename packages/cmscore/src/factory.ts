@@ -1,8 +1,8 @@
+import { getCMSElementSelector, getCollectionElements, getCollectionListWrappers } from '@finsweet/attributes-utils';
 import { type CollectionListWrapperElement, isNotEmpty } from '@finsweet/ts-utils';
 
-import { getCMSElementSelector, getCollectionElements, getCollectionListWrappers } from '$global/helpers';
-
 import { CMSList } from '.';
+import { listInstancesStore } from './utils/store';
 
 /**
  * Creates a new `CMSList` for each unique `Collection List Wrapper` that matches the selectors on the current document.
@@ -24,18 +24,9 @@ export const createCMSListInstances = (selectors: Parameters<typeof getCollectio
  */
 export const createCMSListInstance = (referenceElement: HTMLElement): CMSList | undefined => {
   const wrapper = getCollectionElements(referenceElement, 'wrapper');
-
   if (!wrapper) return;
 
-  const { fsAttributes } = window;
-
-  fsAttributes.cmscore ||= {};
-  const { cmscore } = fsAttributes;
-
-  cmscore.listInstances ||= new Map();
-  const { listInstances } = cmscore;
-
-  const existingListInstance = listInstances.get(wrapper);
+  const existingListInstance = listInstancesStore.get(wrapper);
   if (existingListInstance) return existingListInstance;
 
   const pageListElements = [
@@ -46,7 +37,7 @@ export const createCMSListInstance = (referenceElement: HTMLElement): CMSList | 
   if (index === -1) return;
 
   const listInstance = new CMSList(wrapper, index);
-  listInstances.set(wrapper, listInstance);
+  listInstancesStore.set(wrapper, listInstance);
 
   return listInstance;
 };

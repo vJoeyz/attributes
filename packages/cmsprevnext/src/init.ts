@@ -1,32 +1,29 @@
+import { type CMSItem, createCMSListInstances } from '@finsweet/attributes-cmscore';
+import { awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
 import { removeTrailingSlash } from '@finsweet/ts-utils';
 
-import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_PREV_NEXT_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
-import { importCMSCore } from '$global/import';
-import type { CMSItem, CMSList } from '$packages/cmscore';
-
-import { collectElements } from './collect';
-import { getSelector } from './constants';
+import { collectElements } from './actions/collect';
+import { getElementSelector } from './utils/selectors';
 
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<CMSList[]> => {
-  const cmsCore = await importCMSCore();
-  if (!cmsCore) return [];
-
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await awaitWebflowReady();
 
   let previousPlaceholderFilled = false;
   let nextPlaceholderFilled = false;
 
-  const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
+  const listInstances = createCMSListInstances([getElementSelector('list')]);
 
-  const finalize = () =>
-    finalizeAttribute(CMS_PREV_NEXT_ATTRIBUTE, listInstances, () => {
-      // TODO: Remove optional chaining after cmscore@1.9.0 has rolled out
-      for (const listInstance of listInstances) listInstance.destroy?.();
-    });
+  const finalize = (): Awaited<ReturnType<FsAttributeInit>> => {
+    return {
+      result: listInstances,
+      destroy() {
+        for (const listInstance of listInstances) listInstance.destroy();
+      },
+    };
+  };
 
   const elements = collectElements();
   if (!elements) return finalize();

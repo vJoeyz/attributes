@@ -1,3 +1,4 @@
+import type { AttributeSchema } from '@finsweet/attributes-utils';
 import {
   BUTTON,
   DIV_BLOCK,
@@ -7,8 +8,7 @@ import {
   SLIDER,
   SLIDER_NAV,
   TEXT_BLOCK,
-} from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+} from '@finsweet/attributes-utils';
 
 import {
   ACTIVE_SETTING_KEY,

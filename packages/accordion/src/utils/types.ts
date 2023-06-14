@@ -1,4 +1,4 @@
-import type { ATTRIBUTES } from './constants';
+import type { SETTINGS } from './constants';
 
 export interface AccordionData {
   accordion: HTMLElement;
@@ -17,6 +17,6 @@ export interface AccordionGroupData {
   activeClass: string;
 }
 
-type InitialValues = (typeof ATTRIBUTES)['initial']['values'];
+type InitialValues = (typeof SETTINGS)['initial']['values'];
 
 export type InitialState = InitialValues[keyof InitialValues] | number[] | undefined;

@@ -1,26 +1,9 @@
-import { HIGHLIGHTJS_CUSTOM_THEMES, HIGHLIGHTJS_SCRIPT_URL, HIGHLIGHTJS_THEME_URL } from '../utils/constants';
+import { HIGHLIGHTJS_THEME_URL } from '../utils/constants';
+import { WEBFLOW_THEME } from '../utils/themes';
 
-let hljsImport: Promise<HTMLScriptElement> | undefined;
-let hljsThemeImport: Promise<HTMLLinkElement> | undefined;
+type StyleTag = HTMLStyleElement | HTMLLinkElement;
 
-/**
- * Dynamically imports highlightJS.
- * @returns An awaitable {@link Promise}.
- */
-export const importHighlightJS = async () => {
-  if (hljsImport) return hljsImport;
-
-  const script = document.createElement('script');
-  script.setAttribute('src', HIGHLIGHTJS_SCRIPT_URL);
-
-  hljsImport = new Promise<HTMLScriptElement>((resolve) => {
-    script.onload = () => resolve(script);
-  });
-
-  document.head.append(script);
-
-  return hljsImport;
-};
+let hljsThemeImport: Promise<StyleTag> | undefined;
 
 /**
  * Dynamically imports a highlightJS theme.
@@ -31,30 +14,37 @@ export const importHighlightJSTheme = async (theme: string | null): Promise<(() 
   if (!theme) return;
 
   if (hljsThemeImport) {
-    const link = await hljsThemeImport;
+    const tag = await hljsThemeImport;
 
     return () => {
-      link.remove();
+      tag.remove();
       hljsThemeImport = undefined;
     };
   }
 
-  const themeURL = HIGHLIGHTJS_CUSTOM_THEMES[theme] || HIGHLIGHTJS_THEME_URL(theme);
+  let tag!: StyleTag;
 
-  const link = document.createElement('link');
-  link.setAttribute('rel', 'stylesheet');
-  link.setAttribute('href', themeURL);
+  if (theme === 'webflow') {
+    tag = document.createElement('style');
+    tag.setAttribute('type', 'text/css');
+    tag.innerHTML = WEBFLOW_THEME;
+  } else {
+    const themeURL = HIGHLIGHTJS_THEME_URL(theme);
+    tag = document.createElement('link');
+    tag.setAttribute('rel', 'stylesheet');
+    tag.setAttribute('href', themeURL);
+  }
 
-  hljsThemeImport = new Promise<HTMLLinkElement>((resolve) => {
-    link.onload = () => resolve(link);
+  hljsThemeImport = new Promise<StyleTag>((resolve) => {
+    tag.onload = () => resolve(tag);
   });
 
-  document.head.append(link);
+  document.head.append(tag);
 
   await hljsThemeImport;
 
   return () => {
-    link.remove();
+    tag.remove();
     hljsThemeImport = undefined;
   };
 };

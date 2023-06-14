@@ -1,19 +1,7 @@
+import { getDecimalPrecision } from '@finsweet/attributes-utils';
 import { Debug, isFormField } from '@finsweet/ts-utils';
 
-import { getDecimalPrecision } from '$global/helpers';
-
-import { ATTRIBUTES, getSelector, queryElement } from '../utils/constants';
-
-/**
- * Constants
- */
-const {
-  min: { key: minKey },
-  max: { key: maxKey },
-  step: { key: stepKey },
-  formatDisplay: { key: formatDisplayKey, values: formatDisplayValues },
-  updateAction: { key: updateActionKey, values: updateActionValues },
-} = ATTRIBUTES;
+import { getAttribute, hasAttributeValue, queryAllElements, queryElement } from '../utils/selectors';
 
 /**
  * Collects the required settings.
@@ -41,23 +29,19 @@ export const getSettings = (
       updateOnRelease: boolean;
     }
   | undefined => {
-  const trackElement = queryElement<HTMLElement>('track', { operator: 'prefixed', scope: wrapperElement });
+  const trackElement = queryElement('track', { scope: wrapperElement });
 
-  const fillElement = queryElement<HTMLElement>('fill', { operator: 'prefixed', scope: wrapperElement });
+  const fillElement = queryElement('fill', { scope: wrapperElement });
 
   const inputElements = [...wrapperElement.querySelectorAll('input')].filter(isFormField);
 
-  const handleElements = [
-    ...wrapperElement.querySelectorAll<HTMLElement>(getSelector('element', 'handle', { operator: 'prefixed' })),
-  ];
+  const handleElements = queryAllElements('handle', { scope: wrapperElement });
 
-  const displayValueElements = [
-    ...wrapperElement.querySelectorAll<HTMLElement>(getSelector('element', 'displayValue', { operator: 'prefixed' })),
-  ];
+  const displayValueElements = queryAllElements('display-value', { scope: wrapperElement });
 
-  const formatValueDisplay = wrapperElement.getAttribute(formatDisplayKey) === formatDisplayValues.true;
+  const formatValueDisplay = hasAttributeValue(wrapperElement, 'formatdisplay', 'true');
 
-  const updateOnRelease = wrapperElement.getAttribute(updateActionKey) === updateActionValues.release;
+  const updateOnRelease = hasAttributeValue(wrapperElement, 'update', 'release');
 
   if (!handleElements.length || !trackElement) {
     Debug.alert('The rangeslider is missing a Track element or a Handle element.', 'error');
@@ -68,8 +52,8 @@ export const getSettings = (
   const trackWidth = trackElement.clientWidth;
   trackElement.style.position = 'relative';
 
-  const minRange = parseFloat(wrapperElement.getAttribute(minKey) || '0');
-  const maxRange = parseFloat(wrapperElement.getAttribute(maxKey) || `${minRange + 1}`);
+  const minRange = parseFloat(getAttribute(wrapperElement, 'min') || '0');
+  const maxRange = parseFloat(getAttribute(wrapperElement, 'max') || `${minRange + 1}`);
   const totalRange = maxRange - minRange;
 
   if (Number.isNaN(totalRange)) {
@@ -82,7 +66,7 @@ export const getSettings = (
     return;
   }
 
-  const step = parseFloat(wrapperElement.getAttribute(stepKey) || `${totalRange / 100}`);
+  const step = parseFloat(getAttribute(wrapperElement, 'step') || `${totalRange / 100}`);
   const precision = getDecimalPrecision(step);
 
   if (totalRange % step > 0)

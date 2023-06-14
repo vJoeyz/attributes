@@ -1,7 +1,7 @@
-import { COLLECTION_LIST, SLIDER } from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+import type { AttributeSchema } from '@finsweet/attributes-utils';
+import { COLLECTION_LIST, SLIDER } from '@finsweet/attributes-utils';
 
-import { LIST_ELEMENT_KEY, RESET_IX_SETTING_KEY, SLIDER_ELEMENT_KEY } from './../src/constants';
+import { LIST_ELEMENT_KEY, RESET_IX_SETTING_KEY, SLIDER_ELEMENT_KEY } from '../src/utils/constants';
 
 const schema: AttributeSchema = {
   elements: [

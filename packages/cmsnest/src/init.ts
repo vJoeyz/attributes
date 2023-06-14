@@ -1,26 +1,24 @@
-import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_NEST_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
-import { importCMSCore } from '$global/import';
-import type { CMSList } from '$packages/cmscore';
+import { createCMSListInstances } from '@finsweet/attributes-cmscore';
+import { awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
 
 import { initListNesting } from './factory';
-import { getSelector } from './utils/constants';
+import { getElementSelector } from './utils/selectors';
 
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<CMSList[]> => {
-  const cmsCore = await importCMSCore();
-  if (!cmsCore) return [];
-
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await awaitWebflowReady();
 
   // Create the list instances
-  const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
+  const listInstances = createCMSListInstances([getElementSelector('list')]);
 
-  await Promise.all(listInstances.map((listInstance) => initListNesting(listInstance, cmsCore)));
+  await Promise.all(listInstances.map(initListNesting));
 
-  return finalizeAttribute(CMS_NEST_ATTRIBUTE, listInstances, () => {
-    for (const listInstance of listInstances) listInstance.destroy();
-  });
+  return {
+    result: listInstances,
+    destroy() {
+      for (const listInstance of listInstances) listInstance.destroy();
+    },
+  };
 };

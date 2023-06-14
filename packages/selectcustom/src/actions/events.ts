@@ -1,7 +1,5 @@
-import { addListener, isElement } from '@finsweet/ts-utils';
-
-import { ARROW_DOWN_KEY, ARROW_UP_KEY, SPACE_KEY, TAB_KEY } from '$global/constants/keyboard';
-import { closeDropdown } from '$global/helpers';
+import { ARROW_DOWN_KEY, ARROW_UP_KEY, SPACE_KEY, TAB_KEY } from '@finsweet/attributes-utils';
+import { addListener, closeDropdown, isElement } from '@finsweet/ts-utils';
 
 import { CONTROL_KEYS } from '../utils/constants';
 import type { Settings } from '../utils/types';

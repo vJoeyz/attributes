@@ -1,5 +1,5 @@
-import { COLLECTION_LIST, DIV_BLOCK, LINK_BLOCK } from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+import type { AttributeSchema } from '@finsweet/attributes-utils';
+import { COLLECTION_LIST, DIV_BLOCK, LINK_BLOCK } from '@finsweet/attributes-utils';
 
 import {
   INTERACTIVE_SETTING_KEY,

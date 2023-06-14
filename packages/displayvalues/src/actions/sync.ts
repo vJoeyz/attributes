@@ -1,7 +1,7 @@
 import type { FormField } from '@finsweet/ts-utils';
 import { getFormFieldValue } from '@finsweet/ts-utils';
 
-import { ATTRIBUTES } from '../utils/constants';
+import { getAttribute } from '../utils/selectors';
 import { relationshipsStore } from '../utils/stores';
 
 /**
@@ -15,7 +15,7 @@ export const syncValue = (sourceElement: FormField) => {
   for (const displayTarget of displayTargets) {
     const sourceValue = getFormFieldValue(sourceElement);
 
-    const placeholderValue = displayTarget.getAttribute(ATTRIBUTES.placeholder.key);
+    const placeholderValue = getAttribute(displayTarget, 'placeholder');
 
     const displayValue = sourceValue ? sourceValue : placeholderValue;
 

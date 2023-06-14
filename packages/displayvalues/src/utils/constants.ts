@@ -1,32 +1,20 @@
-import { DISPLAY_VALUES_ATTRIBUTE } from '$global/constants/attributes';
-import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributeElements, type AttributeSettings } from '@finsweet/attributes-utils';
 
-export const SOURCE_ELEMENT_KEY = 'source';
-export const TARGET_ELEMENT_KEY = 'target';
-export const PLACEHOLDER_SETTING_KEY = 'placeholder';
+export const ELEMENTS = [
+  /**
+   * Defines the element as the source of the event.
+   */
+  'source',
 
-const ATTRIBUTES_PREFIX = `fs-${DISPLAY_VALUES_ATTRIBUTE}`;
+  /**
+   * Defines the element as the target to display the source value.
+   */
+  'target',
+] as const satisfies AttributeElements;
 
-export const ATTRIBUTES = {
-  element: {
-    key: `${ATTRIBUTES_PREFIX}-element`,
-    values: {
-      /**
-       * Defines the element as the source of the event.
-       */
-      source: SOURCE_ELEMENT_KEY,
-
-      /**
-       * Defines the element as the target to display the source value.
-       */
-      target: generateDynamicAttibuteValue(TARGET_ELEMENT_KEY),
-    },
-  },
-
+export const SETTINGS = {
   /**
    * Defines a placeholder text to display when no value exists.
    */
-  placeholder: { key: `${ATTRIBUTES_PREFIX}-${PLACEHOLDER_SETTING_KEY}` },
-} as const satisfies AttributesDefinition;
-
-export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
+  placeholder: { key: 'placeholder' },
+} as const satisfies AttributeSettings;

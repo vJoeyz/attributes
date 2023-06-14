@@ -1,25 +1,24 @@
-import type { CMSCore, CMSList } from '$packages/cmscore';
+import type { CMSList } from '@finsweet/attributes-cmscore';
 
 import { getNestSources } from './actions/collect';
 import { listenListEvents } from './actions/events';
 import { populateNestedCollections } from './actions/populate';
-import { ATTRIBUTES } from './utils/constants';
+import { hasAttributeValue } from './utils/selectors';
 
 /**
  * Inits the nesting.
  * @param listInstance A {@link CMSList} instance.
- * @param cmsCore The {@link CMSCore} import.
  */
-export const initListNesting = async (listInstance: CMSList, cmsCore: CMSCore): Promise<void> => {
+export const initListNesting = async (listInstance: CMSList): Promise<void> => {
   // Collect the collections to nest
-  const nestSources = getNestSources(cmsCore);
+  const nestSources = getNestSources();
   if (!nestSources.size) return;
 
   // Listen for events
-  listenListEvents(listInstance, nestSources, cmsCore);
+  listenListEvents(listInstance, nestSources);
 
   // Get caching options
-  const disableCache = listInstance.getAttribute(ATTRIBUTES.cacheItems.key) === ATTRIBUTES.cacheItems.values.false;
+  const disableCache = hasAttributeValue(listInstance.listOrWrapper, 'cache', 'false');
   if (disableCache) {
     listInstance.cacheItems = false;
   }
@@ -27,8 +26,6 @@ export const initListNesting = async (listInstance: CMSList, cmsCore: CMSCore): 
   // Nest existing items
   const existingItems = [...listInstance.items];
 
-  await Promise.all(
-    existingItems.map((item) => populateNestedCollections(item, nestSources, listInstance.cacheItems, cmsCore))
-  );
+  await Promise.all(existingItems.map((item) => populateNestedCollections(item, nestSources, listInstance.cacheItems)));
   await listInstance.emitSerial('nestinitialitems', existingItems);
 };

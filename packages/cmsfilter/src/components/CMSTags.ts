@@ -1,9 +1,8 @@
+import type { CMSList } from '@finsweet/attributes-cmscore';
 import { addListener, cloneNode, Debug, isElement } from '@finsweet/ts-utils';
 
-import type { CMSList } from '$packages/cmscore';
-
 import { hasRemoveTrigger, updateTagText } from '../actions/tags';
-import { ATTRIBUTES, getSelector, queryElement } from '../utils/constants';
+import { getElementSelector, getInstanceIndex, queryElement } from '../utils/selectors';
 import type { FilterData, TagData, TagFormat, TagsData } from '../utils/types';
 import type { CMSFilters } from './CMSFilters';
 
@@ -58,12 +57,12 @@ export class CMSTags {
 
     const { hasRemoveTrigger, tagsData, listInstance } = this;
 
-    const tagElement = target.closest<HTMLElement>(
-      getSelector('element', 'tagTemplate', { instanceIndex: listInstance.getInstanceIndex(ATTRIBUTES.element.key) })
-    );
+    const instanceIndex = getInstanceIndex(listInstance.listOrWrapper);
+
+    const tagElement = target.closest(getElementSelector('tag-template', { instanceIndex }));
     if (!tagElement) return;
 
-    const removeElement = target.closest(getSelector('element', 'tagRemove', { operator: 'prefixed' }));
+    const removeElement = target.closest(getElementSelector('tag-remove'));
     if (hasRemoveTrigger && !removeElement) return;
 
     const tagData = tagsData.find(({ element }) => element === tagElement);
@@ -86,7 +85,7 @@ export class CMSTags {
 
     const element = cloneNode(template);
 
-    const textNode = queryElement('tagText', { operator: 'prefixed', scope: element }) || element;
+    const textNode = queryElement('tag-text', { scope: element }) || element;
 
     const tagData: TagData = {
       element,

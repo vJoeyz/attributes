@@ -1,12 +1,5 @@
-import {
-  BUTTON,
-  COLLECTION_LIST,
-  DIV_BLOCK,
-  LINK_BLOCK,
-  TEXT_ELEMENT,
-  TEXT_LINK,
-} from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+import type { AttributeSchema } from '@finsweet/attributes-utils';
+import { BUTTON, COLLECTION_LIST, DIV_BLOCK, LINK_BLOCK, TEXT_ELEMENT, TEXT_LINK } from '@finsweet/attributes-utils';
 
 import {
   LIST_ELEMENT_KEY,
@@ -14,7 +7,7 @@ import {
   NEXT_EMPTY_ELEMENT_KEY,
   PREVIOUS_ELEMENT_KEY,
   PREVIOUS_EMPTY_ELEMENT_KEY,
-} from '../src/constants';
+} from '../src/utils/constants';
 
 const schema: AttributeSchema = {
   elements: [
