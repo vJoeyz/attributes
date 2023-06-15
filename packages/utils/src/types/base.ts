@@ -26,7 +26,12 @@ export type FsAttributes = {
    * @param solution
    * @returns A Promise that resolves once the Attribute has loaded.
    */
-  import: (solution: FsAttributeKey) => Promise<any> | undefined;
+  import: (
+    solution: FsAttributeKey,
+    settings?: {
+      [k: string]: string | null | undefined;
+    }
+  ) => Promise<any> | undefined;
 
   /**
    * Destroys all Attributes instances.
@@ -55,9 +60,9 @@ export type FsAttributeControls<T = any> = {
   version?: string;
 
   /**
-   * Inits the Attribute.
+   * Resolves the Attribute loading Promise.
    */
-  init?: FsAttributeInit;
+  resolve?: (value: T) => void;
 
   /**
    * A promise that resolves once the Attribute has fully loaded and initted.
@@ -65,9 +70,9 @@ export type FsAttributeControls<T = any> = {
   loading?: Promise<T>;
 
   /**
-   * Resolves the Attribute loading Promise.
+   * Restarts the Attribute.
    */
-  resolve?: (value: T) => void;
+  restart?: FsAttributeInit;
 
   /**
    * Destroys the Attribute instance.

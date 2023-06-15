@@ -28,18 +28,29 @@ export const initAttributes = () => {
       }
     },
 
-    import(solution) {
+    import(solution, settings) {
       if (this.process.has(solution)) return;
 
+      // Create module
       const module = document.createElement(ATTRIBUTES_MODULE_NAME);
+
+      // Add module attributes
       module.setAttribute(SOLUTION_ATTRIBUTE_NAME, solution);
 
+      for (const [key, value] of Object.entries(settings || {})) {
+        if (!value) continue;
+
+        module.setAttribute(key, value);
+      }
+
+      // Append module
       const existingModule = document.querySelector(`${ATTRIBUTES_MODULE_NAME}[${SOLUTION_ATTRIBUTE_NAME}]`);
 
       const target = existingModule?.parentNode || document.body;
 
       target.insertBefore(module, existingModule);
 
+      // Return module loading promise
       return this.solutions[solution]?.loading;
     },
 
