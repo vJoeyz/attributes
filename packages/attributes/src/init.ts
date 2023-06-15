@@ -1,14 +1,17 @@
-import { awaitDOMReady, type FsAttributeKey, type FsAttributesCallback } from '@finsweet/attributes-utils';
+import { type FsAttributeKey, type FsAttributesCallback } from '@finsweet/attributes-utils';
 
-import { loadAttribute } from './load';
-import { parseAttributeGlobalSettings } from './settings';
+import { ATTRIBUTES_MODULE_NAME, SOLUTION_ATTRIBUTE_NAME } from './constants';
+import { FinsweetAttributesModule } from './FinsweetAttributesModule';
 
+/**
+ * Inits the Finsweet Attributes library.
+ */
 export const initAttributes = () => {
   const { fsAttributes } = window;
 
-  // FsAttributes already exists so we just make sure that any newly imported <script> is also parsed and initted.
+  // Avoid initting Attributes more than once.
   if (fsAttributes && !Array.isArray(fsAttributes)) {
-    return initAttributeModules();
+    return;
   }
 
   // Collect pre-existing callbacks
@@ -16,105 +19,40 @@ export const initAttributes = () => {
 
   // Init Attributes object
   window.fsAttributes = window.FsAttributes = {
-    init: initAttributeModules,
     solutions: {},
     process: new Set<FsAttributeKey>(),
 
     push(...args) {
       for (const [key, callback] of args) {
-        initAttribute(key);
         this.solutions[key]?.loading?.then(callback);
       }
     },
 
-    async import(key) {
-      return initAttribute(key);
+    import(solution) {
+      if (this.process.has(solution)) return;
+
+      const module = document.createElement(ATTRIBUTES_MODULE_NAME);
+      module.setAttribute(SOLUTION_ATTRIBUTE_NAME, solution);
+
+      const existingModule = document.querySelector(`${ATTRIBUTES_MODULE_NAME}[${SOLUTION_ATTRIBUTE_NAME}]`);
+
+      const target = existingModule?.parentNode || document.body;
+
+      target.insertBefore(module, existingModule);
+
+      return this.solutions[solution]?.loading;
     },
 
     destroy() {
-      for (const key in this.solutions) {
-        this.solutions[key as keyof typeof this.solutions]?.destroy?.();
+      for (const solution in this.solutions) {
+        this.solutions[solution as keyof typeof this.solutions]?.destroy?.();
       }
     },
   };
 
+  // Init Attributes
+  customElements.define(ATTRIBUTES_MODULE_NAME, FinsweetAttributesModule);
+
   // Run pre-existing callbacks
   window.fsAttributes.push(...callbacks);
-
-  // Init Attributes
-  initAttributeModules();
-
-  if (document.readyState === 'loading') {
-    awaitDOMReady().then(initAttributeModules);
-  }
-};
-
-/**
- * Searches for all <finsweet-attributes> elements and inits the corresponding attribute.
- */
-const initAttributeModules = () => {
-  const modules = document.querySelectorAll('finsweet-attributes[solution]');
-
-  for (const module of modules) {
-    const key = module.getAttribute('solution') as FsAttributeKey | null;
-    if (!key) continue;
-
-    initAttribute(key, module);
-  }
-};
-
-/**
- * Inits an attribute.
- * @param key
- * @param module The <finsweet-attributes> element.
- * @returns The result of the attribute's init function.
- */
-const initAttribute = (key: FsAttributeKey, module?: Element) => {
-  const { fsAttributes } = window;
-
-  // Ensure that the attribute is only initted once
-  if (fsAttributes.process.has(key)) return;
-
-  fsAttributes.process.add(key);
-
-  // Init controls
-  const controls = (fsAttributes.solutions[key] ||= {});
-
-  // Check if user wants to programatically init the attribute
-  // Instead of automatically initting it
-  const preventInit = module?.hasAttribute('preventinit');
-
-  if (!preventInit) {
-    controls.loading = new Promise((resolve) => {
-      controls.resolve = (value) => {
-        resolve(value);
-        delete controls.resolve;
-      };
-    });
-  }
-
-  return loadAttribute(key)
-    .then(async ({ init, version, SETTINGS }) => {
-      controls.init = init;
-      controls.version = version;
-
-      if (!preventInit) {
-        // Parse global settings
-        const globalSettings = parseAttributeGlobalSettings(SETTINGS, module);
-
-        // Init attribute
-        const { result, destroy } = (await init(globalSettings)) || {};
-
-        // Finalize controls
-        controls.destroy = () => {
-          destroy?.();
-          fsAttributes.process.delete(key);
-        };
-
-        controls.resolve?.(result);
-
-        return result;
-      }
-    })
-    .catch(console.error);
 };

@@ -2,10 +2,10 @@ import { type FsAttributeKey } from '@finsweet/attributes-utils';
 
 /**
  * Dynamically loads an attribute package.
- * @param key
+ * @param solution
  */
-export const loadAttribute = async (key: FsAttributeKey) => {
-  switch (key) {
+export const loadAttribute = async (solution: FsAttributeKey) => {
+  switch (solution) {
     case 'a11y': {
       return import('@finsweet/attributes-a11y');
     }
@@ -175,7 +175,7 @@ export const loadAttribute = async (key: FsAttributeKey) => {
     }
 
     default: {
-      throw `Finsweet Attribute "${key}" is not supported.`;
+      throw `Finsweet Attribute "${solution}" is not supported.`;
     }
   }
 };
