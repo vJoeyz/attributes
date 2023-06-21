@@ -1,4 +1,4 @@
-import { addListener, isElement, isHTMLElement } from '@finsweet/ts-utils';
+import { addListener, isElement, isHTMLElement } from '@finsweet/attributes-utils';
 
 import { disableScrolling, enableScrolling, findFirstScrollableElement, isScrollingDisabled } from './scroll';
 import { getAttribute, getElementSelector } from './utils/selectors';

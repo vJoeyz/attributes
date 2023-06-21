@@ -1,4 +1,4 @@
-import { isNotEmpty, isNumber } from '@finsweet/ts-utils';
+import { isNotEmpty, isNumber } from '@finsweet/attributes-utils';
 
 import type { HandleInstances } from '../utils/types';
 

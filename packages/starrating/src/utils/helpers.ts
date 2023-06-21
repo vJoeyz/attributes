@@ -1,4 +1,4 @@
-import { FORM_CSS_CLASSES } from '@finsweet/ts-utils';
+import { FORM_CSS_CLASSES } from '@finsweet/attributes-utils';
 
 import { getElementSelector, queryElement } from './selectors';
 

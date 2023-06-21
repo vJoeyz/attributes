@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test';
 import { expect, test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://fs-attributes.webflow.io/cmsslider');
@@ -9,8 +9,8 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Example', () => {
   test('Example', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'cmsslider');
-    await awaitAttributeLoaded(page, 'cmsload');
+    await waitAttributeLoaded(page, 'cmsslider');
+    await waitAttributeLoaded(page, 'cmsload');
 
     const mask1 = page.getByTestId('mask-1');
     const mask2 = page.getByTestId('mask-2');

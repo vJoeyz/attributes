@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://fs-attributes.webflow.io/modal');
@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('modal', () => {
   test('Modal opens + settings work', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'modal');
+    await waitAttributeLoaded(page, 'modal');
 
     const modal1 = page.locator('[fs-modal-element="modal-1"]');
     const modal5 = page.locator('[fs-modal-element="modal-5"]');

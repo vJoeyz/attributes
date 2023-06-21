@@ -1,4 +1,4 @@
-import { setFormFieldValue } from '@finsweet/ts-utils';
+import { setFormFieldValue } from '@finsweet/attributes-utils';
 
 import { toggleDropdownCloseIcon } from '../../utils';
 import type { Settings } from '../../utils/types';

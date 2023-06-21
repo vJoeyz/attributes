@@ -1,14 +1,15 @@
-import { normalizePropKey, parseNumericAttribute } from '@finsweet/attributes-utils';
-import type { FormBlockElement } from '@finsweet/ts-utils';
 import {
   extractCommaSeparatedValues,
   FORM_CSS_CLASSES,
+  type FormBlockElement,
   getObjectEntries,
   isFormField,
   isHTMLInputElement,
   isKeyOf,
+  normalizePropKey,
+  parseNumericAttribute,
   sameValues,
-} from '@finsweet/ts-utils';
+} from '@finsweet/attributes-utils';
 
 import { ensureUniqueFormFieldId } from '../utils/a11y';
 import { MATCHES, MODES, TAG_FORMATS } from '../utils/constants';

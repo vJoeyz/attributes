@@ -1,4 +1,4 @@
-import { awaitAttributeLoaded, awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
+import { type FsAttributeInit, waitAttributeLoaded, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { observeAriaControls } from './actions/aria-controls';
 import { handleKeyboardEvents } from './actions/keyboard';
@@ -7,11 +7,11 @@ import { handleKeyboardEvents } from './actions/keyboard';
  * Inits the attribute.
  */
 export const init: FsAttributeInit = async () => {
-  await awaitWebflowReady();
+  await waitWebflowReady();
 
-  await awaitAttributeLoaded('modal');
-  await awaitAttributeLoaded('inputcounter');
-  await awaitAttributeLoaded('accordion');
+  await waitAttributeLoaded('modal');
+  await waitAttributeLoaded('inputcounter');
+  await waitAttributeLoaded('accordion');
 
   const keyboardCleanup = handleKeyboardEvents();
   const observersCleanup = observeAriaControls();

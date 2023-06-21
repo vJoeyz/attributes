@@ -1,5 +1,11 @@
-import { adjustValueToStep, ARIA_VALUEMAX_KEY, ARIA_VALUEMIN_KEY, ARIA_VALUENOW_KEY } from '@finsweet/attributes-utils';
-import { addListener, setFormFieldValue } from '@finsweet/ts-utils';
+import {
+  addListener,
+  adjustValueToStep,
+  ARIA_VALUEMAX_KEY,
+  ARIA_VALUEMIN_KEY,
+  ARIA_VALUENOW_KEY,
+  setFormFieldValue,
+} from '@finsweet/attributes-utils';
 
 import { setHandleA11Y } from '../actions/a11y';
 import { setHandleStyles } from '../actions/styles';

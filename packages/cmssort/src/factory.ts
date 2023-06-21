@@ -1,6 +1,5 @@
 import { addListAnimation, type CMSList } from '@finsweet/attributes-cmscore';
-import type { Dropdown } from '@finsweet/ts-utils';
-import { DROPDOWN_CSS_CLASSES, isHTMLSelectElement } from '@finsweet/ts-utils';
+import { type Dropdown, DROPDOWN_CSS_CLASSES, isHTMLSelectElement } from '@finsweet/attributes-utils';
 
 import { listenListEvents } from './actions/events';
 import { initButtons } from './modes/buttons';

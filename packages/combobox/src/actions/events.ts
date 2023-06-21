@@ -1,5 +1,4 @@
-import { ARIA_EXPANDED_KEY } from '@finsweet/attributes-utils';
-import { addListener } from '@finsweet/ts-utils';
+import { addListener, ARIA_EXPANDED_KEY } from '@finsweet/attributes-utils';
 
 import { cleanupBubble, toggleDropdown } from '../utils';
 import type { Settings } from '../utils/types';

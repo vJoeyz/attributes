@@ -1,5 +1,4 @@
-import { animations, easings } from '@finsweet/attributes-utils';
-import { getObjectKeys, isKeyOf } from '@finsweet/ts-utils';
+import { animations, easings, getObjectKeys, isKeyOf } from '@finsweet/attributes-utils';
 
 import { DISPLAY_PROPERTIES } from '../utils/constants';
 import { getAttribute } from '../utils/selectors';

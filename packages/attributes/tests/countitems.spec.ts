@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://fs-attributes.webflow.io/countitems');
@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('countitems', () => {
   test('Displays the items count', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'countitems');
+    await waitAttributeLoaded(page, 'countitems');
 
     const value1 = page.getByTestId('value-1');
     const value2 = page.getByTestId('value-2');

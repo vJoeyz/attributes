@@ -1,5 +1,5 @@
 import type { CMSList } from '@finsweet/attributes-cmscore';
-import { TABS_CSS_CLASSES, type TabsElement } from '@finsweet/ts-utils';
+import { TABS_CSS_CLASSES, type TabsElement } from '@finsweet/attributes-utils';
 
 import { getElementSelector, getInstanceIndex, hasAttributeValue } from '../utils/selectors';
 import type { PopulateData } from '../utils/types';

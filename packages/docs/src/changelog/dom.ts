@@ -1,4 +1,4 @@
-import { cloneNode } from '@finsweet/ts-utils';
+import { cloneNode } from '@finsweet/attributes-utils';
 import { marked } from 'marked';
 
 import type { AttributeChangesets } from '$global/types/changesets';

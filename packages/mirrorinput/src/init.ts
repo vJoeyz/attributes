@@ -1,5 +1,11 @@
-import type { FsAttributeInit } from '@finsweet/attributes-utils';
-import { addListener, isElement, isFormField, isHTMLInputElement, setFormFieldValue } from '@finsweet/ts-utils';
+import {
+  addListener,
+  type FsAttributeInit,
+  isElement,
+  isFormField,
+  isHTMLInputElement,
+  setFormFieldValue,
+} from '@finsweet/attributes-utils';
 
 import { getElementSelector, getInstanceIndex, queryElement } from './utils/selectors';
 

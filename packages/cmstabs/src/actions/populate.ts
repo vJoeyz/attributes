@@ -1,13 +1,13 @@
 import type { CMSItem } from '@finsweet/attributes-cmscore';
-import { ARIA_ROLE_KEY } from '@finsweet/attributes-utils';
 import {
+  ARIA_ROLE_KEY,
   CURRENT_CSS_CLASS,
   type TabLinkElement,
   type TabPaneElement,
   TABS_CSS_CLASSES,
   type TabsContentElement,
   type TabsMenuElement,
-} from '@finsweet/ts-utils';
+} from '@finsweet/attributes-utils';
 
 import { getElementSelector, queryElement } from '../utils/selectors';
 import type { PopulateData } from '../utils/types';

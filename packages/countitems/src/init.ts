@@ -1,4 +1,4 @@
-import { awaitWebflowReady, type FsAttributeInit, getCollectionElements } from '@finsweet/attributes-utils';
+import { type FsAttributeInit, getCollectionElements, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { getInstanceIndex, queryAllElements, queryElement } from './utils/selectors';
 
@@ -6,7 +6,7 @@ import { getInstanceIndex, queryAllElements, queryElement } from './utils/select
  * Inits list items count.
  */
 export const init: FsAttributeInit = async () => {
-  await awaitWebflowReady();
+  await waitWebflowReady();
 
   const listReferences = queryAllElements('list');
 

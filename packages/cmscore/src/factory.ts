@@ -1,5 +1,10 @@
-import { getCMSElementSelector, getCollectionElements, getCollectionListWrappers } from '@finsweet/attributes-utils';
-import { type CollectionListWrapperElement, isNotEmpty } from '@finsweet/ts-utils';
+import {
+  type CollectionListWrapperElement,
+  getCMSElementSelector,
+  getCollectionElements,
+  getCollectionListWrappers,
+  isNotEmpty,
+} from '@finsweet/attributes-utils';
 
 import { CMSList } from '.';
 import { listInstancesStore } from './utils/store';

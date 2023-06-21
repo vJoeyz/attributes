@@ -1,4 +1,4 @@
-import { clearFormField } from '@finsweet/ts-utils';
+import { clearFormField } from '@finsweet/attributes-utils';
 
 import type { FilterData, FilterElement } from '../utils/types';
 

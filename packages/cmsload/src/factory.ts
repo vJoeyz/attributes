@@ -1,5 +1,5 @@
 import { addItemsAnimation, addListAnimation, type CMSList } from '@finsweet/attributes-cmscore';
-import { COMMERCE_CSS_CLASSES, LIGHTBOX_CSS_CLASSES } from '@finsweet/ts-utils';
+import { COMMERCE_CSS_CLASSES, LIGHTBOX_CSS_CLASSES } from '@finsweet/attributes-utils';
 
 import { initDefaultMode } from './modes/default';
 import { initInfiniteMode } from './modes/infinite';

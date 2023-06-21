@@ -6,13 +6,17 @@ import {
   ARIA_HIDDEN_KEY,
   ARIA_OWNS_KEY,
   AUTOCOMPLETE_KEY,
+  type Dropdown,
+  DROPDOWN_CSS_CLASSES,
+  type DropdownList,
+  type DropdownToggle,
+  findTextNode,
+  isHTMLAnchorElement,
   NAME_KEY,
   REQUIRED_KEY,
   ROLE_KEY,
   TABINDEX_KEY,
 } from '@finsweet/attributes-utils';
-import type { Dropdown, DropdownList, DropdownToggle } from '@finsweet/ts-utils';
-import { DROPDOWN_CSS_CLASSES, findTextNode, isHTMLAnchorElement } from '@finsweet/ts-utils';
 
 import { getElementSelector, hasAttributeValue, queryElement } from '../utils/selectors';
 import type { OptionsStore } from '../utils/types';

@@ -1,4 +1,4 @@
-import { isHTMLAnchorElement } from '@finsweet/ts-utils';
+import { isHTMLAnchorElement } from '@finsweet/attributes-utils';
 
 import type { TOCItem } from '../components/TOCItem';
 

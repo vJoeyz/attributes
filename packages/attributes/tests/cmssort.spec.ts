@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://fs-attributes.webflow.io/cmssort');
@@ -8,8 +8,8 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('cmssort', () => {
   test('Sorts correctly', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'cmsload');
-    await awaitAttributeLoaded(page, 'cmssort');
+    await waitAttributeLoaded(page, 'cmsload');
+    await waitAttributeLoaded(page, 'cmssort');
 
     // HTML Select Dropdown
     const trigger1 = page.locator('[fs-cmssort-element="trigger"]');

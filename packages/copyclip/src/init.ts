@@ -1,5 +1,11 @@
-import { awaitWebflowReady, type FsAttributeInit, parseNumericAttribute } from '@finsweet/attributes-utils';
-import { findTextNode, isHTMLElement, isNotEmpty } from '@finsweet/ts-utils';
+import {
+  findTextNode,
+  type FsAttributeInit,
+  isHTMLElement,
+  isNotEmpty,
+  parseNumericAttribute,
+  waitWebflowReady,
+} from '@finsweet/attributes-utils';
 
 import { createClipboardJsInstance } from './factory';
 import { DEFAULT_SUCCESS_CSS_CLASS, DEFAULT_SUCCESS_DURATION } from './utils/constants';
@@ -9,7 +15,7 @@ import { getAttribute, getInstanceIndex, queryAllElements, queryElement } from '
  * Inits the copy to clipboard functionality.
  */
 export const init: FsAttributeInit = async () => {
-  await await awaitWebflowReady();
+  await await waitWebflowReady();
 
   const copyTriggers = queryAllElements('click');
 

@@ -1,4 +1,4 @@
-import { addListener, isNotEmpty, setFormFieldValue } from '@finsweet/ts-utils';
+import { addListener, isNotEmpty, setFormFieldValue } from '@finsweet/attributes-utils';
 
 import { setButtonA11Y } from './a11y';
 

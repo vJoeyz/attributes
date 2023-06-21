@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { expect, test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://fs-attributes.webflow.io/numbercount');
@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Animates the numbers', () => {
   test('Picks the end value and duration and animates it', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'numbercount');
+    await waitAttributeLoaded(page, 'numbercount');
 
     const numberElement = page.getByTestId('number-1');
     const rawEnd = (await numberElement.getAttribute('fs-numbercount-end'))!;
@@ -23,7 +23,7 @@ test.describe('Animates the numbers', () => {
   });
 
   test('Formats numbers using a locale', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'numbercount');
+    await waitAttributeLoaded(page, 'numbercount');
 
     const numberElement = page.getByTestId('number-2');
     const rawEnd = (await numberElement.getAttribute('fs-numbercount-end'))!;

@@ -1,4 +1,4 @@
-import { isNotEmpty } from '@finsweet/ts-utils';
+import { isNotEmpty } from '@finsweet/attributes-utils';
 
 import { getAttribute, getSettingSelector } from '../utils/selectors';
 import type { ComponentTargetData } from '../utils/types';

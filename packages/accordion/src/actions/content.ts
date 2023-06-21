@@ -1,4 +1,4 @@
-import { addListener } from '@finsweet/ts-utils';
+import { addListener } from '@finsweet/attributes-utils';
 
 import { getElementHeight } from '../utils/helpers';
 

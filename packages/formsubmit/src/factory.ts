@@ -1,5 +1,4 @@
-import type { FormBlockElement } from '@finsweet/ts-utils';
-import { FORM_CSS_CLASSES } from '@finsweet/ts-utils';
+import { FORM_CSS_CLASSES, type FormBlockElement } from '@finsweet/attributes-utils';
 
 import { Form } from './components/Form';
 import { parseActionAttribute } from './utils/attributes';

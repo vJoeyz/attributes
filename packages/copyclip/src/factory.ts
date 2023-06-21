@@ -1,4 +1,4 @@
-import { isFormField } from '@finsweet/ts-utils';
+import { isFormField } from '@finsweet/attributes-utils';
 import ClipboardJS from 'clipboard';
 
 /**

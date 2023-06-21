@@ -1,5 +1,4 @@
-import { animations, easings } from '@finsweet/attributes-utils';
-import { getObjectKeys, isKeyOf } from '@finsweet/ts-utils';
+import { animations, easings, getObjectKeys, isKeyOf } from '@finsweet/attributes-utils';
 
 import type { CMSList } from '..';
 import { DEFAULT_LIST_ANIMATION_DURATION } from './constants';

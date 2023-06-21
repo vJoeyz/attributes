@@ -1,8 +1,7 @@
 import { CMSItem, CMSList } from '@finsweet/attributes-cmscore';
-import { getCMSElementSelector } from '@finsweet/attributes-utils';
-import { isNotEmpty } from '@finsweet/ts-utils';
-import type { JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
+import { getCMSElementSelector, isNotEmpty } from '@finsweet/attributes-utils';
 
+import type { JobWithContent } from '../types';
 import { filterJobsByKey, getDepartmentsOrOfficesFromJobs } from '../utils/jobs';
 import { populateJob } from '../utils/populate';
 import { getSettingSelector } from './selectors';

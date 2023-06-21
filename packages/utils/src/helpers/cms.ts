@@ -1,13 +1,13 @@
-import {
-  CMS_CSS_CLASSES,
-  type CollectionEmptyElement,
-  type CollectionItemElement,
-  type CollectionListElement,
-  type CollectionListWrapperElement,
-  type PageCountElement,
-  type PaginationButtonElement,
-  type PaginationWrapperElement,
-} from '@finsweet/ts-utils';
+import { CMS_CSS_CLASSES } from '../constants';
+import type {
+  CollectionEmptyElement,
+  CollectionItemElement,
+  CollectionListElement,
+  CollectionListWrapperElement,
+  PageCountElement,
+  PaginationButtonElement,
+  PaginationWrapperElement,
+} from '../types';
 
 const CUSTOM_CSS_SELECTORS_PREFIX = 'fs-cms-element';
 

@@ -1,7 +1,7 @@
 import { type CMSList, createCMSListInstance } from '@finsweet/attributes-cmscore';
 import { getCMSElementSelector } from '@finsweet/attributes-utils';
-import type { JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
 
+import type { JobWithContent } from '../types';
 import { SUPPORTED_NESTED_KEYS } from '../utils/constants';
 import { addJobsToCMSItems, addNestedJobsToCMSItems } from '../utils/lists';
 import { getAttribute, queryAllElements } from '../utils/selectors';

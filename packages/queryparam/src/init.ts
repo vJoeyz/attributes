@@ -1,4 +1,4 @@
-import { awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
+import { type FsAttributeInit, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { queryParamFactory } from './factory';
 import { SETTINGS } from './utils/constants';
@@ -8,7 +8,7 @@ import { getSettingSelector } from './utils/selectors';
  * Inits the attribute.
  */
 export const init: FsAttributeInit = async () => {
-  await awaitWebflowReady();
+  await waitWebflowReady();
 
   const url = new URL(window.location.href);
 

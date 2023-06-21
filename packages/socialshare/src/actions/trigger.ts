@@ -1,4 +1,4 @@
-import { addListener, isElement } from '@finsweet/ts-utils';
+import { addListener, isElement } from '@finsweet/attributes-utils';
 
 import { SOCIAL_SHARE_PLATFORMS } from '../utils/constants';
 import { getElementSelector } from '../utils/selectors';

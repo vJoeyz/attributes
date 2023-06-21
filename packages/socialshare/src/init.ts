@@ -1,5 +1,5 @@
 import type { CMSList } from '@finsweet/attributes-cmscore';
-import { awaitAttributeLoaded, awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
+import { type FsAttributeInit, waitAttributeLoaded, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { listenTriggerClicks } from './actions/trigger';
 import { createSocialShareInstances } from './factory';
@@ -9,7 +9,7 @@ import { stores } from './utils/stores';
  * Inits the attribute.
  */
 export const init: FsAttributeInit = async () => {
-  await awaitWebflowReady();
+  await waitWebflowReady();
 
   // Init global click listener
   const removeClickListener = listenTriggerClicks();
@@ -18,7 +18,7 @@ export const init: FsAttributeInit = async () => {
   createSocialShareInstances();
 
   // create button from dynamic list in memory
-  const listInstances: CMSList[] = (await awaitAttributeLoaded('cmsload')) || [];
+  const listInstances: CMSList[] = (await waitAttributeLoaded('cmsload')) || [];
 
   for (const { items } of listInstances) {
     for (const { element } of items) {

@@ -1,4 +1,4 @@
-import { isString } from '@finsweet/ts-utils';
+import { isString } from '@finsweet/attributes-utils';
 
 /**
  * Parses the `redirect`, `reset` and `reload` attributes.

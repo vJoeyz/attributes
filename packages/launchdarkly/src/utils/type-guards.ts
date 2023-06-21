@@ -3,7 +3,7 @@ import {
   isHTMLInputElement,
   isHTMLSelectElement,
   isHTMLTextAreaElement,
-} from '@finsweet/ts-utils';
+} from '@finsweet/attributes-utils';
 
 import { VALUE_PROPERTY } from './constants';
 

@@ -5,10 +5,9 @@ import {
   FORM_CSS_CLASSES,
   type FormField,
   isHTMLSelectElement,
-} from '@finsweet/ts-utils';
-import type { JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
+} from '@finsweet/attributes-utils';
 
-import type { JobsFilters } from '../types';
+import type { JobsFilters, JobWithContent } from '../types';
 import { GH_DEPARTMENT, GH_OFFICE } from '../utils/constants';
 import { filterJobs, getDepartmentsOrOfficesFromJobs } from '../utils/jobs';
 import { appendNestedJobsToCMSItems } from '../utils/lists';

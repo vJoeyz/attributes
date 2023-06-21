@@ -1,5 +1,4 @@
-import { parseNumericAttribute } from '@finsweet/attributes-utils';
-import { isNumber, setFormFieldValue } from '@finsweet/ts-utils';
+import { isNumber, parseNumericAttribute, setFormFieldValue } from '@finsweet/attributes-utils';
 
 import { handleButtons, handleResetButton } from './actions/buttons';
 import { handleInput } from './actions/input';

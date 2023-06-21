@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://fs-attributes.webflow.io/inputcounter');
@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('inputcounter', () => {
   test('Initial + step, min, max + increment, decrement, reset', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'inputcounter');
+    await waitAttributeLoaded(page, 'inputcounter');
 
     const input = page.getByTestId('input');
     const incrementButton = page.getByTestId('increment');
@@ -68,7 +68,7 @@ test.describe('inputcounter', () => {
   });
 
   test('Change reset button attribute value from reset to clear is backward compatible', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'inputcounter');
+    await waitAttributeLoaded(page, 'inputcounter');
 
     const clearButtons = page.locator('[fs-inputcounter-element^="clear"]');
     const resetButtons = page.locator('[fs-inputcounter-element^="reset"]');

@@ -1,6 +1,6 @@
 import { expect, type Page, test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://fs-attributes.webflow.io/mirrorinput');
@@ -14,7 +14,7 @@ const getTargetLocators = (page: Page) =>
 
 test.describe('mirrorinput', () => {
   test("Mirrors each trigger's input", async ({ page }) => {
-    await awaitAttributeLoaded(page, 'mirrorinput');
+    await waitAttributeLoaded(page, 'mirrorinput');
 
     const [trigger1, trigger2, trigger3, trigger4, trigger5] = getTriggerLocators(page);
     const [target1, target2, target3, target4, target5] = getTargetLocators(page);

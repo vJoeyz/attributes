@@ -1,5 +1,4 @@
-import { adjustValueToStep } from '@finsweet/attributes-utils';
-import { Debug, isNotEmpty } from '@finsweet/ts-utils';
+import { adjustValueToStep, isNotEmpty } from '@finsweet/attributes-utils';
 
 import { Fill } from './components/Fill';
 import { Handle } from './components/Handle';
@@ -33,17 +32,15 @@ export const createHandleInstances = ({
       const displayValueElement = displayValueElements[index];
 
       if (startValue < minRange) {
-        Debug.alert(
-          `The Handle start value [${startValue}] doesn't match the range, so it has been set to the min value [${minRange}].`,
-          'info'
+        console.error(
+          `The Handle start value [${startValue}] doesn't match the range, so it has been set to the min value [${minRange}].`
         );
         startValue = minRange;
       }
 
       if (startValue > maxRange) {
-        Debug.alert(
-          `The Handle start value [${startValue}] doesn't match the range, so it has been set to the max value [${maxRange}].`,
-          'info'
+        console.error(
+          `The Handle start value [${startValue}] doesn't match the range, so it has been set to the max value [${maxRange}].`
         );
         startValue = maxRange;
       }

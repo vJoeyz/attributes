@@ -1,4 +1,4 @@
-import { cloneNode, findTextNode } from '@finsweet/ts-utils';
+import { cloneNode, findTextNode } from '@finsweet/attributes-utils';
 
 import type { OptionData, Settings } from '../utils/types';
 import { setOptionAria } from './a11y';

@@ -1,5 +1,4 @@
-import { getDecimalPrecision } from '@finsweet/attributes-utils';
-import { Debug, isFormField } from '@finsweet/ts-utils';
+import { getDecimalPrecision, isFormField } from '@finsweet/attributes-utils';
 
 import { getAttribute, hasAttributeValue, queryAllElements, queryElement } from '../utils/selectors';
 
@@ -44,7 +43,7 @@ export const getSettings = (
   const updateOnRelease = hasAttributeValue(wrapperElement, 'update', 'release');
 
   if (!handleElements.length || !trackElement) {
-    Debug.alert('The rangeslider is missing a Track element or a Handle element.', 'error');
+    console.error('The rangeslider is missing a Track element or a Handle element.');
     return;
   }
 
@@ -57,12 +56,12 @@ export const getSettings = (
   const totalRange = maxRange - minRange;
 
   if (Number.isNaN(totalRange)) {
-    Debug.alert('Please make sure min and max are numbers.', 'error');
+    console.error('Please make sure min and max are numbers.');
     return;
   }
 
   if (Math.sign(totalRange) === -1) {
-    Debug.alert("The min can't be greater than the max.", 'error');
+    console.error("The min can't be greater than the max.");
     return;
   }
 
@@ -70,9 +69,8 @@ export const getSettings = (
   const precision = getDecimalPrecision(step);
 
   if (totalRange % step > 0)
-    Debug.alert(
-      `The provided step [${step}] doesn't fit the range [${minRange},${maxRange}], are you sure you want to use this value?`,
-      'info'
+    console.error(
+      `The provided step [${step}] doesn't fit the range [${minRange},${maxRange}], are you sure you want to use this value?`
     );
 
   return {

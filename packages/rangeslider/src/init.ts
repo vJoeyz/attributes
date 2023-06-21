@@ -1,5 +1,13 @@
-import { adjustValueToStep, awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
-import { addListener, getHiddenParent, isNotEmpty, isVisible, noop } from '@finsweet/ts-utils';
+import {
+  addListener,
+  adjustValueToStep,
+  type FsAttributeInit,
+  getHiddenParent,
+  isNotEmpty,
+  isVisible,
+  noop,
+  waitWebflowReady,
+} from '@finsweet/attributes-utils';
 import debounce from 'just-debounce';
 
 import { getClientX } from './actions/events';
@@ -13,7 +21,7 @@ import { queryAllElements } from './utils/selectors';
  * Inits the attribute.
  */
 export const init: FsAttributeInit = async () => {
-  await awaitWebflowReady();
+  await waitWebflowReady();
 
   const wrapperElements = queryAllElements('wrapper');
 

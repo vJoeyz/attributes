@@ -1,4 +1,4 @@
-import { addListener } from '@finsweet/ts-utils';
+import { addListener } from '@finsweet/attributes-utils';
 
 import { ANCHOR_TEXT, DEFAULT_DISPLAY_PROPERTY } from '../utils/constants';
 import { getSettingSelector } from '../utils/selectors';

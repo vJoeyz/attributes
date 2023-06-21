@@ -1,6 +1,11 @@
 import { CMSItem, CMSList } from '@finsweet/attributes-cmscore';
-import { fetchPageDocument, normalizePropKey } from '@finsweet/attributes-utils';
-import { cloneNode, getCollectionElements, getCollectionListWrappers } from '@finsweet/ts-utils';
+import {
+  cloneNode,
+  fetchPageDocument,
+  getCollectionElements,
+  getCollectionListWrappers,
+  normalizePropKey,
+} from '@finsweet/attributes-utils';
 
 import { getAttribute, getSettingSelector } from '../utils/selectors';
 import type { ExternalNestTargets, ManualNestTargets, NestSource, NestSources } from '../utils/types';

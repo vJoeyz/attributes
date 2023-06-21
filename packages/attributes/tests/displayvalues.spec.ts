@@ -1,6 +1,6 @@
 import { expect, type Page, test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://fs-attributes.webflow.io/displayvalues');
@@ -14,7 +14,7 @@ const getTargetLocators = (page: Page) =>
 
 test.describe('displayvalues', () => {
   test("Displays each element's value", async ({ page }) => {
-    await awaitAttributeLoaded(page, 'displayvalues');
+    await waitAttributeLoaded(page, 'displayvalues');
 
     const [source1, source2, source3, source4, source5, source6] = getSourceLocators(page);
     const [target1, target2, target3, target4, target5, target6] = getTargetLocators(page);

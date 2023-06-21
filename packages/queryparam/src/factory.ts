@@ -1,4 +1,9 @@
-import { FORM_CSS_CLASSES, isHTMLInputElement, isHTMLSelectElement, isHTMLTextAreaElement } from '@finsweet/ts-utils';
+import {
+  FORM_CSS_CLASSES,
+  isHTMLInputElement,
+  isHTMLSelectElement,
+  isHTMLTextAreaElement,
+} from '@finsweet/attributes-utils';
 
 export function queryParamFactory(elements: HTMLElement[], value: string) {
   for (const element of elements) {

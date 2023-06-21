@@ -1,4 +1,4 @@
-import { awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
+import { type FsAttributeInit, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { initInputActiveClasses } from './factory';
 
@@ -6,7 +6,7 @@ import { initInputActiveClasses } from './factory';
  * Inits the attribute.
  */
 export const init: FsAttributeInit = async () => {
-  await awaitWebflowReady();
+  await waitWebflowReady();
 
   const cleanup = initInputActiveClasses();
 

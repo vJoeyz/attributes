@@ -1,6 +1,6 @@
 import { unescapeHTML } from '@finsweet/attributes-utils';
-import type { Job, JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
 
+import type { Job, JobWithContent } from '../types';
 import { queryAllElements } from './selectors';
 
 export function populateJob(job: Job | JobWithContent, scope: HTMLDivElement | undefined, queryParam: string | null) {

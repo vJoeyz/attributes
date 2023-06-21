@@ -1,4 +1,4 @@
-import { getPublishDate, getSiteId } from '@finsweet/ts-utils';
+import { getPublishDate, getSiteId } from './webflow';
 
 const DB_OBJECT_STORE_NAME = 'pages';
 

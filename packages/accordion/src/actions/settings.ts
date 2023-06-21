@@ -1,5 +1,4 @@
-import { parseNumericAttribute } from '@finsweet/attributes-utils';
-import { extractCommaSeparatedValues, isKeyOf, isNotEmpty } from '@finsweet/ts-utils';
+import { extractCommaSeparatedValues, isKeyOf, isNotEmpty, parseNumericAttribute } from '@finsweet/attributes-utils';
 
 import { DEFAULT_ACTIVE_CLASS, SETTINGS } from '../utils/constants';
 import { getAttribute, hasAttributeValue, queryElement } from '../utils/selectors';

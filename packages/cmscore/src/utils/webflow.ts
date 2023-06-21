@@ -1,5 +1,4 @@
-import type { WebflowModule } from '@finsweet/ts-utils';
-import { restartWebflow } from '@finsweet/ts-utils';
+import { restartWebflow, type WebflowModule } from '@finsweet/attributes-utils';
 
 import type { CMSItem, CMSList } from '..';
 

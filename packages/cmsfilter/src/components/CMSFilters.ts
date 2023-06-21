@@ -1,6 +1,12 @@
 import type { CMSList } from '@finsweet/attributes-cmscore';
-import type { FormBlockElement } from '@finsweet/ts-utils';
-import { addListener, FORM_CSS_CLASSES, isFormField, isVisible, sameValues } from '@finsweet/ts-utils';
+import {
+  addListener,
+  FORM_CSS_CLASSES,
+  type FormBlockElement,
+  isFormField,
+  isVisible,
+  sameValues,
+} from '@finsweet/attributes-utils';
 import debounce from 'just-debounce';
 
 import { clearFilterData } from '../actions/clear';

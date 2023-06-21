@@ -1,4 +1,4 @@
-import { addListener, isElement, isFormField } from '@finsweet/ts-utils';
+import { addListener, isElement, isFormField } from '@finsweet/attributes-utils';
 
 import { getElementSelector } from '../utils/selectors';
 import { syncValue } from './sync';

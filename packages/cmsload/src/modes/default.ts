@@ -1,5 +1,5 @@
 import type { CMSList } from '@finsweet/attributes-cmscore';
-import { addListener } from '@finsweet/ts-utils';
+import { addListener } from '@finsweet/attributes-utils';
 
 import { loadPaginatedItems } from '../actions/load';
 import { incrementItemsPerPage } from '../actions/pagination';

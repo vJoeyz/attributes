@@ -1,6 +1,5 @@
 import type { CMSList } from '@finsweet/attributes-cmscore';
-import type { SliderElement } from '@finsweet/ts-utils';
-import { SLIDER_CSS_CLASSES } from '@finsweet/ts-utils';
+import { SLIDER_CSS_CLASSES, type SliderElement } from '@finsweet/attributes-utils';
 
 import { getElementSelector, getInstanceIndex, hasAttributeValue } from '../utils/selectors';
 import type { PopulateData } from '../utils/types';

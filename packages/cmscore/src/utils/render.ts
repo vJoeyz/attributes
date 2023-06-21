@@ -1,4 +1,4 @@
-import { isNumber, wait } from '@finsweet/ts-utils';
+import { isNumber, wait } from '@finsweet/attributes-utils';
 
 import type { CMSItem, CMSList } from '..';
 import { restartWebflowModules } from './webflow';

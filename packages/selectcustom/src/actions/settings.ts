@@ -1,6 +1,13 @@
-import { ARIA_CURRENT_KEY, TABINDEX_KEY } from '@finsweet/attributes-utils';
-import type { Dropdown, DropdownList, DropdownToggle } from '@finsweet/ts-utils';
-import { DROPDOWN_CSS_CLASSES, findTextNode, isHTMLAnchorElement } from '@finsweet/ts-utils';
+import {
+  ARIA_CURRENT_KEY,
+  type Dropdown,
+  DROPDOWN_CSS_CLASSES,
+  type DropdownList,
+  type DropdownToggle,
+  findTextNode,
+  isHTMLAnchorElement,
+  TABINDEX_KEY,
+} from '@finsweet/attributes-utils';
 
 import { getElementSelector, hasAttributeValue, queryElement } from '../utils/selectors';
 import type { OptionsStore } from '../utils/types';

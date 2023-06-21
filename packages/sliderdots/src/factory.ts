@@ -1,6 +1,9 @@
-import { awaitAttributeLoaded } from '@finsweet/attributes-utils';
-import type { SliderElement } from '@finsweet/ts-utils';
-import { SLIDER_CSS_CLASSES, type SliderNavElement } from '@finsweet/ts-utils';
+import {
+  SLIDER_CSS_CLASSES,
+  type SliderElement,
+  type SliderNavElement,
+  waitAttributeLoaded,
+} from '@finsweet/attributes-utils';
 
 import { listenClickEvents } from './actions/events';
 import { observeSliderNav } from './actions/observe';
@@ -26,7 +29,7 @@ export const createSliderDots = async (slider: SliderElement) => {
   // Make sure CMSSlider has finished (if existing on the page)
   const cmsSliderAttribute = window.fsAttributes.process.has('cmsslider');
   if (cmsSliderAttribute) {
-    await Promise.all([awaitAttributeLoaded('cmsslider'), waitSliderReady(sliderNav)]);
+    await Promise.all([waitAttributeLoaded('cmsslider'), waitSliderReady(sliderNav)]);
   }
 
   // Get props
