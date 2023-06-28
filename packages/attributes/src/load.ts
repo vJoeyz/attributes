@@ -150,6 +150,10 @@ export const loadAttribute = async (key: FsAttributeKey) => {
       return import('@finsweet/attributes-selectcustom');
     }
 
+    case 'slider': {
+      return import('@finsweet/attributes-slider');
+    }
+
     case 'sliderdots': {
       return import('@finsweet/attributes-sliderdots');
     }
