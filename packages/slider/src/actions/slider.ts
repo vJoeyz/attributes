@@ -1,31 +1,51 @@
-import 'swiper/css';
-import 'swiper/swiper-bundle.css';
+import Swiper, { SwiperOptions, Pagination } from 'swiper';
 
-import Swiper, { SwiperOptions } from 'swiper';
-
-import { getAttribute } from '../utils/selectors';
+import { getAttribute, queryElement } from '../utils/selectors';
 import { swiperInstancesStore } from '../utils/store';
 
-export const initSlider = (element: HTMLElement) => {
-  if (swiperInstancesStore.get(element)) return;
+export const initSlider = (instance: Element) => {
+  const sliderElement = queryElement('slider', { scope: instance });
+  const prevButton = queryElement('button-previous', { scope: instance });
+  const nextButton = queryElement('button-next', { scope: instance });
+  const paginationWrapper = queryElement('pagination-wrapper', { scope: instance });
 
-  const paginationType = getAttribute(element, 'paginationtype');
-  const autoHeight = getAttribute(element, 'autoheight');
+  if (swiperInstancesStore.get(sliderElement)) return;
+
+  const paginationType = getAttribute(sliderElement, 'paginationtype');
+  const autoHeight = getAttribute(sliderElement, 'autoheight');
 
   const paginationOptions = {
-    el: '.slider_button-wrapper' as HTMLElement,
+    el: paginationWrapper,
     type: paginationType as 'bullets' | 'fraction' | 'progressbar' | 'custom',
+    bulletClass: 'slider_pagination-dot',
+    bulletActiveClass: 'is-active',
+    clickable: true,
+    renderBullet: function (index, className) {
+      return `<div fs-slider-element="active-pagination-bullet" class="${className}"></div>`;
+    },
   };
 
   const options: SwiperOptions = {
-    wrapperClass: 'slider_grid w-dyn-items',
-    slideClass: 'slider_grid-item',
-    pagination: paginationOptions,
+    modules: [Pagination],
+    wrapperClass: 'slider_cms-list w-dyn-items',
+    slideClass: 'slider_cms-item',
     autoHeight: autoHeight,
+    slidesPerView: 'auto',
+    slidesPerGroup: 1,
+    pagination: paginationOptions,
   };
 
-  const sliderInstance = new Swiper(element, options);
-  swiperInstancesStore.set(element, sliderInstance);
+  const sliderInstance = new Swiper(sliderElement, options);
+
+  prevButton.addEventListener('click', () => {
+    sliderInstance.slidePrev();
+  });
+
+  nextButton.addEventListener('click', () => {
+    sliderInstance.slideNext();
+  });
+
+  swiperInstancesStore.set(sliderElement, sliderInstance);
 
   return sliderInstance;
 };
