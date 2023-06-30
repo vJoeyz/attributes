@@ -7,6 +7,7 @@ export const ELEMENTS = [
   'slider',
   'button-previous',
   'button-next',
+  'pagination-thumbnails'
 ] as const satisfies AttributeElements;
 
 export const SETTINGS = {
@@ -26,6 +27,7 @@ export const SETTINGS = {
       vertical: 'vertical',
     },
   },
+  effect: { key: 'effect' },
   autoplay: { key: 'autoplay', values: { true: 'true' } },
   autoplaydelay: { key: 'autoplaydelay' },
   autoplayinteraction: { key: 'autoplayinteraction', values: { true: 'true' } },
@@ -35,7 +37,7 @@ export const SETTINGS = {
     key: 'paginationtype',
     values: {
       bullets: 'bullets',
-      fraction: 'count',
+      count: 'count',
       progressbar: 'progress-bar',
     },
   },

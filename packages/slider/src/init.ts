@@ -10,8 +10,7 @@ export const init: FsAttributeInit = async () => {
   await awaitWebflowReady();
 
   const sliderInstances = document.querySelectorAll('div[fs-slider-instance]');
-  const sliderInstance = [sliderInstances[0]];
-  sliderInstance.forEach((element) => initSlider(element));
+  sliderInstances.forEach((element) => initSlider(element));
 
   return {
     result: swiperInstancesStore,
