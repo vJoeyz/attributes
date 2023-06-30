@@ -10,6 +10,7 @@ import Swiper, {
   Pagination,
   Scrollbar,
   SwiperOptions,
+  Thumbs,
 } from 'swiper';
 
 import { getPaginationBulletClass, renderFraction, transformPaginationType } from '../utils/helpers';
@@ -57,13 +58,12 @@ export const initSlider = (instance: Element) => {
   const cardsRotate = getAttribute(sliderElement, 'cardsrotate');
   const cardsShadows = getAttribute(sliderElement, 'cardsshadows');
 
-
   const paginationOptions = {
     el: paginationWrapper,
     type: transformPaginationType(paginationType),
     bulletClass: getPaginationBulletClass(paginationType),
     bulletActiveClass: 'is-active',
-    clickable: paginationClickable,
+    clickable: paginationClickable || true,
     renderFraction,
     progressbarFillClass: 'slider_progressbar-active',
     renderProgressbar(progressbarFillClass) {
@@ -83,6 +83,7 @@ export const initSlider = (instance: Element) => {
       EffectCube,
       EffectCoverflow,
       EffectCreative,
+      Thumbs,
     ],
     wrapperClass: 'slider_cms-list w-dyn-items',
     slideClass: 'slider_cms-item',
@@ -112,7 +113,7 @@ export const initSlider = (instance: Element) => {
       modifier: coverflowModifier,
       rotate: coverflowRotate,
       scale: coverflowScale,
-      slideShadows: coverflowShadows
+      slideShadows: coverflowShadows,
     },
     flipEffect: {
       limitRotation: flipLimit,
@@ -138,7 +139,6 @@ export const initSlider = (instance: Element) => {
   };
 
   const sliderInstance = new Swiper(sliderElement, options);
-
   swiperInstancesStore.set(sliderElement, sliderInstance);
 
   return sliderInstance;

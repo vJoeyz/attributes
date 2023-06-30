@@ -8,7 +8,7 @@ export const transformPaginationType = (paginationType: string): TPagination => 
       return 'fraction';
     case 'progress-bar':
       return 'progressbar';
-    case 'thumbnails':
+    case 'thumbs':
       return 'custom';
     default:
       return 'custom';
@@ -21,7 +21,7 @@ export const getPaginationBulletClass = (paginationType: string): string => {
     case 'bullets':
       bulletClass = 'dot';
       break;
-    case 'thumbnails':
+    case 'thumbs':
       bulletClass = 'thumb';
       break;
     default:
