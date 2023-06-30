@@ -9,14 +9,13 @@ export const transformPaginationType = (paginationType: string): TPagination => 
     case 'progress-bar':
       return 'progressbar';
     case 'thumbnails':
-      return 'bullets';
+      return 'custom';
     default:
       return 'custom';
   }
 };
 
 export const getPaginationBulletClass = (paginationType: string): string => {
-  console.log(paginationType)
   let bulletClass = '';
   switch (paginationType) {
     case 'bullets':
