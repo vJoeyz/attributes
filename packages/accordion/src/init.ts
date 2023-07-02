@@ -1,12 +1,12 @@
 import type { CMSList } from '@finsweet/attributes-cmscore';
-import { awaitAttributeLoaded, awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
+import { type FsAttributeInit, waitAttributeLoaded, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { queryAllAccordions } from './actions/query';
 import { initAccordionGroups } from './factory';
 import { CMS_LOAD_LIST_ELEMENT_SELECTOR } from './utils/constants';
 
 export const init: FsAttributeInit = async () => {
-  await awaitWebflowReady();
+  await waitWebflowReady();
 
   // Get all accordions
   let accordions = queryAllAccordions();
@@ -14,7 +14,7 @@ export const init: FsAttributeInit = async () => {
   // Wait for CMSLoad to render all accordions, only if required
   const usesCMSLoad = accordions.some((accordion) => accordion.closest(CMS_LOAD_LIST_ELEMENT_SELECTOR));
   if (usesCMSLoad) {
-    const listInstances: CMSList[] = await awaitAttributeLoaded('cmsload');
+    const listInstances: CMSList[] = await waitAttributeLoaded('cmsload');
 
     accordions = queryAllAccordions(listInstances);
   }

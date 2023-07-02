@@ -1,12 +1,14 @@
 import {
+  addListener,
   ARIA_LABEL_KEY,
   ARIA_ROLE_KEY,
   ARIA_ROLE_VALUES,
-  awaitWebflowReady,
   type FsAttributeInit,
+  isHTMLAnchorElement,
+  isHTMLElement,
   TABINDEX_KEY,
+  waitWebflowReady,
 } from '@finsweet/attributes-utils';
-import { addListener, isHTMLAnchorElement, isHTMLElement } from '@finsweet/ts-utils';
 
 import { getElementSelector, queryAllElements } from './utils/selectors';
 
@@ -14,7 +16,7 @@ import { getElementSelector, queryAllElements } from './utils/selectors';
  * Inits editor friendly link blocks.
  */
 export const init: FsAttributeInit = async () => {
-  await awaitWebflowReady();
+  await waitWebflowReady();
 
   const elements = queryAllElements('parent');
 

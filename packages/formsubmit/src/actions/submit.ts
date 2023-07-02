@@ -1,4 +1,4 @@
-import { isString } from '@finsweet/ts-utils';
+import { isString } from '@finsweet/attributes-utils';
 
 /**
  * Submits the form data to a custom URL using the defined action and method in the form.

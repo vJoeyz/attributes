@@ -1,11 +1,12 @@
 import type { CMSItem } from '@finsweet/attributes-cmscore';
-import { ARIA_ROLE_KEY } from '@finsweet/attributes-utils';
-import { type SlideElement, SLIDER_CSS_CLASSES, type SliderMaskElement } from '@finsweet/ts-utils';
+import {
+  ARIA_ROLE_KEY,
+  type SlideElement,
+  SLIDER_CSS_CLASSES,
+  type SliderMaskElement,
+} from '@finsweet/attributes-utils';
 
 import type { PopulateData } from '../utils/types';
-
-// Constants destructuring
-const { slide: slideCSSClass, sliderMask: sliderMaskCSSClass } = SLIDER_CSS_CLASSES;
 
 /**
  * Creates a new `Slide` inside the Slider for each `Collection Item` of the lists.
@@ -16,8 +17,8 @@ export const populateSliderFromLists = ({
   listInstances,
   slider,
 }: PopulateData): ((items: CMSItem[]) => void) | undefined => {
-  const sliderMask = slider.querySelector<SliderMaskElement>(`.${sliderMaskCSSClass}`);
-  const existingSlides = slider.querySelectorAll<SlideElement>(`.${slideCSSClass}`);
+  const sliderMask = slider.querySelector<SliderMaskElement>(`.${SLIDER_CSS_CLASSES.sliderMask}`);
+  const existingSlides = slider.querySelectorAll<SlideElement>(`.${SLIDER_CSS_CLASSES.slide}`);
   if (!sliderMask || !existingSlides.length) return;
 
   // Store the template CSS classes

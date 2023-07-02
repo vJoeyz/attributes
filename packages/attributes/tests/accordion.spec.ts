@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://fs-attributes.webflow.io/accordion');
@@ -10,7 +10,7 @@ const DEFAULT_ACTIVE_CLASS_REGEX = /is-active-accordion/;
 
 test.describe('accordion', () => {
   test('Accordions open/close and set the active CSS class correctly', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'accordion');
+    await waitAttributeLoaded(page, 'accordion');
 
     const header11 = page.getByTestId('header-1-1');
     const content11 = page.getByTestId('content-1-1');
@@ -26,7 +26,7 @@ test.describe('accordion', () => {
   });
 
   test('fs-accordion-single', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'accordion');
+    await waitAttributeLoaded(page, 'accordion');
 
     const header22 = page.getByTestId('header-2-2');
     const content21 = page.getByTestId('content-2-1');
@@ -45,7 +45,7 @@ test.describe('accordion', () => {
   });
 
   test('fs-accordion-initial="none"', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'accordion');
+    await waitAttributeLoaded(page, 'accordion');
 
     const content31 = page.getByTestId('content-3-1');
     const content32 = page.getByTestId('content-3-2');
@@ -58,7 +58,7 @@ test.describe('accordion', () => {
   });
 
   test('fs-accordion-initial="{NUMERIC_INDEX}"', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'accordion');
+    await waitAttributeLoaded(page, 'accordion');
 
     const content41 = page.getByTestId('content-4-1');
     const content42 = page.getByTestId('content-4-2');
@@ -71,7 +71,7 @@ test.describe('accordion', () => {
   });
 
   test('fs-accordion-initial="{NUMERIC_INDEX}" + fs-accordion-single', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'accordion');
+    await waitAttributeLoaded(page, 'accordion');
 
     const content52 = page.getByTestId('content-5-2');
     const content53 = page.getByTestId('content-5-3');
@@ -82,7 +82,7 @@ test.describe('accordion', () => {
   });
 
   test('fs-accordion-active="{ACTIVE_CSS_CLASS}"', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'accordion');
+    await waitAttributeLoaded(page, 'accordion');
 
     const header61 = page.getByTestId('header-6-1');
 
@@ -93,7 +93,7 @@ test.describe('accordion', () => {
   });
 
   test('fs-accordion + fs-cmsload', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'accordion');
+    await waitAttributeLoaded(page, 'accordion');
 
     const header71 = page.getByTestId('header-7-1');
     const content71 = page.getByTestId('content-7-1');
@@ -111,7 +111,7 @@ test.describe('accordion', () => {
   });
 
   test('Accordions initially hidden are forced to be closed', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'accordion');
+    await waitAttributeLoaded(page, 'accordion');
 
     const header81 = page.getByTestId('header-8-1');
     const header82 = page.getByTestId('header-8-2');

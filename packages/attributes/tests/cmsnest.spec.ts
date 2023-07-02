@@ -1,13 +1,13 @@
 import { expect, test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.describe('cmsnest', () => {
   test('Populates external lists correctly', async ({ page }) => {
     await page.goto('http://fs-attributes.webflow.io/cmsnest/external');
 
-    await awaitAttributeLoaded(page, 'cmsload');
-    await awaitAttributeLoaded(page, 'cmsnest');
+    await waitAttributeLoaded(page, 'cmsload');
+    await waitAttributeLoaded(page, 'cmsnest');
 
     const collectionListWrapper = page.locator('[fs-cmsnest-element="list"]').first();
     const collectionList = collectionListWrapper.locator(':scope > .w-dyn-items');
@@ -30,8 +30,8 @@ test.describe('cmsnest', () => {
   test('Populates manual lists correctly', async ({ page }) => {
     await page.goto('http://fs-attributes.webflow.io/cmsnest/manual');
 
-    await awaitAttributeLoaded(page, 'cmsload');
-    await awaitAttributeLoaded(page, 'cmsnest');
+    await waitAttributeLoaded(page, 'cmsload');
+    await waitAttributeLoaded(page, 'cmsnest');
 
     const collectionListWrapper = page.locator('[fs-cmsnest-element="list"]').first();
     const collectionList = collectionListWrapper.locator(':scope > .w-dyn-items');

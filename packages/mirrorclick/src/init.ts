@@ -1,5 +1,10 @@
-import { type FsAttributeInit, parseNumericAttribute } from '@finsweet/attributes-utils';
-import { addListener, isElement, isHTMLElement } from '@finsweet/ts-utils';
+import {
+  addListener,
+  type FsAttributeInit,
+  isElement,
+  isHTMLElement,
+  parseNumericAttribute,
+} from '@finsweet/attributes-utils';
 
 import { getAttribute, getElementSelector, getInstanceIndex, queryAllElements } from './utils/selectors';
 

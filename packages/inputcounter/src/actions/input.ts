@@ -1,5 +1,4 @@
-import { adjustValueToStep, parseNumericAttribute } from '@finsweet/attributes-utils';
-import { addListener, isNumber } from '@finsweet/ts-utils';
+import { addListener, adjustValueToStep, isNumber, parseNumericAttribute } from '@finsweet/attributes-utils';
 
 /**
  * Enforces the input's step, min and max, if defined.

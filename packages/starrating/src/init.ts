@@ -1,4 +1,4 @@
-import { awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
+import { type FsAttributeInit, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { listenEvents } from './actions/events';
 import { initStarRatingGroup } from './factory';
@@ -8,7 +8,7 @@ import { queryAllElements } from './utils/selectors';
  * Inits the attribute.
  */
 export const init: FsAttributeInit = async () => {
-  await awaitWebflowReady();
+  await waitWebflowReady();
 
   const groups = queryAllElements('group');
   groups.forEach(initStarRatingGroup);

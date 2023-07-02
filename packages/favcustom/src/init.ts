@@ -1,5 +1,4 @@
-import { awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
-import { isHTMLImageElement } from '@finsweet/ts-utils';
+import { type FsAttributeInit, isHTMLImageElement, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { queryElement } from './utils/selectors';
 
@@ -7,7 +6,7 @@ import { queryElement } from './utils/selectors';
  * Inits setting a custom favicon to the current page.
  */
 export const init: FsAttributeInit = async () => {
-  await awaitWebflowReady();
+  await waitWebflowReady();
 
   // Get the element's src, if existing.
   const srcElement = queryElement('src');

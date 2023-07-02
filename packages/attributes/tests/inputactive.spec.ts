@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://fs-attributes.webflow.io/inputactive');
@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('inputactive', () => {
   test('Adds CSS classes correctly', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'inputactive');
+    await waitAttributeLoaded(page, 'inputactive');
 
     const checkbox1 = page.getByTestId('checkbox-1-1');
     const checkbox2 = page.getByTestId('checkbox-2-1');

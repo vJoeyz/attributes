@@ -1,4 +1,4 @@
-import { extractCommaSeparatedValues, isBoolean, isNumber, isString } from '@finsweet/ts-utils';
+import { extractCommaSeparatedValues, isBoolean, isNumber, isString } from '@finsweet/attributes-utils';
 import type { LDFlagSet } from 'launchdarkly-js-client-sdk';
 import { is } from 'superstruct';
 

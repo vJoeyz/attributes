@@ -1,7 +1,6 @@
-import { DROPDOWN_CSS_CLASSES, SLIDER_CSS_CLASSES, TABS_CSS_CLASSES } from '@finsweet/ts-utils';
-
 import { getCMSElementSelector } from '../helpers';
 import type { DOMSelector } from '../types/schema';
+import { DROPDOWN_CSS_CLASSES, SLIDER_CSS_CLASSES, TABS_CSS_CLASSES } from './webflow';
 
 export const COLLECTION_LIST: DOMSelector = {
   label: 'Collection List',

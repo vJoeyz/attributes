@@ -1,4 +1,4 @@
-import { cloneNode, isNotEmpty, restartWebflow } from '@finsweet/ts-utils';
+import { cloneNode, isNotEmpty, restartWebflow } from '@finsweet/attributes-utils';
 
 import { attachPageStyles } from './actions/css';
 import { getComponentPage } from './actions/prefetch';

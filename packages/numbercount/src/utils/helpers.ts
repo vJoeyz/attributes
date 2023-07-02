@@ -1,4 +1,4 @@
-import { isString } from '@finsweet/ts-utils';
+import { isString } from '@finsweet/attributes-utils';
 
 /**
  * Tries to extract a number value from an element's text.

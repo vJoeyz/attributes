@@ -1,13 +1,14 @@
-import { type Animation, getCollectionElements } from '@finsweet/attributes-utils';
 import {
+  type Animation,
   cloneNode,
   type CollectionItemElement,
   type CollectionListElement,
   type CollectionListWrapperElement,
+  getCollectionElements,
   type PageCountElement,
   type PaginationButtonElement,
   type PaginationWrapperElement,
-} from '@finsweet/ts-utils';
+} from '@finsweet/attributes-utils';
 import Emittery from 'emittery';
 
 import { CMSItem } from './CMSItem';

@@ -1,4 +1,4 @@
-import { cloneNode, isFormField, isNotEmpty } from '@finsweet/ts-utils';
+import { cloneNode, isFormField, isNotEmpty } from '@finsweet/attributes-utils';
 import slugify from 'slugify';
 
 import type { FormTemplate } from '../types';

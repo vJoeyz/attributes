@@ -1,5 +1,4 @@
-import { ARIA_EXPANDED_KEY } from '@finsweet/attributes-utils';
-import { isHTMLOptionElement } from '@finsweet/ts-utils';
+import { ARIA_EXPANDED_KEY, isHTMLOptionElement } from '@finsweet/attributes-utils';
 import debounce from 'just-debounce';
 
 import type { Settings } from '../utils/types';

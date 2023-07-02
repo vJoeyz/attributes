@@ -1,13 +1,13 @@
 import type { CMSList } from '@finsweet/attributes-cmscore';
-import { getCMSElementSelector } from '@finsweet/attributes-utils';
 import {
   addListener,
   cloneNode,
   CURRENT_CSS_CLASS,
+  getCMSElementSelector,
   isElement,
   isHTMLAnchorElement,
   isNotEmpty,
-} from '@finsweet/ts-utils';
+} from '@finsweet/attributes-utils';
 import debounce from 'just-debounce';
 
 import { loadPaginatedItems } from '../actions/load';

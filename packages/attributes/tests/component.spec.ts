@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://fs-attributes.webflow.io/component');
@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('component', () => {
   test('Loads same-project components', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'component');
+    await waitAttributeLoaded(page, 'component');
 
     const target1 = page.getByTestId('target-1');
     const target2 = page.getByTestId('target-2');
@@ -18,7 +18,7 @@ test.describe('component', () => {
   });
 
   test('Loads external-project components', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'component');
+    await waitAttributeLoaded(page, 'component');
 
     const target3 = page.getByTestId('target-3');
     const target4 = page.getByTestId('target-4');

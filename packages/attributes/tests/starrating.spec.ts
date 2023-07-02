@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://fs-attributes.webflow.io/starrating');
@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('starrating', () => {
   test('Adds the correct active classes', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'starrating');
+    await waitAttributeLoaded(page, 'starrating');
 
     const DEFAULT_ACTIVE_CLASS_REGEX = /is-active-starrating/;
 

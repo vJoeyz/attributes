@@ -1,15 +1,21 @@
 import type { FsAttributeKey } from '../types';
 
 /**
+ * @returns Awaitable promise for waiting X time.
+ * @param time
+ */
+export const wait = (time: number): Promise<unknown> => new Promise((resolve) => setTimeout(resolve, time));
+
+/**
  * Waits for the defined Attribute to be fully loaded.
  * @param key The Attribute key.
  */
-export const awaitAttributeLoaded = (key: FsAttributeKey) => window.fsAttributes.solutions[key]?.loading;
+export const waitAttributeLoaded = (key: FsAttributeKey) => window.fsAttributes.solutions[key]?.loading;
 
 /**
  * @returns A promise that resolves once Webflow has fully loaded.
  */
-export const awaitWebflowReady = async () => {
+export const waitWebflowReady = async () => {
   return new Promise((resolve) => {
     window.Webflow ||= [];
     window.Webflow.push(resolve);
@@ -19,7 +25,7 @@ export const awaitWebflowReady = async () => {
 /**
  * @returns A promise that resolves once the DOM is ready.
  */
-export const awaitDOMReady = async () => {
+export const waitDOMReady = async () => {
   return new Promise((resolve) => {
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', resolve);

@@ -1,7 +1,5 @@
 import { addListAnimation, type CMSList } from '@finsweet/attributes-cmscore';
-import { parseNumericAttribute } from '@finsweet/attributes-utils';
-import type { FormBlockElement } from '@finsweet/ts-utils';
-import { FORM_CSS_CLASSES, isKeyOf } from '@finsweet/ts-utils';
+import { FORM_CSS_CLASSES, type FormBlockElement, isKeyOf, parseNumericAttribute } from '@finsweet/attributes-utils';
 
 import { CMSFilters } from './components/CMSFilters';
 import { CMSTags } from './components/CMSTags';

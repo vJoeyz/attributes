@@ -1,5 +1,4 @@
-import { awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
-import { isNotEmpty } from '@finsweet/ts-utils';
+import { type FsAttributeInit, isNotEmpty, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { initFormInstance } from './factory';
 import { queryAllElements } from './utils/selectors';
@@ -8,7 +7,7 @@ import { queryAllElements } from './utils/selectors';
  * Inits the attribute.
  */
 export const init: FsAttributeInit = async () => {
-  await awaitWebflowReady();
+  await waitWebflowReady();
 
   const formElements = queryAllElements('form');
 

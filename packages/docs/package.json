@@ -38,6 +38,7 @@
     "@types/marked": "^5.0.0"
   },
   "dependencies": {
-    "marked": "^5.1.0"
+    "marked": "^5.1.0",
+    "@finsweet/attributes-utils": "workspace:*"
   }
 }

@@ -1,4 +1,4 @@
-import { addListener, isElement } from '@finsweet/ts-utils';
+import { addListener, isElement } from '@finsweet/attributes-utils';
 
 /**
  * Prevents the TOC links from adding the hash in the URL.

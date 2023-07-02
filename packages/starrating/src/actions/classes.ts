@@ -1,4 +1,4 @@
-import { isNumber } from '@finsweet/ts-utils';
+import { isNumber } from '@finsweet/attributes-utils';
 
 import { DEFAULT_ACTIVE_CLASS } from '../utils/constants';
 import { getAllRadios, getClosestRadioField, getSelectedGroupValue, queryStar } from '../utils/helpers';

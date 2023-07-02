@@ -4,8 +4,8 @@ import {
   ARROW_DOWN_KEY,
   CLICK,
   ID_KEY,
+  isHTMLOptionElement,
 } from '@finsweet/attributes-utils';
-import { isHTMLOptionElement } from '@finsweet/ts-utils';
 import debounce from 'just-debounce';
 
 import { focusOnInput, updateComboboxInputField } from '../utils';

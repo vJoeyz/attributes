@@ -1,5 +1,4 @@
-import { type AttributeElements, type AttributeSettings } from '@finsweet/attributes-utils';
-import type { WebflowBreakpoint } from '@finsweet/ts-utils';
+import { type AttributeElements, type AttributeSettings, type WebflowBreakpoint } from '@finsweet/attributes-utils';
 
 export const ELEMENTS = [
   /**

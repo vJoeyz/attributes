@@ -1,6 +1,10 @@
-import { awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
-import type { RichTextBlockElement } from '@finsweet/ts-utils';
-import { restartWebflow, RICH_TEXT_BLOCK_CSS_CLASS } from '@finsweet/ts-utils';
+import {
+  type FsAttributeInit,
+  restartWebflow,
+  RICH_TEXT_BLOCK_CSS_CLASS,
+  type RichTextBlockElement,
+  waitWebflowReady,
+} from '@finsweet/attributes-utils';
 
 import { getValidTextElements } from './actions/collect';
 import { parseTextElement } from './actions/parse';
@@ -10,7 +14,7 @@ import { getElementSelector, hasAttributeValue } from './utils/selectors';
  * Inits the attribute.
  */
 export const init: FsAttributeInit = async () => {
-  await awaitWebflowReady();
+  await waitWebflowReady();
 
   const rtbElements = [
     ...document.querySelectorAll<RichTextBlockElement>(

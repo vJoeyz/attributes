@@ -1,4 +1,4 @@
-import { addListener, isVisible, NAVBAR_CSS_CLASSES } from '@finsweet/ts-utils';
+import { addListener, isVisible, NAVBAR_CSS_CLASSES } from '@finsweet/attributes-utils';
 import debounce from 'just-debounce';
 
 import { disableScrolling, enableScrolling, findFirstScrollableElement } from './scroll';

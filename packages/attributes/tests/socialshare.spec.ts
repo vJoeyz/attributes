@@ -1,6 +1,6 @@
 import { test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://fs-attributes.webflow.io/socialshare');
@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('socialshare', () => {
   test('Triggers share correctly', async ({ page, context }) => {
-    await awaitAttributeLoaded(page, 'socialshare');
+    await waitAttributeLoaded(page, 'socialshare');
 
     const facebook1 = page.getByTestId('facebook-1');
     const twitter1 = page.getByTestId('twitter-1');

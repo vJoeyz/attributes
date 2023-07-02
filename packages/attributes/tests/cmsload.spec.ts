@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://fs-attributes.webflow.io/cmsload');
@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('cmsload', () => {
   test('Loads items correctly', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'cmsload');
+    await waitAttributeLoaded(page, 'cmsload');
 
     // Pagination mode
     const collectionWrapper1 = page.locator('[fs-cmsload-element="list-1"]');

@@ -7,10 +7,10 @@ import {
   ENTER_KEY,
   ESCAPE_KEY,
   ID_KEY,
+  setFormFieldValue,
   TAB_KEY,
   TABINDEX_KEY,
 } from '@finsweet/attributes-utils';
-import { setFormFieldValue } from '@finsweet/ts-utils';
 
 import { focusOnInput, getClickedOptionData, setActiveDescendant, toggleDropdown } from '../../utils';
 import { CONTROL_KEYS } from '../../utils/constants';

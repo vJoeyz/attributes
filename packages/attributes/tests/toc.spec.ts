@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://fs-attributes.webflow.io/toc');
@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('toc', () => {
   test('Creates the TOC correctly', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'toc');
+    await waitAttributeLoaded(page, 'toc');
 
     const tocWrapper1 = page.getByTestId('toc-wrapper-1');
     const contents1 = page.getByTestId('contents-1');

@@ -1,5 +1,10 @@
-import { awaitAttributeLoaded, awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
-import { isNotEmpty, restartWebflow } from '@finsweet/ts-utils';
+import {
+  type FsAttributeInit,
+  isNotEmpty,
+  restartWebflow,
+  waitAttributeLoaded,
+  waitWebflowReady,
+} from '@finsweet/attributes-utils';
 
 import { scrollToAnchor } from './actions/scroll';
 import { initTOCInstance } from './factory';
@@ -9,8 +14,8 @@ import { queryAllElements } from './utils/selectors';
  * Inits the attribute.
  */
 export const init: FsAttributeInit = async () => {
-  await awaitWebflowReady();
-  await awaitAttributeLoaded('richtext');
+  await waitWebflowReady();
+  await waitAttributeLoaded('richtext');
 
   const contentsElements = queryAllElements('contents');
 

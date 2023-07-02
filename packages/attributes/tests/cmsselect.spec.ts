@@ -1,6 +1,6 @@
 import { expect, type Locator, test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://fs-attributes.webflow.io/cmsselect');
@@ -12,7 +12,7 @@ test.describe('cmsselect', () => {
     const select2 = page.getByTestId('select-2');
     const select3 = page.getByTestId('select-3');
 
-    await awaitAttributeLoaded(page, 'cmsload');
+    await waitAttributeLoaded(page, 'cmsload');
 
     expect(await getOptionsLength(select1)).toBe(6);
     expect(await getOptionsLength(select2)).toBe(36);

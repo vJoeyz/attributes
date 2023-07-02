@@ -1,4 +1,4 @@
-import { cloneNode } from '@finsweet/ts-utils';
+import { cloneNode } from '@finsweet/attributes-utils';
 
 import { TOCItem } from '../components/TOCItem';
 import { ANCHOR_SELECTOR } from '../utils/constants';

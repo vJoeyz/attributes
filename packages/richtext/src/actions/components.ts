@@ -1,5 +1,4 @@
 import { fetchPageDocument } from '@finsweet/attributes-utils';
-import { Debug } from '@finsweet/ts-utils';
 
 import {
   HAS_COMPONENT_TEMPLATE_REGEX,
@@ -86,7 +85,7 @@ const queryComponent = async (componentKey: string, source?: string): Promise<HT
     getSettingSelector('component', undefined, componentKey)
   );
 
-  if (!element) Debug.alert(`No components were found with the [${componentKey}] key.`, 'info');
+  if (!element) console.error(`No components were found with the [${componentKey}] key.`);
 
   if (element) {
     componentsStore.push({

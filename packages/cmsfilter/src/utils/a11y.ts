@@ -1,5 +1,4 @@
-import { getCMSElementSelector } from '@finsweet/attributes-utils';
-import type { FormField } from '@finsweet/ts-utils';
+import { type FormField, getCMSElementSelector } from '@finsweet/attributes-utils';
 
 /**
  * Makes sure a `FormField` element has a unique ID, as when using them inside `Collection Lists`, Webflow tends to use the same ID for all children.

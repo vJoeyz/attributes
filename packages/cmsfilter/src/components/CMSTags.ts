@@ -1,5 +1,5 @@
 import type { CMSList } from '@finsweet/attributes-cmscore';
-import { addListener, cloneNode, Debug, isElement } from '@finsweet/ts-utils';
+import { addListener, cloneNode, isElement } from '@finsweet/attributes-utils';
 
 import { hasRemoveTrigger, updateTagText } from '../actions/tags';
 import { getElementSelector, getInstanceIndex, queryElement } from '../utils/selectors';
@@ -26,7 +26,8 @@ export class CMSTags {
     private readonly listInstance: CMSList,
     private readonly globalTagsFormat?: TagFormat
   ) {
-    this.wrapper = template.parentElement || Debug.alert('The tags have no parent wrapper.', 'error');
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    this.wrapper = template.parentElement!;
 
     this.destroy = this.init();
   }

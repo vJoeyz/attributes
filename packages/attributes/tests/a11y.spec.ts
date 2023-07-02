@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://fs-attributes.webflow.io/a11y');
@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('aria-controls', () => {
   test('Sets correct aria-expanded', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'a11y');
+    await waitAttributeLoaded(page, 'a11y');
 
     const header = page.getByTestId('header-1');
     const content = page.getByTestId('content-1');
@@ -22,7 +22,7 @@ test.describe('aria-controls', () => {
   });
 
   test('Skips elements without aria-expanded', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'a11y');
+    await waitAttributeLoaded(page, 'a11y');
 
     const header = page.getByTestId('header-2');
     const content = page.getByTestId('content-2');
@@ -36,7 +36,7 @@ test.describe('aria-controls', () => {
   });
 
   test('Traps focus in dialogs', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'a11y');
+    await waitAttributeLoaded(page, 'a11y');
 
     const modal = page.getByTestId('modal');
     const openModalButton = page.getByTestId('open-modal');
@@ -68,7 +68,7 @@ test.describe('aria-controls', () => {
 
 test.describe('keyboard', () => {
   test('Enter triggers click', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'a11y');
+    await waitAttributeLoaded(page, 'a11y');
 
     const header = page.getByTestId('header-1');
     const content = page.getByTestId('content-1');
@@ -81,7 +81,7 @@ test.describe('keyboard', () => {
   });
 
   test('Space triggers click', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'a11y');
+    await waitAttributeLoaded(page, 'a11y');
 
     const header = page.getByTestId('header-1');
     const content = page.getByTestId('content-1');

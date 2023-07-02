@@ -1,5 +1,4 @@
-import { awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
-import { addListener, isHTMLVideoElement } from '@finsweet/ts-utils';
+import { addListener, type FsAttributeInit, isHTMLVideoElement, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import type { VideoStore } from './types';
 
@@ -7,7 +6,7 @@ import type { VideoStore } from './types';
  * Inits the attribute.
  */
 export const init: FsAttributeInit = async () => {
-  await awaitWebflowReady();
+  await waitWebflowReady();
 
   const videos = document.querySelectorAll('video');
   if (!videos.length) return;

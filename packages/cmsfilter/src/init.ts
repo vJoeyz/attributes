@@ -1,6 +1,5 @@
 import { type CMSList, createCMSListInstances } from '@finsweet/attributes-cmscore';
-import { awaitAttributeLoaded, awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
-import { isNotEmpty } from '@finsweet/ts-utils';
+import { type FsAttributeInit, isNotEmpty, waitAttributeLoaded, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { listenListEvents } from './actions/events';
 import { createCMSFiltersInstance, createCMSTagsInstance } from './factory';
@@ -10,8 +9,8 @@ import { getElementSelector } from './utils/selectors';
  * Inits the attribute.
  */
 export const init: FsAttributeInit = async () => {
-  await awaitWebflowReady();
-  await awaitAttributeLoaded('queryparam');
+  await waitWebflowReady();
+  await waitAttributeLoaded('queryparam');
 
   const listInstances = createCMSListInstances([getElementSelector('list')]);
 

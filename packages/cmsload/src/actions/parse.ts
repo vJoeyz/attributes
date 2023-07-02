@@ -1,5 +1,5 @@
 import type { CMSList } from '@finsweet/attributes-cmscore';
-import { getCollectionElements, getCollectionListWrappers } from '@finsweet/ts-utils';
+import { getCollectionElements, getCollectionListWrappers } from '@finsweet/attributes-utils';
 
 export const parseLoadedPage = async (
   page: Document,

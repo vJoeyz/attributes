@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
   // await page.goto('http://fs-attributes.webflow.io/autovideo');
@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('autovideo', () => {
   test('Videos are played/paused based on the viewport', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'autovideo');
+    await waitAttributeLoaded(page, 'autovideo');
     // const video = page.locator('video').first();
     // await video.scrollIntoViewIfNeeded();
     // const pausedState = await video.evaluate<boolean, HTMLVideoElement>((e) => e.paused);

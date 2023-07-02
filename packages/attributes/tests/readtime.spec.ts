@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://fs-attributes.webflow.io/readtime');
@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('readtime', () => {
   test('Displays the read time', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'readtime');
+    await waitAttributeLoaded(page, 'readtime');
 
     const timeElement = page.locator('[fs-readtime-element="time"]');
     await expect(timeElement).toHaveText('4.2');

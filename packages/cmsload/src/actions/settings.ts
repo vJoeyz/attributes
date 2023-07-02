@@ -1,14 +1,17 @@
 import type { CMSList } from '@finsweet/attributes-cmscore';
-import { parseNumericAttribute } from '@finsweet/attributes-utils';
-import type { PaginationWrapperElement } from '@finsweet/ts-utils';
-import { extractCommaSeparatedValues, getCurrentBreakpoint, isNumber } from '@finsweet/ts-utils';
+import {
+  extractCommaSeparatedValues,
+  getCurrentBreakpoint,
+  isNumber,
+  type PaginationWrapperElement,
+  parseNumericAttribute,
+} from '@finsweet/attributes-utils';
 
 import {
   BREAKPOINTS_INDEX,
   DEFAULT_INFINITE_THRESHOLD,
   DEFAULT_PAGE_BOUNDARY,
   DEFAULT_PAGE_SIBLINGS,
-  SETTINGS,
 } from '../utils/constants';
 import { getAttribute, hasAttributeValue, queryElement } from '../utils/selectors';
 

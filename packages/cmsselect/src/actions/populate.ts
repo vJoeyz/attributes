@@ -1,6 +1,5 @@
 import { type CMSList, createCMSListInstance } from '@finsweet/attributes-cmscore';
-import { getCMSElementSelector } from '@finsweet/attributes-utils';
-import type { CollectionListWrapperElement } from '@finsweet/ts-utils';
+import { type CollectionListWrapperElement, getCMSElementSelector } from '@finsweet/attributes-utils';
 
 import { getInstanceIndex, queryAllElements } from '../utils/selectors';
 

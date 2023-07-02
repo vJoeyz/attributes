@@ -1,4 +1,4 @@
-import { addListener, isElement, simulateEvent } from '@finsweet/ts-utils';
+import { addListener, isElement, simulateEvent } from '@finsweet/attributes-utils';
 
 import { getElementSelector } from '../utils/selectors';
 import type { DotsRelationship } from '../utils/types';

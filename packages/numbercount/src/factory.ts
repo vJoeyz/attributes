@@ -1,5 +1,4 @@
-import { parseNumericAttribute } from '@finsweet/attributes-utils';
-import { isNumber } from '@finsweet/ts-utils';
+import { isNumber, parseNumericAttribute } from '@finsweet/attributes-utils';
 
 import { setNumberCountA11Y } from './actions/a11y';
 import { animateNumberCount } from './actions/animate';

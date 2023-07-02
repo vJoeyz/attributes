@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type * as ATTRIBUTES from '../constants/attributes';
-import type { AttributeSettings } from '../factory';
 
 export type FsAttributeKey = (typeof ATTRIBUTES)[keyof typeof ATTRIBUTES];
 
@@ -24,15 +23,15 @@ export type FsAttributes = {
 
   /**
    * Dynamically imports an Attribute solution.
-   * @param key
+   * @param solution
    * @returns A Promise that resolves once the Attribute has loaded.
    */
-  import: (key: FsAttributeKey) => Promise<any>;
-
-  /**
-   * Inits any Attribute solutions that are present in the DOM that haven't been initted yet.
-   */
-  init: () => void;
+  import: (
+    solution: FsAttributeKey,
+    settings?: {
+      [k: string]: string | null | undefined;
+    }
+  ) => Promise<any> | undefined;
 
   /**
    * Destroys all Attributes instances.
@@ -61,9 +60,9 @@ export type FsAttributeControls<T = any> = {
   version?: string;
 
   /**
-   * Inits the Attribute.
+   * Resolves the Attribute loading Promise.
    */
-  init?: (...args: any[]) => T | Promise<T>;
+  resolve?: (value: T) => void;
 
   /**
    * A promise that resolves once the Attribute has fully loaded and initted.
@@ -71,9 +70,9 @@ export type FsAttributeControls<T = any> = {
   loading?: Promise<T>;
 
   /**
-   * Resolves the Attribute loading Promise.
+   * Restarts the Attribute.
    */
-  resolve?: (value: T) => void;
+  restart?: FsAttributeInit;
 
   /**
    * Destroys the Attribute instance.

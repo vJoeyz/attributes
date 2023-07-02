@@ -9,9 +9,9 @@ import {
   ARIA_ROLE_VALUES,
   ARIA_ROLEDESCRIPTION_KEY,
   ensureUniqueId,
+  isVisible,
   TABINDEX_KEY,
 } from '@finsweet/attributes-utils';
-import { isVisible } from '@finsweet/ts-utils';
 
 /**
  * Sets A11Y Attributes to a modal.

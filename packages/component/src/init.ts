@@ -1,4 +1,4 @@
-import { awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
+import { type FsAttributeInit, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { collectComponentTargetsData } from './actions/collect';
 import { prefetchComponentsPages } from './actions/prefetch';
@@ -9,7 +9,7 @@ import type { SETTINGS } from './utils/constants';
  * Inits the attribute.
  */
 export const init: FsAttributeInit<typeof SETTINGS> = async ({ proxy, cachekey, cacheversion } = {}) => {
-  await awaitWebflowReady();
+  await waitWebflowReady();
 
   const componentTargetsData = collectComponentTargetsData(proxy);
 

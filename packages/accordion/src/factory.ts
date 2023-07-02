@@ -1,4 +1,4 @@
-import { addListener, isVisible } from '@finsweet/ts-utils';
+import { addListener, isVisible } from '@finsweet/attributes-utils';
 
 import { setAccordionA11y } from './actions/a11y';
 import { setActiveClass } from './actions/classes';

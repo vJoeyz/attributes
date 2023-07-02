@@ -1,5 +1,5 @@
 export * from './animations';
+export * from './components';
 export * from './constants';
-export * from './factory';
 export * from './helpers';
 export * from './types';

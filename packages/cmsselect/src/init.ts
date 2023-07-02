@@ -1,6 +1,10 @@
 import type { CMSList } from '@finsweet/attributes-cmscore';
-import { awaitAttributeLoaded, awaitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
-import { isHTMLSelectElement } from '@finsweet/ts-utils';
+import {
+  type FsAttributeInit,
+  isHTMLSelectElement,
+  waitAttributeLoaded,
+  waitWebflowReady,
+} from '@finsweet/attributes-utils';
 
 import { populateSelectElement } from './actions/populate';
 import { queryAllElements } from './utils/selectors';
@@ -9,7 +13,7 @@ import { queryAllElements } from './utils/selectors';
  * Inits the attribute.
  */
 export const init: FsAttributeInit = async () => {
-  await awaitWebflowReady();
+  await waitWebflowReady();
 
   const targetElements = queryAllElements('select');
 
@@ -27,7 +31,7 @@ export const init: FsAttributeInit = async () => {
 
   const listInstances = [...listInstancesSet];
 
-  await awaitAttributeLoaded('cmsload');
+  await waitAttributeLoaded('cmsload');
 
   return {
     result: listInstances,

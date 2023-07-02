@@ -1,5 +1,4 @@
-import type { FormField } from '@finsweet/ts-utils';
-import { getFormFieldValue } from '@finsweet/ts-utils';
+import { type FormField, getFormFieldValue } from '@finsweet/attributes-utils';
 
 import { getAttribute } from '../utils/selectors';
 import { relationshipsStore } from '../utils/stores';

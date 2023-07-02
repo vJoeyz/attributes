@@ -1,6 +1,5 @@
 import { createCMSListInstances } from '@finsweet/attributes-cmscore';
-import { normalizePropKey } from '@finsweet/attributes-utils';
-import { type CollectionItemElement, extractCommaSeparatedValues } from '@finsweet/ts-utils';
+import { type CollectionItemElement, extractCommaSeparatedValues, normalizePropKey } from '@finsweet/attributes-utils';
 
 import { getAttribute, getElementSelector, getSettingSelector } from '../utils/selectors';
 import type { ExternalNestTargets, ManualNestTargets, NestSources } from '../utils/types';

@@ -1,7 +1,6 @@
 import type { CMSList } from '@finsweet/attributes-cmscore';
 import type { CMSFilters } from '@finsweet/attributes-cmsfilter';
-import { awaitAttributeLoaded } from '@finsweet/attributes-utils';
-import type { FormField } from '@finsweet/ts-utils';
+import { type FormField, waitAttributeLoaded } from '@finsweet/attributes-utils';
 
 import { createFilters } from './actions/filter';
 import { createJobForm } from './actions/form';
@@ -16,8 +15,8 @@ export async function initJobsList(
   office: string | null,
   department: string | null
 ) {
-  const cmsLoadLists = (await awaitAttributeLoaded('cmsload')) as CMSList[];
-  const cmsFilterLists = (await awaitAttributeLoaded('cmsfilter')) as CMSFilters[];
+  const cmsLoadLists = (await waitAttributeLoaded('cmsload')) as CMSList[];
+  const cmsFilterLists = (await waitAttributeLoaded('cmsfilter')) as CMSFilters[];
 
   const listJobsElement = queryElement('list');
   if (!listJobsElement) {

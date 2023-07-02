@@ -1,5 +1,4 @@
-import { cloneNode, FORM_CSS_CLASSES, isFile } from '@finsweet/ts-utils';
-import type { JobWithQuestions, Question } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
+import { cloneNode, FORM_CSS_CLASSES, isFile } from '@finsweet/attributes-utils';
 import slugify from 'slugify';
 
 import { Form } from '../components/Form';
@@ -12,6 +11,8 @@ import type {
   EmploymentResponse,
   FormElementsTemplate,
   FormTemplate,
+  JobWithQuestions,
+  Question,
 } from '../types';
 import { insertAfter } from '../utils/dom';
 import {

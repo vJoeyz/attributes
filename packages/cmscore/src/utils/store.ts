@@ -1,4 +1,4 @@
-import type { CollectionListWrapperElement } from '@finsweet/ts-utils';
+import type { CollectionListWrapperElement } from '@finsweet/attributes-utils';
 
 import type { CMSList } from '../CMSList';
 

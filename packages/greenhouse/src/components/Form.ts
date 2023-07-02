@@ -1,4 +1,4 @@
-import { FORM_CSS_CLASSES } from '@finsweet/ts-utils';
+import { FORM_CSS_CLASSES } from '@finsweet/attributes-utils';
 
 export class Form {
   public readonly formWrapper;

@@ -1,4 +1,4 @@
-import type { FormField } from '@finsweet/ts-utils';
+import type { FormField } from '@finsweet/attributes-utils';
 
 import { getInstanceIndex, queryAllElements } from '../utils/selectors';
 import { relationshipsStore } from '../utils/stores';

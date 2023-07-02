@@ -1,5 +1,4 @@
-import { type FsAttributeInit } from '@finsweet/attributes-utils';
-import { addListener, isElement } from '@finsweet/ts-utils';
+import { addListener, type FsAttributeInit, isElement } from '@finsweet/attributes-utils';
 
 import { getLightboxElement } from './actions/collect';
 import { moveElementToBody } from './actions/move';

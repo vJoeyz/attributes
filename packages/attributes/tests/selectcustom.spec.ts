@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { awaitAttributeLoaded } from './utils';
+import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://fs-attributes.webflow.io/selectcustom');
@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('selectcustom', () => {
   test('selectcustom initializes properly', async ({ page }) => {
-    await awaitAttributeLoaded(page, 'selectcustom');
+    await waitAttributeLoaded(page, 'selectcustom');
 
     const selectcustomDropdown = page.locator('[fs-selectcustom-element="dropdown"]');
     const selectcustomClearSelection = page.locator('[fs-selectcustom-element="clear"]');

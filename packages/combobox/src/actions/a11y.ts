@@ -3,8 +3,9 @@ import {
   ARIA_MULTISELECTABLE_KEY,
   ARIA_ROLE_KEY,
   ARIA_ROLE_VALUES,
+  type DropdownList,
+  type DropdownToggle,
 } from '@finsweet/attributes-utils';
-import type { DropdownList, DropdownToggle } from '@finsweet/ts-utils';
 
 import type { OptionData } from '../utils/types';
 

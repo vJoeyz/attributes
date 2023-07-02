@@ -1,21 +1,20 @@
 import type { CMSList } from '@finsweet/attributes-cmscore';
 import {
+  addListener,
   ARIA_HASPOPUP_KEY,
   ARIA_MULTISELECTABLE_KEY,
   ARIA_ROLE_KEY,
   ARIA_ROLE_VALUES,
   ARIA_SELECTED_KEY,
-  normalizePropKey,
-} from '@finsweet/attributes-utils';
-import type { Dropdown, DropdownList, DropdownToggle } from '@finsweet/ts-utils';
-import {
-  addListener,
   closeDropdown,
   CURRENT_CSS_CLASS,
-  Debug,
+  type Dropdown,
   DROPDOWN_CSS_CLASSES,
+  type DropdownList,
+  type DropdownToggle,
   isElement,
-} from '@finsweet/ts-utils';
+  normalizePropKey,
+} from '@finsweet/attributes-utils';
 
 import { sortListItems } from '../actions/sort';
 import { getAttribute, queryElement } from '../utils/selectors';
@@ -37,7 +36,6 @@ export const initDropdown = (dropdown: Dropdown, listInstance: CMSList) => {
   const dropdownList = dropdown.querySelector<DropdownList>(`.${DROPDOWN_CSS_CLASSES.dropdownList}`);
 
   if (!dropdownToggle || !dropdownList) {
-    Debug.alert('The cmssort Dropdown is missing a toggle or a list.', 'error');
     return;
   }
 
@@ -47,7 +45,6 @@ export const initDropdown = (dropdown: Dropdown, listInstance: CMSList) => {
   const dropdownOptions = collectDropdownOptions(dropdownList);
 
   if (!dropdownOptions) {
-    Debug.alert("The cmssort Dropdown doesn't have any option.", 'error');
     return;
   }
 
