@@ -538,8 +538,8 @@ importers:
         specifier: ^6.0.0
         version: 6.0.0
       swiper:
-        specifier: ^9.4.1
-        version: 9.4.1
+        specifier: ^10.0.2
+        version: 10.0.2
 
   packages/sliderdots:
     dependencies:
@@ -3311,6 +3311,11 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
     dev: true
+
+  /swiper@10.0.2:
+    resolution: {integrity: sha512-b/3L+Z+88vWXt4d32tup9w+otQEHCwW/qas+C7WKimv5GGGMi3HHeLNp2fPt8BeaP9Th17itujmjKXONben6AA==}
+    engines: {node: '>= 4.7.0'}
+    dev: false
 
   /swiper@9.4.1:
     resolution: {integrity: sha512-1nT2T8EzUpZ0FagEqaN/YAhRj33F2x/lN6cyB0/xoYJDMf8KwTFT3hMOeoB8Tg4o3+P/CKqskP+WX0Df046fqA==}

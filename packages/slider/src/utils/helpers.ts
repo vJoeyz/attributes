@@ -1,6 +1,6 @@
-import { TPagination } from './types';
+import type { PaginationOptions } from 'swiper/types/modules/pagination';
 
-export const transformPaginationType = (paginationType: string): TPagination => {
+export const transformPaginationType = (paginationType: string): PaginationOptions['type'] => {
   switch (paginationType) {
     case 'bullets':
       return 'bullets';

@@ -1,4 +1,7 @@
-import Swiper, {
+import 'swiper/css';
+
+import Swiper from 'swiper';
+import {
   Autoplay,
   EffectCards,
   EffectCoverflow,
@@ -11,19 +14,21 @@ import Swiper, {
   Scrollbar,
   SwiperOptions,
   Thumbs,
-} from 'swiper';
+} from 'swiper/modules';
 
 import { getPaginationBulletClass, renderFraction, transformPaginationType } from '../utils/helpers';
-import { getAttribute, queryElement } from '../utils/selectors';
+import { getAttribute, getInstanceIndex, queryElement } from '../utils/selectors';
 import { swiperInstancesStore } from '../utils/store';
 
-export const initSlider = (instance: Element) => {
-  const sliderElement = queryElement('slider', { scope: instance });
+export const initSlider = (sliderElement: HTMLElement) => {
   if (swiperInstancesStore.get(sliderElement)) return;
 
-  const prevButton = queryElement('button-previous', { scope: instance });
-  const nextButton = queryElement('button-next', { scope: instance });
-  const paginationWrapper = queryElement('pagination-wrapper', { scope: instance });
+  const instanceIndex = getInstanceIndex(sliderElement);
+  const sliderInstances = document.querySelector(`[fs-slider-instance='${instanceIndex}']`) || undefined;
+
+  //Navigation
+  const prevButton = queryElement('button-previous', { scope: sliderInstances });
+  const nextButton = queryElement('button-next', { scope: sliderInstances });
 
   //General
   const centeredSlides = getAttribute(sliderElement, 'centeredslides');
@@ -33,6 +38,7 @@ export const initSlider = (instance: Element) => {
   const scrollbar = getAttribute(sliderElement, 'scrollbar');
 
   //Pagination
+  const paginationWrapper = queryElement('pagination-wrapper', { scope: sliderInstances });
   const paginationType = getAttribute(sliderElement, 'paginationtype');
   const paginationClickable = getAttribute(sliderElement, 'paginationclickable');
 
@@ -66,9 +72,17 @@ export const initSlider = (instance: Element) => {
     clickable: paginationClickable || true,
     renderFraction,
     progressbarFillClass: 'slider_progressbar-active',
-    renderProgressbar(progressbarFillClass) {
-      return `<div class="${progressbarFillClass}"></div>`;
+    renderProgressbar() {
+      const activeProgressBar = queryElement('active-progress-bar', { scope: sliderInstances });
+      activeProgressBar.style.transformOrigin = 'left top';
+      activeProgressBar.style.width = '100%';
+      return activeProgressBar.outerHTML;
     },
+  };
+
+  const scrollOptions = {
+    el: paginationWrapper,
+    draggable: true,
   };
 
   const options: SwiperOptions = {
@@ -87,23 +101,18 @@ export const initSlider = (instance: Element) => {
     ],
     wrapperClass: 'slider_cms-list w-dyn-items',
     slideClass: 'slider_cms-item',
-    autoHeight,
-    loop,
-    simulateTouch,
+    autoHeight: autoHeight,
+    loop: loop,
+    simulateTouch: simulateTouch,
     slidesPerView: 'auto',
     slidesPerGroup: 1,
-    centeredSlides,
+    centeredSlides: centeredSlides,
     pagination: paginationWrapper ? paginationOptions : false,
     navigation: {
       nextEl: nextButton,
       prevEl: prevButton,
     },
-    scrollbar: scrollbar
-      ? {
-          el: paginationWrapper,
-          draggable: true,
-        }
-      : false,
+    scrollbar: scrollbar ? scrollOptions : false,
     effect: effect,
     fadeEffect: {
       crossFade: true,
