@@ -1,5 +1,3 @@
-import 'swiper/css';
-
 import Swiper from 'swiper';
 import {
   Autoplay,
@@ -160,7 +158,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
       EffectCreative,
       Thumbs,
     ],
-    wrapperClass: 'slider_cms-list w-dyn-items',
+    wrapperClass: sliderElement.firstElementChild?.className || 'slider_cms-list w-dyn-items',
     slideClass: 'slider_cms-item',
     autoHeight: !!autoHeight,
     loop: !!loop,
