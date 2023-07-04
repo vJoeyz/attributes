@@ -37,3 +37,18 @@ export const renderFraction = (currentClass: string, totalClass: string) => {
     `<div fs-slider-element="pagination-total" class="heading-style-h4 ${totalClass}">-</div>`
   );
 };
+
+export const getBreakpointParams = (
+  str: string | null
+): {
+  slidesPerView: number | 'auto';
+  slidesPerGroup: number;
+  spaceBetween: string;
+} => {
+  if (!str) return { slidesPerView: 'auto', slidesPerGroup: 1, spaceBetween: '0' };
+  const values = str.split(',');
+  const slidesPerView = parseFloat(values[0]);
+  const slidesPerGroup = parseFloat(values[1]);
+  const spaceBetween = values[2];
+  return { slidesPerView, slidesPerGroup, spaceBetween };
+};

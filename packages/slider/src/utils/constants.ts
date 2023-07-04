@@ -8,9 +8,12 @@ export const ELEMENTS = [
   'button-previous',
   'button-next',
   'pagination-thumbnails',
+  'active-progress-bar',
+  'pagination-wrapper',
 ] as const satisfies AttributeElements;
 
 export const SETTINGS = {
+  //General
   autoheight: { key: 'autoheight', values: { true: 'true' } },
   slidesperview: { key: 'slidesperview' },
   slidespergroup: { key: 'slidespergroup' },
@@ -30,12 +33,14 @@ export const SETTINGS = {
     },
   },
 
+  //Autoplay
   autoplay: { key: 'autoplay', values: { true: 'true' } },
   autoplaydelay: { key: 'autoplaydelay' },
   autoplayinteraction: { key: 'autoplayinteraction', values: { true: 'true' } },
   autoplaypause: { key: 'autoplaypause', values: { true: 'true' } },
   pauseonhover: { key: 'pauseonhover', values: { true: 'true' } },
 
+  //Pagination
   paginationtype: {
     key: 'paginationtype',
     values: {
@@ -46,6 +51,16 @@ export const SETTINGS = {
   },
   paginationclickable: { key: 'paginationclickable', values: { true: 'true' } },
 
+  //Breakpoints
+  mobileportrait: { key: 'mobileportrait' },
+  mobilelandscape: { key: 'mobilelandscape' },
+  tablet: { key: 'tablet' },
+  desktop: { key: 'desktop' },
+  '1280': { key: '1280' },
+  '1440': { key: '1440' },
+  '1920': { key: '1920' },
+
+  //Effects
   effect: { key: 'effect' },
   coverflowdepth: { key: 'coverflowdepth' },
   coverflowmodifier: { key: 'coverflowmodifier' },
