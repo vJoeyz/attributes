@@ -12,7 +12,9 @@ export const init: FsAttributeInit = async () => {
 
   const sliderElements = queryAllElements<HTMLElement>('slider');
 
-  sliderElements.forEach((element) => initSlider(element));
+  sliderElements
+    .map((element) => (element.getAttribute('role') === 'list' ? (element.parentElement as HTMLElement) : element))
+    .forEach((element) => initSlider(element));
 
   return {
     result: swiperInstancesStore,

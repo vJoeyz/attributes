@@ -23,6 +23,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
   if (swiperInstancesStore.get(sliderElement)) return;
 
   const instanceIndex = getInstanceIndex(sliderElement);
+  const sliderItemElement = sliderElement?.firstElementChild?.firstElementChild;
 
   //Navigation
   const prevButton = queryElement('button-previous', { instanceIndex });
@@ -47,13 +48,13 @@ export const initSlider = (sliderElement: HTMLElement) => {
   const autoPlayPause = getAttribute(sliderElement, 'autoplaypause');
 
   //Breakpoints
-  const mobilePortrait = getAttribute(sliderElement, 'mobileportrait');
-  const mobileLandscape = getAttribute(sliderElement, 'mobilelandscape');
-  const tablet = getAttribute(sliderElement, 'tablet');
-  const desktop = getAttribute(sliderElement, 'desktop');
-  const mdsize = getAttribute(sliderElement, '1280');
-  const lgsize = getAttribute(sliderElement, '1440');
-  const xlsize = getAttribute(sliderElement, '1920');
+  const mobilePortrait = getAttribute(sliderItemElement || sliderElement, 'mobileportrait');
+  const mobileLandscape = getAttribute(sliderItemElement || sliderElement, 'mobilelandscape');
+  const tablet = getAttribute(sliderItemElement || sliderElement, 'tablet');
+  const desktop = getAttribute(sliderItemElement || sliderElement, 'desktop');
+  const mdsize = getAttribute(sliderItemElement || sliderElement, '1280');
+  const lgsize = getAttribute(sliderItemElement || sliderElement, '1440');
+  const xlsize = getAttribute(sliderItemElement || sliderElement, '1920');
   const mobilePortraitParams = getBreakpointParams(mobilePortrait);
   const mobileLandscapeParams = getBreakpointParams(mobileLandscape);
   const tabletParams = getBreakpointParams(tablet);
