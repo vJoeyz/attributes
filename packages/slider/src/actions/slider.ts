@@ -23,11 +23,10 @@ export const initSlider = (sliderElement: HTMLElement) => {
   if (swiperInstancesStore.get(sliderElement)) return;
 
   const instanceIndex = getInstanceIndex(sliderElement);
-  const sliderInstances = document.querySelector(`[fs-slider-instance='${instanceIndex}']`) || undefined;
 
   //Navigation
-  const prevButton = queryElement('button-previous', { scope: sliderInstances });
-  const nextButton = queryElement('button-next', { scope: sliderInstances });
+  const prevButton = queryElement('button-previous', { instanceIndex });
+  const nextButton = queryElement('button-next', { instanceIndex });
 
   //General
   const centeredSlides = getAttribute(sliderElement, 'centeredslides');
@@ -37,7 +36,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
   const scrollbar = getAttribute(sliderElement, 'scrollbar');
 
   //Pagination
-  const paginationWrapper = queryElement('pagination-wrapper', { scope: sliderInstances });
+  const paginationWrapper = queryElement('pagination-wrapper', { instanceIndex });
   const paginationType = getAttribute(sliderElement, 'paginationtype') || 'bullets';
   const paginationClickable = getAttribute(sliderElement, 'paginationclickable');
 
@@ -133,7 +132,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
     },
     progressbarFillClass: 'slider_progressbar-active',
     renderProgressbar() {
-      const activeProgressBar = queryElement('active-progress-bar', { scope: sliderInstances });
+      const activeProgressBar = queryElement('active-progress-bar', { instanceIndex });
       if (!activeProgressBar) return '';
       activeProgressBar.style.transformOrigin = 'left top';
       activeProgressBar.style.width = '100%';
