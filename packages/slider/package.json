@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@finsweet/attributes-utils": "workspace:*",
-    "@types/swiper": "^6.0.0",
     "swiper": "^10.0.2"
   }
 }
