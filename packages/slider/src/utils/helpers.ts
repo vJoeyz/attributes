@@ -1,5 +1,11 @@
 import type { PaginationOptions } from 'swiper/types/modules/pagination';
 
+/**
+ * Transforms pagination type that comes from the HTML element.
+ * In to type that is supported by Swiper library
+ * @param paginationType
+ * @returns Returns Swiper pagination type.
+ */
 export const transformPaginationType = (paginationType: string): PaginationOptions['type'] => {
   switch (paginationType) {
     case 'bullets':
@@ -15,6 +21,10 @@ export const transformPaginationType = (paginationType: string): PaginationOptio
   }
 };
 
+/**
+ * @returns The class required by Swiper library for bullets type pagination.
+ * @param paginationType
+ */
 export const getPaginationBulletClass = (paginationType: string): string => {
   let bulletClass = '';
   switch (paginationType) {
@@ -30,23 +40,20 @@ export const getPaginationBulletClass = (paginationType: string): string => {
   return `slider_pagination-${bulletClass}`;
 };
 
-export const renderFraction = (currentClass: string, totalClass: string) => {
-  return (
-    `<div fs-slider-element="pagination-current" class="heading-style-h4 ${currentClass}">-</div>` +
-    '<div class="heading-style-h4">/</div>' +
-    `<div fs-slider-element="pagination-total" class="heading-style-h4 ${totalClass}">-</div>`
-  );
-};
-
+/**
+ * @returns Swiper breakpoints parameters from string
+ * with structure slidesPerView,SlidesperGroup,spaceBetween
+ * @param strWithParams
+ */
 export const getBreakpointParams = (
-  str: string | null
+  strWithParams: string | null
 ): {
   slidesPerView: number | 'auto';
   slidesPerGroup: number;
   spaceBetween: string;
 } => {
-  if (!str) return { slidesPerView: 'auto', slidesPerGroup: 1, spaceBetween: '0' };
-  const values = str.split(',');
+  if (!strWithParams) return { slidesPerView: 'auto', slidesPerGroup: 1, spaceBetween: '0' };
+  const values = strWithParams.split(',');
   const slidesPerView = parseFloat(values[0]);
   const slidesPerGroup = parseFloat(values[1]);
   const spaceBetween = values[2];

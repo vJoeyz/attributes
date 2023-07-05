@@ -10,6 +10,8 @@ export const ELEMENTS = [
   'pagination-thumbnails',
   'active-progress-bar',
   'pagination-wrapper',
+  'pagination-current',
+  'pagination-total',
 ] as const satisfies AttributeElements;
 
 export const SETTINGS = {

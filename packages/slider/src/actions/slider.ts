@@ -15,12 +15,7 @@ import {
 import type { PaginationOptions } from 'swiper/types/modules/pagination';
 import type { SwiperOptions } from 'swiper/types/swiper-options';
 
-import {
-  getBreakpointParams,
-  getPaginationBulletClass,
-  renderFraction,
-  transformPaginationType,
-} from '../utils/helpers';
+import { getBreakpointParams, getPaginationBulletClass, transformPaginationType } from '../utils/helpers';
 import { getAttribute, getInstanceIndex, queryElement } from '../utils/selectors';
 import { swiperInstancesStore } from '../utils/store';
 
@@ -128,7 +123,14 @@ export const initSlider = (sliderElement: HTMLElement) => {
     bulletClass: getPaginationBulletClass(paginationType),
     bulletActiveClass: 'is-active',
     clickable: !!paginationClickable || true,
-    renderFraction,
+    renderFraction: (currentClass: string, totalClass: string) => {
+      if (!paginationWrapper) return '';
+      const current = queryElement('pagination-current', { scope: paginationWrapper });
+      const total = queryElement('pagination-total', { scope: paginationWrapper });
+      current?.classList.add(currentClass);
+      total?.classList.add(totalClass);
+      return paginationWrapper.innerHTML;
+    },
     progressbarFillClass: 'slider_progressbar-active',
     renderProgressbar() {
       const activeProgressBar = queryElement('active-progress-bar', { scope: sliderInstances });
