@@ -17,9 +17,15 @@ import {
 import type { PaginationOptions } from 'swiper/types/modules/pagination';
 import type { SwiperOptions } from 'swiper/types/swiper-options';
 
-import { getBreakpointParams, getPaginationBulletClass, transformPaginationType } from '../utils/helpers';
-import { getAttribute, getInstanceIndex, queryElement } from '../utils/selectors';
-import { swiperInstancesStore } from '../utils/store';
+import {
+  getAttribute,
+  getBreakpointParams,
+  getInstanceIndex,
+  getPaginationBulletClass,
+  queryElement,
+  swiperInstancesStore,
+  transformPaginationType,
+} from '../utils';
 
 export const initSlider = (sliderElement: HTMLElement) => {
   if (swiperInstancesStore.get(sliderElement)) return;
@@ -148,7 +154,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
     draggable: true,
   };
 
-  const options: SwiperOptions = {
+  const generalOptions: SwiperOptions = {
     modules: [
       Pagination,
       Navigation,
@@ -211,9 +217,10 @@ export const initSlider = (sliderElement: HTMLElement) => {
       : false,
   };
 
-  const sliderInstance = new Swiper(sliderElement, options);
+  const sliderInstance = new Swiper(sliderElement, generalOptions);
   swiperInstancesStore.set(sliderElement, sliderInstance);
 
+  //CMS support
   const collectionWrapper = getCollectionElements(sliderElement, 'wrapper');
   if (collectionWrapper) {
     const cmsListInstance = createCMSListInstance(collectionWrapper);
