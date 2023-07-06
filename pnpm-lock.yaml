@@ -531,6 +531,9 @@ importers:
 
   packages/slider:
     dependencies:
+      '@finsweet/attributes-cmscore':
+        specifier: workspace:*
+        version: link:../cmscore
       '@finsweet/attributes-utils':
         specifier: workspace:*
         version: link:../utils

@@ -1,3 +1,5 @@
+import { createCMSListInstance } from '@finsweet/attributes-cmscore';
+import { getCollectionElements } from '@finsweet/attributes-utils';
 import Swiper from 'swiper';
 import {
   Autoplay,
@@ -211,6 +213,12 @@ export const initSlider = (sliderElement: HTMLElement) => {
 
   const sliderInstance = new Swiper(sliderElement, options);
   swiperInstancesStore.set(sliderElement, sliderInstance);
+
+  const collectionWrapper = getCollectionElements(sliderElement, 'wrapper');
+  if (collectionWrapper) {
+    const cmsListInstance = createCMSListInstance(collectionWrapper);
+    cmsListInstance?.on('renderitems', () => sliderInstance.update());
+  }
 
   return sliderInstance;
 };

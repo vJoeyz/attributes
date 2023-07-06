@@ -1,25 +1,20 @@
 import type { PaginationOptions } from 'swiper/types/modules/pagination';
 
+const PAGINATION_TYPE_ALIASES: Record<string, PaginationOptions['type']> = {
+  bullets: 'bullets',
+  count: 'fraction',
+  thumbs: 'custom',
+  'progress-bar': 'progressbar',
+};
+
 /**
  * Transforms pagination type that comes from the HTML element.
  * In to type that is supported by Swiper library
  * @param paginationType
  * @returns Returns Swiper pagination type.
  */
-export const transformPaginationType = (paginationType: string): PaginationOptions['type'] => {
-  switch (paginationType) {
-    case 'bullets':
-      return 'bullets';
-    case 'count':
-      return 'fraction';
-    case 'progress-bar':
-      return 'progressbar';
-    case 'thumbs':
-      return 'custom';
-    default:
-      return 'custom';
-  }
-};
+export const transformPaginationType = (paginationType: string): PaginationOptions['type'] =>
+  PAGINATION_TYPE_ALIASES[paginationType];
 
 /**
  * @returns The class required by Swiper library for bullets type pagination.
