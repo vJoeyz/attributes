@@ -46,6 +46,8 @@ export const initSlider = (sliderElement: HTMLElement) => {
 
   //Pagination
   const paginationWrapper = queryElement('pagination-wrapper', { instanceIndex });
+  const activeBulletElement = queryElement('active-pagination-bullet', { instanceIndex });
+  const activeProgressBar = queryElement('active-progress-bar', { instanceIndex });
   const paginationType = getAttribute(sliderElement, 'paginationtype') || 'bullets';
   const paginationClickable = getAttribute(sliderElement, 'paginationclickable');
 
@@ -129,7 +131,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
     el: paginationWrapper,
     type: transformPaginationType(paginationType),
     bulletClass: getPaginationBulletClass(paginationType),
-    bulletActiveClass: 'is-active',
+    bulletActiveClass: activeBulletElement?.classList[activeBulletElement?.classList.length - 1],
     clickable: !!paginationClickable || true,
     renderFraction: (currentClass: string, totalClass: string) => {
       if (!paginationWrapper) return '';
@@ -139,9 +141,8 @@ export const initSlider = (sliderElement: HTMLElement) => {
       total?.classList.add(totalClass);
       return paginationWrapper.innerHTML;
     },
-    progressbarFillClass: 'slider_progressbar-active',
+    progressbarFillClass: activeProgressBar?.className,
     renderProgressbar() {
-      const activeProgressBar = queryElement('active-progress-bar', { instanceIndex });
       if (!activeProgressBar) return '';
       activeProgressBar.style.transformOrigin = 'left top';
       activeProgressBar.style.width = '100%';
@@ -169,7 +170,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
       Thumbs,
     ],
     wrapperClass: sliderElement.firstElementChild?.className || 'slider_cms-list w-dyn-items',
-    slideClass: 'slider_cms-item',
+    slideClass: sliderElement.firstElementChild?.firstElementChild?.classList[0] || 'slider_cms-item',
     autoHeight: !!autoHeight,
     loop: !!loop,
     simulateTouch: !!simulateTouch,
