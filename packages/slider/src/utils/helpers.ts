@@ -17,22 +17,12 @@ export const transformPaginationType = (paginationType: string): PaginationOptio
   PAGINATION_TYPE_ALIASES[paginationType];
 
 /**
- * @returns The class required by Swiper library for bullets type pagination.
- * @param paginationType
+ * @returns The class required by Swiper library for bullets type pagination
+ * @param element
  */
-export const getPaginationBulletClass = (paginationType: string): string => {
-  let bulletClass = '';
-  switch (paginationType) {
-    case 'bullets':
-      bulletClass = 'dot';
-      break;
-    case 'thumbs':
-      bulletClass = 'thumb';
-      break;
-    default:
-      bulletClass = 'dot';
-  }
-  return `slider_pagination-${bulletClass}`;
+export const getPaginationBulletClass = (element: HTMLElement | null): string | undefined => {
+  if (!element) return;
+  return element.classList[0];
 };
 
 /**

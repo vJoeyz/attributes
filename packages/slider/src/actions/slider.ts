@@ -48,6 +48,8 @@ export const initSlider = (sliderElement: HTMLElement) => {
   const paginationWrapper = queryElement('pagination-wrapper', { instanceIndex });
   const activeBulletElement = queryElement('active-pagination-bullet', { instanceIndex });
   const activeProgressBar = queryElement('active-progress-bar', { instanceIndex });
+  const bulletElement = queryElement('pagination-bullet', { instanceIndex });
+  const thumbElement = queryElement('pagination-thumbnails', { instanceIndex });
   const paginationType = getAttribute(sliderElement, 'paginationtype') || 'bullets';
   const paginationClickable = getAttribute(sliderElement, 'paginationclickable');
 
@@ -130,7 +132,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
   const paginationOptions: PaginationOptions = {
     el: paginationWrapper,
     type: transformPaginationType(paginationType),
-    bulletClass: getPaginationBulletClass(paginationType),
+    bulletClass: getPaginationBulletClass(bulletElement || thumbElement),
     bulletActiveClass: activeBulletElement?.classList[activeBulletElement?.classList.length - 1],
     clickable: !!paginationClickable || true,
     renderFraction: (currentClass: string, totalClass: string) => {

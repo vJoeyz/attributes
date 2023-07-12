@@ -10,6 +10,7 @@ export const ELEMENTS = [
   'pagination-thumbnails',
   'active-progress-bar',
   'pagination-wrapper',
+  'pagination-bullet',
   'active-pagination-bullet',
   'pagination-current',
   'pagination-total',
@@ -78,4 +79,5 @@ export const SETTINGS = {
   cardsshadows: { key: 'cardsshadows' },
   fliplimit: { key: 'fliplimit', values: { true: 'true' } },
   flipshadows: { key: 'flipshadows', values: { true: 'true' } },
+  activethumbnail: { key: 'activethumbnail' },
 } as const satisfies AttributeSettings;
