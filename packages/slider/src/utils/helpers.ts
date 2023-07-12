@@ -1,5 +1,7 @@
 import type { PaginationOptions } from 'swiper/types/modules/pagination';
 
+import { getAttribute } from './selectors';
+
 const PAGINATION_TYPE_ALIASES: Record<string, PaginationOptions['type']> = {
   bullets: 'bullets',
   count: 'fraction',
@@ -23,6 +25,15 @@ export const transformPaginationType = (paginationType: string): PaginationOptio
 export const getPaginationBulletClass = (element: HTMLElement | null): string | undefined => {
   if (!element) return;
   return element.classList[0];
+};
+
+/**
+ * @returns The class required by Swiper library for thumbs type pagination
+ * @param element
+ */
+export const getPaginationActiveThumbClass = (element: HTMLElement | null): string | undefined => {
+  if (!element) return;
+  return getAttribute(element, 'activethumbnail') || undefined;
 };
 
 /**

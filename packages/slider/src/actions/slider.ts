@@ -21,6 +21,7 @@ import {
   getAttribute,
   getBreakpointParams,
   getInstanceIndex,
+  getPaginationActiveThumbClass,
   getPaginationBulletClass,
   queryElement,
   swiperInstancesStore,
@@ -157,6 +158,15 @@ export const initSlider = (sliderElement: HTMLElement) => {
     draggable: true,
   };
 
+  const initThumbnailSwiper = () => {
+    if (!paginationWrapper || !paginationWrapper.parentNode || paginationType !== 'thumbs') return;
+    return new Swiper(paginationWrapper.parentNode as HTMLElement, {
+      wrapperClass: paginationWrapper?.className,
+      slideClass: paginationWrapper?.firstElementChild?.classList[0],
+      slidesPerView: 'auto',
+    });
+  };
+
   const generalOptions: SwiperOptions = {
     modules: [
       Pagination,
@@ -171,8 +181,8 @@ export const initSlider = (sliderElement: HTMLElement) => {
       EffectCreative,
       Thumbs,
     ],
-    wrapperClass: sliderElement.firstElementChild?.className || 'slider_cms-list w-dyn-items',
-    slideClass: sliderElement.firstElementChild?.firstElementChild?.classList[0] || 'slider_cms-item',
+    wrapperClass: sliderElement.firstElementChild?.className,
+    slideClass: sliderElement.firstElementChild?.firstElementChild?.classList[0],
     autoHeight: !!autoHeight,
     loop: !!loop,
     simulateTouch: !!simulateTouch,
@@ -218,6 +228,10 @@ export const initSlider = (sliderElement: HTMLElement) => {
           pauseOnMouseEnter: !!autoPlayPause,
         }
       : false,
+    thumbs: {
+      swiper: initThumbnailSwiper(),
+      slideThumbActiveClass: getPaginationActiveThumbClass(thumbElement),
+    },
   };
 
   const sliderInstance = new Swiper(sliderElement, generalOptions);
