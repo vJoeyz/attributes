@@ -1,8 +1,8 @@
 import { type FsAttributeInit, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { initSlider } from './actions/slider';
-import { queryAllElements } from './utils/selectors';
-import { swiperInstancesStore } from './utils/store';
+import { queryAllElements } from './utils';
+import { swiperInstancesStore } from './utils';
 
 /**
  * Inits the attribute.
