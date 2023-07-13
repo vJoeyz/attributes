@@ -76,6 +76,9 @@ export const initSlider = (sliderElement: HTMLElement) => {
   const lgParams = getBreakpointParams(lgsize);
   const xlParams = getBreakpointParams(xlsize);
 
+  //Lightbox
+  const lightBoxPopups = sliderElement.querySelectorAll('[fs-smartlightbox-element="lightbox"]');
+
   //Effects
   const effect = getAttribute(sliderElement, 'effect') || undefined;
   const coverflowDepth = getAttribute(sliderElement, 'coverflowdepth');
@@ -167,6 +170,37 @@ export const initSlider = (sliderElement: HTMLElement) => {
     });
   };
 
+  const movePopupWithSlider = () => {
+    if (lightBoxPopups) {
+      const activePopup = sliderElement.querySelector<HTMLElement>(
+        '[fs-smartlightbox-element="lightbox"][style*="opacity: 1"]'
+      );
+      if (!activePopup) return;
+      activePopup.style.transition = 'transform 0.3s ease';
+      activePopup.style.transform = `translateX(${sliderInstance.translate * -1}px)`;
+    }
+  };
+
+  const observer = new MutationObserver((mutationsList) => {
+    const updatedElements = new WeakMap<HTMLElement, boolean>();
+
+    mutationsList.forEach((mutation) => {
+      if (mutation.attributeName === 'style') {
+        const targetElement = mutation.target as HTMLElement;
+
+        if (!updatedElements.has(targetElement)) {
+          updatedElements.set(targetElement, true);
+          targetElement.style.transform = `translateX(${sliderInstance.translate * -1}px)`;
+          updatedElements.delete(targetElement);
+        }
+      }
+    });
+  });
+
+  lightBoxPopups.forEach(function (element) {
+    observer.observe(element, { attributes: true });
+  });
+
   const generalOptions: SwiperOptions = {
     modules: [
       Pagination,
@@ -236,6 +270,9 @@ export const initSlider = (sliderElement: HTMLElement) => {
 
   const sliderInstance = new Swiper(sliderElement, generalOptions);
   swiperInstancesStore.set(sliderElement, sliderInstance);
+
+  // Update the popup position when the slider is moved
+  sliderInstance.on('slideChange', movePopupWithSlider);
 
   //CMS support
   const collectionWrapper = getCollectionElements(sliderElement, 'wrapper');
