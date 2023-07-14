@@ -44,7 +44,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
   const loop = getAttribute(sliderItemElement, 'loop');
   const simulateTouch = getAttribute(sliderItemElement, 'touch');
   const scrollbar = getAttribute(sliderItemElement, 'scrollbar');
-  const direction = getAttribute(sliderItemElement, 'direction');
+  const direction = getAttribute(sliderItemElement, 'direction') as 'horizontal' | 'vertical';
 
   //Pagination
   const paginationWrapper = queryElement('pagination-wrapper', { instanceIndex });
@@ -222,7 +222,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
     slideClass: sliderElement.firstElementChild?.firstElementChild?.classList[0],
     autoHeight: !!autoHeight,
     loop: !!loop,
-    speed: speed || 300,
+    speed: Number(speed) || 300,
     direction: direction || 'horizontal',
     simulateTouch: !!simulateTouch,
     slidesPerView: 'auto',
