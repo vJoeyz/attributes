@@ -79,7 +79,5 @@ for (const attribute of Object.values(ATTRIBUTES)) {
     const schema = JSON.stringify(SCHEMA, null, 2);
 
     writeFileSync(schemaPath, schema, { encoding: 'utf8' });
-  } catch (err) {
-    console.error(err);
-  }
+  } catch (err) {}
 }
