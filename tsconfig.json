@@ -1,3 +1,7 @@
 {
-  "extends": "@finsweet/tsconfig"
+  "extends": "@finsweet/tsconfig",
+  "include": ["./**/*.ts"],
+  "compilerOptions": {
+    "types": ["@webflow/designer-extension-typings", "@types/node"]
+  }
 }
