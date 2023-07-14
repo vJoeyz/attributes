@@ -128,6 +128,9 @@ importers:
       '@finsweet/attributes-component':
         specifier: workspace:*
         version: link:../component
+      '@finsweet/attributes-consent':
+        specifier: workspace:*
+        version: link:../consent
       '@finsweet/attributes-copyclip':
         specifier: workspace:*
         version: link:../copyclip
@@ -343,6 +346,12 @@ importers:
         version: 1.1.0
 
   packages/component:
+    dependencies:
+      '@finsweet/attributes-utils':
+        specifier: workspace:*
+        version: link:../utils
+
+  packages/consent:
     dependencies:
       '@finsweet/attributes-utils':
         specifier: workspace:*
