@@ -1,15 +1,9 @@
 import { addListAnimation, type CMSList } from '@finsweet/attributes-cmscore';
-import { FORM_CSS_CLASSES, type FormBlockElement, isKeyOf, parseNumericAttribute } from '@finsweet/attributes-utils';
+import { FORM_CSS_CLASSES, type FormBlockElement, parseNumericAttribute } from '@finsweet/attributes-utils';
 
 import { CMSFilters } from './components/CMSFilters';
 import { CMSTags } from './components/CMSTags';
-import {
-  DEFAULT_ACTIVE_CSS_CLASS,
-  DEFAULT_DEBOUNCING,
-  DEFAULT_HIGHLIGHT_CSS_CLASS,
-  SETTINGS,
-  TAG_FORMATS,
-} from './utils/constants';
+import { DEFAULT_ACTIVE_CSS_CLASS, DEFAULT_DEBOUNCING, DEFAULT_HIGHLIGHT_CSS_CLASS, SETTINGS } from './utils/constants';
 import { getAttribute, getInstanceIndex, hasAttributeValue, queryElement } from './utils/selectors';
 
 /**
@@ -102,8 +96,7 @@ export const createCMSTagsInstance = async (
   const tagTemplate = queryElement('tag-template', { instanceIndex });
   if (!tagTemplate) return;
 
-  const rawTagsFormat = getAttribute(listOrWrapper, 'tagformat');
-  const globalTagsFormat = isKeyOf(rawTagsFormat, TAG_FORMATS) ? rawTagsFormat : undefined;
+  const globalTagsFormat = getAttribute(listOrWrapper, 'tagformat', true);
 
   const tagsInstance = new CMSTags(tagTemplate, filtersInstance, listInstance, globalTagsFormat);
 
