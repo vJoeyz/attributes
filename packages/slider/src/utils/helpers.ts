@@ -51,13 +51,13 @@ function convertRemToPixels(rem: number) {
  * @param strWithParams
  */
 export const getBreakpointParams = (
-  strWithParams: string | null
+  strWithParams: string | null | undefined
 ): {
-  slidesPerView?: number | 'auto';
-  slidesPerGroup?: number;
-  spaceBetween?: string;
-} => {
-  if (!strWithParams) return { slidesPerView: undefined, slidesPerGroup: undefined, spaceBetween: undefined };
+  slidesPerView: number | 'auto';
+  slidesPerGroup: number;
+  spaceBetween: string;
+} | null => {
+  if (!strWithParams) return null;
   const values = strWithParams.split(',');
   const slidesPerView = parseFloat(values[0]);
   const slidesPerGroup = parseFloat(values[1]);

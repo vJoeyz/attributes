@@ -98,43 +98,56 @@ export const initSlider = (sliderElement: HTMLElement) => {
   const cardsRotate = getAttribute(sliderElement, 'cardsrotate');
   const cardsShadows = getAttribute(sliderElement, 'cardsshadows');
 
-  const breakpointsOptions = {
-    300: {
+  const breakpointsOptions = {} as { [width: number]: SwiperOptions };
+
+  if (mobilePortraitParams)
+    breakpointsOptions['300'] = {
       slidesPerView: mobilePortraitParams.slidesPerView,
       slidesPerGroup: mobilePortraitParams.slidesPerGroup,
       spaceBetween: mobilePortraitParams.spaceBetween,
-    },
-    480: {
+    };
+
+  if (mobileLandscapeParams)
+    breakpointsOptions['480'] = {
       slidesPerView: mobileLandscapeParams.slidesPerView,
       slidesPerGroup: mobileLandscapeParams.slidesPerGroup,
       spaceBetween: mobileLandscapeParams.spaceBetween,
-    },
-    767: {
+    };
+
+  if (tabletParams)
+    breakpointsOptions['767'] = {
       slidesPerView: tabletParams.slidesPerView,
       slidesPerGroup: tabletParams.slidesPerGroup,
       spaceBetween: tabletParams.spaceBetween,
-    },
-    960: {
+    };
+
+  if (desktopParams)
+    breakpointsOptions['960'] = {
       slidesPerView: desktopParams.slidesPerView,
       slidesPerGroup: desktopParams.slidesPerGroup,
       spaceBetween: desktopParams.spaceBetween,
-    },
-    1280: {
+    };
+
+  if (mdParams)
+    breakpointsOptions['1280'] = {
       slidesPerView: mdParams.slidesPerView,
       slidesPerGroup: mdParams.slidesPerGroup,
       spaceBetween: mdParams.spaceBetween,
-    },
-    1440: {
+    };
+
+  if (lgParams)
+    breakpointsOptions['1440'] = {
       slidesPerView: lgParams.slidesPerView,
       slidesPerGroup: lgParams.slidesPerGroup,
       spaceBetween: lgParams.spaceBetween,
-    },
-    1920: {
+    };
+
+  if (xlParams)
+    breakpointsOptions['1920'] = {
       slidesPerView: xlParams.slidesPerView,
       slidesPerGroup: xlParams.slidesPerGroup,
       spaceBetween: xlParams.spaceBetween,
-    },
-  };
+    };
 
   const paginationOptions: PaginationOptions = {
     el: paginationWrapper,
