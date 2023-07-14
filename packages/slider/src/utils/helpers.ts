@@ -37,6 +37,15 @@ export const getPaginationActiveThumbClass = (element: HTMLElement | null): stri
 };
 
 /**
+ * Converts rem value into px equivalent
+ * @param rem
+ * @returns Returns number of px
+ */
+function convertRemToPixels(rem: number) {
+  return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+}
+
+/**
  * @returns Swiper breakpoints parameters from string
  * with structure slidesPerView,SlidesperGroup,spaceBetween
  * @param strWithParams
@@ -52,6 +61,11 @@ export const getBreakpointParams = (
   const values = strWithParams.split(',');
   const slidesPerView = parseFloat(values[0]);
   const slidesPerGroup = parseFloat(values[1]);
-  const spaceBetween = values[2];
+  let spaceBetween = values[2];
+  if (spaceBetween?.includes('rem')) {
+    const remValue = parseFloat(spaceBetween);
+    const pixelsValue = convertRemToPixels(remValue);
+    spaceBetween = `${pixelsValue}px`;
+  }
   return { slidesPerView, slidesPerGroup, spaceBetween };
 };
