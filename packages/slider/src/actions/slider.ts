@@ -32,19 +32,19 @@ export const initSlider = (sliderElement: HTMLElement) => {
   if (swiperInstancesStore.get(sliderElement)) return;
 
   const instanceIndex = getInstanceIndex(sliderElement);
-  const sliderItemElement = sliderElement?.firstElementChild?.firstElementChild;
+  const sliderItemElement = sliderElement?.firstElementChild?.firstElementChild || sliderElement;
 
   //Navigation
   const prevButton = queryElement('button-previous', { instanceIndex });
   const nextButton = queryElement('button-next', { instanceIndex });
 
   //General
-  const centeredSlides = getAttribute(sliderElement, 'centeredslides');
-  const autoHeight = getAttribute(sliderElement, 'autoheight');
-  const loop = getAttribute(sliderElement, 'loop');
-  const simulateTouch = getAttribute(sliderElement, 'touch');
-  const scrollbar = getAttribute(sliderElement, 'scrollbar');
-  const direction = getAttribute(sliderElement, 'direction');
+  const centeredSlides = getAttribute(sliderItemElement, 'centeredslides');
+  const autoHeight = getAttribute(sliderItemElement, 'autoheight');
+  const loop = getAttribute(sliderItemElement, 'loop');
+  const simulateTouch = getAttribute(sliderItemElement, 'touch');
+  const scrollbar = getAttribute(sliderItemElement, 'scrollbar');
+  const direction = getAttribute(sliderItemElement, 'direction') as 'horizontal' | 'vertical';
 
   //Pagination
   const paginationWrapper = queryElement('pagination-wrapper', { instanceIndex });
@@ -56,10 +56,12 @@ export const initSlider = (sliderElement: HTMLElement) => {
   const paginationClickable = getAttribute(sliderElement, 'paginationclickable');
 
   //Autoplay
-  const autoPlay = getAttribute(sliderElement, 'autoplay');
-  const autoPlayDelay = getAttribute(sliderElement, 'autoplaydelay');
-  const autoPlayInteraction = getAttribute(sliderElement, 'autoplayinteraction');
-  const autoPlayPause = getAttribute(sliderElement, 'autoplaypause');
+  const autoPlay = getAttribute(sliderItemElement, 'autoplay');
+  const autoPlayDelay = getAttribute(sliderItemElement, 'autoplaydelay');
+  const autoPlayInteraction = getAttribute(sliderItemElement, 'autoplayinteraction');
+  const autoPlayPause = getAttribute(sliderItemElement, 'autoplaypause');
+  const pauseOnHover = getAttribute(sliderItemElement, 'pauseonhover');
+  const speed = getAttribute(sliderItemElement, 'speed');
 
   //Breakpoints
   const mobilePortrait = getAttribute(sliderItemElement || sliderElement, 'mobileportrait');
@@ -220,6 +222,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
     slideClass: sliderElement.firstElementChild?.firstElementChild?.classList[0],
     autoHeight: !!autoHeight,
     loop: !!loop,
+    speed: Number(speed) || 300,
     direction: direction || 'horizontal',
     simulateTouch: !!simulateTouch,
     slidesPerView: 'auto',
@@ -261,12 +264,12 @@ export const initSlider = (sliderElement: HTMLElement) => {
       ? {
           delay: Number(autoPlayDelay),
           disableOnInteraction: !!autoPlayInteraction,
-          pauseOnMouseEnter: !!autoPlayPause,
+          pauseOnMouseEnter: !!autoPlayPause || !!pauseOnHover,
         }
       : false,
     thumbs: {
       swiper: initThumbnailSwiper(),
-      slideThumbActiveClass: getPaginationActiveThumbClass(thumbElement),
+      slideThumbActiveClass: getPaginationActiveThumbClass(thumbElement) || 'fs-is-active',
     },
   };
 
