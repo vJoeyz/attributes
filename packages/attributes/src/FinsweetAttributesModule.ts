@@ -38,8 +38,9 @@ export class FinsweetAttributesModule extends HTMLElement {
       const { init, version, SETTINGS } = await loadAttribute(solution);
 
       // Parse global settings
-      const globalSettingsEntries = Object.entries(SETTINGS).reduce<[string, string | null][]>((acc, [, { key }]) => {
+      const globalSettingsEntries = Object.entries(SETTINGS).reduce<[string, string][]>((acc, [, { key }]) => {
         const value = this.getAttribute(key);
+        if (!value) return acc;
 
         acc.push([key, value]);
 
