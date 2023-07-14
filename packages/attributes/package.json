@@ -12,8 +12,8 @@
     "changesets.json"
   ],
   "scripts": {
-    "dev": "cross-env NODE_ENV=development tsx ./bin/build.ts",
-    "build": "cross-env NODE_ENV=production tsx ./bin/build.ts",
+    "dev": "cross-env NODE_ENV=development node ./bin/build.js",
+    "build": "cross-env NODE_ENV=production node ./bin/build.js",
     "lint": "eslint ./src && prettier --check ./src",
     "lint:fix": "eslint ./src --fix",
     "check": "tsc --noEmit",
@@ -79,11 +79,7 @@
     "@finsweet/attributes-socialshare": "workspace:*",
     "@finsweet/attributes-starrating": "workspace:*",
     "@finsweet/attributes-toc": "workspace:*",
-    "@finsweet/attributes-utils": "workspace:*",
-    "@finsweet/attributes-videohls": "workspace:*"
-  },
-  "devDependencies": {
-    "@types/node": "^18.16.1",
-    "tsx": "^3.12.7"
+    "@finsweet/attributes-videohls": "workspace:*",
+    "@finsweet/attributes-utils": "workspace:*"
   }
 }
