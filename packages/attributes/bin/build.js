@@ -1,14 +1,8 @@
 /* eslint-disable no-console */
-import { ATTRIBUTES } from '@finsweet/attributes-utils';
 import * as esbuild from 'esbuild';
-import { mkdirSync, readdirSync, unlinkSync, writeFileSync } from 'fs';
+import { readdirSync, unlinkSync } from 'fs';
 import { join } from 'path';
 
-declare const process: {
-  env: {
-    NODE_ENV: 'production' | 'development';
-  };
-};
 
 // Config output
 const BUILD_DIRECTORY = './dist';
@@ -21,7 +15,10 @@ const ENTRY_POINTS = ['src/index.ts'];
 const LIVE_RELOAD = !PRODUCTION;
 const SERVE_PORT = 3000;
 
-const buildOptions: esbuild.BuildOptions = {
+/**
+ * @type {esbuild.BuildOptions}
+ */
+const buildOptions = {
   bundle: true,
   entryPoints: ENTRY_POINTS,
   minify: PRODUCTION,
@@ -64,20 +61,4 @@ else {
     .then(({ port }) => {
       console.log(`Serving files at http://localhost:${port}`);
     });
-}
-
-// Generate schemas
-const schemasDirectory = join(BUILD_DIRECTORY, 'schemas');
-mkdirSync(schemasDirectory, { recursive: true });
-
-for (const attribute of Object.values(ATTRIBUTES)) {
-  try {
-    const { SCHEMA } = await import(`@finsweet/attributes-${attribute}/schema`);
-    if (!SCHEMA) continue;
-
-    const schemaPath = join(schemasDirectory, `${attribute}.json`);
-    const schema = JSON.stringify(SCHEMA, null, 2);
-
-    writeFileSync(schemaPath, schema, { encoding: 'utf8' });
-  } catch (err) {}
 }
