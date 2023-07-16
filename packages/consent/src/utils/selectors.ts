@@ -1,5 +1,13 @@
-import { EXAMPLE_ATTRIBUTE, generateSelectors } from '@finsweet/attributes-utils';
+import { CONSENT_ATTRIBUTE, generateSelectors } from '@finsweet/attributes-utils';
 
 import { ELEMENTS, SETTINGS } from './constants';
 
-export const {} = generateSelectors(EXAMPLE_ATTRIBUTE, ELEMENTS, SETTINGS);
+export const {
+  getElementSelector,
+  queryElement,
+  queryAllElements,
+  getInstanceIndex,
+  getAttribute,
+  hasAttributeValue,
+  getSettingSelector,
+} = generateSelectors(CONSENT_ATTRIBUTE, ELEMENTS, SETTINGS);

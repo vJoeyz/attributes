@@ -1,14 +1,19 @@
-import { type FsAttributeInit, waitWebflowReady } from '@finsweet/attributes-utils';
+import { type FsAttributeInit } from '@finsweet/attributes-utils';
 
-import { logHello } from './actions/console';
+import FsCookieConsent from './FsCookieConsent';
+import type { FsCookieConsentCallback } from './types';
 
 /**
  * Inits the attribute.
  */
 export const init: FsAttributeInit = async () => {
-  await waitWebflowReady();
+  // Collect callbacks, if any
+  const callbacks = (Array.isArray(window.FsCC) ? window.FsCC : []) as FsCookieConsentCallback[];
 
-  logHello();
+  // Init library
+  const instance = new FsCookieConsent(callbacks);
 
-  return {};
+  return {
+    result: instance,
+  };
 };

@@ -356,6 +356,31 @@ importers:
       '@finsweet/attributes-utils':
         specifier: workspace:*
         version: link:../utils
+      '@finsweet/ts-utils':
+        specifier: ^0.40.0
+        version: 0.40.0
+      body-scroll-lock:
+        specifier: ^4.0.0-beta.0
+        version: 4.0.0-beta.0(patch_hash=okec7jrxvk2nysywuuwlnnfvtu)
+      emittery:
+        specifier: ^1.0.1
+        version: 1.0.1
+      js-cookie:
+        specifier: ^3.0.5
+        version: 3.0.5
+      nanoid:
+        specifier: ^4.0.2
+        version: 4.0.2
+    devDependencies:
+      '@types/body-scroll-lock':
+        specifier: ^3.1.0
+        version: 3.1.0
+      '@types/js-cookie':
+        specifier: ^3.0.3
+        version: 3.0.3
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
 
   packages/copyclip:
     dependencies:
@@ -1071,6 +1096,10 @@ packages:
       typescript: 5.1.3
     dev: true
 
+  /@finsweet/ts-utils@0.40.0:
+    resolution: {integrity: sha512-Q24YkkvVxZOA7OGpgC7FsYakHBZWKSiZoV68F1HlhGcqqi5v+9mTHVxV8fSiPJawsTDrjwK44jhYk+GovPWT3w==}
+    dev: false
+
   /@finsweet/tsconfig@1.3.2(typescript@5.1.3):
     resolution: {integrity: sha512-rH+e8AZ+3sY93tkhStjQNQsnWTV+u3r+MKJamCPjUpAjsG0/UWrkPtSZ92xquyHoEnEa7PJFQxc4buN7NnjRzg==}
     peerDependencies:
@@ -1220,6 +1249,10 @@ packages:
     resolution: {integrity: sha512-Q0Op0hdWbYd1iahB+IFNQcWXFq4O0Q5MwQP7uN0souuQ4rPg1vEYcnIOfr1gY+M+6rc8FGoRaBO1mOOvL29sEQ==}
     dependencies:
       ci-info: 3.8.0
+    dev: true
+
+  /@types/js-cookie@3.0.3:
+    resolution: {integrity: sha512-Xe7IImK09HP1sv2M/aI+48a20VX+TdRJucfq4vfRVy6nWN8PYPOEnlMRSgxJAgYQIXJVL8dZ4/ilAM7dWNaOww==}
     dev: true
 
   /@types/json-schema@7.0.12:
@@ -2547,6 +2580,11 @@ packages:
   /isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
     dev: true
+
+  /js-cookie@3.0.5:
+    resolution: {integrity: sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==}
+    engines: {node: '>=14'}
+    dev: false
 
   /js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
