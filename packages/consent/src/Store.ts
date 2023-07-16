@@ -2,7 +2,7 @@ import type { Entry } from '@finsweet/ts-utils';
 import { getObjectEntries, getObjectKeys, isKeyOf } from '@finsweet/ts-utils';
 
 import Debug from './components/Debug';
-import { ATTRIBUTES, MODES } from './constants';
+import { MODES } from './constants';
 import { CONSENT_ALL, CONSENT_REQUIRED, DEFAULT_COOKIE_MAX_AGE } from './constants/defaults';
 import type { ConsentKey, Consents, IFrameData, ModeKey, ScriptData } from './types';
 import { getAttribute, getElementSelector } from './utils';
@@ -11,14 +11,14 @@ import { getAttribute, getElementSelector } from './utils';
  * Stores all the consents, global settings and scripts.
  */
 export default class Store {
-  public readonly mode: ModeKey; // Cookie consent mode, opt-in by default
-  public readonly cookieMaxAge: number; // In days; Defaults to 120
-  public readonly debugMode: boolean; // Cookie consent mode, opt-in by default
+  public readonly mode: ModeKey = 'opt-in'; // Cookie consent mode, opt-in by default
+  public readonly cookieMaxAge: number = 120; // In days; Defaults to 120
+  public readonly debugMode: boolean = true; // Cookie consent mode, opt-in by default
   public readonly endpoint?: string | null; // Endpoint where the consents will be POSTed
   public readonly componentsSource?: string | null; // Page where the components are located
   public readonly domain?: string | null; // The domain used to store the consent cookie
   private confirmed = false; // True if the user actively confirmed his/her consent
-  private consents: Consents;
+  private consents: Consents = {} as Consents;
   private bannerText = 'empty';
   private scripts: ScriptData[] = [];
   private iFrames: IFrameData[] = [];
