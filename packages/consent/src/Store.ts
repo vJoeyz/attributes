@@ -113,9 +113,6 @@ export default class Store {
 
     // Build an array of the consents that were updated
     getObjectKeys(newConsents).forEach((consentKey) => {
-      // No need to update the essential cookies consent
-      if (consentKey === 'essential') return;
-
       const newConsent = newConsents[consentKey];
 
       // Avoid storing undefined or not-updated consents

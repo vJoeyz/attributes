@@ -3,7 +3,7 @@ import type { Consents } from '../types';
 // Defaults
 export const CONSENT_REQUIRED: Consents = Object.freeze({
   analytics: false,
-  essential: true,
+  essential: false,
   marketing: false,
   personalization: false,
   uncategorized: false,

@@ -4,10 +4,9 @@ import { getElementSelector, getSettingSelector, removeSquaredBrackets } from '.
 /**
  * Consents
  */
-const REQUIRED_CONSENTS = ['essential'] as const;
-export const OPTIONAL_CONSENTS = ['personalization', 'analytics', 'marketing'] as const;
+export const OPTIONAL_CONSENTS = ['personalization', 'essential', 'analytics', 'marketing'] as const;
 export const UNCATEGORIZED_CONSENT = 'uncategorized';
-export const CONSENTS = [...REQUIRED_CONSENTS, ...OPTIONAL_CONSENTS, UNCATEGORIZED_CONSENT] as const;
+export const CONSENTS = [...OPTIONAL_CONSENTS, UNCATEGORIZED_CONSENT] as const;
 
 /**
  * Main Key
