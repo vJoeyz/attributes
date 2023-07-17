@@ -1,14 +1,15 @@
 import { isKeyOf } from '@finsweet/attributes-utils';
+import { queryElement } from '@finsweet/ts-utils';
 import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock';
 import Emittery from 'emittery';
 
+import { DisplayController } from '../components';
 import { ATTRIBUTES } from '../constants';
 import Store from '../Store';
 import type { Consents } from '../types';
-import { ELEMENTS, findFirstScrollableElement, getElementSelector, queryElement } from '../utils';
+import { findFirstScrollableElement, getElementSelector } from '../utils';
 import ConsentsForm from './ConsentsForm';
 import Debug from './Debug';
-import { DisplayController } from './DisplayController';
 
 // Types
 interface ComponentEvents {
@@ -29,7 +30,7 @@ export default class Component extends Emittery<ComponentEvents> {
   private disableScrollOnOpen = false;
   private ready = false;
 
-  constructor(private selector: (typeof ELEMENTS)[number], protected store: Store) {
+  constructor(private selector: string, protected store: Store) {
     super();
     if (document.readyState === 'complete') this.init();
     else window.addEventListener('load', () => this.init());
@@ -83,14 +84,14 @@ export default class Component extends Emittery<ComponentEvents> {
    */
   private initElements(): boolean {
     // Main element
-    this.element = queryElement(this.selector as (typeof ELEMENTS)[number]) ?? ({} as HTMLElement);
+    this.element = queryElement(this.selector, HTMLElement);
 
     const { element, store } = this;
 
     if (!element) return false;
 
     // Preferences form
-    const form = queryElement('form', { scope: element }) as HTMLFormElement;
+    const form = queryElement('form', HTMLFormElement, element);
     if (form) this.form = new ConsentsForm(form, store);
 
     // Check properties
@@ -100,7 +101,7 @@ export default class Component extends Emittery<ComponentEvents> {
     if (this.disableScrollOnOpen) this.scrollableElement = findFirstScrollableElement(element);
 
     // Create the display controller
-    const interactionTrigger = queryElement('interaction', { scope: element });
+    const interactionTrigger = queryElement(getElementSelector('interaction'), HTMLElement, element);
 
     this.displayController = new DisplayController({
       element,

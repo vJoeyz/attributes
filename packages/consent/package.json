@@ -17,6 +17,7 @@
     "cross-env": "^7.0.3"
   },
   "dependencies": {
+    "@finsweet/ts-utils": "^0.40.0",
     "@finsweet/attributes-utils": "workspace:*",
     "body-scroll-lock": "^4.0.0-beta.0",
     "emittery": "^1.0.1",

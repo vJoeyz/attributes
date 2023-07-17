@@ -69,7 +69,7 @@ export const WEBFLOW_CSS = {
  * Dynamic Keys
  */
 export const DYNAMIC_KEYS = {
-  checkbox: (key: ConsentKey): string => `[${MAIN_KEY}-checkbox="${key}"]`,
+  checkbox: (key: ConsentKey): string => `[${MAIN_KEY}-element="checkbox-${key}"]`,
   gtmEvent: (key: ConsentKey): string => `${key}-activated`,
 };
 

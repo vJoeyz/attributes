@@ -31,6 +31,7 @@ export default class ConsentsForm extends Emittery<ConsentsFormEvents> {
     // Check if form contains the all the checkboxes and store them
     const missingCheckboxes = OPTIONAL_CONSENTS.filter((consentKey) => {
       const selector = DYNAMIC_KEYS.checkbox(consentKey);
+      console.log('selector', selector);
       const checkbox = this.element.querySelector<HTMLInputElement>(`input${selector}, ${selector} input`);
       if (!checkbox || !(checkbox.type === 'checkbox')) return true;
 

@@ -1,7 +1,7 @@
 import Emittery from 'emittery';
 import { nanoid } from 'nanoid';
 
-import Debug from './components/Debug';
+import { Debug } from './components';
 import { ATTRIBUTES, CONSENTS, DYNAMIC_KEYS, MAIN_KEY, UNCATEGORIZED_CONSENT } from './constants';
 import Store from './Store';
 import type { Action, Consents } from './types';
@@ -94,7 +94,7 @@ export default class ConsentController extends Emittery<ConsentManagerEvents> {
         element.src = '';
 
         // Get the placeholder
-        const placeholder = queryElement('placeholder') ?? undefined;
+        const placeholder = queryElement('placeholder') as HTMLElement;
 
         store.storeIFrame({
           categories,
@@ -196,6 +196,14 @@ export default class ConsentController extends Emittery<ConsentManagerEvents> {
 
     const consentId = nanoid();
     setConsentsCookie(consentId, store.getConsents(), cookieMaxAge, domain);
+
+    console.log('updateConsents', {
+      action,
+      endpoint,
+      id: consentId,
+      consents: store.getConsents(),
+      bannerText: store.getBannerText() || '',
+    });
 
     // POST the consents to the endpoint
     if (endpoint)
