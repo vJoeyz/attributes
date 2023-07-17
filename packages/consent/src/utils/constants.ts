@@ -21,6 +21,7 @@ export const ELEMENTS = [
   'opt-in',
   'disable',
   'placeholder',
+  'form',
 ] as const satisfies AttributeElements;
 
 export const SETTINGS = {

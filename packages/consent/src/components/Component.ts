@@ -1,13 +1,11 @@
 import { isKeyOf } from '@finsweet/attributes-utils';
-import { queryElement } from '@finsweet/ts-utils';
 import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock';
 import Emittery from 'emittery';
 
 import { DisplayController } from '../components';
-import { ATTRIBUTES } from '../constants';
 import Store from '../Store';
 import type { Consents } from '../types';
-import { findFirstScrollableElement, getElementSelector } from '../utils';
+import { ELEMENTS, findFirstScrollableElement, getAttribute, getElementSelector, queryElement } from '../utils';
 import ConsentsForm from './ConsentsForm';
 import Debug from './Debug';
 
@@ -23,7 +21,7 @@ interface ComponentEvents {
 }
 
 export default class Component extends Emittery<ComponentEvents> {
-  public element?: HTMLElement;
+  public element?: HTMLElement | null;
   public form?: ConsentsForm;
   private displayController?: DisplayController;
   private scrollableElement?: Element;
@@ -84,24 +82,25 @@ export default class Component extends Emittery<ComponentEvents> {
    */
   private initElements(): boolean {
     // Main element
-    this.element = queryElement(this.selector, HTMLElement);
+    this.element = queryElement<HTMLElement>(this.selector as (typeof ELEMENTS)[number]);
 
     const { element, store } = this;
 
     if (!element) return false;
 
     // Preferences form
-    const form = queryElement('form', HTMLFormElement, element);
+    const form = queryElement<HTMLFormElement>('form');
+
     if (form) this.form = new ConsentsForm(form, store);
 
     // Check properties
-    const displayProperty = element.getAttribute(ATTRIBUTES.displayProperty);
+    const displayProperty = getAttribute(element, 'display');
 
-    this.disableScrollOnOpen = element.getAttribute(ATTRIBUTES.disableScroll) === 'disable';
+    this.disableScrollOnOpen = getAttribute(element, 'scroll') === 'disable';
     if (this.disableScrollOnOpen) this.scrollableElement = findFirstScrollableElement(element);
 
     // Create the display controller
-    const interactionTrigger = queryElement(getElementSelector('interaction'), HTMLElement, element);
+    const interactionTrigger = queryElement<HTMLElement>('interaction');
 
     this.displayController = new DisplayController({
       element,
