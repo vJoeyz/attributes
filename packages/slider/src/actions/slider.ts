@@ -32,7 +32,8 @@ export const initSlider = (sliderElement: HTMLElement) => {
   if (swiperInstancesStore.get(sliderElement)) return;
 
   const instanceIndex = getInstanceIndex(sliderElement);
-  const sliderItemElement = sliderElement?.firstElementChild?.firstElementChild || sliderElement;
+  const sliderWrapperElement = sliderElement.firstElementChild;
+  const sliderItemElement = sliderWrapperElement?.firstElementChild || sliderElement;
 
   //Navigation
   const prevButton = queryElement('button-previous', { instanceIndex });
@@ -231,8 +232,8 @@ export const initSlider = (sliderElement: HTMLElement) => {
       EffectCreative,
       Thumbs,
     ],
-    wrapperClass: sliderElement.firstElementChild?.className,
-    slideClass: sliderElement.firstElementChild?.firstElementChild?.classList[0],
+    wrapperClass: sliderWrapperElement?.className,
+    slideClass: sliderItemElement?.classList[0],
     autoHeight: !!autoHeight,
     loop: !!loop,
     speed: Number(speed) || 300,
