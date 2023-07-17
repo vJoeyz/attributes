@@ -1,11 +1,10 @@
-import type { Entry } from '@finsweet/ts-utils';
-import { getObjectEntries, getObjectKeys, isKeyOf } from '@finsweet/ts-utils';
+import { type Entry, getObjectEntries, getObjectKeys, isKeyOf } from '@finsweet/attributes-utils';
 
 import Debug from './components/Debug';
 import { MODES } from './constants';
 import { CONSENT_ALL, CONSENT_REQUIRED, DEFAULT_COOKIE_MAX_AGE } from './constants/defaults';
 import type { ConsentKey, Consents, IFrameData, ModeKey, ScriptData } from './types';
-import { getAttribute, getElementSelector } from './utils';
+import { getAttribute } from './utils';
 
 /**
  * Stores all the consents, global settings and scripts.

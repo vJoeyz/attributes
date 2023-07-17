@@ -20,6 +20,8 @@ export const ELEMENTS = [
   'cookie-consent',
   'opt-in',
   'disable',
+  'placeholder',
+  'form',
 ] as const satisfies AttributeElements;
 
 export const SETTINGS = {

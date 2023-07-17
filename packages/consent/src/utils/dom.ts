@@ -1,7 +1,8 @@
-import { fadeOut, isScrollable, removeTrailingSlash, restartWebflow } from '@finsweet/ts-utils';
+import { isScrollable, removeTrailingSlash, restartWebflow } from '@finsweet/attributes-utils';
 
 import Debug from '../components/Debug';
 import type { IFrameData, ScriptData } from '../types';
+import { fadeOut } from '../utils';
 import { getElementSelector } from './selectors';
 
 /**

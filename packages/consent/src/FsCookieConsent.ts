@@ -33,15 +33,11 @@ export default class FsCookieConsent {
     const { store } = this;
     const { componentsSource } = store;
 
-    const banner = getElementSelector('banner');
-    const manager = getElementSelector('fixed-preferences');
-    const preferences = getElementSelector('preferences');
-
     if (componentsSource) await renderComponentsFromSource(componentsSource);
 
-    this.banner = new Component(banner, store);
-    this.preferences = new Component(preferences, store);
-    this.manager = new Component(manager, store);
+    this.banner = new Component('banner', store);
+    this.preferences = new Component('fixed-preferences', store);
+    this.manager = new Component('preferences', store);
   }
 
   /**

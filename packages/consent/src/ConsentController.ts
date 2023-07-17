@@ -1,4 +1,3 @@
-import { extractCommaSeparatedValues, queryElement } from '@finsweet/ts-utils';
 import Emittery from 'emittery';
 import { nanoid } from 'nanoid';
 
@@ -6,16 +5,19 @@ import Debug from './components/Debug';
 import { ATTRIBUTES, CONSENTS, DYNAMIC_KEYS, MAIN_KEY, UNCATEGORIZED_CONSENT } from './constants';
 import Store from './Store';
 import type { Action, Consents } from './types';
-import { POSTConsentsToEndpoint } from './utils/api';
 import {
+  createNewIFrameElement,
+  createNewScriptElement,
+  extractCommaSeparatedValues,
+  fireUniqueGTMEvent,
   getConsentsCookie,
   getUpdatedStateCookie,
+  POSTConsentsToEndpoint,
+  queryElement,
   removeAllCookies,
   setConsentsCookie,
   setUpdatedStateCookie,
-} from './utils/cookies';
-import { createNewIFrameElement, createNewScriptElement } from './utils/dom';
-import { fireUniqueGTMEvent } from './utils/gtm';
+} from './utils';
 
 // Types
 interface ConsentManagerEvents {
@@ -92,8 +94,7 @@ export default class ConsentController extends Emittery<ConsentManagerEvents> {
         element.src = '';
 
         // Get the placeholder
-        const placeHolderSelector = element.getAttribute(ATTRIBUTES.placeholder);
-        const placeholder = placeHolderSelector ? queryElement(placeHolderSelector, HTMLElement) : undefined;
+        const placeholder = queryElement('placeholder') ?? undefined;
 
         store.storeIFrame({
           categories,

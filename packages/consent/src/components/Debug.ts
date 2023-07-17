@@ -1,7 +1,5 @@
-import { fadeIn } from '@finsweet/ts-utils';
-
 import { MAIN_KEY } from '../constants';
-import { getElementSelector } from '../utils';
+import { fadeIn, getElementSelector } from '../utils';
 
 // Constants
 const colors = {

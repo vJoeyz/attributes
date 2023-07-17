@@ -1,4 +1,4 @@
-import { isKeyOf } from '@finsweet/ts-utils';
+import { isKeyOf } from '@finsweet/attributes-utils';
 
 import { CONSENTS } from '../constants';
 import { type Consents } from '../types';

@@ -1,9 +1,10 @@
-import { selectInputElement, simulateEvent } from '@finsweet/ts-utils';
+import { simulateEvent } from '@finsweet/attributes-utils';
 import Emittery from 'emittery';
 
 import { DYNAMIC_KEYS, OPTIONAL_CONSENTS } from '../constants';
 import Store from '../Store';
 import type { Consents, OptionalConsentKey, OptionalConsents } from '../types';
+import { selectInputElement } from '../utils';
 import Debug from './Debug';
 
 // Types
