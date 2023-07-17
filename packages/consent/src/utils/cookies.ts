@@ -1,8 +1,8 @@
 import Cookies from 'js-cookie';
 
-import { COOKIE_KEYS } from '../constants';
 import type { Consents, ConsentsCookie } from '../types';
-import { validConsents } from './type-guards';
+import { COOKIE_KEYS } from './constants';
+import { isValidConsents } from './type-guards';
 
 /**
  * @returns The proper domain to store the cookies,
@@ -31,7 +31,7 @@ export const getConsentsCookie = (): Partial<Consents> | undefined => {
   if (!storedConsents) return;
 
   const parsedConsents = JSON.parse(decodeURIComponent(storedConsents)) as ConsentsCookie;
-  if (parsedConsents.consents && validConsents(parsedConsents.consents)) return parsedConsents.consents;
+  if (parsedConsents.consents && isValidConsents(parsedConsents.consents)) return parsedConsents.consents;
 };
 
 /**

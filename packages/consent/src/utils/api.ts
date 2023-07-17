@@ -1,4 +1,4 @@
-import Debug from '../components/Debug';
+import { Debug } from '../components';
 import type { Action, Consents } from '../types';
 
 /**

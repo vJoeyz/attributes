@@ -1,22 +1,26 @@
+import { extractCommaSeparatedValues } from '@finsweet/attributes-utils';
 import Emittery from 'emittery';
 import { nanoid } from 'nanoid';
 
 import { Debug } from './components';
-import { ATTRIBUTES, CONSENTS, DYNAMIC_KEYS, MAIN_KEY, UNCATEGORIZED_CONSENT } from './constants';
 import Store from './Store';
 import type { Action, Consents } from './types';
 import {
   createNewIFrameElement,
   createNewScriptElement,
-  extractCommaSeparatedValues,
+  DYNAMIC_KEYS,
   fireUniqueGTMEvent,
+  getAttribute,
   getConsentsCookie,
+  getSettingSelector,
   getUpdatedStateCookie,
+  MAIN_KEY,
   POSTConsentsToEndpoint,
   queryElement,
   removeAllCookies,
   setConsentsCookie,
   setUpdatedStateCookie,
+  UNCATEGORIZED_CONSENT,
 } from './utils';
 
 // Types
@@ -60,7 +64,7 @@ export default class ConsentController extends Emittery<ConsentManagerEvents> {
 
     // Get all the scripts and iFrames
     const existingElements = document.querySelectorAll<HTMLScriptElement | HTMLIFrameElement>(
-      `script[type="${MAIN_KEY}"], iframe[${ATTRIBUTES.src}]`
+      `script[type="${MAIN_KEY}"], iframe${getSettingSelector('src')}`
     );
 
     // Make sure we store them just once
@@ -70,13 +74,14 @@ export default class ConsentController extends Emittery<ConsentManagerEvents> {
 
     unstoredElements.forEach((element) => {
       // Get the categories
-      const categories = extractCommaSeparatedValues(
-        element.getAttribute(ATTRIBUTES.categories[0]) || element.getAttribute(ATTRIBUTES.categories[1]),
-        CONSENTS,
-        UNCATEGORIZED_CONSENT
-      );
+      let categories = [];
 
-      // Scripts
+      if (getAttribute(element, 'categories')) {
+        categories = extractCommaSeparatedValues(`${getAttribute(element, 'categories')}`, true) as any;
+      } else {
+        categories = extractCommaSeparatedValues(`${UNCATEGORIZED_CONSENT}`, true);
+      }
+
       if (element instanceof HTMLScriptElement) {
         store.storeScript({
           categories,
@@ -88,7 +93,7 @@ export default class ConsentController extends Emittery<ConsentManagerEvents> {
       // iFrames
       if (element instanceof HTMLIFrameElement) {
         // Get the src
-        const src = element.getAttribute(ATTRIBUTES.src);
+        const src = getAttribute(element, 'src');
         if (!src) return;
 
         element.src = '';
@@ -196,14 +201,6 @@ export default class ConsentController extends Emittery<ConsentManagerEvents> {
 
     const consentId = nanoid();
     setConsentsCookie(consentId, store.getConsents(), cookieMaxAge, domain);
-
-    console.log('updateConsents', {
-      action,
-      endpoint,
-      id: consentId,
-      consents: store.getConsents(),
-      bannerText: store.getBannerText() || '',
-    });
 
     // POST the consents to the endpoint
     if (endpoint)

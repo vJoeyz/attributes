@@ -1,5 +1,7 @@
 import { type AttributeElements, type AttributeSettings } from '@finsweet/attributes-utils';
 
+import { type ConsentKey, type Consents } from '../types';
+
 export const ELEMENTS = [
   /**
    * This is an element example definition.
@@ -141,3 +143,78 @@ export const SETTINGS = {
     key: 'src',
   },
 } as const satisfies AttributeSettings;
+
+/**
+ * Consents
+ */
+export const OPTIONAL_CONSENTS = ['personalization', 'essential', 'analytics', 'marketing'] as const;
+export const UNCATEGORIZED_CONSENT = 'uncategorized';
+export const CONSENTS = [...OPTIONAL_CONSENTS, UNCATEGORIZED_CONSENT] as const;
+
+/**
+ * Main Key
+ */
+export const MAIN_KEY = 'fs-consent';
+
+/**
+ * Modes
+ */
+export const MODES = ['informational', 'opt-in', 'opt-out'] as const;
+
+/**
+ * Actions
+ */
+export const ACTIONS = {
+  allow: 'allow',
+  deny: 'deny',
+  submit: 'submit',
+} as const;
+
+/**
+ * Cookie Keys
+ */
+export const COOKIE_KEYS = {
+  main: MAIN_KEY,
+  consentsUpdated: `${MAIN_KEY}-updated`,
+};
+
+/**
+ * CSS Classes
+ */
+export const WEBFLOW_CSS = {
+  customCheckbox: 'w-checkbox-input--inputType-custom',
+  customRadio: 'w-form-formradioinput--inputType-custom',
+  checkedInput: 'w--redirected-checked',
+};
+
+/**
+ * Dynamic Keys
+ */
+export const DYNAMIC_KEYS = {
+  checkbox: (key: ConsentKey): string => `[${MAIN_KEY}-element="checkbox-${key}"]`,
+  gtmEvent: (key: ConsentKey): string => `${key}-activated`,
+};
+
+/**
+ * Google Tag Manager
+ */
+export const GTM_EVENT_SUFFIX = '-activated';
+
+// Defaults
+export const CONSENT_REQUIRED: Consents = Object.freeze({
+  analytics: false,
+  essential: false,
+  marketing: false,
+  personalization: false,
+  uncategorized: false,
+} as const);
+
+export const CONSENT_ALL: Consents = Object.freeze({
+  analytics: true,
+  essential: true,
+  marketing: true,
+  personalization: true,
+  uncategorized: true,
+} as const);
+
+export const DEFAULT_COOKIE_MAX_AGE = '180';

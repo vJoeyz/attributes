@@ -72,10 +72,6 @@ test('Attributes Consent', async ({ page, browserName }) => {
     return;
   }
 
-  page.on('console', (message) => {
-    console.log('LOGGED:', message);
-  });
-
   await waitAttributeLoaded(page, 'consent');
 
   const banner = page.locator(COMPONENTS.banner);

@@ -1,5 +1,4 @@
-import { MAIN_KEY } from '../constants';
-import { fadeIn, getElementSelector } from '../utils';
+import { fadeIn, getElementSelector, MAIN_KEY } from '../utils';
 
 // Constants
 const colors = {

@@ -1,4 +1,4 @@
-import Debug from '../components/Debug';
+import { Debug } from '../components';
 
 /**
  * Fire GTM Event, making sure it's unique and has not been fired before

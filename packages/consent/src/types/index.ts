@@ -1,5 +1,5 @@
-import { ACTIONS, CONSENTS, MODES, OPTIONAL_CONSENTS } from '../constants';
 import type FsCookieConsent from '../FsCookieConsent';
+import { ACTIONS, CONSENTS, MODES, OPTIONAL_CONSENTS } from '../utils';
 
 // Consents
 export type ConsentKey = (typeof CONSENTS)[number];
@@ -43,7 +43,6 @@ export type FsCookieConsentCallback = (instance: FsCookieConsent) => void;
 declare global {
   interface Window {
     doNotTrack: string | null;
-    FsCC: FsCookieConsent;
     dataLayer?: { event: string }[];
   }
 }

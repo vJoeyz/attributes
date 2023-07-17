@@ -51,7 +51,7 @@ export class DisplayController {
     this.element = typeof element === 'string' ? queryElement(element as any) ?? ({} as HTMLElement) : element;
 
     if (!this.element) {
-      console.log(`No element with the ${element} selector was found.`, 'error');
+      console.error(`No element with the ${element} selector was found.`, 'error');
     }
 
     this.noTransition = noTransition;

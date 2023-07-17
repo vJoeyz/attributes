@@ -5,7 +5,14 @@ import Emittery from 'emittery';
 import { DisplayController } from '../components';
 import Store from '../Store';
 import type { Consents } from '../types';
-import { ELEMENTS, findFirstScrollableElement, getAttribute, getElementSelector, queryElement } from '../utils';
+import {
+  ELEMENTS,
+  findFirstScrollableElement,
+  getAttribute,
+  getElementSelector,
+  queryAllElements,
+  queryElement,
+} from '../utils';
 import ConsentsForm from './ConsentsForm';
 import Debug from './Debug';
 
@@ -30,8 +37,9 @@ export default class Component extends Emittery<ComponentEvents> {
 
   constructor(private selector: (typeof ELEMENTS)[number], protected store: Store) {
     super();
+
     if (document.readyState === 'complete') this.init();
-    else window.addEventListener('load', () => this.init());
+    else document.addEventListener('DOMContentLoaded', () => this.init());
   }
 
   /**
@@ -82,7 +90,7 @@ export default class Component extends Emittery<ComponentEvents> {
    */
   private initElements(): boolean {
     // Main element
-    this.element = queryElement<HTMLElement>(this.selector as (typeof ELEMENTS)[number]);
+    this.element = queryElement<HTMLElement>(this.selector);
 
     const { element, store } = this;
 
@@ -121,14 +129,13 @@ export default class Component extends Emittery<ComponentEvents> {
     if (!element) return;
 
     const buttons = [
-      getElementSelector('allow'),
-      getElementSelector('deny'),
-      getElementSelector('submit'),
-      getElementSelector('close'),
-    ];
+      queryAllElements('allow'),
+      queryAllElements('deny'),
+      queryAllElements('submit'),
+      queryAllElements('close'),
+    ].flatMap((btn) => btn);
 
-    buttons.forEach((selector) => {
-      const button = element!.querySelector(selector); // eslint-disable-line
+    buttons.forEach((button) => {
       if (!button) return;
 
       button.setAttribute('role', 'button');

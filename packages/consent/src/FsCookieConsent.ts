@@ -1,14 +1,22 @@
+import { waitDOMReady } from '@finsweet/attributes-utils';
+
 import Component from './components/Component';
 import Debug from './components/Debug';
 import ConsentController from './ConsentController';
-import { ACTIONS, CONSENT_ALL, CONSENT_REQUIRED, FS_CONSENT_CSS } from './constants';
 import Store from './Store';
 import type { FsCookieConsentCallback } from './types';
-import { getElementSelector, renderComponentsFromSource } from './utils';
+import {
+  ACTIONS,
+  CONSENT_ALL,
+  CONSENT_REQUIRED,
+  FS_CONSENT_CSS,
+  getElementSelector,
+  renderComponentsFromSource,
+} from './utils';
 
 /**
- * The main component of the FsCC.
- * Controlls all the sub components.
+ * The main component of the consent.
+ * Controls all the sub components.
  */
 export default class FsCookieConsent {
   private readonly consentController;
@@ -17,12 +25,12 @@ export default class FsCookieConsent {
   private preferences!: Component;
   private manager!: Component;
 
-  constructor(callbacks: FsCookieConsentCallback[] = []) {
+  constructor() {
     // Consent controller
     this.consentController = new ConsentController(this.store);
 
     // Init
-    this.initComponents().then(() => this.init(callbacks));
+    this.initComponents().then(() => this.init());
   }
 
   /**
@@ -30,14 +38,14 @@ export default class FsCookieConsent {
    * If the fs-consent-source attribute is found, it fetches them from the specified source.
    */
   private async initComponents() {
+    document.head.insertAdjacentHTML('beforeend', FS_CONSENT_CSS);
+
     const { store } = this;
     const { componentsSource } = store;
 
-    const banner = getElementSelector('banner');
-    const manager = getElementSelector('fixed-preferences');
-    const preferences = getElementSelector('preferences');
-
     if (componentsSource) await renderComponentsFromSource(componentsSource);
+
+    await waitDOMReady();
 
     this.banner = new Component('banner', store);
     this.preferences = new Component('preferences', store);
@@ -50,9 +58,6 @@ export default class FsCookieConsent {
    */
   private init(callbacks: FsCookieConsentCallback[] = []) {
     const { store, manager, banner } = this;
-
-    // Place CSS in the head that make sure the components are hidden
-    document.head.insertAdjacentHTML('beforeend', FS_CONSENT_CSS);
 
     // Check if the user is a bot or has DoNotTrack option active
     const isBot = /bot|crawler|spider|crawling/i.test(navigator.userAgent);
@@ -164,7 +169,7 @@ export default class FsCookieConsent {
   }
 
   /**
-   * Run a callback (or multiple callbacks) after FsCC has loaded.
+   * Run a callback (or multiple callbacks) after consent has loaded.
    *
    * @param args The callback (or callbacks).
    * Each callback will be called with the current {@link FsCookieConsent} instance as the argument.

@@ -1,10 +1,9 @@
-import { simulateEvent } from '@finsweet/attributes-utils';
+import { setFormFieldValue, simulateEvent } from '@finsweet/attributes-utils';
 import Emittery from 'emittery';
 
-import { DYNAMIC_KEYS, OPTIONAL_CONSENTS } from '../constants';
 import Store from '../Store';
 import type { Consents, OptionalConsentKey, OptionalConsents } from '../types';
-import { selectInputElement } from '../utils';
+import { DYNAMIC_KEYS, OPTIONAL_CONSENTS } from '../utils';
 import Debug from './Debug';
 
 // Types
@@ -31,12 +30,12 @@ export default class ConsentsForm extends Emittery<ConsentsFormEvents> {
     // Check if form contains the all the checkboxes and store them
     const missingCheckboxes = OPTIONAL_CONSENTS.filter((consentKey) => {
       const selector = DYNAMIC_KEYS.checkbox(consentKey);
-      console.log('selector', selector);
+
       const checkbox = this.element.querySelector<HTMLInputElement>(`input${selector}, ${selector} input`);
       if (!checkbox || !(checkbox.type === 'checkbox')) return true;
 
       // Make sure it starts unchecked
-      if (checkbox.checked) selectInputElement(checkbox, false);
+      if (checkbox.checked) setFormFieldValue(checkbox, false);
 
       this.checkboxes.set(consentKey, checkbox);
       return false;
@@ -83,7 +82,7 @@ export default class ConsentsForm extends Emittery<ConsentsFormEvents> {
     const consents = this.store.getConsents();
 
     this.checkboxes.forEach((checkbox, consentKey) => {
-      if (!!consents[consentKey] !== checkbox.checked) selectInputElement(checkbox, consents[consentKey]);
+      if (!!consents[consentKey] !== checkbox.checked) setFormFieldValue(checkbox, consents[consentKey]);
     });
   }
 

@@ -1,27 +1,20 @@
+import { animations } from '@finsweet/attributes-utils';
+
+import { getAttribute } from '../selectors';
+
+const { fade } = animations;
+
 /**
  * Fade in an element
  * @param element
  * @param display Display property, flex by default
  * @returns An awaitable promise
  */
-export const fadeIn = (element: HTMLElement, display = 'flex'): Promise<void> => {
-  return new Promise<void>((resolve) => {
-    element.style.opacity = '0';
-    element.style.display = display;
+export const fadeIn = (element: HTMLElement, display = 'flex') => {
+  // Prepare the element before displaying it (sets it to opacity 0)
+  fade.prepareIn(element, { display });
 
-    (function fade() {
-      const currentOpacity = parseFloat(element.style.opacity);
-      if (currentOpacity >= 1) {
-        resolve();
-        return;
-      }
-
-      const newOpacity = currentOpacity + 0.1;
-      element.style.opacity = newOpacity.toString();
-
-      requestAnimationFrame(fade);
-    })();
-  });
+  fade.animateIn(element);
 };
 
 /**
@@ -29,19 +22,9 @@ export const fadeIn = (element: HTMLElement, display = 'flex'): Promise<void> =>
  * @param element
  * @returns An awaitable promise
  */
-export const fadeOut = (element: HTMLElement): Promise<void> => {
-  return new Promise<void>((resolve) => {
-    element.style.opacity = '1';
+export const fadeOut = (element: HTMLElement) => {
+  // Prepare the element before displaying it (sets it to opacity 0)
+  fade.prepareIn(element, { display: getAttribute(element, 'display') });
 
-    (function fade() {
-      const currentOpacity = parseFloat(element.style.opacity);
-      const newOpacity = currentOpacity - 0.1;
-      element.style.opacity = newOpacity.toString();
-
-      if (newOpacity <= 0) {
-        element.style.display = 'none';
-        resolve();
-      } else requestAnimationFrame(fade);
-    })();
-  });
+  fade.animateOut(element, { display: 'none' });
 };

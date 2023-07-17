@@ -1,4 +1,4 @@
-import { type FsAttributeInit } from '@finsweet/attributes-utils';
+import { type FsAttributeInit, waitDOMReady } from '@finsweet/attributes-utils';
 
 import FsCookieConsent from './FsCookieConsent';
 import type { FsCookieConsentCallback } from './types';
@@ -8,10 +8,11 @@ import type { FsCookieConsentCallback } from './types';
  */
 export const init: FsAttributeInit = async () => {
   // Collect callbacks, if any
-  const callbacks = (Array.isArray(window.FsCC) ? window.FsCC : []) as FsCookieConsentCallback[];
 
   // Init library
-  const instance = new FsCookieConsent(callbacks);
+  const instance = new FsCookieConsent();
+
+  await waitDOMReady();
 
   return {
     result: instance,
