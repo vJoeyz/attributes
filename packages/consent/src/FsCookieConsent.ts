@@ -1,4 +1,4 @@
-import { waitDOMReady } from '@finsweet/attributes-utils';
+import { type FsAttributeInit, waitDOMReady } from '@finsweet/attributes-utils';
 
 import Component from './components/Component';
 import Debug from './components/Debug';
@@ -12,20 +12,33 @@ import {
   FS_CONSENT_CSS,
   getElementSelector,
   renderComponentsFromSource,
+  SETTINGS,
 } from './utils';
-
+interface Data {
+  [x: string]: string | undefined;
+}
 /**
  * The main component of the consent.
  * Controls all the sub components.
  */
 export default class FsCookieConsent {
   private readonly consentController;
-  private readonly store = new Store();
+  private readonly store: Store;
   private banner!: Component;
   private preferences!: Component;
   private manager!: Component;
 
-  constructor() {
+  constructor(attributes: {
+    source?: string;
+    mode?: string;
+    expires?: string;
+    debug?: boolean;
+    endpoint?: string;
+    domain?: string;
+  }) {
+    // Initialize store with attributes values
+    this.store = new Store(attributes);
+
     // Consent controller
     this.consentController = new ConsentController(this.store);
 

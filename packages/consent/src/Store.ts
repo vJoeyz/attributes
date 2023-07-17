@@ -20,18 +20,24 @@ export default class Store {
   private scripts: ScriptData[] = [];
   private iFrames: IFrameData[] = [];
 
-  constructor() {
-    const currentScript = document.querySelector('[solution="consent"');
+  constructor(attributes: {
+    mode?: string;
+    source?: string;
+    expires?: string;
+    debug?: boolean;
+    endpoint?: string;
+    domain?: string;
+  }) {
+    const { source, expires, debug, mode, endpoint, domain } = attributes;
 
-    if (!currentScript) {
-      console.error('Oops! Finsweet attribute element not found');
+    if (!endpoint) {
+      console.error('Oops! Finsweet consent element has no source url.');
       return;
     }
 
     // Get the mode
-    const modeAttribute = getAttribute(currentScript as HTMLElement, 'source');
+    this.mode = isKeyOf(mode, MODES) ? mode : 'opt-in';
 
-    this.mode = isKeyOf(modeAttribute, MODES) ? modeAttribute : 'opt-in';
     switch (this.mode) {
       case 'informational':
       case 'opt-out':
@@ -42,21 +48,20 @@ export default class Store {
     }
 
     // Get the cookie max age
-    this.cookieMaxAge = parseInt(currentScript?.getAttribute('expires') || DEFAULT_COOKIE_MAX_AGE);
+    this.cookieMaxAge = parseInt(expires || DEFAULT_COOKIE_MAX_AGE);
 
     // Get the debug mode
-    const debugModeAttribute = currentScript?.getAttribute('debug');
-    this.debugMode = debugModeAttribute === '' || debugModeAttribute === 'true';
+    this.debugMode = debug || false;
     if (this.debugMode) Debug.activate();
 
     // Get the endpoint
-    this.endpoint = currentScript?.getAttribute('endpoint');
+    this.endpoint = endpoint;
 
     // Get the components source
-    this.componentsSource = currentScript?.getAttribute('source');
+    this.componentsSource = source;
 
     // Get the cookies domain
-    this.domain = currentScript?.getAttribute('domain');
+    this.domain = domain;
 
     // Alert the setup
     // prettier-ignore

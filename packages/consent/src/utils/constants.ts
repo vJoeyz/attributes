@@ -200,6 +200,11 @@ export const DYNAMIC_KEYS = {
  */
 export const GTM_EVENT_SUFFIX = '-activated';
 
+/**
+ * true if the current URL is a staging URL
+ */
+export const IS_STAGING = window.location.origin.includes('webflow.io');
+
 // Defaults
 export const CONSENT_REQUIRED: Consents = Object.freeze({
   analytics: false,
