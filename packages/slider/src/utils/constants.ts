@@ -65,7 +65,17 @@ export const SETTINGS = {
   '1920': { key: '1920' },
 
   //Effects
-  effect: { key: 'effect' },
+  effect: {
+    key: 'effect',
+    values: {
+      slide: 'slide',
+      fade: 'fade',
+      cube: 'cube',
+      coverflow: 'coverflow',
+      flip: 'flip',
+      creative: 'creative',
+    },
+  },
   coverflowdepth: { key: 'coverflowdepth' },
   coverflowmodifier: { key: 'coverflowmodifier' },
   coverflowrotate: { key: 'coverflowrotate' },
