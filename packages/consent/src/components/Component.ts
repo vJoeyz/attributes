@@ -28,7 +28,7 @@ export default class Component extends Emittery<ComponentEvents> {
   private disableScrollOnOpen = false;
   private ready = false;
 
-  constructor(private selector: string, protected store: Store) {
+  constructor(private selector: (typeof ELEMENTS)[number], protected store: Store) {
     super();
     if (document.readyState === 'complete') this.init();
     else window.addEventListener('load', () => this.init());

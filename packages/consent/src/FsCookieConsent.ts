@@ -81,7 +81,7 @@ export default class FsCookieConsent {
     document.addEventListener('keydown', (e) => this.handleMouseAndKeyboard(e));
 
     // Banner
-    if (banner.isReady()) store.storeBannerText(banner.element);
+    if (banner.isReady()) store.storeBannerText(banner.element as HTMLElement);
     else banner.on('ready', (element) => store.storeBannerText(element));
 
     // Consent Controller
