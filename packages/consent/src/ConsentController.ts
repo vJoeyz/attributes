@@ -46,13 +46,6 @@ export default class ConsentController extends Emittery<ConsentManagerEvents> {
 
     this.storeElements();
 
-    if (document.readyState !== 'complete') {
-      window.addEventListener('load', () => {
-        this.storeElements();
-        this.applyConsents();
-      });
-    }
-
     this.applyConsents();
   }
 

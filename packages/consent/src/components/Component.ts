@@ -38,8 +38,7 @@ export default class Component extends Emittery<ComponentEvents> {
   constructor(private selector: (typeof ELEMENTS)[number], protected store: Store) {
     super();
 
-    if (document.readyState === 'complete') this.init();
-    else document.addEventListener('DOMContentLoaded', () => this.init());
+    this.init();
   }
 
   /**
