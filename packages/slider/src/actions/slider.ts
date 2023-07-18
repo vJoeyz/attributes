@@ -47,6 +47,10 @@ export const initSlider = (sliderElement: HTMLElement) => {
   const draggable = getAttribute(sliderItemElement, 'draggable');
   const scrollbar = getAttribute(sliderItemElement, 'scrollbar');
   const direction = getAttribute(sliderItemElement, 'direction') as 'horizontal' | 'vertical';
+  const nextSlideClass = getAttribute(sliderItemElement, 'nextslideclass');
+  const prevSlideClass = getAttribute(sliderItemElement, 'prevslideclass');
+  const activeSlideClass = getAttribute(sliderItemElement, 'activeslideclass');
+  const disableSlideClass = getAttribute(sliderItemElement, 'disablednextprev');
 
   //Pagination
   const paginationWrapper = queryElement('pagination-wrapper', { instanceIndex });
@@ -291,6 +295,10 @@ export const initSlider = (sliderElement: HTMLElement) => {
       slideThumbActiveClass: getPaginationActiveThumbClass(thumbElement) || 'fs-is-active',
     },
     containerModifierClass: 'fs-',
+    slideNextClass: nextSlideClass,
+    slidePrevClass: prevSlideClass,
+    slideActiveClass: activeSlideClass,
+    noSwipingClass: disableSlideClass,
   };
 
   const sliderInstance = new Swiper(sliderElement, generalOptions);

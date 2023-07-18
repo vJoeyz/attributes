@@ -93,4 +93,7 @@ export const SETTINGS = {
   fliplimit: { key: 'fliplimit', values: { true: 'true' } },
   flipshadows: { key: 'flipshadows', values: { true: 'true' } },
   activethumbnail: { key: 'activethumbnail' },
+  nextslideclass: { key: 'nextslideclass' },
+  prevslideclass: { key: 'prevslideclass' },
+  disablednextprev: { key: 'disablednextprev' },
 } as const satisfies AttributeSettings;
