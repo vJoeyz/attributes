@@ -24,6 +24,7 @@ export const ELEMENTS = [
   'disable',
   'placeholder',
   'form',
+  'checkbox-essential',
 ] as const satisfies AttributeElements;
 
 export const SETTINGS = {

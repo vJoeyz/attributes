@@ -189,6 +189,16 @@ export default class ConsentController extends Emittery<ConsentManagerEvents> {
     const { store } = this;
     const { cookieMaxAge, endpoint, domain } = store;
 
+    const checkboxEssential = queryElement('checkbox-essential');
+
+    // if essential checkbox is checked by default, hidden input, Essential cookies are required by default.
+    const essentialIsMandatory = checkboxEssential?.hasAttribute('checked');
+
+    if (checkboxEssential && essentialIsMandatory && !consents.essential) {
+      // we make sure essential is always true
+      consents.essential = true;
+    }
+
     // Store the consents
     const updatedConsents = store.storeConsents(consents);
 
