@@ -76,6 +76,7 @@ export const SETTINGS = {
       coverflow: 'coverflow',
       flip: 'flip',
       creative: 'creative',
+      marquee: 'marquee',
     },
   },
   coverflowdepth: { key: 'coverflowdepth' },

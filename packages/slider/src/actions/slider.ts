@@ -237,8 +237,8 @@ export const initSlider = (sliderElement: HTMLElement) => {
     wrapperClass: sliderWrapperElement?.className,
     slideClass: sliderItemElement?.classList[0],
     autoHeight: !!autoHeight,
-    loop: !!loop,
-    speed: Number(speed) || 300,
+    loop: effect === 'marquee' ? true : !!loop,
+    speed: effect === 'marquee' ? 10000 : Number(speed) || 300,
     direction: direction || 'horizontal',
     simulateTouch: !!draggable,
     slidesPerView: 'auto',
@@ -276,13 +276,16 @@ export const initSlider = (sliderElement: HTMLElement) => {
       perSlideRotate: Number(cardsRotate),
       slideShadows: !!cardsShadows,
     },
-    autoplay: autoPlay
-      ? {
-          delay: Number(autoPlayDelay || 300),
-          disableOnInteraction: !!autoPlayInteraction,
-          pauseOnMouseEnter: !!autoPlayPause || !!pauseOnHover,
-        }
-      : false,
+    autoplay:
+      effect === 'marquee'
+        ? { delay: 0, disableOnInteraction: false }
+        : autoPlay
+        ? {
+            delay: Number(autoPlayDelay || 300),
+            disableOnInteraction: !!autoPlayInteraction,
+            pauseOnMouseEnter: !!autoPlayPause || !!pauseOnHover,
+          }
+        : false,
     thumbs: {
       swiper: initThumbnailSwiper(),
       slideThumbActiveClass: getPaginationActiveThumbClass(thumbElement) || 'fs-is-active',
