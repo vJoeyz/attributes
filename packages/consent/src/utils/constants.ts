@@ -48,6 +48,13 @@ export const SETTINGS = {
   },
 
   /**
+   * When cookie is updated, this attribute will be set to true and stored in cookies
+   */
+  updated: {
+    key: 'updated',
+  },
+
+  /**
    * Used in Development or Testing mode only.
    */
   debug: {

@@ -196,7 +196,10 @@ export default class ConsentController extends Emittery<ConsentManagerEvents> {
 
     if (checkboxEssential && essentialIsMandatory && !consents.essential) {
       // we make sure essential is always true
-      consents.essential = true;
+      consents = {
+        ...consents,
+        essential: true,
+      };
     }
 
     // Store the consents

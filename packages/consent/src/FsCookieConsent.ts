@@ -1,4 +1,4 @@
-import { type FsAttributeInit, waitDOMReady } from '@finsweet/attributes-utils';
+import { waitDOMReady } from '@finsweet/attributes-utils';
 
 import Component from './components/Component';
 import Debug from './components/Debug';
@@ -11,12 +11,10 @@ import {
   CONSENT_REQUIRED,
   FS_CONSENT_CSS,
   getElementSelector,
+  observeElement,
   renderComponentsFromSource,
-  SETTINGS,
 } from './utils';
-interface Data {
-  [x: string]: string | undefined;
-}
+
 /**
  * The main component of the consent.
  * Controls all the sub components.
@@ -92,11 +90,15 @@ export default class FsCookieConsent {
   private listenEvents() {
     const { allow, deny, submit } = ACTIONS;
     const componentsKeys = ['banner', 'manager', 'preferences'] as const;
-    const { store, consentController, banner, manager } = this;
+    const { store, consentController, banner, manager, preferences } = this;
 
     // Listen for click and keydown events
     document.addEventListener('click', (e) => this.handleMouseAndKeyboard(e));
     document.addEventListener('keydown', (e) => this.handleMouseAndKeyboard(e));
+
+    if (preferences.element && manager.element && banner.element) {
+      observeElement(preferences.element, manager.element, banner.element);
+    }
 
     // Banner
     if (banner.isReady()) store.storeBannerText(banner.element as HTMLElement);
