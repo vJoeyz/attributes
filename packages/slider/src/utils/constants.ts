@@ -5,8 +5,8 @@ export const ELEMENTS = [
    * Defines an Swiper elements.
    */
   'slider',
-  'button-previous',
-  'button-next',
+  'previous',
+  'next',
   'pagination-thumbnails',
   'active-progress-bar',
   'pagination-wrapper',
@@ -14,6 +14,8 @@ export const ELEMENTS = [
   'active-pagination-bullet',
   'pagination-current',
   'pagination-total',
+  'scrollbar',
+  'popup',
 ] as const satisfies AttributeElements;
 
 export const SETTINGS = {
@@ -23,7 +25,7 @@ export const SETTINGS = {
   slidespergroup: { key: 'slidespergroup' },
   initial: { key: 'initial' },
   loop: { key: 'loop', values: { true: 'true' } },
-  touch: { key: 'touch', values: { true: 'true' } },
+  draggable: { key: 'draggable', values: { true: 'true' } },
   scrollbar: { key: 'scrollbar', values: { true: 'true' } },
   centeredslides: { key: 'centeredslides' },
   slideclass: { key: 'slideclass' },

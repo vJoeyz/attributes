@@ -23,6 +23,7 @@ import {
   getInstanceIndex,
   getPaginationActiveThumbClass,
   getPaginationBulletClass,
+  queryAllElements,
   queryElement,
   swiperInstancesStore,
   transformPaginationType,
@@ -36,14 +37,14 @@ export const initSlider = (sliderElement: HTMLElement) => {
   const sliderItemElement = sliderWrapperElement?.firstElementChild || sliderElement;
 
   //Navigation
-  const prevButton = queryElement('button-previous', { instanceIndex });
-  const nextButton = queryElement('button-next', { instanceIndex });
+  const prevButton = queryElement('previous', { instanceIndex });
+  const nextButton = queryElement('next', { instanceIndex });
 
   //General
   const centeredSlides = getAttribute(sliderItemElement, 'centeredslides');
   const autoHeight = getAttribute(sliderItemElement, 'autoheight');
   const loop = getAttribute(sliderItemElement, 'loop');
-  const simulateTouch = getAttribute(sliderItemElement, 'touch');
+  const draggable = getAttribute(sliderItemElement, 'draggable');
   const scrollbar = getAttribute(sliderItemElement, 'scrollbar');
   const direction = getAttribute(sliderItemElement, 'direction') as 'horizontal' | 'vertical';
 
@@ -81,7 +82,10 @@ export const initSlider = (sliderElement: HTMLElement) => {
   const xlParams = getBreakpointParams(xlsize);
 
   //Lightbox
-  const lightBoxPopups = sliderElement.querySelectorAll('[fs-smartlightbox-element="lightbox"]');
+  const lightBoxPopups = queryAllElements('popup', { instanceIndex });
+
+  //Scrollbar
+  const scrollbarElement = queryElement('scrollbar', { instanceIndex });
 
   //Effects
   const effect = getAttribute(sliderElement, 'effect') || undefined;
@@ -174,7 +178,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
   };
 
   const scrollOptions = {
-    el: paginationWrapper,
+    el: scrollbarElement,
     draggable: true,
   };
 
@@ -189,9 +193,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
 
   const movePopupWithSlider = () => {
     if (lightBoxPopups) {
-      const activePopup = sliderElement.querySelector<HTMLElement>(
-        '[fs-smartlightbox-element="lightbox"][style*="opacity: 1"]'
-      );
+      const activePopup = sliderElement.querySelector<HTMLElement>('[fs-slider-element="popup"][style*="opacity: 1"]');
       if (!activePopup) return;
       activePopup.style.transition = 'transform 0.3s ease';
       activePopup.style.transform = `translateX(${sliderInstance.translate * -1}px)`;
@@ -238,7 +240,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
     loop: !!loop,
     speed: Number(speed) || 300,
     direction: direction || 'horizontal',
-    simulateTouch: !!simulateTouch,
+    simulateTouch: !!draggable,
     slidesPerView: 'auto',
     slidesPerGroup: 1,
     breakpoints: breakpointsOptions,
@@ -276,7 +278,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
     },
     autoplay: autoPlay
       ? {
-          delay: Number(autoPlayDelay),
+          delay: Number(autoPlayDelay || 300),
           disableOnInteraction: !!autoPlayInteraction,
           pauseOnMouseEnter: !!autoPlayPause || !!pauseOnHover,
         }
@@ -285,6 +287,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
       swiper: initThumbnailSwiper(),
       slideThumbActiveClass: getPaginationActiveThumbClass(thumbElement) || 'fs-is-active',
     },
+    containerModifierClass: 'fs-',
   };
 
   const sliderInstance = new Swiper(sliderElement, generalOptions);
