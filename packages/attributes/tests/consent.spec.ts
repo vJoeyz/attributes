@@ -4,6 +4,7 @@ import { expect, test } from '@playwright/test';
 import { waitAttributeLoaded } from './utils';
 
 export const MAIN_KEY = 'fs-consent';
+export const ELEMENT = `${MAIN_KEY}-element`;
 
 const ACTIONS = {
   allow: 'allow',
@@ -12,17 +13,17 @@ const ACTIONS = {
 } as const;
 
 export const COMPONENTS = {
-  banner: `[${MAIN_KEY}-element="banner"]`,
-  preferences: `[${MAIN_KEY}-element="preferences"]`,
-  manager: `[${MAIN_KEY}-element="fixed-preferences"]`,
+  banner: `[${ELEMENT}="banner"]`,
+  preferences: `[${ELEMENT}="preferences"]`,
+  manager: `[${ELEMENT}="fixed-preferences"]`,
 } as const;
 
 export const BUTTONS = {
-  allow: `[${MAIN_KEY}-element="${ACTIONS.allow}"]`,
-  deny: `[${MAIN_KEY}-element="${ACTIONS.deny}"]`,
-  submit: `[${MAIN_KEY}-element="${ACTIONS.submit}"]`,
-  openPreferences: `[${MAIN_KEY}-element="open-preferences"]`,
-  close: `[${MAIN_KEY}-element="close"]`,
+  allow: `[${ELEMENT}="${ACTIONS.allow}"]`,
+  deny: `[${ELEMENT}="${ACTIONS.deny}"]`,
+  submit: `[${ELEMENT}="${ACTIONS.submit}"]`,
+  openPreferences: `[${ELEMENT}="open-preferences"]`,
+  close: `[${ELEMENT}="close"]`,
 } as const;
 
 export const COOKIE_KEYS = {
@@ -31,7 +32,7 @@ export const COOKIE_KEYS = {
 };
 
 export const DYNAMIC_KEYS = {
-  checkbox: (key: string): string => `[${MAIN_KEY}-checkbox="${key}"]`,
+  checkbox: (key: string): string => `[${ELEMENT}="checkbox-${key}"]`,
   gtmEvent: (key: string): string => `${key}-activated`,
 };
 
@@ -41,9 +42,13 @@ export const DYNAMIC_KEYS = {
  * @param cookieName
  */
 const getCookie = async (page: Page, cookieName: string) => {
-  const cookies = await page.context().cookies();
+  if (page.isClosed()) {
+    return undefined;
+  }
 
-  const cookie = cookies.find(({ name }) => name === cookieName);
+  const cookies = await page?.context()?.cookies();
+
+  const cookie = cookies?.find(({ name }) => name === cookieName);
   return cookie;
 };
 
@@ -52,13 +57,9 @@ test.beforeEach(async ({ page }) => {
 });
 
 const reloadPage = async (page: Page) => {
-  if (!page.isClosed()) {
-    await page.reload();
+  await page.reload();
 
-    await waitAttributeLoaded(page, 'consent');
-  } else {
-    console.log('Page has been closed.');
-  }
+  await waitAttributeLoaded(page, 'consent');
 };
 
 /**
@@ -68,7 +69,6 @@ const reloadPage = async (page: Page) => {
 test('Attributes Consent', async ({ page, browserName }) => {
   // TODO: skipping webkit tests, for some reason there is a timeout error
   if (browserName === 'webkit') {
-    console.log('INTENTIONAL TODO: Skipped webkit browser because of known issue.');
     return;
   }
 
@@ -81,15 +81,19 @@ test('Attributes Consent', async ({ page, browserName }) => {
 
   const preferences = page.locator(COMPONENTS.preferences);
   const preferencesOpen = page.locator(BUTTONS.openPreferences).first();
-  const preferencesSubmit = preferences.locator(BUTTONS.submit);
   const preferencesAllowAll = preferences.locator(BUTTONS.allow);
   const preferencesDeny = preferences.locator(BUTTONS.deny);
 
-  const marketingCheckbox = preferences.locator('[fs-consent-checkbox="marketing"]');
-  const personalizationCheckbox = preferences.locator('[fs-consent-checkbox="personalization"]');
-  const analyticsCheckbox = preferences.locator('[fs-consent-checkbox="analytics"]');
+  // form
+  const preferencesForm = preferences.locator('[fs-consent-element="form"]');
+
+  const marketingCheckbox = preferences.locator(DYNAMIC_KEYS.checkbox('marketing'));
+  const personalizationCheckbox = preferences.locator(DYNAMIC_KEYS.checkbox('personalization'));
+  const analyticsCheckbox = preferences.locator(DYNAMIC_KEYS.checkbox('analytics'));
 
   const analyticsEvent = DYNAMIC_KEYS.gtmEvent('analytics');
+
+  await page.waitForTimeout(1000);
 
   // Banner should display, Manager and Preferences should be hidden.
   await expect(banner).toBeVisible();
@@ -126,8 +130,13 @@ test('Attributes Consent', async ({ page, browserName }) => {
   // Selecting the analytics checkbox doesn't fire any scripts, closes the Preferences, opens the Manager, displays the Manager and pushes the 'analytics-activated' event to the dataLayer.
   await page.waitForTimeout(250);
 
-  await analyticsCheckbox.check({ force: true });
-  await preferencesSubmit.dispatchEvent('click');
+  // set analyticsCheckbox to checked
+  await analyticsCheckbox.dispatchEvent('click');
+
+  await page.waitForTimeout(250);
+
+  // submit form
+  await preferencesForm.dispatchEvent('submit');
 
   await page.waitForTimeout(250);
 
@@ -138,7 +147,7 @@ test('Attributes Consent', async ({ page, browserName }) => {
   expect(await getCookie(page, COOKIE_KEYS.main)).toBeDefined();
 
   const analyticsActivatedEvent = await page.evaluate(
-    (analyticsEvent) => window.dataLayer?.find(({ event }) => event === analyticsEvent),
+    (analyticsEvent) => window?.dataLayer?.find(({ event }) => event === analyticsEvent),
     analyticsEvent
   );
 
@@ -152,7 +161,8 @@ test('Attributes Consent', async ({ page, browserName }) => {
   // Clicking the Manager closes it and opens the Preferences.
   await page.waitForTimeout(250);
 
-  await preferencesOpen.dispatchEvent('click');
+  const preferencesOpenTwo = page.locator(BUTTONS.openPreferences).first();
+  await preferencesOpenTwo.dispatchEvent('click');
 
   await page.waitForTimeout(250);
 
@@ -167,19 +177,17 @@ test('Attributes Consent', async ({ page, browserName }) => {
 
   await preferencesAllowAll.dispatchEvent('click');
 
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(2000);
 
   await expect(marketingCheckbox).toBeChecked();
   await expect(personalizationCheckbox).toBeChecked();
   await expect(analyticsCheckbox).toBeChecked();
 
-  await page.waitForTimeout(5000);
-
   expect(await getCookie(page, '_ga')).toBeDefined();
 
   await reloadPage(page);
 
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(250);
 
   expect(await getCookie(page, '_ga')).toBeDefined();
 
@@ -197,7 +205,7 @@ test('Attributes Consent', async ({ page, browserName }) => {
 
   await preferencesDeny.dispatchEvent('click');
 
-  await page.waitForTimeout(250);
+  await page.waitForTimeout(1000);
 
   await expect(marketingCheckbox).not.toBeChecked();
   await expect(personalizationCheckbox).not.toBeChecked();
