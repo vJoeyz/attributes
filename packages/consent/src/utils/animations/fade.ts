@@ -14,11 +14,7 @@ export const fadeIn = (element: HTMLElement, display = 'flex') => {
   // Prepare the element before displaying it (sets it to opacity 0)
   fade.prepareIn(element, { display });
 
-  fade.animateIn(element);
-
-  // TODO: fade in does not work with the element
-  element.style.display = display;
-  element.style.opacity = '1';
+  fade.animateIn(element, { display });
 };
 
 /**
@@ -31,9 +27,4 @@ export const fadeOut = (element: HTMLElement) => {
   fade.prepareIn(element, { display: getAttribute(element, 'display') });
 
   fade.animateOut(element, { display: 'none' });
-
-  // TODO: fade out does not work with the element
-
-  element.style.opacity = '0';
-  element.style.display = 'none';
 };
