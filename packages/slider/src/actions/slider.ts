@@ -186,10 +186,11 @@ export const initSlider = (sliderElement: HTMLElement) => {
   };
 
   const initThumbnailSwiper = () => {
-    if (!paginationWrapper || !paginationWrapper.parentNode || paginationType !== 'thumbs') return;
-    return new Swiper(paginationWrapper.parentNode as HTMLElement, {
-      wrapperClass: paginationWrapper?.className,
-      slideClass: paginationWrapper?.firstElementChild?.classList[0],
+    if (!thumbElement || paginationType !== 'thumbs') return;
+    const wrapper = thumbElement.parentElement;
+    return new Swiper(wrapper?.parentElement as HTMLElement, {
+      wrapperClass: wrapper?.className,
+      slideClass: thumbElement.classList[0],
       slidesPerView: 'auto',
     });
   };
@@ -300,6 +301,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
     noSwipingClass: disableSlideClass,
   };
 
+  //console.log(generalOptions)
   const sliderInstance = new Swiper(sliderElement, generalOptions);
   swiperInstancesStore.set(sliderElement, sliderInstance);
 
