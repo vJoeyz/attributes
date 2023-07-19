@@ -5,15 +5,16 @@ export const ELEMENTS = [
    * Defines an Swiper elements.
    */
   'slider',
-  'button-previous',
-  'button-next',
-  'pagination-thumbnails',
-  'active-progress-bar',
+  'previous',
+  'next',
+  'bullet-cms',
+  'progress-active',
   'pagination-wrapper',
-  'pagination-bullet',
-  'active-pagination-bullet',
+  'bullet',
   'pagination-current',
   'pagination-total',
+  'scrollbar',
+  'popup',
 ] as const satisfies AttributeElements;
 
 export const SETTINGS = {
@@ -23,10 +24,13 @@ export const SETTINGS = {
   slidespergroup: { key: 'slidespergroup' },
   initial: { key: 'initial' },
   loop: { key: 'loop', values: { true: 'true' } },
-  touch: { key: 'touch', values: { true: 'true' } },
+  draggable: { key: 'draggable', values: { true: 'true' } },
   scrollbar: { key: 'scrollbar', values: { true: 'true' } },
   centeredslides: { key: 'centeredslides' },
   slideclass: { key: 'slideclass' },
+  nextslideclass: { key: 'nextslideclass' },
+  prevslideclass: { key: 'prevslideclass' },
+  disablednextprev: { key: 'disablednextprev' },
   activeslideclass: { key: 'activeslideclass' },
   speed: { key: 'speed' },
   direction: {
@@ -41,7 +45,6 @@ export const SETTINGS = {
   autoplay: { key: 'autoplay', values: { true: 'true' } },
   autoplaydelay: { key: 'autoplaydelay' },
   autoplayinteraction: { key: 'autoplayinteraction', values: { true: 'true' } },
-  autoplaypause: { key: 'autoplaypause', values: { true: 'true' } },
   pauseonhover: { key: 'pauseonhover', values: { true: 'true' } },
 
   //Pagination
@@ -50,10 +53,14 @@ export const SETTINGS = {
     values: {
       bullets: 'bullets',
       count: 'count',
-      progressbar: 'progress-bar',
+      progressbar: 'progress',
     },
   },
   paginationclickable: { key: 'paginationclickable', values: { true: 'true' } },
+
+  //Navigation
+  bulletactive: { key: 'bulletactive' },
+  cmsactive: { key: 'cmsactive' },
 
   //Breakpoints
   mobileportrait: { key: 'mobileportrait' },
@@ -74,6 +81,7 @@ export const SETTINGS = {
       coverflow: 'coverflow',
       flip: 'flip',
       creative: 'creative',
+      marquee: 'marquee',
     },
   },
   coverflowdepth: { key: 'coverflowdepth' },
@@ -89,5 +97,4 @@ export const SETTINGS = {
   cardsshadows: { key: 'cardsshadows' },
   fliplimit: { key: 'fliplimit', values: { true: 'true' } },
   flipshadows: { key: 'flipshadows', values: { true: 'true' } },
-  activethumbnail: { key: 'activethumbnail' },
 } as const satisfies AttributeSettings;

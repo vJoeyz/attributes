@@ -6,7 +6,7 @@ const PAGINATION_TYPE_ALIASES: Record<string, PaginationOptions['type']> = {
   bullets: 'bullets',
   count: 'fraction',
   thumbs: 'custom',
-  'progress-bar': 'progressbar',
+  progress: 'progressbar',
 };
 
 /**
@@ -33,7 +33,7 @@ export const getPaginationBulletClass = (element: HTMLElement | null): string | 
  */
 export const getPaginationActiveThumbClass = (element: HTMLElement | null): string | undefined => {
   if (!element) return;
-  return getAttribute(element, 'activethumbnail') || undefined;
+  return getAttribute(element, 'cmsactive') || undefined;
 };
 
 /**
