@@ -30,7 +30,7 @@ import {
 } from '../utils';
 
 export const initSlider = (sliderElement: HTMLElement) => {
-  if (swiperInstancesStore.get(sliderElement)) return;
+  if (swiperInstancesStore.has(sliderElement)) return;
 
   const instanceIndex = getInstanceIndex(sliderElement);
   const sliderWrapperElement = sliderElement.firstElementChild;
@@ -53,13 +53,13 @@ export const initSlider = (sliderElement: HTMLElement) => {
   const disableSlideClass = getAttribute(sliderItemElement, 'disablednextprev');
 
   //Pagination
-  const paginationWrapper = queryElement('pagination-wrapper', { instanceIndex });
-  const activeProgressBar = queryElement('progress-active', { instanceIndex });
-  const bulletElement = queryElement('bullet', { instanceIndex });
-  const thumbElement = queryElement('bullet-cms', { instanceIndex });
+  const paginationWrapper = queryElement('pagination-wrapper', { instanceIndex }) || undefined;
+  const activeProgressBar = queryElement('progress-active', { instanceIndex, scope: paginationWrapper });
+  const bulletElement = queryElement('bullet', { instanceIndex, scope: paginationWrapper });
+  const thumbElement = queryElement('bullet-cms', { instanceIndex, scope: paginationWrapper });
   const paginationType = getAttribute(sliderElement, 'paginationtype') || 'bullets';
   const paginationClickable = getAttribute(sliderElement, 'paginationclickable');
-  const activeBulletClass = getAttribute(sliderItemElement, 'bulletactive');
+  const activeBulletClass = bulletElement ? getAttribute(bulletElement, 'bulletactive') : undefined;
 
   //Autoplay
   const autoPlay = getAttribute(sliderItemElement, 'autoplay');
@@ -91,7 +91,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
   const scrollbarElement = queryElement('scrollbar', { instanceIndex });
 
   //Effects
-  const effect = getAttribute(sliderElement, 'effect') || undefined;
+  const effect = getAttribute(sliderElement, 'effect', true) || undefined;
   const coverflowDepth = getAttribute(sliderElement, 'coverflowdepth');
   const coverflowModifier = getAttribute(sliderElement, 'coverflowmodifier');
   const coverflowRotate = getAttribute(sliderElement, 'coverflowrotate');
