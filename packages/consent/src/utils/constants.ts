@@ -1,4 +1,4 @@
-import { type AttributeElements, type AttributeSettings } from '@finsweet/attributes-utils';
+import { type AttributeElements } from '@finsweet/attributes-utils';
 
 import { type ConsentKey, type Consents } from '../types';
 

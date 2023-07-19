@@ -57,7 +57,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 const reloadPage = async (page: Page) => {
-  await page.reload();
+  await page?.reload();
 
   await waitAttributeLoaded(page, 'consent');
 };

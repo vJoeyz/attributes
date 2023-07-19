@@ -107,7 +107,7 @@ export default class Component extends Emittery<ComponentEvents> {
     if (this.disableScrollOnOpen) this.scrollableElement = findFirstScrollableElement(element);
 
     // Create the display controller
-    const interactionTrigger = queryElement<HTMLElement>('interaction');
+    const interactionTrigger = queryElement<HTMLElement>('interaction', { scope: element });
 
     this.displayController = new DisplayController({
       element,
@@ -147,11 +147,6 @@ export default class Component extends Emittery<ComponentEvents> {
    */
   private listenEvents(): void {
     const { element, form } = this;
-
-    console.log('form', {
-      form,
-      element,
-    });
 
     if (!element) return;
 
@@ -193,7 +188,6 @@ export default class Component extends Emittery<ComponentEvents> {
    */
   private handleFormSubmit(newConsents: Partial<Consents>) {
     this.emit('formsubmit', newConsents);
-    console.log('newConsents', newConsents);
     this.close();
   }
 

@@ -1,6 +1,5 @@
 import type { FsAttributeInit } from '@finsweet/attributes-utils';
 
-import type FsCookieConsent from '../FsCookieConsent';
 import { ACTIONS, CONSENTS, MODES, OPTIONAL_CONSENTS, SETTINGS } from '../utils';
 
 // Consents

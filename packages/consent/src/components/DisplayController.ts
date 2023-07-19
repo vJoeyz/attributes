@@ -1,6 +1,6 @@
 import { Interaction, type InteractionParams, isVisible } from '@finsweet/attributes-utils';
 
-import { fadeIn, fadeOut, queryElement } from '../utils';
+import { fadeIn, fadeOut } from '../utils';
 
 // Types
 export interface DisplayControllerParams {

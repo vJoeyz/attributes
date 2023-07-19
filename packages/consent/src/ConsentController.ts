@@ -6,6 +6,7 @@ import { Debug } from './components';
 import Store from './Store';
 import type { Action, Consents } from './types';
 import {
+  CONSENTS,
   createNewIFrameElement,
   createNewScriptElement,
   DYNAMIC_KEYS,
@@ -69,12 +70,15 @@ export default class ConsentController extends Emittery<ConsentManagerEvents> {
 
     unstoredElements.forEach((element) => {
       // Get the categories
-      let categories = [];
+      let categories = [] as (typeof CONSENTS)[number][];
 
       if (getAttribute(element, 'categories')) {
-        categories = extractCommaSeparatedValues(`${getAttribute(element, 'categories')}`, true) as any;
+        categories = extractCommaSeparatedValues(
+          `${getAttribute(element, 'categories')}`,
+          true
+        ) as (typeof CONSENTS)[number][];
       } else {
-        categories = extractCommaSeparatedValues(`${UNCATEGORIZED_CONSENT}`, true);
+        categories = extractCommaSeparatedValues(`${UNCATEGORIZED_CONSENT}`, true) as (typeof CONSENTS)[number][];
       }
 
       if (element instanceof HTMLScriptElement) {

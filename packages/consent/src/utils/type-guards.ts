@@ -8,5 +8,5 @@ import { CONSENTS } from '../utils';
  * @param consents
  * @returns True/false
  */
-export const isValidConsents = (consents: any): consents is Partial<Consents> =>
+export const isValidConsents = (consents: Record<string, unknown>): consents is Partial<Consents> =>
   Object.keys(consents).every((key) => isKeyOf(key, CONSENTS));

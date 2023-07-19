@@ -79,7 +79,7 @@ export default class FsCookieConsent {
   private listenEvents() {
     const { allow, deny, submit } = ACTIONS;
     const componentsKeys = ['banner', 'manager', 'preferences'] as const;
-    const { store, consentController, banner, manager, preferences } = this;
+    const { store, consentController, banner, manager } = this;
 
     // Listen for click and keydown events
     document.addEventListener('click', (e) => this.handleMouseAndKeyboard(e));
