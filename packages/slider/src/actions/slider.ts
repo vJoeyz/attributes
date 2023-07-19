@@ -54,12 +54,12 @@ export const initSlider = (sliderElement: HTMLElement) => {
 
   //Pagination
   const paginationWrapper = queryElement('pagination-wrapper', { instanceIndex });
-  const activeBulletElement = queryElement('active-pagination-bullet', { instanceIndex });
-  const activeProgressBar = queryElement('active-progress-bar', { instanceIndex });
-  const bulletElement = queryElement('pagination-bullet', { instanceIndex });
-  const thumbElement = queryElement('pagination-thumbnails', { instanceIndex });
+  const activeProgressBar = queryElement('progress-active', { instanceIndex });
+  const bulletElement = queryElement('bullet', { instanceIndex });
+  const thumbElement = queryElement('bullet-cms', { instanceIndex });
   const paginationType = getAttribute(sliderElement, 'paginationtype') || 'bullets';
   const paginationClickable = getAttribute(sliderElement, 'paginationclickable');
+  const activeBulletClass = getAttribute(sliderItemElement, 'bulletactive');
 
   //Autoplay
   const autoPlay = getAttribute(sliderItemElement, 'autoplay');
@@ -162,7 +162,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
     el: paginationWrapper,
     type: transformPaginationType(paginationType),
     bulletClass: getPaginationBulletClass(bulletElement || thumbElement),
-    bulletActiveClass: activeBulletElement?.classList[activeBulletElement?.classList.length - 1],
+    bulletActiveClass: activeBulletClass,
     clickable: !!paginationClickable || true,
     renderFraction: (currentClass: string, totalClass: string) => {
       if (!paginationWrapper) return '';
