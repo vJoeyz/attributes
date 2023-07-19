@@ -4,14 +4,13 @@ import Component from './components/Component';
 import Debug from './components/Debug';
 import ConsentController from './ConsentController';
 import Store from './Store';
-import type { FsCookieConsentCallback } from './types';
+import type { GlobalSettings } from './types';
 import {
   ACTIONS,
   CONSENT_ALL,
   CONSENT_REQUIRED,
   FS_CONSENT_CSS,
   getElementSelector,
-  observeElement,
   renderComponentsFromSource,
 } from './utils';
 
@@ -26,16 +25,9 @@ export default class FsCookieConsent {
   private preferences!: Component;
   private manager!: Component;
 
-  constructor(attributes: {
-    source?: string;
-    mode?: string;
-    expires?: string;
-    debug?: boolean;
-    endpoint?: string;
-    domain?: string;
-  }) {
+  constructor(globalSettings: GlobalSettings) {
     // Initialize store with attributes values
-    this.store = new Store(attributes);
+    this.store = new Store(globalSettings);
 
     // Consent controller
     this.consentController = new ConsentController(this.store);
@@ -67,15 +59,12 @@ export default class FsCookieConsent {
    * Inits the app.
    * @param callbacks The callbacks to run after the app has been inited.
    */
-  private init(callbacks: FsCookieConsentCallback[] = []) {
+  private init() {
     const { store, manager, banner } = this;
 
     // Check if the user is a bot or has DoNotTrack option active
     const isBot = /bot|crawler|spider|crawling/i.test(navigator.userAgent);
     if (isBot) return;
-
-    // Run JS API callbacks
-    this.push(...callbacks);
 
     // If user has already confirmed, show the manager, otherwise show the banner
     if (store.userHasConfirmed()) manager.open();
@@ -95,10 +84,6 @@ export default class FsCookieConsent {
     // Listen for click and keydown events
     document.addEventListener('click', (e) => this.handleMouseAndKeyboard(e));
     document.addEventListener('keydown', (e) => this.handleMouseAndKeyboard(e));
-
-    if (preferences.element && manager.element && banner.element) {
-      observeElement(preferences.element, manager.element, banner.element);
-    }
 
     // Banner
     if (banner.isReady()) store.storeBannerText(banner.element as HTMLElement);
@@ -130,9 +115,10 @@ export default class FsCookieConsent {
       // Submit
       this[componentKey].on('formsubmit', (newConsents) => {
         // Debug mode
-        // prettier-ignore
         Debug.alert(
-          `Consents Form was submitted in the ${componentKey} component with the following consents: ${JSON.stringify(newConsents)}`,
+          `Consents Form was submitted in the ${componentKey} component with the following consents: ${JSON.stringify(
+            newConsents
+          )}`,
           'info'
         );
 
@@ -181,15 +167,5 @@ export default class FsCookieConsent {
       // Debug mode
       Debug.alert(`Open Preferences button was clicked.`, 'info');
     }
-  }
-
-  /**
-   * Run a callback (or multiple callbacks) after consent has loaded.
-   *
-   * @param args The callback (or callbacks).
-   * Each callback will be called with the current {@link FsCookieConsent} instance as the argument.
-   */
-  public push(...args: FsCookieConsentCallback[]) {
-    args.forEach((callback) => callback(this));
   }
 }

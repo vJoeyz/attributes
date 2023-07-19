@@ -8,6 +8,5 @@ import { CONSENTS } from '../utils';
  * @param consents
  * @returns True/false
  */
-// prettier-ignore
-// eslint-disable-next-line
-export const isValidConsents = (consents: any): consents is Partial<Consents> => Object.keys(consents).every((key) => isKeyOf(key, CONSENTS));
+export const isValidConsents = (consents: any): consents is Partial<Consents> =>
+  Object.keys(consents).every((key) => isKeyOf(key, CONSENTS));

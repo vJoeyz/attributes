@@ -7,7 +7,7 @@ export interface DisplayControllerParams {
   /**
    * The main element. Accepts both an HTMLElement or a string selector.
    */
-  element: HTMLElement | string;
+  element: HTMLElement;
 
   /**
    * If the display must be controlled through a Webflow interaction.
@@ -47,13 +47,7 @@ export class DisplayController {
 
   constructor({ element, interaction, displayProperty, noTransition, startsHidden }: DisplayControllerParams) {
     // Store properties
-
-    this.element = typeof element === 'string' ? queryElement(element as any) ?? ({} as HTMLElement) : element;
-
-    if (!this.element) {
-      console.error(`No element with the ${element} selector was found.`, 'error');
-    }
-
+    this.element = element;
     this.noTransition = noTransition;
     this.displayProperty = displayProperty || 'block';
 

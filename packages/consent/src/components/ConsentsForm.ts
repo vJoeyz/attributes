@@ -43,9 +43,10 @@ export default class ConsentsForm extends Emittery<ConsentsFormEvents> {
 
     // Warn the user if any checkbox is missing
     if (missingCheckboxes.length) {
-      // prettier-ignore
       Debug.alert(
-        `The Consents Form is missing the following checkboxes: ${missingCheckboxes.map((consentKey) => DYNAMIC_KEYS.checkbox(consentKey)).join(', ')}.`,
+        `The Consents Form is missing the following checkboxes: ${missingCheckboxes
+          .map((consentKey) => DYNAMIC_KEYS.checkbox(consentKey))
+          .join(', ')}.`,
         'warning'
       );
     }

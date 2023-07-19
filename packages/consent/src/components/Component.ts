@@ -80,7 +80,7 @@ export default class Component extends Emittery<ComponentEvents> {
 
     // Update ready state
     this.ready = true;
-    this.emit('ready', this.element!); // eslint-disable-line
+    this.emit('ready', this.element!);
   }
 
   /**
@@ -96,7 +96,7 @@ export default class Component extends Emittery<ComponentEvents> {
     if (!element) return false;
 
     // Preferences form
-    const form = queryElement<HTMLFormElement>('form');
+    const form = queryElement<HTMLFormElement>('form', { scope: element });
 
     if (form) this.form = new ConsentsForm(form, store);
 
@@ -148,6 +148,11 @@ export default class Component extends Emittery<ComponentEvents> {
   private listenEvents(): void {
     const { element, form } = this;
 
+    console.log('form', {
+      form,
+      element,
+    });
+
     if (!element) return;
 
     element.addEventListener('click', (e) => this.handleMouseAndKeyboard(e));
@@ -188,6 +193,7 @@ export default class Component extends Emittery<ComponentEvents> {
    */
   private handleFormSubmit(newConsents: Partial<Consents>) {
     this.emit('formsubmit', newConsents);
+    console.log('newConsents', newConsents);
     this.close();
   }
 

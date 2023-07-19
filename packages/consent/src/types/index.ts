@@ -1,5 +1,7 @@
+import type { FsAttributeInit } from '@finsweet/attributes-utils';
+
 import type FsCookieConsent from '../FsCookieConsent';
-import { ACTIONS, CONSENTS, MODES, OPTIONAL_CONSENTS } from '../utils';
+import { ACTIONS, CONSENTS, MODES, OPTIONAL_CONSENTS, SETTINGS } from '../utils';
 
 // Consents
 export type ConsentKey = (typeof CONSENTS)[number];
@@ -36,9 +38,6 @@ export interface IFrameData {
   placeholder?: HTMLElement;
 }
 
-// JavaScript API
-export type FsCookieConsentCallback = (instance: FsCookieConsent) => void;
-
 // Global
 declare global {
   interface Window {
@@ -46,3 +45,7 @@ declare global {
     dataLayer?: { event: string }[];
   }
 }
+
+export type GlobalSettings = Parameters<FsAttributeInit<typeof SETTINGS>>['0'] & {
+  debug: boolean;
+};

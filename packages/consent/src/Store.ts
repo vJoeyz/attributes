@@ -1,7 +1,7 @@
 import { type Entry, getObjectEntries, getObjectKeys, isKeyOf } from '@finsweet/attributes-utils';
 
 import { Debug } from './components';
-import type { ConsentKey, Consents, IFrameData, ModeKey, ScriptData } from './types';
+import type { ConsentKey, Consents, GlobalSettings, IFrameData, ModeKey, ScriptData } from './types';
 import { CONSENT_ALL, CONSENT_REQUIRED, DEFAULT_COOKIE_MAX_AGE, getAttribute, MODES } from './utils';
 
 /**
@@ -20,16 +20,7 @@ export default class Store {
   private scripts: ScriptData[] = [];
   private iFrames: IFrameData[] = [];
 
-  constructor(attributes: {
-    mode?: string;
-    source?: string;
-    expires?: string;
-    debug?: boolean;
-    endpoint?: string;
-    domain?: string;
-  }) {
-    const { source, expires, debug, mode, endpoint, domain } = attributes;
-
+  constructor({ source, expires, debug, mode, endpoint, domain }: GlobalSettings) {
     if (!endpoint) {
       console.error('Oops! Finsweet consent element has no source url.');
       return;
@@ -64,9 +55,10 @@ export default class Store {
     this.domain = domain;
 
     // Alert the setup
-    // prettier-ignore
     Debug.alert(
-      `The cookie banner is set to ${this.mode} mode with a consent expiry time of ${this.cookieMaxAge} days.${this.endpoint ? `The consents will be POSTed to ${this.endpoint}` : ''}`,
+      `The cookie banner is set to ${this.mode} mode with a consent expiry time of ${this.cookieMaxAge} days.${
+        this.endpoint ? `The consents will be POSTed to ${this.endpoint}` : ''
+      }`,
       'info'
     );
   }
@@ -102,8 +94,10 @@ export default class Store {
   /**
    * @returns The stored elements that can be activated
    */
-  // prettier-ignore
-  public getActivableElements = (): (ScriptData | IFrameData)[] => this.getStoredElements().filter(({ active, categories }) => !active && categories.every((category) => this.consents[category]));
+  public getActivableElements = (): (ScriptData | IFrameData)[] =>
+    this.getStoredElements().filter(
+      ({ active, categories }) => !active && categories.every((category) => this.consents[category])
+    );
 
   /**
    * Stores new consents

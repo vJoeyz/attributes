@@ -62,8 +62,10 @@ export default class ConsentController extends Emittery<ConsentManagerEvents> {
 
     // Make sure we store them just once
     const storedElements = store.getStoredElements();
-    // prettier-ignore
-    const unstoredElements = [...existingElements].filter((existingElement) => !storedElements.find(({ element }) => existingElement === element));
+
+    const unstoredElements = [...existingElements].filter(
+      (existingElement) => !storedElements.find(({ element }) => existingElement === element)
+    );
 
     unstoredElements.forEach((element) => {
       // Get the categories
