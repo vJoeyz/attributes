@@ -28,6 +28,9 @@ export const SETTINGS = {
   scrollbar: { key: 'scrollbar', values: { true: 'true' } },
   centeredslides: { key: 'centeredslides' },
   slideclass: { key: 'slideclass' },
+  nextslideclass: { key: 'nextslideclass' },
+  prevslideclass: { key: 'prevslideclass' },
+  disablednextprev: { key: 'disablednextprev' },
   activeslideclass: { key: 'activeslideclass' },
   speed: { key: 'speed' },
   direction: {
@@ -42,7 +45,6 @@ export const SETTINGS = {
   autoplay: { key: 'autoplay', values: { true: 'true' } },
   autoplaydelay: { key: 'autoplaydelay' },
   autoplayinteraction: { key: 'autoplayinteraction', values: { true: 'true' } },
-  autoplaypause: { key: 'autoplaypause', values: { true: 'true' } },
   pauseonhover: { key: 'pauseonhover', values: { true: 'true' } },
 
   //Pagination
@@ -55,6 +57,10 @@ export const SETTINGS = {
     },
   },
   paginationclickable: { key: 'paginationclickable', values: { true: 'true' } },
+
+  //Navigation
+  bulletactive: { key: 'bulletactive' },
+  cmsactive: { key: 'cmsactive' },
 
   //Breakpoints
   mobileportrait: { key: 'mobileportrait' },
@@ -91,9 +97,4 @@ export const SETTINGS = {
   cardsshadows: { key: 'cardsshadows' },
   fliplimit: { key: 'fliplimit', values: { true: 'true' } },
   flipshadows: { key: 'flipshadows', values: { true: 'true' } },
-  cmsactive: { key: 'cmsactive' },
-  nextslideclass: { key: 'nextslideclass' },
-  prevslideclass: { key: 'prevslideclass' },
-  disablednextprev: { key: 'disablednextprev' },
-  bulletactive: { key: 'bulletactive' },
 } as const satisfies AttributeSettings;

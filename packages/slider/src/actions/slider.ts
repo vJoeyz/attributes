@@ -65,7 +65,6 @@ export const initSlider = (sliderElement: HTMLElement) => {
   const autoPlay = getAttribute(sliderItemElement, 'autoplay');
   const autoPlayDelay = getAttribute(sliderItemElement, 'autoplaydelay');
   const autoPlayInteraction = getAttribute(sliderItemElement, 'autoplayinteraction');
-  const autoPlayPause = getAttribute(sliderItemElement, 'autoplaypause');
   const pauseOnHover = getAttribute(sliderItemElement, 'pauseonhover');
   const speed = getAttribute(sliderItemElement, 'speed');
 
@@ -287,7 +286,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
         ? {
             delay: Number(autoPlayDelay || 300),
             disableOnInteraction: !!autoPlayInteraction,
-            pauseOnMouseEnter: !!autoPlayPause || !!pauseOnHover,
+            pauseOnMouseEnter: !!pauseOnHover,
           }
         : false,
     thumbs: {
