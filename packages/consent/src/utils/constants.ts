@@ -55,13 +55,6 @@ export const SETTINGS = {
   },
 
   /**
-   * Used in Development or Testing mode only.
-   */
-  debug: {
-    key: 'source',
-  },
-
-  /**
    *
    */
   domain: {
@@ -150,7 +143,7 @@ export const SETTINGS = {
   src: {
     key: 'src',
   },
-} as const satisfies AttributeSettings;
+} as const;
 
 /**
  * Consents

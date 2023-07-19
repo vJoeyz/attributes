@@ -1,7 +1,8 @@
 import { type Entry, getObjectEntries, getObjectKeys, isKeyOf } from '@finsweet/attributes-utils';
 
 import { Debug } from './components';
-import type { ConsentKey, Consents, GlobalSettings, IFrameData, ModeKey, ScriptData } from './types';
+import type { ConsentKey, Consents, IFrameData, ModeKey, ScriptData } from './types';
+import { type GlobalSettings } from './types';
 import { CONSENT_ALL, CONSENT_REQUIRED, DEFAULT_COOKIE_MAX_AGE, getAttribute, MODES } from './utils';
 
 /**
@@ -22,7 +23,7 @@ export default class Store {
 
   constructor({ source, expires, debug, mode, endpoint, domain }: GlobalSettings) {
     if (!endpoint) {
-      console.error('Oops! Finsweet consent element has no source url.');
+      console.error('Oops! Finsweet consent element has no endpoint url.');
       return;
     }
 
