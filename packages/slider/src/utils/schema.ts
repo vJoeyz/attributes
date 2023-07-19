@@ -55,9 +55,9 @@ const SCHEMA_SETTINGS: SchemaSettings<typeof SETTINGS> = {
     description: "Defines if the slider's slides will be looped infinitely.",
     type: 'boolean',
   },
-  touch: {
-    ...SETTINGS.touch,
-    name: 'Touch',
+  draggable: {
+    ...SETTINGS.draggable,
+    name: 'Draggable',
     description: "Defines if the slider's slides will be touchable.",
     type: 'boolean',
   },
@@ -85,10 +85,22 @@ const SCHEMA_SETTINGS: SchemaSettings<typeof SETTINGS> = {
     description: "Defines if the slider's autoplay will be paused on user interaction.",
     type: 'boolean',
   },
-  autoplaypause: {
-    ...SETTINGS.autoplaypause,
-    name: 'Autoplay Pause',
+  pauseonhover: {
+    ...SETTINGS.pauseonhover,
+    name: 'Pause On Hover',
     description: "Defines if the slider's autoplay will be paused on mouse hover.",
+    type: 'boolean',
+  },
+  bulletactive: {
+    ...SETTINGS.bulletactive,
+    name: 'Bullet Active',
+    description: 'Defines class for active bullet.',
+    type: 'boolean',
+  },
+  cmsactive: {
+    ...SETTINGS.cmsactive,
+    name: 'CMS Active',
+    description: 'Defines class for active thumbnail.',
     type: 'boolean',
   },
   desktop: {
@@ -195,24 +207,24 @@ export const SCHEMA: Schema<typeof ELEMENTS, typeof SETTINGS> = {
         SCHEMA_SETTINGS.autoheight,
         SCHEMA_SETTINGS.centeredslides,
         SCHEMA_SETTINGS.loop,
-        SCHEMA_SETTINGS.touch,
+        SCHEMA_SETTINGS.draggable,
         SCHEMA_SETTINGS.scrollbar,
         SCHEMA_SETTINGS.autoplay,
         SCHEMA_SETTINGS.autoplaydelay,
         SCHEMA_SETTINGS.autoplayinteraction,
-        SCHEMA_SETTINGS.autoplaypause,
+        SCHEMA_SETTINGS.pauseonhover,
         SCHEMA_SETTINGS.desktop,
       ],
     },
     {
-      key: 'button-next',
+      key: 'next',
       name: 'Next Button',
       description: 'Defines the Next Button element.',
       allowedTypes: ['Block', 'Link'],
       group: SCHEMA_GROUPS.general.key,
     },
     {
-      key: 'button-previous',
+      key: 'previous',
       name: 'Previous Button',
       description: 'Defines the Previous Button element.',
       allowedTypes: ['Block', 'Link'],
@@ -226,22 +238,9 @@ export const SCHEMA: Schema<typeof ELEMENTS, typeof SETTINGS> = {
       group: SCHEMA_GROUPS.pagination.key,
     },
     {
-      key: 'pagination-bullet',
+      key: 'bullet',
       name: 'Bullet',
       description: 'Defines the Bullet element.',
-      allowedTypes: ['Block'],
-      group: SCHEMA_GROUPS.pagination.key,
-      conditions: [
-        {
-          condition: 'is-child-of',
-          element: 'pagination-wrapper',
-        },
-      ],
-    },
-    {
-      key: 'active-pagination-bullet',
-      name: 'Active Bullet',
-      description: 'Defines the Active Bullet element.',
       allowedTypes: ['Block'],
       group: SCHEMA_GROUPS.pagination.key,
       conditions: [
@@ -276,6 +275,13 @@ export const SCHEMA: Schema<typeof ELEMENTS, typeof SETTINGS> = {
           element: 'pagination-wrapper',
         },
       ],
+    },
+    {
+      key: 'popup',
+      name: 'Popup',
+      description: 'Defines the Popup element.',
+      allowedTypes: ['Block'],
+      group: SCHEMA_GROUPS.general.key,
     },
   ],
 };
