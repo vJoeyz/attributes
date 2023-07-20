@@ -24,7 +24,7 @@ export const transformPaginationType = (paginationType: string): PaginationOptio
  */
 export const getPaginationBulletClass = (element: HTMLElement | null): string | undefined => {
   if (!element) return;
-  return element.classList[0];
+  return element.classList[0] || 'bullet';
 };
 
 /**
