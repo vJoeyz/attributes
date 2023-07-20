@@ -58,7 +58,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
   const bulletElement = queryElement('bullet', { instanceIndex, scope: paginationWrapper });
   const thumbElement = queryElement('bullet-cms', { instanceIndex, scope: paginationWrapper });
   const paginationClickable = getAttribute(sliderElement, 'paginationclickable');
-  const activeBulletClass = bulletElement ? getAttribute(bulletElement, 'bulletactive') : undefined;
+  const activeBulletClass = bulletElement ? getAttribute(bulletElement, 'bulletactive') : 'is-active';
   const disableSlideNext = nextButton ? getAttribute(nextButton, 'disablednextprev') : true;
   const disableSlidePrev = prevButton ? getAttribute(prevButton, 'disablednextprev') : true;
 
