@@ -9,7 +9,7 @@ export const ELEMENTS = [
   'next',
   'bullet-cms',
   'progress-active',
-  'bullets-wrapper',
+  'pagination-wrapper',
   'bullet',
   'count-current',
   'count-total',

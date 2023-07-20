@@ -53,7 +53,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
   //Pagination
   const paginationType = getAttribute(sliderElement, 'paginationtype') || 'bullets';
   const paginationWrapper =
-    queryElement(paginationType === 'progress' ? 'progress' : 'bullets-wrapper', { instanceIndex }) || undefined;
+    queryElement(paginationType === 'progress' ? 'progress' : 'pagination-wrapper', { instanceIndex }) || undefined;
   const activeProgressBar = queryElement('progress-active', { instanceIndex, scope: paginationWrapper });
   const bulletElement = queryElement('bullet', { instanceIndex, scope: paginationWrapper });
   const thumbElement = queryElement('bullet-cms', { instanceIndex, scope: paginationWrapper });
