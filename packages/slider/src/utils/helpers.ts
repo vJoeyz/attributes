@@ -59,7 +59,7 @@ export const getBreakpointParams = (
 } | null => {
   if (!strWithParams) return null;
   const values = strWithParams.split(',');
-  const slidesPerView = parseFloat(values[0]);
+  const slidesPerView = values[0] === 'auto' ? 'auto' : parseFloat(values[0]);
   const slidesPerGroup = parseFloat(values[1]);
   let spaceBetween = values[2];
   if (spaceBetween?.includes('rem')) {

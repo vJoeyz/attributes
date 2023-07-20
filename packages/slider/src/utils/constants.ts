@@ -9,12 +9,13 @@ export const ELEMENTS = [
   'next',
   'bullet-cms',
   'progress-active',
-  'pagination-wrapper',
+  'bullets-wrapper',
   'bullet',
-  'pagination-current',
-  'pagination-total',
+  'count-current',
+  'count-total',
   'scrollbar',
   'popup',
+  'progress',
 ] as const satisfies AttributeElements;
 
 export const SETTINGS = {
