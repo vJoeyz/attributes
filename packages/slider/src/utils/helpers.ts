@@ -33,7 +33,7 @@ export const getPaginationBulletClass = (element: HTMLElement | null): string | 
  */
 export const getPaginationActiveThumbClass = (element: HTMLElement | null): string | undefined => {
   if (!element) return;
-  return getAttribute(element, 'cmsactive') || undefined;
+  return getAttribute(element, 'cmsactive') || 'is-active';
 };
 
 /**
