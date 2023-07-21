@@ -52,9 +52,9 @@ export const initSlider = (sliderElement: HTMLElement) => {
 
   //Pagination
   const paginationType = getAttribute(sliderElement, 'paginationtype') || 'bullets';
-  const paginationWrapper =
-    queryElement(paginationType === 'progress' ? 'progress' : 'pagination-wrapper', { instanceIndex }) || undefined;
-  const activeProgressBar = queryElement('progress-active', { instanceIndex, scope: paginationWrapper });
+  const paginationWrapper = queryElement('pagination-wrapper', { instanceIndex }) || undefined;
+  const progressWrapper = queryElement('progress-wrapper', { instanceIndex, scope: paginationWrapper });
+  const activeProgress = queryElement('progress', { instanceIndex, scope: paginationWrapper });
   const bulletElement = queryElement('bullet', { instanceIndex, scope: paginationWrapper });
   const thumbElement = queryElement('bullet-cms', { instanceIndex, scope: paginationWrapper });
   const paginationClickable = getAttribute(sliderElement, 'paginationclickable');
@@ -89,6 +89,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
   const lightBoxPopups = queryAllElements('popup', { instanceIndex });
 
   //Scrollbar
+  const scrollbarWrapper = queryElement('scrollbar-wrapper', { instanceIndex });
   const scrollbarElement = queryElement('scrollbar', { instanceIndex });
 
   //Effects
@@ -172,17 +173,20 @@ export const initSlider = (sliderElement: HTMLElement) => {
       total?.classList.add(totalClass);
       return paginationWrapper.innerHTML;
     },
-    progressbarFillClass: activeProgressBar?.className,
+    progressbarFillClass: progressWrapper?.className,
     renderProgressbar() {
-      if (!activeProgressBar) return '';
-      activeProgressBar.style.transformOrigin = 'left top';
-      activeProgressBar.style.width = '100%';
-      return activeProgressBar.outerHTML;
+      if (!progressWrapper || !activeProgress || !paginationWrapper) return '';
+      progressWrapper.style.transformOrigin = 'left top';
+      paginationWrapper.style.width = '100%';
+      progressWrapper.style.width = '100%';
+      activeProgress.style.width = '100%';
+      return progressWrapper.outerHTML;
     },
   };
 
   const scrollOptions = {
-    el: scrollbarElement,
+    el: scrollbarWrapper,
+    dragClass: scrollbarElement?.className,
     draggable: true,
   };
 
@@ -255,7 +259,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
       nextEl: !disableSlideNext ? nextButton : null,
       prevEl: !disableSlidePrev ? prevButton : null,
     },
-    scrollbar: scrollbarElement ? scrollOptions : false,
+    scrollbar: scrollbarWrapper ? scrollOptions : false,
     effect: effect,
     fadeEffect: {
       crossFade: true,

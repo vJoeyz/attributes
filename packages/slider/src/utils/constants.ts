@@ -14,8 +14,10 @@ export const ELEMENTS = [
   'count-current',
   'count-total',
   'scrollbar',
+  'scrollbar-wrapper',
   'popup',
   'progress',
+  'progress-wrapper',
 ] as const satisfies AttributeElements;
 
 export const SETTINGS = {
