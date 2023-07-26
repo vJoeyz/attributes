@@ -72,9 +72,9 @@ export default class ConsentController extends Emittery<ConsentManagerEvents> {
       // Get the categories
       let categories = [] as (typeof CONSENTS)[number][];
 
-      if (getAttribute(element, 'categories')) {
+      if (getAttribute(element, 'categories', true)) {
         categories = extractCommaSeparatedValues(
-          `${getAttribute(element, 'categories')}`,
+          `${getAttribute(element, 'categories', true)}`,
           true
         ) as (typeof CONSENTS)[number][];
       } else {
@@ -92,7 +92,7 @@ export default class ConsentController extends Emittery<ConsentManagerEvents> {
       // iFrames
       if (element instanceof HTMLIFrameElement) {
         // Get the src
-        const src = getAttribute(element, 'src');
+        const src = getAttribute(element, 'src', true);
         if (!src) return;
 
         element.src = '';

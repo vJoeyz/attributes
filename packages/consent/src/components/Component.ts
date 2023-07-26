@@ -25,12 +25,9 @@ export default class Component extends Emittery<ComponentEvents> {
   private displayController?: DisplayController;
   private scrollableElement?: Element;
   private disableScrollOnOpen = false;
-  private ready = false;
-  private selector: string;
 
   constructor(public readonly element: HTMLElement, protected store: Store) {
     super();
-    this.selector = '';
 
     this.init();
   }
@@ -39,42 +36,14 @@ export default class Component extends Emittery<ComponentEvents> {
    * Inits the component.
    */
   protected init(): void {
-    const banner = getElementSelector('banner');
-    const manager = getElementSelector('fixed-preferences');
-    const preferences = getElementSelector('preferences');
-
     // Get DOM Elements
-    const elementsAreValid = this.initElements();
-    if (!elementsAreValid) {
-      switch (this.selector) {
-        case banner:
-          Debug.alert(`No element with the ${banner} attribute was found, it is required to have it!`, 'error');
-          break;
-        case manager:
-          Debug.alert(
-            `No element with the ${manager} attribute was found, did you want to use the Manager component?`,
-            'info'
-          );
-          break;
-        case preferences:
-          Debug.alert(
-            `No element with the ${preferences} attribute was found, did you want to use the Preferences component?`,
-            'info'
-          );
-          break;
-      }
-      return;
-    }
+    this.initElements();
 
     // Handle Accessibility
     this.handleAccessibility();
 
     // Listen events
     this.listenEvents();
-
-    // Update ready state
-    this.ready = true;
-    this.emit('ready', this.element);
   }
 
   /**
@@ -85,17 +54,12 @@ export default class Component extends Emittery<ComponentEvents> {
     // Main element
     const { element, store } = this;
 
-    if (!element) return false;
-
     // Preferences form
     const form = queryElement<HTMLFormElement>('form', { scope: element });
 
     if (form) this.form = new ConsentsForm(form, store);
 
-    // Check properties
-    const displayProperty = getAttribute(element, 'display');
-
-    this.disableScrollOnOpen = getAttribute(element, 'scroll') === 'disable';
+    this.disableScrollOnOpen = getAttribute(element, 'scroll', true) === 'disable';
     if (this.disableScrollOnOpen) this.scrollableElement = findFirstScrollableElement(element);
 
     // Create the display controller
@@ -104,9 +68,9 @@ export default class Component extends Emittery<ComponentEvents> {
     this.displayController = new DisplayController({
       element,
       interaction: interactionTrigger ? { element: interactionTrigger } : undefined,
-      displayProperty: isKeyOf(displayProperty, DisplayController.displayProperties) ? displayProperty : 'flex',
+      displayProperty: getAttribute(element, 'display', true),
       startsHidden: true,
-      animation: getAttribute(element, 'animation'),
+      animation: getAttribute(element, 'animation', true),
     });
 
     return true;
@@ -207,20 +171,13 @@ export default class Component extends Emittery<ComponentEvents> {
    * Opens the component.
    */
   public open(): void {
-    if (this.ready) this.show();
-    else this.once('ready').then(() => this.show());
+    this.show();
   }
 
   /**
    * Closes the component.
    */
   public close(): void {
-    if (this.ready) this.show(false);
-    else this.once('ready').then(() => this.show(false));
+    this.show(false);
   }
-
-  /**
-   * @returns If the component is already mounted
-   */
-  public isReady = (): boolean => this.ready;
 }

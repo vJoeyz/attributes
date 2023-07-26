@@ -22,7 +22,7 @@ import {
 export default class FsCookieConsent {
   private readonly consentController;
   private readonly store: Store;
-  private banner?: Component;
+  private banner!: Component;
   private preferences?: Component;
   private manager?: Component;
 
@@ -34,7 +34,7 @@ export default class FsCookieConsent {
     this.consentController = new ConsentController(this.store);
 
     // Init
-    this.initComponents().then(() => this.init());
+    this.initComponents();
   }
 
   /**
@@ -76,21 +76,15 @@ export default class FsCookieConsent {
         'info'
       );
     }
-  }
 
-  /**
-   * Inits the app.
-   * @param callbacks The callbacks to run after the app has been inited.
-   */
-  private init() {
-    const { store, manager, banner } = this;
+    const { store: newStore, manager, banner } = this;
 
     // Check if the user is a bot or has DoNotTrack option active
     const isBot = /bot|crawler|spider|crawling/i.test(navigator.userAgent);
     if (isBot) return;
 
     // If user has already confirmed, show the manager, otherwise show the banner
-    if (store.userHasConfirmed()) manager?.open();
+    if (newStore.userHasConfirmed()) manager?.open();
     else banner?.open();
 
     this.listenEvents();
@@ -109,8 +103,7 @@ export default class FsCookieConsent {
     document.addEventListener('keydown', (e) => this.handleMouseAndKeyboard(e));
 
     // Banner
-    if (banner?.isReady()) store.storeBannerText(banner.element as HTMLElement);
-    else banner?.on('ready', (element) => store.storeBannerText(element));
+    store.storeBannerText(banner?.element);
 
     // Consent Controller
     consentController.on('updateconsents', () => {
