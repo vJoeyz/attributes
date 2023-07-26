@@ -1,7 +1,5 @@
 import { animations } from '@finsweet/attributes-utils';
 
-import { getAttribute } from '../selectors';
-
 const { fade } = animations;
 
 /**
@@ -23,8 +21,5 @@ export const fadeIn = (element: HTMLElement, display = 'flex') => {
  * @returns An awaitable promise
  */
 export const fadeOut = (element: HTMLElement) => {
-  // Prepare the element before displaying it (sets it to opacity 0)
-  fade.prepareIn(element, { display: getAttribute(element, 'display') });
-
   fade.animateOut(element, { display: 'none' });
 };

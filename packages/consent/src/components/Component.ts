@@ -5,14 +5,7 @@ import Emittery from 'emittery';
 import { DisplayController } from '../components';
 import Store from '../Store';
 import type { Consents } from '../types';
-import {
-  ELEMENTS,
-  findFirstScrollableElement,
-  getAttribute,
-  getElementSelector,
-  queryAllElements,
-  queryElement,
-} from '../utils';
+import { findFirstScrollableElement, getAttribute, getElementSelector, queryAllElements, queryElement } from '../utils';
 import ConsentsForm from './ConsentsForm';
 import Debug from './Debug';
 
@@ -28,15 +21,16 @@ interface ComponentEvents {
 }
 
 export default class Component extends Emittery<ComponentEvents> {
-  public element?: HTMLElement | null;
   public form?: ConsentsForm;
   private displayController?: DisplayController;
   private scrollableElement?: Element;
   private disableScrollOnOpen = false;
   private ready = false;
+  private selector: string;
 
-  constructor(private selector: (typeof ELEMENTS)[number], protected store: Store) {
+  constructor(public readonly element: HTMLElement, protected store: Store) {
     super();
+    this.selector = '';
 
     this.init();
   }
@@ -80,7 +74,7 @@ export default class Component extends Emittery<ComponentEvents> {
 
     // Update ready state
     this.ready = true;
-    this.emit('ready', this.element!);
+    this.emit('ready', this.element);
   }
 
   /**
@@ -89,8 +83,6 @@ export default class Component extends Emittery<ComponentEvents> {
    */
   private initElements(): boolean {
     // Main element
-    this.element = queryElement<HTMLElement>(this.selector);
-
     const { element, store } = this;
 
     if (!element) return false;
@@ -114,6 +106,7 @@ export default class Component extends Emittery<ComponentEvents> {
       interaction: interactionTrigger ? { element: interactionTrigger } : undefined,
       displayProperty: isKeyOf(displayProperty, DisplayController.displayProperties) ? displayProperty : 'flex',
       startsHidden: true,
+      animation: getAttribute(element, 'animation'),
     });
 
     return true;

@@ -11,6 +11,7 @@ import {
   CONSENT_REQUIRED,
   FS_CONSENT_CSS,
   getElementSelector,
+  queryElement,
   renderComponentsFromSource,
 } from './utils';
 
@@ -21,9 +22,9 @@ import {
 export default class FsCookieConsent {
   private readonly consentController;
   private readonly store: Store;
-  private banner!: Component;
-  private preferences!: Component;
-  private manager!: Component;
+  private banner?: Component;
+  private preferences?: Component;
+  private manager?: Component;
 
   constructor(globalSettings: GlobalSettings) {
     // Initialize store with attributes values
@@ -50,9 +51,31 @@ export default class FsCookieConsent {
 
     await waitDOMReady();
 
-    this.banner = new Component('banner', store);
-    this.preferences = new Component('preferences', store);
-    this.manager = new Component('fixed-preferences', store);
+    const bannerElement = queryElement('banner');
+    if (bannerElement) {
+      this.banner = new Component(bannerElement, store);
+    } else {
+      Debug.alert(`No [fs-consent-element="banner"] element was found, it is required to have it!`, 'error');
+      return;
+    }
+    const preferencesElement = queryElement('preferences');
+    if (preferencesElement) {
+      this.preferences = new Component(preferencesElement, store);
+    } else {
+      Debug.alert(
+        `No [fs-consent-element="preferences"] element was found, did you want to use the Preferences component?`,
+        'info'
+      );
+    }
+    const managerElement = queryElement('fixed-preferences');
+    if (managerElement) {
+      this.manager = new Component(managerElement, store);
+    } else {
+      Debug.alert(
+        `No [fs-consent-element="fixed-preferences"] element was found, did you want to use the Manager component?`,
+        'info'
+      );
+    }
   }
 
   /**
@@ -67,8 +90,8 @@ export default class FsCookieConsent {
     if (isBot) return;
 
     // If user has already confirmed, show the manager, otherwise show the banner
-    if (store.userHasConfirmed()) manager.open();
-    else banner.open();
+    if (store.userHasConfirmed()) manager?.open();
+    else banner?.open();
 
     this.listenEvents();
   }
@@ -86,18 +109,18 @@ export default class FsCookieConsent {
     document.addEventListener('keydown', (e) => this.handleMouseAndKeyboard(e));
 
     // Banner
-    if (banner.isReady()) store.storeBannerText(banner.element as HTMLElement);
-    else banner.on('ready', (element) => store.storeBannerText(element));
+    if (banner?.isReady()) store.storeBannerText(banner.element as HTMLElement);
+    else banner?.on('ready', (element) => store.storeBannerText(element));
 
     // Consent Controller
     consentController.on('updateconsents', () => {
-      componentsKeys.forEach((componentKey) => this[componentKey].form?.updateCheckboxes());
+      componentsKeys.forEach((componentKey) => this[componentKey]?.form?.updateCheckboxes());
     });
 
     // All Components
     componentsKeys.forEach((componentKey) => {
       // Allow
-      this[componentKey].on('allow', () => {
+      this[componentKey]?.on('allow', () => {
         // Debug mode
         Debug.alert(`Allow button was clicked in the ${componentKey} component.`, 'info');
 
@@ -105,7 +128,7 @@ export default class FsCookieConsent {
       });
 
       // Deny
-      this[componentKey].on('deny', () => {
+      this[componentKey]?.on('deny', () => {
         // Debug mode
         Debug.alert(`Deny button was clicked in the ${componentKey} component.`, 'info');
 
@@ -113,7 +136,7 @@ export default class FsCookieConsent {
       });
 
       // Submit
-      this[componentKey].on('formsubmit', (newConsents) => {
+      this[componentKey]?.on('formsubmit', (newConsents) => {
         // Debug mode
         Debug.alert(
           `Consents Form was submitted in the ${componentKey} component with the following consents: ${JSON.stringify(
@@ -127,7 +150,7 @@ export default class FsCookieConsent {
 
       // Close
       if (componentKey !== 'manager') {
-        this[componentKey].on('close', () => {
+        this[componentKey]?.on('close', () => {
           // Debug mode
           Debug.alert(`The ${componentKey} component was closed.`, 'info');
 
@@ -138,7 +161,7 @@ export default class FsCookieConsent {
             consentController.updateConsents(CONSENT_ALL, allow);
           }
 
-          manager.open();
+          manager?.open();
         });
       }
     });
@@ -160,9 +183,9 @@ export default class FsCookieConsent {
     const closest = target.closest(openPreference);
 
     if (closest) {
-      banner.close();
-      manager.close();
-      preferences.open();
+      banner?.close();
+      manager?.close();
+      preferences?.open();
 
       // Debug mode
       Debug.alert(`Open Preferences button was clicked.`, 'info');

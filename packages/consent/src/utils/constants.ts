@@ -29,6 +29,22 @@ export const ELEMENTS = [
 
 export const SETTINGS = {
   /**
+   * Animation setting
+   */
+  animation: {
+    key: 'animation',
+    values: {
+      fade: 'fade',
+      'slide-up': 'slide-up',
+      'slide-down': 'slide-down',
+      'slide-left': 'slide-left',
+      'slide-right': 'slide-right',
+      grow: 'grow',
+      shrink: 'shrink',
+      spin: 'spin',
+    },
+  },
+  /**
    * Accepts informational opt-out or opt-in as value
    */
   mode: {

@@ -1,6 +1,4 @@
-import { Interaction, type InteractionParams, isVisible } from '@finsweet/attributes-utils';
-
-import { fadeIn, fadeOut } from '../utils';
+import { animations, Interaction, type InteractionParams, isVisible } from '@finsweet/attributes-utils';
 
 // Types
 export interface DisplayControllerParams {
@@ -22,9 +20,9 @@ export interface DisplayControllerParams {
   displayProperty?: (typeof DisplayController)['displayProperties'][number];
 
   /**
-   * If set to true, the element will be straitgh showed / hidden without any transition.
+   * Defines a custom animation to be used when showing/hiding the element.
    */
-  noTransition?: boolean;
+  animation?: keyof typeof animations;
 
   /**
    * If set to true, the element will be set to `display: none`.
@@ -38,17 +36,17 @@ export interface DisplayControllerParams {
  */
 export class DisplayController {
   private readonly interaction;
-  private readonly noTransition;
+  private readonly animation;
   private readonly displayProperty: Required<DisplayControllerParams>['displayProperty'];
   private visible;
 
   public readonly element: HTMLElement;
   public static readonly displayProperties = ['block', 'flex', 'grid', 'inline-block', 'inline'] as const;
 
-  constructor({ element, interaction, displayProperty, noTransition, startsHidden }: DisplayControllerParams) {
+  constructor({ element, interaction, displayProperty, animation, startsHidden }: DisplayControllerParams) {
     // Store properties
     this.element = element;
-    this.noTransition = noTransition;
+    this.animation = animation;
     this.displayProperty = displayProperty || 'block';
 
     // Visibility check
@@ -75,9 +73,21 @@ export class DisplayController {
   public async show(): Promise<void> {
     if (this.visible) return;
 
-    if (this.interaction) await this.interaction.trigger('first');
-    else if (this.noTransition) this.element.style.display = this.displayProperty;
-    else await fadeIn(this.element, this.displayProperty);
+    const { interaction, animation, element, displayProperty: display } = this;
+
+    // Interaction
+    if (interaction) {
+      await interaction.trigger('first');
+    }
+    // Animation
+    else if (animation) {
+      animations[animation].prepareIn(element, { display });
+      await animations[animation].animateIn(element, { display });
+    }
+    // No interaction or animation
+    else {
+      element.style.display = display;
+    }
 
     this.visible = true;
   }
@@ -89,9 +99,20 @@ export class DisplayController {
   public async hide(): Promise<void> {
     if (!this.visible) return;
 
-    if (this.interaction) await this.interaction.trigger('second');
-    else if (this.noTransition) this.element.style.display = 'none';
-    else await fadeOut(this.element);
+    const { interaction, animation, element } = this;
+
+    // Interaction
+    if (interaction) {
+      await interaction.trigger('second');
+    }
+    // Animation
+    else if (animation) {
+      await animations[animation].animateOut(element, { display: 'none' });
+    }
+    // No interaction or animation
+    else {
+      element.style.display = 'none';
+    }
 
     this.visible = false;
   }

@@ -194,13 +194,11 @@ test('Attributes Consent', async ({ page, browserName }) => {
   // Opening the Preferences and clicking Reject All sets the fs-consent-updated cookie
   await page.waitForTimeout(250);
 
-  const preferencesOpenFirst = page.locator(BUTTONS.openPreferences).first();
-
-  await preferencesOpenFirst.dispatchEvent('click');
+  await preferencesOpen.dispatchEvent('click');
 
   await page.waitForTimeout(250);
 
-  await expect(manager).not.toBeVisible();
+  await expect(banner).not.toBeVisible();
   await expect(preferences).toBeVisible();
 
   await preferencesDeny.dispatchEvent('click');
