@@ -1,4 +1,3 @@
-import { isKeyOf } from '@finsweet/attributes-utils';
 import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock';
 import Emittery from 'emittery';
 
@@ -7,7 +6,6 @@ import Store from '../Store';
 import type { Consents } from '../types';
 import { findFirstScrollableElement, getAttribute, getElementSelector, queryAllElements, queryElement } from '../utils';
 import ConsentsForm from './ConsentsForm';
-import Debug from './Debug';
 
 // Types
 interface ComponentEvents {
