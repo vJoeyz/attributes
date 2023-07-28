@@ -87,7 +87,6 @@ export class DisplayController {
     // No interaction or animation
     else {
       element.style.display = display;
-      element.style.opacity = '1';
     }
 
     this.visible = true;
@@ -113,7 +112,6 @@ export class DisplayController {
     // No interaction or animation
     else {
       element.style.display = 'none';
-      element.style.opacity = '0';
     }
 
     this.visible = false;
