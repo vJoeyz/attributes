@@ -25,7 +25,10 @@ export const renderComponentsFromSource = async (source: string): Promise<void> 
     if (sourceOrigin + sourcePathname === origin + pathname) return;
 
     // Get the source page
-    const response = await fetch(source);
+    const sourceUrl = new URL(source) ? `https://server.wized.com/v2/page/proxy?url=${source}` : source;
+
+    console.log('sourceUrl', sourceUrl);
+    const response = await fetch(sourceUrl);
     const data = await response.text();
 
     const parser = new DOMParser();
