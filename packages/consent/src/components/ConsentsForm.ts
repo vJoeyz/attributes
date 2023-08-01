@@ -2,8 +2,13 @@ import { setFormFieldValue, simulateEvent } from '@finsweet/attributes-utils';
 import Emittery from 'emittery';
 
 import Store from '../Store';
-import type { Consents, OptionalConsentKey, OptionalConsents } from '../types';
-import { DYNAMIC_KEYS, OPTIONAL_CONSENTS } from '../utils';
+import {
+  type Consents,
+  DYNAMIC_KEYS,
+  OPTIONAL_CONSENTS,
+  type OptionalConsentKey,
+  type OptionalConsents,
+} from '../utils';
 import Debug from './Debug';
 
 // Types

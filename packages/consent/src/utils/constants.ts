@@ -1,6 +1,6 @@
 import { type AttributeElements } from '@finsweet/attributes-utils';
 
-import { type ConsentKey, type Consents } from '../types';
+import type { ConsentKey, Consents } from '../utils';
 
 export const ELEMENTS = [
   /**
@@ -61,6 +61,13 @@ export const SETTINGS = {
    */
   source: {
     key: 'source',
+  },
+
+  /**
+   * if set to true, `restartWebflow()` will be called after the consent is updated
+   */
+  resetix: {
+    key: 'resetix',
   },
 
   /**

@@ -1,6 +1,6 @@
 import type { FsAttributeInit } from '@finsweet/attributes-utils';
 
-import { ACTIONS, CONSENTS, MODES, OPTIONAL_CONSENTS, SETTINGS } from '../utils';
+import { ACTIONS, CONSENTS, MODES, OPTIONAL_CONSENTS, SETTINGS } from '.';
 
 // Consents
 export type ConsentKey = (typeof CONSENTS)[number];
@@ -47,4 +47,5 @@ declare global {
 
 export type GlobalSettings = Parameters<FsAttributeInit<typeof SETTINGS>>['0'] & {
   debug: boolean;
+  resetix: boolean;
 };

@@ -1,5 +1,5 @@
 import { Debug } from '../components';
-import type { Action, Consents } from '../types';
+import type { Action, Consents } from '../utils';
 
 /**
  * Post the consents to the provided endpoint

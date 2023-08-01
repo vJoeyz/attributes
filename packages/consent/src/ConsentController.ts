@@ -4,9 +4,10 @@ import { nanoid } from 'nanoid';
 
 import { Debug } from './components';
 import Store from './Store';
-import type { Action, Consents } from './types';
 import {
+  type Action,
   CONSENTS,
+  type Consents,
   createNewIFrameElement,
   createNewScriptElement,
   DYNAMIC_KEYS,

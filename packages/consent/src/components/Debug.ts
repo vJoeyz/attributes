@@ -1,4 +1,6 @@
-import { fadeIn, getElementSelector, MAIN_KEY } from '../utils';
+import { animations } from '@finsweet/attributes-utils';
+
+import { getElementSelector, MAIN_KEY } from '../utils';
 
 // Constants
 const colors = {
@@ -78,7 +80,7 @@ export default class Debug {
    * Listens for events in the card.
    * @param card The card element.
    */
-  private static handleCard(card: HTMLDivElement) {
+  private static async handleCard(card: HTMLDivElement) {
     const handleClick = (e: MouseEvent) => {
       if (e.target instanceof Element && e.target.closest(getElementSelector('close'))) {
         card.removeEventListener('click', handleClick);
@@ -88,6 +90,8 @@ export default class Debug {
 
     card.addEventListener('click', handleClick);
     this.element.insertAdjacentElement('afterbegin', card);
-    fadeIn(card);
+
+    animations['fade'].prepareIn(card, { display: 'block' });
+    await animations['fade'].animateIn(card, { display: 'block' });
   }
 }

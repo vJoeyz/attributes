@@ -1,15 +1,14 @@
-import { isScrollable, removeTrailingSlash, restartWebflow } from '@finsweet/attributes-utils';
+import { animations, isScrollable, removeTrailingSlash, restartWebflow } from '@finsweet/attributes-utils';
 
 import { Debug } from '../components';
-import type { IFrameData, ScriptData } from '../types';
-import { fadeOut } from '../utils';
+import { type IFrameData, type ScriptData } from '../utils';
 import { getElementSelector } from './selectors';
 
 /**
  * Fetches the components from a specified source and renders them to the DOM.
  * @param source The source URL. It can be both an absolute or a relative URL.
  */
-export const renderComponentsFromSource = async (source: string): Promise<void> => {
+export const renderComponentsFromSource = async (source: string, resetix: boolean): Promise<void> => {
   const { origin, pathname, href } = window.location;
   const { origin: baseOrigin, pathname: basePathname, href: baseHref } = new URL(document.baseURI);
 
@@ -46,7 +45,7 @@ export const renderComponentsFromSource = async (source: string): Promise<void> 
     });
 
     // Restart Webflow in case any interaction exists, to make sure it works after mounting the element
-    restartWebflow();
+    if (resetix) restartWebflow();
   } catch (error) {
     Debug.alert(`${error}`, 'error');
   }
@@ -94,7 +93,10 @@ export const createNewIFrameElement = ({ element, src, placeholder }: IFrameData
   newElement.src = src;
 
   // Hide the placeholder when the iFrame is fully loaded
-  if (placeholder) newElement.addEventListener('load', () => fadeOut(placeholder));
+  if (placeholder)
+    newElement.addEventListener('load', async () => {
+      await animations['fade'].animateOut(placeholder, { display: 'none' });
+    });
 
   return newElement;
 };

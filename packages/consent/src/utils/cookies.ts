@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 
-import type { Consents, ConsentsCookie } from '../types';
+import type { Consents, ConsentsCookie } from '../utils';
 import { COOKIE_KEYS } from './constants';
 import { isValidConsents } from './type-guards';
 

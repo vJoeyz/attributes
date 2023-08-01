@@ -4,13 +4,13 @@ import Component from './components/Component';
 import Debug from './components/Debug';
 import ConsentController from './ConsentController';
 import Store from './Store';
-import type { GlobalSettings } from './types';
 import {
   ACTIONS,
   CONSENT_ALL,
   CONSENT_REQUIRED,
   FS_CONSENT_CSS,
   getElementSelector,
+  type GlobalSettings,
   queryElement,
   renderComponentsFromSource,
 } from './utils';
@@ -42,12 +42,17 @@ export default class FsCookieConsent {
    * If the fs-consent-source attribute is found, it fetches them from the specified source.
    */
   private async initComponents() {
+    // Check if the user is a bot or has DoNotTrack option active
+    const isBot = /bot|crawler|spider|crawling/i.test(navigator.userAgent);
+
+    if (isBot) return;
+
     document.head.insertAdjacentHTML('beforeend', FS_CONSENT_CSS);
 
     const { store } = this;
     const { componentsSource } = store;
 
-    if (componentsSource) await renderComponentsFromSource(componentsSource);
+    if (componentsSource) await renderComponentsFromSource(componentsSource, store?.resetix === 'true');
 
     await waitDOMReady();
 
@@ -77,15 +82,9 @@ export default class FsCookieConsent {
       );
     }
 
-    const { store: newStore, manager, banner } = this;
-
-    // Check if the user is a bot or has DoNotTrack option active
-    const isBot = /bot|crawler|spider|crawling/i.test(navigator.userAgent);
-    if (isBot) return;
-
     // If user has already confirmed, show the manager, otherwise show the banner
-    if (newStore.userHasConfirmed()) manager?.open();
-    else banner?.open();
+    if (this.store.userHasConfirmed()) this.manager?.open();
+    else this.banner?.open();
 
     this.listenEvents();
   }

@@ -1,7 +1,6 @@
 import { isKeyOf } from '@finsweet/attributes-utils';
 
-import { type Consents } from '../types';
-import { CONSENTS } from '../utils';
+import { CONSENTS, type Consents } from '../utils';
 
 /**
  * Check if a consents object is valid

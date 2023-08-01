@@ -3,8 +3,14 @@ import Emittery from 'emittery';
 
 import { DisplayController } from '../components';
 import Store from '../Store';
-import type { Consents } from '../types';
-import { findFirstScrollableElement, getAttribute, getElementSelector, queryAllElements, queryElement } from '../utils';
+import {
+  type Consents,
+  findFirstScrollableElement,
+  getAttribute,
+  getElementSelector,
+  queryAllElements,
+  queryElement,
+} from '../utils';
 import ConsentsForm from './ConsentsForm';
 
 // Types
@@ -83,11 +89,11 @@ export default class Component extends Emittery<ComponentEvents> {
     if (!element) return;
 
     const buttons = [
-      queryAllElements('allow'),
-      queryAllElements('deny'),
-      queryAllElements('submit'),
-      queryAllElements('close'),
-    ].flatMap((btn) => btn);
+      queryAllElements('allow', { scope: element }),
+      queryAllElements('deny', { scope: element }),
+      queryAllElements('submit', { scope: element }),
+      queryAllElements('close', { scope: element }),
+    ].flat();
 
     buttons.forEach((button) => {
       if (!button) return;

@@ -1,9 +1,18 @@
 import { type Entry, getObjectEntries, getObjectKeys, isKeyOf } from '@finsweet/attributes-utils';
 
 import { Debug } from './components';
-import type { ConsentKey, Consents, IFrameData, ModeKey, ScriptData } from './types';
-import { type GlobalSettings } from './types';
-import { CONSENT_ALL, CONSENT_REQUIRED, DEFAULT_COOKIE_MAX_AGE, MODES } from './utils';
+import {
+  CONSENT_ALL,
+  CONSENT_REQUIRED,
+  type ConsentKey,
+  type Consents,
+  DEFAULT_COOKIE_MAX_AGE,
+  type GlobalSettings,
+  type IFrameData,
+  type ModeKey,
+  MODES,
+  type ScriptData,
+} from './utils';
 
 /**
  * Stores all the consents, global settings and scripts.
@@ -15,13 +24,14 @@ export default class Store {
   public readonly endpoint?: string | null; // Endpoint where the consents will be POSTed
   public readonly componentsSource?: string | null; // Page where the components are located
   public readonly domain?: string | null; // The domain used to store the consent cookie
+  public readonly resetix?: string | null; // resetix value that determines if restartWebflow() should be called
   private confirmed = false; // True if the user actively confirmed his/her consent
   private consents: Consents = {} as Consents;
   private bannerText = 'empty';
   private scripts: ScriptData[] = [];
   private iFrames: IFrameData[] = [];
 
-  constructor({ source, expires, debug, mode, endpoint, domain }: GlobalSettings) {
+  constructor({ source, expires, debug, mode, endpoint, domain, resetix }: GlobalSettings) {
     if (!endpoint) {
       console.error('Oops! Finsweet consent element has no endpoint url.');
       return;
@@ -54,6 +64,9 @@ export default class Store {
 
     // Get the cookies domain
     this.domain = domain;
+
+    // Get the resetix value
+    this.resetix = resetix;
 
     // Alert the setup
     Debug.alert(
