@@ -47,5 +47,4 @@ declare global {
 
 export type GlobalSettings = Parameters<FsAttributeInit<typeof SETTINGS>>['0'] & {
   debug: boolean;
-  resetix: boolean;
 };
