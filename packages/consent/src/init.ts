@@ -9,7 +9,8 @@ import { SETTINGS } from './utils';
 export const init: FsAttributeInit<typeof SETTINGS> = async (globalSettings = {}) => {
   const url = new URL(window.location.href);
 
-  const debug = url.search.includes('debugger') && url.origin.includes('webflow.io');
+  const debug = url.searchParams.has('debugger') && url.origin.includes('webflow.io');
+
   // Init library
   const instance = new FsCookieConsent({ ...globalSettings, debug });
 

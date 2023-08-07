@@ -44,7 +44,11 @@ export const setConsentsCookie = (id: string, consents: Consents, expires = 120,
 
   domain = processConsentsCookieDomain(domain);
 
-  Cookies.set(COOKIE_KEYS.main, cookieValue, { expires, domain });
+  // Cookies without the “SameSite” attribute or with an invalid value will be treated as “Lax”.
+  // This means that the cookie will no longer be sent in third-party contexts.
+  // Applications that depends on this cookie being available in such contexts needs to have “SameSite=None“.
+  // Ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#samesitesamesite-value
+  Cookies.set(COOKIE_KEYS.main, cookieValue, { expires, domain, sameSite: 'None', secure: true });
 };
 
 /**
@@ -79,5 +83,5 @@ export const getUpdatedStateCookie = (): boolean => !!Cookies.get(COOKIE_KEYS.co
 export const setUpdatedStateCookie = (expires = 120, domain?: string | null): void => {
   domain = processConsentsCookieDomain(domain);
 
-  Cookies.set(COOKIE_KEYS.consentsUpdated, 'true', { expires, domain });
+  Cookies.set(COOKIE_KEYS.consentsUpdated, 'true', { expires, domain, sameSite: 'None', secure: true });
 };

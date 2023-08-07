@@ -82,9 +82,11 @@ export default class FsCookieConsent {
       );
     }
 
+    const { manager, banner } = this;
+
     // If user has already confirmed, show the manager, otherwise show the banner
-    if (this.store.userHasConfirmed()) this.manager?.open();
-    else this.banner?.open();
+    if (store.userHasConfirmed()) manager?.open();
+    else banner?.open();
 
     this.listenEvents();
   }

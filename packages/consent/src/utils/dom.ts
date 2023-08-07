@@ -1,4 +1,10 @@
-import { animations, isScrollable, removeTrailingSlash, restartWebflow } from '@finsweet/attributes-utils';
+import {
+  animations,
+  isScrollable,
+  removeTrailingSlash,
+  restartWebflow,
+  waitWebflowReady,
+} from '@finsweet/attributes-utils';
 
 import { Debug } from '../components';
 import { type IFrameData, type ScriptData } from '../utils';
@@ -45,7 +51,11 @@ export const renderComponentsFromSource = async (source: string, resetix: boolea
     });
 
     // Restart Webflow in case any interaction exists, to make sure it works after mounting the element
-    if (resetix) restartWebflow();
+    if (resetix) {
+      await waitWebflowReady();
+
+      await restartWebflow();
+    }
   } catch (error) {
     Debug.alert(`${error}`, 'error');
   }
