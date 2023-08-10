@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -164,6 +164,9 @@ importers:
       '@finsweet/attributes-linkblockedit':
         specifier: workspace:*
         version: link:../linkblockedit
+      '@finsweet/attributes-masonry':
+        specifier: workspace:*
+        version: link:../masonry
       '@finsweet/attributes-mirrorclick':
         specifier: workspace:*
         version: link:../mirrorclick
@@ -480,6 +483,15 @@ importers:
 
   packages/linkblockedit:
     dependencies:
+      '@finsweet/attributes-utils':
+        specifier: workspace:*
+        version: link:../utils
+
+  packages/masonry:
+    dependencies:
+      '@finsweet/attributes-cmscore':
+        specifier: workspace:*
+        version: link:../cmscore
       '@finsweet/attributes-utils':
         specifier: workspace:*
         version: link:../utils
