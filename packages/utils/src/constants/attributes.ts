@@ -92,6 +92,8 @@ export const SUPPORT_ATTRIBUTE = 'support';
 
 export const TOC_ATTRIBUTE = 'toc';
 
+export const TYPING_ATTRIBUTE = 'typing';
+
 export const READ_TIME_ATTRIBUTE = 'readtime';
 
 export const VIDEO_HLS_ATTRIBUTE = 'videohls';
