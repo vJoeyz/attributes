@@ -18,7 +18,7 @@ export const initTyping = (textElement: HTMLElement) => {
   const fadeoutspeed = getAttribute(textElement, 'fadeoutspeed');
   const pausebefore = getAttribute(textElement, 'pausebefore');
   const pauseafter = getAttribute(textElement, 'pauseafter');
-  const visiblethreshold = getAttribute(textElement, 'visiblethreshold');
+  const visiblethreshold = getAttribute(textElement, 'visiblethreshold') || 0;
   const showcursor = getAttribute(textElement, 'showcursor');
   const whenvisible = getAttribute(textElement, 'whenvisible');
   const cursorcharacter = getAttribute(textElement, 'cursorcharacter');
@@ -39,6 +39,22 @@ export const initTyping = (textElement: HTMLElement) => {
 
   const typingInstance = new Typed(textElement, options);
   typingInstancesStore.set(textElement, typingInstance);
+
+  const threshold = Number(visiblethreshold) / 100;
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && entry.intersectionRatio >= threshold) {
+          typingInstance.start();
+        } else {
+          typingInstance.stop();
+        }
+      });
+    },
+    { threshold }
+  );
+
+  if (whenvisible) observer.observe(textElement);
 
   return typingInstance;
 };
