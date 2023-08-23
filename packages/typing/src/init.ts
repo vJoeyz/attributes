@@ -5,7 +5,7 @@ import { queryAllElements } from './utils';
 import { typingInstancesStore } from './utils';
 
 /**
- * Inits the slider attribute.
+ * Inits the typing attribute.
  */
 export const init: FsAttributeInit = async () => {
   await waitWebflowReady();

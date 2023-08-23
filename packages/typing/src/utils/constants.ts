@@ -1,9 +1,6 @@
 import { type AttributeElements, type AttributeSettings } from '@finsweet/attributes-utils';
 
 export const ELEMENTS = [
-  /**
-   * Defines an Swiper elements.
-   */
   'text',
   'content',
 ] as const satisfies AttributeElements;
