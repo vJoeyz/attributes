@@ -15,7 +15,7 @@
     "dev": "cross-env NODE_ENV=development tsx ./bin/build.ts",
     "build": "cross-env NODE_ENV=production tsx ./bin/build.ts",
     "lint": "eslint ./src && prettier --check ./src",
-    "lint:fix": "eslint ./src --fix",
+    "lint:fix": "eslint ./src --fix && prettier --write ./src",
     "check": "tsc --noEmit",
     "test": "pnpm playwright test",
     "test:headed": "pnpm playwright test --headed"
