@@ -7,14 +7,14 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('codehighlight', () => {
-  test.only('Highlights code with hljs', async ({ page }) => {
+  test('Highlights code with hljs', async ({ page }) => {
     await waitAttributeLoaded(page, 'codehighlight');
 
     const code = page.getByTestId('code-1');
     await expect(code).toHaveClass(/hljs/);
   });
 
-  test.only('Highlights richtext component code with hljs', async ({ page }) => {
+  test('Highlights richtext component code with hljs', async ({ page }) => {
     await waitAttributeLoaded(page, 'codehighlight');
 
     const codeComponent = page.locator('[fs-richtext-element] [data-testid="code-2"]');
