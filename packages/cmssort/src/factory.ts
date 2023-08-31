@@ -27,7 +27,7 @@ const {
  *
  * @returns A cleanup callback.
  */
-export const initListSorting = async (listInstance: CMSList, cmsCore: CMSCore) => {
+export const initListSorting = (listInstance: CMSList, cmsCore: CMSCore) => {
   const instanceIndex = listInstance.getInstanceIndex(elementKey);
 
   const triggers = queryElement<HTMLElement>('trigger', { instanceIndex, all: true });
@@ -59,7 +59,7 @@ export const initListSorting = async (listInstance: CMSList, cmsCore: CMSCore) =
   const isDropdown = firstTrigger.closest<Dropdown>(`.${DROPDOWN_CSS_CLASSES.dropdown}`);
 
   const sortActions = isSelect
-    ? await initHTMLSelect(firstTrigger, listInstance)
+    ? initHTMLSelect(firstTrigger, listInstance)
     : isDropdown
     ? initDropdown(isDropdown, listInstance)
     : initButtons(triggers, listInstance, cssClasses);
