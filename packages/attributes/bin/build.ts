@@ -8,13 +8,15 @@ import { name } from '../package.json';
 
 declare const process: {
   env: {
-    NODE_ENV: 'production' | 'development';
+    NODE_ENV?: 'production' | 'development';
+    VERCEL_ENV?: 'production' | 'preview' | 'development';
   };
 };
 
 // Config output
+const ENV = process.env.VERCEL_ENV || process.env.NODE_ENV || 'development';
+const PRODUCTION = ENV === 'production';
 const BUILD_DIRECTORY = './dist';
-const PRODUCTION = process.env.NODE_ENV === 'production';
 
 // Config entrypoint files
 const ENTRY_POINTS = ['src/index.ts'];
@@ -23,9 +25,12 @@ const ENTRY_POINTS = ['src/index.ts'];
 const LIVE_RELOAD = !PRODUCTION;
 const SERVE_PORT = 3000;
 
-const SCRIPT_SRC = PRODUCTION
-  ? `https://cdn.jsdelivr.net/npm/${name}@2`
-  : `http://localhost:${SERVE_PORT}/dist/index.js`;
+const SCRIPT_SRC =
+  ENV === 'production'
+    ? `https://cdn.jsdelivr.net/npm/${name}@2`
+    : ENV === 'preview'
+    ? `https://attributes-git`
+    : `http://localhost:${SERVE_PORT}`;
 
 const buildOptions: esbuild.BuildOptions = {
   bundle: true,
@@ -68,7 +73,7 @@ else {
       servedir: '.',
       port: SERVE_PORT,
     })
-    .then(() => console.log(`Serving files at ${SCRIPT_SRC}`));
+    .then(() => console.log(`Serving library at http://localhost:${SERVE_PORT}/dist/index.js`));
 }
 
 // Generate schemas
