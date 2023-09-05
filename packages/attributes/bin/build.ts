@@ -15,14 +15,13 @@ declare const process: {
 
 // Config output
 const ENV = process.env.VERCEL_ENV || process.env.NODE_ENV || 'development';
-const PRODUCTION = ENV === 'production';
+const DEV = ENV === 'development';
 const BUILD_DIRECTORY = './dist';
 
 // Config entrypoint files
 const ENTRY_POINTS = ['src/index.ts'];
 
 // Config dev serving
-const LIVE_RELOAD = !PRODUCTION;
 const SERVE_PORT = 3000;
 
 const SCRIPT_SRC =
@@ -35,9 +34,9 @@ const SCRIPT_SRC =
 const buildOptions: esbuild.BuildOptions = {
   bundle: true,
   entryPoints: ENTRY_POINTS,
-  minify: PRODUCTION,
-  sourcemap: !PRODUCTION,
-  target: PRODUCTION ? 'es2019' : 'esnext',
+  minify: !DEV,
+  sourcemap: DEV,
+  target: DEV ? 'esnext' : 'es2019',
   define: {
     NODE_ENV: JSON.stringify(process.env.NODE_ENV),
     SCRIPT_SRC: JSON.stringify(SCRIPT_SRC),
@@ -49,7 +48,7 @@ const buildOptions: esbuild.BuildOptions = {
 const context = await esbuild.context({
   ...buildOptions,
   outdir: BUILD_DIRECTORY,
-  inject: LIVE_RELOAD ? ['./bin/live-reload.js'] : undefined,
+  inject: DEV ? ['./bin/live-reload.js'] : undefined,
   format: 'esm',
   splitting: true,
 });
@@ -59,14 +58,8 @@ try {
   readdirSync(BUILD_DIRECTORY).map((file) => unlinkSync(join(BUILD_DIRECTORY, file)));
 } catch (err) {}
 
-// Build files in prod
-if (PRODUCTION) {
-  await context.rebuild();
-  context.dispose();
-}
-
 // Watch and serve files in dev
-else {
+if (DEV) {
   await context.watch();
   await context
     .serve({
@@ -74,6 +67,12 @@ else {
       port: SERVE_PORT,
     })
     .then(() => console.log(`Serving library at http://localhost:${SERVE_PORT}/dist/index.js`));
+}
+
+// Build files in prod
+else {
+  await context.rebuild();
+  context.dispose();
 }
 
 // Generate schemas
