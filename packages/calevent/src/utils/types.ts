@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import type { CALENDAR_EVENT_PLATFORMS } from './constants';
 
 /**
@@ -6,52 +8,66 @@ import type { CALENDAR_EVENT_PLATFORMS } from './constants';
 export type CalendarEventPlatform = keyof typeof CALENDAR_EVENT_PLATFORMS;
 
 /**
- * Defines a calendar event object type.
+ * Defines a calendar event interface.
  */
 export interface CalendarEvent {
   title: string;
   start: string;
-  end: string;
-  timezone?: string | null;
-  location?: string | null;
-  description?: string | null;
+  end?: string;
+  duration?: [number, dayjs.UnitType];
+  allDay?: boolean;
+  timezone?: string;
+  rRule?: string;
+  description?: string;
+  location?: string;
+  organizer?: CalendarEventOrganizer;
+  busy?: boolean;
+  guests?: string[];
+  url?: string;
 }
 
 /**
- * Defines a Google calendar event object type.
- * @see https://developers.google.com/calendar/v3/reference/events
+ * Defines a calendar event organizer interface.
  */
-export interface GoogleCalendarEvent extends CalendarEvent {
-  platform: 'google';
+export interface CalendarEventOrganizer {
+  name: string;
+  email: string;
 }
 
-export type GoogleCalendarEventQuery = Partial<GoogleCalendarEventQueryParams>;
+/**
+ * Defines a normalized calendar event interface.
+ */
+export interface NormalizedCalendarEvent extends Omit<CalendarEvent, 'start' | 'end' | 'duration'> {
+  startTime: dayjs.Dayjs;
+  endTime: dayjs.Dayjs;
+}
 
 /**
- * Defines a Google calendar event query params object type.
- * @see https://github.com/InteractionDesignFoundation/add-event-to-calendar-docs/blob/main/services/google.md
+ * Defines Google calendar event query params Interface.
  */
-export interface GoogleCalendarEventQueryParams {
+export interface Google extends Record<string, string | boolean | number | undefined> {
   action: 'TEMPLATE';
   text: string;
   dates: string;
-  ctz: string;
-  details: string | null;
-  location: string | null;
-  crm: string;
-  trp: boolean;
-  sprop: string;
-  add: string;
-  src: string;
-  recur: string;
+  details?: string;
+  location?: string;
+  trp?: boolean;
+  sprop?: string;
+  add?: string;
+  src?: string;
+  recur?: string;
 }
 
 /**
- * Defines an Outlook calendar event object type.
- * @see https://docs.microsoft.com/en-us/previous-versions/office/office-365-api/api/version-2.0/calendar-rest-operations#EventResource
+ * Defines an Outlook calendar event query params Interface.
  */
-export interface OutlookCalendarEvent extends CalendarEvent {
-  platform: 'outlook';
+export interface Outlook extends Record<string, string | boolean | number | undefined> {
+  path: string;
+  rru: string;
+  startdt: string;
+  enddt: string;
+  subject: string;
+  allday?: boolean;
 }
 
 /**
@@ -59,7 +75,21 @@ export interface OutlookCalendarEvent extends CalendarEvent {
  * @see https://developer.apple.com/documentation/webkitjs/wkevent
  */
 export interface AppleCalendarEvent extends CalendarEvent {
-  platform: 'apple';
+export interface Yahoo extends Record<string, string | boolean | number | undefined> {
+  v: number;
+  title: string;
+  st: string;
+  desc?: string;
+  in_loc?: string;
+}
+  st: string;
+  et: string;
+  desc?: string;
+  in_loc?: string;
+}
+/**
+ * Defines an ICS calendar event query params Interface.
+ */
 }
 
 /**
@@ -71,8 +101,3 @@ export type CalendarEventStoreData = Pick<
 > & {
   eventUrl: URL;
 };
-
-/**
- * Defines a calendar event store type.
- */
-export type CalendarEventStore = Map<HTMLElement, HTMLElement>;

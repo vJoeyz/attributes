@@ -17,10 +17,10 @@ export const listenTriggerClicks = () => {
       const trigger = target.closest(getElementSelector(platform));
       if (!trigger) continue;
 
-      const calendarEvent = stores[platform].get(trigger);
+      const eventUrl = stores[platform].get(trigger);
 
       // open the event URL in a new tab
-      window.open(calendarEvent.eventUrl, '_blank');
+      window.open(eventUrl, '_blank');
     }
   });
 
