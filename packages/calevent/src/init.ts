@@ -1,9 +1,9 @@
 import { type FsAttributeInit, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { listenTriggerClicks } from './actions/trigger';
-import { initCalEventInstance } from './factory';
-import { queryAllElements } from './utils';
-import { stores } from './utils/stores';
+import { generateICalendarEvent } from './calendar';
+import { createCalendarEventInstances } from './factory';
+import { getInstanceIndex, queryAllElements, queryElement } from './utils';
 
 /**
  * Inits the attribute.
@@ -11,18 +11,12 @@ import { stores } from './utils/stores';
 export const init: FsAttributeInit = async () => {
   await waitWebflowReady();
 
-  // Query all event elements
-  const eventElements = queryAllElements('event');
+  // Call the function to generate the ICS file
+  // generateICalendarEvent(eventData, 'example-event.ics');
 
-  // Init all click listeners
-  const eventCleanups = listenTriggerClicks();
+  listenTriggerClicks();
 
-  eventElements.map(initCalEventInstance);
+  createCalendarEventInstances();
 
-  return {
-    result: stores,
-    destroy() {
-      eventCleanups();
-    },
-  };
+  return {};
 };

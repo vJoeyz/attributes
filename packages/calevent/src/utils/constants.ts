@@ -51,9 +51,13 @@ export const SETTINGS = {
     key: 'localize',
     values: { en: 'en' },
   },
+  /**
+   * Defines an element.
+   */
+  element: { key: 'element' },
 } as const satisfies AttributeSettings;
 
-export const CALENDAR_PLATFORMS = {
+export const CALENDAR_EVENT_PLATFORMS = {
   google: 'https://www.google.com/calendar/render?action=TEMPLATE',
   outlook: 'https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent',
   apple: 'https://www.icloud.com/calendar/',

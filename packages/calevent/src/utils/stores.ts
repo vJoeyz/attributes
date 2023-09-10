@@ -1,6 +1,4 @@
-import type { CalendarEventStore, CalendarEventTypes } from './types';
-
-export const stores: Record<CalendarEventTypes, CalendarEventStore> = {
+export const stores = {
   google: new Map(),
   outlook: new Map(),
   apple: new Map(),

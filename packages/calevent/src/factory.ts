@@ -1,27 +1,46 @@
-import { queryAllElements } from './utils';
+import { collectGoogleData } from './actions/collect';
+import { createGoogleInvite } from './actions/invite';
+import {
+  CALENDAR_EVENT_PLATFORMS,
+  type CalendarEventPlatform,
+  getAttribute,
+  getCMSItemWrapper,
+  getInstanceIndex,
+  queryAllElements,
+  stores,
+} from './utils';
 
-export const initCalEventInstance = (eventElement: Element) => {
-  // Get all google, outlook and apple elements
-  const googleButtons = queryAllElements('google', { scope: eventElement });
-  const outlookButtons = queryAllElements('outlook', { scope: eventElement });
-  const appleButtons = queryAllElements('apple', { scope: eventElement });
+export const createCalendarEventInstances = (scope?: HTMLElement) => {
+  for (const key in CALENDAR_EVENT_PLATFORMS) {
+    const platform = key as CalendarEventPlatform;
 
-  googleButtons.forEach((googleButton) => {
-    // only continue if the google button is a direct child of the event element to avoid multiple events
-    if (googleButton.parentElement !== eventElement) return;
-    console.log('googleButton', googleButton);
-  });
+    // Get all platform elements
+    const platformElements = queryAllElements(platform, { scope });
 
-  outlookButtons.forEach((outlookButton) => {
-    // only continue if the outlook button is a direct child of the event element to avoid multiple events
-    if (outlookButton.parentElement !== eventElement) return;
-    console.log('outlookButton', outlookButton);
-  });
+    const create = creators[platform];
 
-  appleButtons.forEach((appleButton) => {
-    // only continue if the apple button is a direct child of the event element to avoid multiple events
-    if (appleButton.parentElement !== eventElement) return;
-    console.log('appleButton', appleButton);
-  });
-  console.log('------------------');
+    platformElements.forEach(create);
+  }
+};
+
+const creators: Record<CalendarEventPlatform, (trigger: HTMLElement) => void> = {
+  google: (trigger) => {
+    if (stores.google.has(trigger)) return;
+
+    const instanceIndex = getInstanceIndex(trigger);
+
+    const cmsListItem = getCMSItemWrapper(trigger);
+
+    const google = collectGoogleData(trigger, instanceIndex, cmsListItem);
+
+    const inviteData = createGoogleInvite(google);
+
+    stores.google.set(trigger, inviteData);
+  },
+  outlook: function (trigger: HTMLElement): void {
+    throw new Error('creators.outlook Function not implemented.');
+  },
+  apple: function (trigger: HTMLElement): void {
+    throw new Error('creators.apple Function not implemented.');
+  },
 };
