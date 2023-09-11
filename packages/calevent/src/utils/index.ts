@@ -1,5 +1,6 @@
 export * from './constants';
 export * from './dom';
+export * from './schema';
 export * from './selectors';
 export * from './stores';
 export * from './types';
