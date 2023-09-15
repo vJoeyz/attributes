@@ -61,6 +61,7 @@
     "@finsweet/attributes-inputcounter": "workspace:*",
     "@finsweet/attributes-launchdarkly": "workspace:*",
     "@finsweet/attributes-linkblockedit": "workspace:*",
+    "@finsweet/attributes-list": "workspace:*",
     "@finsweet/attributes-mirrorclick": "workspace:*",
     "@finsweet/attributes-mirrorinput": "workspace:*",
     "@finsweet/attributes-modal": "workspace:*",

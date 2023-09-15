@@ -1,0 +1,3 @@
+- Lists & Items animation.
+- Scroll anchors. Should we allow action-specific scroll anchors?
+- Switch page back to 1 when changing filters or sorting.

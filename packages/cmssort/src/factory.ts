@@ -1,5 +1,5 @@
 import { addListAnimation, type CMSList } from '@finsweet/attributes-cmscore';
-import { type Dropdown, DROPDOWN_CSS_CLASSES, isHTMLSelectElement } from '@finsweet/attributes-utils';
+import { DROPDOWN_CSS_CLASSES, type DropdownElement, isHTMLSelectElement } from '@finsweet/attributes-utils';
 
 import { listenListEvents } from './actions/events';
 import { initButtons } from './modes/buttons';
@@ -56,7 +56,7 @@ export const initListSorting = (listInstance: CMSList) => {
   // Init mode
   const [firstTrigger] = triggers;
   const isSelect = isHTMLSelectElement(firstTrigger);
-  const isDropdown = firstTrigger.closest<Dropdown>(`.${DROPDOWN_CSS_CLASSES.dropdown}`);
+  const isDropdown = firstTrigger.closest<DropdownElement>(`.${DROPDOWN_CSS_CLASSES.dropdown}`);
 
   const sortActions = isSelect
     ? initHTMLSelect(firstTrigger, listInstance)

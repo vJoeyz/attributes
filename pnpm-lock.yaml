@@ -164,6 +164,9 @@ importers:
       '@finsweet/attributes-linkblockedit':
         specifier: workspace:*
         version: link:../linkblockedit
+      '@finsweet/attributes-list':
+        specifier: workspace:*
+        version: link:../list
       '@finsweet/attributes-mirrorclick':
         specifier: workspace:*
         version: link:../mirrorclick
@@ -470,6 +473,15 @@ importers:
       '@finsweet/attributes-utils':
         specifier: workspace:*
         version: link:../utils
+
+  packages/list:
+    dependencies:
+      '@finsweet/attributes-utils':
+        specifier: workspace:*
+        version: link:../utils
+      nanostores:
+        specifier: ^0.9.3
+        version: 0.9.3
 
   packages/mirrorclick:
     dependencies:
@@ -3066,6 +3078,11 @@ packages:
     resolution: {integrity: sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==}
     engines: {node: ^14 || ^16 || >=18}
     hasBin: true
+    dev: false
+
+  /nanostores@0.9.3:
+    resolution: {integrity: sha512-KobZjcVyNndNrb5DAjfs0WG0lRcZu5Q1BOrfTOxokFLi25zFrWPjg+joXC6kuDqNfSt9fQwppyjUBkRPtsL+8w==}
+    engines: {node: ^16.0.0 || ^18.0.0 || >=20.0.0}
     dev: false
 
   /natural-compare-lite@1.4.0:
