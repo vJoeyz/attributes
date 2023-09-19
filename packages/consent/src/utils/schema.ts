@@ -102,7 +102,7 @@ const SCHEMA_SETTINGS: SchemaSettings<typeof SETTINGS> = {
   resetix: {
     ...SETTINGS.resetix,
     name: 'Webflow IX',
-    description: 'if set to true, `restartWebflow()` will be called after the consent is updated',
+    description: 'if set to true, `restartWebflow(["ix2"])` will be called after the consent is updated',
     type: 'boolean',
   },
   animation: {

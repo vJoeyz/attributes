@@ -54,7 +54,7 @@ export const renderComponentsFromSource = async (source: string, resetix: boolea
     if (resetix) {
       await waitWebflowReady();
 
-      await restartWebflow();
+      restartWebflow(['ix2']);
     }
   } catch (error) {
     Debug.alert(`${error}`, 'error');
