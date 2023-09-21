@@ -6,7 +6,8 @@ const SCHEMA_SETTINGS: SchemaSettings<typeof SETTINGS> = {
   mode: {
     ...SETTINGS.mode,
     name: 'Opt-in',
-    description: 'Defines if the user can opt-in to cookies',
+    description:
+      'Opt-in means the user must explicitly “opt-in” to cookies before they are loaded on the page. Opt-out means cookies are loaded immediately and they can “opt-out” of the loaded cookies.',
     type: 'select',
   },
 
