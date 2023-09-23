@@ -1,11 +1,8 @@
-import { unescapeHTML } from '@finsweet/attributes-utils';
 import dayjs from 'dayjs';
 
 import {
-  CALENDAR_EVENT_PLATFORMS,
   type CalendarEvent,
   type CalendarEventOrganizer,
-  type CalendarEventPlatform,
   ELEMENTS,
   type Google,
   type NormalizedCalendarEvent,
