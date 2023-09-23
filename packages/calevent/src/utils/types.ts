@@ -68,28 +68,52 @@ export interface Outlook extends Record<string, string | boolean | number | unde
   enddt: string;
   subject: string;
   allday?: boolean;
+  body?: string;
+  location?: string;
 }
 
 /**
- * Defines an Apple calendar event object type.
- * @see https://developer.apple.com/documentation/webkitjs/wkevent
+ * Defines a Yahoo calendar event query params Interface.
  */
-export interface AppleCalendarEvent extends CalendarEvent {
 export interface Yahoo extends Record<string, string | boolean | number | undefined> {
   v: number;
   title: string;
-  st: string;
-  desc?: string;
-  in_loc?: string;
-}
   st: string;
   et: string;
   desc?: string;
   in_loc?: string;
 }
+
+/**
+ * Defines an AOL calendar event query params Interface.
+ */
+export interface Aol extends Record<string, string | boolean | number | undefined> {
+  v: number;
+  title: string;
+  st: string;
+  et: string;
+  desc?: string;
+  in_loc?: string;
+}
+
 /**
  * Defines an ICS calendar event query params Interface.
  */
+export interface Ics extends Record<string, string | boolean | number | undefined> {
+  BEGIN: 'VCALENDAR' | 'VEVENT';
+  VERSION: number;
+  PRODID: string;
+  URL: string;
+  DTSTART: string;
+  DTEND: string;
+  DTSTAMP: string;
+  RRULE?: string;
+  SUMMARY: string;
+  DESCRIPTION?: string;
+  LOCATION?: string;
+  ORGANIZER?: string;
+  UID: string;
+  END: 'VEVENT' | 'VCALENDAR';
 }
 
 /**
