@@ -122,7 +122,7 @@ export function collectGoogleData(
     details: event.description,
     location: event.location,
     trp: event.busy,
-    dates: start + '/' + end,
+    dates: `${start}/${end}`
     recur: event.rRule ? `RRULE:${event.rRule}` : undefined;
   };
 
