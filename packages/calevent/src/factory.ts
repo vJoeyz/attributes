@@ -1,7 +1,6 @@
 import { collectGoogleData, collectIcsData, collectOutlookData } from './actions/collect';
 import {
   createGoogleCalendarEventURL,
-  createGoogleInvite,
   createIcsCalendarDownloadURL,
   createOutlookCalendarEventURL,
 } from './actions/invite';

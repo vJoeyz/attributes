@@ -1,3 +1,4 @@
+import { unescapeHTML } from '@finsweet/attributes-utils';
 import dayjs from 'dayjs';
 
 import {
@@ -45,7 +46,7 @@ function makeEvent(
   const end: string | undefined = getElementTextContent('end', instanceIndex, scope);
   const timezone = getElementTextContent('timezone', instanceIndex, scope);
   const location = getElementTextContent('location', instanceIndex, scope);
-  const description = getElementTextContent('description', instanceIndex, scope);
+  const description = getElementHTMLContent('description', instanceIndex, scope);
 
   return {
     title,
@@ -71,6 +72,34 @@ function getElementTextContent(
 ): string | undefined {
   const element = queryElement(attributeElement, { instanceIndex, scope });
   return element && element.textContent ? element.textContent : undefined;
+}
+
+/**
+ * Get the html content of an Html element.
+ * @param attributeElement The attribute element i.e 'google', 'outlook'
+ * @param instanceIndex The instance index
+ * @param scope The element scope
+ * @returns The element text content
+ */
+function getElementHTMLContent(
+  attributeElement: (typeof ELEMENTS)[number],
+  instanceIndex: number | undefined,
+  scope: HTMLElement | undefined
+): string | undefined {
+  const element = queryElement(attributeElement, { instanceIndex, scope });
+
+  if (!element) return undefined;
+
+  // minify html and remove new lines and tabs from html
+  return minifyHTML(element.innerHTML);
+}
+
+function minifyHTML(html: string) {
+  // Use regular expressions to remove newlines, tabs, spaces around tags, and extra spaces
+  return html
+    .replace(/\n/g, '')
+    .replace(/\t/g, '')
+    .replace(/\s*(<[^>]*>)\s*/g, '$1');
 }
 
 /**

@@ -1,12 +1,6 @@
 import { getObjectEntries } from '@finsweet/attributes-utils';
 
-import {
-  CALENDAR_EVENT_PLATFORMS,
-  type CalendarEventOrganizer,
-  type CalendarEventPlatform,
-  type Google,
-  type Outlook,
-} from '../utils';
+import { CALENDAR_EVENT_PLATFORMS, type CalendarEventOrganizer, type Google, type Outlook } from '../utils';
 
 /**
  * Generate the Google Calendar event URL.
