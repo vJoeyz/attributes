@@ -243,6 +243,10 @@ importers:
       dayjs:
         specifier: ^1.11.9
         version: 1.11.9
+    devDependencies:
+      '@finsweet/attributes-cmscore':
+        specifier: workspace:*
+        version: link:../cmscore
 
   packages/cmscombine:
     dependencies:
