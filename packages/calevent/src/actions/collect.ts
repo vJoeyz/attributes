@@ -126,7 +126,7 @@ export function collectGoogleData(
     recur: event.rRule ? `RRULE:${event.rRule}` : undefined;
   };
 
-  if (event.guests && event.guests.length) {
+  if (event.guests?.length) {
     details.add = event.guests.join();
   }
 
