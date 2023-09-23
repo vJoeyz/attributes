@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-calevent",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Create custom calendar invites easily on Webflow.",
   "private": true,
   "type": "module",

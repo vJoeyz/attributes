@@ -3,6 +3,7 @@ import { type FsAttributeInit, waitAttributeLoaded, waitWebflowReady } from '@fi
 
 import { listenTriggerClicks } from './actions/trigger';
 import { createCalendarEventInstances } from './factory';
+import { stores } from './utils';
 
 /**
  * Inits the attribute.
@@ -10,12 +11,12 @@ import { createCalendarEventInstances } from './factory';
 export const init: FsAttributeInit = async () => {
   await waitWebflowReady();
 
-  listenTriggerClicks();
+  // click listener callback
+  const removeClickListener = listenTriggerClicks();
 
   // create button for static items
   createCalendarEventInstances();
 
-  return {};
   // create button from dynamic list in memory
   const listInstances: CMSList[] = (await waitAttributeLoaded('cmsload')) || [];
 
@@ -24,4 +25,11 @@ export const init: FsAttributeInit = async () => {
       createCalendarEventInstances(element);
     }
   }
+
+  return {
+    result: stores,
+    destroy() {
+      removeClickListener();
+    },
+  };
 };
