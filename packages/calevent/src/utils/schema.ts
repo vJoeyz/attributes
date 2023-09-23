@@ -5,8 +5,14 @@ import { ELEMENTS, SETTINGS } from './constants';
 const SCHEMA_SETTINGS: SchemaSettings<typeof SETTINGS> = {
   localize: {
     ...SETTINGS.localize,
-    name: 'Localize',
-    description: 'Defines the language of the calendar event',
+    name: 'Locale',
+    description: 'Defines the locale for the calendar event',
+    type: 'select',
+  },
+  element: {
+    ...SETTINGS.element,
+    name: 'Element',
+    description: 'Defines the element to be used for the calendar event',
     type: 'select',
   },
 };
