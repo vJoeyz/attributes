@@ -68,7 +68,7 @@ function getElementTextContent(
   scope: HTMLElement | undefined
 ): string | undefined {
   const element = queryElement(attributeElement, { instanceIndex, scope });
-  return element && element.textContent ? element.textContent : undefined;
+  return element?.textContent;
 }
 
 /**
