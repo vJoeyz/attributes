@@ -4,7 +4,7 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 
 import type { CalendarEvent, NormalizedCalendarEvent } from '../utils';
-import { isValidTimeZone } from '../utils/timezones';
+import { currentTimezoneCode, isValidTimeZone } from '../utils/timezones';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -32,8 +32,8 @@ export const eventify = (eventDetails: CalendarEvent, toUtc = true): NormalizedC
     startTime = startTime.tz(eventDetails.timezone, true);
     endTime = endTime.tz(eventDetails.timezone, true);
   } else {
-    startTime = startTime.tz(dayjs.tz.guess(), true);
-    endTime = endTime.tz(dayjs.tz.guess(), true);
+    startTime = startTime.tz(currentTimezoneCode, true);
+    endTime = endTime.tz(currentTimezoneCode, true);
   }
 
   return {
