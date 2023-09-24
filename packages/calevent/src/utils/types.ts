@@ -73,30 +73,6 @@ export interface Outlook extends Record<string, string | boolean | number | unde
 }
 
 /**
- * Defines a Yahoo calendar event query params Interface.
- */
-export interface Yahoo extends Record<string, string | boolean | number | undefined> {
-  v: number;
-  title: string;
-  st: string;
-  et: string;
-  desc?: string;
-  in_loc?: string;
-}
-
-/**
- * Defines an AOL calendar event query params Interface.
- */
-export interface Aol extends Record<string, string | boolean | number | undefined> {
-  v: number;
-  title: string;
-  st: string;
-  et: string;
-  desc?: string;
-  in_loc?: string;
-}
-
-/**
  * Defines an ICS calendar event query params Interface.
  */
 export interface Ics extends Record<string, string | boolean | number | undefined> {
