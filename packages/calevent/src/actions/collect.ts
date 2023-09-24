@@ -3,13 +3,13 @@ import dayjs from 'dayjs';
 import {
   type CalendarEvent,
   type CalendarEventOrganizer,
-  ELEMENTS,
   type Google,
   type NormalizedCalendarEvent,
   type Outlook,
-  queryElement,
   TimeFormats,
 } from '../utils';
+import { getElementHTMLContent, getElementTextContent, minifyHTML } from '../utils/html';
+import { formatDescription, formatLocation } from '../utils/ics';
 import { currentTimezoneCode, isValidTimeZone } from '../utils/timezones';
 import { eventify } from './eventify';
 
@@ -54,50 +54,6 @@ function makeEvent(
     location,
     description,
   };
-}
-
-/**
- * Get the text content of an Html element.
- * @param attributeElement The attribute element i.e 'google', 'outlook'
- * @param instanceIndex The instance index
- * @param scope The element scope
- * @returns The element text content
- */
-function getElementTextContent(
-  attributeElement: (typeof ELEMENTS)[number],
-  instanceIndex: number | undefined,
-  scope: HTMLElement | undefined
-): string | undefined {
-  const element = queryElement(attributeElement, { instanceIndex, scope });
-  return element?.textContent ?? '';
-}
-
-/**
- * Get the html content of an Html element.
- * @param attributeElement The attribute element i.e 'google', 'outlook'
- * @param instanceIndex The instance index
- * @param scope The element scope
- * @returns The element text content
- */
-function getElementHTMLContent(
-  attributeElement: (typeof ELEMENTS)[number],
-  instanceIndex: number | undefined,
-  scope: HTMLElement | undefined
-): string | undefined {
-  const element = queryElement(attributeElement, { instanceIndex, scope });
-
-  if (!element) return undefined;
-
-  // minify html and remove new lines and tabs from html
-  return minifyHTML(element.innerHTML);
-}
-
-function minifyHTML(html: string) {
-  // Use regular expressions to remove newlines, tabs, spaces around tags, and extra spaces
-  return html
-    .replace(/\n/g, '')
-    .replace(/\t/g, '')
-    .replace(/\s*(<[^>]*>)\s*/g, '$1');
 }
 
 /**
@@ -172,20 +128,6 @@ export function collectIcsData(
   const eventDetails = makeEvent(trigger, instanceIndex, scope);
   const event = eventify(eventDetails);
 
-  const formattedDescription: string = (event.description || '')
-    .replace(/,/gm, ',')
-    .replace(/;/gm, ';')
-    .replace(/\r\n/gm, '\n')
-    .replace(/\n/gm, '\\n')
-    .replace(/(\\n)[\s\t]+/gm, '\\n');
-
-  const formattedLocation: string = (event.location || '')
-    .replace(/,/gm, ',')
-    .replace(/;/gm, ';')
-    .replace(/\r\n/gm, '\n')
-    .replace(/\n/gm, '\\n')
-    .replace(/(\\n)[\s\t]+/gm, '\\n');
-
   const { start, end } = formatTimes(event, event.allDay ? 'allDay' : 'dateTimeUTC');
 
   const dateStamp = dayjs(new Date()).utc().format(TimeFormats['dateTimeUTC']);
@@ -232,11 +174,11 @@ export function collectIcsData(
     },
     {
       key: 'DESCRIPTION',
-      value: formattedDescription,
+      value: formatDescription(event.description ?? ''),
     },
     {
       key: 'LOCATION',
-      value: formattedLocation,
+      value: formatLocation(event.location ?? ''),
     },
     {
       key: 'ORGANIZER',
