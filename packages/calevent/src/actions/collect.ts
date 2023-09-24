@@ -10,6 +10,7 @@ import {
   queryElement,
   TimeFormats,
 } from '../utils';
+import { currentTimezoneCode, isValidTimeZone } from '../utils/timezones';
 import { eventify } from './eventify';
 
 /**
@@ -68,7 +69,7 @@ function getElementTextContent(
   scope: HTMLElement | undefined
 ): string | undefined {
   const element = queryElement(attributeElement, { instanceIndex, scope });
-  return element?.textContent;
+  return element?.textContent ?? '';
 }
 
 /**
@@ -122,9 +123,15 @@ export function collectGoogleData(
     details: event.description,
     location: event.location,
     trp: event.busy,
-    dates: `${start}/${end}`
-    recur: event.rRule ? `RRULE:${event.rRule}` : undefined;
+    dates: `${start}/${end}`,
+    recur: event.rRule ? `RRULE:${event.rRule}` : undefined,
   };
+
+  if (isValidTimeZone(event.timezone)) {
+    details.ctz = event.timezone;
+  } else {
+    details.ctz = currentTimezoneCode;
+  }
 
   if (event.guests?.length) {
     details.add = event.guests.join();
