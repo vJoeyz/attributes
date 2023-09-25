@@ -45,6 +45,11 @@ export const ELEMENTS = [
    * Defines a sorting trigger.
    */
   'sort-trigger',
+
+  /**
+   * Defines a dropdown label.
+   */
+  'dropdown-label',
 ] as const satisfies AttributeElements;
 
 export const SETTINGS = {

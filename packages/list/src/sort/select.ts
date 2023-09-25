@@ -10,15 +10,15 @@ import type { SortingDirection } from './types';
  * @param list The {@link List} instance.
  */
 export const initHTMLSelect = (selectElement: HTMLSelectElement, list: List) => {
-  let [sortKey, direction] = getSortingParams(selectElement.value);
+  let [sortKey, sortDirection] = getSortingParams(selectElement.value);
 
-  list.addHook('sort', (items) => sortListItems(items, sortKey, direction));
+  list.addHook('sort', (items) => sortListItems(items, sortKey, sortDirection));
 
   // Sort on change
   const changeCleanup = addListener(selectElement, 'change', async () => {
-    [sortKey, direction] = getSortingParams(selectElement.value);
+    [sortKey, sortDirection] = getSortingParams(selectElement.value);
 
-    list.triggerHook('sort');
+    await list.triggerHook('sort');
   });
 
   // Sort items if a sortKey exists on page load
@@ -53,20 +53,20 @@ const handleFormSubmit = (e: Event) => {
  */
 const getSortingParams = (value: string) => {
   let sortKey: string;
-  let direction: SortingDirection;
+  let sortDirection: SortingDirection;
 
   if (value.endsWith('-asc')) {
-    direction = 'asc';
+    sortDirection = 'asc';
     sortKey = value.slice(0, -4);
   } else if (value.endsWith('-desc')) {
-    direction = 'desc';
+    sortDirection = 'desc';
     sortKey = value.slice(0, -5);
   } else {
-    direction = 'asc';
+    sortDirection = 'asc';
     sortKey = value;
   }
 
   sortKey = normalizePropKey(sortKey);
 
-  return [sortKey, direction] as const;
+  return [sortKey, sortDirection] as const;
 };

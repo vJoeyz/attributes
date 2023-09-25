@@ -4,6 +4,7 @@ import { ELEMENTS, SETTINGS } from './constants';
 
 export const {
   getElementSelector,
+  queryElement,
   queryAllElements,
   getSettingSelector,
   getAttribute,

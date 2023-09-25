@@ -78,7 +78,7 @@ export const initButtons = (buttons: HTMLElement[], list: List) => {
         activeButton.set(button);
         currentDirection.set(sortDirection);
 
-        list.triggerHook('sort');
+        await list.triggerHook('sort');
       });
 
       return [ariaSortCleanup, cssClassCleanup, clickCleanup];

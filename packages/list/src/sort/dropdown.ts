@@ -1,4 +1,3 @@
-import type { CMSList } from '@finsweet/attributes-cmscore';
 import {
   addListener,
   ARIA_HASPOPUP_KEY,
@@ -8,30 +7,35 @@ import {
   ARIA_SELECTED_KEY,
   closeDropdown,
   CURRENT_CSS_CLASS,
-  type DropdownElement,
   DROPDOWN_CSS_CLASSES,
+  type DropdownElement,
   type DropdownList,
   type DropdownToggle,
   isElement,
   normalizePropKey,
 } from '@finsweet/attributes-utils';
+import { atom, type WritableAtom } from 'nanostores';
 
-import { sortListItems } from '../actions/sort';
+import type { List } from '../components/List';
 import { getAttribute, queryElement } from '../utils/selectors';
-import type {
-  DropdownLabelData,
-  DropdownOption,
-  DropdownOptions,
-  SortingDirection,
-  SortItemsCallback,
-} from '../utils/types';
+import { sortListItems } from './sort';
+import type { SortingDirection } from './types';
+
+type DropdownOption = {
+  element: HTMLAnchorElement;
+  sortKey?: string;
+  sortDirection?: SortingDirection;
+  cleanup: () => void;
+};
+
+type DropdownOptions = Map<HTMLAnchorElement, DropdownOption>;
 
 /**
  * Inits sorting on a `Dropdown` component.
  * @param dropdown The {@link DropdownElement} element.
- * @param listInstance The {@link CMSList} instance.
+ * @param list The {@link List} instance.
  */
-export const initDropdown = (dropdown: DropdownElement, listInstance: CMSList) => {
+export const initDropdown = (dropdown: DropdownElement, list: List) => {
   const dropdownToggle = dropdown.querySelector<DropdownToggle>(`.${DROPDOWN_CSS_CLASSES.dropdownToggle}`);
   const dropdownList = dropdown.querySelector<DropdownList>(`.${DROPDOWN_CSS_CLASSES.dropdownList}`);
 
@@ -41,74 +45,51 @@ export const initDropdown = (dropdown: DropdownElement, listInstance: CMSList) =
 
   setDropdownAria(dropdownToggle, dropdownList);
 
-  const dropdownLabel = collectDropdownLabelData(dropdownToggle);
-  const dropdownOptions = collectDropdownOptions(dropdownList);
+  const activeOption = atom<DropdownOption | undefined>();
 
+  let sortKey: string | undefined;
+  let sortDirection: SortingDirection | undefined;
+
+  list.addHook('sort', (items) => sortListItems(items, sortKey, sortDirection));
+
+  // Listen events
+  const dropdownLabelCleanup = initDropdownLabel(dropdownToggle, activeOption);
+
+  const dropdownOptions = initDropdownOptions(dropdownList, activeOption);
   if (!dropdownOptions) {
     return;
   }
 
-  let sorting = false;
-  let sortKey: string | undefined;
-  let direction: SortingDirection | undefined;
-
-  /**
-   * Sorts the items based on the current selected `sortKey` and `direction`.
-   * @param addingItems Defines if new items are being added.
-   * In that case, the rendering responsibilities are handled by another controller.
-   */
-  const sortItems: SortItemsCallback = async (addingItems?: boolean) => {
-    await sortListItems(listInstance, { direction, sortKey, addingItems });
-  };
-
-  // Listen events
   const clickCleanup = addListener(dropdownList, 'click', async (e) => {
     e.preventDefault();
-
-    if (sorting) return;
-
-    sorting = true;
 
     const { target } = e;
 
     if (!isElement(target)) {
-      sorting = false;
       return;
     }
 
     const optionElement = target.closest('a');
-    if (!optionElement) {
-      sorting = false;
-      return;
-    }
+    if (!optionElement) return;
 
-    const optionData = dropdownOptions.find(({ element }) => element === optionElement);
-    if (!optionData || optionData.selected) {
-      sorting = false;
-      return;
-    }
+    const optionData = dropdownOptions.get(optionElement);
+    if (!optionData) return;
 
-    const previousSelectedOption = dropdownOptions.find(({ selected }) => selected);
-    if (previousSelectedOption) previousSelectedOption.selected = false;
+    const isSelected = activeOption.get()?.element === optionElement;
+    if (isSelected) return;
 
-    optionData.selected = true;
+    activeOption.set(optionData);
 
-    ({ sortKey, direction } = optionData);
-
-    updateOptionsState(dropdownOptions);
-
-    dropdownLabel?.updateContent(optionData);
+    ({ sortKey, sortDirection } = optionData);
 
     closeDropdown(dropdownToggle);
 
-    await sortItems();
-
-    sorting = false;
+    await list.triggerHook('sort');
   });
 
   return {
-    sortItems,
     cleanup: () => {
+      dropdownLabelCleanup?.();
       clickCleanup();
     },
   };
@@ -119,11 +100,10 @@ export const initDropdown = (dropdown: DropdownElement, listInstance: CMSList) =
  * @param dropdownList The {@link DropdownList} element.
  * @returns
  */
-const collectDropdownOptions = (dropdownList: DropdownList) => {
-  const dropdownOptions: DropdownOptions = [];
+const initDropdownOptions = (dropdownList: DropdownList, activeOption: WritableAtom<DropdownOption | undefined>) => {
+  const dropdownOptions: DropdownOptions = new Map();
 
-  const options = dropdownList.querySelectorAll('a');
-
+  const options = [...dropdownList.querySelectorAll('a')];
   if (!options.length) return;
 
   for (const element of options) {
@@ -132,53 +112,65 @@ const collectDropdownOptions = (dropdownList: DropdownList) => {
     const fieldKey = getAttribute(element, 'field');
 
     let sortKey: string | undefined;
-    let direction: SortingDirection | undefined;
+    let sortDirection: SortingDirection | undefined;
 
     if (fieldKey) {
       if (fieldKey.endsWith('-asc')) {
-        direction = 'asc';
+        sortDirection = 'asc';
         sortKey = fieldKey.slice(0, -4);
       } else if (fieldKey.endsWith('-desc')) {
-        direction = 'desc';
+        sortDirection = 'desc';
         sortKey = fieldKey.slice(0, -5);
       } else {
-        direction = 'asc';
+        sortDirection = 'asc';
         sortKey = fieldKey;
       }
     }
 
-    if (sortKey) sortKey = normalizePropKey(sortKey);
+    if (sortKey) {
+      sortKey = normalizePropKey(sortKey);
+    }
 
-    dropdownOptions.push({ element, sortKey, direction, selected: false });
+    // Handle active state
+    const cleanup = activeOption.subscribe((option) => {
+      const isSelected = option?.element === element;
+
+      if (isSelected) {
+        element.setAttribute(ARIA_SELECTED_KEY, 'true');
+        element.classList.add(CURRENT_CSS_CLASS);
+      } else {
+        element.removeAttribute(ARIA_SELECTED_KEY);
+        element.classList.remove(CURRENT_CSS_CLASS);
+      }
+    });
+
+    dropdownOptions.set(element, { element, sortKey, sortDirection, cleanup });
   }
 
   return dropdownOptions;
 };
 
 /**
- * Collects the data of the dynamic label in the Dropdown Toggle.
+ * Dynamically updates the Dropdown label with the selected option.
  * @param dropdownToggle The {@link DropdownToggle}.
- * @returns A {@link DropdownLabelData} object, if existing.
+ * @returns A cleanup function.
  */
-const collectDropdownLabelData = (dropdownToggle: DropdownToggle): DropdownLabelData | undefined => {
+const initDropdownLabel = (dropdownToggle: DropdownToggle, activeOption: WritableAtom<DropdownOption | undefined>) => {
   const dropdownLabel = queryElement('dropdown-label', { scope: dropdownToggle });
   if (!dropdownLabel) return;
 
   const originalHTML = dropdownLabel.innerHTML;
 
-  /**
-   * Updates the dropdown label's content.
-   * @param option The selected {@link DropdownOption}.
-   */
-  const updateContent = ({ element, sortKey }: DropdownOption) => {
-    dropdownLabel.innerHTML = sortKey ? element.innerHTML : originalHTML;
-  };
+  const cleanup = activeOption.subscribe((option) => {
+    if (!option) {
+      dropdownLabel.innerHTML = originalHTML;
+      return;
+    }
 
-  return {
-    element: dropdownLabel,
-    originalHTML,
-    updateContent,
-  };
+    dropdownLabel.innerHTML = option.element.innerHTML;
+  });
+
+  return cleanup;
 };
 
 /**
@@ -190,21 +182,4 @@ const setDropdownAria = (dropdownToggle: DropdownToggle, dropdownList: DropdownL
   dropdownToggle.setAttribute(ARIA_HASPOPUP_KEY, ARIA_ROLE_VALUES.listbox);
   dropdownList.setAttribute(ARIA_ROLE_KEY, ARIA_ROLE_VALUES.listbox);
   dropdownList.setAttribute(ARIA_MULTISELECTABLE_KEY, 'false');
-};
-
-/**
- * Updates the state of each Dropdown Option.
- * @param dropdownOptions A {@link DropdownOptions} array.
- */
-const updateOptionsState = (dropdownOptions: DropdownOptions) => {
-  for (const { element, selected } of dropdownOptions) {
-    if (selected) {
-      element.setAttribute(ARIA_SELECTED_KEY, 'true');
-      element.classList.add(CURRENT_CSS_CLASS);
-      continue;
-    }
-
-    element.removeAttribute(ARIA_SELECTED_KEY);
-    element.classList.remove(CURRENT_CSS_CLASS);
-  }
 };

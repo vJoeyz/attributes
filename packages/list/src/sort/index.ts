@@ -2,7 +2,7 @@ import { DROPDOWN_CSS_CLASSES, type DropdownElement, isHTMLSelectElement } from 
 
 import type { List } from '../components/List';
 import { initButtons } from './buttons';
-// import { initDropdown } from './dropdown';
+import { initDropdown } from './dropdown';
 import { initHTMLSelect } from './select';
 
 export const initListSorting = (list: List, triggers: HTMLElement[]) => {
@@ -11,11 +11,11 @@ export const initListSorting = (list: List, triggers: HTMLElement[]) => {
   const isSelect = isHTMLSelectElement(firstTrigger);
   const isDropdown = firstTrigger.closest<DropdownElement>(`.${DROPDOWN_CSS_CLASSES.dropdown}`);
 
-  if (isSelect) {
-    initHTMLSelect(firstTrigger, list);
-  } else if (isDropdown) {
-    // initDropdown(firstTrigger, list);
-  } else {
-    initButtons(triggers, list);
-  }
+  const cleanup = isSelect
+    ? initHTMLSelect(firstTrigger, list)
+    : isDropdown
+    ? initDropdown(isDropdown, list)
+    : initButtons(triggers, list);
+
+  return cleanup;
 };
