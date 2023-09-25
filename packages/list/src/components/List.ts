@@ -1,4 +1,5 @@
 import {
+  type CollectionItemElement,
   type CollectionListElement,
   type CollectionListWrapperElement,
   getObjectEntries,
@@ -10,7 +11,9 @@ import {
 import { atom, type WritableAtom } from 'nanostores';
 
 import { getCollectionElements } from '../utils/dom';
-import { getInstanceIndex } from '../utils/selectors';
+import { getPaginationQuery } from '../utils/pagination';
+import { subscribeMultiple } from '../utils/reactivity';
+import { getInstanceIndex, queryElement } from '../utils/selectors';
 import { listInstancesStore } from '../utils/store';
 import { ListItem } from './ListItem';
 
@@ -71,7 +74,7 @@ export class List {
   public readonly items: WritableAtom<ListItem[]> = atom([]);
 
   /**
-   * A signal holding all rendered {@link ListItem} instances.
+   * A set holding all rendered {@link ListItem} instances.
    */
   public renderedItems: Set<ListItem> = new Set();
 
@@ -108,7 +111,32 @@ export class List {
   /**
    * A custom `Empty State` element.
    */
-  public emptyElement?: HTMLElement | null;
+  public readonly emptyElement?: HTMLElement | null;
+
+  /**
+   * A custom loader element.
+   */
+  public readonly loaderElement?: HTMLElement | null;
+
+  /**
+   * An element that displays the total amount of items in the list.
+   */
+  public readonly itemsCountElement?: HTMLElement | null;
+
+  /**
+   * An element that displays the amount of visible items.
+   */
+  public readonly visibleCountElement?: HTMLElement | null;
+
+  /**
+   * An element that displays the lower range of visible items.
+   */
+  public readonly visibleCountFromElement?: HTMLElement | null;
+
+  /**
+   * An element that displays the upper range of visible items.
+   */
+  public readonly visibleCountToElement?: HTMLElement | null;
 
   /**
    * Defines the amount of items per page.
@@ -120,20 +148,51 @@ export class List {
    */
   public readonly totalPages = atom(1);
 
+  /**
+   * Defines the current page in `Pagination` mode.
+   */
+  public readonly currentPage = atom<number | undefined>();
+
+  /**
+   * Defines if the pagination query param should be added to the URL when switching pages.
+   * @example '?5f7457b3_page=1'
+   */
+  public readonly showPagesQuery = atom(false);
+
+  /**
+   * Defines the query key for the paginated pages.
+   * @example '5f7457b3_page'
+   */
+  public pagesQuery?: string;
+
+  /**
+   * Defines an awaitable Promise that resolves once the pagination data (`currentPage` + `pagesQuery`) has been extracted.
+   */
+  public loadingPaginationData?: Promise<void>;
+
+  /**
+   * Defines if loaded CMS Items can be cached using IndexedDB after fetching them.
+   */
+  public cacheItems = true;
+
   constructor(public readonly wrapperElement: CollectionListWrapperElement, public readonly pageIndex: number) {
     // Collect elements
     const listElement = getCollectionElements(wrapperElement, 'list');
-
     this.listElement = listElement;
+
+    const instanceIndex = getInstanceIndex(listElement || wrapperElement);
+    this.instanceIndex = instanceIndex;
 
     this.paginationWrapperElement = getCollectionElements(wrapperElement, 'pagination-wrapper');
     this.paginationCountElement = getCollectionElements(wrapperElement, 'page-count');
     this.paginationNextElement = getCollectionElements(wrapperElement, 'pagination-next');
     this.paginationPreviousElement = getCollectionElements(wrapperElement, 'pagination-previous');
     this.emptyElement = getCollectionElements(wrapperElement, 'empty');
-
-    // Collect instance index
-    this.instanceIndex = getInstanceIndex(listElement || wrapperElement);
+    this.loaderElement = queryElement('loader', { instanceIndex });
+    this.itemsCountElement = queryElement('items-count', { instanceIndex });
+    this.visibleCountElement = queryElement('visible-count', { instanceIndex });
+    this.visibleCountFromElement = queryElement('visible-count-from', { instanceIndex });
+    this.visibleCountToElement = queryElement('visible-count-to', { instanceIndex });
 
     // Collect items
     const collectionItemElements = getCollectionElements(wrapperElement, 'item');
@@ -146,6 +205,17 @@ export class List {
       this.items.set(items);
       this.renderedItems = new Set(items);
     }
+
+    // Extract pagination data
+    this.loadingPaginationData = getPaginationQuery(this).then((paginationQuery) => {
+      if (!paginationQuery) return;
+
+      const [pagesQuery, targetPage] = paginationQuery;
+
+      this.pagesQuery = pagesQuery;
+
+      this.currentPage.set(paginationQuery ? targetPage : undefined);
+    });
 
     // Add render hook
     this.addHook('render', (items) => {
@@ -197,7 +267,26 @@ export class List {
       items.listen(() => this.triggerHook(key));
     }
 
-    this.itemsPerPage.listen(() => this.triggerHook('paginate'));
+    // TODO: Move this into pagination mode
+    // this.itemsPerPage.listen(() => this.triggerHook('paginate'));
+
+    // Elements side effects
+    // TODO: Refactor this
+    this.items.subscribe((items) => {
+      if (this.itemsCountElement) {
+        this.itemsCountElement.textContent = `${items.length}`;
+      }
+    });
+
+    subscribeMultiple([this.itemsPerPage, this.hooks.filter.result], ([itemsPerPage, filteredItems = []]) => {
+      if (this.visibleCountElement) {
+        const visibleCountTotal = Math.min(itemsPerPage, filteredItems.length);
+
+        this.visibleCountElement.textContent = `${visibleCountTotal}`;
+      }
+
+      // TODO: Visible count from/to
+    });
   }
 
   /**
@@ -232,11 +321,65 @@ export class List {
   }
 
   /**
+   * Stores new Collection Items in the instance.
+   *
+   * @param itemElements The new `Collection Item` elements to store.
+   * @param method Defines the storing method:
+   *
+   * - `unshift`: New items are added to the beginning of the store.
+   * - `push`: New items are added to the end of the store.
+   *
+   *  Defaults to `push`.
+   */
+  public addItems(itemElements: CollectionItemElement[], method: 'unshift' | 'push' = 'push') {
+    const { items, listElement } = this;
+
+    if (!listElement) return;
+
+    const newItems = itemElements.map((item) => new ListItem(item, listElement));
+
+    if (method === 'push') {
+      items.set([...items.get(), ...newItems]);
+    } else {
+      items.set([...newItems, ...items.get()]);
+    }
+  }
+
+  /**
+   * Adds a missing `PaginationButtonElement` to the list.
+   * @param element A {@link PaginationButtonElement}.
+   * @param elementKey The button element key.
+   * @param childIndex The button element key.
+   */
+  public addPaginationButton(
+    element: PaginationButtonElement,
+    elementKey: 'paginationNextElement' | 'paginationPreviousElement',
+    childIndex: number
+  ) {
+    const { paginationWrapperElement } = this;
+
+    if (!paginationWrapperElement || this[elementKey] || childIndex < 0) return;
+
+    element.style.display = 'none';
+
+    paginationWrapperElement.insertBefore(element, paginationWrapperElement.children[childIndex]);
+
+    this[elementKey] = element;
+  }
+
+  /**
    * Destroys the instance.
    */
   public destroy() {
     // TODO: Call store.off() on all stores
 
     listInstancesStore.delete(this.wrapperElement);
+  }
+
+  /**
+   * @returns The list element or wrapper element, whichever exists.
+   */
+  get listOrWrapper() {
+    return this.listElement || this.wrapperElement;
   }
 }

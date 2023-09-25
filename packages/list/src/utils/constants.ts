@@ -50,6 +50,31 @@ export const ELEMENTS = [
    * Defines a dropdown label.
    */
   'dropdown-label',
+
+  /**
+   * Loader
+   */
+  'loader',
+
+  /**
+   * Items count
+   */
+  'items-count',
+
+  /**
+   * Visible count
+   */
+  'visible-count',
+
+  /**
+   * Visible count from
+   */
+  'visible-count-from',
+
+  /**
+   * Visible count to
+   */
+  'visible-count-to',
 ] as const satisfies AttributeElements;
 
 export const SETTINGS = {
@@ -98,5 +123,13 @@ export const SETTINGS = {
   descclass: {
     key: 'descclass',
     values: { default: 'is-list-desc' },
+  },
+
+  /**
+   * Defines the descending CSS class.
+   */
+  loadmode: {
+    key: 'loadmode',
+    values: { default: 'load-under', infinite: 'infinite', pagination: 'pagination', renderAll: 'render-all' },
   },
 } as const satisfies AttributeSettings;

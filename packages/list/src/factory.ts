@@ -1,9 +1,10 @@
 import { type CollectionListWrapperElement } from '@finsweet/attributes-utils';
 
 import { List } from './components/List';
+import { initListLoading } from './load';
 import { initListSorting } from './sort';
 import { getCMSElementSelector, getCollectionElements } from './utils/dom';
-import { queryAllElements } from './utils/selectors';
+import { getAttribute, queryAllElements } from './utils/selectors';
 import { listInstancesStore } from './utils/store';
 
 /**
@@ -33,8 +34,13 @@ export const createListInstance = (referenceElement: HTMLElement): List | undefi
 
 export const initList = (list: List) => {
   const sortTriggers = queryAllElements('sort-trigger', { instanceIndex: list.instanceIndex });
+  const loadMode = getAttribute(list.listOrWrapper, 'loadmode', true);
 
   if (sortTriggers.length) {
     initListSorting(list, sortTriggers);
+  }
+
+  if (loadMode) {
+    initListLoading(list, loadMode);
   }
 };

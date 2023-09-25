@@ -5,6 +5,9 @@ import { initButtons } from './buttons';
 import { initDropdown } from './dropdown';
 import { initHTMLSelect } from './select';
 
+/**
+ * Inits sorting functionality for the list.
+ */
 export const initListSorting = (list: List, triggers: HTMLElement[]) => {
   // Init mode
   const [firstTrigger] = triggers;

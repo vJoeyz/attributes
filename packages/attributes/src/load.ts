@@ -22,18 +22,6 @@ export const loadAttribute = async (solution: FsAttributeKey) => {
       return import('@finsweet/attributes-cmscombine');
     }
 
-    case 'cmsfilter': {
-      return import('@finsweet/attributes-cmsfilter');
-    }
-
-    case 'cmsload': {
-      return import('@finsweet/attributes-cmsload');
-    }
-
-    case 'cmsnest': {
-      return import('@finsweet/attributes-cmsnest');
-    }
-
     case 'cmsprevnext': {
       return import('@finsweet/attributes-cmsprevnext');
     }
