@@ -8,6 +8,11 @@ import { initRenderAllMode } from './render-all';
 type LoadModeValues = (typeof SETTINGS)['loadmode']['values'];
 type LoadMode = LoadModeValues[keyof LoadModeValues];
 
+/**
+ * Inits loading functionality for the list.
+ * @param list
+ * @param mode
+ */
 export const initListLoading = async (list: List, mode: LoadMode) => {
   const cleanup =
     mode === 'render-all'
