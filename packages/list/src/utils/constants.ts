@@ -1,4 +1,4 @@
-import { type AttributeElements, type AttributeSettings } from '@finsweet/attributes-utils';
+import { type AttributeElements, type AttributeSettings, type WebflowBreakpoint } from '@finsweet/attributes-utils';
 
 export const ELEMENTS = [
   /**
@@ -75,6 +75,16 @@ export const ELEMENTS = [
    * Visible count to
    */
   'visible-count-to',
+
+  /**
+   * Defines the template element to generate all page buttons for the `paginate` mode.
+   */
+  'page-button',
+
+  /**
+   * Defines the template element to create the page dots separators.
+   */
+  'page-dots',
 ] as const satisfies AttributeElements;
 
 export const SETTINGS = {
@@ -132,4 +142,43 @@ export const SETTINGS = {
     key: 'loadmode',
     values: { default: 'load-under', infinite: 'infinite', pagination: 'pagination', renderAll: 'render-all' },
   },
+
+  /**
+   * Defines the scrolling threshold to trigger a new page load in `infinite` mode.
+   */
+  threshold: { key: 'threshold' },
+
+  /**
+   * Defines the amount of digits to display either side of the current page.
+   * It can be a comma-separated string listing the values in a `Desktop, Tablet, Landscape, Portrait` order.
+   *
+   * Defaults to {@link DEFAULT_PAGE_SIBLINGS}.
+   */
+  pagesiblings: { key: 'pagesiblings' },
+
+  /**
+   * Defines the amount of digits to display at the start and end of a page buttons list.
+   * It can be a comma-separated string listing the values in a `Desktop, Tablet, Landscape, Portrait` order.
+   *
+   * Defaults to {@link DEFAULT_PAGE_BOUNDARY}.
+   */
+  pageboundary: { key: 'pageboundary' },
+
+  /**
+   * Defines if the pagination query params should be displayed on the URL.
+   * Only works with {@link SETTINGS.mode.values.pagination} mode.
+   */
+  showquery: { key: 'showquery', values: { true: 'true' } },
 } as const satisfies AttributeSettings;
+
+export const DEFAULT_INFINITE_THRESHOLD = -20;
+
+export const DEFAULT_PAGE_SIBLINGS = 1;
+export const DEFAULT_PAGE_BOUNDARY = 1;
+
+export const BREAKPOINTS_INDEX: { [key in WebflowBreakpoint]: number } = {
+  main: 0,
+  medium: 1,
+  small: 2,
+  tiny: 3,
+} as const;

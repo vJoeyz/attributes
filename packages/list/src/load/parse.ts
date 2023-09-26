@@ -12,7 +12,7 @@ export const parseLoadedPage = async (page: Document, list: List, itemsTarget?: 
   if (!collectionListWrapper) return;
 
   // Store and mount the Pagination Previous element, if required
-  if (!paginationPreviousElement || !paginationNextElement) {
+  if (!paginationPreviousElement.get() || !paginationNextElement.get()) {
     const newPaginationWrapper = getCollectionElements(collectionListWrapper, 'pagination-wrapper');
     const newPaginationPrevious = getCollectionElements(collectionListWrapper, 'pagination-previous');
     const newPaginationNext = getCollectionElements(collectionListWrapper, 'pagination-next');

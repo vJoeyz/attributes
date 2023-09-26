@@ -1,54 +1,45 @@
-import { fetchPageDocument, type PageCountElement } from '@finsweet/attributes-utils';
+import { fetchPageDocument } from '@finsweet/attributes-utils';
 
 import type { List } from '../components/List';
 import { parseLoadedPage } from './parse';
 
 /**
- * Reads the total amount of pages of a CMS List from the `Page Count` element.
- * @param paginationCount A {@link PageCountElement}.
- *
- * @returns The total amount of existing pages.
- */
-const readPaginationCount = ({ textContent }: PageCountElement) => {
-  if (!textContent) return;
-
-  const [, rawTotalPages] = textContent.split('/');
-  if (!rawTotalPages) return;
-
-  const totalPages = parseInt(rawTotalPages.trim());
-
-  return totalPages;
-};
-
-/**
  * Loads all paginated items of a `List` instance.
- * @param listInstance The {@link List} instance.
+ * @param list The {@link List} instance.
  *
  * @returns Nothing, it mutates the `List` instance.
  */
-export const loadPaginatedItems = async (listInstance: List): Promise<void> => {
+export const loadPaginatedItems = async (list: List): Promise<void> => {
   const {
     paginationNextElement,
     paginationPreviousElement,
     paginationCountElement,
-    loadingPaginationData: extractingPaginationData,
+    loadingPaginationData,
     loaderElement,
     cacheItems,
-  } = listInstance;
+  } = list;
 
   if (!paginationNextElement && !paginationPreviousElement) return;
-
-  await extractingPaginationData;
-
-  const totalPages = paginationCountElement ? readPaginationCount(paginationCountElement) : undefined;
 
   if (loaderElement) {
     loaderElement.style.display = '';
     loaderElement.style.opacity = '1';
   }
 
-  if (totalPages) await parallelItemsLoad(listInstance, totalPages, cacheItems);
-  else await chainedPagesLoad(listInstance, cacheItems);
+  await loadingPaginationData;
+
+  // Attempt to get the total amount of pages from the `Page Count` element.
+  let totalPages;
+
+  if (paginationCountElement) {
+    const [, rawTotalPages] = paginationCountElement.textContent?.split('/') || [];
+    if (rawTotalPages) {
+      totalPages = parseInt(rawTotalPages.trim());
+    }
+  }
+
+  if (totalPages) await parallelItemsLoad(list, totalPages, cacheItems);
+  else await chainedPagesLoad(list, cacheItems);
 
   if (loaderElement) {
     loaderElement.style.display = 'none';
@@ -66,13 +57,14 @@ export const loadPaginatedItems = async (listInstance: List): Promise<void> => {
  */
 const chainedPagesLoad = async (list: List, cache: boolean): Promise<void> => {
   const currentPage = list.currentPage.get();
-  if (currentPage) {
+  if (currentPage > 1) {
     await parallelItemsLoad(list, currentPage, cache);
   }
 
-  if (!list.paginationNextElement) return;
+  const paginationNext = list.paginationNextElement.get();
+  if (!paginationNext) return;
 
-  const { href } = list.paginationNextElement;
+  const { href } = paginationNext;
   const pageLinks: string[] = [href];
 
   /**
@@ -110,7 +102,7 @@ const chainedPagesLoad = async (list: List, cache: boolean): Promise<void> => {
 const parallelItemsLoad = async (list: List, totalPages: number, cache: boolean) => {
   const { paginationNextElement, paginationPreviousElement } = list;
 
-  if (!paginationNextElement && !paginationPreviousElement) return;
+  if (!paginationNextElement.get() && !paginationPreviousElement.get()) return;
 
   const { pagesQuery } = list;
   const currentPage = list.currentPage.get();

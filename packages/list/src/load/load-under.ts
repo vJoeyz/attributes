@@ -13,9 +13,16 @@ import { loadPaginatedItems } from './load';
 export const initLoadUnderMode = async (list: List) => {
   const { paginationNextElement, paginationPreviousElement, paginationCountElement, itemsPerPage } = list;
 
-  if (!paginationNextElement) return;
+  const paginationPrevious = paginationPreviousElement.get();
+  const paginationNext = paginationNextElement.get();
 
-  if (paginationPreviousElement) paginationPreviousElement.style.display = 'none';
+  if (!paginationNext) return;
+
+  let isLoading = true;
+
+  if (paginationPrevious) {
+    paginationPrevious.style.display = 'none';
+  }
 
   paginationCountElement?.remove();
 
@@ -23,14 +30,20 @@ export const initLoadUnderMode = async (list: List) => {
 
   list.addHook('paginate', (items) => {
     const paginatedItems = items.slice(0, itemsToDisplay.get());
+    const allItemsDisplayed = paginatedItems.length === items.length;
 
-    paginationNextElement.style.display = paginatedItems.length === items.length ? 'none' : '';
+    paginationNext.style.display = allItemsDisplayed ? 'none' : '';
+
+    if (!isLoading && allItemsDisplayed) {
+      cleanup();
+      return;
+    }
 
     return paginatedItems;
   });
 
   // Init
-  const clickCleanup = addListener(paginationNextElement, 'click', async (e) => {
+  const cleanup = addListener(paginationNext, 'click', async (e) => {
     e.preventDefault();
 
     itemsToDisplay.set(itemsToDisplay.get() + itemsPerPage.get());
@@ -39,6 +52,8 @@ export const initLoadUnderMode = async (list: List) => {
 
   await loadPaginatedItems(list);
 
+  isLoading = false;
+
   // Destroy callback
-  return clickCleanup;
+  return cleanup;
 };

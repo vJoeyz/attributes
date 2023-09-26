@@ -30,9 +30,11 @@ const getPaginationSearchEntries = (paginationButton?: PaginationButtonElement |
  *
  * @returns A tuple with [pagesQuery, nextPageNumber].
  */
-export const getPaginationQuery = async ({ paginationNextElement, paginationPreviousElement, pageIndex }: List) => {
-  const searchEntries = getPaginationSearchEntries(paginationNextElement || paginationPreviousElement);
+export const getPaginationQuery = async (list: List) => {
+  const paginationNext = list.paginationNextElement.get();
+  const paginationPrevious = list.paginationPreviousElement.get();
 
+  const searchEntries = getPaginationSearchEntries(paginationNext || paginationPrevious);
   if (!searchEntries || !searchEntries.length) return;
 
   let pagesQuery: string | undefined;
@@ -55,7 +57,7 @@ export const getPaginationQuery = async ({ paginationNextElement, paginationPrev
 
     const initialCollectionListWrappers = initialPage.querySelectorAll(`.${CMS_CSS_CLASSES.wrapper}`);
 
-    const initialCollectionListWrapper = initialCollectionListWrappers[pageIndex];
+    const initialCollectionListWrapper = initialCollectionListWrappers[list.pageIndex];
     if (!initialCollectionListWrapper) return;
 
     const initialPaginationNext = getCollectionElements(initialCollectionListWrapper, 'pagination-next');
@@ -72,35 +74,10 @@ export const getPaginationQuery = async ({ paginationNextElement, paginationPrev
   if (!pagesQuery || !rawTargetPage) return;
 
   const targetPage = parseInt(rawTargetPage);
+  const currentPage = paginationNext ? targetPage - 1 : targetPage + 1;
 
-  return [pagesQuery, targetPage] as const;
-};
-
-/**
- * Sets the pagination data to a {@link List} instance.
- * @param listInstance A {@link List} instance.
- *
- * @returns Nothing, it mutates the instance.
- */
-export const storePaginationData = (listInstance: List) => {
-  const { paginationNextElement } = listInstance;
-
-  listInstance.loadingPaginationData = new Promise(async (resolve) => {
-    const paginationQuery = await getPaginationQuery(listInstance);
-
-    if (!paginationQuery) {
-      resolve();
-      return;
-    }
-
-    const [pagesQuery, targetPage] = paginationQuery;
-
-    listInstance.pagesQuery = pagesQuery;
-
-    listInstance.currentPage.set(paginationNextElement ? targetPage - 1 : targetPage + 1);
-
-    resolve();
-  });
+  list.pagesQuery = pagesQuery;
+  list.currentPage.set(currentPage);
 };
 
 /**

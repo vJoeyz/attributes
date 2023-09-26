@@ -9,11 +9,16 @@ import { loadPaginatedItems } from './load';
 export const initRenderAllMode = async (list: List) => {
   const { paginationNextElement, paginationPreviousElement, paginationCountElement } = list;
 
-  if (!paginationNextElement) return;
+  const paginationPrevious = paginationPreviousElement.get();
+  const paginationNext = paginationNextElement.get();
 
-  paginationNextElement.style.display = 'none';
+  if (paginationNext) {
+    paginationNext.style.display = 'none';
+  }
 
-  if (paginationPreviousElement) paginationPreviousElement.style.display = 'none';
+  if (paginationPrevious) {
+    paginationPrevious.style.display = 'none';
+  }
 
   paginationCountElement?.remove();
 

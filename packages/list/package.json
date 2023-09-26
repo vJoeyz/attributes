@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "@finsweet/attributes-utils": "workspace:*",
+    "just-debounce": "^1.1.0",
+    "just-throttle": "^4.2.0",
     "nanostores": "^0.9.3"
   }
 }

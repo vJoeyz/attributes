@@ -101,12 +101,12 @@ export class List {
   /**
    * The `Previous` button.
    */
-  public paginationPreviousElement?: PaginationButtonElement | null;
+  public readonly paginationPreviousElement: WritableAtom<PaginationButtonElement | null>;
 
   /**
    * The `Next` button.
    */
-  public paginationNextElement?: PaginationButtonElement | null;
+  public readonly paginationNextElement: WritableAtom<PaginationButtonElement | null>;
 
   /**
    * A custom `Empty State` element.
@@ -151,7 +151,7 @@ export class List {
   /**
    * Defines the current page in `Pagination` mode.
    */
-  public readonly currentPage = atom<number | undefined>();
+  public readonly currentPage = atom(1);
 
   /**
    * Defines if the pagination query param should be added to the URL when switching pages.
@@ -185,8 +185,8 @@ export class List {
 
     this.paginationWrapperElement = getCollectionElements(wrapperElement, 'pagination-wrapper');
     this.paginationCountElement = getCollectionElements(wrapperElement, 'page-count');
-    this.paginationNextElement = getCollectionElements(wrapperElement, 'pagination-next');
-    this.paginationPreviousElement = getCollectionElements(wrapperElement, 'pagination-previous');
+    this.paginationNextElement = atom(getCollectionElements(wrapperElement, 'pagination-next'));
+    this.paginationPreviousElement = atom(getCollectionElements(wrapperElement, 'pagination-previous'));
     this.emptyElement = getCollectionElements(wrapperElement, 'empty');
     this.loaderElement = queryElement('loader', { instanceIndex });
     this.itemsCountElement = queryElement('items-count', { instanceIndex });
@@ -207,15 +207,7 @@ export class List {
     }
 
     // Extract pagination data
-    this.loadingPaginationData = getPaginationQuery(this).then((paginationQuery) => {
-      if (!paginationQuery) return;
-
-      const [pagesQuery, targetPage] = paginationQuery;
-
-      this.pagesQuery = pagesQuery;
-
-      this.currentPage.set(paginationQuery ? targetPage : undefined);
-    });
+    this.loadingPaginationData = getPaginationQuery(this);
 
     // Add render hook
     this.addHook('render', (items) => {
@@ -266,9 +258,6 @@ export class List {
 
       items.listen(() => this.triggerHook(key));
     }
-
-    // TODO: Move this into pagination mode
-    // this.itemsPerPage.listen(() => this.triggerHook('paginate'));
 
     // Elements side effects
     // TODO: Refactor this
@@ -358,13 +347,11 @@ export class List {
   ) {
     const { paginationWrapperElement } = this;
 
-    if (!paginationWrapperElement || this[elementKey] || childIndex < 0) return;
-
-    element.style.display = 'none';
+    if (!paginationWrapperElement || this[elementKey].get() || childIndex < 0) return;
 
     paginationWrapperElement.insertBefore(element, paginationWrapperElement.children[childIndex]);
 
-    this[elementKey] = element;
+    this[elementKey].set(element);
   }
 
   /**

@@ -1,6 +1,8 @@
 import type { List } from '../components/List';
 import type { SETTINGS } from '../utils/constants';
+import { initInfiniteMode } from './infinite';
 import { initLoadUnderMode } from './load-under';
+import { initPaginationMode } from './pagination';
 import { initRenderAllMode } from './render-all';
 
 type LoadModeValues = (typeof SETTINGS)['loadmode']['values'];
@@ -12,11 +14,9 @@ export const initListLoading = async (list: List, mode: LoadMode) => {
       ? await initRenderAllMode(list)
       : mode === 'load-under'
       ? await initLoadUnderMode(list)
-      : undefined;
+      : mode === 'infinite'
+      ? await initInfiniteMode(list)
+      : await initPaginationMode(list);
 
-  //   : mode === infinite
-  //   ? await initInfiniteMode(list)
-  //   : mode === pagination
-  //   ? await initPaginationMode(list)
-  //   : await initDefaultMode(list);
+  return cleanup;
 };
