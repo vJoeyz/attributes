@@ -13,6 +13,11 @@ import {
   stores,
 } from './utils';
 
+/**
+ * Create calendar event instances.
+ * @param scope The scope to query elements from.
+ * @returns The calendar event instances.
+ */
 export const createCalendarEventInstances = (scope?: HTMLElement) => {
   for (const platform in CALENDAR_EVENT_PLATFORMS) {
     const eventPlatform = platform as CalendarEventPlatform;
@@ -27,6 +32,10 @@ export const createCalendarEventInstances = (scope?: HTMLElement) => {
   }
 };
 
+/**
+ * The calendar event creators.
+ * @param trigger The trigger element that was clicked
+ */
 const creators: Record<CalendarEventPlatform, (trigger: HTMLElement) => void> = {
   google: (trigger) => {
     if (stores.google.has(trigger)) return;

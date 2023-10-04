@@ -101,3 +101,13 @@ export type CalendarEventStoreData = Pick<
 > & {
   eventUrl: URL;
 };
+
+/**
+ * Defines a calendar event store data object type.
+ */
+export interface TimeZone {
+  label: string;
+  tzCode: string;
+  name: string;
+  utc: string;
+}

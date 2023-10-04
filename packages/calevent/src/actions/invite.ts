@@ -21,6 +21,11 @@ export function createGoogleCalendarEventURL(event: Google) {
   return googleCalendarEventURL;
 }
 
+/**
+ * Generate the Outlook Calendar event URL.
+ * @param event The event object
+ * @returns The Outlook Calendar event URL
+ */
 export function createOutlookCalendarEventURL(event: Outlook) {
   // Define the base Outlook Calendar event URL
   const baseOutlookCalendarURL = new URL(CALENDAR_EVENT_PLATFORMS.outlook);
@@ -35,6 +40,11 @@ export function createOutlookCalendarEventURL(event: Outlook) {
   return outlookCalendarEventURL;
 }
 
+/**
+ * Generate the ICS Calendar event URL.
+ * @param calendarChunks The event object
+ * @returns The ICS Calendar event URL
+ */
 export function createIcsCalendarDownloadURL(
   calendarChunks: Record<string, string | CalendarEventOrganizer | undefined>[]
 ) {

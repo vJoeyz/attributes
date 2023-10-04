@@ -9,6 +9,12 @@ import { currentTimezoneCode, isValidTimeZone } from '../utils/timezones';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+/**
+ * Converts the calendar event to a normalized calendar event.
+ * @param eventDetails The calendar event details.
+ * @param toUtc Whether to convert the start and end time to UTC.
+ * @returns The normalized calendar event.
+ */
 export const eventify = (eventDetails: CalendarEvent, toUtc = true): NormalizedCalendarEvent => {
   const { start, end, duration, ...rest } = eventDetails;
   let startTime = toUtc ? dayjs(start).utc() : dayjs(start);

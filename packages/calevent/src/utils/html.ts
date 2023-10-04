@@ -1,6 +1,11 @@
 import type { ELEMENTS } from './constants';
 import { queryElement } from './selectors';
 
+/**
+ * Minify html by removing new lines, tabs, spaces around tags, and extra spaces.
+ * @param html The html to minify.
+ * @returns The minified html.
+ */
 export function minifyHTML(html: string) {
   // Use regular expressions to remove newlines, tabs, spaces around tags, and extra spaces
   return html

@@ -96,6 +96,13 @@ export function collectGoogleData(
   return details;
 }
 
+/**
+ * Collects the Outlook calendar event data.
+ * @param trigger The trigger element that was clicked
+ * @param instanceIndex The instance index
+ * @param scope The element scope
+ * @returns The Outlook calendar event data object
+ */
 export function collectOutlookData(
   trigger: HTMLElement,
   instanceIndex: number | undefined,
@@ -120,6 +127,13 @@ export function collectOutlookData(
   return details;
 }
 
+/**
+ * Collects the ICS calendar event data.
+ * @param trigger The trigger element that was clicked
+ * @param instanceIndex The instance index
+ * @param scope The element scope
+ * @returns The ICS calendar event data object
+ */
 export function collectIcsData(
   trigger: HTMLElement,
   instanceIndex: number | undefined,
