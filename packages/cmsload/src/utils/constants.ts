@@ -50,6 +50,8 @@ export const RESET_IX_SETTING_KEY = 'resetix';
 export const RESET_IX_SETTING_VALUES = { true: 'true' } as const;
 export const SHOW_QUERY_SETTING_KEY = 'showquery';
 export const SHOW_QUERY_SETTING_VALUES = { true: 'true' } as const;
+export const CACHE_SETTING_KEY = 'cache';
+export const CACHE_SETTING_VALUES = { false: 'false' } as const;
 
 export const ATTRIBUTES = {
   element: {
@@ -169,6 +171,12 @@ export const ATTRIBUTES = {
    * Only works with {@link MODE_SETTING_VALUES.pagination} mode.
    */
   showQuery: { key: `${ATTRIBUTES_PREFIX}-${SHOW_QUERY_SETTING_KEY}`, values: SHOW_QUERY_SETTING_VALUES },
+
+  /**
+   * Defines if the documents should be cached after fetching them.
+   * Defaults to `true`.
+   */
+  cacheItems: { key: `${ATTRIBUTES_PREFIX}-${CACHE_SETTING_KEY}`, values: CACHE_SETTING_VALUES },
 } as const satisfies AttributesDefinition;
 
 export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);

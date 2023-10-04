@@ -19,9 +19,7 @@ export const init = async (): Promise<CMSList[]> => {
 
   const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
 
-  const cleanups = (
-    await Promise.all(listInstances.map((listInstance) => initListSorting(listInstance, cmsCore)))
-  ).filter(isNotEmpty);
+  const cleanups = listInstances.map((listInstance) => initListSorting(listInstance, cmsCore)).filter(isNotEmpty);
 
   return finalizeAttribute(CMS_SORT_ATTRIBUTE, listInstances, () => {
     // TODO: Remove optional chaining after cmscore@1.9.0 has rolled out

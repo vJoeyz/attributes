@@ -1,5 +1,11 @@
 # @finsweet/attributes-cmsfilter
 
+## 1.16.2
+
+### Patch Changes
+
+- 02469177: Improved support for `cmsstatic`.
+
 ## 1.16.1
 
 ### Patch Changes

@@ -1,10 +1,11 @@
-import type {
-  CollectionItemElement,
-  CollectionListElement,
-  CollectionListWrapperElement,
-  PageCountElement,
-  PaginationButtonElement,
-  PaginationWrapperElement,
+import {
+  cloneNode,
+  type CollectionItemElement,
+  type CollectionListElement,
+  type CollectionListWrapperElement,
+  type PageCountElement,
+  type PaginationButtonElement,
+  type PaginationWrapperElement,
 } from '@finsweet/ts-utils';
 import Emittery from 'emittery';
 
@@ -196,6 +197,11 @@ export class CMSList extends Emittery<CMSListEvents> {
   public restartTabs = false;
 
   /**
+   * Defines if loaded CMS Items can be cached using IndexedDB after fetching them.
+   */
+  public cacheItems = true;
+
+  /**
    * A Promise that resolves when the previous rendering task finishes.
    */
   private renderingQueue?: Promise<CMSItem[]>;
@@ -283,27 +289,54 @@ export class CMSList extends Emittery<CMSListEvents> {
    * @param itemsData.interactive Defines if the item will be interactive or not.
    */
   public async addStaticItems(
-    itemsData: Array<{ itemElement: HTMLDivElement; targetIndex: number; interactive: boolean }>
+    itemsData: Array<{ itemElement: HTMLDivElement; targetIndex: number; interactive: boolean; repeat?: number | null }>
   ): Promise<void> {
     const { items, staticItems, list, originalItemsOrder } = this;
 
     if (!list) return;
 
-    const newItems = itemsData.map(({ itemElement, targetIndex, interactive }) => {
-      const staticIndex = !interactive ? targetIndex : undefined;
+    const newItems = itemsData.flatMap(({ itemElement, targetIndex, interactive, repeat }) => {
+      let newItem: CMSItem;
 
-      const newItem = new CMSItem(itemElement, list, staticIndex);
+      // Interactive items are added as regular elements
+      if (interactive) {
+        newItem = new CMSItem(itemElement, list);
 
-      for (const array of [items, originalItemsOrder]) {
-        array.splice(targetIndex, 0, newItem);
+        for (const array of [items, originalItemsOrder]) {
+          array.splice(targetIndex, 0, newItem);
+        }
       }
 
-      if (!interactive) {
+      // Non-interactive items are added as static items
+      else {
+        newItem = new CMSItem(itemElement, list, targetIndex);
         staticItems.push(newItem);
+      }
+
+      // Handle dynamic repeats
+      if (repeat) {
+        let index = targetIndex + repeat;
+
+        const handleRepeatStaticItems = () => {
+          while (index < this.items.length) {
+            const clone = cloneNode(itemElement);
+
+            this.addStaticItems([{ interactive, itemElement: clone, targetIndex: index }]);
+
+            index += repeat;
+          }
+        };
+
+        this.on('additems', handleRepeatStaticItems);
+
+        handleRepeatStaticItems();
       }
 
       return newItem;
     });
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    staticItems.sort((a, b) => a.staticIndex! - b.staticIndex!);
 
     await this.emit('shouldnest', newItems);
     await this.emit('shouldcollectprops', newItems);

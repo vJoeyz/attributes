@@ -11,7 +11,7 @@ import { parseLoadedPage } from './parse';
  * @returns Nothing, it mutates the `CMSList` instance.
  */
 export const loadPaginatedItems = async (listInstance: CMSList): Promise<void> => {
-  const { paginationNext, paginationPrevious, paginationCount, extractingPaginationData } = listInstance;
+  const { paginationNext, paginationPrevious, paginationCount, extractingPaginationData, cacheItems } = listInstance;
 
   if (!paginationNext && !paginationPrevious) return;
 
@@ -21,8 +21,8 @@ export const loadPaginatedItems = async (listInstance: CMSList): Promise<void> =
 
   await listInstance.displayElement('loader');
 
-  if (totalPages) await parallelItemsLoad(listInstance, totalPages);
-  else await chainedPagesLoad(listInstance);
+  if (totalPages) await parallelItemsLoad(listInstance, totalPages, cacheItems);
+  else await chainedPagesLoad(listInstance, cacheItems);
 
   await listInstance.emit('finishload');
 
@@ -34,13 +34,14 @@ export const loadPaginatedItems = async (listInstance: CMSList): Promise<void> =
  * Loads all pages in a chained sequence until there are no more valid pages to load.
  *
  * @param listInstance The CMSList instance.
+ * @param cache Whether to cache the loaded items or not.
  *
  * @returns Nothing, it mutates the `CMSList` instance.
  */
-const chainedPagesLoad = async (listInstance: CMSList): Promise<void> => {
+const chainedPagesLoad = async (listInstance: CMSList, cache: boolean): Promise<void> => {
   const { paginationNext, currentPage } = listInstance;
 
-  if (currentPage) await parallelItemsLoad(listInstance, currentPage);
+  if (currentPage) await parallelItemsLoad(listInstance, currentPage, cache);
 
   if (!paginationNext) return;
 
@@ -53,7 +54,7 @@ const chainedPagesLoad = async (listInstance: CMSList): Promise<void> => {
    */
   const loadPage = async (href: string) => {
     // Fetch the page
-    const page = await fetchPageDocument(href);
+    const page = await fetchPageDocument(href, { cache });
     if (!page) return;
 
     // Check for recursion (action: `all`)
@@ -74,10 +75,12 @@ const chainedPagesLoad = async (listInstance: CMSList): Promise<void> => {
  * Loads all pages in parallel.
  *
  * @param listInstance The CMSList instance.
+ * @param totalPages The total number of pages to load.
+ * @param cache Whether to cache the loaded items or not.
  *
  * @returns Nothing, it mutates the `CMSList` instance.
  */
-const parallelItemsLoad = async (listInstance: CMSList, totalPages: number) => {
+const parallelItemsLoad = async (listInstance: CMSList, totalPages: number, cache: boolean) => {
   const { paginationNext, paginationPrevious } = listInstance;
 
   if (!paginationNext && !paginationPrevious) return;
@@ -89,7 +92,7 @@ const parallelItemsLoad = async (listInstance: CMSList, totalPages: number) => {
 
   // Previous Pages
   for (let pageNumber = currentPage - 1; pageNumber >= 1; pageNumber--) {
-    const page = await fetchPageDocument(`${origin}${pathname}?${pagesQuery}=${pageNumber}`);
+    const page = await fetchPageDocument(`${origin}${pathname}?${pagesQuery}=${pageNumber}`, { cache });
     if (!page) return;
 
     await parseLoadedPage(page, listInstance, 'unshift');
@@ -102,7 +105,7 @@ const parallelItemsLoad = async (listInstance: CMSList, totalPages: number) => {
     fetchPromises[pageNumber] = (async () => {
       const previousPromise = fetchPromises[pageNumber - 1];
 
-      const page = await fetchPageDocument(`${origin}${pathname}?${pagesQuery}=${pageNumber}`);
+      const page = await fetchPageDocument(`${origin}${pathname}?${pagesQuery}=${pageNumber}`, { cache });
 
       await previousPromise;
 

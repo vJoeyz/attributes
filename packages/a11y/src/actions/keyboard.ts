@@ -1,6 +1,12 @@
 import { addListener, isElement, simulateEvent } from '@finsweet/ts-utils';
 
-import { ARIA_CONTROLS_KEY, ARIA_ROLE_KEY, ARIA_ROLE_VALUES, TABINDEX_KEY } from '$global/constants/a11y';
+import {
+  ARIA_CONTROLS_KEY,
+  ARIA_ROLE_KEY,
+  ARIA_ROLE_VALUES,
+  CONTENT_EDITABLE_KEY,
+  TABINDEX_KEY,
+} from '$global/constants/a11y';
 
 const DISALLOWED_INSTANCES = [
   HTMLAnchorElement,
@@ -41,6 +47,7 @@ const handleEnterOrSpaceKey = (e: KeyboardEvent) => {
   if (!isElement(target)) return;
   if (!target.getAttribute(TABINDEX_KEY)) return;
   if (DISALLOWED_INSTANCES.some((instance) => target instanceof instance)) return;
+  if (target.closest(`[${CONTENT_EDITABLE_KEY}]`)) return;
 
   e.preventDefault();
 

@@ -1,4 +1,4 @@
-import { CollectionListWrapperElement, isNotEmpty } from '@finsweet/ts-utils';
+import { type CollectionListWrapperElement, isNotEmpty } from '@finsweet/ts-utils';
 
 import { getCMSElementSelector, getCollectionElements, getCollectionListWrappers } from '$global/helpers';
 

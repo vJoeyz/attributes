@@ -1,5 +1,5 @@
 import { extractCommaSeparatedValues } from '@finsweet/ts-utils';
-import { initialize, LDClient } from 'launchdarkly-js-client-sdk';
+import { initialize, type LDClient } from 'launchdarkly-js-client-sdk';
 
 import type { LaunchDarklyAttributes } from '../utils/types';
 

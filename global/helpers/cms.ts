@@ -1,12 +1,12 @@
 import {
   CMS_CSS_CLASSES,
-  CollectionEmptyElement,
-  CollectionItemElement,
-  CollectionListElement,
-  CollectionListWrapperElement,
-  PageCountElement,
-  PaginationButtonElement,
-  PaginationWrapperElement,
+  type CollectionEmptyElement,
+  type CollectionItemElement,
+  type CollectionListElement,
+  type CollectionListWrapperElement,
+  type PageCountElement,
+  type PaginationButtonElement,
+  type PaginationWrapperElement,
 } from '@finsweet/ts-utils';
 
 const CUSTOM_CSS_SELECTORS_PREFIX = 'fs-cms-element';

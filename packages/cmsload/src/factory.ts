@@ -20,6 +20,7 @@ const {
   easing: { key: easingKey },
   stagger: { key: staggerKey },
   resetIx: { key: resetIxKey, values: resetIxValues },
+  cacheItems: { key: cacheItemsKey, values: cacheItemsValues },
 } = ATTRIBUTES;
 
 /**
@@ -84,6 +85,12 @@ export const initLoadInstance = async (listInstance: CMSList, cmsCore: CMSCore) 
   if (!listInstance.scrollAnchor) {
     const scrollAnchor = queryElement<HTMLElement>('scrollAnchor', { instanceIndex });
     if (scrollAnchor) listInstance.scrollAnchor = scrollAnchor;
+  }
+
+  // Get caching options
+  const disableCache = listInstance.getAttribute(cacheItemsKey) === cacheItemsValues.false;
+  if (disableCache) {
+    listInstance.cacheItems = false;
   }
 
   // Init mode

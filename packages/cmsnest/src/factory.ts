@@ -3,6 +3,7 @@ import type { CMSCore, CMSList } from '$packages/cmscore';
 import { getNestSources } from './actions/collect';
 import { listenListEvents } from './actions/events';
 import { populateNestedCollections } from './actions/populate';
+import { ATTRIBUTES } from './utils/constants';
 
 /**
  * Inits the nesting.
@@ -17,9 +18,17 @@ export const initListNesting = async (listInstance: CMSList, cmsCore: CMSCore): 
   // Listen for events
   listenListEvents(listInstance, nestSources, cmsCore);
 
+  // Get caching options
+  const disableCache = listInstance.getAttribute(ATTRIBUTES.cacheItems.key) === ATTRIBUTES.cacheItems.values.false;
+  if (disableCache) {
+    listInstance.cacheItems = false;
+  }
+
   // Nest existing items
   const existingItems = [...listInstance.items];
 
-  await Promise.all(existingItems.map((item) => populateNestedCollections(item, nestSources, cmsCore)));
+  await Promise.all(
+    existingItems.map((item) => populateNestedCollections(item, nestSources, listInstance.cacheItems, cmsCore))
+  );
   await listInstance.emitSerial('nestinitialitems', existingItems);
 };
