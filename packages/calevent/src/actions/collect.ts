@@ -8,7 +8,7 @@ import {
   type Outlook,
   TimeFormats,
 } from '../utils';
-import { getElementHTMLContent, getElementTextContent, minifyHTML } from '../utils/html';
+import { getElementHTMLContent, getElementTextContent } from '../utils/html';
 import { formatDescription, formatLocation } from '../utils/ics';
 import { currentTimezoneCode, isValidTimeZone } from '../utils/timezones';
 import { eventify } from './eventify';
