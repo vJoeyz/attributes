@@ -1,5 +1,11 @@
 # @finsweet/attributes-toc
 
+## 1.2.2
+
+### Patch Changes
+
+- 19303441: fix: rendering the TOC breaks on iOS 17
+
 ## 1.2.1
 
 ### Patch Changes
