@@ -1,9 +1,12 @@
+import { getCollectionElements } from '@finsweet/attributes-utils';
+
 /**
  * Initializes a masonry layout for a list.
  * @param list - The container element containing the list of items.
  */
+
 export const initMasonryLayout = (list: HTMLElement) => {
-  const items: HTMLElement[] = Array.from(list.querySelectorAll('[role="listitem"]'));
+  const items = getCollectionElements(list, 'items');
   const gapStyle = window.getComputedStyle(list).getPropertyValue('grid-gap');
   const gutter = parseFloat(gapStyle);
   const numColumns: number = Math.floor(list.offsetWidth / items[0].offsetWidth);
