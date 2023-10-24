@@ -17,7 +17,14 @@ export const collectCombineData = (listInstances: CMSList[]): CombineData[] => {
 
     // Make sure the populate data exists
     // Default the target to the first collected list
-    const data = (populateData[instanceIndex || 0] ||= { lists: [], target: listInstance, instanceIndex });
+
+    // const data = (populateData[instanceIndex || 0] ||= { lists: [], target: listInstance, instanceIndex });
+
+    //TODO: Fix this, instanceIndex can be a string also
+    const matchedData = populateData.find((item) => item.instanceIndex === instanceIndex);
+    const data = matchedData || populateData[0] || { lists: [], target: listInstance, instanceIndex };
+
+    console.log('data', { data, matchedData });
 
     if (listInstance !== data.target) data.lists.push(listInstance);
   }

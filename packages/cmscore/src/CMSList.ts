@@ -140,6 +140,11 @@ export class CMSList extends Emittery<CMSListEvents> {
   public itemsPerPage: number;
 
   /**
+   * Defines the amount of items per page.
+   */
+  public instanceIndex: string;
+
+  /**
    * Defines the original amount of items per page.
    */
   public originalItemsPerPage: number;
@@ -232,6 +237,10 @@ export class CMSList extends Emittery<CMSListEvents> {
     this.emptyElement = getCollectionElements(wrapper, 'empty');
     const collectionItems = getCollectionElements(wrapper, 'items');
 
+    //TODO: dig more into this, probably it is addressed in fs-list attribute, or we dont need this?
+    this.instanceIndex = wrapper.getAttribute('fs-cmscombine-instance') || '';
+
+    console.log('wrapper', wrapper);
     // Pagination
     this.itemsPerPage = this.originalItemsPerPage = collectionItems.length;
     this.totalPages = 1;
@@ -263,6 +272,7 @@ export class CMSList extends Emittery<CMSListEvents> {
   public async addItems(itemElements: CollectionItemElement[], method: 'unshift' | 'push' = 'push'): Promise<void> {
     const { items, list, originalItemsOrder } = this;
 
+    console.log('addItems', { itemElements, method, items, list, originalItemsOrder });
     if (!list) return;
 
     const newItems = itemElements.map((item) => new CMSItem(item, list));
@@ -324,6 +334,7 @@ export class CMSList extends Emittery<CMSListEvents> {
             this.addStaticItems([{ interactive, itemElement: clone, targetIndex: index }]);
 
             index += repeat;
+            console.log('repeat', index, repeat);
           }
         };
 
