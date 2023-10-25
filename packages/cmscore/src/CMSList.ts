@@ -237,10 +237,17 @@ export class CMSList extends Emittery<CMSListEvents> {
     this.emptyElement = getCollectionElements(wrapper, 'empty');
     const collectionItems = getCollectionElements(wrapper, 'items');
 
-    //TODO: dig more into this, probably it is addressed in fs-list attribute, or we dont need this?
-    this.instanceIndex = wrapper.getAttribute('fs-cmscombine-instance') || '';
+    // instanceIndex is addressed in upcoming fs-list attribute: https://github.com/finsweet/attributes/blob/a581ad330770be7de1f15a5bf7b1c751f4db50d7/packages/list/src/components/List.ts#L183-L184
+    // added this to fix logic issues for now
+    this.instanceIndex = '0';
 
-    console.log('wrapper', wrapper);
+    const regex = /^fs-.*-instance$/;
+    for (const attr of wrapper.attributes) {
+      if (regex.test(attr.name)) {
+        this.instanceIndex = attr.value;
+      }
+    }
+
     // Pagination
     this.itemsPerPage = this.originalItemsPerPage = collectionItems.length;
     this.totalPages = 1;
