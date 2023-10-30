@@ -58,6 +58,8 @@ export const GREENHOUSE_ATTRIBUTE = 'greenhouse';
 
 export const LINK_BLOCK_EDIT_ATTRIBUTE = 'linkblockedit';
 
+export const MASONRY_ATTRIBUTE = 'masonry';
+
 export const MIRROR_CLICK_ATTRIBUTE = 'mirrorclick';
 
 export const MIRROR_INPUT_ATTRIBUTE = 'mirrorinput';
