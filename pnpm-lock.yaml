@@ -92,6 +92,9 @@ importers:
       '@finsweet/attributes-autovideo':
         specifier: workspace:*
         version: link:../autovideo
+      '@finsweet/attributes-calevent':
+        specifier: workspace:*
+        version: link:../calevent
       '@finsweet/attributes-cmscombine':
         specifier: workspace:*
         version: link:../cmscombine
@@ -167,6 +170,9 @@ importers:
       '@finsweet/attributes-list':
         specifier: workspace:*
         version: link:../list
+      '@finsweet/attributes-masonry':
+        specifier: workspace:*
+        version: link:../masonry
       '@finsweet/attributes-mirrorclick':
         specifier: workspace:*
         version: link:../mirrorclick
@@ -215,6 +221,9 @@ importers:
       '@finsweet/attributes-toc':
         specifier: workspace:*
         version: link:../toc
+      '@finsweet/attributes-typing':
+        specifier: workspace:*
+        version: link:../typing
       '@finsweet/attributes-utils':
         specifier: workspace:*
         version: link:../utils
@@ -234,6 +243,19 @@ importers:
       '@finsweet/attributes-utils':
         specifier: workspace:*
         version: link:../utils
+
+  packages/calevent:
+    dependencies:
+      '@finsweet/attributes-utils':
+        specifier: workspace:*
+        version: link:../utils
+      dayjs:
+        specifier: ^1.11.9
+        version: 1.11.10
+    devDependencies:
+      '@finsweet/attributes-cmscore':
+        specifier: workspace:*
+        version: link:../cmscore
 
   packages/cmscombine:
     dependencies:
@@ -489,6 +511,15 @@ importers:
         specifier: ^0.9.3
         version: 0.9.3
 
+  packages/masonry:
+    dependencies:
+      '@finsweet/attributes-cmscore':
+        specifier: workspace:*
+        version: link:../cmscore
+      '@finsweet/attributes-utils':
+        specifier: workspace:*
+        version: link:../utils
+
   packages/mirrorclick:
     dependencies:
       '@finsweet/attributes-utils':
@@ -623,6 +654,18 @@ importers:
       slugify:
         specifier: ^1.6.6
         version: 1.6.6
+
+  packages/typing:
+    dependencies:
+      '@finsweet/attributes-cmscore':
+        specifier: workspace:*
+        version: link:../cmscore
+      '@finsweet/attributes-utils':
+        specifier: workspace:*
+        version: link:../utils
+      typed.js:
+        specifier: ^2.0.16
+        version: 2.1.0
 
   packages/utils:
     dependencies:
@@ -1953,6 +1996,10 @@ packages:
       csv-stringify: 5.6.5
       stream-transform: 2.1.3
     dev: true
+
+  /dayjs@1.11.10:
+    resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
+    dev: false
 
   /debug@4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -3751,6 +3798,10 @@ packages:
       for-each: 0.3.3
       is-typed-array: 1.1.10
     dev: true
+
+  /typed.js@2.1.0:
+    resolution: {integrity: sha512-bDuXEf7YcaKN4g08NMTUM6G90XU25CK3bh6U0THC/Mod/QPKlEt9g/EjvbYB8x2Qwr2p6J6I3NrsoYaVnY6wsQ==}
+    dev: false
 
   /typescript@5.1.3:
     resolution: {integrity: sha512-XH627E9vkeqhlZFQuL+UsyAXEnibT0kWR2FWONlr4sTjvxyJYnyefgrkyECLzM5NenmKzRAy2rR/OlYLA1HkZw==}

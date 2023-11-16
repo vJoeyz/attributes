@@ -31,7 +31,7 @@ export class List {
   /**
    * Contains all lifecycle hooks with their callbacks and last result.
    */
-  public readonly hooks: Hooks = {
+  readonly hooks: Hooks = {
     filter: {
       callbacks: [],
       result: atom(),
@@ -71,109 +71,114 @@ export class List {
   /**
    * A signal holding all {@link ListItem} instances of the list.
    */
-  public readonly items: WritableAtom<ListItem[]> = atom([]);
+  readonly items: WritableAtom<ListItem[]> = atom([]);
 
   /**
    * A set holding all rendered {@link ListItem} instances.
    */
-  public renderedItems: Set<ListItem> = new Set();
+  renderedItems: Set<ListItem> = new Set();
 
   /**
    * The instance index.
    */
-  public readonly instanceIndex?: number;
+  readonly instanceIndex?: number;
 
   /**
    * The `Collection List` element.
    */
-  public readonly listElement?: CollectionListElement | null;
+  readonly listElement?: CollectionListElement | null;
 
   /**
    * The `Pagination` wrapper element.
    */
-  public readonly paginationWrapperElement?: PaginationWrapperElement | null;
+  readonly paginationWrapperElement?: PaginationWrapperElement | null;
 
   /**
    * The `Page Count` element.
    */
-  public readonly paginationCountElement?: PageCountElement | null;
+  readonly paginationCountElement?: PageCountElement | null;
 
   /**
    * The `Previous` button.
    */
-  public readonly paginationPreviousElement: WritableAtom<PaginationButtonElement | null>;
+  readonly paginationPreviousElement: WritableAtom<PaginationButtonElement | null>;
 
   /**
    * The `Next` button.
    */
-  public readonly paginationNextElement: WritableAtom<PaginationButtonElement | null>;
+  readonly paginationNextElement: WritableAtom<PaginationButtonElement | null>;
 
   /**
    * A custom `Empty State` element.
    */
-  public readonly emptyElement?: HTMLElement | null;
+  readonly emptyElement?: HTMLElement | null;
 
   /**
    * A custom loader element.
    */
-  public readonly loaderElement?: HTMLElement | null;
+  readonly loaderElement?: HTMLElement | null;
 
   /**
    * An element that displays the total amount of items in the list.
    */
-  public readonly itemsCountElement?: HTMLElement | null;
+  readonly itemsCountElement?: HTMLElement | null;
+
+  /**
+   * An element that displays the total amount of items in the list after filtering.
+   */
+  readonly resultsCountElement?: HTMLElement | null;
 
   /**
    * An element that displays the amount of visible items.
    */
-  public readonly visibleCountElement?: HTMLElement | null;
+  readonly visibleCountElement?: HTMLElement | null;
 
   /**
    * An element that displays the lower range of visible items.
    */
-  public readonly visibleCountFromElement?: HTMLElement | null;
+  readonly visibleCountFromElement?: HTMLElement | null;
 
   /**
    * An element that displays the upper range of visible items.
    */
-  public readonly visibleCountToElement?: HTMLElement | null;
+  readonly visibleCountToElement?: HTMLElement | null;
 
   /**
    * Defines the amount of items per page.
    */
-  public readonly itemsPerPage: WritableAtom<number>;
+  readonly itemsPerPage: WritableAtom<number>;
 
   /**
    * Defines the total amount of pages in the list.
    */
-  public readonly totalPages = atom(1);
+  readonly totalPages = atom(1);
 
   /**
    * Defines the current page in `Pagination` mode.
    */
-  public readonly currentPage = atom(1);
+  readonly currentPage = atom(1);
 
   /**
    * Defines if the pagination query param should be added to the URL when switching pages.
    * @example '?5f7457b3_page=1'
    */
-  public readonly showPagesQuery = atom(false);
+  readonly showPagesQuery = atom(false);
 
   /**
    * Defines the query key for the paginated pages.
    * @example '5f7457b3_page'
    */
-  public pagesQuery?: string;
+  pagesQuery?: string;
 
   /**
    * Defines an awaitable Promise that resolves once the pagination data (`currentPage` + `pagesQuery`) has been extracted.
    */
-  public loadingPaginationData?: Promise<void>;
+  loadingPaginationData?: Promise<void>;
 
   /**
    * Defines if loaded CMS Items can be cached using IndexedDB after fetching them.
    */
-  public cacheItems = true;
+  cacheItems = true;
 
   constructor(public readonly wrapperElement: CollectionListWrapperElement, public readonly pageIndex: number) {
     // Collect elements
@@ -260,22 +265,58 @@ export class List {
     }
 
     // Elements side effects
-    // TODO: Refactor this
-    this.items.subscribe((items) => {
-      if (this.itemsCountElement) {
-        this.itemsCountElement.textContent = `${items.length}`;
+    this.#initElements();
+  }
+
+  /**
+   * Initializes the elements side effects.
+   */
+  #initElements() {
+    const { items, itemsPerPage, currentPage, hooks } = this;
+
+    // items-count
+    items.subscribe((items) => {
+      const { itemsCountElement } = this;
+
+      if (itemsCountElement) {
+        itemsCountElement.textContent = `${items.length}`;
       }
     });
 
-    subscribeMultiple([this.itemsPerPage, this.hooks.filter.result], ([itemsPerPage, filteredItems = []]) => {
-      if (this.visibleCountElement) {
-        const visibleCountTotal = Math.min(itemsPerPage, filteredItems.length);
+    /**
+     * visible-count
+     * visible-count-from
+     * visible-count-to
+     * results-count
+     */
+    subscribeMultiple(
+      [itemsPerPage, currentPage, hooks.filter.result],
+      ([itemsPerPage, currentPage, filteredItems = []]) => {
+        const { visibleCountElement, visibleCountFromElement, visibleCountToElement, resultsCountElement } = this;
 
-        this.visibleCountElement.textContent = `${visibleCountTotal}`;
+        if (visibleCountElement) {
+          const visibleCountTotal = Math.min(itemsPerPage, filteredItems.length);
+
+          visibleCountElement.textContent = `${visibleCountTotal}`;
+        }
+
+        if (visibleCountFromElement) {
+          const visibleCountFrom = Math.min((currentPage - 1) * itemsPerPage + 1, filteredItems.length);
+
+          visibleCountFromElement.textContent = `${visibleCountFrom}`;
+        }
+
+        if (visibleCountToElement) {
+          const visibleCountTo = Math.min(currentPage * itemsPerPage, filteredItems.length);
+
+          visibleCountToElement.textContent = `${visibleCountTo}`;
+        }
+
+        if (resultsCountElement) {
+          resultsCountElement.textContent = `${filteredItems.length}`;
+        }
       }
-
-      // TODO: Visible count from/to
-    });
+    );
   }
 
   /**
@@ -320,7 +361,7 @@ export class List {
    *
    *  Defaults to `push`.
    */
-  public addItems(itemElements: CollectionItemElement[], method: 'unshift' | 'push' = 'push') {
+  addItems(itemElements: CollectionItemElement[], method: 'unshift' | 'push' = 'push') {
     const { items, listElement } = this;
 
     if (!listElement) return;
@@ -340,7 +381,7 @@ export class List {
    * @param elementKey The button element key.
    * @param childIndex The button element key.
    */
-  public addPaginationButton(
+  addPaginationButton(
     element: PaginationButtonElement,
     elementKey: 'paginationNextElement' | 'paginationPreviousElement',
     childIndex: number
@@ -357,7 +398,7 @@ export class List {
   /**
    * Destroys the instance.
    */
-  public destroy() {
+  destroy() {
     // TODO: Call store.off() on all stores
 
     listInstancesStore.delete(this.wrapperElement);
