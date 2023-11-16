@@ -214,6 +214,17 @@ export class List {
     // Extract pagination data
     this.loadingPaginationData = getPaginationQuery(this);
 
+    // Init hooks
+    this.#initHooks();
+
+    // Elements side effects
+    this.#initElements();
+  }
+
+  /**
+   * Initializes the lifecycle hooks.
+   */
+  #initHooks() {
     // Add render hook
     this.addHook('render', (items) => {
       // TODO: animate
@@ -263,9 +274,6 @@ export class List {
 
       items.listen(() => this.triggerHook(key));
     }
-
-    // Elements side effects
-    this.#initElements();
   }
 
   /**
@@ -291,29 +299,29 @@ export class List {
      */
     subscribeMultiple(
       [itemsPerPage, currentPage, hooks.filter.result],
-      ([itemsPerPage, currentPage, filteredItems = []]) => {
+      ([$itemsPerPage, $currentPage, $filteredItems = []]) => {
         const { visibleCountElement, visibleCountFromElement, visibleCountToElement, resultsCountElement } = this;
 
         if (visibleCountElement) {
-          const visibleCountTotal = Math.min(itemsPerPage, filteredItems.length);
+          const visibleCountTotal = Math.min($itemsPerPage, $filteredItems.length);
 
           visibleCountElement.textContent = `${visibleCountTotal}`;
         }
 
         if (visibleCountFromElement) {
-          const visibleCountFrom = Math.min((currentPage - 1) * itemsPerPage + 1, filteredItems.length);
+          const visibleCountFrom = Math.min(($currentPage - 1) * $itemsPerPage + 1, $filteredItems.length);
 
           visibleCountFromElement.textContent = `${visibleCountFrom}`;
         }
 
         if (visibleCountToElement) {
-          const visibleCountTo = Math.min(currentPage * itemsPerPage, filteredItems.length);
+          const visibleCountTo = Math.min($currentPage * $itemsPerPage, $filteredItems.length);
 
           visibleCountToElement.textContent = `${visibleCountTo}`;
         }
 
         if (resultsCountElement) {
-          resultsCountElement.textContent = `${filteredItems.length}`;
+          resultsCountElement.textContent = `${$filteredItems.length}`;
         }
       }
     );
