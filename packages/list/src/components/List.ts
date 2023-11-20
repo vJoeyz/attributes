@@ -8,8 +8,9 @@ import {
   type PaginationButtonElement,
   type PaginationWrapperElement,
 } from '@finsweet/attributes-utils';
-import { atom, type WritableAtom } from 'nanostores';
+import { atom, deepMap, type WritableAtom } from 'nanostores';
 
+import type { FiltersData } from '../filter/types';
 import { getCollectionElements } from '../utils/dom';
 import { getPaginationQuery } from '../utils/pagination';
 import { subscribeMultiple } from '../utils/reactivity';
@@ -157,6 +158,11 @@ export class List {
    * Defines the current page in `Pagination` mode.
    */
   readonly currentPage = atom(1);
+
+  /**
+   * Defines the active filters.
+   */
+  readonly filters = deepMap<FiltersData>({});
 
   /**
    * Defines if the pagination query param should be added to the URL when switching pages.

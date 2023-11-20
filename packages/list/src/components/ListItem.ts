@@ -9,40 +9,19 @@ import { normalizeFieldKey } from '../utils/fields';
 import { getAttribute, getSettingSelector } from '../utils/selectors';
 
 type ListItemFields = {
-  [field: string]: {
-    type: 'text' | 'date' | 'number';
-  } & (
+  [field: string]:
     | {
         type: 'text';
-        isRange: false;
-        value: string;
+        value: string[];
       }
     | {
         type: 'date';
-        isRange: false;
-        value: Date;
+        value: Date[];
       }
     | {
         type: 'number';
-        isRange: false;
-        value: number;
-      }
-    | {
-        type: 'text';
-        isRange: true;
-        values: string[];
-      }
-    | {
-        type: 'date';
-        isRange: true;
-        values: Date[];
-      }
-    | {
-        type: 'number';
-        isRange: true;
-        values: number[];
-      }
-  );
+        value: number[];
+      };
 };
 
 /**
@@ -112,25 +91,16 @@ export class ListItem {
       if (!rawValue) continue;
 
       const type = getAttribute(element, 'type', true) || 'text';
-      const range = getAttribute(element, 'range', true);
-
-      const isRange = !!range;
-
       const value =
-        type === 'number' ? normalizeNumber(rawValue) : type === 'date' ? normalizeDate(rawValue) : rawValue;
+        type === 'number' ? normalizeNumber(rawValue) : type === 'date' ? normalizeDate(rawValue) : rawValue.trim();
 
       if (value === undefined) continue;
 
-      fields[fieldKey] ||= isRange ? { type, isRange, values: [] } : { type, isRange, value: value as any };
+      fields[fieldKey] ||= { type, value: [] };
 
-      const prop = fields[fieldKey];
-
-      if (prop.isRange) {
-        if (range === 'from') {
-          prop.values[0] ||= value;
-        } else {
-          prop.values[1] ||= value;
-        }
+      if (fields[fieldKey].type === type) {
+        // @ts-expect-error value is guaranteed to be the right type
+        fields[fieldKey].value.push(value);
       }
     }
   }

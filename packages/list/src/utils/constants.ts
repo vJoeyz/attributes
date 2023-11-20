@@ -85,6 +85,11 @@ export const ELEMENTS = [
    * Defines the template element to create the page dots separators.
    */
   'page-dots',
+
+  /**
+   * Defines a filters form.
+   */
+  'filters',
 ] as const satisfies AttributeElements;
 
 export const SETTINGS = {
@@ -101,14 +106,6 @@ export const SETTINGS = {
   type: {
     key: 'type',
     values: { number: 'number', date: 'date' },
-  },
-
-  /**
-   * Defines an item field range.
-   */
-  range: {
-    key: 'range',
-    values: { from: 'from', to: 'to' },
   },
 
   /**
@@ -169,6 +166,33 @@ export const SETTINGS = {
    * Only works with {@link SETTINGS.mode.values.pagination} mode.
    */
   showquery: { key: 'showquery', values: { true: 'true' } },
+
+  /**
+   * Defines a filter operator. Defaults to `includes`.
+   */
+  operator: {
+    key: 'operator',
+    values: {
+      eq: 'eq',
+      neq: 'neq',
+      gt: 'gt',
+      gte: 'gte',
+      lt: 'lt',
+      lte: 'lte',
+      in: 'in',
+      nin: 'nin',
+      includes: 'includes',
+      nincludes: 'nincludes',
+      exists: 'exists',
+      nexists: 'nexists',
+    },
+  },
+
+  /**
+   * Defines a filter value.
+   * Only used for checkboxes and radios to work around Webflow now allowing to define CMS based values for them.
+   */
+  value: { key: 'value' },
 } as const satisfies AttributeSettings;
 
 export const DEFAULT_INFINITE_THRESHOLD = -20;

@@ -1,10 +1,11 @@
 import { type CollectionListWrapperElement } from '@finsweet/attributes-utils';
 
 import { List } from './components/List';
+import { initListFiltering } from './filter';
 import { initListLoading } from './load';
 import { initListSorting } from './sort';
 import { getCMSElementSelector, getCollectionElements } from './utils/dom';
-import { getAttribute, queryAllElements } from './utils/selectors';
+import { getAttribute, queryAllElements, queryElement } from './utils/selectors';
 import { listInstancesStore } from './utils/store';
 
 /**
@@ -33,8 +34,13 @@ export const createListInstance = (referenceElement: HTMLElement): List | undefi
 };
 
 export const initList = (list: List) => {
+  const filtersForm = queryElement('filters', { instanceIndex: list.instanceIndex });
   const sortTriggers = queryAllElements('sort-trigger', { instanceIndex: list.instanceIndex });
   const loadMode = getAttribute(list.listOrWrapper, 'loadmode', true);
+
+  if (filtersForm instanceof HTMLFormElement) {
+    initListFiltering(list, filtersForm);
+  }
 
   if (sortTriggers.length) {
     initListSorting(list, sortTriggers);
