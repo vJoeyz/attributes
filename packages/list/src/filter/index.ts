@@ -11,6 +11,7 @@ import { filterItems } from './filter';
  * @param mode
  */
 export const initListFiltering = async (list: List, form: HTMLFormElement) => {
+  // Init hook
   list.addHook('filter', (items) => {
     const filters = list.filters.get();
 
@@ -18,10 +19,12 @@ export const initListFiltering = async (list: List, form: HTMLFormElement) => {
     return filteredItems;
   });
 
+  // Get filters data
   const filtersData = getFiltersData(form);
 
   list.filters.set(filtersData);
 
+  // Listen for changes
   form.addEventListener('input', (e) => {
     const { target } = e;
     if (!isFormField(target)) return;
@@ -34,6 +37,7 @@ export const initListFiltering = async (list: List, form: HTMLFormElement) => {
     list.filters.setKey(rawFieldKey, filterData);
   });
 
+  // Trigger the hook when the filters change
   list.filters.subscribe(() => {
     list.triggerHook('filter');
   });

@@ -29,7 +29,7 @@ export const initPaginationMode = async (list: List) => {
   const { currentPage, itemsPerPage, paginationWrapperElement, listOrWrapper } = list;
   if (!paginationWrapperElement) return;
 
-  // Init hooks
+  // Init hook
   list.addHook('paginate', (items) => {
     const $itemsPerPage = itemsPerPage.get();
 
