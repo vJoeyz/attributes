@@ -24,8 +24,8 @@ export const sortListItems = (
 
     // Number sorting
     if (firstItemProp.type === 'number' && secondItemProp.type === 'number') {
-      const firstItemValue = firstItemProp.isRange ? firstItemProp.values[0] : firstItemProp.value;
-      const secondItemValue = secondItemProp.isRange ? secondItemProp.values[0] : secondItemProp.value;
+      const [firstItemValue] = firstItemProp.value;
+      const [secondItemValue] = secondItemProp.value;
 
       if (isNaN(firstItemValue)) return 1;
       if (isNaN(secondItemValue)) return -1;
@@ -37,11 +37,8 @@ export const sortListItems = (
 
     // Dates sorting
     if (firstItemProp.type === 'date' && secondItemProp.type === 'date') {
-      const firstItemValue = firstItemProp.isRange ? firstItemProp.values[0].getTime() : firstItemProp.value.getTime();
-
-      const secondItemValue = secondItemProp.isRange
-        ? secondItemProp.values[0].getTime()
-        : secondItemProp.value.getTime();
+      const firstItemValue = firstItemProp.value[0].getTime();
+      const secondItemValue = secondItemProp.value[0].getTime();
 
       if (direction === 'asc') return firstItemValue - secondItemValue;
 
@@ -50,8 +47,8 @@ export const sortListItems = (
 
     // Text sorting
     if (firstItemProp.type === 'text' && secondItemProp.type === 'text') {
-      const firstItemValue = firstItemProp.isRange ? firstItemProp.values[0] : firstItemProp.value;
-      const secondItemValue = secondItemProp.isRange ? secondItemProp.values[0] : secondItemProp.value;
+      const [firstItemValue] = firstItemProp.value;
+      const [secondItemValue] = secondItemProp.value;
 
       const collatorOptions: Intl.CollatorOptions = {
         numeric: true,
