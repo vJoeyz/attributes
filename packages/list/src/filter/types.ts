@@ -42,3 +42,8 @@ export type FilterData = {
 export type FiltersData = {
   [key: string]: FilterData;
 };
+
+type FiltersGroup = {
+  match: 'and' | 'or';
+  filters: FiltersData | FiltersGroup[];
+};
