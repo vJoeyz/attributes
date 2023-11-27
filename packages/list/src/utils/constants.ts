@@ -179,8 +179,6 @@ export const SETTINGS = {
       gte: 'gte',
       lt: 'lt',
       lte: 'lte',
-      in: 'in',
-      nin: 'nin',
       includes: 'includes',
       nincludes: 'nincludes',
       exists: 'exists',
