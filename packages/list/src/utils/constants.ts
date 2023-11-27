@@ -77,6 +77,11 @@ export const ELEMENTS = [
   'visible-count-to',
 
   /**
+   * Filter results count
+   */
+  'results-count',
+
+  /**
    * Defines the template element to generate all page buttons for the `paginate` mode.
    */
   'page-button',

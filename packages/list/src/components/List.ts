@@ -204,6 +204,7 @@ export class List {
     this.visibleCountElement = queryElement('visible-count', { instanceIndex });
     this.visibleCountFromElement = queryElement('visible-count-from', { instanceIndex });
     this.visibleCountToElement = queryElement('visible-count-to', { instanceIndex });
+    this.resultsCountElement = queryElement('results-count', { instanceIndex });
 
     // Collect items
     const collectionItemElements = getCollectionElements(wrapperElement, 'item');
