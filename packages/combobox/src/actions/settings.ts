@@ -72,6 +72,8 @@ export const collectSettings = (referenceElement: HTMLElement) => {
   }
 
   const hideInitial = referenceElement.getAttribute(ATTRIBUTES.hideInitial.key) === ATTRIBUTES.hideInitial.values.true;
+  const preventClear =
+    referenceElement.getAttribute(ATTRIBUTES.preventClear.key) === ATTRIBUTES.preventClear.values.true;
 
   initializeAttributes(inputElement, selectElement, navListElement, clearDropdown);
   return {
@@ -84,6 +86,7 @@ export const collectSettings = (referenceElement: HTMLElement) => {
     noResultsTemplate,
     optionsList,
     hideInitial,
+    preventClear,
     inputElement,
     clearDropdown,
     defaultOption,
