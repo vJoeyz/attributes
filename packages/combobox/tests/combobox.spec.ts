@@ -30,6 +30,31 @@ test.describe('combobox', () => {
     await expect(comboboxInput).toBeEditable();
   });
 
+  test('Combobox on input if preventclear is true input value is maintained', async ({ page }) => {
+    const comboboxDropdown = page.locator('[fs-combobox-element="dropdown"]');
+    const preventClearSetting = page.locator('[fs-combobox-preventclear="true"]');
+
+    if (!(await preventClearSetting.isVisible())) {
+      return;
+    }
+
+    const comboboxInput = comboboxDropdown.locator('input');
+
+    const comboboxNav = comboboxDropdown.locator('nav');
+
+    await comboboxInput.focus();
+    await comboboxInput.type('notexistingvalue');
+
+    await expect(comboboxNav).toHaveClass(/w--open/);
+
+    await comboboxNav.press('Escape');
+
+    await expect(comboboxNav).not.toHaveClass(/w--open/);
+
+    const inputValue = await comboboxInput.inputValue();
+
+    await expect(inputValue).toEqual('notexistingvalue');
+  });
   test('Combobox opens and closes by clicking on input.', async ({ page }) => {
     const comboboxDropdown = page.locator('[fs-combobox-element="dropdown"]');
     const comboboxInput = comboboxDropdown.locator('input');
