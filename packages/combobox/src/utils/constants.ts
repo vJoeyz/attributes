@@ -13,9 +13,11 @@ export const CLEAR_DROPDOWN_SELECTION = 'clear';
 export const FS_DROPDOWN_TOGGLE_KEY = 'fs-dropdown-toggle-key';
 
 export const NO_RESULTS = 'empty';
+export const PREVENT_CLEAR = 'preventclear';
 
 export const HIDE_INITIAL_SETTING_KEY = 'hideinitial';
 export const HIDE_INITIAL_SETTING_VALUES = { true: 'true' };
+export const PREVENT_CLEAR_SETTING_VALUES = { true: 'true' };
 
 export const ATTRIBUTES = {
   element: {
@@ -42,6 +44,11 @@ export const ATTRIBUTES = {
       noResults: NO_RESULTS,
     },
   },
+
+  /**
+   * If no results were found from `input` field search, it prevents input field from being cleared.
+   */
+  preventClear: { key: `${ATTRIBUTES_PREFIX}-${PREVENT_CLEAR}`, values: PREVENT_CLEAR_SETTING_VALUES },
 
   /**
    * Defines if the reset option should be hidden whenever there isn't an active selection.
