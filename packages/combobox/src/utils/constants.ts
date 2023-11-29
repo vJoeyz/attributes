@@ -42,11 +42,6 @@ export const ATTRIBUTES = {
        * Defines a state where no results were found from `input` field search.
        */
       noResults: NO_RESULTS,
-
-      /**
-       * Defines a state where no results were found from `input` field search, it prevents input field from being cleared.
-       */
-      preventClear: NO_RESULTS,
     },
   },
 
