@@ -6,6 +6,8 @@ export const ANIMATION_ATTRIBUTE = 'animation';
 
 export const AUTO_VIDEO_ATTRIBUTE = 'autovideo';
 
+export const BEFORE_AFTER_ATTRIBUTE = 'beforeafter';
+
 export const CAL_EVENT_ATTRIBUTE = 'calevent';
 
 export const CMS_ATTRIBUTE_ATTRIBUTE = 'cmsattribute';

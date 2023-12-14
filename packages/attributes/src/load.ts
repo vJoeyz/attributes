@@ -18,6 +18,10 @@ export const loadAttribute = async (solution: FsAttributeKey) => {
       return import('@finsweet/attributes-autovideo');
     }
 
+    case 'beforeafter': {
+      return import('@finsweet/attributes-beforeafter');
+    }
+
     case 'calevent': {
       return import('@finsweet/attributes-calevent');
     }
