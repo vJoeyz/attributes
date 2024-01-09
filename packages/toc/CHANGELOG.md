@@ -1,5 +1,11 @@
 # @finsweet/attributes-toc
 
+## 1.2.4
+
+### Patch Changes
+
+- 9be3c039: remove toc item scroll to view checker
+
 ## 1.2.3
 
 ### Patch Changes
