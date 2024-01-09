@@ -1,6 +1,5 @@
 import { CURRENT_CSS_CLASS, Interaction } from '@finsweet/ts-utils';
 
-import { type ScrollContext, scrollLinkIntoView } from '../utils/helpers';
 import type { ScrollOffsetStyles, TOCData } from '../utils/types';
 
 export class TOCItem implements TOCData {
@@ -79,13 +78,6 @@ export class TOCItem implements TOCData {
     const { linkElement, interaction, currentState } = this;
 
     const isActive = linkElement.classList.contains(CURRENT_CSS_CLASS);
-
-    const context: ScrollContext = {
-      linkElement,
-      interaction: 'fromTop',
-    };
-
-    if (isActive) scrollLinkIntoView(context);
 
     if (isActive === currentState) return;
 
