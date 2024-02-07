@@ -41,14 +41,16 @@ export const createAnimation = ({ initialStyles, keyframes }: AnimationProps): A
    * @returns An awaitable promise.
    */
   const animateIn: AnimationFunctions['animateIn'] = async (elements, options = {}) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { prepared, stagger, display, ...animationOptions } = options;
+    const { prepared, stagger, display, duration, ...animationOptions } = options;
+
+    const durationInMs = duration ? duration / 1000 : undefined;
 
     if (!prepared) prepareIn(elements, options);
 
     const { finished } = animate(elements, keyframes, {
-      delay: stagger ? staggerDelay(stagger) : undefined,
       ...animationOptions,
+      delay: stagger ? staggerDelay(stagger) : undefined,
+      duration: durationInMs,
     });
 
     return await finished;
@@ -63,7 +65,9 @@ export const createAnimation = ({ initialStyles, keyframes }: AnimationProps): A
    * @returns An awaitable promise.
    */
   const animateOut: AnimationFunctions['animateOut'] = async (elements, options = {}) => {
-    const { remove, stagger, target, insertAfter, display = 'none', ...animationOptions } = options;
+    const { remove, stagger, target, insertAfter, display = 'none', duration, ...animationOptions } = options;
+
+    const durationInMs = duration ? duration / 1000 : undefined;
 
     if (!Array.isArray(elements)) elements = [elements];
 
@@ -73,6 +77,7 @@ export const createAnimation = ({ initialStyles, keyframes }: AnimationProps): A
 
     const { finished } = animate(elements, keyframes, {
       ...animationOptions,
+      duration: durationInMs,
       delay: stagger ? staggerDelay(stagger) : undefined,
       direction: 'reverse',
     });
