@@ -49,7 +49,7 @@ export const createAnimation = ({ initialStyles, keyframes }: AnimationProps): A
 
     const { finished } = animate(elements, keyframes, {
       ...animationOptions,
-      delay: stagger ? staggerDelay(stagger) : undefined,
+      delay: stagger ? staggerDelay(stagger / 1000) : undefined,
       duration: durationInMs,
     });
 
@@ -78,7 +78,7 @@ export const createAnimation = ({ initialStyles, keyframes }: AnimationProps): A
     const { finished } = animate(elements, keyframes, {
       ...animationOptions,
       duration: durationInMs,
-      delay: stagger ? staggerDelay(stagger) : undefined,
+      delay: stagger ? staggerDelay(stagger / 1000) : undefined,
       direction: 'reverse',
     });
 
