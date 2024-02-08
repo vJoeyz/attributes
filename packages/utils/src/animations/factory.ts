@@ -43,14 +43,14 @@ export const createAnimation = ({ initialStyles, keyframes }: AnimationProps): A
   const animateIn: AnimationFunctions['animateIn'] = async (elements, options = {}) => {
     const { prepared, stagger, display, duration, ...animationOptions } = options;
 
-    const durationInMs = duration ? duration / 1000 : undefined;
+    const durationInSeconds = duration ? duration / 1000 : undefined;
 
     if (!prepared) prepareIn(elements, options);
 
     const { finished } = animate(elements, keyframes, {
       ...animationOptions,
       delay: stagger ? staggerDelay(stagger / 1000) : undefined,
-      duration: durationInMs,
+      duration: durationInSeconds,
     });
 
     return await finished;
@@ -67,7 +67,7 @@ export const createAnimation = ({ initialStyles, keyframes }: AnimationProps): A
   const animateOut: AnimationFunctions['animateOut'] = async (elements, options = {}) => {
     const { remove, stagger, target, insertAfter, display = 'none', duration, ...animationOptions } = options;
 
-    const durationInMs = duration ? duration / 1000 : undefined;
+    const durationInSeconds = duration ? duration / 1000 : undefined;
 
     if (!Array.isArray(elements)) elements = [elements];
 
@@ -77,7 +77,7 @@ export const createAnimation = ({ initialStyles, keyframes }: AnimationProps): A
 
     const { finished } = animate(elements, keyframes, {
       ...animationOptions,
-      duration: durationInMs,
+      duration: durationInSeconds,
       delay: stagger ? staggerDelay(stagger / 1000) : undefined,
       direction: 'reverse',
     });
