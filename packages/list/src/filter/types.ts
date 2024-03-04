@@ -43,7 +43,7 @@ export type FiltersData = {
   [key: string]: FilterData;
 };
 
-type FiltersGroup = {
+export type FiltersGroup = {
   match: 'and' | 'or';
-  filters: FiltersData | FiltersGroup[];
+  filters: FiltersData;
 };

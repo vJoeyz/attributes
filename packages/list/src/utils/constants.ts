@@ -17,6 +17,11 @@ export const ELEMENTS = [
   'item',
 
   /**
+   * Defines a button to clear a filter or all the filters.
+   */
+  'clear',
+
+  /**
    * Defines a pagination wrapper element.
    */
   'pagination-wrapper',
@@ -95,6 +100,76 @@ export const ELEMENTS = [
    * Defines a filters form.
    */
   'filters',
+
+  /**
+   * Defines the tag element.
+   */
+  'tag',
+
+  /**
+   * Defines the element inside each tag.
+   */
+  'tag-field',
+
+  /**
+   * Defines the element inside each tag.
+   */
+  'tag-value',
+
+  /**
+   * Defines the element inside each tag.
+   */
+  'tag-operator',
+
+  /**
+   * Defines the element inside each Tag that should remove it.
+   */
+  'tag-remove',
+
+  /**
+   * Defines a Condition group wrapper that wraps all the conditions added to that group.
+   */
+  'condition-group',
+
+  /**
+   * Defines a matching value for a Conditions group.
+   */
+  'condition-match',
+
+  /**
+   * Defines an element that when clicked will add a new condition to the group.
+   */
+  'condition-add',
+
+  /**
+   * Defines an element that when clicked will add a new condition group.
+   */
+  'condition-group-add',
+
+  /**
+   * Defines a Condition template element that wraps the field, operator and value elements.
+   */
+  'condition',
+
+  /**
+   * Defines a Condition field input.
+   */
+  'condition-field',
+
+  /**
+   * Defines a Condition operator selector.
+   */
+  'condition-operator',
+
+  /**
+   * Defines a Condition value input.
+   */
+  'condition-value',
+
+  /**
+   * Defines an element that when clicked will remove the condition.
+   */
+  'condition-clear',
 ] as const satisfies AttributeElements;
 
 export const SETTINGS = {
@@ -106,6 +181,14 @@ export const SETTINGS = {
   },
 
   /**
+   * Defines the matching logic for a group of filters.
+   */
+  match: {
+    key: 'match',
+    values: { default: 'and' },
+  },
+
+  /**
    * Defines an item field type.
    */
   type: {
@@ -114,11 +197,32 @@ export const SETTINGS = {
   },
 
   /**
+   * Defines highlighte flag.
+   */
+  highlight: {
+    key: 'highlight',
+  },
+
+  /**
+   * Defines the CSS class added to highlighted values.
+   */
+  highlightclass: {
+    key: 'highlightclass',
+  },
+
+  /**
    * Defines if sorting should start reversed.
    */
   reverse: {
     key: 'reverse',
     values: { true: 'true' },
+  },
+
+  /**
+   * Debouncing delay for filter.
+   */
+  debounce: {
+    key: 'debounce',
   },
 
   /**
@@ -165,6 +269,16 @@ export const SETTINGS = {
    * Defaults to {@link DEFAULT_PAGE_BOUNDARY}.
    */
   pageboundary: { key: 'pageboundary' },
+
+  /**
+   * Defines an easing animation for any action in the list (sorting, page navigation, filtering).
+   */
+  easing: { key: 'easing' },
+
+  /**
+   * Defines an animation duration for any action in the list (sorting, page navigation, filtering).
+   */
+  duration: { key: 'duration' },
 
   /**
    * Defines if the pagination query params should be displayed on the URL.
