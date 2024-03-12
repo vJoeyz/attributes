@@ -5,7 +5,6 @@ import {
   normalizeNumber,
 } from '@finsweet/attributes-utils';
 
-import { normalizeFieldKey } from '../utils/fields';
 import { getAttribute, getSettingSelector } from '../utils/selectors';
 
 type ListItemFields = {
@@ -84,7 +83,7 @@ export class ListItem {
     const fieldElements = [...element.querySelectorAll<HTMLElement>(getSettingSelector('field'))];
 
     for (const element of fieldElements) {
-      const fieldKey = normalizeFieldKey(getAttribute(element, 'field'));
+      const fieldKey = getAttribute(element, 'field');
       if (!fieldKey) continue;
 
       const rawValue = element.textContent;

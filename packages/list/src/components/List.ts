@@ -1,7 +1,9 @@
 import {
+  CMS_CSS_CLASSES,
   type CollectionItemElement,
   type CollectionListElement,
   type CollectionListWrapperElement,
+  fetchPageDocument,
   getObjectEntries,
   isNumber,
   type PageCountElement,
@@ -13,8 +15,8 @@ import { animations } from '@finsweet/attributes-utils';
 import { atom, deepMap, type WritableAtom } from 'nanostores';
 
 import type { FiltersData } from '../filter/types';
-import { getCollectionElements } from '../utils/dom';
-import { getPaginationQuery } from '../utils/pagination';
+import { getAllCollectionListWrappers, getCollectionElements } from '../utils/dom';
+import { getPaginationSearchEntries } from '../utils/pagination';
 import { subscribeMultiple } from '../utils/reactivity';
 import { getAttribute, getInstanceIndex, queryElement } from '../utils/selectors';
 import { listInstancesStore } from '../utils/store';
@@ -112,9 +114,9 @@ export class List {
   readonly paginationNextElement: WritableAtom<PaginationButtonElement | null>;
 
   /**
-   * A custom `Empty State` element.
+   * The `Empty State` element.
    */
-  readonly emptyElement?: HTMLElement | null;
+  readonly emptyElement: WritableAtom<HTMLElement | null>;
 
   /**
    * A custom loader element.
@@ -179,9 +181,14 @@ export class List {
   pagesQuery?: string;
 
   /**
-   * Defines an awaitable Promise that resolves once the pagination data (`currentPage` + `pagesQuery`) has been extracted.
+   * Defines an awaitable Promise that resolves once the pagination data (`currentPage` + `pagesQuery`) has been retrieved.
    */
-  loadingPaginationData?: Promise<void>;
+  loadingPaginationQuery?: Promise<void>;
+
+  /**
+   * Defines an awaitable Promise that resolves once the pagination elements have been loaded.
+   */
+  loadingPaginationElements?: Promise<void>;
 
   /**
    * Defines if loaded CMS Items can be cached using IndexedDB after fetching them.
@@ -200,7 +207,7 @@ export class List {
     this.paginationCountElement = getCollectionElements(wrapperElement, 'page-count');
     this.paginationNextElement = atom(getCollectionElements(wrapperElement, 'pagination-next'));
     this.paginationPreviousElement = atom(getCollectionElements(wrapperElement, 'pagination-previous'));
-    this.emptyElement = getCollectionElements(wrapperElement, 'empty');
+    this.emptyElement = atom(getCollectionElements(wrapperElement, 'empty'));
     this.loaderElement = queryElement('loader', { instanceIndex });
     this.itemsCountElement = queryElement('items-count', { instanceIndex });
     this.visibleCountElement = queryElement('visible-count', { instanceIndex });
@@ -221,7 +228,8 @@ export class List {
     }
 
     // Extract pagination data
-    this.loadingPaginationData = getPaginationQuery(this);
+    this.loadingPaginationQuery = this.#getPaginationQuery();
+    this.loadingPaginationElements = this.#getPaginationElements();
 
     // Init hooks
     this.#initHooks();
@@ -283,7 +291,7 @@ export class List {
     for (const [key, { previous }] of getObjectEntries(this.hooks)) {
       const items = previous ? this.hooks[previous].result : this.items;
 
-      items.listen(() => this.triggerHook(key));
+      items.subscribe(() => this.triggerHook(key));
     }
   }
 
@@ -336,6 +344,143 @@ export class List {
         }
       }
     );
+  }
+
+  /**
+   * Collects the pagination query info.
+   * @returns A Promise that resolves once the pagination query info has been collected.
+   */
+  async #getPaginationQuery() {
+    const { paginationNextElement, paginationPreviousElement } = this;
+
+    const paginationNext = paginationNextElement.get();
+    const paginationPrevious = paginationPreviousElement.get();
+    const paginationButton = paginationNext || paginationPrevious;
+    if (!paginationButton) return;
+
+    const searchEntries = getPaginationSearchEntries(paginationButton);
+    if (!searchEntries.length) return;
+
+    let pagesQuery: string | undefined;
+    let rawTargetPage: string | undefined;
+
+    if (searchEntries.length === 1) {
+      const [pageEntry] = searchEntries;
+
+      if (!pageEntry) return;
+
+      [pagesQuery, rawTargetPage] = pageEntry;
+    }
+
+    // If there's more than one `searchParam` we need to fetch the original page to find the correspondent pageQuery.
+    else {
+      const { origin, pathname } = location;
+
+      const initialPage = await fetchPageDocument(origin + pathname);
+      if (!initialPage) return;
+
+      const initialCollectionListWrappers = initialPage.querySelectorAll(`.${CMS_CSS_CLASSES.wrapper}`);
+
+      const initialCollectionListWrapper = initialCollectionListWrappers[this.pageIndex];
+      if (!initialCollectionListWrapper) return;
+
+      const initialPaginationNext = getCollectionElements(initialCollectionListWrapper, 'pagination-next');
+      if (!initialPaginationNext) return;
+
+      const [initialPageEntry] = getPaginationSearchEntries(initialPaginationNext) || [];
+      if (!initialPageEntry) return;
+
+      [pagesQuery] = initialPageEntry;
+
+      [, rawTargetPage] = searchEntries.find(([query]) => query === pagesQuery) || [];
+    }
+
+    if (!pagesQuery || !rawTargetPage) return;
+
+    const targetPage = parseInt(rawTargetPage);
+    const currentPage = paginationNext ? targetPage - 1 : targetPage + 1;
+
+    this.pagesQuery = pagesQuery;
+    this.currentPage.set(currentPage);
+  }
+
+  /**
+   * Collects the missing pagination elements.
+   * @returns A Promise that resolves once the missing pagination elements have been collected.
+   */
+  async #getPaginationElements() {
+    await this.loadingPaginationQuery;
+
+    const { origin, pathname } = window.location;
+    const {
+      wrapperElement,
+      listElement,
+      paginationWrapperElement,
+      paginationNextElement,
+      paginationPreviousElement,
+      emptyElement,
+      currentPage,
+      pagesQuery,
+      pageIndex,
+    } = this;
+
+    await Promise.all([
+      // Pagination next
+      (async () => {
+        if (paginationNextElement.get()) return;
+
+        const $currentPage = currentPage.get();
+        if (!$currentPage || $currentPage === 1) return;
+
+        const page = await fetchPageDocument(`${origin}${pathname}?${pagesQuery}=${$currentPage - 1}`);
+        if (!page) return;
+
+        const allCollectionWrappers = getAllCollectionListWrappers(page);
+        const collectionListWrapper = allCollectionWrappers[pageIndex];
+        if (!collectionListWrapper) return;
+
+        const paginationNext = getCollectionElements(collectionListWrapper, 'pagination-next');
+        if (!paginationNext) return;
+
+        const anchor = paginationPreviousElement.get()?.parentElement || paginationWrapperElement;
+        if (!anchor) return;
+
+        anchor.append(paginationNext);
+        paginationNextElement.set(paginationNext);
+      })(),
+
+      // Pagination previous & Empty state
+      (async () => {
+        if (paginationPreviousElement.get() && emptyElement.get()) return;
+
+        const page = await fetchPageDocument(`${origin}${pathname}?${pagesQuery}=9999`);
+        if (!page) return;
+
+        const allCollectionWrappers = getAllCollectionListWrappers(page);
+        const collectionListWrapper = allCollectionWrappers[pageIndex];
+        if (!collectionListWrapper) return;
+
+        const paginationPrevious = getCollectionElements(collectionListWrapper, 'pagination-previous');
+        const empty = getCollectionElements(collectionListWrapper, 'empty');
+
+        // Pagination previous
+        if (paginationPrevious && !paginationPreviousElement.get()) {
+          const anchor = paginationNextElement.get()?.parentElement || paginationWrapperElement;
+          if (!anchor) return;
+
+          anchor.prepend(paginationPrevious);
+          paginationPreviousElement.set(paginationPrevious);
+        }
+
+        // Empty state
+        if (empty && !emptyElement.get()) {
+          empty.style.display = 'none';
+
+          wrapperElement.insertBefore(empty, listElement?.nextSibling || null);
+          emptyElement.set(empty);
+        }
+      })(),
+    ]);
   }
 
   /**
@@ -392,26 +537,6 @@ export class List {
     } else {
       items.set([...newItems, ...items.get()]);
     }
-  }
-
-  /**
-   * Adds a missing `PaginationButtonElement` to the list.
-   * @param element A {@link PaginationButtonElement}.
-   * @param elementKey The button element key.
-   * @param childIndex The button element key.
-   */
-  addPaginationButton(
-    element: PaginationButtonElement,
-    elementKey: 'paginationNextElement' | 'paginationPreviousElement',
-    childIndex: number
-  ) {
-    const { paginationWrapperElement } = this;
-
-    if (!paginationWrapperElement || this[elementKey].get() || childIndex < 0) return;
-
-    paginationWrapperElement.insertBefore(element, paginationWrapperElement.children[childIndex]);
-
-    this[elementKey].set(element);
   }
 
   /**

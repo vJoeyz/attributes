@@ -1,86 +1,135 @@
-import { clearFormField, isFormField, parseNumericAttribute } from '@finsweet/attributes-utils';
+import {
+  addListener,
+  clearFormField,
+  extractCommaSeparatedValues,
+  type FormField,
+  isFormField,
+  parseNumericAttribute,
+} from '@finsweet/attributes-utils';
 
 import type { List } from '../components/List';
-import { getAttribute, getElementSelector, getSettingSelector, queryElement } from '../utils/selectors';
-import { filterConditions, initCondition } from './conditions';
+import { subscribeMultiple } from '../utils/reactivity';
+import { getAttribute, getElementSelector } from '../utils/selectors';
+import { initAdvancedFilters } from './advanced';
 import { getFilterData, getFiltersData } from './data';
 import { filterItems } from './filter';
-import { initTag } from './tag';
+import { initTags } from './tags';
 
 /**
  * Inits loading functionality for the list.
  * @param list
  * @param form
  */
-export const initListFiltering = async (list: List, form: HTMLFormElement) => {
-  const emptyElement = queryElement('empty');
-
+export const initListFiltering = (list: List, form: HTMLFormElement) => {
   // Init hook
+  // TODO: Remove hook for cleanup
   list.addHook('filter', (items) => {
     const filters = list.filters.get();
-    const match = getAttribute(form, 'match', true) || 'and';
-    const filteredItems = filterItems({ filters, match }, items);
-    if (list.wrapperElement) {
-      if (filteredItems.length === 0) {
-        list.wrapperElement.style.display = 'none';
-        if (emptyElement) emptyElement.style.display = 'flex';
-      } else {
-        list.wrapperElement.style.display = 'block';
-        if (emptyElement) emptyElement.style.display = 'none';
-      }
-    }
+
+    const filteredItems = filterItems(filters, items);
     return filteredItems;
   });
 
-  const selector = getSettingSelector('field');
-  const formFields = Array.from(form.querySelectorAll<HTMLInputElement>(selector)).filter((item) => isFormField(item));
+  // Handle elements
+  const elementsCleanup = subscribeMultiple(
+    [list.hooks.filter.result, list.emptyElement],
+    ([filteredItems, emptyElement]) => {
+      const hasItems = !!filteredItems?.length;
+
+      if (list.listElement) {
+        list.listElement.style.display = hasItems ? '' : 'none';
+      }
+
+      if (emptyElement) {
+        emptyElement.style.display = hasItems ? 'none' : '';
+      }
+    }
+  );
 
   // Get filters data
   const filtersData = getFiltersData(form);
-
-  initTag(list);
-  initCondition();
-
   list.filters.set(filtersData);
 
-  let debouncedFiltration = 0;
+  // Trigger the hook when the filters change
+  const filtersCleanup = list.filters.subscribe(() => {
+    list.triggerHook('filter');
+  });
 
-  // Listen for changes
-  form.addEventListener('input', (e) => {
+  // TODO - Init tags + cleanup
+  initTags(list);
+
+  const advancedFiltersCleanup = initAdvancedFilters(list, form);
+
+  const debounces = new Map<FormField, number>();
+
+  // Handle inputs
+  const inputCleanup = addListener(form, 'input', (e) => {
     const { target } = e;
 
     if (!isFormField(target)) return;
 
-    filterConditions(target, list);
-
     const rawFieldKey = getAttribute(target, 'field');
-    const debounceValue = parseNumericAttribute(getAttribute(target, 'debounce'), 0);
     if (!rawFieldKey) return;
 
-    // Avoid unnecessary calls
-    if (debouncedFiltration) {
-      clearTimeout(debouncedFiltration);
+    const debounce = debounces.get(target);
+    if (debounce) {
+      clearTimeout(debounce);
     }
 
-    debouncedFiltration = setTimeout(() => {
-      const filterData = getFilterData(target);
-      list.filters.setKey(rawFieldKey, filterData);
-    }, debounceValue);
+    const rawTimeout = getAttribute(target, 'debounce');
+
+    // With debouncing
+    if (rawTimeout) {
+      const timeout = rawTimeout ? parseNumericAttribute(rawTimeout, 0) : 0;
+
+      const timeoutId = setTimeout(() => {
+        const filterData = getFilterData(target, rawFieldKey);
+        const filterKey = `${rawFieldKey}_${filterData.op}`;
+
+        list.filters.setKey(filterKey, filterData);
+      }, timeout);
+
+      debounces.set(target, timeoutId);
+
+      return;
+    }
+
+    // Without debouncing
+    const filterData = getFilterData(target, rawFieldKey);
+    const filterKey = `${rawFieldKey}_${filterData.op}`;
+
+    list.filters.setKey(filterKey, filterData);
   });
 
-  // Global click event listener on the form
-  form.addEventListener('click', (e) => {
+  // Handle clear buttons
+  const clickCleanup = addListener(form, 'click', (e) => {
     const { target } = e;
-    const clearElement = (target as Element)?.closest(getElementSelector('clear'));
-    if (clearElement) {
-      const rawFilterKey = getAttribute(clearElement, 'field');
-      const fieldsToClear = rawFilterKey
-        ? formFields.filter((item) => getAttribute(item, 'field') === rawFilterKey)
-        : formFields;
-      for (const element of fieldsToClear) {
-        clearFormField(element);
-        debouncedFiltration = 0;
-      }
+
+    if (!(target instanceof Element)) return;
+
+    const clearElement = target?.closest(getElementSelector('clear'));
+    if (!clearElement) return;
+
+    const rawFilterKey = getAttribute(clearElement, 'field');
+    const fieldsToClear = rawFilterKey ? extractCommaSeparatedValues(rawFilterKey) : undefined;
+
+    for (const element of form.elements) {
+      const field = getAttribute(element, 'field');
+
+      if (!field) continue;
+      if (!isFormField(element)) continue;
+      if (fieldsToClear && !fieldsToClear.includes(field)) continue;
+
+      debounces.delete(element);
+      clearFormField(element);
     }
   });
+
+  return () => {
+    elementsCleanup();
+    filtersCleanup();
+    advancedFiltersCleanup?.();
+    inputCleanup();
+    clickCleanup();
+  };
 };

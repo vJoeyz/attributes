@@ -10,7 +10,7 @@ import { loadPaginatedItems } from './load';
  *
  * @returns A callback to remove event listeners.
  */
-export const initLoadUnderMode = async (list: List) => {
+export const initLoadUnderMode = (list: List) => {
   const { paginationNextElement, paginationPreviousElement, paginationCountElement, itemsPerPage } = list;
 
   const paginationPrevious = paginationPreviousElement.get();
@@ -50,9 +50,9 @@ export const initLoadUnderMode = async (list: List) => {
     list.triggerHook('paginate');
   });
 
-  await loadPaginatedItems(list);
-
-  isLoading = false;
+  loadPaginatedItems(list).then(() => {
+    isLoading = false;
+  });
 
   // Destroy callback
   return cleanup;

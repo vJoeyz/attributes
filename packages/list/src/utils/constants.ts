@@ -132,14 +132,9 @@ export const ELEMENTS = [
   'condition-group',
 
   /**
-   * Defines a matching value for a Conditions group.
+   * Defines a matching value for the conditions groups.
    */
-  'condition-match',
-
-  /**
-   * Defines an element that when clicked will add a new condition to the group.
-   */
-  'condition-add',
+  'condition-group-match',
 
   /**
    * Defines an element that when clicked will add a new condition group.
@@ -147,9 +142,19 @@ export const ELEMENTS = [
   'condition-group-add',
 
   /**
+   * Defines an element that when clicked will remove a condition group.
+   */
+  'condition-group-remove',
+
+  /**
    * Defines a Condition template element that wraps the field, operator and value elements.
    */
   'condition',
+
+  /**
+   * Defines a matching value for the condition in the group.
+   */
+  'condition-match',
 
   /**
    * Defines a Condition field input.
@@ -167,9 +172,14 @@ export const ELEMENTS = [
   'condition-value',
 
   /**
+   * Defines an element that when clicked will add a new condition to the group.
+   */
+  'condition-add',
+
+  /**
    * Defines an element that when clicked will remove the condition.
    */
-  'condition-clear',
+  'condition-remove',
 ] as const satisfies AttributeElements;
 
 export const SETTINGS = {

@@ -87,11 +87,9 @@ export const initDropdown = (dropdown: DropdownElement, list: List) => {
     await list.triggerHook('sort');
   });
 
-  return {
-    cleanup: () => {
-      dropdownLabelCleanup?.();
-      clickCleanup();
-    },
+  return () => {
+    dropdownLabelCleanup?.();
+    clickCleanup();
   };
 };
 

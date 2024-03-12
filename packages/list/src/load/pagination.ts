@@ -25,7 +25,7 @@ import { loadPaginatedItems } from './load';
  *
  * @returns A callback to destroy the event listeners.
  */
-export const initPaginationMode = async (list: List) => {
+export const initPaginationMode = (list: List) => {
   const { currentPage, itemsPerPage, paginationWrapperElement, listOrWrapper } = list;
   if (!paginationWrapperElement) return;
 
@@ -97,7 +97,7 @@ export const initPaginationMode = async (list: List) => {
   handlePaginationCount(list);
 
   // Init items load
-  await loadPaginatedItems(list);
+  loadPaginatedItems(list);
 
   // Return destroy callback
   return () => {

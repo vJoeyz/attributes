@@ -13,7 +13,7 @@ import { loadPaginatedItems } from './load';
  *
  * @returns A callback to remove all event listeners.
  */
-export const initInfiniteMode = async (list: List) => {
+export const initInfiniteMode = (list: List) => {
   const { listElement, paginationNextElement, paginationPreviousElement, paginationCountElement, itemsPerPage } = list;
 
   const paginationPrevious = paginationPreviousElement.get();
@@ -85,9 +85,9 @@ export const initInfiniteMode = async (list: List) => {
   const cleanupClicks = addListener(paginationNext, 'click', (e) => e.preventDefault());
   const cleanupScroll = addListener(window, 'scroll', handleScroll);
 
-  await loadPaginatedItems(list);
-
-  isLoading = false;
+  loadPaginatedItems(list).then(() => {
+    isLoading = false;
+  });
 
   return conclude;
 };

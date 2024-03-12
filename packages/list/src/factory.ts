@@ -38,15 +38,33 @@ export const initList = (list: List) => {
   const sortTriggers = queryAllElements('sort-trigger', { instanceIndex: list.instanceIndex });
   const loadMode = getAttribute(list.listOrWrapper, 'loadmode', true);
 
+  const cleanups = new Set<() => void>();
+
   if (filtersForm instanceof HTMLFormElement) {
-    initListFiltering(list, filtersForm);
+    const cleanup = initListFiltering(list, filtersForm);
+    if (cleanup) {
+      cleanups.add(cleanup);
+    }
   }
 
   if (sortTriggers.length) {
-    initListSorting(list, sortTriggers);
+    const cleanup = initListSorting(list, sortTriggers);
+    if (cleanup) {
+      cleanups.add(cleanup);
+    }
   }
 
   if (loadMode) {
-    initListLoading(list, loadMode);
+    const cleanup = initListLoading(list, loadMode);
+    if (cleanup) {
+      cleanups.add(cleanup);
+    }
   }
+
+  return () => {
+    for (const cleanup of cleanups) {
+      cleanup();
+      cleanups.clear();
+    }
+  };
 };

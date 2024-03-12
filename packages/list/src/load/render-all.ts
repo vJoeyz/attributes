@@ -6,7 +6,7 @@ import { loadPaginatedItems } from './load';
  * @param list The `CMSList` instance.
  * @param loadingText The text to display while loading.
  */
-export const initRenderAllMode = async (list: List) => {
+export const initRenderAllMode = (list: List) => {
   const { paginationNextElement, paginationPreviousElement, paginationCountElement } = list;
 
   const paginationPrevious = paginationPreviousElement.get();
@@ -22,7 +22,7 @@ export const initRenderAllMode = async (list: List) => {
 
   paginationCountElement?.remove();
 
-  await loadPaginatedItems(list);
-
-  list.itemsPerPage.set(list.items.get().length);
+  loadPaginatedItems(list).then(() => {
+    list.itemsPerPage.set(list.items.get().length);
+  });
 };

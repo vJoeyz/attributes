@@ -1,37 +1,19 @@
-import { extractCommaSeparatedValues, isNumber } from '@finsweet/attributes-utils';
+import { isNumber } from '@finsweet/attributes-utils';
 
 import type { ListItem } from '../components/ListItem';
-import { normalizeFieldKey } from '../utils/fields';
-import { highlightItems, removeHighlight } from './highlight';
-import { type FiltersGroup } from './types';
+import type { FiltersData } from './types';
 
-export const filterItems = (filtersGroup: FiltersGroup, items: ListItem[]) => {
-  const filtersEntries = Object.entries(filtersGroup.filters);
-  const method = filtersGroup.match;
-  const highlightFields = new Set();
-
-  if (
-    method === 'or' &&
-    filtersEntries.every(
-      ([, filterData]) => !filterData.value || (Array.isArray(filterData.value) && filterData.value.length === 0)
-    )
-  ) {
-    return items;
-  }
-
+export const filterItems = (filters: FiltersData, items: ListItem[]) => {
   const filteredItems = items.filter((item) => {
-    const matchesFilters = filtersEntries.map(([rawFieldKey, filterData]) => {
-      if (!filterData.value && method === 'and') return true;
-      if (Array.isArray(filterData.value) && filterData.value.length === 0 && method === 'and') return true;
-      if (!filterData.value && method === 'or') return false;
+    // TODO: Support both `and` and `or` modes, this is just supporting `and` mode.
+    const isValid = Object.values(filters).every((filterData) => {
+      if (!filterData.value) return true;
+      if (Array.isArray(filterData.value) && !filterData.value.length) return true;
 
-      const fieldKeys = rawFieldKey === '*' ? Object.keys(item.fields) : extractCommaSeparatedValues(rawFieldKey);
+      const fieldKeys = filterData.fieldKeys || Object.keys(item.fields);
 
       return fieldKeys.some((fieldKey) => {
-        highlightFields.add(fieldKey);
-        const normalizedFieldKey = normalizeFieldKey(fieldKey);
-
-        const fieldData = item.fields[normalizedFieldKey];
+        const fieldData = item.fields[fieldKey];
         if (!fieldData) return false;
 
         switch (filterData.op) {
@@ -132,6 +114,7 @@ export const filterItems = (filtersGroup: FiltersGroup, items: ListItem[]) => {
               return filterData.op === 'includes'
                 ? filterData.value.some((filterValue) => {
                     const fieldValue = fieldData.value;
+
                     return fieldValue.some((value) => value === filterValue);
                   })
                 : filterData.value.every((filterValue) => {
@@ -153,12 +136,8 @@ export const filterItems = (filtersGroup: FiltersGroup, items: ListItem[]) => {
         }
       });
     });
-    return method === 'and' ? matchesFilters.every(Boolean) : matchesFilters.some(Boolean);
-  });
 
-  filteredItems.forEach((item) => {
-    removeHighlight(item);
-    highlightItems(highlightFields, item);
+    return isValid;
   });
 
   return filteredItems;

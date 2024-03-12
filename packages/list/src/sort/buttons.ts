@@ -11,7 +11,6 @@ import { atom, computed } from 'nanostores';
 
 import type { List } from '../components/List';
 import { SETTINGS } from '../utils/constants';
-import { normalizeFieldKey } from '../utils/fields';
 import { getAttribute, hasAttributeValue } from '../utils/selectors';
 import { sortListItems } from './sort';
 import type { SortingDirection } from './types';
@@ -32,10 +31,8 @@ export const initButtons = (buttons: HTMLElement[], list: List) => {
 
   const cleanups = buttons
     .flatMap((button) => {
-      const rawSortKey = getAttribute(button, 'field');
-      if (!rawSortKey) return;
-
-      const buttonSortKey = normalizeFieldKey(rawSortKey);
+      const buttonSortKey = getAttribute(button, 'field');
+      if (!buttonSortKey) return;
 
       const reverse = hasAttributeValue(button, 'reverse', 'true');
       const ascClass = getAttribute(button, 'ascclass') || SETTINGS.ascclass.values.default;
@@ -85,10 +82,8 @@ export const initButtons = (buttons: HTMLElement[], list: List) => {
     })
     .filter(isNotEmpty);
 
-  return {
-    cleanup: () => {
-      for (const cleanup of cleanups) cleanup();
-    },
+  return () => {
+    for (const cleanup of cleanups) cleanup();
   };
 };
 

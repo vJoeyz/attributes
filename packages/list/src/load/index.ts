@@ -13,15 +13,15 @@ type LoadMode = LoadModeValues[keyof LoadModeValues];
  * @param list
  * @param mode
  */
-export const initListLoading = async (list: List, mode: LoadMode) => {
+export const initListLoading = (list: List, mode: LoadMode) => {
   const cleanup =
     mode === 'render-all'
-      ? await initRenderAllMode(list)
+      ? initRenderAllMode(list)
       : mode === 'load-under'
-      ? await initLoadUnderMode(list)
+      ? initLoadUnderMode(list)
       : mode === 'infinite'
-      ? await initInfiniteMode(list)
-      : await initPaginationMode(list);
+      ? initInfiniteMode(list)
+      : initPaginationMode(list);
 
   return cleanup;
 };

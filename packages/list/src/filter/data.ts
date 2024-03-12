@@ -1,4 +1,4 @@
-import { type FormField, isFormField } from '@finsweet/attributes-utils';
+import { extractCommaSeparatedValues, type FormField, isFormField } from '@finsweet/attributes-utils';
 
 import { getAttribute, getSettingSelector } from '../utils/selectors';
 import type { FilterData, FilterOperator, FiltersData } from './types';
@@ -19,7 +19,10 @@ export const getFiltersData = (form: HTMLFormElement) => {
     const rawFieldKey = getAttribute(field, 'field');
     if (!rawFieldKey) continue;
 
-    data[rawFieldKey] ||= getFilterData(field);
+    const filterData = getFilterData(field, rawFieldKey);
+    const filterKey = `${rawFieldKey}_${filterData.op}`;
+
+    data[filterKey] ||= getFilterData(field, rawFieldKey);
   }
 
   return data;
@@ -27,22 +30,25 @@ export const getFiltersData = (form: HTMLFormElement) => {
 
 /**
  * @returns The value of a given form field.
- * @param field A {@link FormField} element.
+ * @param formField A {@link FormField} element.
  */
-export const getFilterData = (field: FormField): FilterData => {
-  const op: FilterOperator = getAttribute(field, 'operator', true) || 'includes';
-  const { type } = field;
+export const getFilterData = (formField: FormField, rawFieldKey: string): FilterData => {
+  const fieldKeys = rawFieldKey === '*' ? null : extractCommaSeparatedValues(rawFieldKey);
+
+  const op: FilterOperator = getAttribute(formField, 'operator', true) || 'includes';
+
+  const { type } = formField;
 
   switch (type) {
     // Checkbox
     case 'checkbox': {
       // Group
       const groupSelector = [
-        `input[name="${field.name}"][type="checkbox"][value]`,
-        `input[name="${field.name}"][type="checkbox"]${getSettingSelector('value')}`,
+        `input[name="${formField.name}"][type="checkbox"][value]`,
+        `input[name="${formField.name}"][type="checkbox"]${getSettingSelector('value')}`,
       ].join(',');
 
-      const groupCheckboxes = field.form?.querySelectorAll<HTMLInputElement>(groupSelector);
+      const groupCheckboxes = formField.form?.querySelectorAll<HTMLInputElement>(groupSelector);
 
       if (groupCheckboxes?.length) {
         const values: string[] = [];
@@ -57,24 +63,26 @@ export const getFilterData = (field: FormField): FilterData => {
         return {
           type: 'multiple',
           value: values,
+          fieldKeys,
           op,
         };
       }
 
       // Single
-      const value = (field as HTMLInputElement).checked ? 'true' : null;
+      const value = (formField as HTMLInputElement).checked ? 'true' : null;
 
       return {
         type: 'checkbox',
         value,
+        fieldKeys,
         op,
       };
     }
 
     // Radio
     case 'radio': {
-      const checkedRadio = field.form?.querySelector<HTMLInputElement>(
-        `input[name="${field.name}"][type="radio"]:checked`
+      const checkedRadio = formField.form?.querySelector<HTMLInputElement>(
+        `input[name="${formField.name}"][type="radio"]:checked`
       );
 
       const value = checkedRadio ? getAttribute(checkedRadio, 'value') || checkedRadio.value : null;
@@ -82,6 +90,7 @@ export const getFilterData = (field: FormField): FilterData => {
       return {
         type,
         value,
+        fieldKeys,
         op,
       };
     }
@@ -89,44 +98,48 @@ export const getFilterData = (field: FormField): FilterData => {
     // Numeric
     case 'number':
     case 'range': {
-      const value = field.value ? Number(field.value) : null;
+      const value = formField.value ? Number(formField.value) : null;
 
       return {
         type: 'number',
         value,
+        fieldKeys,
         op,
       };
     }
 
     // Date
     case 'date': {
-      const value = (field as HTMLInputElement).valueAsDate || null;
+      const value = (formField as HTMLInputElement).valueAsDate || null;
 
       return {
         type,
         value,
+        fieldKeys,
         op,
       };
     }
 
     // Select multiple
     case 'select-multiple': {
-      const value = [...(field as HTMLSelectElement).selectedOptions].map((option) => option.value);
+      const value = [...(formField as HTMLSelectElement).selectedOptions].map((option) => option.value);
 
       return {
         type: 'multiple',
         value,
+        fieldKeys,
         op,
       };
     }
 
     // Default - Text
     default: {
-      const { value } = field;
+      const { value } = formField;
 
       return {
         type: 'text',
         value,
+        fieldKeys,
         op,
       };
     }

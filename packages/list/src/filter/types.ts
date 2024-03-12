@@ -11,6 +11,7 @@ export type FilterOperator =
   | 'nexists';
 
 export type FilterData = {
+  fieldKeys: string[] | null;
   op: FilterOperator;
 } & (
   | {
