@@ -1,6 +1,6 @@
-import type { WritableAtom } from 'nanostores';
+import type { Atom } from 'nanostores';
 
-type StoresValues<T> = { [K in keyof T]: T[K] extends WritableAtom<infer U> ? U : never };
+type StoresValues<T> = { [K in keyof T]: T[K] extends Atom<infer U> ? U : never };
 
 /**
  * Subscribes to multiple nanostores.
@@ -8,7 +8,7 @@ type StoresValues<T> = { [K in keyof T]: T[K] extends WritableAtom<infer U> ? U 
  * @param callback
  * @returns A cleanup function.
  */
-export const subscribeMultiple = <T extends readonly [WritableAtom, ...Array<WritableAtom>]>(
+export const subscribeMultiple = <T extends readonly [Atom, ...Array<Atom>]>(
   atoms: T,
   callback: (values: StoresValues<T>) => void
 ) => {

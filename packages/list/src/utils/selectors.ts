@@ -7,6 +7,7 @@ export const {
   queryElement,
   queryAllElements,
   getSettingSelector,
+  getClosestElement,
   getAttribute,
   hasAttributeValue,
   getInstanceIndex,

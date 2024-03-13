@@ -14,7 +14,7 @@ import {
 import { animations } from '@finsweet/attributes-utils';
 import { atom, deepMap, type WritableAtom } from 'nanostores';
 
-import type { FiltersData } from '../filter/types';
+import type { Filters } from '../filter/types';
 import { getAllCollectionListWrappers, getCollectionElements } from '../utils/dom';
 import { getPaginationSearchEntries } from '../utils/pagination';
 import { subscribeMultiple } from '../utils/reactivity';
@@ -166,7 +166,7 @@ export class List {
   /**
    * Defines the active filters.
    */
-  readonly filters = deepMap<FiltersData>({});
+  readonly filters = deepMap<Filters>({ groups: [{ conditions: [] }] });
 
   /**
    * Defines if the pagination query param should be added to the URL when switching pages.

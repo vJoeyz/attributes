@@ -59,7 +59,7 @@ export const getHiddenParent = (element: HTMLElement): HTMLElement | undefined =
 
   let previousElement = element;
 
-  const checkParent = ({ parentElement }: HTMLElement) => {
+  const checkParent = ({ conditionGroupParent: parentElement }: HTMLElement) => {
     if (!parentElement) return;
 
     if (isVisible(parentElement)) return;

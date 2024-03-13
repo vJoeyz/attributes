@@ -73,7 +73,7 @@ export class CopyJSONButton {
       border: '0',
     });
 
-    (element.parentElement || document.body).appendChild(button);
+    (element.conditionGroupParent || document.body).appendChild(button);
 
     return button;
   }
