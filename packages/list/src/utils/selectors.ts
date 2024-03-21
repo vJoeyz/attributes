@@ -10,5 +10,5 @@ export const {
   getClosestElement,
   getAttribute,
   hasAttributeValue,
-  getInstanceIndex,
+  getInstance,
 } = generateSelectors(LIST_ATTRIBUTE, ELEMENTS, SETTINGS);

@@ -28,7 +28,7 @@ export const clearFormField = (field: FormField, omitEvents: Parameters<typeof s
     if (type === 'checkbox') return;
 
     // Clear custom radio button classes
-    const { conditionGroupParent: parentElement } = field;
+    const { parentElement } = field;
     if (!parentElement) return;
 
     const radioInput = parentElement.querySelector(`.${FORM_CSS_CLASSES.radioInput}`);

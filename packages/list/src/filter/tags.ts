@@ -1,12 +1,11 @@
 import { clearFormField, cloneNode } from '@finsweet/attributes-utils';
 
 import type { List } from '../components/List';
-import { getInstanceIndex, getSettingSelector, queryAllElements, queryElement } from '../utils/selectors';
-import type { FilterData, FiltersData } from './types';
+import { getInstance, getSettingSelector, queryAllElements, queryElement } from '../utils/selectors';
 
 export const initTags = (list: List) => {
-  const instanceIndex = getInstanceIndex(list.listOrWrapper);
-  const tagTemplate = queryElement('tag', { instanceIndex });
+  const instance = getInstance(list.listOrWrapper);
+  const tagTemplate = queryElement('tag', { instance });
   if (!tagTemplate) return;
 
   const tagsWrapper = tagTemplate.parentElement;
@@ -16,61 +15,61 @@ export const initTags = (list: List) => {
 
   const tags = new Map<string, HTMLElement>();
 
-  list.filters.subscribe((filters, changedKey) => {
-    const handleTag = (filterKey: string) => {
-      const filterData = filters[filterKey];
+  // list.filters.subscribe((filters, changedKey) => {
+  //   const handleTag = (filterKey: string) => {
+  //     const filterData = filters[filterKey];
 
-      let tagElement = tags.get(filterKey);
+  //     let tagElement = tags.get(filterKey);
 
-      const shouldRemove =
-        filterData.value === null ||
-        filterData.value === '' ||
-        (Array.isArray(filterData.value) && !filterData.value.length);
+  //     const shouldRemove =
+  //       filterData.value === null ||
+  //       filterData.value === '' ||
+  //       (Array.isArray(filterData.value) && !filterData.value.length);
 
-      if (shouldRemove) {
-        tagElement?.remove();
-        tags.delete(filterKey);
-        return;
-      }
+  //     if (shouldRemove) {
+  //       tagElement?.remove();
+  //       tags.delete(filterKey);
+  //       return;
+  //     }
 
-      const isRendered = !!tagElement;
+  //     const isRendered = !!tagElement;
 
-      if (!tagElement) {
-        tagElement = cloneNode(tagTemplate);
-      }
+  //     if (!tagElement) {
+  //       tagElement = cloneNode(tagTemplate);
+  //     }
 
-      updateTag(tagElement, filterData);
+  //     updateTag(tagElement, filterData);
 
-      if (!isRendered) {
-        tagsWrapper.append(tagElement);
-      }
+  //     if (!isRendered) {
+  //       tagsWrapper.append(tagElement);
+  //     }
 
-      tags.set(filterKey, tagElement);
-    };
+  //     tags.set(filterKey, tagElement);
+  //   };
 
-    // If a specific filter changed, only handle that one
-    if (changedKey) {
-      handleTag(changedKey);
-    }
+  //   // If a specific filter changed, only handle that one
+  //   if (changedKey) {
+  //     handleTag(changedKey);
+  //   }
 
-    // Otherwise, handle all filters
-    else {
-      for (const filterKey in filters) {
-        handleTag(filterKey);
-      }
-    }
-  });
+  //   // Otherwise, handle all filters
+  //   else {
+  //     for (const filterKey in filters) {
+  //       handleTag(filterKey);
+  //     }
+  //   }
+  // });
 };
 
-const updateTag = (tagElement: HTMLElement, filterData: FilterData) => {
-  const tagValue = queryElement('tag-value', { scope: tagElement });
-  const tagField = queryElement('tag-field', { scope: tagElement });
-  const tagOperator = queryElement('tag-operator', { scope: tagElement });
+// const updateTag = (tagElement: HTMLElement, filterData: FilterData) => {
+//   const tagValue = queryElement('tag-value', { scope: tagElement });
+//   const tagField = queryElement('tag-field', { scope: tagElement });
+//   const tagOperator = queryElement('tag-operator', { scope: tagElement });
 
-  if (tagValue) tagValue.innerHTML = String(filterData.value);
-  if (tagField) tagField.innerHTML = filterData.fieldKeys?.join(', ') || '';
-  if (tagOperator) tagOperator.innerHTML = filterData.op;
-};
+//   if (tagValue) tagValue.innerHTML = String(filterData.value);
+//   if (tagField) tagField.innerHTML = filterData.fieldKeys?.join(', ') || '';
+//   if (tagOperator) tagOperator.innerHTML = filterData.op;
+// };
 
 // export const handleTags = (filters: FiltersData, template: HTMLElement, wrapper: HTMLElement) => {
 //   const activeFilters = queryAllElements('tag');

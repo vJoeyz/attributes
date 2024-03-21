@@ -56,7 +56,7 @@ export const initSimpleFilters = (list: List, form: HTMLFormElement) => {
     if (rawTimeout) {
       const timeout = rawTimeout ? parseNumericAttribute(rawTimeout, 0) : 0;
 
-      const timeoutId = setTimeout(update, timeout);
+      const timeoutId = window.setTimeout(update, timeout);
 
       debounces.set(target, timeoutId);
 

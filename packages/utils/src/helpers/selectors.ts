@@ -125,12 +125,12 @@ export const generateSelectors = <
   /**
    * @returns The first ancestor that matches the selector.
    * @param elementKey The key of the element.
-   * @param params.instanceIndex The index of the element instance.
+   * @param params.instance The index of the element instance.
    */
   const getClosestElement = <E extends Element = HTMLElement>(
     element: Element,
     elementKey?: ElementsDefinition[number],
-    { instanceIndex: instance }: { instanceIndex?: string } = {}
+    { instance }: { instance?: string } = {}
   ) => {
     const selector = getElementSelector(elementKey, { instance });
 

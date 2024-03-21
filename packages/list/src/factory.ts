@@ -34,8 +34,8 @@ export const createListInstance = (referenceElement: HTMLElement): List | undefi
 };
 
 export const initList = (list: List) => {
-  const filtersForm = queryElement('filters', { instanceIndex: list.instanceIndex });
-  const sortTriggers = queryAllElements('sort-trigger', { instanceIndex: list.instanceIndex });
+  const filtersForm = queryElement('filters', { instance: list.instance });
+  const sortTriggers = queryAllElements('sort-trigger', { instance: list.instance });
   const loadMode = getAttribute(list.listOrWrapper, 'loadmode', true);
 
   const cleanups = new Set<() => void>();

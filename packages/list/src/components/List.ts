@@ -18,7 +18,7 @@ import type { Filters } from '../filter/types';
 import { getAllCollectionListWrappers, getCollectionElements } from '../utils/dom';
 import { getPaginationSearchEntries } from '../utils/pagination';
 import { subscribeMultiple } from '../utils/reactivity';
-import { getAttribute, getInstanceIndex, queryElement } from '../utils/selectors';
+import { getAttribute, getInstance, queryElement } from '../utils/selectors';
 import { listInstancesStore } from '../utils/store';
 import { ListItem } from './ListItem';
 
@@ -84,9 +84,9 @@ export class List {
   renderedItems: Set<ListItem> = new Set();
 
   /**
-   * The instance index.
+   * The instance.
    */
-  readonly instanceIndex?: number;
+  readonly instance?: string;
 
   /**
    * The `Collection List` element.
@@ -200,20 +200,20 @@ export class List {
     const listElement = getCollectionElements(wrapperElement, 'list');
     this.listElement = listElement;
 
-    const instanceIndex = getInstanceIndex(listElement || wrapperElement);
-    this.instanceIndex = instanceIndex;
+    const instance = getInstance(listElement || wrapperElement);
+    this.instance = instance;
 
     this.paginationWrapperElement = getCollectionElements(wrapperElement, 'pagination-wrapper');
     this.paginationCountElement = getCollectionElements(wrapperElement, 'page-count');
     this.paginationNextElement = atom(getCollectionElements(wrapperElement, 'pagination-next'));
     this.paginationPreviousElement = atom(getCollectionElements(wrapperElement, 'pagination-previous'));
     this.emptyElement = atom(getCollectionElements(wrapperElement, 'empty'));
-    this.loaderElement = queryElement('loader', { instanceIndex });
-    this.itemsCountElement = queryElement('items-count', { instanceIndex });
-    this.visibleCountElement = queryElement('visible-count', { instanceIndex });
-    this.visibleCountFromElement = queryElement('visible-count-from', { instanceIndex });
-    this.visibleCountToElement = queryElement('visible-count-to', { instanceIndex });
-    this.resultsCountElement = queryElement('results-count', { instanceIndex });
+    this.loaderElement = queryElement('loader', { instance });
+    this.itemsCountElement = queryElement('items-count', { instance });
+    this.visibleCountElement = queryElement('visible-count', { instance });
+    this.visibleCountFromElement = queryElement('visible-count-from', { instance });
+    this.visibleCountToElement = queryElement('visible-count-to', { instance });
+    this.resultsCountElement = queryElement('results-count', { instance });
 
     // Collect items
     const collectionItemElements = getCollectionElements(wrapperElement, 'item');
