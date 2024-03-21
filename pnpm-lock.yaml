@@ -21,7 +21,7 @@ importers:
         version: 2.27.1
       '@finsweet/eslint-config':
         specifier: ^2.0.5
-        version: 2.0.5(@typescript-eslint/eslint-plugin@5.59.11)(@typescript-eslint/parser@5.59.11)(eslint-config-prettier@8.8.0)(eslint-plugin-prettier@4.2.1)(eslint-plugin-simple-import-sort@12.0.0)(eslint@8.42.0)(prettier@2.8.8)(typescript@5.1.3)
+        version: 2.0.5(@typescript-eslint/eslint-plugin@5.59.11)(@typescript-eslint/parser@5.59.11)(eslint-config-prettier@8.8.0)(eslint-plugin-prettier@4.2.1)(eslint-plugin-simple-import-sort@10.0.0)(eslint@8.42.0)(prettier@2.8.8)(typescript@5.1.3)
       '@finsweet/tsconfig':
         specifier: ^1.3.2
         version: 1.3.2(typescript@5.1.3)
@@ -76,10 +76,6 @@ importers:
       '@finsweet/attributes-utils':
         specifier: workspace:*
         version: link:../utils
-    devDependencies:
-      '@finsweet/attributes-cmscore':
-        specifier: workspace:*
-        version: link:../cmscore
 
   packages/attributes:
     dependencies:
@@ -98,36 +94,6 @@ importers:
       '@finsweet/attributes-calevent':
         specifier: workspace:*
         version: link:../calevent
-      '@finsweet/attributes-cmscombine':
-        specifier: workspace:*
-        version: link:../cmscombine
-      '@finsweet/attributes-cmsfilter':
-        specifier: workspace:*
-        version: link:../cmsfilter
-      '@finsweet/attributes-cmsload':
-        specifier: workspace:*
-        version: link:../cmsload
-      '@finsweet/attributes-cmsnest':
-        specifier: workspace:*
-        version: link:../cmsnest
-      '@finsweet/attributes-cmsprevnext':
-        specifier: workspace:*
-        version: link:../cmsprevnext
-      '@finsweet/attributes-cmsselect':
-        specifier: workspace:*
-        version: link:../cmsselect
-      '@finsweet/attributes-cmsslider':
-        specifier: workspace:*
-        version: link:../cmsslider
-      '@finsweet/attributes-cmssort':
-        specifier: workspace:*
-        version: link:../cmssort
-      '@finsweet/attributes-cmsstatic':
-        specifier: workspace:*
-        version: link:../cmsstatic
-      '@finsweet/attributes-cmstabs':
-        specifier: workspace:*
-        version: link:../cmstabs
       '@finsweet/attributes-codehighlight':
         specifier: workspace:*
         version: link:../codehighlight
@@ -264,118 +230,6 @@ importers:
       dayjs:
         specifier: ^1.11.9
         version: 1.11.9
-    devDependencies:
-      '@finsweet/attributes-cmscore':
-        specifier: workspace:*
-        version: link:../cmscore
-
-  packages/cmscombine:
-    dependencies:
-      '@finsweet/attributes-cmscore':
-        specifier: workspace:*
-        version: link:../cmscore
-      '@finsweet/attributes-utils':
-        specifier: workspace:*
-        version: link:../utils
-
-  packages/cmscore:
-    dependencies:
-      '@finsweet/attributes-utils':
-        specifier: workspace:*
-        version: link:../utils
-      emittery:
-        specifier: ^1.0.1
-        version: 1.0.1
-
-  packages/cmsfilter:
-    dependencies:
-      '@finsweet/attributes-cmscore':
-        specifier: workspace:*
-        version: link:../cmscore
-      '@finsweet/attributes-utils':
-        specifier: workspace:*
-        version: link:../utils
-      just-debounce:
-        specifier: ^1.1.0
-        version: 1.1.0
-
-  packages/cmsload:
-    dependencies:
-      '@finsweet/attributes-cmscore':
-        specifier: workspace:*
-        version: link:../cmscore
-      '@finsweet/attributes-utils':
-        specifier: workspace:*
-        version: link:../utils
-      just-debounce:
-        specifier: ^1.1.0
-        version: 1.1.0
-      just-throttle:
-        specifier: ^4.2.0
-        version: 4.2.0
-
-  packages/cmsnest:
-    dependencies:
-      '@finsweet/attributes-cmscore':
-        specifier: workspace:*
-        version: link:../cmscore
-      '@finsweet/attributes-utils':
-        specifier: workspace:*
-        version: link:../utils
-
-  packages/cmsprevnext:
-    dependencies:
-      '@finsweet/attributes-cmscore':
-        specifier: workspace:*
-        version: link:../cmscore
-      '@finsweet/attributes-utils':
-        specifier: workspace:*
-        version: link:../utils
-
-  packages/cmsselect:
-    dependencies:
-      '@finsweet/attributes-cmscore':
-        specifier: workspace:*
-        version: link:../cmscore
-      '@finsweet/attributes-utils':
-        specifier: workspace:*
-        version: link:../utils
-
-  packages/cmsslider:
-    dependencies:
-      '@finsweet/attributes-cmscore':
-        specifier: workspace:*
-        version: link:../cmscore
-      '@finsweet/attributes-utils':
-        specifier: workspace:*
-        version: link:../utils
-
-  packages/cmssort:
-    dependencies:
-      '@finsweet/attributes-cmscore':
-        specifier: workspace:*
-        version: link:../cmscore
-      '@finsweet/attributes-utils':
-        specifier: workspace:*
-        version: link:../utils
-
-  packages/cmsstatic:
-    dependencies:
-      '@finsweet/attributes-cmscore':
-        specifier: workspace:*
-        version: link:../cmscore
-      '@finsweet/attributes-utils':
-        specifier: workspace:*
-        version: link:../utils
-
-  packages/cmstabs:
-    dependencies:
-      '@finsweet/attributes-cmscore':
-        specifier: workspace:*
-        version: link:../cmscore
-      '@finsweet/attributes-utils':
-        specifier: workspace:*
-        version: link:../utils
 
   packages/codehighlight:
     dependencies:
@@ -464,19 +318,12 @@ importers:
 
   packages/greenhouse:
     dependencies:
-      '@finsweet/attributes-cmscore':
-        specifier: workspace:*
-        version: link:../cmscore
       '@finsweet/attributes-utils':
         specifier: workspace:*
         version: link:../utils
       slugify:
         specifier: ^1.6.6
         version: 1.6.6
-    devDependencies:
-      '@finsweet/attributes-cmsfilter':
-        specifier: workspace:*
-        version: link:../cmsfilter
 
   packages/inputactive:
     dependencies:
@@ -510,9 +357,6 @@ importers:
 
   packages/masonry:
     dependencies:
-      '@finsweet/attributes-cmscore':
-        specifier: workspace:*
-        version: link:../cmscore
       '@finsweet/attributes-utils':
         specifier: workspace:*
         version: link:../utils
@@ -614,9 +458,6 @@ importers:
 
   packages/slider:
     dependencies:
-      '@finsweet/attributes-cmscore':
-        specifier: workspace:*
-        version: link:../cmscore
       '@finsweet/attributes-utils':
         specifier: workspace:*
         version: link:../utils
@@ -641,10 +482,6 @@ importers:
       '@finsweet/attributes-utils':
         specifier: workspace:*
         version: link:../utils
-    devDependencies:
-      '@finsweet/attributes-cmscore':
-        specifier: workspace:*
-        version: link:../cmscore
 
   packages/starrating:
     dependencies:
@@ -663,9 +500,6 @@ importers:
 
   packages/typing:
     dependencies:
-      '@finsweet/attributes-cmscore':
-        specifier: workspace:*
-        version: link:../cmscore
       '@finsweet/attributes-utils':
         specifier: workspace:*
         version: link:../utils
@@ -691,9 +525,6 @@ importers:
 
   packages/videohls:
     dependencies:
-      '@finsweet/attributes-cmscore':
-        specifier: workspace:*
-        version: link:../cmscore
       '@finsweet/attributes-utils':
         specifier: workspace:*
         version: link:../utils
@@ -1370,7 +1201,7 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@finsweet/eslint-config@2.0.5(@typescript-eslint/eslint-plugin@5.59.11)(@typescript-eslint/parser@5.59.11)(eslint-config-prettier@8.8.0)(eslint-plugin-prettier@4.2.1)(eslint-plugin-simple-import-sort@12.0.0)(eslint@8.42.0)(prettier@2.8.8)(typescript@5.1.3):
+  /@finsweet/eslint-config@2.0.5(@typescript-eslint/eslint-plugin@5.59.11)(@typescript-eslint/parser@5.59.11)(eslint-config-prettier@8.8.0)(eslint-plugin-prettier@4.2.1)(eslint-plugin-simple-import-sort@10.0.0)(eslint@8.42.0)(prettier@2.8.8)(typescript@5.1.3):
     resolution: {integrity: sha512-twlHPSSS1CuIXOSCnIWETqOXD3OiLmouPR/Qc5Io0xDecMXqy1K8rB87X5SLkgDGGSxPv09R/oKAAtWl6Lbkqw==}
     peerDependencies:
       '@typescript-eslint/eslint-plugin': ^5.59.9
@@ -1387,7 +1218,7 @@ packages:
       eslint: 8.42.0
       eslint-config-prettier: 8.8.0(eslint@8.42.0)
       eslint-plugin-prettier: 4.2.1(eslint-config-prettier@8.8.0)(eslint@8.42.0)(prettier@2.8.8)
-      eslint-plugin-simple-import-sort: 12.0.0(eslint@8.42.0)
+      eslint-plugin-simple-import-sort: 10.0.0(eslint@8.42.0)
       prettier: 2.8.8
       typescript: 5.1.3
     dev: true
@@ -2400,8 +2231,8 @@ packages:
       prettier-linter-helpers: 1.0.0
     dev: true
 
-  /eslint-plugin-simple-import-sort@12.0.0(eslint@8.42.0):
-    resolution: {integrity: sha512-8o0dVEdAkYap0Cn5kNeklaKcT1nUsa3LITWEuFk3nJifOoD+5JQGoyDUW2W/iPWwBsNBJpyJS9y4je/BgxLcyQ==}
+  /eslint-plugin-simple-import-sort@10.0.0(eslint@8.42.0):
+    resolution: {integrity: sha512-AeTvO9UCMSNzIHRkg8S6c3RPy5YEwKWSQPx3DYghLedo2ZQxowPFLGDN1AZ2evfg6r6mjBSZSLxLFsWSu3acsw==}
     peerDependencies:
       eslint: '>=5.0.0'
     dependencies:
