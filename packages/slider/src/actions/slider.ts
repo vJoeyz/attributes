@@ -1,4 +1,3 @@
-import { createCMSListInstance } from '@finsweet/attributes-cmscore';
 import { getCollectionElements } from '@finsweet/attributes-utils';
 import Swiper from 'swiper';
 import {
@@ -315,6 +314,7 @@ export const initSlider = (sliderElement: HTMLElement) => {
   //CMS support
   const collectionWrapper = getCollectionElements(sliderElement, 'wrapper');
   if (collectionWrapper) {
+    // @ts-expect-error TODO: Support fs-list
     const cmsListInstance = createCMSListInstance(collectionWrapper);
     cmsListInstance?.on('renderitems', () => sliderInstance.update());
   }
