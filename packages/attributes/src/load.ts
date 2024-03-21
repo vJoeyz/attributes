@@ -82,6 +82,10 @@ export const loadAttribute = async (solution: FsAttributeKey) => {
       return import('@finsweet/attributes-linkblockedit');
     }
 
+    case 'list': {
+      return import('@finsweet/attributes-list');
+    }
+
     case 'masonry': {
       return import('@finsweet/attributes-masonry');
     }

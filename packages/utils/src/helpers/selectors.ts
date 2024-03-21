@@ -123,6 +123,21 @@ export const generateSelectors = <
   };
 
   /**
+   * @returns The first ancestor that matches the selector.
+   * @param elementKey The key of the element.
+   * @param params.instance The index of the element instance.
+   */
+  const getClosestElement = <E extends Element = HTMLElement>(
+    element: Element,
+    elementKey?: ElementsDefinition[number],
+    { instance }: { instance?: string } = {}
+  ) => {
+    const selector = getElementSelector(elementKey, { instance });
+
+    return element.closest<E>(selector);
+  };
+
+  /**
    * @returns The value of an attribute.
    * @param element The element to get the attribute value from, or its closest ancestor that has the attribute.
    * @param settingKey The attribute key.
@@ -134,7 +149,7 @@ export const generateSelectors = <
     SettingValues = SettingsDefinition[SettingKey]['values'],
     SettingValue = SettingValues extends Record<string, string>
       ? FilterInvalid extends true
-        ? keyof SettingValues
+        ? SettingValues[keyof SettingValues]
         : string
       : string
   >(
@@ -179,6 +194,7 @@ export const generateSelectors = <
   };
 
   return {
+    getClosestElement,
     getElementSelector,
     getSettingSelector,
     getSettingAttributeName,
