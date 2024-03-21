@@ -1,4 +1,4 @@
-import { CURRENT_CSS_CLASS, Interaction } from '@finsweet/ts-utils';
+import { CURRENT_CSS_CLASS, Interaction } from '@finsweet/attributes-utils';
 
 import type { ScrollOffsetStyles, TOCData } from '../utils/types';
 

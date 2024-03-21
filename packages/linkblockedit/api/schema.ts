@@ -1,7 +1,7 @@
-import { BUTTON, DIV_BLOCK, TEXT_BLOCK } from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+import type { AttributeSchema } from '@finsweet/attributes-utils';
+import { BUTTON, DIV_BLOCK, TEXT_BLOCK } from '@finsweet/attributes-utils';
 
-import { PARENT_ELEMENT_KEY } from '../src/constants';
+import { PARENT_ELEMENT_KEY } from '../src/utils/constants';
 
 const schema: AttributeSchema = {
   elements: [

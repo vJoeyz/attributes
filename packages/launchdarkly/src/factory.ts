@@ -1,9 +1,10 @@
-import { extractCommaSeparatedValues, isBoolean, isNumber, isString } from '@finsweet/ts-utils';
+import { extractCommaSeparatedValues, isBoolean, isNumber, isString } from '@finsweet/attributes-utils';
 import type { LDFlagSet } from 'launchdarkly-js-client-sdk';
 import { is } from 'superstruct';
 
 import { updateElementProperty } from './actions/properties';
-import { ATTRIBUTES, getSelector, jsonFlagValueSchema } from './utils/constants';
+import { jsonFlagValueSchema, SETTINGS } from './utils/constants';
+import { getAttribute, getSettingSelector } from './utils/selectors';
 import type { JSONFlagValue } from './utils/types';
 
 /**
@@ -12,12 +13,12 @@ import type { JSONFlagValue } from './utils/types';
  * @param flags
  */
 export const initFlags = (flags: LDFlagSet) => {
-  const allFlagElements = document.querySelectorAll<HTMLElement>(getSelector('flag'));
+  const allFlagElements = document.querySelectorAll<HTMLElement>(getSettingSelector('flag'));
 
   for (const element of allFlagElements) {
     initFlagElement(element, flags);
 
-    element.removeAttribute(ATTRIBUTES.cloak.key);
+    element.removeAttribute(SETTINGS.cloak.key);
   }
 };
 
@@ -27,13 +28,13 @@ export const initFlags = (flags: LDFlagSet) => {
  * @param flags
  */
 const initFlagElement = (element: HTMLElement, flags: LDFlagSet) => {
-  const flagName = element.getAttribute(ATTRIBUTES.flag.key);
+  const flagName = getAttribute(element, 'flag');
   if (!flagName) return;
 
   const rawFlagValue = flags[flagName];
 
-  const rawShowIf = element.getAttribute(ATTRIBUTES.showIf.key);
-  const rawSetProperties = element.getAttribute(ATTRIBUTES.setProperties.key);
+  const rawShowIf = getAttribute(element, 'showif');
+  const rawSetProperties = getAttribute(element, 'setproperties');
 
   // JSON value handling
   if (is(rawFlagValue, jsonFlagValueSchema)) {

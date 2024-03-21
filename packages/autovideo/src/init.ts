@@ -1,15 +1,12 @@
-import { addListener, isHTMLVideoElement } from '@finsweet/ts-utils';
-
-import { AUTO_VIDEO_ATTRIBUTE, CMS_ATTRIBUTE_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
+import { addListener, type FsAttributeInit, isHTMLVideoElement, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import type { VideoStore } from './types';
 
 /**
  * Inits the attribute.
  */
-export const init = async () => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await waitWebflowReady();
 
   const videos = document.querySelectorAll('video');
   if (!videos.length) return;
@@ -40,8 +37,11 @@ export const init = async () => {
     }
   });
 
-  return finalizeAttribute(AUTO_VIDEO_ATTRIBUTE, videoStore, () => {
-    observer.disconnect();
-    visibilityChangeCleanup();
-  });
+  return {
+    result: videoStore,
+    destroy() {
+      observer.disconnect();
+      visibilityChangeCleanup();
+    },
+  };
 };

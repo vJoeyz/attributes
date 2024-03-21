@@ -1,6 +1,9 @@
-import type { PaginationButtonElement } from '@finsweet/ts-utils';
-
-import { fetchPageDocument, getCollectionElements, getCollectionListWrappers } from '$global/helpers';
+import {
+  fetchPageDocument,
+  getCollectionElements,
+  getCollectionListWrappers,
+  type PaginationButtonElement,
+} from '@finsweet/attributes-utils';
 
 import type { CMSList } from '..';
 

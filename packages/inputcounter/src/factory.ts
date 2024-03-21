@@ -1,11 +1,9 @@
-import { isNumber, setFormFieldValue } from '@finsweet/ts-utils';
-
-import { getInstanceIndex, parseNumericAttribute } from '$global/helpers';
+import { isNumber, parseNumericAttribute, setFormFieldValue } from '@finsweet/attributes-utils';
 
 import { handleButtons, handleResetButton } from './actions/buttons';
 import { handleInput } from './actions/input';
 import { addHideArrowsStylesheet } from './actions/style';
-import { ATTRIBUTES, getAttribute, queryElement } from './utils/constants';
+import { getAttribute, getInstanceIndex, queryElement } from './utils/selectors';
 
 /**
  * Inits an input counter component.
@@ -13,9 +11,9 @@ import { ATTRIBUTES, getAttribute, queryElement } from './utils/constants';
  * @returns A cleanup callback.
  */
 export const initInputCounter = (inputElement: HTMLInputElement) => {
-  const instanceIndex = getInstanceIndex(inputElement, ATTRIBUTES.element.key);
+  const instanceIndex = getInstanceIndex(inputElement);
 
-  const showArrows = getAttribute(inputElement, 'showArrows');
+  const showArrows = getAttribute(inputElement, 'showarrows');
 
   const rawInitialValue = getAttribute(inputElement, 'initial');
   const initialValue = parseNumericAttribute(rawInitialValue);
@@ -23,7 +21,7 @@ export const initInputCounter = (inputElement: HTMLInputElement) => {
   const incrementButton = queryElement('increment', { instanceIndex });
   const decrementButton = queryElement('decrement', { instanceIndex });
 
-  const resetButton = queryElement('reset', { instanceIndex }) || queryElement('resetFallback', { instanceIndex });
+  const resetButton = queryElement('clear', { instanceIndex });
 
   if (!incrementButton && !decrementButton) return;
 

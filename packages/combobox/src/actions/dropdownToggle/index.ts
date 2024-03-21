@@ -1,4 +1,4 @@
-import { ARROW_DOWN_KEY } from '$global/constants/keyboard';
+import { ARROW_DOWN_KEY } from '@finsweet/attributes-utils';
 
 import type { Settings } from '../../utils/types';
 

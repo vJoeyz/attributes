@@ -1,5 +1,11 @@
-import type { FormBlockElement, FormSuccessElement } from '@finsweet/ts-utils';
-import { addListener, FORM_CSS_CLASSES, type FormErrorElement, simulateEvent } from '@finsweet/ts-utils';
+import {
+  addListener,
+  FORM_CSS_CLASSES,
+  type FormBlockElement,
+  type FormErrorElement,
+  type FormSuccessElement,
+  simulateEvent,
+} from '@finsweet/attributes-utils';
 
 import { redirectUser } from '../actions/redirect';
 import { collectPreventResetFields, resetForm } from '../actions/reset';
@@ -32,9 +38,9 @@ export class Form {
   private disabled;
   private ixTriggers;
   private resetButtons;
-  private currentRedirectTimeout?: number;
-  private currentResetTimeout?: number;
-  private currentReloadTimeout?: number;
+  private currentRedirectTimeout?: number | ReturnType<typeof setTimeout>;
+  private currentResetTimeout?: number | ReturnType<typeof setTimeout>;
+  private currentReloadTimeout?: number | ReturnType<typeof setTimeout>;
 
   constructor({
     form,

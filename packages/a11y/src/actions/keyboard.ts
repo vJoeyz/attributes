@@ -1,12 +1,13 @@
-import { addListener, isElement, simulateEvent } from '@finsweet/ts-utils';
-
 import {
+  addListener,
   ARIA_CONTROLS_KEY,
   ARIA_ROLE_KEY,
   ARIA_ROLE_VALUES,
   CONTENT_EDITABLE_KEY,
+  isElement,
+  simulateEvent,
   TABINDEX_KEY,
-} from '$global/constants/a11y';
+} from '@finsweet/attributes-utils';
 
 const DISALLOWED_INSTANCES = [
   HTMLAnchorElement,

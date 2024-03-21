@@ -1,27 +1,24 @@
-import { isNotEmpty } from '@finsweet/ts-utils';
-
-import { CMS_ATTRIBUTE_ATTRIBUTE, INPUT_COUNTER_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
-import { importA11Y } from '$global/import/a11y';
+import { type FsAttributeInit, isNotEmpty, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { initInputCounter } from './factory';
-import { getSelector } from './utils/constants';
+import { getElementSelector } from './utils/selectors';
 
 /**
  * Inits the attribute.
  */
-export const init = async () => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await waitWebflowReady();
 
-  const inputElements = [
-    ...document.querySelectorAll<HTMLInputElement>(`input${getSelector('element', 'input', { operator: 'prefixed' })}`),
-  ];
+  const inputElements = [...document.querySelectorAll<HTMLInputElement>(`input${getElementSelector('input')}`)];
 
   const cleanups = inputElements.map(initInputCounter).filter(isNotEmpty);
 
-  importA11Y();
+  window.fsAttributes.import('a11y');
 
-  return finalizeAttribute(INPUT_COUNTER_ATTRIBUTE, inputElements, () => {
-    for (const cleanup of cleanups) cleanup();
-  });
+  return {
+    result: inputElements,
+    destroy() {
+      for (const cleanup of cleanups) cleanup();
+    },
+  };
 };

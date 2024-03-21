@@ -1,5 +1,5 @@
-import { DIV_BLOCK, HEADING, PARAGRAPH, TEXT_BLOCK } from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+import type { AttributeSchema } from '@finsweet/attributes-utils';
+import { DIV_BLOCK, HEADING, PARAGRAPH, TEXT_BLOCK } from '@finsweet/attributes-utils';
 
 import {
   DISPLAY_VALUE_ELEMENT_KEY,

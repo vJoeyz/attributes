@@ -1,6 +1,4 @@
-import { CopyJSONButton } from '@finsweet/ts-utils';
-
-import type { AttributeExamples } from '$global/types/examples';
+import { type AttributeExamples, CopyJSONButton } from '@finsweet/attributes-utils';
 
 import { ATTRIBUTES, getSelector } from '../utils/constants';
 

@@ -1,42 +1,49 @@
-import { COMMERCE_CSS_CLASSES, LIGHTBOX_CSS_CLASSES } from '@finsweet/ts-utils';
-
-import type { CMSCore, CMSList } from '$packages/cmscore';
+import { addItemsAnimation, addListAnimation, type CMSList } from '@finsweet/attributes-cmscore';
+import { COMMERCE_CSS_CLASSES, LIGHTBOX_CSS_CLASSES } from '@finsweet/attributes-utils';
 
 import { initDefaultMode } from './modes/default';
 import { initInfiniteMode } from './modes/infinite';
 import { initPaginationMode } from './modes/pagination';
 import { initRenderAllMode } from './modes/render-all';
-import { ATTRIBUTES, queryElement } from './utils/constants';
+import { SETTINGS } from './utils/constants';
+import {
+  getAttribute,
+  getInstanceIndex,
+  getSettingAttributeName,
+  hasAttributeValue,
+  queryElement,
+} from './utils/selectors';
 
 // Constants
 const {
-  element: { key: elementKey },
   mode: {
-    key: modeKey,
     values: { renderAll, infinite, pagination },
   },
-  animation: { key: animationKey },
-  duration: { key: durationKey },
-  easing: { key: easingKey },
-  stagger: { key: staggerKey },
-  resetIx: { key: resetIxKey, values: resetIxValues },
-  cacheItems: { key: cacheItemsKey, values: cacheItemsValues },
-} = ATTRIBUTES;
+} = SETTINGS;
 
 /**
  * Gets the base config and inits a `mode` for a `CMSList` instance.
  * @param listInstance The {@link CMSList} instance.
  * @returns The same instance.
  */
-export const initLoadInstance = async (listInstance: CMSList, cmsCore: CMSCore) => {
-  const instanceIndex = listInstance.getInstanceIndex(elementKey);
-  const { items } = listInstance;
+export const initLoadInstance = async (listInstance: CMSList) => {
   const { Webflow } = window;
+  const { items, listOrWrapper } = listInstance;
+
+  const instanceIndex = getInstanceIndex(listOrWrapper);
   const webflowReady = !!Webflow && 'require' in Webflow;
 
   // Get animation config
-  cmsCore.addItemsAnimation(listInstance, { animationKey, durationKey, easingKey, staggerKey });
-  cmsCore.addListAnimation(listInstance, { durationKey, easingKey });
+  addItemsAnimation(listInstance, {
+    animationKey: getSettingAttributeName('animation'),
+    durationKey: getSettingAttributeName('duration'),
+    easingKey: getSettingAttributeName('easing'),
+    staggerKey: getSettingAttributeName('stagger'),
+  });
+  addListAnimation(listInstance, {
+    durationKey: getSettingAttributeName('duration'),
+    easingKey: getSettingAttributeName('easing'),
+  });
 
   // Get commerce config
   const restartCommerce =
@@ -55,46 +62,46 @@ export const initLoadInstance = async (listInstance: CMSList, cmsCore: CMSCore) 
   if (restartLightbox) listInstance.restartLightbox = restartLightbox;
 
   // Get resetIx config
-  const restartIx = listInstance.getAttribute(resetIxKey) === resetIxValues.true;
+  const restartIx = hasAttributeValue(listOrWrapper, 'resetix', 'true');
   if (restartIx) listInstance.restartIx = restartIx;
 
   // Get loader
-  const loaderElement = queryElement<HTMLElement>('loader', { instanceIndex });
+  const loaderElement = queryElement('loader', { instanceIndex });
   if (loaderElement) listInstance.addLoader(loaderElement);
 
   // Empty State Element
-  const emptyElement = queryElement<HTMLElement>('empty', { instanceIndex });
+  const emptyElement = queryElement('empty', { instanceIndex });
   if (emptyElement) listInstance.addEmptyElement(emptyElement);
 
   // Get items count element
   if (!listInstance.itemsCount) {
-    const itemsCount = queryElement<HTMLElement>('itemsCount', { instanceIndex });
+    const itemsCount = queryElement('items-count', { instanceIndex });
     if (itemsCount) listInstance.addItemsCount(itemsCount);
   }
 
   // Get visible count elements
   if (!listInstance.visibleCount || !listInstance.visibleCountFrom || !listInstance.visibleCountTo) {
-    const visibleCountTotal = queryElement<HTMLElement>('visibleCount', { instanceIndex });
-    const visibleCountFrom = queryElement<HTMLElement>('visibleCountFrom', { instanceIndex });
-    const visibleCountTo = queryElement<HTMLElement>('visibleCountTo', { instanceIndex });
+    const visibleCountTotal = queryElement('visible-count', { instanceIndex });
+    const visibleCountFrom = queryElement('visible-count-from', { instanceIndex });
+    const visibleCountTo = queryElement('visible-count-to', { instanceIndex });
 
     listInstance.addVisibleCount(visibleCountTotal, visibleCountFrom, visibleCountTo);
   }
 
   // Get scroll anchor
   if (!listInstance.scrollAnchor) {
-    const scrollAnchor = queryElement<HTMLElement>('scrollAnchor', { instanceIndex });
+    const scrollAnchor = queryElement('scroll-anchor', { instanceIndex });
     if (scrollAnchor) listInstance.scrollAnchor = scrollAnchor;
   }
 
   // Get caching options
-  const disableCache = listInstance.getAttribute(cacheItemsKey) === cacheItemsValues.false;
+  const disableCache = hasAttributeValue(listOrWrapper, 'cache', 'false');
   if (disableCache) {
     listInstance.cacheItems = false;
   }
 
   // Init mode
-  const mode = listInstance.getAttribute(modeKey);
+  const mode = getAttribute(listOrWrapper, 'mode');
 
   const cleanup =
     mode === renderAll

@@ -1,7 +1,6 @@
-import { getObjectKeys, isNotEmpty } from '@finsweet/ts-utils';
-import type { JobsResponse, JobWithContent, JobWithQuestions } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
+import { getObjectKeys, isNotEmpty } from '@finsweet/attributes-utils';
 
-import type { JobsFilters } from '../types';
+import type { JobsFilters, JobsResponse, JobWithContent, JobWithQuestions } from '../types';
 import { GH_API_BASE, GH_API_JOBS, GH_DEPARTMENT, GH_OFFICE } from './constants';
 
 /**

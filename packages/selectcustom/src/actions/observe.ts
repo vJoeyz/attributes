@@ -1,7 +1,5 @@
-import { isHTMLOptionElement } from '@finsweet/ts-utils';
+import { ARIA_EXPANDED_KEY, isHTMLOptionElement } from '@finsweet/attributes-utils';
 import debounce from 'just-debounce';
-
-import { ARIA_EXPANDED_KEY } from '$global/constants/a11y';
 
 import type { Settings } from '../utils/types';
 import { populateOptions } from './populate';

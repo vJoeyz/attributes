@@ -1,15 +1,14 @@
-import { CMS_ATTRIBUTE_ATTRIBUTE, EXAMPLE_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
+import { waitWebflowReady, type FsAttributeInit } from '@finsweet/attributes-utils';
 
 import { logHello } from './actions/console';
 
 /**
  * Inits the attribute.
  */
-export const init = async () => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await waitWebflowReady();
 
   logHello();
 
-  return finalizeAttribute(EXAMPLE_ATTRIBUTE);
+  return {};
 };

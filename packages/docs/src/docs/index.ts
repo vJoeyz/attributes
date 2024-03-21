@@ -1,4 +1,4 @@
-import type { AttributeExamples } from '$global/types/examples';
+import type { AttributeExamples } from '@finsweet/attributes-utils';
 
 import attributesData from '../../api/attributes';
 import { ATTRIBUTES } from '../utils/constants';

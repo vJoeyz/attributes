@@ -1,4 +1,4 @@
-import { isElement, simulateEvent } from '@finsweet/ts-utils';
+import { isElement, simulateEvent } from '@finsweet/attributes-utils';
 
 import { OPTIONS_TRIGGER_SELECTOR, queryElement } from '../utils/constants';
 

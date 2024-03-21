@@ -1,22 +1,17 @@
-import { getInstanceIndex } from '$global/helpers';
-
-import { collectFacebookData, collectPinterestData, collectSocialData, collectTwitterData } from './actions/collect';
+import { collectFacebookData, collectPinterestData, collectSocialData, collectXData } from './actions/collect';
 import {
   createFacebookShare,
   createLinkedinShare,
   createPinterestShare,
   createRedditShare,
   createTelegramShare,
-  createTwitterShare,
+  createXShare,
 } from './actions/share';
-import { ATTRIBUTES, queryElement, SOCIAL_SHARE_PLATFORMS } from './utils/constants';
+import { SOCIAL_SHARE_PLATFORMS } from './utils/constants';
 import { getCMSItemWrapper } from './utils/dom';
+import { getAttribute, getInstanceIndex, queryAllElements } from './utils/selectors';
 import { stores } from './utils/stores';
 import type { SocialShareTypes } from './utils/types';
-
-const {
-  element: { key: elementKey },
-} = ATTRIBUTES;
 
 /**
  * Creates a social share instance for all matching elements under a scope.
@@ -26,18 +21,13 @@ export const createSocialShareInstances = (scope?: HTMLElement) => {
   for (const key in SOCIAL_SHARE_PLATFORMS) {
     const platform = key as SocialShareTypes;
 
-    const elements = queryElement<HTMLElement>(platform, {
-      scope,
-      operator: 'prefixed',
-      all: true,
-      caseInsensitive: true,
-    });
+    const elements = queryAllElements(platform, { scope });
 
     // fix leaking elements of different attributes when using the same prefix
     const abovePrefixBounds = `${key}[-0-9]*[a-zA-Z]+`;
     const socialShareButtons = elements.filter((element) => {
       // if attribute is out of bounds, return false.
-      return !element.getAttribute(elementKey)?.toLocaleLowerCase().match(new RegExp(abovePrefixBounds));
+      return !getAttribute(element, 'element')?.toLocaleLowerCase().match(new RegExp(abovePrefixBounds));
     });
 
     const create = creators[platform];
@@ -56,7 +46,7 @@ const creators: Record<SocialShareTypes, (trigger: HTMLElement) => void> = {
   facebook(trigger) {
     if (stores.facebook.has(trigger)) return;
 
-    const instanceIndex = getInstanceIndex(trigger, elementKey);
+    const instanceIndex = getInstanceIndex(trigger);
 
     const cmsListItem = getCMSItemWrapper(trigger);
 
@@ -68,21 +58,21 @@ const creators: Record<SocialShareTypes, (trigger: HTMLElement) => void> = {
   },
 
   /**
-   * Twitter creator.
+   * X creator.
    * @param trigger
    */
-  twitter(trigger) {
-    if (stores.twitter.has(trigger)) return;
+  x(trigger) {
+    if (stores.x.has(trigger)) return;
 
-    const instanceIndex = getInstanceIndex(trigger, elementKey);
+    const instanceIndex = getInstanceIndex(trigger);
 
     const cmsListItem = getCMSItemWrapper(trigger);
 
-    const twitter = collectTwitterData(trigger, instanceIndex, cmsListItem);
+    const x = collectXData(trigger, instanceIndex, cmsListItem);
 
-    const shareData = createTwitterShare(twitter);
+    const shareData = createXShare(x);
 
-    stores.twitter.set(trigger, shareData);
+    stores.x.set(trigger, shareData);
   },
 
   /**
@@ -92,7 +82,7 @@ const creators: Record<SocialShareTypes, (trigger: HTMLElement) => void> = {
   pinterest(trigger) {
     if (stores.pinterest.has(trigger)) return;
 
-    const instanceIndex = getInstanceIndex(trigger, elementKey);
+    const instanceIndex = getInstanceIndex(trigger);
 
     const cmsListItem = getCMSItemWrapper(trigger);
 
@@ -110,7 +100,7 @@ const creators: Record<SocialShareTypes, (trigger: HTMLElement) => void> = {
   telegram(trigger) {
     if (stores.telegram.has(trigger)) return;
 
-    const instanceIndex = getInstanceIndex(trigger, elementKey);
+    const instanceIndex = getInstanceIndex(trigger);
 
     const cmsListItem = getCMSItemWrapper(trigger);
 
@@ -128,7 +118,7 @@ const creators: Record<SocialShareTypes, (trigger: HTMLElement) => void> = {
   linkedin(trigger) {
     if (stores.linkedin.has(trigger)) return;
 
-    const instanceIndex = getInstanceIndex(trigger, elementKey);
+    const instanceIndex = getInstanceIndex(trigger);
 
     const cmsListItem = getCMSItemWrapper(trigger);
 
@@ -146,7 +136,7 @@ const creators: Record<SocialShareTypes, (trigger: HTMLElement) => void> = {
   reddit(trigger) {
     if (stores.reddit.has(trigger)) return;
 
-    const instanceIndex = getInstanceIndex(trigger, elementKey);
+    const instanceIndex = getInstanceIndex(trigger);
 
     const cmsListItem = getCMSItemWrapper(trigger);
 

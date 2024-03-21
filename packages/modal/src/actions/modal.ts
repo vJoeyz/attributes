@@ -1,8 +1,7 @@
-import { addListener } from '@finsweet/ts-utils';
+import { addListener } from '@finsweet/attributes-utils';
 
-import type { AnimationModule } from '$packages/animation/src/types';
-
-import { ANCHOR_TEXT, DEFAULT_DISPLAY_PROPERTY, getSelector } from '../utils/constants';
+import { ANCHOR_TEXT, DEFAULT_DISPLAY_PROPERTY } from '../utils/constants';
+import { getSettingSelector } from '../utils/selectors';
 import type { AnimationSettings } from '../utils/types';
 import { getAnimationSettings } from './settings';
 
@@ -20,8 +19,7 @@ export const handleModal = (
   modalElement: HTMLElement,
   openTriggers: Element[],
   closeTriggers: Element[],
-  modalAnimationSettings: AnimationSettings,
-  animationsModule: AnimationModule
+  modalAnimationSettings: AnimationSettings
 ) => {
   const { parentElement } = modalElement;
   if (!parentElement) return;
@@ -33,7 +31,7 @@ export const handleModal = (
     display: modalDisplay,
   } = modalAnimationSettings;
 
-  const customAnimationChildren = getCustomAnimationChildren(modalElement, animationsModule);
+  const customAnimationChildren = getCustomAnimationChildren(modalElement);
 
   // Anchor
   const anchor = new Comment(ANCHOR_TEXT);
@@ -125,14 +123,14 @@ export const handleModal = (
  * @returns Custom animation data for a modal's children.
  * @param modalElement
  */
-const getCustomAnimationChildren = (modalElement: HTMLElement, animationsModule: AnimationModule) => {
+const getCustomAnimationChildren = (modalElement: HTMLElement) => {
   const settingsKeys = ['animation', 'duration', 'easing', 'display'] as const;
-  const selector = settingsKeys.map((key) => getSelector(key)).join(',');
+  const selector = settingsKeys.map((key) => getSettingSelector(key)).join(',');
 
   const children = [...modalElement.querySelectorAll<HTMLElement>(selector)];
 
   const customAnimationChildren = children.map((child) => {
-    const animationSettings = getAnimationSettings(child, animationsModule);
+    const animationSettings = getAnimationSettings(child);
     return [child, animationSettings] as const;
   });
 

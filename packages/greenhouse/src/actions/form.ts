@@ -1,5 +1,4 @@
-import { cloneNode, FORM_CSS_CLASSES, isFile } from '@finsweet/ts-utils';
-import type { JobWithQuestions, Question } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
+import { cloneNode, FORM_CSS_CLASSES, isFile } from '@finsweet/attributes-utils';
 import slugify from 'slugify';
 
 import { Form } from '../components/Form';
@@ -12,8 +11,9 @@ import type {
   EmploymentResponse,
   FormElementsTemplate,
   FormTemplate,
+  JobWithQuestions,
+  Question,
 } from '../types';
-import { ATTRIBUTES, getSelector, queryElement } from '../utils/constants';
 import { insertAfter } from '../utils/dom';
 import {
   createInputElement,
@@ -22,6 +22,7 @@ import {
   createSingleSelectElement,
   createTextAreaElement,
 } from '../utils/forms';
+import { queryAllElements, queryElement } from '../utils/selectors';
 
 const GDPR_CONSENT_GIVEN_KEY = 'gdpr_consent_given';
 const DEMOGRAPHIC_ANSWERS_PREFIX = 'demographic_answers';
@@ -97,7 +98,7 @@ export async function createJobForm(job: JobWithQuestions, jobId: string, boardI
 function appendQuestionWrapper(templates: FormTemplate, wrapper: HTMLElement) {
   const { form } = templates;
 
-  const allQuestion = form.querySelectorAll<HTMLElement>(`${getSelector('element', 'questions')}`);
+  const allQuestion = queryAllElements('questions', { scope: form });
 
   const lastQuestion = allQuestion[allQuestion.length - 1];
 
@@ -120,11 +121,9 @@ function removeTemplates(templates: FormTemplate) {
 function getTemplates(form: HTMLFormElement) {
   const formWrapper = form.closest<HTMLFormElement>(`form`) || form.querySelector<HTMLFormElement>('form');
 
-  const questionsWrapper = queryElement<HTMLDivElement>(ATTRIBUTES.element.values.questions, { scope: form });
-  const questionsHeader = queryElement<HTMLElement>(ATTRIBUTES.element.values['questions-header'], { scope: form });
-  const questionsDescription = queryElement<HTMLElement>(ATTRIBUTES.element.values['questions-description'], {
-    scope: form,
-  });
+  const questionsWrapper = queryElement('questions', { scope: form });
+  const questionsHeader = queryElement('questions-header', { scope: form });
+  const questionsDescription = queryElement('questions-description', { scope: form });
 
   if (!questionsWrapper || !questionsHeader || !questionsDescription || !formWrapper) {
     return null;

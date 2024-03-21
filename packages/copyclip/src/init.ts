@@ -1,55 +1,44 @@
-import { findTextNode, isHTMLElement, isNotEmpty } from '@finsweet/ts-utils';
-import type ClipboardJS from 'clipboard';
-
-import { CMS_ATTRIBUTE_ATTRIBUTE, COPY_CLIP_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
-import { getInstanceIndex } from '$global/helpers';
-
 import {
-  ATTRIBUTES,
-  DEFAULT_SUCCESS_CSS_CLASS,
-  DEFAULT_SUCCESS_DURATION,
-  getSelector,
-  queryElement,
-} from './constants';
-import { createClipboardJsInstance } from './factory';
+  findTextNode,
+  type FsAttributeInit,
+  isHTMLElement,
+  isNotEmpty,
+  parseNumericAttribute,
+  waitWebflowReady,
+} from '@finsweet/attributes-utils';
 
-// Constants destructuring
-const {
-  element: { key: elementKey },
-  text: { key: textKey },
-  successMessage: { key: successMessageKey },
-  successDuration: { key: successDurationKey },
-  successClass: { key: successClassKey },
-} = ATTRIBUTES;
+import { createClipboardJsInstance } from './factory';
+import { DEFAULT_SUCCESS_CSS_CLASS, DEFAULT_SUCCESS_DURATION } from './utils/constants';
+import { getAttribute, getInstanceIndex, queryAllElements, queryElement } from './utils/selectors';
 
 /**
  * Inits the copy to clipboard functionality.
  */
-export const init = async (): Promise<ClipboardJS[]> => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await await waitWebflowReady();
 
-  const copyTriggers = queryElement('trigger', { operator: 'prefixed', all: true });
+  const copyTriggers = queryAllElements('click');
 
   const clipboardInstances = copyTriggers
     .map((trigger) => {
       if (!isHTMLElement(trigger)) return;
 
       // Get attributes
-      const textToCopy = trigger.getAttribute(textKey);
-      const successMessage = trigger.getAttribute(successMessageKey);
-      const successDuration = +(trigger.getAttribute(successDurationKey) || DEFAULT_SUCCESS_DURATION);
-      const successClass = trigger.getAttribute(successClassKey) || DEFAULT_SUCCESS_CSS_CLASS;
+
+      const textToCopy = getAttribute(trigger, 'text');
+      const successMessage = getAttribute(trigger, 'message');
+      const successDuration = parseNumericAttribute(getAttribute(trigger, 'duration'), DEFAULT_SUCCESS_DURATION);
+      const successClass = getAttribute(trigger, 'active') || DEFAULT_SUCCESS_CSS_CLASS;
 
       // Get the instance index
-      const instanceIndex = getInstanceIndex(trigger, elementKey);
+      const instanceIndex = getInstanceIndex(trigger);
 
       // Get the target to be copied, if existing
-      const siblingTarget = trigger.parentElement?.querySelector(
-        getSelector('element', 'sibling', { operator: 'prefixed' })
-      );
+      const siblingTarget = trigger.parentElement
+        ? queryElement('copy-sibling', { scope: trigger.parentElement })
+        : null;
 
-      const target = siblingTarget || queryElement('target', { instanceIndex });
+      const target = siblingTarget || queryElement('copy-this', { instanceIndex });
 
       // Store the text node and the original text
       const textNode = findTextNode(trigger);
@@ -71,9 +60,12 @@ export const init = async (): Promise<ClipboardJS[]> => {
     })
     .filter(isNotEmpty);
 
-  return finalizeAttribute(COPY_CLIP_ATTRIBUTE, clipboardInstances, () => {
-    for (const clipboardInstance of clipboardInstances) {
-      clipboardInstance.destroy();
-    }
-  });
+  return {
+    result: clipboardInstances,
+    destroy() {
+      for (const clipboardInstance of clipboardInstances) {
+        clipboardInstance.destroy();
+      }
+    },
+  };
 };

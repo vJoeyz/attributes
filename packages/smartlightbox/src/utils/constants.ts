@@ -1,46 +1,31 @@
-import { SMART_LIGHTBOX_ATTRIBUTE } from '$global/constants/attributes';
-import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributeElements, type AttributeSettings } from '@finsweet/attributes-utils';
 
-const ATTRIBUTES_PREFIX = `fs-${SMART_LIGHTBOX_ATTRIBUTE}`;
+export const ELEMENTS = [
+  /**
+   * Defines the trigger that appends the `lightbox` element as a direct child of the `<body>`.
+   */
+  'trigger-open',
 
-export const TRIGGER_OPEN_ELEMENT_KEY = 'trigger-open';
-export const TRIGGER_CLOSE_ELEMENT_KEY = 'trigger-close';
-export const TRIGGER_TOGGLE_ELEMENT_KEY = 'trigger-toggle';
-export const LIGHTBOX_ELEMENT_KEY = 'lightbox';
+  /**
+   * Defines the trigger that returns the `lightbox` to its previous position.
+   */
+  'trigger-close',
 
-export const WAIT_SETTING_KEY = 'wait';
+  /**
+   * Defines a trigger that toggles the open/close actions.
+   */
+  'trigger-toggle',
 
-export const ATTRIBUTES = {
-  element: {
-    key: `${ATTRIBUTES_PREFIX}-element`,
-    values: {
-      /**
-       * Defines the trigger that appends the `lightbox` element as a direct child of the `<body>`.
-       */
-      open: TRIGGER_OPEN_ELEMENT_KEY,
+  /**
+   * Defines the element that has `position: fixed`.
+   * If not defined, the `trigger-open` element is used.
+   */
+  'lightbox',
+] as const satisfies AttributeElements;
 
-      /**
-       * Defines the trigger that returns the `lightbox` to its previous position.
-       */
-      close: TRIGGER_CLOSE_ELEMENT_KEY,
-
-      /**
-       * Defines a trigger that toggles the open/close actions.
-       */
-      toggle: TRIGGER_TOGGLE_ELEMENT_KEY,
-
-      /**
-       * Defines the element that has `position: fixed`.
-       * If not defined, the `triggerOn` element is used {@link ATTRIBUTES.element.values.open}
-       */
-      lightbox: generateDynamicAttibuteValue(LIGHTBOX_ELEMENT_KEY),
-    },
-  },
-
+export const SETTINGS = {
   /**
    * Defines the timeout to wait before triggering the `close` state.
    */
-  wait: { key: `${ATTRIBUTES_PREFIX}-${WAIT_SETTING_KEY}` },
-} as const satisfies AttributesDefinition;
-
-export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
+  wait: { key: 'wait' },
+} as const satisfies AttributeSettings;

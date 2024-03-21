@@ -1,40 +1,25 @@
-import { CMS_TABS_ATTRIBUTE } from '$global/constants/attributes';
-import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributeElements, type AttributeSettings } from '@finsweet/attributes-utils';
 
-const ATTRIBUTES_PREFIX = `fs-${CMS_TABS_ATTRIBUTE}`;
+export const ELEMENTS = [
+  /**
+   * Defines a list to be included into the target tabs.
+   */
+  'list',
 
-export const LIST_ELEMENT_KEY = 'list';
-export const TABS_ELEMENT_KEY = 'tabs';
-export const TAB_LINK_ELEMENT_KEY = 'tab-link';
+  /**
+   * Defines the target tabs where all lists will be included into.
+   */
+  'tabs',
 
-export const RESET_IX_SETTING_KEY = 'resetix';
-export const RESET_IX_SETTING_VALUES = { true: 'true' } as const;
+  /**
+   * Defines the content that will be placed inside the generated `Tab Link` in the `Tabs Menu`.
+   */
+  'tab-link',
+] as const satisfies AttributeElements;
 
-export const ATTRIBUTES = {
-  element: {
-    key: `${ATTRIBUTES_PREFIX}-element`,
-    values: {
-      /**
-       * Defines a list to be included into the target tabs.
-       */
-      list: generateDynamicAttibuteValue(LIST_ELEMENT_KEY),
-
-      /**
-       * Defines the target tabs where all lists will be included into.
-       */
-      tabs: generateDynamicAttibuteValue(TABS_ELEMENT_KEY),
-
-      /**
-       * Defines the content that will be placed inside the generated `Tab Link` in the `Tabs Menu`.
-       */
-      tabLink: TAB_LINK_ELEMENT_KEY,
-    },
-  },
-
+export const SETTINGS = {
   /**
    * Defines if Webflow should be restarted after populating the tabs.
    */
-  resetIx: { key: `${ATTRIBUTES_PREFIX}-${RESET_IX_SETTING_KEY}`, values: RESET_IX_SETTING_VALUES },
-} as const satisfies AttributesDefinition;
-
-export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
+  resetix: { key: 'resetix', values: { true: 'true' } },
+} as const satisfies AttributeSettings;

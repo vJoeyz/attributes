@@ -1,92 +1,78 @@
-import { RANGE_SLIDER_ATTRIBUTE } from '$global/constants/attributes';
-import { ARROW_DOWN_KEY, ARROW_LEFT_KEY, ARROW_RIGHT_KEY, ARROW_UP_KEY } from '$global/constants/keyboard';
-import { type AttributesDefinition, generateSelectors } from '$global/factory';
+import {
+  ARROW_DOWN_KEY,
+  ARROW_LEFT_KEY,
+  ARROW_RIGHT_KEY,
+  ARROW_UP_KEY,
+  type AttributeElements,
+  type AttributeSettings,
+} from '@finsweet/attributes-utils';
 
-const ATTRIBUTES_PREFIX = `fs-${RANGE_SLIDER_ATTRIBUTE}` as const;
+export const ELEMENTS = [
+  /**
+   * Defines a range slider instance element.
+   */
+  'wrapper',
 
-export const WRAPPER_ELEMENT_KEY = 'wrapper';
-export const TRACK_ELEMENT_KEY = 'track';
-export const FILL_ELEMENT_KEY = 'fill';
-export const HANDLE_ELEMENT_KEY = 'handle';
-export const DISPLAY_VALUE_ELEMENT_KEY = 'display-value';
+  /**
+   * Defines the track of the slider.
+   */
+  'track',
 
-export const MIN_SETTING_KEY = 'min';
-export const MAX_SETTING_KEY = 'max';
-export const START_SETTING_KEY = 'start';
-export const STEP_SETTING_KEY = 'step';
-export const FORMAT_DISPLAY_SETTING_KEY = 'formatdisplay';
-export const FORMAT_DISPLAY_SETTING_VALUES = { true: 'true' } as const;
-export const UPDATE_ACTION_SETTING_KEY = 'update';
-export const UPDATE_ACTION_SETTING_VALUES = {
-  move: 'move',
-  release: 'release',
-} as const;
+  /**
+   * Defines the fill of the slider.
+   */
+  'fill',
 
-export const ATTRIBUTES = {
-  element: {
-    key: `${ATTRIBUTES_PREFIX}-element`,
-    values: {
-      /**
-       * Defines a range slider instance element.
-       */
-      wrapper: WRAPPER_ELEMENT_KEY,
+  /**
+   * Defines a handle of the slider.
+   */
+  'handle',
 
-      /**
-       * Defines the track of the slider.
-       */
-      track: TRACK_ELEMENT_KEY,
+  /**
+   * Defines an element to display a Handle's value.
+   */
+  'display-value',
+] as const satisfies AttributeElements;
 
-      /**
-       * Defines the fill of the slider.
-       */
-      fill: FILL_ELEMENT_KEY,
-
-      /**
-       * Defines a handle of the slider.
-       */
-      handle: HANDLE_ELEMENT_KEY,
-
-      /**
-       * Defines an element to display a Handle's value.
-       */
-      displayValue: DISPLAY_VALUE_ELEMENT_KEY,
-    },
-  },
-
+export const SETTINGS = {
   /**
    * Defines the minimum value of the range.
    */
-  min: { key: `${ATTRIBUTES_PREFIX}-${MIN_SETTING_KEY}` },
+  min: { key: 'min' },
 
   /**
    * Defines the maximum value of the range.
    */
-  max: { key: `${ATTRIBUTES_PREFIX}-${MAX_SETTING_KEY}` },
+  max: { key: 'max' },
 
   /**
    * Defines the start value of a handle.
    * Must be applied to a handle element {@link ATTRIBUTES.element.values.handle}.
    */
-  start: { key: `${ATTRIBUTES_PREFIX}-${START_SETTING_KEY}` },
+  start: { key: 'start' },
 
   /**
    * Defines the step of the values.
    */
-  step: { key: `${ATTRIBUTES_PREFIX}-${STEP_SETTING_KEY}` },
+  step: { key: 'step' },
 
   /**
    * Defines if the Handles' value display should be formatted.
    */
-  formatDisplay: { key: `${ATTRIBUTES_PREFIX}-${FORMAT_DISPLAY_SETTING_KEY}`, values: FORMAT_DISPLAY_SETTING_VALUES },
+  formatdisplay: { key: 'formatdisplay', values: { true: 'true' } },
 
   /**
    * Defines when should the <input> elements be updated.
    * Defaults to {@link UPDATE_ACTION_SETTING_VALUES.move}
    */
-  updateAction: { key: `${ATTRIBUTES_PREFIX}-${UPDATE_ACTION_SETTING_KEY}`, values: UPDATE_ACTION_SETTING_VALUES },
-} as const satisfies AttributesDefinition;
-
-export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
+  update: {
+    key: 'update',
+    values: {
+      move: 'move',
+      release: 'release',
+    },
+  },
+} as const satisfies AttributeSettings;
 
 export const HANDLE_INCREMENT_KEYS = [ARROW_UP_KEY, ARROW_RIGHT_KEY];
 export const HANDLE_DECREMENT_KEYS = [ARROW_DOWN_KEY, ARROW_LEFT_KEY];

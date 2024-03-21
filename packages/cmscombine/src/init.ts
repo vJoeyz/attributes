@@ -1,33 +1,30 @@
-import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_COMBINE_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
-import { importCMSCore } from '$global/import';
-import type { CMSList } from '$packages/cmscore';
+import { createCMSListInstances } from '@finsweet/attributes-cmscore';
+import { type FsAttributeInit, waitWebflowReady } from '@finsweet/attributes-utils';
 
-import { collectCombineData } from './collect';
-import { combineItemsToTarget } from './combine';
-import { getSelector, queryElement } from './constants';
-import type { CombineData } from './types';
+import { collectCombineData } from './actions/collect';
+import { combineItemsToTarget } from './actions/combine';
+import { getElementSelector, queryElement } from './utils/selectors';
+import type { CombineData } from './utils/types';
 
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<CMSList[]> => {
-  const cmsCore = await importCMSCore();
-  if (!cmsCore) return [];
+export const init: FsAttributeInit = async () => {
+  await waitWebflowReady();
 
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
-
-  const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
+  const listInstances = createCMSListInstances([getElementSelector('list')]);
 
   const combineData = collectCombineData(listInstances);
 
   // Combine the lists
   const combineLists = await Promise.all(combineData.map(initListsCombine));
 
-  return finalizeAttribute(CMS_COMBINE_ATTRIBUTE, combineLists, () => {
-    // TODO: Remove optional chaining after cmscore@1.9.0 has rolled out
-    for (const listInstance of listInstances) listInstance.destroy?.();
-  });
+  return {
+    result: combineLists,
+    destroy() {
+      for (const listInstance of listInstances) listInstance.destroy();
+    },
+  };
 };
 
 /**
@@ -39,7 +36,7 @@ export const init = async (): Promise<CMSList[]> => {
 const initListsCombine = async ({ lists, target, instanceIndex }: CombineData) => {
   // Get items count element
   if (!target.itemsCount) {
-    const itemsCount = queryElement<HTMLElement>('itemsCount', { instanceIndex });
+    const itemsCount = queryElement('items-count', { instanceIndex });
     if (itemsCount) target.addItemsCount(itemsCount);
   }
 

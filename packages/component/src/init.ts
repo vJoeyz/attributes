@@ -1,29 +1,23 @@
-import { CMS_ATTRIBUTE_ATTRIBUTE, COMPONENT_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
+import { type FsAttributeInit, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { collectComponentTargetsData } from './actions/collect';
 import { prefetchComponentsPages } from './actions/prefetch';
 import { initComponents } from './factory';
+import type { SETTINGS } from './utils/constants';
 
 /**
  * Inits the attribute.
  */
-export const init = async ({
-  proxy,
-  cacheKey,
-  cacheVersion,
-}: {
-  proxy?: string | null;
-  cacheKey?: string | null;
-  cacheVersion?: string | number | null;
-} = {}) => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+export const init: FsAttributeInit<typeof SETTINGS> = async ({ proxy, cachekey, cacheversion } = {}) => {
+  await waitWebflowReady();
 
   const componentTargetsData = collectComponentTargetsData(proxy);
 
-  await prefetchComponentsPages(componentTargetsData, cacheKey, cacheVersion);
+  await prefetchComponentsPages(componentTargetsData, cachekey, cacheversion);
 
   const componentsData = await initComponents(componentTargetsData);
 
-  return finalizeAttribute(COMPONENT_ATTRIBUTE, componentsData);
+  return {
+    result: componentsData,
+  };
 };

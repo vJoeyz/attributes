@@ -1,31 +1,33 @@
-import { CMS_ATTRIBUTE_ATTRIBUTE, CODE_HIGHLIGHT_ATTRIBUTE, RICH_TEXT_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
+import { type FsAttributeInit, waitAttributeLoaded, waitWebflowReady } from '@finsweet/attributes-utils';
+import hljs from 'highlight.js/lib/common';
 
-import { importHighlightJS, importHighlightJSTheme } from './actions/import';
-import { ATTRIBUTES, getSelector } from './utils/constants';
+import { importHighlightJSTheme } from './actions/import';
+import { getAttribute, queryAllElements } from './utils/selectors';
 
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<HTMLElement[]> => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE, RICH_TEXT_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await waitWebflowReady();
+  await waitAttributeLoaded('richtext');
 
-  const referenceElements = [
-    ...document.querySelectorAll<HTMLElement>(getSelector('element', 'code', { operator: 'prefixed' })),
-  ];
+  const referenceElements = queryAllElements('code');
 
-  const theme = referenceElements.reduce<string | null>((theme, referenceElement) => {
-    theme ||= referenceElement.getAttribute(ATTRIBUTES.theme.key);
+  const theme = referenceElements.reduce<string | undefined>((theme, referenceElement) => {
+    theme ||= getAttribute(referenceElement, 'theme');
     return theme;
-  }, null);
+  }, undefined);
 
-  const [destroyHighlightJSThemeImport] = await Promise.all([importHighlightJSTheme(theme), importHighlightJS()]);
+  const destroyHighlightJSThemeImport = await importHighlightJSTheme(theme);
 
   const codeElements = initHighlight(referenceElements);
 
-  return finalizeAttribute(CODE_HIGHLIGHT_ATTRIBUTE, codeElements, () => {
-    destroyHighlightJSThemeImport?.();
-  });
+  return {
+    result: codeElements,
+    destroy() {
+      destroyHighlightJSThemeImport?.();
+    },
+  };
 };
 
 /**
@@ -43,7 +45,9 @@ const initHighlight = (referenceElements: HTMLElement[]) => {
     return acc;
   }, []);
 
-  for (const codeElement of codeElements) window.hljs.highlightElement(codeElement);
+  for (const codeElement of codeElements) {
+    hljs.highlightElement(codeElement);
+  }
 
   return codeElements;
 };

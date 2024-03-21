@@ -1,11 +1,4 @@
-import {
-  A11Y_ATTRIBUTE,
-  ACCORDION_ATTRIBUTE,
-  CMS_ATTRIBUTE_ATTRIBUTE,
-  INPUT_COUNTER_ATTRIBUTE,
-  MODAL_ATTRIBUTE,
-} from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
+import { type FsAttributeInit, waitAttributeLoaded, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { observeAriaControls } from './actions/aria-controls';
 import { handleKeyboardEvents } from './actions/keyboard';
@@ -13,14 +6,20 @@ import { handleKeyboardEvents } from './actions/keyboard';
 /**
  * Inits the attribute.
  */
-export const init = async () => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE, MODAL_ATTRIBUTE, INPUT_COUNTER_ATTRIBUTE, ACCORDION_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await waitWebflowReady();
+
+  await waitAttributeLoaded('modal');
+  await waitAttributeLoaded('inputcounter');
+  await waitAttributeLoaded('accordion');
 
   const keyboardCleanup = handleKeyboardEvents();
   const observersCleanup = observeAriaControls();
 
-  return finalizeAttribute(A11Y_ATTRIBUTE, undefined, () => {
-    keyboardCleanup();
-    observersCleanup();
-  });
+  return {
+    destroy() {
+      keyboardCleanup();
+      observersCleanup();
+    },
+  };
 };

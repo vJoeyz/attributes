@@ -2,45 +2,23 @@
   "name": "@finsweet/attributes-cmsfilter",
   "version": "1.16.2",
   "description": "Filter items from Webflow CMS dynamic collection list.",
-  "homepage": "https://www.finsweet.com/attributes",
-  "sideEffects": false,
+  "private": true,
   "type": "module",
-  "main": "cmsfilter.js",
-  "files": [
-    "cmsfilter.js",
-    "examples.json",
-    "schema.json",
-    "changesets.json"
-  ],
+  "types": "src/index.ts",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development node ./bin/build.js",
-    "build:dev": "cross-env NODE_ENV=test node ./bin/build.js",
-    "build": "cross-env NODE_ENV=production node ./bin/build.js",
     "lint": "eslint ./src && prettier --check ./src",
-    "lint:fix": "eslint ./src --fix",
-    "check": "tsc --noEmit",
-    "format": "prettier --write ./src",
-    "test": "pnpm playwright test",
-    "test:headed": "pnpm playwright test --headed",
-    "serve": "serve ../../"
+    "lint:fix": "eslint ./src --fix && prettier --write ./src",
+    "check": "tsc --noEmit"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/finsweet/attributes.git"
-  },
-  "keywords": [
-    "webflow",
-    "attributes",
-    "no code"
-  ],
-  "author": {
-    "name": "Finsweet",
-    "url": "https://www.finsweet.com/"
-  },
-  "bugs": {
-    "url": "https://sweetjs.finsweet.com/"
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
+    }
   },
   "dependencies": {
-    "just-debounce": "^1.1.0"
+    "just-debounce": "^1.1.0",
+    "@finsweet/attributes-cmscore": "workspace:*",
+    "@finsweet/attributes-utils": "workspace:*"
   }
 }

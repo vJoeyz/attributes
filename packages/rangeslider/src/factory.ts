@@ -1,10 +1,8 @@
-import { Debug, isNotEmpty } from '@finsweet/ts-utils';
-
-import { adjustValueToStep } from '$global/helpers';
+import { adjustValueToStep, isNotEmpty } from '@finsweet/attributes-utils';
 
 import { Fill } from './components/Fill';
 import { Handle } from './components/Handle';
-import { ATTRIBUTES } from './utils/constants';
+import { getAttribute } from './utils/selectors';
 import type { HandleInstances, RangeSliderSettings } from './utils/types';
 
 /**
@@ -26,9 +24,7 @@ export const createHandleInstances = ({
   const handles = handleElements
     .slice(0, 2)
     .map((handleElement, index) => {
-      const rawStartValue = parseFloat(
-        handleElement.getAttribute(ATTRIBUTES.start.key) || `${index === 0 ? minRange : maxRange}`
-      );
+      const rawStartValue = parseFloat(getAttribute(handleElement, 'start') || `${index === 0 ? minRange : maxRange}`);
 
       let startValue = adjustValueToStep(rawStartValue, step, precision, minRange);
 
@@ -36,17 +32,15 @@ export const createHandleInstances = ({
       const displayValueElement = displayValueElements[index];
 
       if (startValue < minRange) {
-        Debug.alert(
-          `The Handle start value [${startValue}] doesn't match the range, so it has been set to the min value [${minRange}].`,
-          'info'
+        console.error(
+          `The Handle start value [${startValue}] doesn't match the range, so it has been set to the min value [${minRange}].`
         );
         startValue = minRange;
       }
 
       if (startValue > maxRange) {
-        Debug.alert(
-          `The Handle start value [${startValue}] doesn't match the range, so it has been set to the max value [${maxRange}].`,
-          'info'
+        console.error(
+          `The Handle start value [${startValue}] doesn't match the range, so it has been set to the max value [${maxRange}].`
         );
         startValue = maxRange;
       }

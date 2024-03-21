@@ -1,9 +1,15 @@
-import type { Dropdown, DropdownList, DropdownToggle } from '@finsweet/ts-utils';
-import { DROPDOWN_CSS_CLASSES, findTextNode, isHTMLAnchorElement } from '@finsweet/ts-utils';
+import {
+  ARIA_CURRENT_KEY,
+  type Dropdown,
+  DROPDOWN_CSS_CLASSES,
+  type DropdownList,
+  type DropdownToggle,
+  findTextNode,
+  isHTMLAnchorElement,
+  TABINDEX_KEY,
+} from '@finsweet/attributes-utils';
 
-import { ARIA_CURRENT_KEY, TABINDEX_KEY } from '$global/constants/a11y';
-
-import { ATTRIBUTES, getSelector, queryElement } from '../utils/constants';
+import { getElementSelector, hasAttributeValue, queryElement } from '../utils/selectors';
 import type { OptionsStore } from '../utils/types';
 import { setDropdownAria } from './a11y';
 
@@ -26,24 +32,16 @@ export const collectSettings = (referenceElement: HTMLElement) => {
 
   setDropdownAria(dropdownToggle, dropdownList);
 
-  const label =
-    queryElement('label', { operator: 'prefixed', scope: dropdownToggle }) ||
-    findTextNode(dropdownToggle) ||
-    dropdownToggle;
+  const label = queryElement('label', { scope: dropdownToggle }) || findTextNode(dropdownToggle) || dropdownToggle;
 
-  const resetOptionSelector = [
-    getSelector('element', 'resetOption', { operator: 'prefixed' }),
-    getSelector('element', 'resetOptionFallback', { operator: 'prefixed' }),
-  ].join(', ');
-
-  const optionTemplate = dropdownList.querySelector(`a:not(${resetOptionSelector})`);
+  const optionTemplate = dropdownList.querySelector(`a:not(${getElementSelector('clear')})`);
 
   if (!isHTMLAnchorElement(optionTemplate)) return;
 
   const optionsList = optionTemplate.parentElement;
   if (!optionsList) return;
 
-  const emptyOption = dropdownList.querySelector<HTMLAnchorElement>(resetOptionSelector);
+  const emptyOption = queryElement<HTMLAnchorElement>('clear', { scope: dropdownList });
 
   for (const element of [optionTemplate, emptyOption]) {
     if (!element) continue;
@@ -54,7 +52,7 @@ export const collectSettings = (referenceElement: HTMLElement) => {
     element.remove();
   }
 
-  const hideInitial = referenceElement.getAttribute(ATTRIBUTES.hideInitial.key) === ATTRIBUTES.hideInitial.values.true;
+  const hideInitial = hasAttributeValue(referenceElement, 'hideinitial', 'true');
 
   return {
     optionsStore,

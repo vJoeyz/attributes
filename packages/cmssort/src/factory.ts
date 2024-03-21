@@ -1,25 +1,19 @@
-import type { Dropdown } from '@finsweet/ts-utils';
-import { DROPDOWN_CSS_CLASSES, isHTMLSelectElement } from '@finsweet/ts-utils';
-
-import type { CMSCore, CMSList } from '$packages/cmscore';
+import { addListAnimation, type CMSList } from '@finsweet/attributes-cmscore';
+import { type Dropdown, DROPDOWN_CSS_CLASSES, isHTMLSelectElement } from '@finsweet/attributes-utils';
 
 import { listenListEvents } from './actions/events';
 import { initButtons } from './modes/buttons';
 import { initDropdown } from './modes/dropdown';
 import { initHTMLSelect } from './modes/select';
-import { ATTRIBUTES, DEFAULT_ASC_CLASS, DEFAULT_DESC_CLASS, queryElement } from './utils/constants';
+import { DEFAULT_ASC_CLASS, DEFAULT_DESC_CLASS } from './utils/constants';
+import {
+  getAttribute,
+  getInstanceIndex,
+  getSettingAttributeName,
+  queryAllElements,
+  queryElement,
+} from './utils/selectors';
 import type { CSSClasses } from './utils/types';
-
-// Constants destructuring
-const {
-  element: { key: elementKey },
-  field: { key: fieldKey },
-  type: { key: typeKey },
-  duration: { key: durationKey },
-  easing: { key: easingKey },
-  ascClass: { key: ascClassKey },
-  descClass: { key: descClassKey },
-} = ATTRIBUTES;
 
 /**
  * Inits sorting on a `CMSList`.
@@ -27,30 +21,36 @@ const {
  *
  * @returns A cleanup callback.
  */
-export const initListSorting = (listInstance: CMSList, cmsCore: CMSCore) => {
-  const instanceIndex = listInstance.getInstanceIndex(elementKey);
+export const initListSorting = (listInstance: CMSList) => {
+  const { listOrWrapper } = listInstance;
 
-  const triggers = queryElement<HTMLElement>('trigger', { instanceIndex, all: true });
+  const instanceIndex = getInstanceIndex(listOrWrapper);
+
+  const triggers = queryAllElements('trigger', { instanceIndex });
   if (!triggers.length) return;
 
   const { items } = listInstance;
 
   // Store item props
-  for (const item of items) item.collectProps({ fieldKey, typeKey });
+  for (const item of items)
+    item.collectProps({ fieldKey: getSettingAttributeName('field'), typeKey: getSettingAttributeName('type') });
 
   // Animation
-  cmsCore.addListAnimation(listInstance, { durationKey, easingKey });
+  addListAnimation(listInstance, {
+    durationKey: getSettingAttributeName('duration'),
+    easingKey: getSettingAttributeName('easing'),
+  });
 
   // Scroll Anchor Element
   if (!listInstance.scrollAnchor) {
-    const scrollAnchor = queryElement<HTMLElement>('scrollAnchor', { instanceIndex });
+    const scrollAnchor = queryElement('scroll-anchor', { instanceIndex });
     if (scrollAnchor) listInstance.scrollAnchor = scrollAnchor;
   }
 
   // CSS Classes
   const cssClasses: CSSClasses = {
-    asc: listInstance.getAttribute(ascClassKey) || DEFAULT_ASC_CLASS,
-    desc: listInstance.getAttribute(descClassKey) || DEFAULT_DESC_CLASS,
+    asc: getAttribute(listOrWrapper, 'asc') || DEFAULT_ASC_CLASS,
+    desc: getAttribute(listOrWrapper, 'desc') || DEFAULT_DESC_CLASS,
   };
 
   // Init mode

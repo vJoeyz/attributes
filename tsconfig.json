@@ -1,12 +1,7 @@
 {
   "extends": "@finsweet/tsconfig",
+  "exclude": ["./**/api/schema.ts"], // TODO: Remove all the old /api/schema.ts files
   "compilerOptions": {
-    "target": "ES2019",
-    "baseUrl": ".",
-    "paths": {
-      "$global/*": ["global/*"],
-      "$packages/*": ["packages/*"]
-    }
-  },
-  "exclude": ["packages/components/**/*.ts", "packages/cmssave/**/*.ts", "packages/support/**/*.ts"]
+    "types": ["@webflow/designer-extension-typings"]
+  }
 }

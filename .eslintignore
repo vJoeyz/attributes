@@ -2,3 +2,4 @@
 !**/build/*.js
 !**/bin/*.js
 **/*.json
+packages/template

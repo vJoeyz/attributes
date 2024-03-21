@@ -1,6 +1,7 @@
-import { FORM_CSS_CLASSES } from '@finsweet/ts-utils';
+import { FORM_CSS_CLASSES } from '@finsweet/attributes-utils';
 
-import { DEFAULT_ACTIVE_CLASS, getAttribute, getSelector } from '../utils/constants';
+import { DEFAULT_ACTIVE_CLASS } from '../utils/constants';
+import { getAttribute, getSettingSelector } from '../utils/selectors';
 
 /**
  * Handles adding/removing the active class from an input.
@@ -38,7 +39,7 @@ export const handleInputActiveClass = (input: HTMLInputElement) => {
  * @param target
  */
 const getActiveClass = (target: Element) => {
-  const activeClassElement = target.closest(getSelector('class'));
+  const activeClassElement = target.closest(getSettingSelector('class'));
   if (!activeClassElement) return DEFAULT_ACTIVE_CLASS;
 
   const activeClass = getAttribute(activeClassElement, 'class');

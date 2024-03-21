@@ -1,35 +1,24 @@
-import { READ_TIME_ATTRIBUTE } from '$global/constants/attributes';
-import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributeElements, type AttributeSettings } from '@finsweet/attributes-utils';
 
-const ATTRIBUTES_PREFIX = `fs-${READ_TIME_ATTRIBUTE}`;
+export const ELEMENTS = [
+  /**
+   * Defines any wrapper that contains the content to be metered.
+   */
+  'contents',
 
-export const CONTENTS_ELEMENT_KEY = 'contents';
-export const TIME_ELEMENT_KEY = 'time';
-export const WPM_SETTING_KEY = 'wpm';
-export const DECIMALS_SETTING_KEY = 'decimals';
+  /**
+   * Defines the element that will display the time.
+   */
+  'time',
+] as const satisfies AttributeElements;
 
-export const ATTRIBUTES = {
-  element: {
-    key: `${ATTRIBUTES_PREFIX}-element`,
-    values: {
-      /**
-       * Defines any wrapper that contains the content to be metered.
-       */
-      contents: generateDynamicAttibuteValue(CONTENTS_ELEMENT_KEY),
-
-      /**
-       * Defines the element that will display the time.
-       */
-      time: generateDynamicAttibuteValue(TIME_ELEMENT_KEY),
-    },
-  },
-
+export const SETTINGS = {
   /**
    * Defines the Words Per Minute ratio.
    * Defaults to {@link DEFAULT_WPM}.
    */
   wpm: {
-    key: `${ATTRIBUTES_PREFIX}-${WPM_SETTING_KEY}`,
+    key: 'wpm',
   },
 
   /**
@@ -37,11 +26,9 @@ export const ATTRIBUTES = {
    * Defaults to {@link DEFAULT_DECIMALS}.
    */
   decimals: {
-    key: `${ATTRIBUTES_PREFIX}-${DECIMALS_SETTING_KEY}`,
+    key: 'decimals',
   },
-} as const satisfies AttributesDefinition;
-
-export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
+} as const satisfies AttributeSettings;
 
 export const DEFAULT_WPM = 265;
 export const DEFAULT_DECIMALS = 0;

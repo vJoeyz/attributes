@@ -1,19 +1,17 @@
+import { type CMSFilters, type FiltersData } from '@finsweet/attributes-cmsfilter';
 import {
   cloneNode,
   DROPDOWN_CSS_CLASSES,
   FORM_CSS_CLASSES,
   type FormField,
   isHTMLSelectElement,
-} from '@finsweet/ts-utils';
-import type { JobWithContent } from '@finsweet/ts-utils/dist/types/apis/Greenhouse';
+} from '@finsweet/attributes-utils';
 
-import type { CMSFilters } from '$packages/cmsfilter/src/components/CMSFilters';
-import type { FiltersData } from '$packages/cmsfilter/src/utils/types';
-
-import type { JobsFilters } from '../types';
-import { ATTRIBUTES, GH_DEPARTMENT, GH_OFFICE } from '../utils/constants';
+import type { JobsFilters, JobWithContent } from '../types';
+import { GH_DEPARTMENT, GH_OFFICE } from '../utils/constants';
 import { filterJobs, getDepartmentsOrOfficesFromJobs } from '../utils/jobs';
 import { appendNestedJobsToCMSItems } from '../utils/lists';
+import { getAttribute, getSettingSelector } from '../utils/selectors';
 import { getNestedKey } from './jobs';
 
 export async function createFilters(
@@ -28,7 +26,7 @@ export async function createFilters(
 
   for (const filterInstance of filtersInstances) {
     for (const filterElement of filtersElements) {
-      const filterKey = filterElement.getAttribute(ATTRIBUTES.filter.key);
+      const filterKey = getAttribute(filterElement, 'filter');
 
       if (!filterKey) {
         continue;
@@ -43,7 +41,7 @@ export async function createFilters(
       createFilterFactory(filterElement, filterEntries);
     }
 
-    const displayElements = document.querySelectorAll<HTMLElement>(`[${ATTRIBUTES.display.key}]`);
+    const displayElements = document.querySelectorAll<HTMLElement>(getSettingSelector('display'));
 
     const defaultValues = new Map<HTMLElement, string>();
 
@@ -93,7 +91,8 @@ function displayFilterValues(
     const defaultValue: string | null | undefined = defaultValues.has(displayElement)
       ? defaultValues.get(displayElement)
       : defaultValues.set(displayElement, textContent || 'All') && textContent;
-    const key = displayElement.getAttribute(ATTRIBUTES.display.key);
+
+    const key = getAttribute(displayElement, 'display');
 
     if (!key) {
       continue;

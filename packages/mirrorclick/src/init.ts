@@ -1,42 +1,42 @@
-import { addListener, isElement, isHTMLElement } from '@finsweet/ts-utils';
+import {
+  addListener,
+  type FsAttributeInit,
+  isElement,
+  isHTMLElement,
+  parseNumericAttribute,
+} from '@finsweet/attributes-utils';
 
-import { MIRROR_CLICK_ATTRIBUTE } from '$global/constants/attributes';
-import { finalizeAttribute } from '$global/factory';
-import { getInstanceIndex } from '$global/helpers';
-
-import { ATTRIBUTES, getSelector } from './constants';
-
-// Constants  destructuring
-const {
-  element: { key: elementKey },
-  delay: { key: delayKey },
-} = ATTRIBUTES;
+import { getAttribute, getElementSelector, getInstanceIndex, queryAllElements } from './utils/selectors';
 
 /**
  * Inits click events mirroring.
  */
-export const init = (): void => {
+export const init: FsAttributeInit = () => {
   const clickCleanup = addListener(window, 'click', ({ target }) => {
     if (!isElement(target)) return;
 
-    const mirrorTrigger = target.closest(getSelector('element', 'trigger', { operator: 'prefixed' }));
+    const mirrorTrigger = target.closest(getElementSelector('trigger'));
     if (!mirrorTrigger) return;
 
     // Get the instance index
-    const instanceIndex = getInstanceIndex(mirrorTrigger, elementKey);
+    const instanceIndex = getInstanceIndex(mirrorTrigger);
 
-    const mirrorTargets = document.querySelectorAll(getSelector('element', 'target', { instanceIndex }));
+    const mirrorTargets = queryAllElements('target', { instanceIndex });
 
     for (const mirrorTarget of mirrorTargets) {
       if (!isHTMLElement(mirrorTarget)) continue;
 
-      const rawDelay = mirrorTarget.getAttribute(delayKey) || mirrorTrigger.getAttribute(delayKey);
-      const delay = rawDelay ? parseInt(rawDelay) : undefined;
+      const rawDelay = getAttribute(mirrorTarget, 'delay') || getAttribute(mirrorTrigger, 'delay');
+      const delay = parseNumericAttribute(rawDelay);
 
       if (delay) window.setTimeout(() => mirrorTarget.click(), delay);
       else mirrorTarget.click();
     }
   });
 
-  return finalizeAttribute(MIRROR_CLICK_ATTRIBUTE, undefined, () => clickCleanup());
+  return {
+    destroy() {
+      clickCleanup();
+    },
+  };
 };

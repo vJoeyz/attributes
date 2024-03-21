@@ -2,41 +2,21 @@
   "name": "@finsweet/attributes-ATTRIBUTE_KEY",
   "version": "0.0.0",
   "description": "ATTRIBUTE_DESCRIPTION.",
-  "homepage": "https://www.finsweet.com/attributes",
-  "sideEffects": false,
+  "private": true,
   "type": "module",
-  "main": "ATTRIBUTE_KEY.js",
-  "files": [
-    "ATTRIBUTE_KEY.js",
-    "examples.json",
-    "schema.json",
-    "changesets.json"
-  ],
+  "types": "src/index.ts",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development node ./bin/build.js",
-    "build:dev": "cross-env NODE_ENV=test node ./bin/build.js",
-    "build": "cross-env NODE_ENV=production node ./bin/build.js",
     "lint": "eslint ./src && prettier --check ./src",
-    "lint:fix": "eslint ./src --fix",
-    "check": "tsc --noEmit",
-    "format": "prettier --write ./src",
-    "test": "pnpm playwright test",
-    "test:headed": "pnpm playwright test --headed"
+    "lint:fix": "eslint ./src --fix && prettier --write ./src",
+    "check": "tsc --noEmit"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/finsweet/attributes.git"
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
+    }
   },
-  "keywords": [
-    "webflow",
-    "attributes",
-    "no code"
-  ],
-  "author": {
-    "name": "Finsweet",
-    "url": "https://www.finsweet.com/"
-  },
-  "bugs": {
-    "url": "https://sweetjs.finsweet.com/"
+  "dependencies": {
+    "@finsweet/attributes-utils": "workspace:*"
   }
 }

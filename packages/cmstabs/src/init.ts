@@ -1,24 +1,17 @@
-import { restartWebflow } from '@finsweet/ts-utils';
-
-import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_TABS_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
-import { importCMSCore } from '$global/import';
-import type { CMSList } from '$packages/cmscore';
+import { createCMSListInstances } from '@finsweet/attributes-cmscore';
+import { type FsAttributeInit, restartWebflow, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { collectPopulateData } from './actions/collect';
 import { populateTabsFromLists } from './actions/populate';
-import { getSelector } from './utils/constants';
+import { getElementSelector } from './utils/selectors';
 
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<CMSList[]> => {
-  const cmsCore = await importCMSCore();
-  if (!cmsCore) return [];
+export const init: FsAttributeInit = async () => {
+  await waitWebflowReady();
 
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
-
-  const listInstances = cmsCore.createCMSListInstances([getSelector('element', 'list', { operator: 'prefixed' })]);
+  const listInstances = createCMSListInstances([getElementSelector('list')]);
 
   // Collect the combine data
   const [populateData, restartIx] = collectPopulateData(listInstances);
@@ -48,8 +41,10 @@ export const init = async (): Promise<CMSList[]> => {
 
   await restartWebflow(modulesToRestart);
 
-  return finalizeAttribute(CMS_TABS_ATTRIBUTE, listInstances, () => {
-    // TODO: Remove optional chaining after cmscore@1.9.0 has rolled out
-    for (const listInstance of listInstances) listInstance.destroy?.();
-  });
+  return {
+    result: listInstances,
+    destroy() {
+      for (const listInstance of listInstances) listInstance.destroy();
+    },
+  };
 };

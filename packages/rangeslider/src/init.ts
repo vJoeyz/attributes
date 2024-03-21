@@ -1,35 +1,40 @@
-import { addListener, getHiddenParent, isNotEmpty, isVisible, noop } from '@finsweet/ts-utils';
+import {
+  addListener,
+  adjustValueToStep,
+  type FsAttributeInit,
+  getHiddenParent,
+  isNotEmpty,
+  isVisible,
+  noop,
+  waitWebflowReady,
+} from '@finsweet/attributes-utils';
 import debounce from 'just-debounce';
-
-import { CMS_ATTRIBUTE_ATTRIBUTE, RANGE_SLIDER_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
-import { adjustValueToStep } from '$global/helpers';
 
 import { getClientX } from './actions/events';
 import { getSettings } from './actions/settings';
 import { getClosestValidHandle } from './actions/values';
 import type { Handle } from './components/Handle';
 import { createFillInstance, createHandleInstances } from './factory';
-import { getSelector } from './utils/constants';
-import type { HandleInstances } from './utils/types';
+import { queryAllElements } from './utils/selectors';
 
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<HandleInstances[]> => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await waitWebflowReady();
 
-  const wrapperElements = [
-    ...document.querySelectorAll<HTMLElement>(getSelector('element', 'wrapper', { operator: 'prefixed' })),
-  ];
+  const wrapperElements = queryAllElements('wrapper');
 
   const rangeSlidersData = wrapperElements.map(initRangeSlider).filter(isNotEmpty);
 
   const handleInstances = rangeSlidersData.map(({ handles }) => handles);
 
-  return finalizeAttribute(RANGE_SLIDER_ATTRIBUTE, handleInstances, () => {
-    for (const { destroy } of rangeSlidersData) destroy();
-  });
+  return {
+    result: handleInstances,
+    destroy() {
+      for (const { destroy } of rangeSlidersData) destroy();
+    },
+  };
 };
 
 /**
@@ -60,7 +65,6 @@ const initRangeSlider = (wrapperElement: HTMLElement) => {
     const value = minRange + ((clientX - trackLeft) * totalRange) / trackWidth;
 
     const adjustedValue = adjustValueToStep(value, step, precision, minRange);
-
     return adjustedValue;
   };
 

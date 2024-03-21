@@ -1,4 +1,4 @@
-import { isHTMLElement, isScrollable } from '@finsweet/ts-utils';
+import { isHTMLElement, isScrollable } from '@finsweet/attributes-utils';
 import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock';
 
 const { body } = document;

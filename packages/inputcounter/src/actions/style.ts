@@ -1,4 +1,5 @@
-import { HIDE_ARROWS_STYLE, queryElement } from '../utils/constants';
+import { HIDE_ARROWS_STYLE } from '../utils/constants';
+import { queryElement } from '../utils/selectors';
 
 /**
  * Adds to the `<head>` the CSS style to hide the input arrows.

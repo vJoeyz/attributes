@@ -1,6 +1,4 @@
-import type { CollectionItemElement, CollectionListElement } from '@finsweet/ts-utils';
-
-import { normalizePropKey } from '$global/helpers';
+import { type CollectionItemElement, type CollectionListElement, normalizePropKey } from '@finsweet/attributes-utils';
 
 import type { CMSItemProps } from './utils/types';
 

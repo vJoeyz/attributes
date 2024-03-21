@@ -1,7 +1,5 @@
-import { isNumber } from '@finsweet/ts-utils';
-
-import { normalizeNumber } from '$global/helpers';
-import type { CMSList } from '$packages/cmscore';
+import type { CMSList } from '@finsweet/attributes-cmscore';
+import { isNumber, normalizeNumber } from '@finsweet/attributes-utils';
 
 import type { SortingDirection } from '../utils/types';
 

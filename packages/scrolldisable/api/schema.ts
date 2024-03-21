@@ -1,3 +1,4 @@
+import type { AttributeSchema } from '@finsweet/attributes-utils';
 import {
   ANY_ELEMENT,
   BUTTON,
@@ -7,8 +8,7 @@ import {
   RICH_TEXT_BLOCK,
   SECTION,
   TEXT_LINK,
-} from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+} from '@finsweet/attributes-utils';
 
 import {
   DISABLE_ELEMENT_KEY,
@@ -19,7 +19,7 @@ import {
   PRESERVE_ELEMENT_KEY,
   TOGGLE_ELEMENT_KEY,
   WHEN_VISIBLE_ELEMENT_KEY,
-} from './../src/constants';
+} from '../src/utils/constants';
 
 const schema: AttributeSchema = {
   elements: [

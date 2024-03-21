@@ -1,20 +1,20 @@
-import { getInstanceIndex } from '$global/helpers';
+import { parseNumericAttribute } from '@finsweet/attributes-utils';
 
-import { ATTRIBUTES, DEFAULT_WPM, queryElement } from './utils/constants';
+import { DEFAULT_DECIMALS, DEFAULT_WPM } from './utils/constants';
+import { getAttribute, getInstanceIndex, queryElement } from './utils/selectors';
 
 /**
  * Inits the read time for an instance.
  * @param timeElement
  */
 export const initReadTime = (timeElement: Element) => {
-  const instanceIndex = getInstanceIndex(timeElement, ATTRIBUTES.element.key);
+  const instanceIndex = getInstanceIndex(timeElement);
 
-  const contentsElement = queryElement<HTMLElement>('contents', { instanceIndex, operator: 'prefixed' });
-
+  const contentsElement = queryElement('contents', { instanceIndex });
   if (!contentsElement) return;
 
-  const wpm = Number(timeElement.getAttribute(ATTRIBUTES.wpm.key)) || DEFAULT_WPM;
-  const decimals = Number(timeElement.getAttribute(ATTRIBUTES.decimals.key));
+  const wpm = parseNumericAttribute(getAttribute(timeElement, 'wpm'), DEFAULT_WPM);
+  const decimals = parseNumericAttribute(getAttribute(timeElement, 'decimals'), DEFAULT_DECIMALS);
 
   const wordsCount = contentsElement.innerText.match(/[\w\d\’\'-]+/gi)?.length ?? 0;
 

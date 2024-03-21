@@ -1,15 +1,13 @@
-import { getInstanceIndex } from '$global/helpers';
-
-import { ATTRIBUTES, getSelector } from '../utils/constants';
+import { getElementSelector, getInstanceIndex } from '../utils/selectors';
 
 /**
  * Queries the correspondent fixed element of a specific trigger.
  * @param trigger The trigger element.
  */
 export const getLightboxElement = (trigger: Element) => {
-  const instanceIndex = getInstanceIndex(trigger, ATTRIBUTES.element.key);
+  const instanceIndex = getInstanceIndex(trigger);
 
-  const lightboxSelector = getSelector('element', 'lightbox', { instanceIndex });
+  const lightboxSelector = getElementSelector('lightbox', { instanceIndex });
   const lightboxElement =
     trigger.parentElement?.querySelector(lightboxSelector) || document.querySelector(lightboxSelector);
 

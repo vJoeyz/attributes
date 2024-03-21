@@ -1,6 +1,4 @@
-import { extractCommaSeparatedValues, setFormFieldValue } from '@finsweet/ts-utils';
-
-import { normalizePropKey } from '$global/helpers';
+import { extractCommaSeparatedValues, normalizePropKey, setFormFieldValue } from '@finsweet/attributes-utils';
 
 import type { CMSFilters } from '../components/CMSFilters';
 import type { FiltersData } from '../utils/types';
@@ -27,7 +25,7 @@ export const getQueryParams = (cmsFilters: CMSFilters): boolean => {
     const filterData = filtersData.find(({ filterKeys }) => filterKeys.length === 1 && filterKeys.includes(queryKey));
     if (!filterData) continue;
 
-    const queryValues = extractCommaSeparatedValues(queryValue, undefined, undefined, false);
+    const queryValues = extractCommaSeparatedValues(queryValue, false);
     if (!queryValues.length) continue;
 
     queryParamsValid = true;

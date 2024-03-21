@@ -1,4 +1,4 @@
-import { ARIA_ROLE_KEY, ARIA_ROLE_VALUES } from '$global/constants/a11y';
+import { ARIA_ROLE_KEY, ARIA_ROLE_VALUES } from '@finsweet/attributes-utils';
 
 import { setClasses } from './actions/classes';
 import { getAllRadios } from './utils/helpers';

@@ -1,25 +1,24 @@
-import { isNotEmpty } from '@finsweet/ts-utils';
+import { type FsAttributeInit, isNotEmpty, waitWebflowReady } from '@finsweet/attributes-utils';
 
-import { CMS_ATTRIBUTE_ATTRIBUTE, FORM_SUBMIT_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
-
-import type { Form } from './components/Form';
 import { initFormInstance } from './factory';
-import { queryElement } from './utils/constants';
+import { queryAllElements } from './utils/selectors';
 
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<Form[]> => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await waitWebflowReady();
 
-  const formElements = queryElement('form', { all: true, operator: 'prefixed' });
+  const formElements = queryAllElements('form');
 
   const formInstances = formElements.map(initFormInstance).filter(isNotEmpty);
 
-  return finalizeAttribute(FORM_SUBMIT_ATTRIBUTE, formInstances, () => {
-    for (const formInstance of formInstances) {
-      formInstance.destroy();
-    }
-  });
+  return {
+    result: formInstances,
+    destroy() {
+      for (const formInstance of formInstances) {
+        formInstance.destroy();
+      }
+    },
+  };
 };

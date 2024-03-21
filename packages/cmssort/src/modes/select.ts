@@ -1,7 +1,5 @@
-import { addListener } from '@finsweet/ts-utils';
-
-import { normalizePropKey } from '$global/helpers';
-import type { CMSList } from '$packages/cmscore';
+import type { CMSList } from '@finsweet/attributes-cmscore';
+import { addListener, normalizePropKey } from '@finsweet/attributes-utils';
 
 import { sortListItems } from '../actions/sort';
 import type { SortingDirection, SortItemsCallback } from '../utils/types';

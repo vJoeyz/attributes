@@ -1,21 +1,21 @@
 import {
+  type Animation,
   cloneNode,
   type CollectionItemElement,
   type CollectionListElement,
   type CollectionListWrapperElement,
+  getCollectionElements,
   type PageCountElement,
   type PaginationButtonElement,
   type PaginationWrapperElement,
-} from '@finsweet/ts-utils';
+} from '@finsweet/attributes-utils';
 import Emittery from 'emittery';
-
-import { getCollectionElements, getInstanceIndex } from '$global/helpers';
-import type { Animation } from '$packages/animation/src/types';
 
 import { CMSItem } from './CMSItem';
 import { updateItemsCount } from './utils/items';
 import { setPaginationQueryParams, storePaginationData } from './utils/pagination';
 import { renderListItems } from './utils/render';
+import { listInstancesStore } from './utils/store';
 import type { CMSListEvents } from './utils/types';
 
 /**
@@ -596,32 +596,17 @@ export class CMSList extends Emittery<CMSListEvents> {
   }
 
   /**
-   * @returns An attribute value, if exists on the `Collection List Wrapper` or the `Collection List`.
-   * @param attributeKey The key of the attribute
-   */
-  public getAttribute(attributeKey: string): string | null | undefined {
-    const { wrapper, list } = this;
-
-    return wrapper.getAttribute(attributeKey) || list?.getAttribute(attributeKey);
-  }
-
-  /**
-   * Gets the instance of the list for a specific attribute key.
-   * @param key The attribute key. Example: `fs-cmsfilter-element`.
-   *
-   * @example 'fs-cmsfilter-element="list-2"' // Returns 2.
-   */
-  public getInstanceIndex(key: string): number | undefined {
-    const { wrapper, list } = this;
-
-    return getInstanceIndex(wrapper, key) || (list ? getInstanceIndex(list, key) : undefined);
-  }
-
-  /**
    * Destroys the instance.
    */
   public destroy() {
     this.clearListeners();
-    window.fsAttributes.cmscore?.listInstances?.delete(this.wrapper);
+    listInstancesStore.delete(this.wrapper);
+  }
+
+  /**
+   * @returns The CMSList list element or wrapper element, whichever exists.
+   */
+  public get listOrWrapper() {
+    return this.list || this.wrapper;
   }
 }

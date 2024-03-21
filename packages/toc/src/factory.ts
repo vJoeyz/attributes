@@ -1,12 +1,10 @@
-import { getInstanceIndex } from '$global/helpers';
-
 import { collectHeadingsData, collectLinksData } from './actions/collect';
 import { listenTOCLinkClicks } from './actions/events';
 import { observeLinksState } from './actions/observe';
 import { populateLinks } from './actions/populate';
 import { prepareTOC } from './actions/prepare';
 import { setScrollOffsets } from './actions/scroll';
-import { ATTRIBUTES, queryElement } from './utils/constants';
+import { getAttribute, getInstanceIndex, hasAttributeValue, queryElement } from './utils/selectors';
 
 /**
  * Inits a TOC instance.
@@ -14,7 +12,7 @@ import { ATTRIBUTES, queryElement } from './utils/constants';
  * @returns
  */
 export const initTOCInstance = (contentsElement: HTMLElement) => {
-  const instanceIndex = getInstanceIndex(contentsElement, ATTRIBUTES.element.key);
+  const instanceIndex = getInstanceIndex(contentsElement);
 
   const linkTemplate = queryElement('link', { instanceIndex });
   if (!linkTemplate) return;
@@ -30,13 +28,13 @@ export const initTOCInstance = (contentsElement: HTMLElement) => {
   const tocItems = populateLinks(headingsData, linksData, tocWrapper);
 
   // Scroll offset
-  const scrollMarginTop = contentsElement.getAttribute(ATTRIBUTES.scrollMarginTop.key) || undefined;
-  const scrollMarginBottom = contentsElement.getAttribute(ATTRIBUTES.scrollMarginBottom.key) || undefined;
+  const scrollMarginTop = getAttribute(contentsElement, 'offsettop');
+  const scrollMarginBottom = getAttribute(contentsElement, 'offsetbottom');
 
   setScrollOffsets(tocItems, { scrollMarginTop, scrollMarginBottom });
 
   // Handle TOC link clicks
-  const hideURLHash = contentsElement.getAttribute(ATTRIBUTES.hideURLHash.key) === ATTRIBUTES.hideURLHash.values.true;
+  const hideURLHash = hasAttributeValue(contentsElement, 'hideurlhash', 'true');
   const removeListener = listenTOCLinkClicks(tocWrapper, hideURLHash);
 
   // Link States

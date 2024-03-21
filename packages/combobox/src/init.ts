@@ -1,27 +1,28 @@
-import { isNotEmpty } from '@finsweet/ts-utils';
-
-import { CMS_ATTRIBUTE_ATTRIBUTE, CMS_SELECT_ATTRIBUTE, COMBO_BOX_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
+import { type FsAttributeInit, isNotEmpty, waitAttributeLoaded, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { listenEvents } from './actions/events';
 import { observeElements } from './actions/observe';
 import { populateOptions } from './actions/populate';
 import { collectSettings } from './actions/settings';
-import { queryElement } from './utils/constants';
+import { queryAllElements } from './utils/selectors';
 
 /**
  * Inits the attribute.
  */
-export const init = async (): Promise<HTMLElement[]> => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE, CMS_SELECT_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await waitWebflowReady();
+  await waitAttributeLoaded('cmsselect');
 
-  const referenceElements = queryElement<HTMLElement>('dropdown', { all: true, operator: 'prefixed' });
+  const referenceElements = queryAllElements('dropdown');
 
   const cleanups = referenceElements.map(initComboBox).filter(isNotEmpty);
 
-  return finalizeAttribute(COMBO_BOX_ATTRIBUTE, referenceElements, () => {
-    for (const cleanup of cleanups) cleanup();
-  });
+  return {
+    result: referenceElements,
+    destroy() {
+      for (const cleanup of cleanups) cleanup();
+    },
+  };
 };
 
 /**

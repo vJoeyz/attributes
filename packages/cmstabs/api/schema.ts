@@ -1,5 +1,5 @@
-import { COLLECTION_LIST, DIV_BLOCK, TABS, TEXT_BLOCK } from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+import type { AttributeSchema } from '@finsweet/attributes-utils';
+import { COLLECTION_LIST, DIV_BLOCK, TABS, TEXT_BLOCK } from '@finsweet/attributes-utils';
 
 import { LIST_ELEMENT_KEY, RESET_IX_SETTING_KEY, TAB_LINK_ELEMENT_KEY, TABS_ELEMENT_KEY } from '../src/utils/constants';
 

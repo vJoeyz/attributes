@@ -1,5 +1,5 @@
 import type { TOCItem } from '../components/TOCItem';
-import { getSelector } from '../utils/constants';
+import { getElementSelector } from '../utils/selectors';
 import type { ScrollOffsetStyles } from '../utils/types';
 
 /**
@@ -27,9 +27,7 @@ export const scrollToAnchor = () => {
   if (!hash) return;
 
   const id = hash.replace('#', '');
-  const headingWrapper = document.querySelector(
-    `${getSelector('element', 'contents', { operator: 'prefixed' })} [id="${id}"]`
-  );
+  const headingWrapper = document.querySelector(`${getElementSelector('contents')} [id="${id}"]`);
 
   if (headingWrapper) headingWrapper.scrollIntoView({ behavior: 'smooth' });
 };

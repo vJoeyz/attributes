@@ -1,18 +1,24 @@
-import { addListener, isHTMLAnchorElement, isHTMLElement } from '@finsweet/ts-utils';
+import {
+  addListener,
+  ARIA_LABEL_KEY,
+  ARIA_ROLE_KEY,
+  ARIA_ROLE_VALUES,
+  type FsAttributeInit,
+  isHTMLAnchorElement,
+  isHTMLElement,
+  TABINDEX_KEY,
+  waitWebflowReady,
+} from '@finsweet/attributes-utils';
 
-import { ARIA_LABEL_KEY, ARIA_ROLE_KEY, ARIA_ROLE_VALUES, TABINDEX_KEY } from '$global/constants/a11y';
-import { CMS_ATTRIBUTE_ATTRIBUTE, LINK_BLOCK_EDIT_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
-
-import { getSelector } from './constants';
+import { getElementSelector, queryAllElements } from './utils/selectors';
 
 /**
  * Inits editor friendly link blocks.
  */
-export const init = async (): Promise<NodeListOf<HTMLElement>> => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await waitWebflowReady();
 
-  const elements = document.querySelectorAll<HTMLElement>(getSelector('element', 'parent'));
+  const elements = queryAllElements('parent');
 
   // Make the elements accessible
   for (const element of elements) {
@@ -34,16 +40,21 @@ export const init = async (): Promise<NodeListOf<HTMLElement>> => {
 
     if (!isHTMLElement(target) || isHTMLAnchorElement(target)) return;
 
-    const parentElement = target.closest(getSelector('element', 'parent'));
+    const parentElement = target.closest(getElementSelector('parent'));
     if (!parentElement) return;
 
     e.preventDefault();
 
-    const anchorElement = parentElement.querySelector<HTMLAnchorElement>('a');
+    const anchorElement = parentElement.querySelector('a');
     if (anchorElement) anchorElement.click();
 
     return false;
   });
 
-  return finalizeAttribute(LINK_BLOCK_EDIT_ATTRIBUTE, elements, () => clickCleanup());
+  return {
+    result: elements,
+    destroy() {
+      clickCleanup();
+    },
+  };
 };

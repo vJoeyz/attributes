@@ -1,20 +1,17 @@
-import { isFormField } from '@finsweet/ts-utils';
-
-import { CMS_ATTRIBUTE_ATTRIBUTE, DISPLAY_VALUES_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
+import { type FsAttributeInit, isFormField, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { collectTargets } from './actions/collect';
 import { listenEvents } from './actions/events';
 import { syncValue } from './actions/sync';
-import { queryElement } from './utils/constants';
+import { queryAllElements } from './utils/selectors';
 
 /**
  * Inits click events mirroring.
  */
-export const init = async (): Promise<Element[]> => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await waitWebflowReady();
 
-  const sourceElements = queryElement('source', { operator: 'prefixed', all: true });
+  const sourceElements = queryAllElements('source');
 
   for (const sourceElement of sourceElements) {
     if (!isFormField(sourceElement)) continue;
@@ -25,7 +22,10 @@ export const init = async (): Promise<Element[]> => {
 
   const removeListeners = listenEvents();
 
-  return finalizeAttribute(DISPLAY_VALUES_ATTRIBUTE, sourceElements, () => {
-    removeListeners();
-  });
+  return {
+    result: sourceElements,
+    destroy() {
+      removeListeners();
+    },
+  };
 };

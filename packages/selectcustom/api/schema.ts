@@ -1,5 +1,5 @@
-import { DROPDOWN, LINK_BLOCK, SELECT, TEXT_BLOCK, TEXT_LINK } from '$global/constants/webflow-selectors';
-import type { AttributeSchema } from '$global/types/schema';
+import type { AttributeSchema } from '@finsweet/attributes-utils';
+import { DROPDOWN, LINK_BLOCK, SELECT, TEXT_BLOCK, TEXT_LINK } from '@finsweet/attributes-utils';
 
 import {
   DROPDOWN_ELEMENT_KEY,

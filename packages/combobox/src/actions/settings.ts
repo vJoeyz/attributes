@@ -1,6 +1,3 @@
-import type { Dropdown, DropdownList, DropdownToggle } from '@finsweet/ts-utils';
-import { DROPDOWN_CSS_CLASSES, findTextNode, isHTMLAnchorElement } from '@finsweet/ts-utils';
-
 import {
   ARIA_AUTOCOMPLETE_KEY,
   ARIA_CONTROLS_KEY,
@@ -9,13 +6,19 @@ import {
   ARIA_HIDDEN_KEY,
   ARIA_OWNS_KEY,
   AUTOCOMPLETE_KEY,
+  type Dropdown,
+  DROPDOWN_CSS_CLASSES,
+  type DropdownList,
+  type DropdownToggle,
+  findTextNode,
+  isHTMLAnchorElement,
   NAME_KEY,
   REQUIRED_KEY,
   ROLE_KEY,
   TABINDEX_KEY,
-} from '$global/constants/a11y';
+} from '@finsweet/attributes-utils';
 
-import { ATTRIBUTES, getSelector, queryElement } from '../utils/constants';
+import { getElementSelector, hasAttributeValue, queryElement } from '../utils/selectors';
 import type { OptionsStore } from '../utils/types';
 import { setDropdownAria } from './a11y';
 
@@ -44,14 +47,9 @@ export const collectSettings = (referenceElement: HTMLElement) => {
 
   setDropdownAria(dropdownToggle, dropdownList);
 
-  const label =
-    queryElement('label', { operator: 'prefixed', scope: dropdownToggle }) ||
-    findTextNode(dropdownToggle) ||
-    dropdownToggle;
+  const label = queryElement('label', { scope: dropdownToggle }) || findTextNode(dropdownToggle) || dropdownToggle;
 
-  const optionTemplate = dropdownList.querySelector(
-    `a:not(${getSelector('element', 'clearDropdown', { operator: 'prefixed' })})`
-  );
+  const optionTemplate = dropdownList.querySelector(`a:not(${getElementSelector('clear')})`);
   if (!isHTMLAnchorElement(optionTemplate)) return;
 
   const optionsList = optionTemplate.parentElement;
@@ -59,8 +57,8 @@ export const collectSettings = (referenceElement: HTMLElement) => {
 
   const defaultOption = Array.from(selectElement.querySelectorAll('option')).find((opt) => opt.value === '');
 
-  const noResultsTemplate = queryElement('noResults');
-  const clearDropdown = queryElement('clearDropdown') as HTMLElement;
+  const noResultsTemplate = queryElement('empty', { scope: dropdown });
+  const clearDropdown = queryElement('clear', { scope: dropdown }) as HTMLElement;
 
   for (const element of [optionTemplate]) {
     if (!element) continue;
@@ -71,11 +69,11 @@ export const collectSettings = (referenceElement: HTMLElement) => {
     element.remove();
   }
 
-  const hideInitial = referenceElement.getAttribute(ATTRIBUTES.hideInitial.key) === ATTRIBUTES.hideInitial.values.true;
-  const preventClear =
-    referenceElement.getAttribute(ATTRIBUTES.preventClear.key) === ATTRIBUTES.preventClear.values.true;
+  const hideInitial = hasAttributeValue(referenceElement, 'hideinitial', 'true');
+  const preventClear = hasAttributeValue(referenceElement, 'preventClear', 'true');
 
   initializeAttributes(inputElement, selectElement, navListElement, clearDropdown, preventClear);
+
   return {
     optionsStore,
     selectElement,

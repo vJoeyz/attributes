@@ -1,17 +1,3 @@
-import { CMS_LOAD_ATTRIBUTE } from '$global/constants/attributes';
-import { initAttribute } from '$global/factory';
-import { importAnimations } from '$global/import';
-
-import { version } from '../package.json';
-import { init } from './init';
-
-/**
- * Init
- */
-initAttribute({
-  init,
-  version,
-  attributeKey: CMS_LOAD_ATTRIBUTE,
-});
-
-importAnimations();
+export { version } from '../package.json';
+export { init } from './init';
+export { ELEMENTS, SETTINGS } from './utils/constants';

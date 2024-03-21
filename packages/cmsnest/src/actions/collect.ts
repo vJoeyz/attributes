@@ -1,25 +1,23 @@
-import { type CollectionItemElement, extractCommaSeparatedValues } from '@finsweet/ts-utils';
+import { createCMSListInstances } from '@finsweet/attributes-cmscore';
+import { type CollectionItemElement, extractCommaSeparatedValues, normalizePropKey } from '@finsweet/attributes-utils';
 
-import { normalizePropKey } from '$global/helpers';
-import type { CMSCore } from '$packages/cmscore';
-
-import { ATTRIBUTES, getAttribute, getSelector } from '../utils/constants';
+import { getAttribute, getElementSelector, getSettingSelector } from '../utils/selectors';
 import type { ExternalNestTargets, ManualNestTargets, NestSources } from '../utils/types';
 
 /**
  * Queries the existing CMS Collections on the page that will be nested inside the main list instance.
  * @returns A `Map` with the `collectionKey` as the keys and `CMSList` instances as the values.
  */
-export const getNestSources = ({ createCMSListInstances }: CMSCore): NestSources => {
+export const getNestSources = (): NestSources => {
   const nestSources: NestSources = new Map();
 
-  const listInstances = createCMSListInstances([getSelector('collection')]);
+  const listInstances = createCMSListInstances([getSettingSelector('collection')]);
 
   for (const listInstance of listInstances) {
-    const collectionId = normalizePropKey(listInstance.getAttribute(ATTRIBUTES.collection.key));
+    const collectionId = normalizePropKey(getAttribute(listInstance.listOrWrapper, 'collection'));
     if (!collectionId) continue;
 
-    const emptyElement = document.querySelector<HTMLElement>(`[${ATTRIBUTES.empty.key}^="${collectionId}"]`);
+    const emptyElement = document.querySelector<HTMLElement>(getSettingSelector('empty', undefined, collectionId));
     if (emptyElement) emptyElement.style.display = 'none';
     listInstance.wrapper.style.display = 'none';
 
@@ -36,7 +34,7 @@ export const getNestSources = ({ createCMSListInstances }: CMSCore): NestSources
  */
 export const getNestTargets = (itemElement: CollectionItemElement) => {
   // Query nest targets
-  const nestTargetElements = itemElement.querySelectorAll<HTMLElement>(`${getSelector('collection')}:not(a)`);
+  const nestTargetElements = itemElement.querySelectorAll<HTMLElement>(`${getSettingSelector('collection')}:not(a)`);
 
   // Group nest targets by collection
   const targetsByCollection = [...nestTargetElements].reduce((acc, nestTarget) => {
@@ -57,8 +55,8 @@ export const getNestTargets = (itemElement: CollectionItemElement) => {
   const externalNestTargets: ExternalNestTargets = new Map();
 
   for (const [collectionId, nestTargets] of targetsByCollection) {
-    const nestTarget = nestTargets.find((nestTarget) => nestTarget.matches(getSelector('element', 'nestTarget')));
-    const slugsElement = nestTargets.find((nestTarget) => nestTarget.matches(getSelector('element', 'slugs')));
+    const nestTarget = nestTargets.find((nestTarget) => nestTarget.matches(getElementSelector('nest-target')));
+    const slugsElement = nestTargets.find((nestTarget) => nestTarget.matches(getElementSelector('slugs')));
 
     // Slugs to nest are defined manually
     if (nestTarget && slugsElement) {

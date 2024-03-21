@@ -1,4 +1,4 @@
-import type { FormField } from '@finsweet/ts-utils';
+import type { FormField } from '@finsweet/attributes-utils';
 
 import type { MATCHES, MODES, TAG_FORMATS } from './constants';
 
@@ -115,7 +115,7 @@ export interface FilterData {
   /**
    * Defines an override for the identifier display in the `category` tag format.
    */
-  tagCategory: string | null;
+  tagCategory?: string;
 }
 
 export type FiltersData = FilterData[];

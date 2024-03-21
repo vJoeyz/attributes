@@ -1,30 +1,28 @@
-import type { LDClient } from 'launchdarkly-js-client-sdk';
+import { type FsAttributeInit, waitWebflowReady } from '@finsweet/attributes-utils';
 
-import { CMS_ATTRIBUTE_ATTRIBUTE, LAUNCHDARKLY_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
-
-import type { LaunchDarklyAttributes } from '../src/utils/types';
 import { initializeClient } from './actions/client';
 import { hideLoaders } from './actions/loaders';
 import { initFlags } from './factory';
-import { IS_STAGING } from './utils/constants';
+import { IS_STAGING, SETTINGS } from './utils/constants';
 
 /**
  * Inits the attribute.
  */
-export const init = async ({ devClientId, prodClientId, eventsToTrack }: LaunchDarklyAttributes): Promise<LDClient> => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+export const init: FsAttributeInit<typeof SETTINGS> = async ({ devclientid, prodclientid, eventstotrack } = {}) => {
+  await waitWebflowReady();
 
-  const clientId = IS_STAGING ? devClientId || prodClientId : prodClientId || devClientId;
+  const clientId = IS_STAGING ? devclientid || prodclientid : prodclientid || devclientid;
   if (!clientId) {
     throw new Error('Client ID is required');
   }
 
-  const client = await initializeClient(clientId, eventsToTrack);
+  const client = await initializeClient(clientId, eventstotrack);
   const flags = client.allFlags();
 
   initFlags(flags);
   hideLoaders();
 
-  return finalizeAttribute(LAUNCHDARKLY_ATTRIBUTE, client);
+  return {
+    result: client,
+  };
 };

@@ -1,11 +1,9 @@
-import { addListener, isVisible, NAVBAR_CSS_CLASSES } from '@finsweet/ts-utils';
+import { addListener, isVisible, NAVBAR_CSS_CLASSES } from '@finsweet/attributes-utils';
 import debounce from 'just-debounce';
 
-import { ATTRIBUTES, getSelector, NAV_MEDIAS } from './constants';
 import { disableScrolling, enableScrolling, findFirstScrollableElement } from './scroll';
-
-// Contants destructuring
-const { navMenu: navMenuCSSClass } = NAVBAR_CSS_CLASSES;
+import { NAV_MEDIAS } from './utils/constants';
+import { getAttribute, getElementSelector } from './utils/selectors';
 
 // Store
 const displayTriggersStore: Map<
@@ -18,7 +16,7 @@ const displayTriggersStore: Map<
  * @param trigger
  * @param preserveScrollTargets
  */
-const handleStateChange = (trigger: HTMLElement, preserveScrollTargets: NodeListOf<Element>) => {
+const handleStateChange = (trigger: HTMLElement, preserveScrollTargets: Element[]) => {
   // Get the trigger data
   const triggerData = displayTriggersStore.get(trigger);
   if (!triggerData) return;
@@ -51,15 +49,14 @@ const handleStateChange = (trigger: HTMLElement, preserveScrollTargets: NodeList
  *
  * @returns A callback to destroy the observers and listeners.
  */
-export const initDisplayTriggers = (preserveScrollTargets: NodeListOf<Element>): (() => void) => {
+export const initDisplayTriggers = (preserveScrollTargets: Element[]): (() => void) => {
   // DOM Elements
-  const smartNavSelector = getSelector('element', 'nav');
+  const smartNavSelector = getElementSelector('smart-nav');
 
   const displayTriggers = document.querySelectorAll<HTMLElement>(
-    `${getSelector(
-      'element',
-      'whenVisible'
-    )}, ${smartNavSelector}.${navMenuCSSClass}, ${smartNavSelector} .${navMenuCSSClass}`
+    `${getElementSelector('when-visible')}, ${smartNavSelector}.${NAVBAR_CSS_CLASSES.navMenu}, ${smartNavSelector} .${
+      NAVBAR_CSS_CLASSES.navMenu
+    }`
   );
 
   // Define MutationObserver's callback
@@ -76,7 +73,7 @@ export const initDisplayTriggers = (preserveScrollTargets: NodeListOf<Element>):
   // Init
   for (const trigger of displayTriggers) {
     // Get the trigger's matchMedia requisite
-    let matchMedia = trigger.getAttribute(ATTRIBUTES.matchMedia.key);
+    let matchMedia = getAttribute(trigger, 'media');
 
     // Navbar special
     const navbar = trigger.closest<HTMLDivElement>('.w-nav');

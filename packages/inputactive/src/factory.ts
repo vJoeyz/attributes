@@ -1,4 +1,4 @@
-import { addListener, isHTMLInputElement } from '@finsweet/ts-utils';
+import { addListener, isHTMLInputElement } from '@finsweet/attributes-utils';
 
 import { handleInputActiveClass } from './actions/classes';
 

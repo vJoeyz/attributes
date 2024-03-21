@@ -1,3 +1,5 @@
+export * from './api';
+
 export interface FormElementsTemplate {
   label: HTMLLabelElement;
   input: HTMLInputElement;

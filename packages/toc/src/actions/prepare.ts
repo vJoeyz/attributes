@@ -1,4 +1,5 @@
-import { ANCHOR_SELECTOR, queryElement } from '../utils/constants';
+import { ANCHOR_SELECTOR } from '../utils/constants';
+import { queryElement } from '../utils/selectors';
 import type { LinkData } from '../utils/types';
 
 /**
@@ -9,7 +10,7 @@ import type { LinkData } from '../utils/types';
  * @returns The TOC wrapper element.
  */
 export const prepareTOC = ([{ component: firstLinkComponent }]: LinkData[], instanceIndex?: number) => {
-  const tocWrapper = queryElement<HTMLElement>('table', { instanceIndex }) || firstLinkComponent.parentElement;
+  const tocWrapper = queryElement('table', { instanceIndex }) || firstLinkComponent.parentElement;
   if (!tocWrapper) return;
 
   const anchor = new Comment(ANCHOR_SELECTOR);

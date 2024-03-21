@@ -1,19 +1,18 @@
-import { addListener, type MapEntries } from '@finsweet/ts-utils';
-
-import { ARIA_ROLE_KEY, ARIA_ROLE_VALUES, ARIA_SORT_KEY, ARIA_SORT_VALUES, TABINDEX_KEY } from '$global/constants/a11y';
-import { normalizePropKey } from '$global/helpers';
-import type { CMSList } from '$packages/cmscore';
+import type { CMSList } from '@finsweet/attributes-cmscore';
+import {
+  addListener,
+  ARIA_ROLE_KEY,
+  ARIA_ROLE_VALUES,
+  ARIA_SORT_KEY,
+  ARIA_SORT_VALUES,
+  type MapEntries,
+  normalizePropKey,
+  TABINDEX_KEY,
+} from '@finsweet/attributes-utils';
 
 import { sortListItems } from '../actions/sort';
-import { ATTRIBUTES } from '../utils/constants';
+import { getAttribute, hasAttributeValue } from '../utils/selectors';
 import type { ButtonsState, ButtonState, CSSClasses, SortingDirection, SortItemsCallback } from '../utils/types';
-
-// Constants destructuring
-const {
-  ascClass: { key: ascClassKey },
-  descClass: { key: descClassKey },
-  reverse: { key: reverseKey, values: reverseValues },
-} = ATTRIBUTES;
 
 /**
  * Inits the sorting with a group of Buttons.
@@ -89,14 +88,14 @@ export const initButtons = (buttons: HTMLElement[], listInstance: CMSList, globa
  * @param globalCSSClasses The state CSS classes (`asc` and `desc`) globally defined on the list.
  */
 const prepareButton = (button: HTMLElement, buttonsState: ButtonsState, globalCSSClasses: CSSClasses) => {
-  const rawSortKey = button.getAttribute(ATTRIBUTES.field.key);
+  const rawSortKey = getAttribute(button, 'field');
   if (!rawSortKey) return;
 
   const sortKey = normalizePropKey(rawSortKey);
 
-  const reverse = button.getAttribute(reverseKey) === reverseValues.true;
-  const ascCSSClassOverride = button.getAttribute(ascClassKey);
-  const descCSSClassOverride = button.getAttribute(descClassKey);
+  const reverse = hasAttributeValue(button, 'reverse', 'true');
+  const ascCSSClassOverride = getAttribute(button, 'asc');
+  const descCSSClassOverride = getAttribute(button, 'desc');
 
   const buttonState: ButtonState = {
     sortKey,

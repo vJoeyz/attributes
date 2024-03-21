@@ -1,17 +1,5 @@
-import { CMS_FILTER_ATTRIBUTE } from '$global/constants/attributes';
-import { initAttribute } from '$global/factory';
-import { importAnimations } from '$global/import';
-
-import { version } from '../package.json';
-import { init } from './init';
-
-/**
- * Init
- */
-initAttribute({
-  init,
-  version,
-  attributeKey: CMS_FILTER_ATTRIBUTE,
-});
-
-importAnimations();
+export { version } from '../package.json';
+export { CMSFilters } from './components/CMSFilters';
+export { init } from './init';
+export { ELEMENTS, SETTINGS } from './utils/constants';
+export * from './utils/types';

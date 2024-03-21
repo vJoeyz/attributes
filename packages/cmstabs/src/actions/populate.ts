@@ -1,10 +1,15 @@
-import type { TabLinkElement, TabPaneElement, TabsContentElement, TabsMenuElement } from '@finsweet/ts-utils';
-import { CURRENT_CSS_CLASS, TABS_CSS_CLASSES } from '@finsweet/ts-utils';
+import type { CMSItem } from '@finsweet/attributes-cmscore';
+import {
+  ARIA_ROLE_KEY,
+  CURRENT_CSS_CLASS,
+  type TabLinkElement,
+  type TabPaneElement,
+  TABS_CSS_CLASSES,
+  type TabsContentElement,
+  type TabsMenuElement,
+} from '@finsweet/attributes-utils';
 
-import { ARIA_ROLE_KEY } from '$global/constants/a11y';
-import type { CMSItem } from '$packages/cmscore';
-
-import { getSelector, queryElement } from '../utils/constants';
+import { getElementSelector, queryElement } from '../utils/selectors';
 import type { PopulateData } from '../utils/types';
 
 // Constants destructuring
@@ -60,13 +65,12 @@ export const populateTabsFromLists = ({ listInstances, tabsElement }: PopulateDa
       }
 
       // Populate the `Tab Link` and `Tab Pane`
-      let newTabLinkContent = queryElement('tabLink', { operator: 'prefixed', scope: element });
+      let newTabLinkContent = queryElement('tab-link', { scope: element });
 
       if (!newTabLinkContent) {
         newTabLinkContent = document.createElement('div');
-        newTabLinkContent.innerHTML = /* html */ `Use <strong>${getSelector(
-          'element',
-          'tabLink'
+        newTabLinkContent.innerHTML = /* html */ `Use <strong>${getElementSelector(
+          'tab-link'
         )}</strong> to define this Tab Link content.`;
       }
 

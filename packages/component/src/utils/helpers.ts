@@ -1,4 +1,4 @@
-import { getSiteId } from '@finsweet/ts-utils';
+import { getSiteId } from '@finsweet/attributes-utils';
 
 /**
  * Checks if an external page is from the same Webflow project.

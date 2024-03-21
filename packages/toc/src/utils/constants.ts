@@ -1,77 +1,55 @@
-import { TOC_ATTRIBUTE } from '$global/constants/attributes';
-import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributeElements, type AttributeSettings, TOC_ATTRIBUTE } from '@finsweet/attributes-utils';
 
-const ATTRIBUTES_PREFIX = `fs-${TOC_ATTRIBUTE}`;
+export const ELEMENTS = [
+  /**
+   * Defines the contents to use as the table source.
+   */
+  'contents',
 
-export const CONTENTS_ELEMENT_KEY = 'contents';
-export const TABLE_ELEMENT_KEY = 'table';
-export const LINK_ELEMENT_KEY = 'link';
-export const IX_TRIGGER_ELEMENT_KEY = 'ix-trigger';
+  /**
+   * OPTIONAL. Defines the wrapper element that will hold all the TOC links.
+   * If not defined, the library will use the immediate parent of the link template elements.
+   */
+  'table',
 
-export const OFFSET_TOP_SETTING_KEY = 'offsettop';
-export const OFFSET_BOTTOM_SETTING_KEY = 'offsetbottom';
-export const HIDE_URL_HASH_SETTING_KEY = 'hideurlhash';
-export const HIDE_URL_HASH_SETTING_VALUES = { true: 'true' } as const;
+  /**
+   * Defines a link template element.
+   * If the attribute is set to a non-link element, the library will look up for the first parent element that is a link.
+   */
+  'link',
 
-export const ATTRIBUTES = {
-  element: {
-    key: `${ATTRIBUTES_PREFIX}-element`,
-    values: {
-      /**
-       * Defines the contents to use as the table source.
-       */
-      contents: generateDynamicAttibuteValue(CONTENTS_ELEMENT_KEY),
+  /**
+   * Defines an interaction trigger.
+   * This attribute must be added to a hidden div and place it inside the correspondent link wrapper.
+   * When the link is active, it will trigger the "First Click" interaction. When the link is unactive, it will trigger the "Second Click" interaction.
+   */
+  'ix-trigger',
+] as const satisfies AttributeElements;
 
-      /**
-       * OPTIONAL. Defines the wrapper element that will hold all the TOC links.
-       * If not defined, the library will use the immediate parent of the link template elements.
-       */
-      table: generateDynamicAttibuteValue(TABLE_ELEMENT_KEY),
-
-      /**
-       * Defines a link template element.
-       * If the attribute is set to a non-link element, the library will look up for the first parent element that is a link.
-       */
-      link: generateDynamicAttibuteValue(LINK_ELEMENT_KEY),
-
-      /**
-       * Defines an interaction trigger.
-       * This attribute must be added to a hidden div and place it inside the correspondent link wrapper.
-       * When the link is active, it will trigger the "First Click" interaction. When the link is unactive, it will trigger the "Second Click" interaction.
-       */
-      ixTrigger: IX_TRIGGER_ELEMENT_KEY,
-    },
-  },
-
+export const SETTINGS = {
   /**
    * Defines a [scroll-margin-top](https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-margin-top) value for the headers.
    */
-  scrollMarginTop: {
-    key: `${ATTRIBUTES_PREFIX}-${OFFSET_TOP_SETTING_KEY}`,
-  },
+  offsettop: { key: 'offsettop' },
 
   /**
    * Defines a [scroll-margin-bottom](https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-margin-bottom) value for the headers.
    */
-  scrollMarginBottom: {
-    key: `${ATTRIBUTES_PREFIX}-${OFFSET_BOTTOM_SETTING_KEY}`,
-  },
+  offsetbottom: { key: 'offsetbottom' },
 
   /**
    * Defines if the links hash should be removed from the URL.
    */
-  hideURLHash: { key: `${ATTRIBUTES_PREFIX}-${HIDE_URL_HASH_SETTING_KEY}`, values: HIDE_URL_HASH_SETTING_VALUES },
-} as const satisfies AttributesDefinition;
-
-export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
+  hideurlhash: { key: 'hideurlhash', values: { true: 'true' } },
+} as const satisfies AttributeSettings;
 
 export const DEFAULT_INITIAL_HEADING_LEVEL = 2;
-export const ANCHOR_SELECTOR = `${ATTRIBUTES_PREFIX}-anchor`;
+export const ANCHOR_SELECTOR = `fs-${TOC_ATTRIBUTE}-anchor`;
 
 const ALLOWED_HEADINGS_REGEX = '[2-6]';
 export const ALLOWED_HEADINGS_SELECTOR = 'h2, h3, h4, h5, h6';
 
-export const OMIT_HEADING_REGEXP = new RegExp(`^\\[${ATTRIBUTES_PREFIX}-omit\\]`, 'i');
-export const CUSTOM_HEADING_REGEXP = new RegExp(`^\\[${ATTRIBUTES_PREFIX}-h${ALLOWED_HEADINGS_REGEX}\\]`, 'i');
+export const OMIT_HEADING_REGEXP = new RegExp(`^\\[fs-${TOC_ATTRIBUTE}-omit\\]`, 'i');
+export const CUSTOM_HEADING_REGEXP = new RegExp(`^\\[fs-${TOC_ATTRIBUTE}-h${ALLOWED_HEADINGS_REGEX}\\]`, 'i');
 export const HEADING_LEVEL_REGEXP = new RegExp(ALLOWED_HEADINGS_REGEX);
 export const ZERO_WIDTH_CHARS_REGEXP = /[\u200B-\u200D\uFEFF]/g;

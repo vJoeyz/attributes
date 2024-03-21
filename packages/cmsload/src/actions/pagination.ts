@@ -1,6 +1,5 @@
-import type { PageCountElement } from '@finsweet/ts-utils';
-
-import type { CMSList } from '$packages/cmscore';
+import type { CMSList } from '@finsweet/attributes-cmscore';
+import type { PageCountElement } from '@finsweet/attributes-utils';
 
 /**
  * Reads the total amount of pages of a CMS List from the `Page Count` element.

@@ -1,8 +1,13 @@
-import { isNotEmpty, isVisible } from '@finsweet/ts-utils';
+import {
+  ARIA_CONTROLS_KEY,
+  ARIA_EXPANDED_KEY,
+  ARIA_ROLE_KEY,
+  ARIA_ROLE_VALUES,
+  isNotEmpty,
+  isVisible,
+} from '@finsweet/attributes-utils';
 import { createFocusTrap } from 'focus-trap';
 import debounce from 'just-debounce';
-
-import { ARIA_CONTROLS_KEY, ARIA_EXPANDED_KEY, ARIA_ROLE_KEY, ARIA_ROLE_VALUES } from '$global/constants/a11y';
 
 /**
  * Observes [aria-controls] target visibility.

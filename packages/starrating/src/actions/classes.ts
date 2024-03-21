@@ -1,7 +1,8 @@
-import { isNumber } from '@finsweet/ts-utils';
+import { isNumber } from '@finsweet/attributes-utils';
 
-import { DEFAULT_ACTIVE_CLASS, getAttribute } from '../utils/constants';
+import { DEFAULT_ACTIVE_CLASS } from '../utils/constants';
 import { getAllRadios, getClosestRadioField, getSelectedGroupValue, queryStar } from '../utils/helpers';
+import { getAttribute } from '../utils/selectors';
 
 /**
  * Adds/removes the active classes of a group's stars.
@@ -10,7 +11,7 @@ import { getAllRadios, getClosestRadioField, getSelectedGroupValue, queryStar } 
  * @param hoveredValue
  */
 export const setClasses = (name: string, group: Element, hoveredValue?: number) => {
-  const groupActiveClass = getAttribute(group, 'activeClass');
+  const groupActiveClass = getAttribute(group, 'active');
 
   const selectedValue = getSelectedGroupValue(name);
 
@@ -23,7 +24,7 @@ export const setClasses = (name: string, group: Element, hoveredValue?: number) 
     const star = queryStar(radioField);
     if (!star) continue;
 
-    const starActiveClass = getAttribute(star, 'activeClass');
+    const starActiveClass = getAttribute(star, 'active');
     const activeClass = starActiveClass || groupActiveClass || DEFAULT_ACTIVE_CLASS;
 
     const value = parseInt(radio.value);

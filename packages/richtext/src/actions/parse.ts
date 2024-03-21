@@ -1,4 +1,4 @@
-import { unescapeHTML } from '$global/helpers';
+import { unescapeHTML } from '@finsweet/attributes-utils';
 
 import { HAS_COMPONENT_TEMPLATE_REGEX, IS_HTML_OPENING_TAG_REGEX } from '../utils/regex';
 import type { TextElement } from '../utils/types';

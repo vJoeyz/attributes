@@ -3,10 +3,10 @@ import {
   ANCHOR_SELECTOR,
   CUSTOM_HEADING_REGEXP,
   DEFAULT_INITIAL_HEADING_LEVEL,
-  getSelector,
   OMIT_HEADING_REGEXP,
 } from '../utils/constants';
 import { extractHeadingLevel } from '../utils/helpers';
+import { getElementSelector } from '../utils/selectors';
 import type { HeadingData, LinkData } from '../utils/types';
 import { createHeadingWrapper } from './create';
 
@@ -112,7 +112,7 @@ export const collectLinksData = (firstLinkTemplate: Element) => {
     });
 
     // Get next link component
-    const followingTextNodes = [...component.querySelectorAll(`* ${getSelector('element', 'link')}`)];
+    const followingTextNodes = [...component.querySelectorAll(`* ${getElementSelector('link')}`)];
     const followingTextNode = followingTextNodes.find((node) => node !== referenceNode);
 
     if (!followingTextNode) return component;

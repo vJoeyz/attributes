@@ -1,6 +1,4 @@
-import { addListener } from '@finsweet/ts-utils';
-
-import { ARIA_EXPANDED_KEY } from '$global/constants/a11y';
+import { addListener, ARIA_EXPANDED_KEY } from '@finsweet/attributes-utils';
 
 import { cleanupBubble, toggleDropdown } from '../utils';
 import type { Settings } from '../utils/types';
@@ -39,6 +37,7 @@ export const listenEvents = (settings: Settings) => {
   const cleanups = [
     addListener(body, 'mousemove', (e) => handleBodyMouseMovements(e, settings)),
     addListener(dropdownToggle, 'keydown', (e) => handleDropdownToggleArrowKeyEvents(e, settings)),
+    addListener(dropdownToggle, 'focus', () => inputElement.focus()),
 
     addListener(dropdownList, 'click', (e) => handleDropdownListMouseEvents(e, settings)),
     addListener(dropdownList, 'keydown', (e) => handleDropdownListKeydownEvents(e, settings)),

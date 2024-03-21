@@ -1,20 +1,19 @@
+import type { CMSList } from '@finsweet/attributes-cmscore';
 import {
   addListener,
   cloneNode,
   CURRENT_CSS_CLASS,
+  getCMSElementSelector,
   isElement,
   isHTMLAnchorElement,
   isNotEmpty,
-} from '@finsweet/ts-utils';
+} from '@finsweet/attributes-utils';
 import debounce from 'just-debounce';
-
-import { getCMSElementSelector } from '$global/helpers';
-import type { CMSList } from '$packages/cmscore';
 
 import { loadPaginatedItems } from '../actions/load';
 import { handlePaginationButtons, updatePaginationCount } from '../actions/pagination';
 import { getPageButtonsSettings, getPaginationSettings } from '../actions/settings';
-import { getSelector } from '../utils/constants';
+import { getElementSelector } from '../utils/selectors';
 import type { PageButtonsData } from '../utils/types';
 
 // Constants
@@ -247,7 +246,7 @@ const handlePaginationClicks = (e: MouseEvent, pageButtonsData: PageButtonsData 
 
   if (!isElement(target)) return;
 
-  const isPageButton = target.closest<HTMLElement>(getSelector('element', 'pageButton', { operator: 'prefixed' }));
+  const isPageButton = target.closest<HTMLElement>(getElementSelector('page-button'));
   const isNextButton = target.closest(getCMSElementSelector('paginationNext'));
   const isPreviousButton = target.closest(getCMSElementSelector('paginationPrevious'));
 

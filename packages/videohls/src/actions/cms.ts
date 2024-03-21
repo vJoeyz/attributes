@@ -1,4 +1,4 @@
-import { importCMSCore } from '$global/import';
+import { createCMSListInstances } from '@finsweet/attributes-cmscore';
 
 import { CMS_LOAD_LIST_ELEMENT_SELECTOR } from '../utils/constants';
 import { initVideoHLS } from './video';
@@ -10,10 +10,7 @@ import { initVideoHLS } from './video';
  *
  */
 export const listenCMSLoad = async () => {
-  const cmsCore = await importCMSCore();
-  if (!cmsCore) return;
-
-  const listInstances = cmsCore.createCMSListInstances([CMS_LOAD_LIST_ELEMENT_SELECTOR]);
+  const listInstances = createCMSListInstances([CMS_LOAD_LIST_ELEMENT_SELECTOR]);
 
   listInstances.map((listInstance) => {
     listInstance.on('renderitems', (addedItems) => {

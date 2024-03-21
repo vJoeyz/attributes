@@ -1,9 +1,9 @@
-import { cloneNode, isNotEmpty, restartWebflow } from '@finsweet/ts-utils';
+import { cloneNode, isNotEmpty, restartWebflow } from '@finsweet/attributes-utils';
 
 import { attachPageStyles } from './actions/css';
 import { getComponentPage } from './actions/prefetch';
-import { ATTRIBUTES } from './utils/constants';
 import { convertRelativeUrlsToAbsolute, isSameWebflowProject } from './utils/helpers';
+import { getSettingSelector } from './utils/selectors';
 import type { ComponentData, ComponentTargetData } from './utils/types';
 
 /**
@@ -33,7 +33,7 @@ const initComponent = async (componentTargetData: ComponentTargetData): Promise<
   const page = getComponentPage(proxiedSource || source);
   if (!page) return;
 
-  let component = page.querySelector<HTMLElement>(`[${ATTRIBUTES.componentId.key}="${componentId}"]`);
+  let component = page.querySelector<HTMLElement>(getSettingSelector('id', undefined, componentId));
   if (!component) return;
 
   // We need to clone the component because other components might be using the same node

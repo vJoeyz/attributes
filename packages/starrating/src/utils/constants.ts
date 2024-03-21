@@ -1,36 +1,22 @@
-import { STAR_RATING_ATTRIBUTE } from '$global/constants/attributes';
-import { type AttributesDefinition, generateSelectors } from '$global/factory';
+import { type AttributeElements, type AttributeSettings, STAR_RATING_ATTRIBUTE } from '@finsweet/attributes-utils';
 
-const ATTRIBUTES_PREFIX = `fs-${STAR_RATING_ATTRIBUTE}`;
+export const ELEMENTS = [
+  /**
+   * Defines a stars wrapper.
+   */
+  'group',
 
-export const GROUP_ELEMENT_KEY = 'group';
-export const STAR_ELEMENT_KEY = 'star';
-export const ACTIVE_CLASS_SETTING_KEY = 'active';
+  /**
+   * Defines a star element.
+   */
+  'star',
+] as const satisfies AttributeElements;
 
-export const ATTRIBUTES = {
-  element: {
-    key: `${ATTRIBUTES_PREFIX}-element`,
-    values: {
-      /**
-       * Defines a stars wrapper.
-       */
-      group: GROUP_ELEMENT_KEY,
-
-      /**
-       * Defines a star element.
-       */
-      star: STAR_ELEMENT_KEY,
-    },
-  },
-
+export const SETTINGS = {
   /**
    * Defines a setting example definition.
    */
-  activeClass: {
-    key: `${ATTRIBUTES_PREFIX}-${ACTIVE_CLASS_SETTING_KEY}`,
-  },
-} as const satisfies AttributesDefinition;
-
-export const [getSelector, queryElement, getAttribute] = generateSelectors(ATTRIBUTES);
+  active: { key: 'active' },
+} as const satisfies AttributeSettings;
 
 export const DEFAULT_ACTIVE_CLASS = `is-active-${STAR_RATING_ATTRIBUTE}`;

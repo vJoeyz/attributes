@@ -1,24 +1,19 @@
-import type { PaginationWrapperElement } from '@finsweet/ts-utils';
-import { extractCommaSeparatedValues, getCurrentBreakpoint, isNumber } from '@finsweet/ts-utils';
-
-import type { CMSList } from '$packages/cmscore';
+import type { CMSList } from '@finsweet/attributes-cmscore';
+import {
+  extractCommaSeparatedValues,
+  getCurrentBreakpoint,
+  isNumber,
+  type PaginationWrapperElement,
+  parseNumericAttribute,
+} from '@finsweet/attributes-utils';
 
 import {
-  ATTRIBUTES,
   BREAKPOINTS_INDEX,
   DEFAULT_INFINITE_THRESHOLD,
   DEFAULT_PAGE_BOUNDARY,
   DEFAULT_PAGE_SIBLINGS,
-  queryElement,
 } from '../utils/constants';
-
-// Constants
-const {
-  pageSiblings: { key: pageSiblingsKey },
-  pageBoundary: { key: pageBoundaryKey },
-  threshold: { key: thresholdKey },
-  showQuery: { key: showQueryKey, values: showQueryValues },
-} = ATTRIBUTES;
+import { getAttribute, hasAttributeValue, queryElement } from '../utils/selectors';
 
 /**
  * Collects the `Pagination` mode settings.
@@ -40,18 +35,17 @@ export const getPaginationSettings = (
       showQueryParams: boolean;
     }
   | undefined => {
-  const { paginationWrapper, paginationCount } = listInstance;
+  const { paginationWrapper, paginationCount, listOrWrapper } = listInstance;
 
   if (!paginationWrapper) return;
 
   // Page Button Template
-  const pageButtonTemplate = queryElement<HTMLElement>('pageButton', {
-    operator: 'prefixed',
+  const pageButtonTemplate = queryElement('page-button', {
     scope: paginationWrapper,
   });
 
   // Page Dots Template
-  let pageDotsTemplate = queryElement<HTMLElement>('pageDots', { operator: 'prefixed', scope: paginationWrapper });
+  let pageDotsTemplate = queryElement('page-dots', { scope: paginationWrapper });
 
   if (pageDotsTemplate) pageDotsTemplate.remove();
   else {
@@ -60,13 +54,13 @@ export const getPaginationSettings = (
   }
 
   // Page Boundary
-  const rawPageBoundaryValues = listInstance.getAttribute(pageBoundaryKey);
+  const rawPageBoundaryValues = getAttribute(listOrWrapper, 'pageboundary');
   const pageBoundaryValues = (rawPageBoundaryValues ? extractCommaSeparatedValues(rawPageBoundaryValues) : []).map(
     (value) => parseInt(value)
   );
 
   // Page Siblings
-  const rawPageSiblingsValues = listInstance.getAttribute(pageSiblingsKey);
+  const rawPageSiblingsValues = getAttribute(listOrWrapper, 'pagesiblings');
   const pageSiblingsValues = (rawPageSiblingsValues ? extractCommaSeparatedValues(rawPageSiblingsValues) : []).map(
     (value) => parseInt(value)
   );
@@ -77,7 +71,7 @@ export const getPaginationSettings = (
   const hasBreakpoints = [pageBoundaryValues, pageSiblingsValues].some(({ length }) => length > 1);
 
   // Query Params
-  const showQueryParams = listInstance.getAttribute(showQueryKey) === showQueryValues.true;
+  const showQueryParams = hasAttributeValue(listOrWrapper, 'showquery', 'true');
 
   return {
     paginationWrapper,
@@ -131,9 +125,10 @@ export const getPageButtonsSettings = (
  * Collects the `Infinite` mode settings.
  * @param listInstance The {@link CMSList} instance.
  */
-export const getInfiniteThreshold = (listInstance: CMSList): number => {
-  const threshold = parseInt(listInstance.getAttribute(thresholdKey) || DEFAULT_INFINITE_THRESHOLD);
-  const thresholdCoefficient = 1 - threshold / 100;
+export const getInfiniteThreshold = ({ listOrWrapper }: CMSList): number => {
+  const rawThreshold = getAttribute(listOrWrapper, 'threshold');
+  const threshold = parseNumericAttribute(rawThreshold, DEFAULT_INFINITE_THRESHOLD);
 
+  const thresholdCoefficient = 1 - threshold / 100;
   return thresholdCoefficient;
 };

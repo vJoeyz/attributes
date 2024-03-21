@@ -1,22 +1,17 @@
-import type { SliderElement } from '@finsweet/ts-utils';
-import { SLIDER_CSS_CLASSES, type SliderNavElement } from '@finsweet/ts-utils';
-
-import { CMS_SLIDER_ATTRIBUTE } from '$global/constants/attributes';
-import { getInstanceIndex } from '$global/helpers';
+import {
+  SLIDER_CSS_CLASSES,
+  type SliderElement,
+  type SliderNavElement,
+  waitAttributeLoaded,
+} from '@finsweet/attributes-utils';
 
 import { listenClickEvents } from './actions/events';
 import { observeSliderNav } from './actions/observe';
 import { populateSliderDots } from './actions/populate';
 import { syncDotsProperties } from './actions/sync';
 import { waitSliderReady } from './actions/wait';
-import { ATTRIBUTES, DEFAULT_ACTIVE_CSS_CLASS, queryElement } from './utils/constants';
-
-// Constants
-const {
-  element: { key: elementKey },
-  remove: { key: removeKey, values: removeValues },
-  active: { key: activeKey },
-} = ATTRIBUTES;
+import { DEFAULT_ACTIVE_CSS_CLASS } from './utils/constants';
+import { getAttribute, getInstanceIndex, hasAttributeValue, queryElement } from './utils/selectors';
 
 /**
  * Generates the custom slider dots and inits syncing.
@@ -24,24 +19,25 @@ const {
  */
 export const createSliderDots = async (slider: SliderElement) => {
   // Get slider elements
-  const instanceIndex = getInstanceIndex(slider, elementKey);
+  const instanceIndex = getInstanceIndex(slider);
 
   const sliderNav = slider.querySelector<SliderNavElement>(`.${SLIDER_CSS_CLASSES.sliderNav}`);
-  const customSliderNav = queryElement<HTMLElement>('sliderNav', { instanceIndex }) || sliderNav;
+  const customSliderNav = queryElement<HTMLElement>('slider-nav', { instanceIndex }) || sliderNav;
 
   if (!sliderNav || !customSliderNav) return;
 
   // Make sure CMSSlider has finished (if existing on the page)
-  const cmsSliderAttribute = window.fsAttributes[CMS_SLIDER_ATTRIBUTE];
+  const cmsSliderAttribute = window.fsAttributes.process.has('cmsslider');
   if (cmsSliderAttribute) {
-    await Promise.all([cmsSliderAttribute.loading, waitSliderReady(sliderNav)]);
+    await Promise.all([waitAttributeLoaded('cmsslider'), waitSliderReady(sliderNav)]);
   }
 
   // Get props
-  const activeCustomDotCSSClass = slider.getAttribute(activeKey) || DEFAULT_ACTIVE_CSS_CLASS;
+
+  const activeCustomDotCSSClass = getAttribute(slider, 'active') || DEFAULT_ACTIVE_CSS_CLASS;
 
   // Clear the custom slider nav content
-  const clearCustomSliderContent = customSliderNav.getAttribute(removeKey) === removeValues.true;
+  const clearCustomSliderContent = hasAttributeValue(customSliderNav, 'remove', 'true');
   if (clearCustomSliderContent) customSliderNav.innerHTML = '';
 
   // Populate the dots

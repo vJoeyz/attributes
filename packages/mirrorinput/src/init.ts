@@ -1,23 +1,26 @@
-import { addListener, isElement, isFormField, isHTMLInputElement, setFormFieldValue } from '@finsweet/ts-utils';
+import {
+  addListener,
+  type FsAttributeInit,
+  isElement,
+  isFormField,
+  isHTMLInputElement,
+  setFormFieldValue,
+} from '@finsweet/attributes-utils';
 
-import { MIRROR_INPUT_ATTRIBUTE } from '$global/constants/attributes';
-import { finalizeAttribute } from '$global/factory';
-import { getInstanceIndex } from '$global/helpers';
-
-import { ATTRIBUTES, getSelector, queryElement } from './constants';
+import { getElementSelector, getInstanceIndex, queryElement } from './utils/selectors';
 
 /**
  * Inits click events mirroring.
  */
-export const init = (): void => {
+export const init: FsAttributeInit = () => {
   const inputCleanup = addListener(window, 'input', ({ target }) => {
     if (!isElement(target)) return;
 
-    const mirrorTrigger = target.closest(getSelector('element', 'trigger', { operator: 'prefixed' }));
+    const mirrorTrigger = target.closest(getElementSelector('trigger'));
     if (!isFormField(mirrorTrigger)) return;
 
     // Get the instance index
-    const instanceIndex = getInstanceIndex(mirrorTrigger, ATTRIBUTES.element.key);
+    const instanceIndex = getInstanceIndex(mirrorTrigger);
 
     const mirrorTarget = queryElement('target', { instanceIndex });
     if (!isFormField(mirrorTarget) || mirrorTrigger.type !== mirrorTarget.type) return;
@@ -37,5 +40,9 @@ export const init = (): void => {
     setFormFieldValue(mirrorTarget, mirrorTrigger.value);
   });
 
-  return finalizeAttribute(MIRROR_INPUT_ATTRIBUTE, undefined, () => inputCleanup());
+  return {
+    destroy() {
+      inputCleanup();
+    },
+  };
 };

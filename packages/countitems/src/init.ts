@@ -1,21 +1,19 @@
-import { CMS_ATTRIBUTE_ATTRIBUTE, COUNT_ITEMS_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
-import { getCollectionElements, getInstanceIndex } from '$global/helpers';
+import { type FsAttributeInit, getCollectionElements, waitWebflowReady } from '@finsweet/attributes-utils';
 
-import { ATTRIBUTES, queryElement } from './constants';
+import { getInstanceIndex, queryAllElements, queryElement } from './utils/selectors';
 
 /**
  * Inits list items count.
  */
-export const init = async (): Promise<Element[]> => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+export const init: FsAttributeInit = async () => {
+  await waitWebflowReady();
 
-  const listReferences = queryElement('list', { operator: 'prefixed', all: true });
+  const listReferences = queryAllElements('list');
 
   for (const listReference of listReferences) {
     const listElement = getCollectionElements(listReference, 'list') || listReference;
 
-    const instanceIndex = getInstanceIndex(listReference, ATTRIBUTES.element.key);
+    const instanceIndex = getInstanceIndex(listReference);
 
     const valueTarget = queryElement('value', { instanceIndex });
     if (!valueTarget) continue;
@@ -25,5 +23,7 @@ export const init = async (): Promise<Element[]> => {
     valueTarget.textContent = `${collectionItemsCount}`;
   }
 
-  return finalizeAttribute(COUNT_ITEMS_ATTRIBUTE, listReferences);
+  return {
+    result: listReferences,
+  };
 };

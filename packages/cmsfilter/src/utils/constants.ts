@@ -1,229 +1,182 @@
-import { CMS_FILTER_ATTRIBUTE } from '$global/constants/attributes';
-import { type AttributesDefinition, generateDynamicAttibuteValue, generateSelectors } from '$global/factory';
+import { type AttributeElements, type AttributeSettings } from '@finsweet/attributes-utils';
 
-const ATTRIBUTES_PREFIX = `fs-${CMS_FILTER_ATTRIBUTE}`;
+export const ELEMENTS = [
+  /**
+   * Defines a list to be filtered.
+   */
+  'list',
 
-export const LIST_ELEMENT_KEY = 'list';
-export const FILTERS_ELEMENT_KEY = 'filters';
-export const EMPTY_ELEMENT_KEY = 'empty';
-export const INITIAL_ELEMENT_KEY = 'initial';
-export const RESULTS_COUNT_ELEMENT_KEY = 'results-count';
-export const FILTER_RESULTS_COUNT_ELEMENT_KEY = 'filter-results-count';
-export const ITEMS_COUNT_ELEMENT_KEY = 'items-count';
-export const TAG_TEMPLATE_ELEMENT_KEY = 'tag-template';
-export const TAG_TEXT_ELEMENT_KEY = 'tag-text';
-export const TAG_REMOVE_ELEMENT_KEY = 'tag-remove';
-export const SCROLL_ANCHOR_ELEMENT_KEY = 'scroll-anchor';
-export const RESET_ELEMENT_KEY = 'clear';
-export const RESET_ELEMENT_KEY_FALLBACK = 'reset';
-export const FIELD_SETTING_KEY = 'field';
-export const RESET_SETTING_KEY = 'clear';
-export const RESET_SETTING_KEY_FALLBACK = 'reset';
-export const MATCH_SETTING_KEY = 'match';
-export const MATCH_SETTING_VALUES = { any: 'any', all: 'all' } as const;
-export const RANGE_SETTING_KEY = 'range';
-export const RANGE_SETTING_VALUES = { from: 'from', to: 'to' } as const;
-export const TYPE_SETTING_KEY = 'type';
-export const TYPE_SETTING_VALUES = { date: 'date' } as const;
-export const SHOW_QUERY_SETTING_KEY = 'showquery';
-export const SHOW_QUERY_SETTING_VALUES = { true: 'true' } as const;
-export const ALLOW_SUBMIT_SETTING_KEY = 'allowsubmit';
-export const ALLOW_SUBMIT_SETTING_VALUES = { true: 'true' } as const;
-export const HIDE_EMPTY_SETTING_KEY = 'hideempty';
-export const HIDE_EMPTY_SETTING_VALUES = { true: 'true' } as const;
-export const HIGHLIGHT_SETTING_KEY = 'highlight';
-export const HIGHLIGHT_SETTING_VALUES = { true: 'true' } as const;
-export const HIGHLIGHT_CLASS_SETTING_KEY = 'highlightclass';
-export const ACTIVE_CLASS_SETTING_KEY = 'active';
-export const DEBOUNCE_SETTING_KEY = 'debounce';
-export const TAG_FORMAT_SETTING_KEY = 'tagformat';
-export const TAG_FORMAT_SETTING_VALUES = { category: 'category' } as const;
-export const TAG_CATEGORY_SETTING_KEY = 'tagcategory';
-export const EASING_SETTING_KEY = 'easing';
-export const DURATION_SETTING_KEY = 'duration';
+  /**
+   * Defines the `Form` that holds the filters.
+   */
+  'filters',
 
-export const ATTRIBUTES = {
-  element: {
-    key: `${ATTRIBUTES_PREFIX}-element`,
-    values: {
-      /**
-       * Defines a list to be filtered.
-       */
-      list: generateDynamicAttibuteValue(LIST_ELEMENT_KEY),
+  /**
+   * Defines the Empty State element for when there are no filetered elements to show.
+   */
+  'empty',
 
-      /**
-       * Defines the `Form` that holds the filters.
-       */
-      filters: generateDynamicAttibuteValue(FILTERS_ELEMENT_KEY),
+  /**
+   * Defines an optional Initial State element for when there are no applied filters.
+   */
+  'initial',
 
-      /**
-       * Defines the Empty State element for when there are no filetered elements to show.
-       */
-      empty: generateDynamicAttibuteValue(EMPTY_ELEMENT_KEY),
+  /**
+   * Defines an element that will display all existing results.
+   */
+  'results-count',
 
-      /**
-       * Defines an optional Initial State element for when there are no applied filters.
-       */
-      initial: generateDynamicAttibuteValue(INITIAL_ELEMENT_KEY),
+  /**
+   * Defines an element that will display the existing results for a specific filter.
+   */
+  'filter-results-count',
 
-      /**
-       * Defines an element that will display all existing results.
-       */
-      resultsCount: generateDynamicAttibuteValue(RESULTS_COUNT_ELEMENT_KEY),
+  /**
+   * Defines an element where to display the total items of the list.
+   */
+  'items-count',
 
-      /**
-       * Defines an element that will display the existing results for a specific filter.
-       */
-      filterResultsCount: generateDynamicAttibuteValue(FILTER_RESULTS_COUNT_ELEMENT_KEY),
+  /**
+   * Defines a tag template element.
+   */
+  'tag-template',
 
-      /**
-       * Defines an element where to display the total items of the list.
-       */
-      itemsCount: generateDynamicAttibuteValue(ITEMS_COUNT_ELEMENT_KEY),
+  /**
+   * Defines the text node of a tag.
+   */
+  'tag-text',
 
-      /**
-       * Defines a tag template element.
-       */
-      tagTemplate: generateDynamicAttibuteValue(TAG_TEMPLATE_ELEMENT_KEY),
+  /**
+   * Defines a remove trigger element of a tag.
+   */
+  'tag-remove',
 
-      /**
-       * Defines the text node of a tag.
-       */
-      tagText: generateDynamicAttibuteValue(TAG_TEXT_ELEMENT_KEY),
+  /**
+   * Defines an element where to scroll the view every time a filter is applied.
+   */
+  'scroll-anchor',
 
-      /**
-       * Defines a remove trigger element of a tag.
-       */
-      tagRemove: generateDynamicAttibuteValue(TAG_REMOVE_ELEMENT_KEY),
+  /**
+   * Defines a button that resets all filters when clicked.
+   */
+  'clear',
+] as const satisfies AttributeElements;
 
-      /**
-       * Defines an element where to scroll the view every time a filter is applied.
-       */
-      scrollAnchor: generateDynamicAttibuteValue(SCROLL_ANCHOR_ELEMENT_KEY),
-
-      /**
-       * Defines a button that resets all filters when clicked.
-       */
-      reset: RESET_ELEMENT_KEY,
-
-      /**
-       * Defines a button that resets all filters when clicked. (fallback)
-       */
-      resetFallback: RESET_ELEMENT_KEY_FALLBACK,
-    },
-  },
-
+export const SETTINGS = {
   /**
    * Defines a field key to group filters.
    */
-  field: { key: `${ATTRIBUTES_PREFIX}-${FIELD_SETTING_KEY}` },
+  field: { key: 'field' },
 
   /**
    * Defines a specific field key to be resetted when clicking a Reset button.
    */
-  reset: { key: `${ATTRIBUTES_PREFIX}-${RESET_SETTING_KEY}` },
-
-  /**
-   * Defines a specific field key to be resetted when clicking a Reset button. (fallback)
-   */
-  resetFallback: { key: `${ATTRIBUTES_PREFIX}-${RESET_SETTING_KEY_FALLBACK}` },
+  clear: { key: 'clear' },
 
   /**
    * Defines the matching mode.
-   * Available values: {@link MATCHES}.
    * `any` by default.
    */
   match: {
-    key: `${ATTRIBUTES_PREFIX}-${MATCH_SETTING_KEY}`,
-    values: MATCH_SETTING_VALUES,
+    key: 'match',
+    values: {
+      any: 'any',
+      all: 'all',
+    },
   },
 
   /**
    * Defines a range to filter.
-   * Available values: {@link MODES.range}.
    */
   range: {
-    key: `${ATTRIBUTES_PREFIX}-${RANGE_SETTING_KEY}`,
-    values: RANGE_SETTING_VALUES,
+    key: 'range',
+    values: {
+      from: 'from',
+      to: 'to',
+    },
   },
 
   /**
    * Defines a specific field type.
    */
-  type: { key: `${ATTRIBUTES_PREFIX}-${TYPE_SETTING_KEY}`, values: TYPE_SETTING_VALUES },
+  type: {
+    key: 'type',
+    values: { date: 'date' },
+  },
 
   /**
    * Defines if the filter query params should be displayed on the URL.
    */
-  showQuery: { key: `${ATTRIBUTES_PREFIX}-${SHOW_QUERY_SETTING_KEY}`, values: SHOW_QUERY_SETTING_VALUES },
+  showquery: {
+    key: 'showquery',
+    values: { true: 'true' },
+  },
 
   /**
    * Defines if the filters form should not prevent default behavior when submitting it.
    */
-  allowSubmit: { key: `${ATTRIBUTES_PREFIX}-${ALLOW_SUBMIT_SETTING_KEY}`, values: ALLOW_SUBMIT_SETTING_VALUES },
+  allowsubmit: { key: 'allowsubmit', values: { true: 'true' } },
 
   /**
    * Defines if a filter element should be hidden when there are no results for it.
    */
-  hideEmpty: { key: `${ATTRIBUTES_PREFIX}-${HIDE_EMPTY_SETTING_KEY}`, values: HIDE_EMPTY_SETTING_VALUES },
+  hideempty: { key: 'hideempty', values: { true: 'true' } },
 
   /**
    * Defines if the filter query should highlight the matching item props.
    * It's applied to the input elements.
    */
-  highlight: { key: `${ATTRIBUTES_PREFIX}-${HIGHLIGHT_SETTING_KEY}`, values: HIGHLIGHT_SETTING_VALUES },
+  highlight: { key: 'highlight', values: { true: 'true' } },
 
   /**
    * Defines the highlight CSS class to be used to highlight elements.
    * Defaults to {@link DEFAULT_HIGHLIGHT_CSS_CLASS}.
    */
-  highlightCSS: { key: `${ATTRIBUTES_PREFIX}-${HIGHLIGHT_CLASS_SETTING_KEY}` },
+  highlightclass: { key: 'highlightclass' },
 
   /**
    * Defines an active CSS class that will be added to checked checkboxes/radios's parent element.
    * Defaults to {@link DEFAULT_ACTIVE_CSS_CLASS}.
    */
-  activeCSS: { key: `${ATTRIBUTES_PREFIX}-${ACTIVE_CLASS_SETTING_KEY}` },
+  active: { key: 'active' },
 
   /**
    * Defines the debouncing for input events.
    * Defaults to {@link DEFAULT_DEBOUNCING}.
    */
-  debouncing: { key: `${ATTRIBUTES_PREFIX}-${DEBOUNCE_SETTING_KEY}` },
+  debounce: { key: 'debounce' },
 
   /**
    * Defines the format of the tags.
    * Available values: {@link TAG_FORMATS}.
    */
-  tagFormat: { key: `${ATTRIBUTES_PREFIX}-${TAG_FORMAT_SETTING_KEY}` },
+  tagformat: { key: 'tagformat', values: { category: 'category' } },
 
   /**
    * Overrides the key display of a filter when using the `category` tag format.
    */
-  tagCategory: { key: `${ATTRIBUTES_PREFIX}-${TAG_CATEGORY_SETTING_KEY}` },
+  tagcategory: { key: 'tagcategory' },
 
   /**
    * Defines the easing function of the list animation.
    * Allowed values are defined in {@link "packages/animations"}.
    */
-  easing: { key: `${ATTRIBUTES_PREFIX}-${EASING_SETTING_KEY}` },
+  easing: { key: 'easing' },
 
   /**
    * Defines the duration of the list animation.
    */
-  duration: { key: `${ATTRIBUTES_PREFIX}-${DURATION_SETTING_KEY}` },
-} as const satisfies AttributesDefinition;
+  duration: { key: 'duration' },
+} as const satisfies AttributeSettings;
 
-export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
-
-export const MATCHES = Object.values(MATCH_SETTING_VALUES);
+export const MATCHES = Object.values(SETTINGS.match.values);
 export const MODES = {
-  range: Object.values(RANGE_SETTING_VALUES),
+  range: Object.values(SETTINGS.range.values),
 } as const;
 
-export const TAG_FORMATS = Object.values(TAG_FORMAT_SETTING_VALUES);
+export const TAG_FORMATS = Object.values(SETTINGS.tagformat.values);
 
 export const DEFAULT_HIGHLIGHT_CSS_CLASS = 'fs-cmsfilter_highlight';
 export const DEFAULT_ACTIVE_CSS_CLASS = 'fs-cmsfilter_active';
 
-export const DEFAULT_DEBOUNCING = '50';
+export const DEFAULT_DEBOUNCING = 50;

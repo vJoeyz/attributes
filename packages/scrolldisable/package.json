@@ -2,48 +2,24 @@
   "name": "@finsweet/attributes-scrolldisable",
   "version": "1.6.2",
   "description": "Disables scrolling on certain events.",
-  "homepage": "https://www.finsweet.com/attributes",
-  "sideEffects": false,
+  "private": true,
   "type": "module",
-  "main": "scrolldisable.js",
-  "files": [
-    "scrolldisable.js",
-    "examples.json",
-    "schema.json",
-    "changesets.json"
-  ],
+  "types": "src/index.ts",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development node ./bin/build.js",
-    "build:dev": "cross-env NODE_ENV=test node ./bin/build.js",
-    "build": "cross-env NODE_ENV=production node ./bin/build.js",
     "lint": "eslint ./src && prettier --check ./src",
-    "lint:fix": "eslint ./src --fix",
-    "check": "tsc --noEmit",
-    "format": "prettier --write ./src",
-    "test": "pnpm playwright test",
-    "test:headed": "pnpm playwright test --headed"
+    "lint:fix": "eslint ./src --fix && prettier --write ./src",
+    "check": "tsc --noEmit"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/finsweet/attributes.git"
-  },
-  "keywords": [
-    "webflow",
-    "scroll",
-    "disable scrolling",
-    "attributes",
-    "no code"
-  ],
-  "author": {
-    "name": "Finsweet",
-    "url": "https://www.finsweet.com/"
-  },
-  "bugs": {
-    "url": "https://sweetjs.finsweet.com/"
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
+    }
   },
   "dependencies": {
     "body-scroll-lock": "^4.0.0-beta.0",
-    "just-debounce": "^1.1.0"
+    "just-debounce": "^1.1.0",
+    "@finsweet/attributes-utils": "workspace:*"
   },
   "devDependencies": {
     "@types/body-scroll-lock": "^3.1.0"

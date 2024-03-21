@@ -1,49 +1,34 @@
-import { SELECT_CUSTOM_ATTRIBUTE } from '$global/constants/attributes';
-import { ARROW_DOWN_KEY, ARROW_UP_KEY, SPACE_KEY, TAB_KEY } from '$global/constants/keyboard';
-import { type AttributesDefinition, generateSelectors } from '$global/factory';
+import {
+  ARROW_DOWN_KEY,
+  ARROW_UP_KEY,
+  type AttributeElements,
+  type AttributeSettings,
+  SPACE_KEY,
+  TAB_KEY,
+} from '@finsweet/attributes-utils';
 
-const ATTRIBUTES_PREFIX = `fs-${SELECT_CUSTOM_ATTRIBUTE}`;
+export const ELEMENTS = [
+  /**
+   * Defines a dropdown element.
+   */
+  'dropdown',
 
-export const DROPDOWN_ELEMENT_KEY = 'dropdown';
-export const LABEL_ELEMENT_KEY = 'label';
-export const RESET_OPTION_KEY_FALLBACK = 'option-reset';
-export const RESET_OPTION_KEY = 'clear';
+  /**
+   * Defines the label that displays the currently selected option.
+   */
+  'label',
 
-export const HIDE_INITIAL_SETTING_KEY = 'hideinitial';
-export const HIDE_INITIAL_SETTING_VALUES = { true: 'true' };
+  /**
+   * Defines an option that will remove the selected value.
+   */
+  'clear',
+] as const satisfies AttributeElements;
 
-export const ATTRIBUTES = {
-  element: {
-    key: `${ATTRIBUTES_PREFIX}-element`,
-    values: {
-      /**
-       * Defines a dropdown element.
-       */
-      dropdown: DROPDOWN_ELEMENT_KEY,
-
-      /**
-       * Defines the label that displays the currently selected option.
-       */
-      label: LABEL_ELEMENT_KEY,
-
-      /**
-       * Defines an option that will remove the selected value.
-       */
-      resetOption: RESET_OPTION_KEY,
-
-      /**
-       * Defines an option that will remove the selected value. This is a fallback value for backwards compatibility.
-       */
-      resetOptionFallback: RESET_OPTION_KEY_FALLBACK,
-    },
-  },
-
+export const SETTINGS = {
   /**
    * Defines if the reset option should be hidden whenever there isn't an active selection.
    */
-  hideInitial: { key: `${ATTRIBUTES_PREFIX}-${HIDE_INITIAL_SETTING_KEY}`, values: HIDE_INITIAL_SETTING_VALUES },
-} as const satisfies AttributesDefinition;
-
-export const [getSelector, queryElement] = generateSelectors(ATTRIBUTES);
+  hideinitial: { key: 'hideinitial', values: { true: 'true' } },
+} as const satisfies AttributeSettings;
 
 export const CONTROL_KEYS = [SPACE_KEY, TAB_KEY, ARROW_UP_KEY, ARROW_DOWN_KEY];

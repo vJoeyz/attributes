@@ -1,5 +1,5 @@
-import { fetchPageDocument } from '$global/helpers';
-import type { CMSList } from '$packages/cmscore';
+import type { CMSList } from '@finsweet/attributes-cmscore';
+import { fetchPageDocument } from '@finsweet/attributes-utils';
 
 import { readPaginationCount } from './pagination';
 import { parseLoadedPage } from './parse';

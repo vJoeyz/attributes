@@ -1,23 +1,16 @@
-import { CMS_ATTRIBUTE_ATTRIBUTE, GREENHOUSE_ATTRIBUTE } from '$global/constants/attributes';
-import { awaitAttributesLoad, finalizeAttribute } from '$global/factory';
+import { type FsAttributeInit, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { initJob, initJobsList } from './factory';
-import { DEFAULT_QUERY_PARAM_SETTING_KEY, GH_DEPARTMENT, GH_OFFICE } from './utils/constants';
+import { DEFAULT_QUERY_PARAM_SETTING_KEY, GH_DEPARTMENT, GH_OFFICE, SETTINGS } from './utils/constants';
 
 /**
  * Inits the attribute.
  */
-export const init = async ({
-  board,
-  queryParam,
-}: {
-  board: string | null;
-  queryParam?: string | null;
-}): Promise<void> => {
-  await awaitAttributesLoad(CMS_ATTRIBUTE_ATTRIBUTE);
+export const init: FsAttributeInit<typeof SETTINGS> = async ({ board, queryparam } = {}) => {
+  await waitWebflowReady();
 
   // init params
-  queryParam ??= DEFAULT_QUERY_PARAM_SETTING_KEY;
+  queryparam ??= DEFAULT_QUERY_PARAM_SETTING_KEY;
 
   if (!board) {
     return;
@@ -25,7 +18,7 @@ export const init = async ({
 
   const url = new URL(window.location.href);
 
-  const jobId = url.searchParams.get(queryParam);
+  const jobId = url.searchParams.get(queryparam);
 
   // init job details and form
   if (jobId) {
@@ -37,8 +30,7 @@ export const init = async ({
   const department = url.searchParams.get(GH_DEPARTMENT);
 
   // init job list
-  await initJobsList(board, queryParam, office, department);
+  await initJobsList(board, queryparam, office, department);
 
-  // TODO: Create destroy method
-  return finalizeAttribute(GREENHOUSE_ATTRIBUTE, undefined);
+  return {};
 };

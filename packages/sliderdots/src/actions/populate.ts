@@ -1,12 +1,13 @@
-import type { SlideElement, SliderDotElement, SliderElement } from '@finsweet/ts-utils';
-import { cloneNode, SLIDER_CSS_CLASSES } from '@finsweet/ts-utils';
+import {
+  cloneNode,
+  type SlideElement,
+  SLIDER_CSS_CLASSES,
+  type SliderDotElement,
+  type SliderElement,
+} from '@finsweet/attributes-utils';
 
-import { ATTRIBUTES, queryElement } from '../utils/constants';
+import { hasAttributeValue, queryElement } from '../utils/selectors';
 import type { DotsRelationship } from '../utils/types';
-
-const {
-  remove: { key: removeKey, values: removeValues },
-} = ATTRIBUTES;
 
 const { slide: slideCSSClass, sliderDot: sliderDotCSSClass } = SLIDER_CSS_CLASSES;
 
@@ -29,10 +30,10 @@ export const populateSliderDots = (slider: SliderElement, customSliderNav: HTMLE
 
     dot.style.display = 'none';
 
-    const customDotElement = queryElement<HTMLElement>('content', { operator: 'prefixed', scope: slide });
+    const customDotElement = queryElement<HTMLElement>('content', { scope: slide });
     if (!customDotElement) return;
 
-    const mustRemove = customDotElement.getAttribute(removeKey) === removeValues.true;
+    const mustRemove = hasAttributeValue(customDotElement, 'remove', 'true');
 
     const customDot = mustRemove ? customDotElement : cloneNode(customDotElement);
 
