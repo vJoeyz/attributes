@@ -10,12 +10,12 @@ import type {
 
 export function collectFacebookData(
   trigger: HTMLElement,
-  instanceIndex: string | undefined,
+  instance: string | undefined,
   scope: HTMLElement | undefined
 ): FacebookSocialShare {
-  const socialData = collectSocialData(trigger, 'facebook', instanceIndex, scope);
+  const socialData = collectSocialData(trigger, 'facebook', instance, scope);
 
-  const hashtagsElement = queryElement('facebook-hashtags', { instanceIndex, scope });
+  const hashtagsElement = queryElement('facebook-hashtags', { instance, scope });
   const hashtagsText = hashtagsElement ? hashtagsElement.textContent : null;
 
   return {
@@ -27,16 +27,16 @@ export function collectFacebookData(
 
 export function collectXData(
   trigger: HTMLElement,
-  instanceIndex: string | undefined,
+  instance: string | undefined,
   scope: HTMLElement | undefined
 ): XSocialShare {
-  const socialData = collectSocialData(trigger, 'x', instanceIndex, scope);
+  const socialData = collectSocialData(trigger, 'x', instance, scope);
 
-  const hashtagsElement = queryElement('x-hashtags', { instanceIndex, scope });
+  const hashtagsElement = queryElement('x-hashtags', { instance, scope });
   const hashtagsText =
     hashtagsElement && hashtagsElement.textContent ? hashtagsElement.textContent.replace(/[^a-zA-Z0-9_,]/g, '') : null;
 
-  const usernameElement = queryElement('x-username', { instanceIndex, scope });
+  const usernameElement = queryElement('x-username', { instance, scope });
   const userNameText = usernameElement ? usernameElement.textContent : null;
 
   return {
@@ -49,15 +49,15 @@ export function collectXData(
 
 export function collectPinterestData(
   trigger: HTMLElement,
-  instanceIndex: string | undefined,
+  instance: string | undefined,
   scope: HTMLElement | undefined
 ): PinterestSocialShare {
-  const socialData = collectSocialData(trigger, 'pinterest', instanceIndex, scope);
+  const socialData = collectSocialData(trigger, 'pinterest', instance, scope);
 
-  const imageElement = queryElement<HTMLImageElement>('pinterest-image', { instanceIndex, scope });
+  const imageElement = queryElement<HTMLImageElement>('pinterest-image', { instance, scope });
   const imageSrc = imageElement && imageElement.src ? imageElement.src : null;
 
-  const descriptionElement = queryElement('pinterest-description', { instanceIndex, scope });
+  const descriptionElement = queryElement('pinterest-description', { instance, scope });
 
   const descriptionText = descriptionElement ? descriptionElement.textContent : null;
 
@@ -72,16 +72,16 @@ export function collectPinterestData(
 export function collectSocialData(
   socialShareButton: HTMLElement,
   elementKey: SocialShareTypes,
-  instanceIndex: string | undefined,
+  instance: string | undefined,
   scope: HTMLElement | undefined
 ): SocialShare {
   const width = collectSize(socialShareButton, 'width', DEFAULT_WIDTH_SETTING_KEY);
   const height = collectSize(socialShareButton, 'height', DEFAULT_HEIGHT_SETTING_KEY);
 
-  const contentElement = queryElement('content', { instanceIndex, scope });
+  const contentElement = queryElement('content', { instance, scope });
   const contentText = contentElement ? contentElement.textContent : null;
 
-  const urlElement = queryElement('url', { instanceIndex, scope });
+  const urlElement = queryElement('url', { instance, scope });
   const contentUrl = urlElement && urlElement.textContent ? urlElement.textContent : window.location.href;
 
   return {
