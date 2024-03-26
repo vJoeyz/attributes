@@ -24,7 +24,6 @@ export const init: FsAttributeInit = async () => {
       if (!isHTMLElement(trigger)) return;
 
       // Get attributes
-
       const textToCopy = getAttribute(trigger, 'text');
       const successMessage = getAttribute(trigger, 'message');
       const successDuration = parseNumericAttribute(getAttribute(trigger, 'duration'), DEFAULT_SUCCESS_DURATION);
