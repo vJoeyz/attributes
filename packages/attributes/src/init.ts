@@ -21,8 +21,6 @@ export const init = () => {
   // Collect library scripts
   const scripts = [...document.querySelectorAll<HTMLScriptElement>(`script[type="module"][src="${import.meta.url}"]`)];
 
-  console.log({ scripts, url: import.meta.url });
-
   // Init Attributes object
   window.fsAttributes = window.FsAttributes = {
     scripts,
