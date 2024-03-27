@@ -27,7 +27,7 @@ const buildOptions: esbuild.BuildOptions = {
   entryPoints: ENTRY_POINTS,
   minify: !DEV,
   sourcemap: DEV,
-  target: DEV ? 'esnext' : 'es2020',
+  target: 'esnext',
   define: {
     NODE_ENV: JSON.stringify(process.env.NODE_ENV),
     SERVE_PORT: JSON.stringify(SERVE_PORT),
