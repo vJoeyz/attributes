@@ -1,5 +1,11 @@
 # @finsweet/attributes
 
+## 2.0.1
+
+### Patch Changes
+
+- 33192d8: fix: output settings
+
 ## 2.0.0
 
 ### Major Changes
