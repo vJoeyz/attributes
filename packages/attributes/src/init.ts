@@ -2,8 +2,6 @@ import { ATTRIBUTES, type FsAttributeKey, type FsAttributesCallback } from '@fin
 
 import { loadAttribute } from './load';
 
-declare const SCRIPT_SRC: string;
-
 /**
  * Inits the Finsweet Attributes library.
  */
@@ -24,17 +22,14 @@ export const init = () => {
   window.fsAttributes = window.FsAttributes = {
     solutions: {},
     process: new Set<FsAttributeKey>(),
+    scripts: [...document.querySelectorAll<HTMLScriptElement>(`script[type="module"][src="${import.meta.url}"]`)],
+
+    load: initAttribute,
 
     push(...args) {
       for (const [key, callback] of args) {
         this.solutions[key]?.loading?.then(callback);
       }
-    },
-
-    import(solution, globalSettings) {
-      if (this.process.has(solution)) return;
-
-      return initAttribute(solution, { globalSettings });
     },
 
     destroy() {
@@ -55,14 +50,12 @@ export const init = () => {
  * Inits all Attributes that are defined in the current script.
  */
 const initAttributes = () => {
-  const scripts = document.querySelectorAll<HTMLScriptElement>(`script[type="module"][src^="${SCRIPT_SRC}"]`);
-
-  for (const script of scripts) {
+  for (const script of window.fsAttributes.scripts) {
     for (const attribute of Object.values(ATTRIBUTES)) {
       const isDefined = script.hasAttribute(`fs-${attribute}`);
       if (!isDefined) continue;
 
-      initAttribute(attribute, { script });
+      initAttribute(attribute);
     }
   }
 };
@@ -70,25 +63,14 @@ const initAttributes = () => {
 /**
  * Inits an individual Attribute.
  * @param attribute
- * @param params.script The <script> tag that defines the Attribute.
- * @param params.globalSettings Global settings that are passed via the API import method.
+ * @param script The <script> tag that defines the Attribute.
  *
  * @returns A Promise that resolves once the Attribute has loaded and executed.
  */
-const initAttribute = async (
-  attribute: FsAttributeKey,
-  {
-    script,
-    globalSettings,
-  }: {
-    script?: HTMLScriptElement;
-    globalSettings?: {
-      [k: string]: string;
-    };
-  }
-) => {
+const initAttribute = async (attribute: FsAttributeKey) => {
   // Ensure that the attribute is only initted once
   if (window.fsAttributes.process.has(attribute)) return;
+
   window.fsAttributes.process.add(attribute);
 
   // Init controls
@@ -103,25 +85,10 @@ const initAttribute = async (
 
   // Load Attribute package
   try {
-    const { init, version, SETTINGS } = await loadAttribute(attribute);
-
-    // Parse global settings from the <script> tag,
-    // only if they were not explicitly provided via the API import
-    if (!globalSettings && script) {
-      const globalSettingsEntries = Object.entries(SETTINGS).reduce<[string, string][]>((acc, [, { key }]) => {
-        const value = script.getAttribute(`fs-${attribute}-${key}`);
-        if (!value) return acc;
-
-        acc.push([key, value]);
-
-        return acc;
-      }, []);
-
-      globalSettings = Object.fromEntries(globalSettingsEntries);
-    }
+    const { init, version } = await loadAttribute(attribute);
 
     // Init attribute
-    const { result, destroy } = (await init(globalSettings)) || {};
+    const { result, destroy } = (await init()) || {};
 
     // Finalize controls
     controls.version = version;
@@ -133,7 +100,7 @@ const initAttribute = async (
 
     controls.restart = () => {
       controls.destroy?.();
-      return window.fsAttributes.import(attribute, globalSettings);
+      return window.fsAttributes.load(attribute);
     };
 
     controls.resolve?.(result);
