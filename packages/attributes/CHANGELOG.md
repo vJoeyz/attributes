@@ -1,0 +1,35 @@
+# @finsweet/attributes
+
+## 2.0.0
+
+### Major Changes
+
+- dcdce38: prepared core for v2 release
+
+### Patch Changes
+
+- Updated dependencies [ec5cdc4]
+- Updated dependencies [2671384]
+- Updated dependencies [9578ee9]
+- Updated dependencies [0ccef15]
+- Updated dependencies [1186678]
+- Updated dependencies [589bd31]
+- Updated dependencies [4fd67e6]
+- Updated dependencies [688d6ae]
+- Updated dependencies [01f7277]
+- Updated dependencies [1c7e664]
+- Updated dependencies [7740fc0]
+- Updated dependencies [542c642]
+- Updated dependencies [1c7e664]
+  - @finsweet/attributes-countitems@2.0.0
+  - @finsweet/attributes-accordion@2.0.0
+  - @finsweet/attributes-codehighlight@2.0.0
+  - @finsweet/attributes-component@2.0.0
+  - @finsweet/attributes-copyclip@2.0.0
+  - @finsweet/attributes-combobox@2.0.0
+  - @finsweet/attributes-displayvalues@2.0.0
+  - @finsweet/attributes-autovideo@2.0.0
+  - @finsweet/attributes-formsubmit@2.0.0
+  - @finsweet/attributes-consent@2.0.0
+  - @finsweet/attributes-a11y@2.0.0
+  - @finsweet/attributes-favcustom@2.0.0
