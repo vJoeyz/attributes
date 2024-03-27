@@ -5,7 +5,7 @@ import { loadAttribute } from './load';
 /**
  * Inits the Finsweet Attributes library.
  */
-export const init = () => {
+const init = () => {
   const { fsAttributes } = window;
 
   // Avoid initting the Attributes API more than once.
