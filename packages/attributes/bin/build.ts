@@ -17,7 +17,7 @@ const DEV = ENV === 'development';
 const BUILD_DIRECTORY = './';
 
 // Config entrypoint files
-const ENTRY_POINTS = ['src/index.ts'];
+const ENTRY_POINTS = ['src/attributes.ts'];
 
 // Config dev serving
 const SERVE_PORT = 3000;
@@ -46,7 +46,12 @@ const context = await esbuild.context({
 
 // Remove old output files
 try {
-  readdirSync(BUILD_DIRECTORY).map((file) => unlinkSync(join(BUILD_DIRECTORY, file)));
+  const files = readdirSync(BUILD_DIRECTORY);
+  files.forEach((file) => {
+    if (file.startsWith('dist') || file.startsWith('schemas')) {
+      unlinkSync(join(BUILD_DIRECTORY, file));
+    }
+  });
 } catch (err) {}
 
 // Watch and serve files in dev
@@ -57,7 +62,7 @@ if (DEV) {
       servedir: '.',
       port: SERVE_PORT,
     })
-    .then(() => console.log(`Serving library at http://localhost:${SERVE_PORT}/dist/index.js`));
+    .then(() => console.log(`Serving library at http://localhost:${SERVE_PORT}/attributes.js`));
 }
 
 // Build files in prod

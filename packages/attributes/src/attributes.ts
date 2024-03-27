@@ -113,3 +113,6 @@ const initAttribute = async (attribute: FsAttributeKey) => {
     console.error(err);
   }
 };
+
+// Init
+init();

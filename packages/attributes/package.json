@@ -4,9 +4,9 @@
   "description": "Finsweet Attributes V2.",
   "homepage": "https://finsweet.com/attributes",
   "type": "module",
-  "main": "index.js",
+  "main": "attributes.js",
   "files": [
-    "index.js",
+    "attributes.js",
     "dist",
     "schemas"
   ],
