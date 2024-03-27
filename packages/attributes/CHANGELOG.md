@@ -1,5 +1,11 @@
 # @finsweet/attributes
 
+## 2.0.2
+
+### Patch Changes
+
+- e3c8686: fix: update build output
+
 ## 2.0.1
 
 ### Patch Changes
