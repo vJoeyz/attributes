@@ -14,7 +14,7 @@ declare const process: {
 // Config output
 const ENV = process.env.VERCEL_ENV || process.env.NODE_ENV || 'development';
 const DEV = ENV === 'development';
-const BUILD_DIRECTORY = './dist';
+const BUILD_DIRECTORY = './';
 
 // Config entrypoint files
 const ENTRY_POINTS = ['src/index.ts'];
@@ -38,6 +38,7 @@ const buildOptions: esbuild.BuildOptions = {
 const context = await esbuild.context({
   ...buildOptions,
   outdir: BUILD_DIRECTORY,
+  chunkNames: '/dist/[name]-[hash]',
   inject: DEV ? ['./bin/live-reload.js'] : undefined,
   format: 'esm',
   splitting: true,
