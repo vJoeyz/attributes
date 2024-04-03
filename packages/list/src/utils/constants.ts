@@ -180,6 +180,31 @@ export const ELEMENTS = [
    * Defines an element that when clicked will remove the condition.
    */
   'condition-remove',
+
+  /**
+   * Defines a slider element.
+   */
+  'slider',
+
+  /**
+   * Defines a tabs element.
+   */
+  'tabs',
+
+  /**
+   * Defines a tab link element.
+   */
+  'tab-link',
+
+  /**
+   * Defines a <select> element.
+   */
+  'select',
+
+  /**
+   * Defines a select <option> value element.
+   */
+  'select-value',
 ] as const satisfies AttributeElements;
 
 export const SETTINGS = {
@@ -320,6 +345,11 @@ export const SETTINGS = {
    * Only used for checkboxes and radios to work around Webflow now allowing to define CMS based values for them.
    */
   value: { key: 'value' },
+
+  /**
+   * Defines a list instance where the list should be combined with.
+   */
+  combine: { key: 'combine' },
 } as const satisfies AttributeSettings;
 
 export const DEFAULT_INFINITE_THRESHOLD = -20;

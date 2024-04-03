@@ -10,9 +10,11 @@ import {
   type PaginationButtonElement,
   type PaginationWrapperElement,
   parseNumericAttribute,
+  restartWebflow,
+  type WebflowModule,
 } from '@finsweet/attributes-utils';
 import { animations } from '@finsweet/attributes-utils';
-import { atom, deepMap, type WritableAtom } from 'nanostores';
+import { atom, deepMap, map, type WritableAtom } from 'nanostores';
 
 import type { Filters } from '../filter/types';
 import { getAllCollectionListWrappers, getCollectionElements } from '../utils/dom';
@@ -76,7 +78,7 @@ export class List {
   /**
    * A signal holding all {@link ListItem} instances of the list.
    */
-  readonly items: WritableAtom<ListItem[]> = atom([]);
+  readonly items = map<ListItem[]>([]);
 
   /**
    * A set holding all rendered {@link ListItem} instances.
@@ -86,7 +88,7 @@ export class List {
   /**
    * The instance.
    */
-  readonly instance?: string;
+  readonly instance: string | null;
 
   /**
    * The `Collection List` element.
@@ -173,6 +175,11 @@ export class List {
    * @example '?5f7457b3_page=1'
    */
   readonly showPagesQuery = atom(false);
+
+  /**
+   * Defines the Webflow modules to restart after rendering.
+   */
+  readonly webflowModules = new Set<WebflowModule>();
 
   /**
    * Defines the query key for the paginated pages.
@@ -285,6 +292,11 @@ export class List {
       this.renderedItems = new Set(items);
 
       return items;
+    });
+
+    // Restart Webflow modules
+    this.addHook('afterRender', async () => {
+      restartWebflow([...this.webflowModules]);
     });
 
     // Start hooks chain
@@ -445,6 +457,8 @@ export class List {
         const anchor = paginationPreviousElement.get()?.parentElement || paginationWrapperElement;
         if (!anchor) return;
 
+        paginationNext.style.display = 'none';
+
         anchor.append(paginationNext);
         paginationNextElement.set(paginationNext);
       })(),
@@ -467,6 +481,8 @@ export class List {
         if (paginationPrevious && !paginationPreviousElement.get()) {
           const anchor = paginationNextElement.get()?.parentElement || paginationWrapperElement;
           if (!anchor) return;
+
+          paginationPrevious.style.display = 'none';
 
           anchor.prepend(paginationPrevious);
           paginationPreviousElement.set(paginationPrevious);
