@@ -1,5 +1,11 @@
 # @finsweet/attributes
 
+## 2.0.3
+
+### Patch Changes
+
+- cda695c: included list-combine, list-nest, list-select, list-slider, list-tabs
+
 ## 2.0.2
 
 ### Patch Changes
