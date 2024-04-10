@@ -1,5 +1,16 @@
 # @finsweet/attributes
 
+## 2.0.4
+
+### Patch Changes
+
+- e2ca8e3: fs-list: added automatic & manual nesting
+- 7081cb7: fs-list: renamed "load" options
+- Updated dependencies [e2ca8e3]
+- Updated dependencies [7081cb7]
+  - @finsweet/attributes-list@0.1.0
+  - @finsweet/attributes-accordion@2.0.0
+
 ## 2.0.3
 
 ### Patch Changes
