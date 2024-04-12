@@ -62,7 +62,10 @@ if (DEV) {
       servedir: '.',
       port: SERVE_PORT,
     })
-    .then(() => console.log(`Serving library at http://localhost:${SERVE_PORT}/attributes.js`));
+    .then(() => {
+      console.log(`Serving:`);
+      console.log(`<script async type="module" src="http://localhost:${SERVE_PORT}/attributes.js"></script>`);
+    });
 }
 
 // Build files in prod
