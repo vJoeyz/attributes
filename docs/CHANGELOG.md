@@ -1,5 +1,11 @@
 # @finsweet/attributes-docs
 
+## 2.0.0
+
+### Major Changes
+
+- c5cd01b: feat: version 2 release of attributes docs scripts
+
 ## 1.0.0
 
 ### Major Changes
