@@ -1,4 +1,5 @@
 import { animations, type Easings } from '@finsweet/attributes-utils';
+import { computePosition, flip, offset, shift } from '@floating-ui/dom';
 import debounce from 'just-debounce';
 
 const voidElements = new Set([
@@ -109,22 +110,24 @@ const getValidElementForPseudo = (element: HTMLElement): HTMLElement | null | un
 const updateTooltipPosition = () => {
   if (!tooltip || !xrayActiveElement) return;
 
-  // Measure the tooltip and target element
-  const targetRect = xrayActiveElement.getBoundingClientRect();
-  const tooltipHeight = tooltip.offsetHeight;
-  const viewportWidth = window.innerWidth;
+  computePosition(xrayActiveElement, tooltip, {
+    placement: 'top',
+    middleware: [
+      offset(10),
+      flip({
+        fallbackAxisSideDirection: 'start',
+        fallbackStrategy: 'bestFit',
+      }),
+      shift({ padding: 5 }),
+    ],
+  }).then(({ x, y }) => {
+    if (!tooltip) return;
 
-  // Calculate the top position of the tooltip
-  const tooltipTop = targetRect.top - tooltipHeight - 10;
-  let tooltipLeft = targetRect.left;
-
-  // Adjust left position if the target is in the right half of the viewport
-  if (targetRect.left + targetRect.width / 2 > viewportWidth / 2 && xrayActiveElement.clientWidth < 150) {
-    tooltipLeft = targetRect.left + targetRect.width / 2 - tooltip.offsetWidth / 2 - 50;
-  }
-
-  tooltip.style.left = `${tooltipLeft}px`;
-  tooltip.style.top = `${tooltipTop}px`;
+    Object.assign(tooltip.style, {
+      left: `${x}px`,
+      top: `${y}px`,
+    });
+  });
 };
 /**
  * Creates a tooltip element and appends it to the DOM.
@@ -135,7 +138,7 @@ const showTooltipElement = async (element: HTMLElement, content: string) => {
   if (!tooltip) {
     tooltip = document.createElement('div');
     tooltip.id = 'tooltip-xray';
-    tooltip.style.position = 'fixed';
+    tooltip.style.position = 'absolute';
     tooltip.style.zIndex = '9999';
     tooltip.style.backgroundColor = backgroundColor;
     tooltip.style.color = textColor;
@@ -150,16 +153,15 @@ const showTooltipElement = async (element: HTMLElement, content: string) => {
   }
 
   tooltip.innerHTML = content;
-  tooltip.style.display = 'block';
-  //visibility none
-  tooltip.style.opacity = '0';
+
+  // update xray active element state
+  xrayActiveElement = element;
 
   // update tooltip position
-  xrayActiveElement = element;
   updateTooltipPosition();
 
   // animate
-  await animations[animation].animateIn(tooltip, { duration, easing });
+  await animations[animation].animateIn(tooltip, { duration, easing, display: 'block' });
 };
 
 /**
@@ -374,6 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('mouseover', debouncedMouseMove);
   document.addEventListener('keydown', handleKeydown);
   document.addEventListener('scroll', handleScroll, { passive: true });
+  window.addEventListener('resize', updateTooltipPosition);
 
   const config: MutationObserverInit = {
     childList: true,
