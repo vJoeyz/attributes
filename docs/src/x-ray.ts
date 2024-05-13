@@ -115,8 +115,7 @@ const updateTooltipPosition = () => {
     middleware: [
       offset(10),
       flip({
-        fallbackAxisSideDirection: 'start',
-        fallbackStrategy: 'bestFit',
+        fallbackPlacements: ['top', 'left-start', 'right-start'],
       }),
       shift({ padding: 5 }),
     ],
@@ -219,7 +218,9 @@ const debouncedMouseMove = debounce(async (event: MouseEvent) => {
     return;
   }
 
-  const fsAttributes = Array.from(fsElement.attributes).filter((attr) => attr.name.startsWith('fs-'));
+  const fsAttributes = Array.from(fsElement.attributes)
+    .filter((attr) => attr.name.startsWith('fs-'))
+    .filter(({ name }) => name.split('-').length === 3);
 
   const elementToStyle = getValidElementForPseudo(target);
 
