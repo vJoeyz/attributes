@@ -294,10 +294,10 @@ const updateTooltipStyle = () => {
 
   style.innerHTML = `
     .${targetClass}, .${targetClass}:hover {
-      outline-color: ${backgroundColor};
-      outline-offset: 3px;
-      outline-width: 1px;
-      outline-style: solid;
+      outline-color: ${backgroundColor} !important;
+      outline-offset: 3px !important;
+      outline-width: 1px !important;
+      outline-style: solid !important;
     }
   `;
 };
