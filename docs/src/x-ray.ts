@@ -231,6 +231,7 @@ const debouncedMouseMove = debounce(async (event: MouseEvent) => {
     if (checkAndIgnoreElement(elementToStyle) || checkAndIgnoreElement(fsElement)) return;
 
     const list = fsAttributes
+      .sort((a, b) => a.name.localeCompare(b.name))
       .map(
         (attr) =>
           `<span style="font-weight:bold;">${attr.name}</span><span style="opacity:0.5">=</span><span style="opacity:0.5">"</span><span style="font-weight:bold;">${attr.value}</span><span style="opacity:0.5">"</span>`
