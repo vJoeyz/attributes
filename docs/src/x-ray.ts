@@ -380,7 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', updateTooltipPosition);
 
   const config: MutationObserverInit = {
-    childList: true,
+    attributes: true,
     subtree: true,
   };
 
