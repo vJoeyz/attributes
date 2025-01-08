@@ -92,7 +92,7 @@ export const ELEMENTS = [
   'results-count',
 
   /**
-   * Defines the template element to generate all page buttons for the `paginate` mode.
+   * Defines the template element to generate all page buttons for the `pagination` mode.
    */
   'page-button',
 
