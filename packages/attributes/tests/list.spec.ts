@@ -2,7 +2,7 @@ import type { List } from '@finsweet/attributes-list';
 import { expect, type Page, test } from '@playwright/test';
 
 test.describe('fs-list: sort', () => {
-  test('list_sort_buttons', async ({ page }) => {
+  test('sort_buttons', async ({ page }) => {
     await page.goto('http://fs-attributes-list.webflow.io/list-sort-buttons?dev=true');
 
     await waitCMSItemsLoaded(page);
@@ -83,7 +83,7 @@ test.describe('fs-list: sort', () => {
     await expect(buttonUpdated).toHaveClass(/is-list-desc/);
   });
 
-  test('list_sort_load_buttons', async ({ page }) => {
+  test('sort_load_buttons', async ({ page }) => {
     await page.goto('http://fs-attributes-list.webflow.io/list-sort-load-buttons?dev=true');
 
     await waitCMSItemsLoaded(page);
@@ -164,7 +164,7 @@ test.describe('fs-list: sort', () => {
     await expect(buttonUpdated).toHaveClass(/is-list-desc/);
   });
 
-  test('list_sort_select', async ({ page }) => {
+  test('sort_select', async ({ page }) => {
     await page.goto('http://fs-attributes-list.webflow.io/list-sort-select?dev=true');
 
     await waitCMSItemsLoaded(page);
@@ -230,7 +230,7 @@ test.describe('fs-list: sort', () => {
 });
 
 test.describe('fs-list: combine', () => {
-  test('list_combine', async ({ page }) => {
+  test('combine', async ({ page }) => {
     await page.goto('http://fs-attributes-list.webflow.io/list-combine?dev=true');
 
     await waitCMSItemsLoaded(page);
@@ -248,7 +248,7 @@ test.describe('fs-list: combine', () => {
     await expect(barListChildren).toHaveCount(0);
   });
 
-  test('list_combine_sort', async ({ page }) => {
+  test('combine_sort', async ({ page }) => {
     await page.goto('http://fs-attributes-list.webflow.io/list-combine-sort?dev=true');
 
     await waitCMSItemsLoaded(page);
@@ -326,7 +326,7 @@ test.describe('fs-list: combine', () => {
 });
 
 test.describe('fs-list: load', () => {
-  test('list_load_more', async ({ page }) => {
+  test('load_more', async ({ page }) => {
     await page.goto('http://fs-attributes-list.webflow.io/list-load-more?dev=true');
 
     await waitCMSItemsLoaded(page);
@@ -352,7 +352,7 @@ test.describe('fs-list: load', () => {
     await expect(listItem).toHaveCount(300);
   });
 
-  test('list_load_more_loadcount', async ({ page }) => {
+  test('load_more_loadcount', async ({ page }) => {
     await page.goto('http://fs-attributes-list.webflow.io/list-load-more-loadcount?dev=true');
 
     await waitCMSItemsLoaded(page);
@@ -386,7 +386,7 @@ test.describe('fs-list: load', () => {
     await expect(listItem).toHaveCount(1000);
   });
 
-  test('list_load_all', async ({ page }) => {
+  test('load_all', async ({ page }) => {
     await page.goto('http://fs-attributes-list.webflow.io/list-load-all?dev=true');
 
     await waitCMSItemsLoaded(page);
@@ -396,7 +396,7 @@ test.describe('fs-list: load', () => {
     await expect(listItem).toHaveCount(300);
   });
 
-  test('list_load_pagination', async ({ page }) => {
+  test('load_pagination', async ({ page }) => {
     await page.goto('http://fs-attributes-list.webflow.io/list-load-pagination?dev=true');
 
     await waitCMSItemsLoaded(page);
