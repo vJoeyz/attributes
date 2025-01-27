@@ -87,9 +87,14 @@ export const ELEMENTS = [
   'visible-count-to',
 
   /**
-   * Filter results count
+   * All filters results count
    */
   'results-count',
+
+  /**
+   * All filters results count
+   */
+  'filter-results-count',
 
   /**
    * Defines the template element to generate all page buttons for the `pagination` mode.
@@ -231,11 +236,19 @@ export const SETTINGS = {
   },
 
   /**
-   * Defines the matching logic for a group of filters.
+   * Defines the matching logic for an array of field values.
    */
-  match: {
-    key: 'match',
-    values: { default: 'and' },
+  fieldMatch: {
+    key: 'fieldmatch',
+    values: { and: 'and', or: 'or', default: 'and' },
+  },
+
+  /**
+   * Defines the matching logic for an array of filter values.
+   */
+  filterMatch: {
+    key: 'filtermatch',
+    values: { and: 'and', or: 'or', default: 'and' },
   },
 
   /**
