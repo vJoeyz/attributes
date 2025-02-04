@@ -271,15 +271,19 @@ const initFiltersResults = (list: List, form: HTMLFormElement) => {
         if (!condition) return;
 
         if (isCheckboxGroup) {
-          const arrayValue = Array.isArray(condition.value)
-            ? condition.value
-            : condition.value
-            ? [condition.value]
-            : [];
+          if (condition.filterMatch === 'and') {
+            const arrayValue = Array.isArray(condition.value)
+              ? condition.value
+              : condition.value
+              ? [condition.value]
+              : [];
 
-          arrayValue.push(value);
+            arrayValue.push(value);
 
-          condition.value = arrayValue;
+            condition.value = arrayValue;
+          } else {
+            condition.value = [value];
+          }
         } else {
           condition.value = value;
         }
