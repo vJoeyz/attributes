@@ -1,5 +1,11 @@
 # @finsweet/attributes-docs
 
+## 2.0.4
+
+### Patch Changes
+
+- 682882c: feat: add optional dom traversal to get closest target for cases where instance has not been added
+
 ## 2.0.3
 
 ### Patch Changes
