@@ -120,8 +120,8 @@ export const initSimpleFilters = (list: List, form: HTMLFormElement) => {
 const getConditionData = (formField: FormField, field: string, op: FilterOperator): FiltersCondition => {
   const { type } = formField;
 
-  const filterMatch = getAttribute(formField, 'filterMatch', true) || 'or';
-  const fieldMatch = getAttribute(formField, 'fieldMatch', true) || 'or';
+  const filterMatch = getAttribute(formField, 'filtermatch', true) || 'or';
+  const fieldMatch = getAttribute(formField, 'fieldmatch', true) || 'or';
 
   switch (type) {
     // Checkbox

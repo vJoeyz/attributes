@@ -245,7 +245,7 @@ export const SETTINGS = {
   /**
    * Defines the matching logic for an array of field values.
    */
-  fieldMatch: {
+  fieldmatch: {
     key: 'fieldmatch',
     values: { and: 'and', or: 'or', default: 'and' },
   },
@@ -253,7 +253,7 @@ export const SETTINGS = {
   /**
    * Defines the matching logic for an array of filter values.
    */
-  filterMatch: {
+  filtermatch: {
     key: 'filtermatch',
     values: { and: 'and', or: 'or', default: 'and' },
   },
@@ -261,23 +261,9 @@ export const SETTINGS = {
   /**
    * Defines an item field type.
    */
-  type: {
-    key: 'type',
+  fieldtype: {
+    key: 'fieldtype',
     values: { number: 'number', date: 'date' },
-  },
-
-  /**
-   * Defines highlighte flag.
-   */
-  highlight: {
-    key: 'highlight',
-  },
-
-  /**
-   * Defines the CSS class added to highlighted values.
-   */
-  highlightclass: {
-    key: 'highlightclass',
   },
 
   /**
