@@ -112,24 +112,24 @@ export const ELEMENTS = [
   'tag',
 
   /**
-   * Defines the element inside each tag.
+   * Defines the element inside each tag that will display the field name.
    */
   'tag-field',
 
   /**
-   * Defines the element inside each tag.
+   * Defines the element inside each tag that will display the filter value.
    */
   'tag-value',
 
   /**
-   * Defines the element inside each tag.
+   * Defines the element inside each tag that will display the filter operator.
    * Tag operators can be overwritten by the `tag-operator-OPERATOR` attribute.
    */
   'tag-operator',
   'tag-operator-equal',
   'tag-operator-not-equal',
-  'tag-operator-contains',
-  'tag-operator-not-contains',
+  'tag-operator-contain',
+  'tag-operator-not-contain',
   'tag-operator-greater',
   'tag-operator-greater-equal',
   'tag-operator-less',
@@ -372,8 +372,8 @@ export const SETTINGS = {
     values: {
       equal: 'equal',
       'not-equal': 'not-equal',
-      contains: 'contains',
-      'not-contains': 'not-contains',
+      contain: 'contain',
+      'not-contain': 'not-contain',
       greater: 'greater',
       'greater-equal': 'greater-equal',
       less: 'less',
@@ -419,7 +419,7 @@ export const DEFAULT_PAGE_BOUNDARY = 1;
 
 export const DEFAULT_FUZZY_RATIO = 0.2;
 
-export const DEFAULT_FILTER_OPERATOR = 'contains';
+export const DEFAULT_FILTER_OPERATOR = 'contain';
 
 export const BREAKPOINTS_INDEX: { [key in WebflowBreakpoint]: number } = {
   main: 0,

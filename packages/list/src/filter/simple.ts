@@ -226,7 +226,7 @@ export const getSimpleFilters = (form: HTMLFormElement) => {
     const field = getAttribute(formField, 'field');
     if (!field) continue;
 
-    const op = getAttribute(formField, 'operator', true) || 'contains';
+    const op = getAttribute(formField, 'operator', true) || 'contain';
     const data = getConditionData(formField, field, op);
 
     if (!filters.groups[0].conditions.some((c) => c.field === field && c.op === op)) {
@@ -255,7 +255,7 @@ const initFiltersResults = (list: List, form: HTMLFormElement) => {
     const resultsCountElement = queryElement('filter-results-count', { scope: formField.parentElement! });
     if (!resultsCountElement) continue;
 
-    const op = getAttribute(formField, 'operator', true) || 'contains';
+    const op = getAttribute(formField, 'operator', true) || 'contain';
     const value = getAttribute(formField, 'value') || formField.value || '';
     const isCheckboxGroup = type === 'checkbox' && getCheckboxGroup(formField.name, formField.form)?.length;
 

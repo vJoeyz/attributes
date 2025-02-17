@@ -269,7 +269,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
               }
             }
 
-            case 'contains': {
+            case 'contain': {
               // Both are arrays
               if (Array.isArray(filterData.value) && Array.isArray(fieldData.value)) {
                 if (!filterData.value.length) return true;
@@ -398,7 +398,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
               }
             }
 
-            case 'not-contains': {
+            case 'not-contain': {
               // Both are arrays
               if (Array.isArray(filterData.value) && Array.isArray(fieldData.value)) {
                 if (!filterData.value.length) return true;

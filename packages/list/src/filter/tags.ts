@@ -9,8 +9,8 @@ import type { FilterOperator, Filters } from './types';
 const OPERATOR_SYMBOLS: Record<FilterOperator, string> = {
   empty: '∅',
   'not-empty': '!∅',
-  contains: '∈',
-  'not-contains': '∉',
+  contain: '∈',
+  'not-contain': '∉',
   equal: '=',
   'not-equal': '≠',
   less: '<',
