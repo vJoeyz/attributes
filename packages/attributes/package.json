@@ -36,7 +36,6 @@
     "url": "https://finsweet.com/attributes/support"
   },
   "dependencies": {
-    "@finsweet/attributes-a11y": "workspace:*",
     "@finsweet/attributes-accordion": "workspace:*",
     "@finsweet/attributes-autovideo": "workspace:*",
     "@finsweet/attributes-codehighlight": "workspace:*",

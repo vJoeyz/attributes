@@ -13,8 +13,6 @@ export const init: FinsweetAttributeInit = async () => {
 
   const cleanups = inputElements.map(initInputCounter).filter(isNotEmpty);
 
-  window.finsweetAttributes.load('a11y');
-
   return {
     result: inputElements,
     destroy() {

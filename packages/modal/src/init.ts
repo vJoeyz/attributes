@@ -13,8 +13,6 @@ export const init: FinsweetAttributeInit = async () => {
 
   const cleanups = modalElements.map(initModal).filter(isNotEmpty);
 
-  window.finsweetAttributes.load('a11y');
-
   return {
     result: modalElements,
     destroy() {

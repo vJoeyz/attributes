@@ -1,4 +1,4 @@
-import { addListener } from '@finsweet/attributes-utils';
+import { addListener, ARIA_EXPANDED_KEY } from '@finsweet/attributes-utils';
 
 import { ANCHOR_TEXT } from '../utils/constants';
 import { getSettingSelector } from '../utils/selectors';
@@ -71,51 +71,65 @@ export const handleModal = (
 
       isAnimating = false;
       isOpen = true;
+
+      // Set aria-expanded to true
+      [...openTriggers, ...closeTriggers].forEach((trigger) => trigger.setAttribute(ARIA_EXPANDED_KEY, 'true'));
     });
 
     return openCleanup;
   });
 
   // Close buttons
+  const handleClose = async (e: Event) => {
+    e.preventDefault();
+
+    if (isAnimating || isOpen === false) return;
+
+    isAnimating = true;
+
+    // Animate
+    await Promise.all([
+      modalActions.animateOut(modalElement, {
+        duration: modalDuration,
+        easing: modalEasing,
+        target: parentElement,
+        insertAfter: anchor,
+      }),
+      Promise.all(
+        customAnimationChildren.map(([child, { actions, duration, easing }]) =>
+          actions.animateOut(child, {
+            duration: duration || modalDuration,
+            easing: easing || modalEasing,
+          })
+        )
+      ),
+    ]);
+
+    parentElement.insertBefore(modalElement, anchor);
+
+    isAnimating = false;
+    isOpen = false;
+
+    // Set aria-expanded to false
+    [...openTriggers, ...closeTriggers].forEach((trigger) => trigger.setAttribute(ARIA_EXPANDED_KEY, 'false'));
+  };
+
   const closeCleanups = closeTriggers.map((closeTrigger) => {
-    const closeCleanup = addListener(closeTrigger, 'click', async (e) => {
-      e.preventDefault();
-
-      if (isAnimating || isOpen === false) return;
-
-      isAnimating = true;
-
-      // Animate
-      await Promise.all([
-        modalActions.animateOut(modalElement, {
-          duration: modalDuration,
-          easing: modalEasing,
-          target: parentElement,
-          insertAfter: anchor,
-        }),
-        Promise.all(
-          customAnimationChildren.map(([child, { actions, duration, easing }]) =>
-            actions.animateOut(child, {
-              duration: duration || modalDuration,
-              easing: easing || modalEasing,
-            })
-          )
-        ),
-      ]);
-
-      parentElement.insertBefore(modalElement, anchor);
-
-      isAnimating = false;
-      isOpen = false;
-    });
-
+    const closeCleanup = addListener(closeTrigger, 'click', handleClose);
     return closeCleanup;
+  });
+
+  const escapeCleanup = addListener(window, 'keydown', (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      handleClose(e);
+    }
   });
 
   // Cleanup
   return () => {
     for (const cleanup of openCleanups) cleanup();
     for (const cleanup of closeCleanups) cleanup();
+    escapeCleanup();
   };
 };
 

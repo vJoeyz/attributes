@@ -23,9 +23,6 @@ export const init: FinsweetAttributeInit = async () => {
   const usesList = accordions.some((accordion) => accordion.closest(LIST_ELEMENT_SELECTOR));
   const listsCleanup = usesList ? await initListAccordions(groupsData) : undefined;
 
-  // Ensure fs-a11y is present
-  window.finsweetAttributes.load('a11y');
-
   // Finalize
   return {
     result: groupsData,

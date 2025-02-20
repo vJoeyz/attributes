@@ -1,5 +1,3 @@
-export const A11Y_ATTRIBUTE = 'a11y';
-
 export const ACCORDION_ATTRIBUTE = 'accordion';
 
 export const ANIMATION_ATTRIBUTE = 'animation';

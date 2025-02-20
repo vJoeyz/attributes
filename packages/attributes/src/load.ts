@@ -6,10 +6,6 @@ import { type FinsweetAttributeKey } from '@finsweet/attributes-utils';
  */
 export const loadAttribute = async (solution: FinsweetAttributeKey) => {
   switch (solution) {
-    case 'a11y': {
-      return import('@finsweet/attributes-a11y');
-    }
-
     case 'accordion': {
       return import('@finsweet/attributes-accordion');
     }

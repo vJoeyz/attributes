@@ -1,6 +1,6 @@
 import { addListener, isVisible } from '@finsweet/attributes-utils';
 
-import { setAccordionA11y } from './actions/a11y';
+import { setAccordionA11y, setAccordionAriaExpanded } from './actions/a11y';
 import { setActiveClass } from './actions/classes';
 import { closeContent, openContent } from './actions/content';
 import { getAccordionSettings, getGroupSettings } from './actions/settings';
@@ -63,7 +63,7 @@ const initAccordion = (
     cancel = closeContent(content);
   }
 
-  setAccordionA11y(trigger, content);
+  setAccordionA11y(trigger, content, isOpen);
   setActiveClass({
     ...settings,
     isOpen,
@@ -92,6 +92,7 @@ const initAccordion = (
       }
     }
 
+    setAccordionAriaExpanded(settings.trigger, isOpen);
     setActiveClass({
       ...settings,
       isOpen,
