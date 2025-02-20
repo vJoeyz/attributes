@@ -10,37 +10,11 @@ export const BEFORE_AFTER_ATTRIBUTE = 'beforeafter';
 
 export const CAL_EVENT_ATTRIBUTE = 'calevent';
 
-export const CMS_ATTRIBUTE_ATTRIBUTE = 'cmsattribute';
-
-export const CMS_COMBINE_ATTRIBUTE = 'cmscombine';
-
-export const CMS_CSS_ATTRIBUTE = 'cmscss';
-
-export const CMS_FILTER_ATTRIBUTE = 'cmsfilter';
-
-export const CMS_LOAD_ATTRIBUTE = 'cmsload';
-
-export const CMS_NEST_ATTRIBUTE = 'cmsnest';
-
-export const CMS_PREV_NEXT_ATTRIBUTE = 'cmsprevnext';
-
-export const CMS_STATIC_ATTRIBUTE = 'cmsstatic';
-
-export const CMS_SELECT_ATTRIBUTE = 'cmsselect';
-
-export const CMS_SLIDER_ATTRIBUTE = 'cmsslider';
-
-export const CMS_SORT_ATTRIBUTE = 'cmssort';
-
-export const CMS_TABS_ATTRIBUTE = 'cmstabs';
-
 export const CODE_HIGHLIGHT_ATTRIBUTE = 'codehighlight';
 
 export const COMBO_BOX_ATTRIBUTE = 'combobox';
 
 export const COMPONENT_ATTRIBUTE = 'component';
-
-export const CONSENT_ATTRIBUTE = 'consent';
 
 export const COPY_CLIP_ATTRIBUTE = 'copyclip';
 
@@ -58,12 +32,6 @@ export const INPUT_ACTIVE_ATTRIBUTE = 'inputactive';
 
 export const INPUT_COUNTER_ATTRIBUTE = 'inputcounter';
 
-export const GREENHOUSE_ATTRIBUTE = 'greenhouse';
-
-export const LINK_BLOCK_EDIT_ATTRIBUTE = 'linkblockedit';
-
-export const MASONRY_ATTRIBUTE = 'masonry';
-
 export const MIRROR_CLICK_ATTRIBUTE = 'mirrorclick';
 
 export const MIRROR_INPUT_ATTRIBUTE = 'mirrorinput';
@@ -73,8 +41,6 @@ export const MODAL_ATTRIBUTE = 'modal';
 export const NATIVE_SEARCH_ATTRIBUTE = 'nativesearch';
 
 export const NUMBER_COUNT_ATTRIBUTE = 'numbercount';
-
-export const LAUNCHDARKLY_ATTRIBUTE = 'launchdarkly';
 
 export const LIST_ATTRIBUTE = 'list';
 
@@ -88,8 +54,6 @@ export const SCROLL_DISABLE_ATTRIBUTE = 'scrolldisable';
 
 export const SELECT_CUSTOM_ATTRIBUTE = 'selectcustom';
 
-export const SLIDER_ATTRIBUTE = 'slider';
-
 export const SLIDER_DOTS_ATTRIBUTE = 'sliderdots';
 
 export const SMART_LIGHTBOX_ATTRIBUTE = 'smartlightbox';
@@ -98,11 +62,7 @@ export const SOCIAL_SHARE_ATTRIBUTE = 'socialshare';
 
 export const STAR_RATING_ATTRIBUTE = 'starrating';
 
-export const SUPPORT_ATTRIBUTE = 'support';
-
 export const TOC_ATTRIBUTE = 'toc';
-
-export const TYPING_ATTRIBUTE = 'typing';
 
 export const READ_TIME_ATTRIBUTE = 'readtime';
 
