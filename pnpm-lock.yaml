@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   body-scroll-lock@4.0.0-beta.0:
-    hash: 3c2cdd741082e33e9f7139f087a5ef38713d06bf9fe05b4e284304548b61222c
+    hash: okec7jrxvk2nysywuuwlnnfvtu
     path: patches/body-scroll-lock@4.0.0-beta.0.patch
 
 importers:
@@ -104,12 +104,6 @@ importers:
       '@finsweet/attributes-autovideo':
         specifier: workspace:*
         version: link:../autovideo
-      '@finsweet/attributes-beforeafter':
-        specifier: workspace:*
-        version: link:../beforeafter
-      '@finsweet/attributes-calevent':
-        specifier: workspace:*
-        version: link:../calevent
       '@finsweet/attributes-codehighlight':
         specifier: workspace:*
         version: link:../codehighlight
@@ -152,9 +146,6 @@ importers:
       '@finsweet/attributes-modal':
         specifier: workspace:*
         version: link:../modal
-      '@finsweet/attributes-nativesearch':
-        specifier: workspace:*
-        version: link:../nativesearch
       '@finsweet/attributes-numbercount':
         specifier: workspace:*
         version: link:../numbercount
@@ -210,24 +201,6 @@ importers:
       '@finsweet/attributes-utils':
         specifier: workspace:*
         version: link:../utils
-
-  packages/beforeafter:
-    dependencies:
-      '@finsweet/attributes-utils':
-        specifier: workspace:*
-        version: link:../utils
-      beerslider:
-        specifier: ^1.0.3
-        version: 1.0.3
-
-  packages/calevent:
-    dependencies:
-      '@finsweet/attributes-utils':
-        specifier: workspace:*
-        version: link:../utils
-      dayjs:
-        specifier: ^1.11.9
-        version: 1.11.10
 
   packages/codehighlight:
     dependencies:
@@ -340,15 +313,6 @@ importers:
         specifier: workspace:*
         version: link:../utils
 
-  packages/nativesearch:
-    dependencies:
-      '@finsweet/attributes-utils':
-        specifier: workspace:*
-        version: link:../utils
-      just-debounce:
-        specifier: 1.1.0
-        version: 1.1.0
-
   packages/numbercount:
     dependencies:
       '@finsweet/attributes-utils':
@@ -399,7 +363,7 @@ importers:
         version: link:../utils
       body-scroll-lock:
         specifier: ^4.0.0-beta.0
-        version: 4.0.0-beta.0(patch_hash=3c2cdd741082e33e9f7139f087a5ef38713d06bf9fe05b4e284304548b61222c)
+        version: 4.0.0-beta.0(patch_hash=okec7jrxvk2nysywuuwlnnfvtu)
       just-debounce:
         specifier: ^1.1.0
         version: 1.1.0
@@ -1071,9 +1035,6 @@ packages:
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
-  beerslider@1.0.3:
-    resolution: {integrity: sha512-1XsuTxbspcAR1rxKOJa3qYX3XW9Kf6d+QRUJtDSxsj+yLVSoBRK8ThqpgxhGaxFeBKklrCc0v0UWpifACT7Dbw==}
-
   better-path-resolve@1.0.0:
     resolution: {integrity: sha512-pbnl5XzGBdrFU/wT4jqmJVPn2B6UHPBOhzMQkY/SPUPB6QtUXtmBHBIwCbXJol93mOpGMnQyP/+BB19q04xj7g==}
     engines: {node: '>=4'}
@@ -1151,9 +1112,6 @@ packages:
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
-  core-js@3.36.1:
-    resolution: {integrity: sha512-BTvUrwxVBezj5SZ3f10ImnX2oRByMxql3EimVqMysepbC9EeMUOpLwdy6Eoili2x6E4kf+ZUB5k/+Jv55alPfA==}
-
   cross-env@7.0.3:
     resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
     engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
@@ -1178,9 +1136,6 @@ packages:
   csv@5.5.3:
     resolution: {integrity: sha512-QTaY0XjjhTQOdguARF0lGKm5/mEq9PD9/VhZZegHDIBq2tQwgNpHc3dneD4mGo2iJs+fTKv5Bp0fZ+BRuY3Z0g==}
     engines: {node: '>= 0.1.90'}
-
-  dayjs@1.11.10:
-    resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
 
   debug@4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -2864,15 +2819,11 @@ snapshots:
 
   balanced-match@1.0.2: {}
 
-  beerslider@1.0.3:
-    dependencies:
-      core-js: 3.36.1
-
   better-path-resolve@1.0.0:
     dependencies:
       is-windows: 1.0.2
 
-  body-scroll-lock@4.0.0-beta.0(patch_hash=3c2cdd741082e33e9f7139f087a5ef38713d06bf9fe05b4e284304548b61222c): {}
+  body-scroll-lock@4.0.0-beta.0(patch_hash=okec7jrxvk2nysywuuwlnnfvtu): {}
 
   brace-expansion@1.1.11:
     dependencies:
@@ -2951,8 +2902,6 @@ snapshots:
 
   concat-map@0.0.1: {}
 
-  core-js@3.36.1: {}
-
   cross-env@7.0.3:
     dependencies:
       cross-spawn: 7.0.3
@@ -2981,8 +2930,6 @@ snapshots:
       csv-parse: 4.16.3
       csv-stringify: 5.6.5
       stream-transform: 2.1.3
-
-  dayjs@1.11.10: {}
 
   debug@4.3.4:
     dependencies:
