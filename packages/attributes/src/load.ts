@@ -18,14 +18,6 @@ export const loadAttribute = async (solution: FinsweetAttributeKey) => {
       return import('@finsweet/attributes-autovideo');
     }
 
-    case 'beforeafter': {
-      return import('@finsweet/attributes-beforeafter');
-    }
-
-    case 'calevent': {
-      return import('@finsweet/attributes-calevent');
-    }
-
     case 'codehighlight': {
       return import('@finsweet/attributes-codehighlight');
     }
@@ -80,10 +72,6 @@ export const loadAttribute = async (solution: FinsweetAttributeKey) => {
 
     case 'modal': {
       return import('@finsweet/attributes-modal');
-    }
-
-    case 'nativesearch': {
-      return import('@finsweet/attributes-nativesearch');
     }
 
     case 'numbercount': {

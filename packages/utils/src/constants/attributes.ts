@@ -6,10 +6,6 @@ export const ANIMATION_ATTRIBUTE = 'animation';
 
 export const AUTO_VIDEO_ATTRIBUTE = 'autovideo';
 
-export const BEFORE_AFTER_ATTRIBUTE = 'beforeafter';
-
-export const CAL_EVENT_ATTRIBUTE = 'calevent';
-
 export const CODE_HIGHLIGHT_ATTRIBUTE = 'codehighlight';
 
 export const COMBO_BOX_ATTRIBUTE = 'combobox';
@@ -37,8 +33,6 @@ export const MIRROR_CLICK_ATTRIBUTE = 'mirrorclick';
 export const MIRROR_INPUT_ATTRIBUTE = 'mirrorinput';
 
 export const MODAL_ATTRIBUTE = 'modal';
-
-export const NATIVE_SEARCH_ATTRIBUTE = 'nativesearch';
 
 export const NUMBER_COUNT_ATTRIBUTE = 'numbercount';
 
