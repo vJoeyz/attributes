@@ -95,7 +95,7 @@ export const initTags = (list: List) => {
         const operatorElement = queryElement('tag-operator', { scope: tag.element });
         const valueElement = queryElement('tag-value', { scope: tag.element });
         const operatorOverwriteElements = new Map(
-          Object.values(SETTINGS.operator.values)
+          SETTINGS.operator.values
             .map((operator) => {
               const operatorOverwriteElement = queryElement(`tag-operator-${operator}`, { scope: tag.element });
               if (!operatorOverwriteElement) return;

@@ -71,21 +71,18 @@ export const SETTINGS = {
   /**
    * Defines the width of popup window.
    */
-  width: { key: 'height' },
+  width: { key: 'width', defaultValue: '600', isNumeric: true },
 
   /**
    * Defines the height of popup window.
    */
-  height: { key: 'height' },
+  height: { key: 'height', defaultValue: '480', isNumeric: true },
 
   /**
    * Defines an element.
    */
   element: { key: 'element' },
 } as const satisfies AttributeSettings;
-
-export const DEFAULT_WIDTH_SETTING_KEY = 600;
-export const DEFAULT_HEIGHT_SETTING_KEY = 480;
 
 export const SOCIAL_SHARE_PLATFORMS = {
   facebook: 'https://www.facebook.com/sharer/sharer.php',

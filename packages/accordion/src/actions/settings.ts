@@ -17,7 +17,7 @@ export const getGroupSettings = (group: HTMLElement): AccordionGroupData => {
   let initial: InitialState;
 
   if (rawInitial) {
-    if (isKeyOf(rawInitial, Object.values(SETTINGS.initial.values))) {
+    if (isKeyOf(rawInitial, SETTINGS.initial.values)) {
       initial = rawInitial;
     } else {
       const rawInitialValues = extractCommaSeparatedValues(rawInitial);

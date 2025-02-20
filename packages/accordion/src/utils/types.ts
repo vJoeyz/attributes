@@ -18,6 +18,6 @@ export interface AccordionGroupData {
   activeClass: string;
 }
 
-type InitialValues = (typeof SETTINGS)['initial']['values'];
+type InitialValues = (typeof SETTINGS)['initial']['values'][number];
 
-export type InitialState = InitialValues[keyof InitialValues] | number[] | undefined;
+export type InitialState = InitialValues | number[] | undefined;

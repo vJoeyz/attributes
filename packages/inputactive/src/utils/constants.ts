@@ -8,7 +8,6 @@ export const SETTINGS = {
    */
   class: {
     key: 'class',
+    defaultValue: `is-${INPUT_ACTIVE_ATTRIBUTE}-active`,
   },
 } as const satisfies AttributeSettings;
-
-export const DEFAULT_ACTIVE_CLASS = `is-active-${INPUT_ACTIVE_ATTRIBUTE}`;

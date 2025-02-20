@@ -70,7 +70,7 @@ export const collectSettings = (referenceElement: HTMLElement) => {
   }
 
   const hideInitial = hasAttributeValue(referenceElement, 'hideinitial', 'true');
-  const preventClear = hasAttributeValue(referenceElement, 'preventClear', 'true');
+  const preventClear = hasAttributeValue(referenceElement, 'preventclear', 'true');
 
   initializeAttributes(inputElement, selectElement, navListElement, clearDropdown, preventClear);
 

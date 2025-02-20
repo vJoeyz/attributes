@@ -1,5 +1,4 @@
-import { getAttribute, getSettingSelector, queryElement } from '../utils/selectors';
-import { DEFAULT_HEIGHT_SETTING_KEY, DEFAULT_WIDTH_SETTING_KEY, SETTINGS } from './../utils/constants';
+import { getAttribute, queryElement } from '../utils/selectors';
 import type {
   FacebookSocialShare,
   PinterestSocialShare,
@@ -75,8 +74,8 @@ export function collectSocialData(
   instance: string | null,
   scope: HTMLElement | undefined
 ): SocialShare {
-  const width = collectSize(socialShareButton, 'width', DEFAULT_WIDTH_SETTING_KEY);
-  const height = collectSize(socialShareButton, 'height', DEFAULT_HEIGHT_SETTING_KEY);
+  const width = getAttribute(socialShareButton, 'width');
+  const height = getAttribute(socialShareButton, 'height');
 
   const contentElement = queryElement('content', { instance, scope });
   const contentText = contentElement ? contentElement.textContent : null;
@@ -91,26 +90,4 @@ export function collectSocialData(
     height,
     type: elementKey,
   };
-}
-
-export function collectSize(button: HTMLElement, settingKey: keyof typeof SETTINGS, defaultValue: number): number {
-  const buttonWidth = getAttribute(button, settingKey);
-
-  if (buttonWidth) {
-    const value = parseInt(buttonWidth);
-    return isNaN(value) ? defaultValue : value;
-  }
-
-  const closestElementWidth = button.closest(getSettingSelector(settingKey));
-  if (!closestElementWidth) {
-    return defaultValue;
-  }
-
-  const closestWidth = getAttribute(closestElementWidth, settingKey);
-  if (!closestWidth) {
-    return defaultValue;
-  }
-
-  const value = parseInt(closestWidth);
-  return isNaN(value) ? defaultValue : value;
 }

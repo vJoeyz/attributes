@@ -15,7 +15,6 @@ export const ELEMENTS = [
 export const SETTINGS = {
   /**
    * Defines the Words Per Minute ratio.
-   * Defaults to {@link DEFAULT_WPM}.
    */
   wpm: {
     key: 'wpm',
@@ -25,7 +24,6 @@ export const SETTINGS = {
 
   /**
    * Defines the amount of decimals displayed in the time output.
-   * Defaults to {@link DEFAULT_DECIMALS}.
    */
   decimals: {
     key: 'decimals',
@@ -33,6 +31,3 @@ export const SETTINGS = {
     isNumeric: true,
   },
 } as const satisfies AttributeSettings;
-
-export const DEFAULT_WPM = 265;
-export const DEFAULT_DECIMALS = 0;

@@ -1,7 +1,6 @@
 import { FORM_CSS_CLASSES } from '@finsweet/attributes-utils';
 
-import { DEFAULT_ACTIVE_CLASS } from '../utils/constants';
-import { getAttribute, getSettingSelector } from '../utils/selectors';
+import { getAttribute } from '../utils/selectors';
 
 /**
  * Handles adding/removing the active class from an input.
@@ -13,7 +12,7 @@ export const handleInputActiveClass = (input: HTMLInputElement) => {
   const checkboxField = input.closest(`.${FORM_CSS_CLASSES.checkboxField}`);
 
   if (isCheckbox && checkboxField) {
-    const activeClass = getActiveClass(input);
+    const activeClass = getAttribute(input, 'class');
 
     setClass(checkboxField, activeClass, input.checked);
     return;
@@ -28,22 +27,10 @@ export const handleInputActiveClass = (input: HTMLInputElement) => {
     const radioField = radio.closest(`.${FORM_CSS_CLASSES.radioField}`);
     if (!radioField) continue;
 
-    const activeClass = getActiveClass(radio);
+    const activeClass = getAttribute(radio, 'class');
 
     setClass(radioField, activeClass, radio.checked);
   }
-};
-
-/**
- * Gets the active class for a field.
- * @param target
- */
-const getActiveClass = (target: Element) => {
-  const activeClassElement = target.closest(getSettingSelector('class'));
-  if (!activeClassElement) return DEFAULT_ACTIVE_CLASS;
-
-  const activeClass = getAttribute(activeClassElement, 'class');
-  return activeClass || DEFAULT_ACTIVE_CLASS;
 };
 
 /**

@@ -1,4 +1,9 @@
-import { type AttributeElements, type AttributeSettings, type WebflowBreakpoint } from '@finsweet/attributes-utils';
+import {
+  type AttributeElements,
+  type AttributeSettings,
+  LIST_ATTRIBUTE,
+  type WebflowBreakpoint,
+} from '@finsweet/attributes-utils';
 
 export const ELEMENTS = [
   /**
@@ -289,7 +294,7 @@ export const SETTINGS = {
    */
   ascclass: {
     key: 'ascclass',
-    defaultValue: 'is-list-asc',
+    defaultValue: `is-${LIST_ATTRIBUTE}-asc`,
   },
 
   /**
@@ -297,7 +302,7 @@ export const SETTINGS = {
    */
   descclass: {
     key: 'descclass',
-    defaultValue: 'is-list-desc',
+    defaultValue: `is-${LIST_ATTRIBUTE}-desc`,
   },
 
   /**
@@ -349,7 +354,7 @@ export const SETTINGS = {
 
   /**
    * Defines if the pagination query params should be displayed on the URL.
-   * Only works with {@link SETTINGS.mode.values.pagination} mode.
+   * Only works with {@link SETTINGS.load.values.pagination} mode.
    */
   showquery: { key: 'showquery', values: ['true'] },
 

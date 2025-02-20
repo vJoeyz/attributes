@@ -55,7 +55,7 @@ export const SETTINGS = {
    */
   active: {
     key: 'active',
-    defaultValue: `is-active-${ACCORDION_ATTRIBUTE}`,
+    defaultValue: `is-${ACCORDION_ATTRIBUTE}-active`,
   },
 } as const satisfies AttributeSettings;
 

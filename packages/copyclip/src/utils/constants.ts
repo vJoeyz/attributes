@@ -25,22 +25,16 @@ export const SETTINGS = {
 
   /**
    * Defines the message that will be displayed on success.
-   * Applicable both on elements and the `<script>` tag.
-   * If applied to the `<script>` tag, all elements will inherit this attribute.
    */
   message: { key: 'message' },
 
   /**
    * Defines the duration of the success state.
-   * Applicable both on elements and the `<script>` tag.
-   * If applied to the `<script>` tag, all elements will inherit this attribute.
    */
   duration: { key: 'duration', defaultValue: '1000', isNumeric: true },
 
   /**
    * Defines the CSS Class added to the trigger on the success state.
-   * Applicable both on elements and the `<script>` tag.
-   * If applied to the `<script>` tag, all elements will inherit this attribute.
    */
   active: { key: 'active', defaultValue: `is-${COPY_CLIP_ATTRIBUTE}-active` },
 } as const satisfies AttributeSettings;

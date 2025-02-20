@@ -21,13 +21,11 @@ export const SETTINGS = {
 
   /**
    * Defines the count speed.
-   * If not defined, it will default to {@link DEFAULT_DURATION}.
    */
   duration: { key: 'duration', defaultValue: '1000', isNumeric: true },
 
   /**
    * Defines the intersection observer threshold.
-   * If not defined, it will default to {@link DEFAULT_THRESHOLD}.
    */
   threshold: { key: 'threshold', defaultValue: '25', isNumeric: true },
 

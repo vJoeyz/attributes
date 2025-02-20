@@ -16,7 +16,5 @@ export const SETTINGS = {
   /**
    * Defines a setting example definition.
    */
-  active: { key: 'active' },
+  active: { key: 'active', defaultValue: `is-${STAR_RATING_ATTRIBUTE}-active` },
 } as const satisfies AttributeSettings;
-
-export const DEFAULT_ACTIVE_CLASS = `is-active-${STAR_RATING_ATTRIBUTE}`;
