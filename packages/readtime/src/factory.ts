@@ -1,6 +1,3 @@
-import { parseNumericAttribute } from '@finsweet/attributes-utils';
-
-import { DEFAULT_DECIMALS, DEFAULT_WPM } from './utils/constants';
 import { getAttribute, getInstance, queryElement } from './utils/selectors';
 
 /**
@@ -13,8 +10,8 @@ export const initReadTime = (timeElement: Element) => {
   const contentsElement = queryElement('contents', { instance });
   if (!contentsElement) return;
 
-  const wpm = parseNumericAttribute(getAttribute(timeElement, 'wpm'), DEFAULT_WPM);
-  const decimals = parseNumericAttribute(getAttribute(timeElement, 'decimals'), DEFAULT_DECIMALS);
+  const wpm = getAttribute(timeElement, 'wpm');
+  const decimals = getAttribute(timeElement, 'decimals');
 
   const wordsCount = contentsElement.innerText.match(/[\w\d\’\'-]+/gi)?.length ?? 0;
 

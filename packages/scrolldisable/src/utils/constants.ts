@@ -43,7 +43,7 @@ export const SETTINGS = {
    * Defines if the scrollbar gap must be reserved when disabling scrolling.
    * It's set to the `<script>` tag, `true` by default.
    */
-  gap: { key: 'gap', values: { true: 'true', false: 'false' } },
+  gap: { key: 'gap', values: ['true', 'false'] },
 } as const satisfies AttributeSettings;
 
 /**

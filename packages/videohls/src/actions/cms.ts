@@ -1,4 +1,4 @@
-import { CMS_LOAD_LIST_ELEMENT_SELECTOR } from '../utils/constants';
+import { LIST_ELEMENT_SELECTOR } from '../utils/constants';
 import { initVideoHLS } from './video';
 
 /**
@@ -9,7 +9,7 @@ import { initVideoHLS } from './video';
  */
 export const listenCMSLoad = async () => {
   // @ts-expect-error TODO: Support fs-list
-  const listInstances = createCMSListInstances([CMS_LOAD_LIST_ELEMENT_SELECTOR]);
+  const listInstances = createCMSListInstances([LIST_ELEMENT_SELECTOR]);
 
   // @ts-expect-error TODO: Support fs-list
   listInstances.map((listInstance) => {

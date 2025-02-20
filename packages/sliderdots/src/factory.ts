@@ -10,7 +10,6 @@ import { observeSliderNav } from './actions/observe';
 import { populateSliderDots } from './actions/populate';
 import { syncDotsProperties } from './actions/sync';
 import { waitSliderReady } from './actions/wait';
-import { DEFAULT_ACTIVE_CSS_CLASS } from './utils/constants';
 import { getAttribute, getInstance, hasAttributeValue, queryElement } from './utils/selectors';
 
 /**
@@ -27,14 +26,14 @@ export const createSliderDots = async (slider: SliderElement) => {
   if (!sliderNav || !customSliderNav) return;
 
   // Make sure CMSSlider has finished (if existing on the page)
-  const cmsSliderAttribute = window.finsweetAttributes.process.has('cmsslider');
-  if (cmsSliderAttribute) {
-    await Promise.all([waitAttributeLoaded('cmsslider'), waitSliderReady(sliderNav)]);
+  const listSliderAttribute = window.finsweetAttributes.process.has('list');
+  if (listSliderAttribute) {
+    await Promise.all([waitAttributeLoaded('list'), waitSliderReady(sliderNav)]);
   }
 
   // Get props
 
-  const activeCustomDotCSSClass = getAttribute(slider, 'active') || DEFAULT_ACTIVE_CSS_CLASS;
+  const activeCustomDotCSSClass = getAttribute(slider, 'active');
 
   // Clear the custom slider nav content
   const clearCustomSliderContent = hasAttributeValue(customSliderNav, 'remove', 'true');

@@ -1,4 +1,4 @@
-import { fetchPageDocument, parseNumericAttribute } from '@finsweet/attributes-utils';
+import { fetchPageDocument } from '@finsweet/attributes-utils';
 
 import { getAttribute } from '../utils/selectors';
 import type { ComponentTargetData } from '../utils/types';
@@ -19,7 +19,7 @@ const componentsPages: Record<string, Document | null> = {};
  */
 export const prefetchComponentsPages = async (componentTargetsData: ComponentTargetData[]) => {
   const cacheKey = getAttribute(null, 'cachekey');
-  const cacheVersion = getAttribute(null, 'cacheversion');
+  const cacheVersion = getAttribute(null, 'cacheversion') ?? 1;
 
   const uniqueSourcesToFetch = [
     ...new Set(componentTargetsData.map(({ proxiedSource, source }) => proxiedSource?.href || source.href)),
@@ -30,7 +30,7 @@ export const prefetchComponentsPages = async (componentTargetsData: ComponentTar
       const page = await fetchPageDocument(href, {
         cacheKey,
         cacheExternal: true,
-        cacheVersion: parseNumericAttribute(cacheVersion, 1),
+        cacheVersion,
       });
 
       page?.cloneNode(true);

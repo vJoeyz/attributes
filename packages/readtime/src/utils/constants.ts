@@ -19,6 +19,8 @@ export const SETTINGS = {
    */
   wpm: {
     key: 'wpm',
+    defaultValue: '265',
+    isNumeric: true,
   },
 
   /**
@@ -27,6 +29,8 @@ export const SETTINGS = {
    */
   decimals: {
     key: 'decimals',
+    defaultValue: '0',
+    isNumeric: true,
   },
 } as const satisfies AttributeSettings;
 

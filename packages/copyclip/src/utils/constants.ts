@@ -35,15 +35,12 @@ export const SETTINGS = {
    * Applicable both on elements and the `<script>` tag.
    * If applied to the `<script>` tag, all elements will inherit this attribute.
    */
-  duration: { key: 'duration' },
+  duration: { key: 'duration', defaultValue: '1000', isNumeric: true },
 
   /**
    * Defines the CSS Class added to the trigger on the success state.
    * Applicable both on elements and the `<script>` tag.
    * If applied to the `<script>` tag, all elements will inherit this attribute.
    */
-  active: { key: 'active' },
+  active: { key: 'active', defaultValue: `is-${COPY_CLIP_ATTRIBUTE}-active` },
 } as const satisfies AttributeSettings;
-
-export const DEFAULT_SUCCESS_DURATION = 1000 as const;
-export const DEFAULT_SUCCESS_CSS_CLASS = `fs-${COPY_CLIP_ATTRIBUTE}_active` as const;

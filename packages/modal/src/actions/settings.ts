@@ -8,14 +8,14 @@ import type { AnimationSettings } from '../utils/types';
  * @param element
  */
 export const getAnimationSettings = (element: Element): AnimationSettings => {
-  const animationName = getAttribute(element, 'animation', true);
+  const animationName = getAttribute(element, 'animation', { filterInvalid: true });
   const actions = animationName ? animations[animationName] : animations.fade;
 
   const animationDuration = getAttribute(element, 'duration');
   const duration = animationDuration ? parseFloat(animationDuration) : undefined;
 
-  const easing = getAttribute(element, 'easing', true);
-  const display = getAttribute(element, 'display', true);
+  const easing = getAttribute(element, 'easing', { filterInvalid: true });
+  const display = getAttribute(element, 'display', { filterInvalid: true });
 
   return { actions, duration, easing, display };
 };

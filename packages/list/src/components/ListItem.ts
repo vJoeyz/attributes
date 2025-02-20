@@ -104,7 +104,7 @@ export class ListItem {
       const rawValue = element.textContent;
       if (!rawValue) continue;
 
-      const type = getAttribute(element, 'fieldtype', true) || 'text';
+      const type = getAttribute(element, 'fieldtype', { filterInvalid: true }) || 'text';
       const value =
         type === 'number' ? normalizeNumber(rawValue) : type === 'date' ? normalizeDate(rawValue) : rawValue.trim();
 

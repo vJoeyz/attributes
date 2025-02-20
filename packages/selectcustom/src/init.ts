@@ -16,7 +16,7 @@ import { queryAllElements } from './utils/selectors';
  */
 export const init: FinsweetAttributeInit = async () => {
   await waitWebflowReady();
-  await waitAttributeLoaded('cmsselect');
+  await waitAttributeLoaded('list');
 
   const referenceElements = queryAllElements('dropdown');
 

@@ -4,13 +4,12 @@ import {
   extractCommaSeparatedValues,
   type FormField,
   isFormField,
-  parseNumericAttribute,
+  isNumber,
 } from '@finsweet/attributes-utils';
 import { toRaw, watch } from '@vue/reactivity';
 
 import type { ListItem } from '../components';
 import type { List } from '../components/List';
-import { DEFAULT_FILTER_OPERATOR, DEFAULT_FUZZY_RATIO } from '../utils/constants';
 import { setReactive } from '../utils/reactivity';
 import { getAttribute, getElementSelector, getSettingSelector, queryElement } from '../utils/selectors';
 import { filterItems } from './filter';
@@ -29,7 +28,7 @@ export const initSimpleFilters = (list: List, form: HTMLFormElement) => {
     if (!field) return;
 
     const update = () => {
-      const op = getAttribute(target, 'operator', true) || DEFAULT_FILTER_OPERATOR;
+      const op = getAttribute(target, 'operator', { filterInvalid: true });
 
       const conditions = list.filters.groups[0]?.conditions || [];
 
@@ -49,10 +48,8 @@ export const initSimpleFilters = (list: List, form: HTMLFormElement) => {
     }
 
     // With debouncing
-    const rawTimeout = getAttribute(target, 'debounce');
-    if (rawTimeout) {
-      const timeout = rawTimeout ? parseNumericAttribute(rawTimeout, 0) : 0;
-
+    const timeout = getAttribute(target, 'debounce');
+    if (isNumber(timeout)) {
       const timeoutId = window.setTimeout(update, timeout);
 
       debounces.set(target, timeoutId);
@@ -120,8 +117,8 @@ export const initSimpleFilters = (list: List, form: HTMLFormElement) => {
 const getConditionData = (formField: FormField, field: string, op: FilterOperator): FiltersCondition => {
   const { type } = formField;
 
-  const filterMatch = getAttribute(formField, 'filtermatch', true) || 'or';
-  const fieldMatch = getAttribute(formField, 'fieldmatch', true) || 'or';
+  const filterMatch = getAttribute(formField, 'filtermatch', { filterInvalid: true });
+  const fieldMatch = getAttribute(formField, 'fieldmatch', { filterInvalid: true });
 
   switch (type) {
     // Checkbox
@@ -132,7 +129,7 @@ const getConditionData = (formField: FormField, field: string, op: FilterOperato
         const values: string[] = [];
 
         for (const checkbox of groupCheckboxes) {
-          const value = getAttribute(checkbox, 'value') || checkbox.value;
+          const value = getAttribute(checkbox, 'value') ?? checkbox.value;
           if (!value || !checkbox.checked) continue;
 
           values.push(value);
@@ -165,7 +162,7 @@ const getConditionData = (formField: FormField, field: string, op: FilterOperato
         `input[name="${formField.name}"][type="radio"]:checked`
       );
 
-      const value = checkedRadio ? getAttribute(checkedRadio, 'value') || checkedRadio.value : '';
+      const value = checkedRadio ? getAttribute(checkedRadio, 'value') ?? checkedRadio.value : '';
 
       return {
         value,
@@ -193,8 +190,7 @@ const getConditionData = (formField: FormField, field: string, op: FilterOperato
     default: {
       const { value } = formField;
 
-      const rawFuzzy = getAttribute(formField, 'fuzzy');
-      const fuzzy = rawFuzzy ? parseNumericAttribute(rawFuzzy, DEFAULT_FUZZY_RATIO) : DEFAULT_FUZZY_RATIO;
+      const fuzzy = getAttribute(formField, 'fuzzy');
 
       return {
         value,
@@ -226,7 +222,7 @@ export const getSimpleFilters = (form: HTMLFormElement) => {
     const field = getAttribute(formField, 'field');
     if (!field) continue;
 
-    const op = getAttribute(formField, 'operator', true) || 'contain';
+    const op = getAttribute(formField, 'operator', { filterInvalid: true });
     const data = getConditionData(formField, field, op);
 
     if (!filters.groups[0].conditions.some((c) => c.field === field && c.op === op)) {
@@ -255,7 +251,7 @@ const initFiltersResults = (list: List, form: HTMLFormElement) => {
     const resultsCountElement = queryElement('filter-results-count', { scope: formField.parentElement! });
     if (!resultsCountElement) continue;
 
-    const op = getAttribute(formField, 'operator', true) || 'contain';
+    const op = getAttribute(formField, 'operator', { filterInvalid: true });
     const value = getAttribute(formField, 'value') || formField.value || '';
     const isCheckboxGroup = type === 'checkbox' && getCheckboxGroup(formField.name, formField.form)?.length;
 

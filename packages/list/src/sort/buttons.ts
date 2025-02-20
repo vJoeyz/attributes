@@ -10,7 +10,6 @@ import {
 import { computed, effect, ref } from '@vue/reactivity';
 
 import type { List } from '../components/List';
-import { SETTINGS } from '../utils/constants';
 import { getAttribute, hasAttributeValue } from '../utils/selectors';
 import { sortListItems } from './sort';
 import type { SortingDirection } from './types';
@@ -35,8 +34,8 @@ export const initButtons = (buttons: HTMLElement[], list: List) => {
       if (!buttonSortKey) return;
 
       const reverse = hasAttributeValue(button, 'reverse', 'true');
-      const ascClass = getAttribute(button, 'ascclass') || SETTINGS.ascclass.values.default;
-      const desClass = getAttribute(button, 'descclass') || SETTINGS.descclass.values.default;
+      const ascClass = getAttribute(button, 'ascclass');
+      const desClass = getAttribute(button, 'descclass');
 
       const currentDirection = ref<SortingDirection | undefined>();
 

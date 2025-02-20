@@ -45,11 +45,7 @@ export const handleButtons = (
  * @param initialValue
  * @returns A cleanup callback.
  */
-export const handleResetButton = (
-  inputElement: HTMLInputElement,
-  resetButton: Element,
-  initialValue: number | null
-) => {
+export const handleResetButton = (inputElement: HTMLInputElement, resetButton: Element, initialValue?: number) => {
   // Set up aria
   const label = `Reset the input value`;
 

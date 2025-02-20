@@ -16,12 +16,12 @@ export const SETTINGS = {
   /**
    * Defines if the HTML should be sanitized before rendering it.
    */
-  sanitize: { key: 'sanitize', values: { true: 'true' } },
+  sanitize: { key: 'sanitize', values: ['true'] },
 
   /**
    * Defines if Webflow should be restarted after loading new items.
    */
-  resetix: { key: 'resetix', values: { true: 'true' } },
+  resetix: { key: 'resetix', values: ['true'] },
 } as const satisfies AttributeSettings;
 
 export const IGNORE_LINE_PREFIX = '&lt;!-- fs-richtext-ignore --&gt;';

@@ -59,18 +59,18 @@ export const SETTINGS = {
   /**
    * Defines if the Handles' value display should be formatted.
    */
-  formatdisplay: { key: 'formatdisplay', values: { true: 'true' } },
+  formatdisplay: {
+    key: 'formatdisplay',
+    values: ['true'],
+  },
 
   /**
    * Defines when should the <input> elements be updated.
-   * Defaults to {@link UPDATE_ACTION_SETTING_VALUES.move}
    */
   update: {
     key: 'update',
-    values: {
-      move: 'move',
-      release: 'release',
-    },
+    values: ['move', 'release'],
+    defaultValue: 'move',
   },
 } as const satisfies AttributeSettings;
 

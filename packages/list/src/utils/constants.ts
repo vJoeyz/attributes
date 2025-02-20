@@ -247,7 +247,8 @@ export const SETTINGS = {
    */
   fieldmatch: {
     key: 'fieldmatch',
-    values: { and: 'and', or: 'or', default: 'and' },
+    values: ['and', 'or'],
+    defaultValue: 'or',
   },
 
   /**
@@ -255,7 +256,8 @@ export const SETTINGS = {
    */
   filtermatch: {
     key: 'filtermatch',
-    values: { and: 'and', or: 'or', default: 'and' },
+    values: ['and', 'or'],
+    defaultValue: 'or',
   },
 
   /**
@@ -263,7 +265,7 @@ export const SETTINGS = {
    */
   fieldtype: {
     key: 'fieldtype',
-    values: { number: 'number', date: 'date' },
+    values: ['number', 'date'],
   },
 
   /**
@@ -271,7 +273,7 @@ export const SETTINGS = {
    */
   reverse: {
     key: 'reverse',
-    values: { true: 'true' },
+    values: ['true'],
   },
 
   /**
@@ -279,6 +281,7 @@ export const SETTINGS = {
    */
   debounce: {
     key: 'debounce',
+    isNumeric: true,
   },
 
   /**
@@ -286,7 +289,7 @@ export const SETTINGS = {
    */
   ascclass: {
     key: 'ascclass',
-    values: { default: 'is-list-asc' },
+    defaultValue: 'is-list-asc',
   },
 
   /**
@@ -294,7 +297,7 @@ export const SETTINGS = {
    */
   descclass: {
     key: 'descclass',
-    values: { default: 'is-list-desc' },
+    defaultValue: 'is-list-desc',
   },
 
   /**
@@ -302,7 +305,7 @@ export const SETTINGS = {
    */
   load: {
     key: 'load',
-    values: { more: 'more', infinite: 'infinite', pagination: 'pagination', all: 'all' },
+    values: ['more', 'infinite', 'pagination', 'all'],
   },
 
   /**
@@ -310,13 +313,13 @@ export const SETTINGS = {
    */
   loadcount: {
     key: 'loadcount',
-    values: { all: 'all' },
+    values: ['all'],
   },
 
   /**
    * Defines the scrolling threshold to trigger a new page load in `infinite` mode.
    */
-  threshold: { key: 'threshold' },
+  threshold: { key: 'threshold', defaultValue: '-20', isNumeric: true },
 
   /**
    * Defines the amount of digits to display either side of the current page.
@@ -342,38 +345,39 @@ export const SETTINGS = {
   /**
    * Defines an animation duration for any action in the list (sorting, page navigation, filtering).
    */
-  duration: { key: 'duration' },
+  duration: { key: 'duration', defaultValue: '1000', isNumeric: true },
 
   /**
    * Defines if the pagination query params should be displayed on the URL.
    * Only works with {@link SETTINGS.mode.values.pagination} mode.
    */
-  showquery: { key: 'showquery', values: { true: 'true' } },
+  showquery: { key: 'showquery', values: ['true'] },
 
   /**
-   * Defines a filter operator. Defaults to `includes`.
+   * Defines a filter operator.
    */
   operator: {
     key: 'operator',
-    values: {
-      equal: 'equal',
-      'not-equal': 'not-equal',
-      contain: 'contain',
-      'not-contain': 'not-contain',
-      greater: 'greater',
-      'greater-equal': 'greater-equal',
-      less: 'less',
-      'less-equal': 'less-equal',
-      empty: 'empty',
-      'not-empty': 'not-empty',
-      fuzzy: 'fuzzy',
-    },
+    values: [
+      'equal',
+      'not-equal',
+      'contain',
+      'not-contain',
+      'greater',
+      'greater-equal',
+      'less',
+      'less-equal',
+      'empty',
+      'not-empty',
+      'fuzzy',
+    ],
+    defaultValue: 'contain',
   },
 
   /**
    * Defines a fuzzy ratio for a filter.
    */
-  fuzzy: { key: 'fuzzy' },
+  fuzzy: { key: 'fuzzy', defaultValue: '0.2', isNumeric: true },
 
   /**
    * Defines a filter value.
@@ -393,19 +397,12 @@ export const SETTINGS = {
 
   /**
    * Defines if loaded Items can be cached using IndexedDB after fetching them.
-   * Defaults to `true`.
    */
-  cache: { key: `cache`, values: { true: 'true' } },
+  cache: { key: `cache`, values: ['true'] },
 } as const satisfies AttributeSettings;
-
-export const DEFAULT_INFINITE_THRESHOLD = -20;
 
 export const DEFAULT_PAGE_SIBLINGS = 1;
 export const DEFAULT_PAGE_BOUNDARY = 1;
-
-export const DEFAULT_FUZZY_RATIO = 0.2;
-
-export const DEFAULT_FILTER_OPERATOR = 'contain';
 
 export const BREAKPOINTS_INDEX: { [key in WebflowBreakpoint]: number } = {
   main: 0,

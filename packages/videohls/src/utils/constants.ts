@@ -1,4 +1,4 @@
-import { type AttributeElements, type AttributeSettings, CMS_LOAD_ATTRIBUTE } from '@finsweet/attributes-utils';
+import { type AttributeElements, type AttributeSettings, LIST_ATTRIBUTE } from '@finsweet/attributes-utils';
 
 export const ELEMENTS = [] as const satisfies AttributeElements;
 
@@ -9,4 +9,4 @@ export const SETTINGS = {
   manifest: { key: 'manifest' },
 } as const satisfies AttributeSettings;
 
-export const CMS_LOAD_LIST_ELEMENT_SELECTOR = `[fs-${CMS_LOAD_ATTRIBUTE}-element="list"]`;
+export const LIST_ELEMENT_SELECTOR = `[fs-${LIST_ATTRIBUTE}-element="list"]`;

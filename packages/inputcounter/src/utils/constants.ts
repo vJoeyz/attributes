@@ -33,6 +33,7 @@ export const SETTINGS = {
    */
   initial: {
     key: 'initial',
+    isNumeric: true,
   },
 
   /**

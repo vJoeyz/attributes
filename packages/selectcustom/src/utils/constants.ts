@@ -28,7 +28,7 @@ export const SETTINGS = {
   /**
    * Defines if the reset option should be hidden whenever there isn't an active selection.
    */
-  hideinitial: { key: 'hideinitial', values: { true: 'true' } },
+  hideinitial: { key: 'hideinitial', values: ['true'] },
 } as const satisfies AttributeSettings;
 
 export const CONTROL_KEYS = [SPACE_KEY, TAB_KEY, ARROW_UP_KEY, ARROW_DOWN_KEY];

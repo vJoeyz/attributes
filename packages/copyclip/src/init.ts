@@ -3,12 +3,10 @@ import {
   type FinsweetAttributeInit,
   isHTMLElement,
   isNotEmpty,
-  parseNumericAttribute,
   waitWebflowReady,
 } from '@finsweet/attributes-utils';
 
 import { createClipboardJsInstance } from './factory';
-import { DEFAULT_SUCCESS_CSS_CLASS, DEFAULT_SUCCESS_DURATION } from './utils/constants';
 import { getAttribute, getInstance, queryAllElements, queryElement } from './utils/selectors';
 
 /**
@@ -26,8 +24,8 @@ export const init: FinsweetAttributeInit = async () => {
       // Get attributes
       const textToCopy = getAttribute(trigger, 'text');
       const successMessage = getAttribute(trigger, 'message');
-      const successDuration = parseNumericAttribute(getAttribute(trigger, 'duration'), DEFAULT_SUCCESS_DURATION);
-      const successClass = getAttribute(trigger, 'active') || DEFAULT_SUCCESS_CSS_CLASS;
+      const successDuration = getAttribute(trigger, 'duration');
+      const successClass = getAttribute(trigger, 'active');
 
       // Get the instance index
       const instance = getInstance(trigger);

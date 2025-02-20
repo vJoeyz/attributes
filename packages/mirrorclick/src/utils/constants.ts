@@ -16,5 +16,5 @@ export const SETTINGS = {
   /**
    * Defines a delay to wait until the click event is replicated on the target.
    */
-  delay: { key: 'delay' },
+  delay: { key: 'delay', isNumeric: true },
 } as const satisfies AttributeSettings;

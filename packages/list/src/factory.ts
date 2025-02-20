@@ -50,7 +50,7 @@ export const initList = (list: List) => {
 
   const filtersForm = queryElement('filters', { instance });
   const sortTriggers = queryAllElements('sort-trigger', { instance });
-  const load = getAttribute(list.listOrWrapper, 'load', true);
+  const load = getAttribute(list.listOrWrapper, 'load', { filterInvalid: true });
   const combine = getAttribute(list.listOrWrapper, 'combine');
   const sliders = queryAllElements('slider', { instance });
   const tabs = queryAllElements('tabs', { instance });

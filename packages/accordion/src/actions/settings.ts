@@ -1,6 +1,6 @@
 import { extractCommaSeparatedValues, isKeyOf, isNotEmpty, parseNumericAttribute } from '@finsweet/attributes-utils';
 
-import { DEFAULT_ACTIVE_CLASS, SETTINGS } from '../utils/constants';
+import { SETTINGS } from '../utils/constants';
 import { getAttribute, hasAttributeValue, queryElement } from '../utils/selectors';
 import type { AccordionGroupData, InitialState } from '../utils/types';
 
@@ -12,7 +12,7 @@ import type { AccordionGroupData, InitialState } from '../utils/types';
 export const getGroupSettings = (group: HTMLElement): AccordionGroupData => {
   const single = hasAttributeValue(group, 'single', 'true');
   const rawInitial = getAttribute(group, 'initial');
-  const activeClass = getAttribute(group, 'active') || DEFAULT_ACTIVE_CLASS;
+  const activeClass = getAttribute(group, 'active');
 
   let initial: InitialState;
 

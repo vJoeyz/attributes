@@ -3,7 +3,6 @@ import { effect, watch, type WatchHandle } from '@vue/reactivity';
 import throttle from 'just-throttle';
 
 import type { List } from '../components/List';
-import { DEFAULT_INFINITE_THRESHOLD } from '../utils/constants';
 import { getAttribute } from '../utils/selectors';
 import { loadPaginatedCMSItems } from './load';
 
@@ -106,8 +105,7 @@ export const initInfiniteMode = (list: List) => {
  * @param list The {@link List} instance.
  */
 const getInfiniteThreshold = (list: List): number => {
-  const rawThreshold = getAttribute(list.listOrWrapper, 'threshold');
-  const threshold = parseNumericAttribute(rawThreshold, DEFAULT_INFINITE_THRESHOLD);
+  const threshold = getAttribute(list.listOrWrapper, 'threshold');
 
   const thresholdCoefficient = 1 - threshold / 100;
   return thresholdCoefficient;

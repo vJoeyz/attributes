@@ -53,7 +53,7 @@ const handleNestTarget = (list: List, item: ListItem, target: HTMLElement) => {
   if (!instance) return;
 
   const slugsElement = item.element.querySelector<HTMLElement>(
-    `${getElementSelector('nest-slugs')}${getSettingSelector('nest', undefined, instance)}`
+    `${getElementSelector('nest-slugs')}${getSettingSelector('nest', instance)}`
   );
 
   item.nesting = new Promise((resolve) => {

@@ -24,16 +24,7 @@ export const SETTINGS = {
    */
   animation: {
     key: 'animation',
-    values: {
-      fade: 'fade',
-      'slide-up': 'slide-up',
-      'slide-down': 'slide-down',
-      'slide-left': 'slide-left',
-      'slide-right': 'slide-right',
-      grow: 'grow',
-      shrink: 'shrink',
-      spin: 'spin',
-    },
+    values: ['fade', 'slide-up', 'slide-down', 'slide-left', 'slide-right', 'grow', 'shrink', 'spin'],
   },
 
   /**
@@ -42,13 +33,7 @@ export const SETTINGS = {
    */
   easing: {
     key: 'easing',
-    values: {
-      linear: 'linear',
-      ease: 'ease',
-      'ease-in': 'ease-in',
-      'ease-out': 'ease-out',
-      'ease-in-out': 'ease-in-out',
-    },
+    values: ['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out'],
   },
 
   /**
@@ -61,20 +46,9 @@ export const SETTINGS = {
    */
   display: {
     key: 'display',
-    values: {
-      block: 'block',
-      inline: 'inline',
-      flex: 'flex',
-      grid: 'grid',
-      none: 'none',
-      contents: 'contents',
-      'inline-block': 'inline-block',
-      'inline-flex': 'inline-flex',
-      'inline-grid': 'inline-grid',
-    },
+    values: ['block', 'inline', 'flex', 'grid', 'none', 'contents', 'inline-block', 'inline-flex', 'inline-grid'],
+    defaultValue: 'flex',
   },
 } as const satisfies AttributeSettings;
 
 export const ANCHOR_TEXT = `fs-${MODAL_ATTRIBUTE}-anchor`;
-
-export const DEFAULT_DISPLAY_PROPERTY = 'flex';

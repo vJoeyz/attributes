@@ -2,7 +2,7 @@ import { addListener, cloneNode, isNotEmpty } from '@finsweet/attributes-utils';
 import { watch } from '@vue/reactivity';
 
 import type { List } from '../components/List';
-import { DEFAULT_FILTER_OPERATOR, SETTINGS } from '../utils/constants';
+import { SETTINGS } from '../utils/constants';
 import { queryElement } from '../utils/selectors';
 import type { FilterOperator, Filters } from './types';
 
@@ -121,7 +121,7 @@ export const initTags = (list: List) => {
           }
         }
 
-        const operator = condition.op || DEFAULT_FILTER_OPERATOR;
+        const operator = condition.op;
         const operatorOverwriteElement = operatorOverwriteElements.get(operator);
 
         if (operatorElement || operatorOverwriteElement) {

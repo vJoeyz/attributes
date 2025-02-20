@@ -8,9 +8,9 @@ export type AttributeElements = readonly string[];
 export type AttributeSettings = {
   [name: string]: {
     key: string;
-    values?: {
-      [valueKey: string]: string;
-    };
+    values?: string[];
+    defaultValue?: string;
+    isNumeric?: boolean;
   };
 };
 

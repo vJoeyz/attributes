@@ -13,6 +13,6 @@ export const SETTINGS = {
    */
   removequery: {
     key: 'removequery',
-    values: { true: 'true' },
+    values: ['true'],
   },
 } as const satisfies AttributeSettings;

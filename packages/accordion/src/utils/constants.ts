@@ -38,7 +38,7 @@ export const SETTINGS = {
    */
   single: {
     key: 'single',
-    values: { true: 'true' },
+    values: ['true'],
   },
 
   /**
@@ -47,18 +47,16 @@ export const SETTINGS = {
    */
   initial: {
     key: 'initial',
-    values: { none: 'none' },
+    values: ['none'],
   },
 
   /**
    * Defines the active CSS class to add.
-   * Defaults to {@link DEFAULT_ACTIVE_CLASS} when not defined.
    */
   active: {
     key: 'active',
+    defaultValue: `is-active-${ACCORDION_ATTRIBUTE}`,
   },
 } as const satisfies AttributeSettings;
-
-export const DEFAULT_ACTIVE_CLASS = `is-active-${ACCORDION_ATTRIBUTE}`;
 
 export const LIST_ELEMENT_SELECTOR = `[fs-${LIST_ATTRIBUTE}-element="list"]`;

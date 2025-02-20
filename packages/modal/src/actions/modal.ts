@@ -1,6 +1,6 @@
 import { addListener } from '@finsweet/attributes-utils';
 
-import { ANCHOR_TEXT, DEFAULT_DISPLAY_PROPERTY } from '../utils/constants';
+import { ANCHOR_TEXT } from '../utils/constants';
 import { getSettingSelector } from '../utils/selectors';
 import type { AnimationSettings } from '../utils/types';
 import { getAnimationSettings } from './settings';
@@ -55,7 +55,7 @@ export const handleModal = (
         modalActions.animateIn(modalElement, {
           duration: modalDuration,
           easing: modalEasing,
-          display: modalDisplay || DEFAULT_DISPLAY_PROPERTY,
+          display: modalDisplay,
           target: document.body,
         }),
         Promise.all(

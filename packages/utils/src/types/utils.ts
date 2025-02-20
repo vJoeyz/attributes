@@ -13,3 +13,8 @@ export type Entry<T> = { [K in keyof T]: [K, T[K]] }[keyof T];
  * ```
  */
 export type MapEntries<MapToConvert> = MapToConvert extends Map<infer Key, infer Value> ? [Key, Value][] : never;
+
+/**
+ * Makes a loose autocomplete string type.
+ */
+export type LooseString<T extends string> = T | Omit<string, T>;

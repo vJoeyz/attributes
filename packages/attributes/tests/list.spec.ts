@@ -10,10 +10,10 @@ test.describe('fs-list: sort', () => {
     await waitCMSItemsLoaded(page);
 
     const sortTriggerSelector = getElementSelector('sort-trigger');
-    const nameFieldSelector = getSettingSelector('field', undefined, 'name');
-    const yearFieldSelector = getSettingSelector('field', undefined, 'year');
-    const colorFieldSelector = getSettingSelector('field', undefined, 'color');
-    const updatedFieldSelector = getSettingSelector('field', undefined, 'updated');
+    const nameFieldSelector = getSettingSelector('field', 'name');
+    const yearFieldSelector = getSettingSelector('field', 'year');
+    const colorFieldSelector = getSettingSelector('field', 'color');
+    const updatedFieldSelector = getSettingSelector('field', 'updated');
 
     const buttonName = page.locator(sortTriggerSelector + nameFieldSelector);
     const buttonYear = page.locator(sortTriggerSelector + yearFieldSelector);
@@ -97,10 +97,10 @@ test.describe('fs-list: sort', () => {
     await waitCMSItemsLoaded(page);
 
     const sortTriggerSelector = getElementSelector('sort-trigger');
-    const nameFieldSelector = getSettingSelector('field', undefined, 'name');
-    const yearFieldSelector = getSettingSelector('field', undefined, 'year');
-    const colorFieldSelector = getSettingSelector('field', undefined, 'color');
-    const updatedFieldSelector = getSettingSelector('field', undefined, 'updated');
+    const nameFieldSelector = getSettingSelector('field', 'name');
+    const yearFieldSelector = getSettingSelector('field', 'year');
+    const colorFieldSelector = getSettingSelector('field', 'color');
+    const updatedFieldSelector = getSettingSelector('field', 'updated');
 
     const buttonName = page.locator(sortTriggerSelector + nameFieldSelector);
     const buttonYear = page.locator(sortTriggerSelector + yearFieldSelector);
@@ -184,10 +184,10 @@ test.describe('fs-list: sort', () => {
     await waitCMSItemsLoaded(page);
 
     const sortTriggerSelector = getElementSelector('sort-trigger');
-    const nameFieldSelector = getSettingSelector('field', undefined, 'name');
-    const yearFieldSelector = getSettingSelector('field', undefined, 'year');
-    const colorFieldSelector = getSettingSelector('field', undefined, 'color');
-    const updatedFieldSelector = getSettingSelector('field', undefined, 'updated');
+    const nameFieldSelector = getSettingSelector('field', 'name');
+    const yearFieldSelector = getSettingSelector('field', 'year');
+    const colorFieldSelector = getSettingSelector('field', 'color');
+    const updatedFieldSelector = getSettingSelector('field', 'updated');
 
     const select = page.locator(sortTriggerSelector);
 
@@ -277,10 +277,10 @@ test.describe('fs-list: combine', () => {
 
     const sortTriggerSelector = getElementSelector('sort-trigger');
     const listSelector = getElementSelector('list');
-    const nameFieldSelector = getSettingSelector('field', undefined, 'name');
-    const yearFieldSelector = getSettingSelector('field', undefined, 'year');
-    const colorFieldSelector = getSettingSelector('field', undefined, 'color');
-    const updatedFieldSelector = getSettingSelector('field', undefined, 'updated');
+    const nameFieldSelector = getSettingSelector('field', 'name');
+    const yearFieldSelector = getSettingSelector('field', 'year');
+    const colorFieldSelector = getSettingSelector('field', 'color');
+    const updatedFieldSelector = getSettingSelector('field', 'updated');
 
     const select = page.locator(sortTriggerSelector);
     const mainList = page.locator(listSelector + getInstanceSelector('main'));
@@ -434,7 +434,7 @@ test.describe('fs-list: load', () => {
     await waitCMSItemsLoaded(page);
 
     const elementAttribute = 'fs-list-element';
-    const nameFieldSelector = getSettingSelector('field', undefined, 'name');
+    const nameFieldSelector = getSettingSelector('field', 'name');
 
     const paginationNext = page.locator(CMS_CSS_SELECTORS['pagination-next']);
     const paginationPrevious = page.locator(CMS_CSS_SELECTORS['pagination-previous']);
@@ -530,7 +530,7 @@ test.describe('fs-list: load', () => {
     const containsInput = filters.locator(getSettingSelector('operator', 'contains'));
     const notContainsInput = filters.locator(getSettingSelector('operator', 'not-contains'));
     const fuzzyInput = filters.locator(getSettingSelector('operator', 'fuzzy'));
-    const nameFieldSelector = getSettingSelector('field', undefined, 'name');
+    const nameFieldSelector = getSettingSelector('field', 'name');
 
     await expect(itemsCount).toHaveText('300');
     await expect(resultsCount).toHaveText('300');
@@ -602,7 +602,7 @@ test.describe('fs-list: load', () => {
     const containsInput = filters.locator(getSettingSelector('operator', 'contains'));
     const notContainsInput = filters.locator(getSettingSelector('operator', 'not-contains'));
     const fuzzyInput = filters.locator(getSettingSelector('operator', 'fuzzy'));
-    const yearFieldSelector = getSettingSelector('field', undefined, 'year');
+    const yearFieldSelector = getSettingSelector('field', 'year');
 
     await expect(itemsCount).toHaveText('300');
     await expect(resultsCount).toHaveText('300');

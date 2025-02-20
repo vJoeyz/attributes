@@ -28,9 +28,7 @@ export const SETTINGS = {
    */
   css: {
     key: 'css',
-    values: {
-      true: 'true',
-    },
+    values: ['true'],
   },
 
   /**
@@ -42,9 +40,7 @@ export const SETTINGS = {
    */
   render: {
     key: 'render',
-    values: {
-      true: 'true',
-    },
+    values: ['true'],
   },
 
   /**
@@ -66,10 +62,11 @@ export const SETTINGS = {
    */
   cacheversion: {
     key: 'cacheversion',
+    isNumeric: true,
   },
 
   /**
    * Defines if Webflow should be restarted after rendering the loaded components.
    */
-  resetix: { key: 'resetix', values: { true: 'true' } },
+  resetix: { key: 'resetix', values: ['true'] },
 } as const satisfies AttributeSettings;

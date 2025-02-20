@@ -19,17 +19,15 @@ export const ELEMENTS = [
 
 export const SETTINGS = {
   /**
-   * Defines the `active` CSS class. Defaults to {@link DEFAULT_ACTIVE_CSS_CLASS}.
+   * Defines the `active` CSS class.
    */
-  active: { key: 'active' },
+  active: { key: 'active', defaultValue: `is-${SLIDER_DOTS_ATTRIBUTE}-active` },
 
   /**
    * Defines if the content should be removed or just duplicated.
    */
   remove: {
     key: 'remove',
-    values: { true: 'true' },
+    values: ['true'],
   },
 } as const satisfies AttributeSettings;
-
-export const DEFAULT_ACTIVE_CSS_CLASS = `fs-${SLIDER_DOTS_ATTRIBUTE}_active`;

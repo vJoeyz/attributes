@@ -40,7 +40,7 @@ export const SETTINGS = {
   /**
    * Defines if the links hash should be removed from the URL.
    */
-  hideurlhash: { key: 'hideurlhash', values: { true: 'true' } },
+  hideurlhash: { key: 'hideurlhash', values: ['true'] },
 } as const satisfies AttributeSettings;
 
 export const DEFAULT_INITIAL_HEADING_LEVEL = 2;

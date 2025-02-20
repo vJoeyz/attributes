@@ -82,7 +82,7 @@ const queryComponent = async (componentKey: string, source?: string): Promise<HT
   const externalDocument = source ? await fetchPageDocument(source) : undefined;
 
   const element = (externalDocument || document).querySelector<HTMLElement>(
-    getSettingSelector('component', undefined, componentKey)
+    getSettingSelector('component', componentKey)
   );
 
   if (!element) console.error(`No components were found with the [${componentKey}] key.`);

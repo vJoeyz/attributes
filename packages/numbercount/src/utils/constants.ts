@@ -10,9 +10,8 @@ export const ELEMENTS = [
 export const SETTINGS = {
   /**
    * Defines the start number in the count.
-   * If not defined, the library will default to {@link DEFAULT_START_NUMBER}.
    */
-  start: { key: 'start' },
+  start: { key: 'start', defaultValue: '0', isNumeric: true },
 
   /**
    * Defines the end number in the count.
@@ -24,13 +23,13 @@ export const SETTINGS = {
    * Defines the count speed.
    * If not defined, it will default to {@link DEFAULT_DURATION}.
    */
-  duration: { key: 'duration' },
+  duration: { key: 'duration', defaultValue: '1000', isNumeric: true },
 
   /**
    * Defines the intersection observer threshold.
    * If not defined, it will default to {@link DEFAULT_THRESHOLD}.
    */
-  threshold: { key: 'threshold' },
+  threshold: { key: 'threshold', defaultValue: '25', isNumeric: true },
 
   /**
    * If defined, the library will format the number using the provided locale.
@@ -38,14 +37,6 @@ export const SETTINGS = {
    */
   locale: {
     key: 'locale',
-    values: {
-      auto: 'auto',
-    },
+    values: ['auto'],
   },
 } as const satisfies AttributeSettings;
-
-export const DEFAULT_START_NUMBER = 0;
-
-export const DEFAULT_DURATION = 1000;
-
-export const DEFAULT_THRESHOLD = 25;

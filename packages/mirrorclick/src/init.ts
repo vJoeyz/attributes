@@ -1,10 +1,4 @@
-import {
-  addListener,
-  type FinsweetAttributeInit,
-  isElement,
-  isHTMLElement,
-  parseNumericAttribute,
-} from '@finsweet/attributes-utils';
+import { addListener, type FinsweetAttributeInit, isElement, isHTMLElement } from '@finsweet/attributes-utils';
 
 import { getAttribute, getElementSelector, getInstance, queryAllElements } from './utils/selectors';
 
@@ -26,8 +20,7 @@ export const init: FinsweetAttributeInit = () => {
     for (const mirrorTarget of mirrorTargets) {
       if (!isHTMLElement(mirrorTarget)) continue;
 
-      const rawDelay = getAttribute(mirrorTarget, 'delay') || getAttribute(mirrorTrigger, 'delay');
-      const delay = parseNumericAttribute(rawDelay);
+      const delay = getAttribute(mirrorTarget, 'delay') || getAttribute(mirrorTrigger, 'delay');
 
       if (delay) window.setTimeout(() => mirrorTarget.click(), delay);
       else mirrorTarget.click();

@@ -1,4 +1,4 @@
-import { isNumber, parseNumericAttribute, setFormFieldValue } from '@finsweet/attributes-utils';
+import { isNumber, setFormFieldValue } from '@finsweet/attributes-utils';
 
 import { handleButtons, handleResetButton } from './actions/buttons';
 import { handleInput } from './actions/input';
@@ -15,8 +15,7 @@ export const initInputCounter = (inputElement: HTMLInputElement) => {
 
   const showArrows = getAttribute(inputElement, 'showarrows');
 
-  const rawInitialValue = getAttribute(inputElement, 'initial');
-  const initialValue = parseNumericAttribute(rawInitialValue);
+  const initialValue = getAttribute(inputElement, 'initial');
 
   const incrementButton = queryElement('increment', { instance });
   const decrementButton = queryElement('decrement', { instance });

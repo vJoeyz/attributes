@@ -13,9 +13,7 @@ export const init: FinsweetAttributeInit = async () => {
   const url = new URL(window.location.href);
 
   for (const [paramKey, paramValue] of [...url.searchParams]) {
-    const queryParamElements = [
-      ...document.querySelectorAll<HTMLElement>(getSettingSelector('name', undefined, paramKey)),
-    ];
+    const queryParamElements = [...document.querySelectorAll<HTMLElement>(getSettingSelector('name', paramKey))];
 
     if (queryParamElements.length < 1) {
       continue;
@@ -23,7 +21,7 @@ export const init: FinsweetAttributeInit = async () => {
 
     queryParamFactory(queryParamElements, paramValue);
 
-    if (window.finsweetAttributes.process.has('cmsfilter')) {
+    if (window.finsweetAttributes.process.has('list')) {
       continue;
     }
 

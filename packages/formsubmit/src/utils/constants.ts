@@ -25,7 +25,7 @@ export const SETTINGS = {
    */
   reset: {
     key: 'reset',
-    values: { true: 'true' },
+    values: ['true'],
   },
 
   /**
@@ -33,7 +33,7 @@ export const SETTINGS = {
    */
   preventreset: {
     key: 'preventreset',
-    values: { true: 'true' },
+    values: ['true'],
   },
 
   /**
@@ -43,7 +43,7 @@ export const SETTINGS = {
    */
   reload: {
     key: 'reload',
-    values: { true: 'true' },
+    values: ['true'],
   },
 
   /**
@@ -53,7 +53,7 @@ export const SETTINGS = {
    */
   redirect: {
     key: 'redirect',
-    values: { true: 'true' },
+    values: ['true'],
   },
 
   /**
@@ -68,7 +68,7 @@ export const SETTINGS = {
    */
   redirectnewtab: {
     key: 'redirectnewtab',
-    values: { true: 'true' },
+    values: ['true'],
   },
 
   /**
@@ -76,7 +76,7 @@ export const SETTINGS = {
    */
   disable: {
     key: 'disable',
-    values: { true: 'true' },
+    values: ['true'],
   },
 
   /**
@@ -84,6 +84,6 @@ export const SETTINGS = {
    */
   enhance: {
     key: 'enhance',
-    values: { true: 'true' },
+    values: ['true'],
   },
 } as const satisfies AttributeSettings;

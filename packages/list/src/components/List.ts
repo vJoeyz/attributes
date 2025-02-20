@@ -10,7 +10,6 @@ import {
   type PageCountElement,
   type PaginationButtonElement,
   type PaginationWrapperElement,
-  parseNumericAttribute,
   restartWebflow,
   type WebflowModule,
 } from '@finsweet/attributes-utils';
@@ -311,7 +310,7 @@ export class List {
 
       items.forEach((item, index) => {
         const previousItem = items[index - 1];
-        const duration = parseNumericAttribute(getAttribute(item.element, 'duration')) || 1000;
+        const duration = getAttribute(item.element, 'duration');
 
         const render = () => {
           if (previousItem) {

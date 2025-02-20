@@ -1,4 +1,4 @@
-import type { AttributeElements, AttributeSettings, FinsweetAttributeKey } from '../types';
+import type { AttributeElements, AttributeSettings, FinsweetAttributeKey, LooseString } from '../types';
 
 /**
  * @returns Selector helpers for the defined Attribute Elements and Settings.
@@ -35,23 +35,13 @@ export const generateSelectors = <
    */
   const getSettingSelector = <SettingKey extends keyof SettingsDefinition>(
     settingKey: SettingKey,
-    valueKey?: keyof SettingsDefinition[SettingKey]['values'],
-    explicitValue?: string
+    value?: LooseString<NonNullable<SettingsDefinition[SettingKey]['values']>[number]>
   ) => {
-    const { values = {} } = settings[settingKey];
-
     const attributeName = getSettingAttributeName(settingKey);
 
-    // Predefined setting value
-    if (valueKey) {
-      const value = values[valueKey as keyof typeof values];
-
+    // With setting value
+    if (value) {
       return `[${attributeName}="${value}" i]`;
-    }
-
-    // Explicit setting value
-    if (explicitValue) {
-      return `[${attributeName}="${explicitValue}" i]`;
     }
 
     // No setting value
@@ -169,16 +159,20 @@ export const generateSelectors = <
     SettingKey extends keyof SettingsDefinition,
     FilterInvalid extends boolean = false,
     SettingValues = SettingsDefinition[SettingKey]['values'],
-    SettingValue = SettingValues extends Record<string, string>
+    SettingDefaultValue = SettingsDefinition[SettingKey]['defaultValue'],
+    SettingValueIsNumeric = SettingsDefinition[SettingKey]['isNumeric'],
+    SettingValue = SettingValueIsNumeric extends true
+      ? number
+      : SettingValues extends Array<string>
       ? FilterInvalid extends true
-        ? SettingValues[keyof SettingValues]
+        ? SettingValues[number]
         : string
       : string
   >(
     element: Element | null,
     settingKey: SettingKey,
-    filterInvalid?: FilterInvalid
-  ) => {
+    { filterInvalid }: { filterInvalid?: FilterInvalid } = {}
+  ): SettingDefaultValue extends string ? SettingValue : SettingValue | undefined => {
     const attributeName = getSettingAttributeName(settingKey);
     const selector = getSettingSelector(settingKey);
 
@@ -196,13 +190,29 @@ export const generateSelectors = <
       }
     }
 
+    // Fall back to the default value, if available
+    const { values = [], defaultValue, isNumeric } = settings[settingKey];
+
+    rawValue ??= defaultValue;
+
+    // @ts-expect-error Returning undefined is valid
     if (!rawValue) return;
 
-    if (filterInvalid) {
-      const { values = {} } = settings[settingKey];
+    // Parse numeric values
+    if (isNumeric) {
+      let parsedValue = Number(rawValue);
 
-      if (!Object.values(values).includes(rawValue)) return;
+      if (isNaN(parsedValue) && defaultValue) {
+        parsedValue = Number(defaultValue);
+      }
+
+      if (!isNaN(parsedValue)) {
+        return parsedValue as SettingValue;
+      }
     }
+
+    // @ts-expect-error Returning undefined is valid
+    if (filterInvalid && values.length && !values.includes(rawValue)) return;
 
     const value = rawValue as SettingValue;
     return value;
@@ -217,12 +227,8 @@ export const generateSelectors = <
   const hasAttributeValue = <SettingKey extends keyof SettingsDefinition>(
     element: Element,
     settingKey: SettingKey,
-    valueKey: keyof SettingsDefinition[SettingKey]['values']
+    value: NonNullable<SettingsDefinition[SettingKey]['values']>[number]
   ) => {
-    const { values = {} } = settings[settingKey];
-
-    const value = values[valueKey as keyof typeof values];
-
     return getAttribute(element, settingKey) === value;
   };
 

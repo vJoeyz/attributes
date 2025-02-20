@@ -1,7 +1,7 @@
 import type { SETTINGS } from '../utils/constants';
 
 type FilterOperatorValues = (typeof SETTINGS)['operator']['values'];
-export type FilterOperator = FilterOperatorValues[keyof FilterOperatorValues];
+export type FilterOperator = FilterOperatorValues[number];
 
 export type FilterMatch = 'and' | 'or';
 
@@ -41,7 +41,7 @@ export type FilterMatch = 'and' | 'or';
 
 export type FiltersCondition = {
   field: string;
-  op?: FilterOperator;
+  op: FilterOperator;
   value?: string | string[];
   filterMatch: FilterMatch;
   fieldMatch: FilterMatch;
