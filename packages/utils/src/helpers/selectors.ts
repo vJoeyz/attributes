@@ -97,11 +97,12 @@ export const generateSelectors = <
    */
   const queryElement = <E extends Element = HTMLElement>(
     elementKey?: ElementsDefinition[number],
-    { instance, scope = document }: { instance?: string | null; scope?: ParentNode } = {}
+    { instance, scope }: { instance?: string | null; scope?: ParentNode | null } = {}
   ) => {
     const selector = getElementSelector(elementKey, { instance });
+    const target = scope || document;
 
-    return scope.querySelector<E>(selector);
+    return target.querySelector<E>(selector);
   };
 
   /**
@@ -112,11 +113,12 @@ export const generateSelectors = <
    */
   const queryAllElements = <E extends Element = HTMLElement>(
     elementKey?: ElementsDefinition[number],
-    { instance, scope = document }: { instance?: string | null; scope?: ParentNode } = {}
+    { instance, scope }: { instance?: string | null; scope?: ParentNode | null } = {}
   ) => {
     const selector = getElementSelector(elementKey, { instance });
+    const target = scope || document;
 
-    return [...scope.querySelectorAll<E>(selector)];
+    return [...target.querySelectorAll<E>(selector)];
   };
 
   /**
