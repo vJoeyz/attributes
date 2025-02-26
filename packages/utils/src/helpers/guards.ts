@@ -4,6 +4,7 @@ export const isString = (value: unknown): value is string => typeof value === 's
 export const isNumber = (value: unknown): value is number => typeof value === 'number';
 export const isBoolean = (value: unknown): value is boolean => typeof value === 'boolean';
 export const isUndefined = (value: unknown): value is undefined => value === undefined;
+export const isDate = (value: unknown): value is Date => value instanceof Date;
 
 /**
  * It literally does nothing.

@@ -1,9 +1,13 @@
+import { isDate, isNumber } from './guards';
+
 /**
- * Converts a string to a number, removing any invalid symbols like `$` or `,`.
- * @param value A string number.
+ * Converts a value to a number, removing any invalid symbols like `$` or `,`.
+ * @param value
  * @returns The valid number value.
  */
-export const normalizeNumber = (value: string) => {
+export const normalizeNumber = (value: string | number | Date) => {
+  if (isNumber(value)) return value;
+  if (isDate(value)) return value.getTime();
   if (!value) return;
 
   return parseFloat(value.replace(/[^0-9.-]+/g, ''));

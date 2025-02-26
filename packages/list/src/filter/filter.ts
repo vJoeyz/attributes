@@ -1,7 +1,9 @@
 import {
   extractCommaSeparatedValues,
   type FormFieldType,
+  isDate,
   isString,
+  isUndefined,
   normalizeDate,
   normalizeNumber,
 } from '@finsweet/attributes-utils';
@@ -684,7 +686,11 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
  * @param fieldData
  * @returns The parsed filter value, if it could be parsed. Otherwise, `null`.
  */
-const parseFilterValue = (rawFilterValue: string, fieldType: ListItemField['type'], filterType: FormFieldType) => {
+const parseFilterValue = (
+  rawFilterValue: string | number | Date,
+  fieldType: ListItemField['type'],
+  filterType: FormFieldType
+) => {
   if (
     fieldType === 'date' ||
     filterType === 'date' ||
@@ -720,9 +726,18 @@ const parseFilterValue = (rawFilterValue: string, fieldType: ListItemField['type
  * @param rawA
  * @param rawB
  */
-const areEqual = <Value = string | number | Date>(rawA: Value, rawB: Value) => {
-  const a = rawA instanceof Date ? rawA.getTime() : isString(rawA) ? rawA.toLowerCase() : rawA;
-  const b = rawB instanceof Date ? rawB.getTime() : isString(rawB) ? rawB.toLowerCase() : rawB;
+const areEqual = (rawA: string | number | Date, rawB: string | number | Date) => {
+  // Ensure that dates are compared as dates
+  if (typeof rawA !== typeof rawB) {
+    if (isDate(rawA)) {
+      rawB = normalizeDate(rawB) || rawB;
+    } else if (isDate(rawB)) {
+      rawA = normalizeDate(rawA) || rawA;
+    }
+  }
+
+  const a = isDate(rawA) ? rawA.getTime() : isString(rawA) ? rawA.toLowerCase() : rawA;
+  const b = isDate(rawB) ? rawB.getTime() : isString(rawB) ? rawB.toLowerCase() : rawB;
 
   return a === b;
 };
@@ -739,10 +754,10 @@ const numericCompare = (
   rawB: string | number | Date,
   op: 'greater' | 'greater-equal' | 'less' | 'less-equal'
 ) => {
-  if (isString(rawA) || isString(rawB)) return false;
+  const a = isDate(rawA) ? rawA.getTime() : isString(rawA) ? normalizeNumber(rawA) : rawA;
+  const b = isDate(rawB) ? rawB.getTime() : isString(rawB) ? normalizeNumber(rawB) : rawB;
 
-  const a = rawA instanceof Date ? rawA.getTime() : rawA;
-  const b = rawB instanceof Date ? rawB.getTime() : rawB;
+  if (isUndefined(a) || isUndefined(b)) return false;
 
   if (op === 'greater') return a > b;
   if (op === 'greater-equal') return a >= b;
