@@ -376,7 +376,6 @@ export const SETTINGS = {
       'not-empty',
       'fuzzy',
     ],
-    defaultValue: 'contain',
   },
 
   /**

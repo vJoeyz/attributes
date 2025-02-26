@@ -14,7 +14,7 @@ import type { List } from '../components/List';
 import { setReactive } from '../utils/reactivity';
 import { getAttribute, getElementSelector, getSettingSelector, queryElement } from '../utils/selectors';
 import { filterItems } from './filter';
-import type { FilterOperator, Filters, FiltersCondition } from './types';
+import type { Filters, FiltersCondition } from './types';
 
 export const initSimpleFilters = (list: List, form: HTMLFormElement) => {
   const debounces = new Map<FormField, number>();
@@ -33,7 +33,7 @@ export const initSimpleFilters = (list: List, form: HTMLFormElement) => {
 
       const conditions = list.filters.groups[0]?.conditions || [];
 
-      const data = getConditionData(target, field, op);
+      const data = getConditionData(target, field);
 
       const conditionIndex = conditions.findIndex((c) => c.field === field && c.op === op);
       if (conditionIndex >= 0) {
@@ -114,9 +114,14 @@ export const initSimpleFilters = (list: List, form: HTMLFormElement) => {
 /**
  * @returns The value of a given form field.
  * @param formField A {@link FormField} element.
+ * @param field The field name.
  */
-const getConditionData = (formField: FormField, field: string, op: FilterOperator): FiltersCondition => {
+const getConditionData = (formField: FormField, field: string): FiltersCondition => {
   const type = formField.type as FormFieldType;
+
+  const stringInputTypes: FormFieldType[] = ['text', 'password', 'email', 'tel', 'url', 'search', 'color'];
+  const opDefault = stringInputTypes.includes(type) ? 'contain' : 'equal';
+  const op = getAttribute(formField, 'operator', { filterInvalid: true }) || opDefault;
 
   const filterMatch = getAttribute(formField, 'filtermatch', { filterInvalid: true });
   const fieldMatch = getAttribute(formField, 'fieldmatch', { filterInvalid: true });
@@ -247,7 +252,7 @@ export const getSimpleFilters = (form: HTMLFormElement) => {
     if (!field) continue;
 
     const op = getAttribute(formField, 'operator', { filterInvalid: true });
-    const data = getConditionData(formField, field, op);
+    const data = getConditionData(formField, field);
 
     if (!filters.groups[0].conditions.some((c) => c.field === field && c.op === op)) {
       filters.groups[0].conditions.push(data);
