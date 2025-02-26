@@ -25,22 +25,25 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
           const fieldData = item.fields[field];
           if (!fieldData) return false;
 
+          const fieldValue = fieldData.value;
+          const rawFilterValue = filterData.value;
+
           switch (filterData.op) {
             case 'empty': {
-              return Array.isArray(fieldData.value) ? !fieldData.value.length : !fieldData.value;
+              return Array.isArray(fieldValue) ? !fieldValue.length : !fieldValue;
             }
 
             case 'not-empty': {
-              return Array.isArray(fieldData.value) ? !!fieldData.value.length : !!fieldData.value;
+              return Array.isArray(fieldValue) ? !!fieldValue.length : !!fieldValue;
             }
 
             case 'fuzzy': {
               // TODO: check if fuzzy search still works as expected
               if (!fuzzySearch) return true;
-              if (!isString(filterData.value)) return false;
+              if (!isString(rawFilterValue)) return false;
 
               const search =
-                fuzzySearchCache.get(field) || fuzzySearch.search(filterData.value, { fuzzy: filterData.fuzzy });
+                fuzzySearchCache.get(field) || fuzzySearch.search(rawFilterValue, { fuzzy: filterData.fuzzy });
 
               fuzzySearchCache.set(field, search);
 
@@ -49,249 +52,249 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
 
             case 'equal': {
               // Both are arrays
-              if (Array.isArray(filterData.value) && Array.isArray(fieldData.value)) {
-                if (!filterData.value.length) return true;
-                if (!fieldData.value.length) return false;
+              if (Array.isArray(rawFilterValue) && Array.isArray(fieldValue)) {
+                if (!rawFilterValue.length) return true;
+                if (!fieldValue.length) return false;
 
                 // AND / AND
                 if (filterData.filterMatch === 'and' && filterData.fieldMatch === 'and') {
                   // For every filter value, every field value must match, and for every field value, every filter value must match. In practical terms, they must be exactly the same set of values.
-                  return filterData.value.every((rawFilterValue) => {
-                    if (!Array.isArray(fieldData.value)) return false;
+                  return rawFilterValue.every((rawFilterValue) => {
+                    if (!Array.isArray(fieldValue)) return false;
 
                     const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
-                    return fieldData.value.every((fieldValue) => areEqual(fieldValue, filterValue));
+                    return fieldValue.every((fieldValue) => areEqual(fieldValue, filterValue));
                   });
                 }
 
                 // AND / OR
                 if (filterData.filterMatch === 'and' && filterData.fieldMatch === 'or') {
                   // For each filter value, the field must contain it in at least one of its values
-                  return filterData.value.every((rawFilterValue) => {
-                    if (!Array.isArray(fieldData.value)) return false;
+                  return rawFilterValue.every((rawFilterValue) => {
+                    if (!Array.isArray(fieldValue)) return false;
 
                     const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
-                    return fieldData.value.some((fieldValue) => areEqual(fieldValue, filterValue));
+                    return fieldValue.some((fieldValue) => areEqual(fieldValue, filterValue));
                   });
                 }
 
                 // OR / AND
                 if (filterData.filterMatch === 'or' && filterData.fieldMatch === 'and') {
                   // There must exist at least one filter value which matches all field values
-                  return filterData.value.some((rawFilterValue) => {
-                    if (!Array.isArray(fieldData.value)) return false;
+                  return rawFilterValue.some((rawFilterValue) => {
+                    if (!Array.isArray(fieldValue)) return false;
 
                     const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
-                    return fieldData.value.every((fieldValue) => areEqual(fieldValue, filterValue));
+                    return fieldValue.every((fieldValue) => areEqual(fieldValue, filterValue));
                   });
                 }
 
                 // OR / OR
                 if (filterData.filterMatch === 'or' && filterData.fieldMatch === 'or') {
                   // For at least one filter value, the field must have at least one matching value
-                  return filterData.value.some((rawFilterValue) => {
-                    if (!Array.isArray(fieldData.value)) return false;
+                  return rawFilterValue.some((rawFilterValue) => {
+                    if (!Array.isArray(fieldValue)) return false;
 
                     const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
-                    return fieldData.value.some((fieldValue) => areEqual(fieldValue, filterValue));
+                    return fieldValue.some((fieldValue) => areEqual(fieldValue, filterValue));
                   });
                 }
               }
 
               // Filter is array, field is single
-              if (Array.isArray(filterData.value) && !Array.isArray(fieldData.value)) {
-                if (!filterData.value.length) return true;
+              if (Array.isArray(rawFilterValue) && !Array.isArray(fieldValue)) {
+                if (!rawFilterValue.length) return true;
 
                 // AND matching
                 if (filterData.filterMatch === 'and') {
                   // The single field value must match all filter values
-                  return filterData.value.every((rawFilterValue) => {
+                  return rawFilterValue.every((rawFilterValue) => {
                     const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
-                    return areEqual(fieldData.value, filterValue);
+                    return areEqual(fieldValue, filterValue);
                   });
                 }
 
                 // OR matching
                 if (filterData.filterMatch === 'or') {
                   // The single field value must match at least one filter value
-                  return filterData.value.some((rawFilterValue) => {
+                  return rawFilterValue.some((rawFilterValue) => {
                     const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
-                    return areEqual(fieldData.value, filterValue);
+                    return areEqual(fieldValue, filterValue);
                   });
                 }
               }
 
               // Filter is single, field is array
-              if (!Array.isArray(filterData.value) && Array.isArray(fieldData.value)) {
-                if (!fieldData.value.length) return false;
+              if (!Array.isArray(rawFilterValue) && Array.isArray(fieldValue)) {
+                if (!fieldValue.length) return false;
 
-                const filterValue = parseFilterValue(filterData.value, fieldData.type, filterData.type);
+                const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                 if (filterValue === null) return false;
 
                 // AND matching
                 if (filterData.fieldMatch === 'and') {
                   // The single filter value must match all field values
-                  return fieldData.value.every((fieldValue) => areEqual(fieldValue, filterValue));
+                  return fieldValue.every((fieldValue) => areEqual(fieldValue, filterValue));
                 }
 
                 // OR matching
                 if (filterData.fieldMatch === 'or') {
                   // The single filter value must match at least one field value
-                  return fieldData.value.some((fieldValue) => areEqual(fieldValue, filterValue));
+                  return fieldValue.some((fieldValue) => areEqual(fieldValue, filterValue));
                 }
               }
 
               // Filter is single, field is single
-              if (!Array.isArray(filterData.value) && !Array.isArray(fieldData.value)) {
-                const filterValue = parseFilterValue(filterData.value, fieldData.type, filterData.type);
+              if (!Array.isArray(rawFilterValue) && !Array.isArray(fieldValue)) {
+                const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                 if (filterValue === null) return false;
 
-                return areEqual(fieldData.value, filterValue);
+                return areEqual(fieldValue, filterValue);
               }
             }
 
             case 'not-equal': {
               // Both are arrays
-              if (Array.isArray(filterData.value) && Array.isArray(fieldData.value)) {
-                if (!filterData.value.length) return true;
-                if (!fieldData.value.length) return true;
+              if (Array.isArray(rawFilterValue) && Array.isArray(fieldValue)) {
+                if (!rawFilterValue.length) return true;
+                if (!fieldValue.length) return true;
 
                 // AND / AND
                 if (filterData.filterMatch === 'and' && filterData.fieldMatch === 'and') {
                   // Every filter value must be not equal to every field value.In effect, the sets must have no overlap at all. If they share any exact value, the condition fails.
-                  return !filterData.value.some((rawFilterValue) => {
-                    if (!Array.isArray(fieldData.value)) return true;
+                  return !rawFilterValue.some((rawFilterValue) => {
+                    if (!Array.isArray(fieldValue)) return true;
 
                     const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
-                    return fieldData.value.some((fieldValue) => areEqual(fieldValue, filterValue));
+                    return fieldValue.some((fieldValue) => areEqual(fieldValue, filterValue));
                   });
                 }
 
                 // AND / OR
                 if (filterData.filterMatch === 'and' && filterData.fieldMatch === 'or') {
                   // For each filter value, the field (in OR logic) must be “not equal.” In OR logic for the field, you check if there is at least one field value that differs from the filter value. Then all filter values must pass that check
-                  return filterData.value.every((rawFilterValue) => {
-                    if (!Array.isArray(fieldData.value)) return true;
+                  return rawFilterValue.every((rawFilterValue) => {
+                    if (!Array.isArray(fieldValue)) return true;
 
                     const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
-                    return fieldData.value.some((fieldValue) => !areEqual(fieldValue, filterValue));
+                    return fieldValue.some((fieldValue) => !areEqual(fieldValue, filterValue));
                   });
                 }
 
                 // OR / AND
                 if (filterData.filterMatch === 'or' && filterData.fieldMatch === 'and') {
                   // In AND logic for the field, all field values must be “not equal” to a chosen filter value for that filter to pass. Then we only need it to be true for at least one filter value (OR)
-                  return filterData.value.some((rawFilterValue) => {
-                    if (!Array.isArray(fieldData.value)) return true;
+                  return rawFilterValue.some((rawFilterValue) => {
+                    if (!Array.isArray(fieldValue)) return true;
 
                     const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
-                    return fieldData.value.every((fieldValue) => !areEqual(fieldValue, filterValue));
+                    return fieldValue.every((fieldValue) => !areEqual(fieldValue, filterValue));
                   });
                 }
 
                 // OR / OR
                 if (filterData.filterMatch === 'or' && filterData.fieldMatch === 'or') {
                   // We need at least one filter value for which the field has at least one non-matching field value
-                  return filterData.value.some((rawFilterValue) => {
-                    if (!Array.isArray(fieldData.value)) return true;
+                  return rawFilterValue.some((rawFilterValue) => {
+                    if (!Array.isArray(fieldValue)) return true;
 
                     const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
-                    return fieldData.value.some((fieldValue) => !areEqual(fieldValue, filterValue));
+                    return fieldValue.some((fieldValue) => !areEqual(fieldValue, filterValue));
                   });
                 }
               }
 
               // Filter is array, field is single
-              if (Array.isArray(filterData.value) && !Array.isArray(fieldData.value)) {
-                if (!filterData.value.length) return true;
+              if (Array.isArray(rawFilterValue) && !Array.isArray(fieldValue)) {
+                if (!rawFilterValue.length) return true;
 
                 // AND matching
                 if (filterData.filterMatch === 'and') {
                   // The single field value must not match all filter values
-                  return filterData.value.every((rawFilterValue) => {
+                  return rawFilterValue.every((rawFilterValue) => {
                     const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
-                    return !areEqual(fieldData.value, filterValue);
+                    return !areEqual(fieldValue, filterValue);
                   });
                 }
 
                 // OR matching
                 if (filterData.filterMatch === 'or') {
                   // The single field value must not match at least one filter value
-                  return filterData.value.some((rawFilterValue) => {
+                  return rawFilterValue.some((rawFilterValue) => {
                     const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
-                    return !areEqual(fieldData.value, filterValue);
+                    return !areEqual(fieldValue, filterValue);
                   });
                 }
               }
 
               // Filter is single, field is array
-              if (!Array.isArray(filterData.value) && Array.isArray(fieldData.value)) {
-                if (!fieldData.value.length) return true;
+              if (!Array.isArray(rawFilterValue) && Array.isArray(fieldValue)) {
+                if (!fieldValue.length) return true;
 
-                const filterValue = parseFilterValue(filterData.value, fieldData.type, filterData.type);
+                const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                 if (filterValue === null) return false;
 
                 // AND matching
                 if (filterData.fieldMatch === 'and') {
                   // All field values must be not equal to the single filter value
-                  return fieldData.value.every((fieldValue) => !areEqual(fieldValue, filterValue));
+                  return fieldValue.every((fieldValue) => !areEqual(fieldValue, filterValue));
                 }
 
                 // OR matching
                 if (filterData.fieldMatch === 'or') {
                   // At least one field value must be not equal to the filter value
-                  return fieldData.value.some((fieldValue) => !areEqual(fieldValue, filterValue));
+                  return fieldValue.some((fieldValue) => !areEqual(fieldValue, filterValue));
                 }
               }
 
               // Filter is single, field is single
-              if (!Array.isArray(filterData.value) && !Array.isArray(fieldData.value)) {
-                const filterValue = parseFilterValue(filterData.value, fieldData.type, filterData.type);
+              if (!Array.isArray(rawFilterValue) && !Array.isArray(fieldValue)) {
+                const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                 if (filterValue === null) return false;
 
-                return !areEqual(fieldData.value, filterValue);
+                return !areEqual(fieldValue, filterValue);
               }
             }
 
             case 'contain': {
               // Both are arrays
-              if (Array.isArray(filterData.value) && Array.isArray(fieldData.value)) {
-                if (!filterData.value.length) return true;
-                if (!fieldData.value.length) return false;
+              if (Array.isArray(rawFilterValue) && Array.isArray(fieldValue)) {
+                if (!rawFilterValue.length) return true;
+                if (!fieldValue.length) return false;
 
                 // AND / AND
                 if (filterData.filterMatch === 'and' && filterData.fieldMatch === 'and') {
                   // For every field value, it must contain all filter strings
-                  return filterData.value.every((rawFilterValue) => {
-                    if (!Array.isArray(fieldData.value)) return false;
+                  return rawFilterValue.every((rawFilterValue) => {
+                    if (!Array.isArray(fieldValue)) return false;
 
                     const lowerCaseFilterValue = rawFilterValue.toLowerCase();
 
-                    return fieldData.value.every((fieldValue) => {
+                    return fieldValue.every((fieldValue) => {
                       const lowerCaseFieldValue = fieldValue.toString().toLowerCase();
                       return lowerCaseFieldValue.includes(lowerCaseFilterValue);
                     });
@@ -301,12 +304,12 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                 // AND / OR
                 if (filterData.filterMatch === 'and' && filterData.fieldMatch === 'or') {
                   // For every filter string, at least one field value must contain it
-                  return filterData.value.every((rawFilterValue) => {
-                    if (!Array.isArray(fieldData.value)) return false;
+                  return rawFilterValue.every((rawFilterValue) => {
+                    if (!Array.isArray(fieldValue)) return false;
 
                     const lowerCaseFilterValue = rawFilterValue.toLowerCase();
 
-                    return fieldData.value.some((fieldValue) => {
+                    return fieldValue.some((fieldValue) => {
                       const lowerCaseFieldValue = fieldValue.toString().toLowerCase();
                       return lowerCaseFieldValue.includes(lowerCaseFilterValue);
                     });
@@ -316,12 +319,12 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                 // OR / AND
                 if (filterData.filterMatch === 'or' && filterData.fieldMatch === 'and') {
                   // For at least one filter string, all field values must contain it
-                  return filterData.value.some((rawFilterValue) => {
-                    if (!Array.isArray(fieldData.value)) return false;
+                  return rawFilterValue.some((rawFilterValue) => {
+                    if (!Array.isArray(fieldValue)) return false;
 
                     const lowerCaseFilterValue = rawFilterValue.toLowerCase();
 
-                    return fieldData.value.every((fieldValue) => {
+                    return fieldValue.every((fieldValue) => {
                       const lowerCaseFieldValue = fieldValue.toString().toLowerCase();
                       return lowerCaseFieldValue.includes(lowerCaseFilterValue);
                     });
@@ -331,12 +334,12 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                 // OR / OR
                 if (filterData.filterMatch === 'or' && filterData.fieldMatch === 'or') {
                   // For at least one filter string, at least one field value must contain it
-                  return filterData.value.some((rawFilterValue) => {
-                    if (!Array.isArray(fieldData.value)) return false;
+                  return rawFilterValue.some((rawFilterValue) => {
+                    if (!Array.isArray(fieldValue)) return false;
 
                     const lowerCaseFilterValue = rawFilterValue.toLowerCase();
 
-                    return fieldData.value.some((fieldValue) => {
+                    return fieldValue.some((fieldValue) => {
                       const lowerCaseFieldValue = fieldValue.toString().toLowerCase();
                       return lowerCaseFieldValue.includes(lowerCaseFilterValue);
                     });
@@ -345,15 +348,15 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
               }
 
               // Filter is array, field is single
-              if (Array.isArray(filterData.value) && !Array.isArray(fieldData.value)) {
-                if (!filterData.value.length) return true;
+              if (Array.isArray(rawFilterValue) && !Array.isArray(fieldValue)) {
+                if (!rawFilterValue.length) return true;
 
-                const lowerCaseFieldValue = fieldData.value.toString().toLowerCase();
+                const lowerCaseFieldValue = fieldValue.toString().toLowerCase();
 
                 // AND matching
                 if (filterData.filterMatch === 'and') {
                   // The single field value must contain all filter values
-                  return filterData.value.every((rawFilterValue) => {
+                  return rawFilterValue.every((rawFilterValue) => {
                     const lowerCaseFilterValue = rawFilterValue.toLowerCase();
                     return lowerCaseFieldValue.includes(lowerCaseFilterValue);
                   });
@@ -362,7 +365,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                 // OR matching
                 if (filterData.filterMatch === 'or') {
                   // The single field value must contain at least one filter value
-                  return filterData.value.some((rawFilterValue) => {
+                  return rawFilterValue.some((rawFilterValue) => {
                     const lowerCaseFilterValue = rawFilterValue.toLowerCase();
                     return lowerCaseFieldValue.includes(lowerCaseFilterValue);
                   });
@@ -370,10 +373,10 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
               }
 
               // Filter is single, field is array
-              if (!Array.isArray(filterData.value) && Array.isArray(fieldData.value)) {
-                if (!fieldData.value.length) return false;
+              if (!Array.isArray(rawFilterValue) && Array.isArray(fieldValue)) {
+                if (!fieldValue.length) return false;
 
-                const filterValue = parseFilterValue(filterData.value, fieldData.type, filterData.type);
+                const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                 if (filterValue === null) return false;
 
                 const lowerCaseFilterValue = filterValue.toString().toLowerCase();
@@ -381,7 +384,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                 // AND matching
                 if (filterData.fieldMatch === 'and') {
                   // All field values must contain the single filter value
-                  return fieldData.value.every((fieldValue) => {
+                  return fieldValue.every((fieldValue) => {
                     const lowerCaseFieldValue = fieldValue.toString().toLowerCase();
                     return lowerCaseFieldValue.includes(lowerCaseFilterValue);
                   });
@@ -390,7 +393,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                 // OR matching
                 if (filterData.fieldMatch === 'or') {
                   // At least one field value must contain the single filter value
-                  return fieldData.value.some((fieldValue) => {
+                  return fieldValue.some((fieldValue) => {
                     const lowerCaseFieldValue = fieldValue.toString().toLowerCase();
                     return lowerCaseFieldValue.includes(lowerCaseFilterValue);
                   });
@@ -398,9 +401,9 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
               }
 
               // Filter is single, field is single
-              if (!Array.isArray(filterData.value) && !Array.isArray(fieldData.value)) {
-                const lowerCaseFilterValue = filterData.value.toLowerCase();
-                const lowerCaseFieldData = fieldData.value.toString().toLowerCase();
+              if (!Array.isArray(rawFilterValue) && !Array.isArray(fieldValue)) {
+                const lowerCaseFilterValue = rawFilterValue.toLowerCase();
+                const lowerCaseFieldData = fieldValue.toString().toLowerCase();
 
                 return lowerCaseFieldData.includes(lowerCaseFilterValue);
               }
@@ -408,19 +411,19 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
 
             case 'not-contain': {
               // Both are arrays
-              if (Array.isArray(filterData.value) && Array.isArray(fieldData.value)) {
-                if (!filterData.value.length) return true;
-                if (!fieldData.value.length) return true;
+              if (Array.isArray(rawFilterValue) && Array.isArray(fieldValue)) {
+                if (!rawFilterValue.length) return true;
+                if (!fieldValue.length) return true;
 
                 // AND / AND
                 if (filterData.filterMatch === 'and' && filterData.fieldMatch === 'and') {
                   // For each field value, it must not contain any of the filter substrings
-                  return filterData.value.every((rawFilterValue) => {
-                    if (!Array.isArray(fieldData.value)) return false;
+                  return rawFilterValue.every((rawFilterValue) => {
+                    if (!Array.isArray(fieldValue)) return false;
 
                     const lowerCaseFilterValue = rawFilterValue.toLowerCase();
 
-                    return fieldData.value.every((fieldValue) => {
+                    return fieldValue.every((fieldValue) => {
                       const lowerCaseFieldValue = fieldValue.toString().toLowerCase();
                       return !lowerCaseFieldValue.includes(lowerCaseFilterValue);
                     });
@@ -430,12 +433,12 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                 // AND / OR
                 if (filterData.filterMatch === 'and' && filterData.fieldMatch === 'or') {
                   // For each filter substring, at least one field value must not contain it
-                  return filterData.value.every((rawFilterValue) => {
-                    if (!Array.isArray(fieldData.value)) return false;
+                  return rawFilterValue.every((rawFilterValue) => {
+                    if (!Array.isArray(fieldValue)) return false;
 
                     const lowerCaseFilterValue = rawFilterValue.toLowerCase();
 
-                    return fieldData.value.some((fieldValue) => {
+                    return fieldValue.some((fieldValue) => {
                       const lowerCaseFieldValue = fieldValue.toString().toLowerCase();
                       return !lowerCaseFieldValue.includes(lowerCaseFilterValue);
                     });
@@ -445,12 +448,12 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                 // OR / AND
                 if (filterData.filterMatch === 'or' && filterData.fieldMatch === 'and') {
                   // Each field value must not contain at least one filter substring
-                  return filterData.value.some((rawFilterValue) => {
-                    if (!Array.isArray(fieldData.value)) return false;
+                  return rawFilterValue.some((rawFilterValue) => {
+                    if (!Array.isArray(fieldValue)) return false;
 
                     const lowerCaseFilterValue = rawFilterValue.toLowerCase();
 
-                    return fieldData.value.every((fieldValue) => {
+                    return fieldValue.every((fieldValue) => {
                       const lowerCaseFieldValue = fieldValue.toString().toLowerCase();
                       return !lowerCaseFieldValue.includes(lowerCaseFilterValue);
                     });
@@ -460,12 +463,12 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                 // OR / OR
                 if (filterData.filterMatch === 'or' && filterData.fieldMatch === 'or') {
                   // There must be at least one filter substring that is not contained by at least one field value
-                  return filterData.value.some((rawFilterValue) => {
-                    if (!Array.isArray(fieldData.value)) return false;
+                  return rawFilterValue.some((rawFilterValue) => {
+                    if (!Array.isArray(fieldValue)) return false;
 
                     const lowerCaseFilterValue = rawFilterValue.toLowerCase();
 
-                    return fieldData.value.some((fieldValue) => {
+                    return fieldValue.some((fieldValue) => {
                       const lowerCaseFieldValue = fieldValue.toString().toLowerCase();
                       return !lowerCaseFieldValue.includes(lowerCaseFilterValue);
                     });
@@ -474,15 +477,15 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
               }
 
               // Filter is array, field is single
-              if (Array.isArray(filterData.value) && !Array.isArray(fieldData.value)) {
-                if (!filterData.value.length) return true;
+              if (Array.isArray(rawFilterValue) && !Array.isArray(fieldValue)) {
+                if (!rawFilterValue.length) return true;
 
-                const lowerCaseFieldValue = fieldData.value.toString().toLowerCase();
+                const lowerCaseFieldValue = fieldValue.toString().toLowerCase();
 
                 // AND matching
                 if (filterData.filterMatch === 'and') {
                   // The single field value must not contain each filter substring
-                  return filterData.value.every((rawFilterValue) => {
+                  return rawFilterValue.every((rawFilterValue) => {
                     const lowerCaseFilterValue = rawFilterValue.toLowerCase();
                     return !lowerCaseFieldValue.includes(lowerCaseFilterValue);
                   });
@@ -491,7 +494,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                 // OR matching
                 if (filterData.filterMatch === 'or') {
                   // The single field value must not contain at least one of the filter substrings
-                  return filterData.value.some((rawFilterValue) => {
+                  return rawFilterValue.some((rawFilterValue) => {
                     const lowerCaseFilterValue = rawFilterValue.toLowerCase();
                     return !lowerCaseFieldValue.includes(lowerCaseFilterValue);
                   });
@@ -499,10 +502,10 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
               }
 
               // Filter is single, field is array
-              if (!Array.isArray(filterData.value) && Array.isArray(fieldData.value)) {
-                if (!fieldData.value.length) return true;
+              if (!Array.isArray(rawFilterValue) && Array.isArray(fieldValue)) {
+                if (!fieldValue.length) return true;
 
-                const filterValue = parseFilterValue(filterData.value, fieldData.type, filterData.type);
+                const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                 if (filterValue === null) return false;
 
                 const lowerCaseFilterValue = filterValue.toString().toLowerCase();
@@ -510,7 +513,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                 // AND matching
                 if (filterData.fieldMatch === 'and') {
                   // All field values must not contain the single filter value
-                  return fieldData.value.every((fieldValue) => {
+                  return fieldValue.every((fieldValue) => {
                     const lowerCaseFieldValue = fieldValue.toString().toLowerCase();
                     return !lowerCaseFieldValue.includes(lowerCaseFilterValue);
                   });
@@ -519,7 +522,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                 // OR matching
                 if (filterData.fieldMatch === 'or') {
                   // At least one field value must not contain the single filter value
-                  return fieldData.value.some((fieldValue) => {
+                  return fieldValue.some((fieldValue) => {
                     const lowerCaseFieldValue = fieldValue.toString().toLowerCase();
                     return !lowerCaseFieldValue.includes(lowerCaseFilterValue);
                   });
@@ -527,9 +530,9 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
               }
 
               // Filter is single, field is single
-              if (!Array.isArray(filterData.value) && !Array.isArray(fieldData.value)) {
-                const lowerCaseFilterValue = filterData.value.toLowerCase();
-                const lowerCaseFieldData = fieldData.value.toString().toLowerCase();
+              if (!Array.isArray(rawFilterValue) && !Array.isArray(fieldValue)) {
+                const lowerCaseFilterValue = rawFilterValue.toLowerCase();
+                const lowerCaseFieldData = fieldValue.toString().toLowerCase();
 
                 return !lowerCaseFieldData.includes(lowerCaseFilterValue);
               }
@@ -542,120 +545,120 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
               const operator = filterData.op as 'greater' | 'greater-equal' | 'less' | 'less-equal';
 
               // Both are arrays
-              if (Array.isArray(filterData.value) && Array.isArray(fieldData.value)) {
-                if (!filterData.value.length) return true;
-                if (!fieldData.value.length) return false;
+              if (Array.isArray(rawFilterValue) && Array.isArray(fieldValue)) {
+                if (!rawFilterValue.length) return true;
+                if (!fieldValue.length) return false;
 
                 // AND / AND
                 if (filterData.filterMatch === 'and' && filterData.fieldMatch === 'and') {
                   // For every field value, it must pass the comparison with all filter values
-                  return filterData.value.every((rawFilterValue) => {
-                    if (!Array.isArray(fieldData.value)) return false;
+                  return rawFilterValue.every((rawFilterValue) => {
+                    if (!Array.isArray(fieldValue)) return false;
 
                     const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
-                    return fieldData.value.every((fieldValue) => numericCompare(fieldValue, filterValue, operator));
+                    return fieldValue.every((fieldValue) => numericCompare(fieldValue, filterValue, operator));
                   });
                 }
 
                 // AND / OR
                 if (filterData.filterMatch === 'and' && filterData.fieldMatch === 'or') {
                   // For each filter value, there must be at least one field value less than it
-                  return filterData.value.every((rawFilterValue) => {
-                    if (!Array.isArray(fieldData.value)) return false;
+                  return rawFilterValue.every((rawFilterValue) => {
+                    if (!Array.isArray(fieldValue)) return false;
 
                     const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
-                    return fieldData.value.some((fieldValue) => numericCompare(fieldValue, filterValue, operator));
+                    return fieldValue.some((fieldValue) => numericCompare(fieldValue, filterValue, operator));
                   });
                 }
 
                 // OR / AND
                 if (filterData.filterMatch === 'or' && filterData.fieldMatch === 'and') {
                   // For at least one filter value, all field values must pass the comparison
-                  return filterData.value.some((rawFilterValue) => {
-                    if (!Array.isArray(fieldData.value)) return false;
+                  return rawFilterValue.some((rawFilterValue) => {
+                    if (!Array.isArray(fieldValue)) return false;
 
                     const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
-                    return fieldData.value.every((fieldValue) => numericCompare(fieldValue, filterValue, operator));
+                    return fieldValue.every((fieldValue) => numericCompare(fieldValue, filterValue, operator));
                   });
                 }
 
                 // OR / OR
                 if (filterData.filterMatch === 'or' && filterData.fieldMatch === 'or') {
                   // For at least one filter value, there must be at least one field value that passes the comparison
-                  return filterData.value.some((rawFilterValue) => {
-                    if (!Array.isArray(fieldData.value)) return false;
+                  return rawFilterValue.some((rawFilterValue) => {
+                    if (!Array.isArray(fieldValue)) return false;
 
                     const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
-                    return fieldData.value.some((fieldValue) => numericCompare(fieldValue, filterValue, operator));
+                    return fieldValue.some((fieldValue) => numericCompare(fieldValue, filterValue, operator));
                   });
                 }
               }
 
               // Filter is array, field is single
-              if (Array.isArray(filterData.value) && !Array.isArray(fieldData.value)) {
-                if (!filterData.value.length) return true;
+              if (Array.isArray(rawFilterValue) && !Array.isArray(fieldValue)) {
+                if (!rawFilterValue.length) return true;
 
                 // AND matching
                 if (filterData.filterMatch === 'and') {
                   // The single field value must pass the comparison with all filter values
-                  return filterData.value.every((rawFilterValue) => {
-                    if (Array.isArray(fieldData.value)) return false;
+                  return rawFilterValue.every((rawFilterValue) => {
+                    if (Array.isArray(fieldValue)) return false;
 
                     const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
-                    return numericCompare(fieldData.value, filterValue, operator);
+                    return numericCompare(fieldValue, filterValue, operator);
                   });
                 }
 
                 // OR matching
                 if (filterData.filterMatch === 'or') {
                   // The single field value must pass the comparison with at least one filter value
-                  return filterData.value.some((rawFilterValue) => {
-                    if (Array.isArray(fieldData.value)) return false;
+                  return rawFilterValue.some((rawFilterValue) => {
+                    if (Array.isArray(fieldValue)) return false;
 
                     const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
-                    return numericCompare(fieldData.value, filterValue, operator);
+                    return numericCompare(fieldValue, filterValue, operator);
                   });
                 }
               }
 
               // Filter is single, field is array
-              if (!Array.isArray(filterData.value) && Array.isArray(fieldData.value)) {
-                if (!fieldData.value.length) return false;
+              if (!Array.isArray(rawFilterValue) && Array.isArray(fieldValue)) {
+                if (!fieldValue.length) return false;
 
-                const filterValue = parseFilterValue(filterData.value, fieldData.type, filterData.type);
+                const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                 if (filterValue === null) return false;
 
                 // AND matching
                 if (filterData.fieldMatch === 'and') {
                   // All field values must pass the comparison with the single filter value
-                  return fieldData.value.every((fieldValue) => numericCompare(fieldValue, filterValue, operator));
+                  return fieldValue.every((fieldValue) => numericCompare(fieldValue, filterValue, operator));
                 }
 
                 // OR matching
                 if (filterData.fieldMatch === 'or') {
                   // At least one field value must pass the comparison with the single filter value
-                  return fieldData.value.some((fieldValue) => numericCompare(fieldValue, filterValue, operator));
+                  return fieldValue.some((fieldValue) => numericCompare(fieldValue, filterValue, operator));
                 }
               }
 
               // Filter is single, field is single
-              if (!Array.isArray(filterData.value) && !Array.isArray(fieldData.value)) {
-                const filterValue = parseFilterValue(filterData.value, fieldData.type, filterData.type);
+              if (!Array.isArray(rawFilterValue) && !Array.isArray(fieldValue)) {
+                const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                 if (filterValue === null) return false;
 
-                return numericCompare(fieldData.value, filterValue, operator);
+                return numericCompare(fieldValue, filterValue, operator);
               }
             }
           }
