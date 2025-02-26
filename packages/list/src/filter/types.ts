@@ -1,3 +1,5 @@
+import type { FormFieldType } from '@finsweet/attributes-utils';
+
 import type { SETTINGS } from '../utils/constants';
 
 type FilterOperatorValues = (typeof SETTINGS)['operator']['values'];
@@ -42,6 +44,7 @@ export type FilterMatch = 'and' | 'or';
 export type FiltersCondition = {
   field: string;
   op: FilterOperator;
+  type: FormFieldType;
   value?: string | string[];
   filterMatch: FilterMatch;
   fieldMatch: FilterMatch;

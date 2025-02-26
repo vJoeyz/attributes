@@ -3,6 +3,7 @@ import {
   clearFormField,
   extractCommaSeparatedValues,
   type FormField,
+  type FormFieldType,
   isFormField,
   isNumber,
 } from '@finsweet/attributes-utils';
@@ -49,7 +50,7 @@ export const initSimpleFilters = (list: List, form: HTMLFormElement) => {
 
     // With debouncing
     const timeout = getAttribute(target, 'debounce');
-    if (isNumber(timeout)) {
+    if (isNumber(timeout) && !isNaN(timeout)) {
       const timeoutId = window.setTimeout(update, timeout);
 
       debounces.set(target, timeoutId);
@@ -115,7 +116,7 @@ export const initSimpleFilters = (list: List, form: HTMLFormElement) => {
  * @param formField A {@link FormField} element.
  */
 const getConditionData = (formField: FormField, field: string, op: FilterOperator): FiltersCondition => {
-  const { type } = formField;
+  const type = formField.type as FormFieldType;
 
   const filterMatch = getAttribute(formField, 'filtermatch', { filterInvalid: true });
   const fieldMatch = getAttribute(formField, 'fieldmatch', { filterInvalid: true });
@@ -141,11 +142,13 @@ const getConditionData = (formField: FormField, field: string, op: FilterOperato
           op,
           filterMatch,
           fieldMatch,
+          type,
         };
       }
 
       // Single
-      const value = String((formField as HTMLInputElement).checked);
+      const { checked } = formField as HTMLInputElement;
+      const value = checked ? 'true' : '';
 
       return {
         value,
@@ -153,6 +156,7 @@ const getConditionData = (formField: FormField, field: string, op: FilterOperato
         op,
         filterMatch,
         fieldMatch,
+        type,
       };
     }
 
@@ -170,6 +174,7 @@ const getConditionData = (formField: FormField, field: string, op: FilterOperato
         op,
         filterMatch,
         fieldMatch,
+        type,
       };
     }
 
@@ -183,10 +188,28 @@ const getConditionData = (formField: FormField, field: string, op: FilterOperato
         op,
         filterMatch,
         fieldMatch,
+        type,
       };
     }
 
     // Default - Text
+    case 'date':
+    case 'month':
+    case 'week':
+    case 'time': {
+      const { valueAsDate, value: _value } = formField as HTMLInputElement;
+      const value = valueAsDate ? valueAsDate.toISOString() : _value;
+
+      return {
+        value,
+        field,
+        op,
+        filterMatch,
+        fieldMatch,
+        type,
+      };
+    }
+
     default: {
       const { value } = formField;
 
@@ -199,6 +222,7 @@ const getConditionData = (formField: FormField, field: string, op: FilterOperato
         fuzzy,
         filterMatch,
         fieldMatch,
+        type,
       };
     }
   }
@@ -248,7 +272,7 @@ const initFiltersResults = (list: List, form: HTMLFormElement) => {
     const field = getAttribute(formField, 'field');
     if (!field) continue;
 
-    const resultsCountElement = queryElement('filter-results-count', { scope: formField.parentElement! });
+    const resultsCountElement = queryElement('filter-results-count', { scope: formField.parentElement });
     if (!resultsCountElement) continue;
 
     const op = getAttribute(formField, 'operator', { filterInvalid: true });

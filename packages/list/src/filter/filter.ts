@@ -1,4 +1,10 @@
-import { extractCommaSeparatedValues, isString, normalizeDate, normalizeNumber } from '@finsweet/attributes-utils';
+import {
+  extractCommaSeparatedValues,
+  type FormFieldType,
+  isString,
+  normalizeDate,
+  normalizeNumber,
+} from '@finsweet/attributes-utils';
 import type { SearchResult } from 'minisearch';
 import type MiniSearch from 'minisearch';
 
@@ -51,7 +57,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                   return filterData.value.every((rawFilterValue) => {
                     if (!Array.isArray(fieldData.value)) return false;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData);
+                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
                     return fieldData.value.every((fieldValue) => areEqual(fieldValue, filterValue));
@@ -64,7 +70,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                   return filterData.value.every((rawFilterValue) => {
                     if (!Array.isArray(fieldData.value)) return false;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData);
+                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
                     return fieldData.value.some((fieldValue) => areEqual(fieldValue, filterValue));
@@ -77,7 +83,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                   return filterData.value.some((rawFilterValue) => {
                     if (!Array.isArray(fieldData.value)) return false;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData);
+                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
                     return fieldData.value.every((fieldValue) => areEqual(fieldValue, filterValue));
@@ -90,7 +96,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                   return filterData.value.some((rawFilterValue) => {
                     if (!Array.isArray(fieldData.value)) return false;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData);
+                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
                     return fieldData.value.some((fieldValue) => areEqual(fieldValue, filterValue));
@@ -106,7 +112,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                 if (filterData.filterMatch === 'and') {
                   // The single field value must match all filter values
                   return filterData.value.every((rawFilterValue) => {
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData);
+                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
                     return areEqual(fieldData.value, filterValue);
@@ -117,7 +123,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                 if (filterData.filterMatch === 'or') {
                   // The single field value must match at least one filter value
                   return filterData.value.some((rawFilterValue) => {
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData);
+                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
                     return areEqual(fieldData.value, filterValue);
@@ -129,7 +135,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
               if (!Array.isArray(filterData.value) && Array.isArray(fieldData.value)) {
                 if (!fieldData.value.length) return false;
 
-                const filterValue = parseFilterValue(filterData.value, fieldData);
+                const filterValue = parseFilterValue(filterData.value, fieldData.type, filterData.type);
                 if (filterValue === null) return false;
 
                 // AND matching
@@ -147,7 +153,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
 
               // Filter is single, field is single
               if (!Array.isArray(filterData.value) && !Array.isArray(fieldData.value)) {
-                const filterValue = parseFilterValue(filterData.value, fieldData);
+                const filterValue = parseFilterValue(filterData.value, fieldData.type, filterData.type);
                 if (filterValue === null) return false;
 
                 return areEqual(fieldData.value, filterValue);
@@ -166,7 +172,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                   return !filterData.value.some((rawFilterValue) => {
                     if (!Array.isArray(fieldData.value)) return true;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData);
+                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
                     return fieldData.value.some((fieldValue) => areEqual(fieldValue, filterValue));
@@ -179,7 +185,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                   return filterData.value.every((rawFilterValue) => {
                     if (!Array.isArray(fieldData.value)) return true;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData);
+                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
                     return fieldData.value.some((fieldValue) => !areEqual(fieldValue, filterValue));
@@ -192,7 +198,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                   return filterData.value.some((rawFilterValue) => {
                     if (!Array.isArray(fieldData.value)) return true;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData);
+                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
                     return fieldData.value.every((fieldValue) => !areEqual(fieldValue, filterValue));
@@ -205,7 +211,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                   return filterData.value.some((rawFilterValue) => {
                     if (!Array.isArray(fieldData.value)) return true;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData);
+                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
                     return fieldData.value.some((fieldValue) => !areEqual(fieldValue, filterValue));
@@ -221,7 +227,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                 if (filterData.filterMatch === 'and') {
                   // The single field value must not match all filter values
                   return filterData.value.every((rawFilterValue) => {
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData);
+                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
                     return !areEqual(fieldData.value, filterValue);
@@ -232,7 +238,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                 if (filterData.filterMatch === 'or') {
                   // The single field value must not match at least one filter value
                   return filterData.value.some((rawFilterValue) => {
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData);
+                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
                     return !areEqual(fieldData.value, filterValue);
@@ -244,7 +250,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
               if (!Array.isArray(filterData.value) && Array.isArray(fieldData.value)) {
                 if (!fieldData.value.length) return true;
 
-                const filterValue = parseFilterValue(filterData.value, fieldData);
+                const filterValue = parseFilterValue(filterData.value, fieldData.type, filterData.type);
                 if (filterValue === null) return false;
 
                 // AND matching
@@ -262,7 +268,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
 
               // Filter is single, field is single
               if (!Array.isArray(filterData.value) && !Array.isArray(fieldData.value)) {
-                const filterValue = parseFilterValue(filterData.value, fieldData);
+                const filterValue = parseFilterValue(filterData.value, fieldData.type, filterData.type);
                 if (filterValue === null) return false;
 
                 return !areEqual(fieldData.value, filterValue);
@@ -365,7 +371,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
               if (!Array.isArray(filterData.value) && Array.isArray(fieldData.value)) {
                 if (!fieldData.value.length) return false;
 
-                const filterValue = parseFilterValue(filterData.value, fieldData);
+                const filterValue = parseFilterValue(filterData.value, fieldData.type, filterData.type);
                 if (filterValue === null) return false;
 
                 const lowerCaseFilterValue = filterValue.toString().toLowerCase();
@@ -494,7 +500,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
               if (!Array.isArray(filterData.value) && Array.isArray(fieldData.value)) {
                 if (!fieldData.value.length) return true;
 
-                const filterValue = parseFilterValue(filterData.value, fieldData);
+                const filterValue = parseFilterValue(filterData.value, fieldData.type, filterData.type);
                 if (filterValue === null) return false;
 
                 const lowerCaseFilterValue = filterValue.toString().toLowerCase();
@@ -544,7 +550,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                   return filterData.value.every((rawFilterValue) => {
                     if (!Array.isArray(fieldData.value)) return false;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData);
+                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
                     return fieldData.value.every((fieldValue) => numericCompare(fieldValue, filterValue, operator));
@@ -557,7 +563,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                   return filterData.value.every((rawFilterValue) => {
                     if (!Array.isArray(fieldData.value)) return false;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData);
+                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
                     return fieldData.value.some((fieldValue) => numericCompare(fieldValue, filterValue, operator));
@@ -570,7 +576,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                   return filterData.value.some((rawFilterValue) => {
                     if (!Array.isArray(fieldData.value)) return false;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData);
+                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
                     return fieldData.value.every((fieldValue) => numericCompare(fieldValue, filterValue, operator));
@@ -583,7 +589,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                   return filterData.value.some((rawFilterValue) => {
                     if (!Array.isArray(fieldData.value)) return false;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData);
+                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
                     return fieldData.value.some((fieldValue) => numericCompare(fieldValue, filterValue, operator));
@@ -601,7 +607,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                   return filterData.value.every((rawFilterValue) => {
                     if (Array.isArray(fieldData.value)) return false;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData);
+                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
                     return numericCompare(fieldData.value, filterValue, operator);
@@ -614,7 +620,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
                   return filterData.value.some((rawFilterValue) => {
                     if (Array.isArray(fieldData.value)) return false;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData);
+                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
                     if (filterValue === null) return false;
 
                     return numericCompare(fieldData.value, filterValue, operator);
@@ -626,7 +632,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
               if (!Array.isArray(filterData.value) && Array.isArray(fieldData.value)) {
                 if (!fieldData.value.length) return false;
 
-                const filterValue = parseFilterValue(filterData.value, fieldData);
+                const filterValue = parseFilterValue(filterData.value, fieldData.type, filterData.type);
                 if (filterValue === null) return false;
 
                 // AND matching
@@ -644,7 +650,7 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
 
               // Filter is single, field is single
               if (!Array.isArray(filterData.value) && !Array.isArray(fieldData.value)) {
-                const filterValue = parseFilterValue(filterData.value, fieldData);
+                const filterValue = parseFilterValue(filterData.value, fieldData.type, filterData.type);
                 if (filterValue === null) return false;
 
                 return numericCompare(fieldData.value, filterValue, operator);
@@ -678,8 +684,15 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
  * @param fieldData
  * @returns The parsed filter value, if it could be parsed. Otherwise, `null`.
  */
-const parseFilterValue = (rawFilterValue: string, { type }: ListItemField) => {
-  if (type === 'date') {
+const parseFilterValue = (rawFilterValue: string, fieldType: ListItemField['type'], filterType: FormFieldType) => {
+  if (
+    fieldType === 'date' ||
+    filterType === 'date' ||
+    filterType === 'time' ||
+    filterType === 'datetime-local' ||
+    filterType === 'month' ||
+    filterType === 'week'
+  ) {
     const filterValue = normalizeDate(rawFilterValue);
 
     if (filterValue === undefined || isNaN(filterValue.getTime())) {
@@ -689,7 +702,7 @@ const parseFilterValue = (rawFilterValue: string, { type }: ListItemField) => {
     return filterValue;
   }
 
-  if (type === 'number') {
+  if (fieldType === 'number' || filterType === 'number' || filterType === 'range') {
     const filterValue = normalizeNumber(rawFilterValue);
 
     if (filterValue === undefined || isNaN(filterValue)) {
