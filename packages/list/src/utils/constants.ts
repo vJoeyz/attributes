@@ -266,6 +266,24 @@ export const SETTINGS = {
   },
 
   /**
+   * Defines the matching logic for multiple conditions.
+   */
+  conditionsmatch: {
+    key: 'conditionsmatch',
+    values: ['and', 'or'],
+    defaultValue: 'and',
+  },
+
+  /**
+   * Defines the matching logic for multiple condition groups.
+   */
+  groupsmatch: {
+    key: 'groupsmatch',
+    values: ['and', 'or'],
+    defaultValue: 'and',
+  },
+
+  /**
    * Defines an item field type.
    */
   fieldtype: {

@@ -8,6 +8,7 @@ import {
   isNumber,
 } from '@finsweet/attributes-utils';
 import { toRaw, watch } from '@vue/reactivity';
+import debounce from 'just-debounce';
 
 import type { ListItem } from '../components';
 import type { List } from '../components/List';
@@ -252,7 +253,8 @@ const getConditionOperator = (formField: FormField) => {
  */
 export const getSimpleFilters = (form: HTMLFormElement) => {
   const filters: Filters = {
-    groups: [{ conditions: [] }],
+    groups: [{ conditions: [], conditionsMatch: getAttribute(form, 'conditionsmatch', { filterInvalid: true }) }],
+    groupsMatch: getAttribute(form, 'groupsmatch', { filterInvalid: true }),
   };
 
   for (const formField of form.elements) {
@@ -294,42 +296,35 @@ const initFiltersResults = (list: List, form: HTMLFormElement) => {
 
     const op = getConditionOperator(formField);
     const value = getAttribute(formField, 'value') || formField.value || '';
-    const isCheckboxGroup = type === 'checkbox' && getCheckboxGroup(formField.name, formField.form)?.length;
 
-    watch(
-      [list.filters, list.items],
-      ([filters, items]: [Filters, ListItem[]]) => {
-        const filtersClone = structuredClone(toRaw(filters)) as Filters;
+    const handler = debounce(([filters, items]: [Filters, ListItem[]]) => {
+      const filtersClone = structuredClone(toRaw(filters)) as Filters;
 
-        const conditions = filtersClone.groups[0]?.conditions || [];
-        const conditionIndex = conditions.findIndex((c) => c.field === field && c.op === op);
+      const conditionsGroup = filtersClone.groups[0];
+      if (!conditionsGroup) return;
 
-        const condition = conditions[conditionIndex];
-        if (!condition) return;
+      const { conditions = [] } = conditionsGroup;
+      const conditionIndex = conditions.findIndex((c) => c.field === field && c.op === op);
 
-        if (isCheckboxGroup) {
-          if (condition.filterMatch === 'and') {
-            const arrayValue = Array.isArray(condition.value)
-              ? condition.value
-              : condition.value
-              ? [condition.value]
-              : [];
+      const condition = conditions[conditionIndex];
+      if (!condition) return;
 
-            arrayValue.push(value);
-
-            condition.value = arrayValue;
-          } else {
-            condition.value = [value];
-          }
+      // Inject the condition value
+      if (Array.isArray(condition.value)) {
+        if (condition.filterMatch === 'and') {
+          condition.value.push(value);
         } else {
-          condition.value = value;
+          condition.value = [value];
         }
+      } else {
+        condition.value = value;
+      }
 
-        const result = filterItems(filtersClone, items);
+      const result = filterItems(filtersClone, items);
 
-        resultsCountElement.textContent = `${result.length}`;
-      },
-      { deep: true, immediate: true }
-    );
+      resultsCountElement.textContent = `${result.length}`;
+    }, 0);
+
+    watch([list.filters, list.items], handler, { deep: true, immediate: true });
   }
 };

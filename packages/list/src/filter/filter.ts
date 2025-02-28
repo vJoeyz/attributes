@@ -672,12 +672,12 @@ export const filterItems = (filters: Filters, items: ListItem[], fuzzySearch?: M
         return filterData.fieldMatch === 'and' ? fields.every(fieldsPredicate) : fields.some(fieldsPredicate);
       };
 
-      return groupData.match === 'or'
+      return groupData.conditionsMatch === 'or'
         ? groupData.conditions.some(conditionsPredicate)
         : groupData.conditions.every(conditionsPredicate);
     };
 
-    return filters.match === 'or' ? filters.groups.some(groupsPredicate) : filters.groups.every(groupsPredicate);
+    return filters.groupsMatch === 'or' ? filters.groups.some(groupsPredicate) : filters.groups.every(groupsPredicate);
   });
 
   return filteredItems;

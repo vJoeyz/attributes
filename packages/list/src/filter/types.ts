@@ -52,11 +52,11 @@ export type FiltersCondition = {
 };
 
 export type FiltersGroup = {
-  match?: FilterMatch;
+  conditionsMatch: FilterMatch;
   conditions: FiltersCondition[];
 };
 
 export type Filters = {
-  match?: FilterMatch;
+  groupsMatch: FilterMatch;
   groups: FiltersGroup[];
 };

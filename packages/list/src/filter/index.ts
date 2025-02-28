@@ -1,4 +1,5 @@
 import { effect, watch } from '@vue/reactivity';
+import debounce from 'just-debounce';
 
 import type { List } from '../components/List';
 import { queryElement } from '../utils/selectors';
@@ -43,21 +44,9 @@ export const initListFiltering = (list: List, form: HTMLFormElement) => {
   initTags(list);
 
   // Trigger the hook when the filters change
-  let queued = false;
-
-  // TODO: watcher seems to fire twice on each filter change
   const filtersCleanup = watch(
     list.filters,
-    () => {
-      if (queued) return;
-
-      queued = true;
-
-      queueMicrotask(() => {
-        list.triggerHook('filter');
-        queued = false;
-      });
-    },
+    debounce(() => list.triggerHook('filter'), 0),
     { deep: true, immediate: true }
   );
 
