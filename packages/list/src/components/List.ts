@@ -184,7 +184,7 @@ export class List {
   /**
    * Defines the total amount of pages in the list.
    */
-  public readonly totalPages = ref(1);
+  public readonly totalPages = computed(() => Math.ceil(this.hooks.sort.result.value.length / this.itemsPerPage.value));
 
   /**
    * Defines the current page in `Pagination` mode.

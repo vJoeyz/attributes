@@ -39,16 +39,8 @@ export const initPaginationMode = (list: List) => {
     return paginatedItems;
   });
 
-  watch(list.currentPage, () => list.triggerHook('paginate'));
-  watch(list.itemsPerPage, () => list.triggerHook('paginate'));
-
-  watch(
-    [list.items, list.itemsPerPage],
-    ([$items, $itemsPerPage]) => {
-      list.totalPages.value = Math.ceil($items.length / $itemsPerPage) || 1;
-    },
-    { immediate: true }
-  );
+  const currentPageCleanup = watch(list.currentPage, () => list.triggerHook('paginate'));
+  const paginateCleanup = watch(list.itemsPerPage, () => list.triggerHook('paginate'));
 
   // Get settings
   const showQueryParams = hasAttributeValue(listOrWrapper, 'showquery', 'true');
@@ -108,6 +100,8 @@ export const initPaginationMode = (list: List) => {
     pageSiblingsCleanup?.();
     pageButtonsCleanup?.();
     paginationButtonsCleanup();
+    currentPageCleanup();
+    paginateCleanup();
   };
 };
 
