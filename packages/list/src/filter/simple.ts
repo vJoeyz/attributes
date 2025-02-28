@@ -30,13 +30,11 @@ export const initSimpleFilters = (list: List, form: HTMLFormElement) => {
     if (!field) return;
 
     const update = () => {
-      const op = getAttribute(target, 'operator', { filterInvalid: true });
-
       const conditions = list.filters.groups[0]?.conditions || [];
 
       const data = getConditionData(target, field);
 
-      const conditionIndex = conditions.findIndex((c) => c.field === field && c.op === op);
+      const conditionIndex = conditions.findIndex((c) => c.field === field && c.op === data.op);
       if (conditionIndex >= 0) {
         conditions[conditionIndex] = data;
       } else {
@@ -120,9 +118,7 @@ export const initSimpleFilters = (list: List, form: HTMLFormElement) => {
 const getConditionData = (formField: FormField, field: string): FiltersCondition => {
   const type = formField.type as FormFieldType;
 
-  const stringInputTypes: FormFieldType[] = ['text', 'password', 'email', 'tel', 'url', 'search', 'color'];
-  const opDefault = stringInputTypes.includes(type) ? 'contain' : 'equal';
-  const op = getAttribute(formField, 'operator', { filterInvalid: true }) || opDefault;
+  const op = getConditionOperator(formField);
 
   const filterMatch = getAttribute(formField, 'filtermatch', { filterInvalid: true });
   const fieldMatch = getAttribute(formField, 'fieldmatch', { filterInvalid: true });
@@ -235,6 +231,22 @@ const getConditionData = (formField: FormField, field: string): FiltersCondition
 };
 
 /**
+ * Retrieves the condition operator based on the form field type.
+ *
+ * @param formField The form field to retrieve the operator for.
+ * @returns The condition operator as a string, with the proper fallback value.
+ */
+const getConditionOperator = (formField: FormField) => {
+  const type = formField.type as FormFieldType;
+
+  const stringInputTypes: FormFieldType[] = ['text', 'password', 'email', 'tel', 'url', 'search', 'color'];
+  const opDefault = stringInputTypes.includes(type) ? 'contain' : 'equal';
+
+  const op = getAttribute(formField, 'operator', { filterInvalid: true }) || opDefault;
+  return op;
+};
+
+/**
  * @returns An object with the form fields as keys and their values as values.
  * @param form A {@link HTMLFormElement} element.
  */
@@ -252,10 +264,9 @@ export const getSimpleFilters = (form: HTMLFormElement) => {
     const field = getAttribute(formField, 'field');
     if (!field) continue;
 
-    const op = getAttribute(formField, 'operator', { filterInvalid: true });
     const data = getConditionData(formField, field);
 
-    if (!filters.groups[0].conditions.some((c) => c.field === field && c.op === op)) {
+    if (!filters.groups[0].conditions.some((c) => c.field === field && c.op === data.op)) {
       filters.groups[0].conditions.push(data);
     }
   }
@@ -281,7 +292,7 @@ const initFiltersResults = (list: List, form: HTMLFormElement) => {
     const resultsCountElement = queryElement('filter-results-count', { scope: formField.parentElement });
     if (!resultsCountElement) continue;
 
-    const op = getAttribute(formField, 'operator', { filterInvalid: true });
+    const op = getConditionOperator(formField);
     const value = getAttribute(formField, 'value') || formField.value || '';
     const isCheckboxGroup = type === 'checkbox' && getCheckboxGroup(formField.name, formField.form)?.length;
 
