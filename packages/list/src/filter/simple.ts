@@ -11,8 +11,9 @@ import { toRaw, watch } from '@vue/reactivity';
 
 import type { ListItem } from '../components';
 import type { List } from '../components/List';
+import { getCheckboxGroup } from '../utils/dom';
 import { setReactive } from '../utils/reactivity';
-import { getAttribute, getElementSelector, getSettingSelector, queryElement } from '../utils/selectors';
+import { getAttribute, getElementSelector, queryElement } from '../utils/selectors';
 import { filterItems } from './filter';
 import type { Filters, FiltersCondition } from './types';
 
@@ -320,19 +321,4 @@ const initFiltersResults = (list: List, form: HTMLFormElement) => {
       { deep: true, immediate: true }
     );
   }
-};
-
-/**
- * @returns All the checkboxes in a group.
- * @param name The name of the group.
- * @param form The form element containing the group.
- */
-const getCheckboxGroup = (name: string, form: HTMLFormElement | null) => {
-  const groupSelector = [
-    `input[name="${name}"][type="checkbox"][value]`,
-    `input[name="${name}"][type="checkbox"]${getSettingSelector('value')}`,
-  ].join(',');
-
-  const groupCheckboxes = form?.querySelectorAll<HTMLInputElement>(groupSelector);
-  return groupCheckboxes;
 };
