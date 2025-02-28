@@ -29,19 +29,19 @@ export const initTags = (list: List) => {
   const tagTemplate = queryElement('tag', { instance: list.instance });
   if (!tagTemplate) return;
 
-  const tagsListTemplate = tagTemplate.parentElement;
-  if (!tagsListTemplate) return;
+  const tagsList = tagTemplate.parentElement;
+  if (!tagsList) return;
 
-  const tagsListsWrapper = tagsListTemplate.parentElement;
-  if (!tagsListsWrapper) return;
+  const tagsListsWrapper = tagsList.parentElement;
 
   tagTemplate.remove();
-  tagsListTemplate.remove();
+
+  const tagsListTemplate = cloneNode(tagsList);
 
   const renderedTagLists: Array<{
     element: HTMLElement;
     tags: Map<string, { element: HTMLElement; cleanup: () => void }>;
-  }> = [];
+  }> = [{ element: tagsList, tags: new Map() }];
 
   const watcherCleanup = watch(list.filters, (filters: Filters) => {
     filters.groups.forEach((group, groupIndex) => {
@@ -149,7 +149,7 @@ export const initTags = (list: List) => {
       }
 
       if (!tagListIsRendered) {
-        tagsListsWrapper.appendChild(tagList.element);
+        tagsListsWrapper?.appendChild(tagList.element);
       }
     });
   });
