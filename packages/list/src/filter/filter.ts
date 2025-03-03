@@ -7,7 +7,7 @@ import type { Filters, FilterTask, FilterTaskData, FilterTaskResult } from './ty
 
 const WORKER_POOL_SIZE = navigator.hardwareConcurrency || 4;
 
-const workers: Worker[] = new Array(WORKER_POOL_SIZE).fill(null).map(() => new FilterWorker());
+const workers: Worker[] = Array.from({ length: WORKER_POOL_SIZE }, () => new FilterWorker());
 const freeWorkers = workers.slice();
 const taskQueue: FilterTask[] = [];
 
