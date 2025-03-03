@@ -62,6 +62,11 @@ export const ELEMENTS = [
   'sort-trigger',
 
   /**
+   * Defines a dropdown label.
+   */
+  'dropdown-label',
+
+  /**
    * Loader
    */
   'loader',
