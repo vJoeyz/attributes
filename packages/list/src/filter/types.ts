@@ -1,45 +1,12 @@
 import type { FormFieldType } from '@finsweet/attributes-utils';
 
+import type { ListItem } from '../components';
 import type { SETTINGS } from '../utils/constants';
 
 type FilterOperatorValues = (typeof SETTINGS)['operator']['values'];
 export type FilterOperator = FilterOperatorValues[number];
 
 export type FilterMatch = 'and' | 'or';
-
-// export type FilterData = {
-//   fieldKeys: string[] | null;
-//   op: FilterOperator;
-// } & (
-//   | {
-//       type: 'multiple';
-//       value: string[];
-//     }
-//   | {
-//       type: 'number';
-//       value: number | null;
-//     }
-//   | {
-//       type: 'checkbox';
-//       value: string | null;
-//     }
-//   | {
-//       type: 'text';
-//       value: string;
-//     }
-//   | {
-//       type: 'radio';
-//       value: string | null;
-//     }
-//   | {
-//       type: 'date';
-//       value: Date | null;
-//     }
-// );
-
-// export type FiltersData = {
-//   [key: string]: FilterData;
-// };
 
 export type FiltersCondition = {
   field: string;
@@ -59,4 +26,14 @@ export type FiltersGroup = {
 export type Filters = {
   groupsMatch: FilterMatch;
   groups: FiltersGroup[];
+};
+
+export type PickedListItem = Pick<ListItem, 'id' | 'fields'>;
+
+export type FilterTaskData = { filters: Filters; items: PickedListItem[] };
+export type FilterTaskResult = PickedListItem[];
+export type FilterTask = {
+  data: FilterTaskData;
+  resolve: (result: FilterTaskResult) => void;
+  reject: (error: unknown) => void;
 };
