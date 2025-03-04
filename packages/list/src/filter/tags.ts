@@ -1,10 +1,11 @@
-import { addListener, cloneNode, isNotEmpty } from '@finsweet/attributes-utils';
+import { addListener, cloneNode, isDate, isNotEmpty, isNumber } from '@finsweet/attributes-utils';
 import { watch } from '@vue/reactivity';
 
 import type { List } from '../components/List';
 import { SETTINGS } from '../utils/constants';
-import { queryElement } from '../utils/selectors';
+import { getAttribute, queryElement } from '../utils/selectors';
 import type { FilterOperator, Filters } from './types';
+import { parseFilterValue } from './utils';
 
 const OPERATOR_SYMBOLS: Record<FilterOperator, string> = {
   empty: '∅',
@@ -93,6 +94,7 @@ export const initTags = (list: List) => {
         const fieldElement = queryElement('tag-field', { scope: tag.element });
         const operatorElement = queryElement('tag-operator', { scope: tag.element });
         const valueElement = queryElement('tag-value', { scope: tag.element });
+
         const operatorOverwriteElements = new Map(
           SETTINGS.operator.values
             .map((operator) => {
@@ -104,22 +106,12 @@ export const initTags = (list: List) => {
             .filter(isNotEmpty)
         );
 
+        // Field
         if (fieldElement) {
           fieldElement.textContent = condition.field;
         }
 
-        if (valueElement) {
-          if (!condition.value) {
-            valueElement.remove();
-          } else {
-            const value = Array.isArray(condition.value)
-              ? condition.value.join(condition.filterMatch === 'or' ? ' | ' : ' & ')
-              : condition.value;
-
-            valueElement.textContent = value;
-          }
-        }
-
+        // Operator
         const operator = condition.op;
         const operatorOverwriteElement = operatorOverwriteElements.get(operator);
 
@@ -139,6 +131,58 @@ export const initTags = (list: List) => {
           // Remove all unused overwrites
           for (const [, element] of operatorOverwriteElements) {
             element.remove();
+          }
+        }
+
+        // Value
+        if (valueElement) {
+          // No value
+          if (!condition.value) {
+            valueElement.remove();
+          }
+
+          // Has value
+          else {
+            // Format the value, if needed
+            let formattedValue = condition.value;
+
+            const formatDisplay = getAttribute(valueElement, 'formatdisplay');
+            if (formatDisplay) {
+              const locale = formatDisplay === 'true' ? undefined : formatDisplay;
+
+              if (Array.isArray(condition.value)) {
+                formattedValue = condition.value.map((value) => {
+                  const parsedValue = parseFilterValue(value, condition.type);
+
+                  if (isNumber(parsedValue)) {
+                    return parsedValue.toLocaleString(locale);
+                  }
+
+                  if (isDate(parsedValue)) {
+                    return parsedValue.toLocaleDateString(locale);
+                  }
+
+                  return value;
+                });
+              } else {
+                const parsedValue = parseFilterValue(condition.value, condition.type);
+
+                if (isNumber(parsedValue)) {
+                  formattedValue = parsedValue.toLocaleString(locale);
+                }
+
+                if (isDate(parsedValue)) {
+                  formattedValue = parsedValue.toLocaleDateString(locale);
+                }
+              }
+            }
+
+            // Set the value
+            const value = Array.isArray(formattedValue)
+              ? formattedValue.join(condition.filterMatch === 'or' ? ' | ' : ' & ')
+              : formattedValue;
+
+            valueElement.textContent = value;
           }
         }
 

@@ -431,6 +431,13 @@ export const SETTINGS = {
    * Defines if loaded Items can be cached using IndexedDB after fetching them.
    */
   cache: { key: `cache`, values: ['true'], defaultValue: 'true' },
+
+  /**
+   * If added to a tag, numeric and date numbers will be formatted when displaying them in the tags.
+   * If "true" the format will default to the user’s locale.
+   * A specific locale can be forced using IETF BCP 47 language tags like "en-US".
+   */
+  formatdisplay: { key: 'formatdisplay', values: ['true'] },
 } as const satisfies AttributeSettings;
 
 export const DEFAULT_PAGE_SIBLINGS = 1;
