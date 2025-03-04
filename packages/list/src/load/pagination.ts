@@ -273,14 +273,20 @@ const handlePaginationCount = ({ paginationCountElement, currentPage, totalPages
  * @param list The {@link List} instance.
  */
 const handlePaginationButtons = (list: List) => {
+  const setAttributes = (element: HTMLAnchorElement, shouldDisplay: boolean) => {
+    const disabledClass = getAttribute(element, 'disabledclass');
+
+    element.classList[shouldDisplay ? 'remove' : 'add'](disabledClass);
+    element.setAttribute('aria-disabled', shouldDisplay ? 'false' : 'true');
+    element.setAttribute('aria-hidden', shouldDisplay ? 'false' : 'true');
+    element.setAttribute('tabindex', shouldDisplay ? '0' : '-1');
+  };
+
   const buttonsCleanup = effect(() => {
     list.allPaginationPreviousElements.value.forEach((element) => {
       const shouldDisplay = list.currentPage.value !== 1;
 
-      element.style.display = shouldDisplay ? '' : 'none';
-      element.setAttribute('aria-disabled', shouldDisplay ? 'false' : 'true');
-      element.setAttribute('aria-hidden', shouldDisplay ? 'false' : 'true');
-      element.setAttribute('tabindex', shouldDisplay ? '0' : '-1');
+      setAttributes(element, shouldDisplay);
 
       element.href = `?${list.pagesQuery}=${list.currentPage.value - 1}`;
     });
@@ -288,10 +294,7 @@ const handlePaginationButtons = (list: List) => {
     list.allPaginationNextElements.value.forEach((element) => {
       const shouldDisplay = list.currentPage.value !== list.totalPages.value;
 
-      element.style.display = shouldDisplay ? '' : 'none';
-      element.setAttribute('aria-disabled', shouldDisplay ? 'false' : 'true');
-      element.setAttribute('aria-hidden', shouldDisplay ? 'false' : 'true');
-      element.setAttribute('tabindex', shouldDisplay ? '0' : '-1');
+      setAttributes(element, shouldDisplay);
 
       element.href = `?${list.pagesQuery}=${list.currentPage.value + 1}`;
     });
