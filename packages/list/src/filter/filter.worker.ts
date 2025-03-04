@@ -1,17 +1,9 @@
-import {
-  extractCommaSeparatedValues,
-  type FormFieldType,
-  isDate,
-  isString,
-  isUndefined,
-  normalizeDate,
-  normalizeNumber,
-} from '@finsweet/attributes-utils';
+import { extractCommaSeparatedValues, isString } from '@finsweet/attributes-utils';
 import type { SearchResult } from 'minisearch';
 import MiniSearch from 'minisearch';
 
-import type { ListItemField } from '../components';
 import type { FiltersCondition, FiltersGroup, FilterTaskData, PickedListItem } from './types';
+import { areEqual, numericCompare, parseFilterValue } from './utils';
 
 self.onmessage = (e: MessageEvent<FilterTaskData>) => {
   let miniSearch: MiniSearch<PickedListItem> | undefined;
@@ -67,7 +59,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
                   return rawFilterValue.every((rawFilterValue) => {
                     if (!Array.isArray(fieldValue)) return false;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                    const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                     if (filterValue === null) return false;
 
                     return fieldValue.every((fieldValue) => areEqual(fieldValue, filterValue));
@@ -80,7 +72,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
                   return rawFilterValue.every((rawFilterValue) => {
                     if (!Array.isArray(fieldValue)) return false;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                    const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                     if (filterValue === null) return false;
 
                     return fieldValue.some((fieldValue) => areEqual(fieldValue, filterValue));
@@ -93,7 +85,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
                   return rawFilterValue.some((rawFilterValue) => {
                     if (!Array.isArray(fieldValue)) return false;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                    const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                     if (filterValue === null) return false;
 
                     return fieldValue.every((fieldValue) => areEqual(fieldValue, filterValue));
@@ -106,7 +98,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
                   return rawFilterValue.some((rawFilterValue) => {
                     if (!Array.isArray(fieldValue)) return false;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                    const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                     if (filterValue === null) return false;
 
                     return fieldValue.some((fieldValue) => areEqual(fieldValue, filterValue));
@@ -122,7 +114,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
                 if (filterData.filterMatch === 'and') {
                   // The single field value must match all filter values
                   return rawFilterValue.every((rawFilterValue) => {
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                    const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                     if (filterValue === null) return false;
 
                     return areEqual(fieldValue, filterValue);
@@ -133,7 +125,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
                 if (filterData.filterMatch === 'or') {
                   // The single field value must match at least one filter value
                   return rawFilterValue.some((rawFilterValue) => {
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                    const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                     if (filterValue === null) return false;
 
                     return areEqual(fieldValue, filterValue);
@@ -145,7 +137,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
               if (!Array.isArray(rawFilterValue) && Array.isArray(fieldValue)) {
                 if (!fieldValue.length) return false;
 
-                const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                 if (filterValue === null) return false;
 
                 // AND matching
@@ -163,7 +155,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
 
               // Filter is single, field is single
               if (!Array.isArray(rawFilterValue) && !Array.isArray(fieldValue)) {
-                const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                 if (filterValue === null) return false;
 
                 return areEqual(fieldValue, filterValue);
@@ -182,7 +174,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
                   return !rawFilterValue.some((rawFilterValue) => {
                     if (!Array.isArray(fieldValue)) return true;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                    const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                     if (filterValue === null) return false;
 
                     return fieldValue.some((fieldValue) => areEqual(fieldValue, filterValue));
@@ -195,7 +187,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
                   return rawFilterValue.every((rawFilterValue) => {
                     if (!Array.isArray(fieldValue)) return true;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                    const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                     if (filterValue === null) return false;
 
                     return fieldValue.some((fieldValue) => !areEqual(fieldValue, filterValue));
@@ -208,7 +200,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
                   return rawFilterValue.some((rawFilterValue) => {
                     if (!Array.isArray(fieldValue)) return true;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                    const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                     if (filterValue === null) return false;
 
                     return fieldValue.every((fieldValue) => !areEqual(fieldValue, filterValue));
@@ -221,7 +213,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
                   return rawFilterValue.some((rawFilterValue) => {
                     if (!Array.isArray(fieldValue)) return true;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                    const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                     if (filterValue === null) return false;
 
                     return fieldValue.some((fieldValue) => !areEqual(fieldValue, filterValue));
@@ -237,7 +229,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
                 if (filterData.filterMatch === 'and') {
                   // The single field value must not match all filter values
                   return rawFilterValue.every((rawFilterValue) => {
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                    const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                     if (filterValue === null) return false;
 
                     return !areEqual(fieldValue, filterValue);
@@ -248,7 +240,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
                 if (filterData.filterMatch === 'or') {
                   // The single field value must not match at least one filter value
                   return rawFilterValue.some((rawFilterValue) => {
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                    const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                     if (filterValue === null) return false;
 
                     return !areEqual(fieldValue, filterValue);
@@ -260,7 +252,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
               if (!Array.isArray(rawFilterValue) && Array.isArray(fieldValue)) {
                 if (!fieldValue.length) return true;
 
-                const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                 if (filterValue === null) return false;
 
                 // AND matching
@@ -278,7 +270,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
 
               // Filter is single, field is single
               if (!Array.isArray(rawFilterValue) && !Array.isArray(fieldValue)) {
-                const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                 if (filterValue === null) return false;
 
                 return !areEqual(fieldValue, filterValue);
@@ -381,7 +373,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
               if (!Array.isArray(rawFilterValue) && Array.isArray(fieldValue)) {
                 if (!fieldValue.length) return false;
 
-                const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                 if (filterValue === null) return false;
 
                 const lowerCaseFilterValue = filterValue.toString().toLowerCase();
@@ -510,7 +502,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
               if (!Array.isArray(rawFilterValue) && Array.isArray(fieldValue)) {
                 if (!fieldValue.length) return true;
 
-                const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                 if (filterValue === null) return false;
 
                 const lowerCaseFilterValue = filterValue.toString().toLowerCase();
@@ -560,7 +552,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
                   return rawFilterValue.every((rawFilterValue) => {
                     if (!Array.isArray(fieldValue)) return false;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                    const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                     if (filterValue === null) return false;
 
                     return fieldValue.every((fieldValue) => numericCompare(fieldValue, filterValue, operator));
@@ -573,7 +565,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
                   return rawFilterValue.every((rawFilterValue) => {
                     if (!Array.isArray(fieldValue)) return false;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                    const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                     if (filterValue === null) return false;
 
                     return fieldValue.some((fieldValue) => numericCompare(fieldValue, filterValue, operator));
@@ -586,7 +578,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
                   return rawFilterValue.some((rawFilterValue) => {
                     if (!Array.isArray(fieldValue)) return false;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                    const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                     if (filterValue === null) return false;
 
                     return fieldValue.every((fieldValue) => numericCompare(fieldValue, filterValue, operator));
@@ -599,7 +591,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
                   return rawFilterValue.some((rawFilterValue) => {
                     if (!Array.isArray(fieldValue)) return false;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                    const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                     if (filterValue === null) return false;
 
                     return fieldValue.some((fieldValue) => numericCompare(fieldValue, filterValue, operator));
@@ -617,7 +609,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
                   return rawFilterValue.every((rawFilterValue) => {
                     if (Array.isArray(fieldValue)) return false;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                    const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                     if (filterValue === null) return false;
 
                     return numericCompare(fieldValue, filterValue, operator);
@@ -630,7 +622,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
                   return rawFilterValue.some((rawFilterValue) => {
                     if (Array.isArray(fieldValue)) return false;
 
-                    const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                    const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                     if (filterValue === null) return false;
 
                     return numericCompare(fieldValue, filterValue, operator);
@@ -642,7 +634,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
               if (!Array.isArray(rawFilterValue) && Array.isArray(fieldValue)) {
                 if (!fieldValue.length) return false;
 
-                const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                 if (filterValue === null) return false;
 
                 // AND matching
@@ -660,7 +652,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
 
               // Filter is single, field is single
               if (!Array.isArray(rawFilterValue) && !Array.isArray(fieldValue)) {
-                const filterValue = parseFilterValue(rawFilterValue, fieldData.type, filterData.type);
+                const filterValue = parseFilterValue(rawFilterValue, filterData.type, fieldData.type);
                 if (filterValue === null) return false;
 
                 return numericCompare(fieldValue, filterValue, operator);
@@ -686,93 +678,6 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
   });
 
   self.postMessage(filteredItems);
-};
-
-/**
- * Parses the filter value based on the field type.
- * @param rawFilterValue
- * @param fieldData
- * @returns The parsed filter value, if it could be parsed. Otherwise, `null`.
- */
-const parseFilterValue = (
-  rawFilterValue: string | number | Date,
-  fieldType: ListItemField['type'],
-  filterType: FormFieldType
-) => {
-  if (
-    fieldType === 'date' ||
-    filterType === 'date' ||
-    filterType === 'time' ||
-    filterType === 'datetime-local' ||
-    filterType === 'month' ||
-    filterType === 'week'
-  ) {
-    const filterValue = normalizeDate(rawFilterValue);
-
-    if (filterValue === undefined || isNaN(filterValue.getTime())) {
-      return null;
-    }
-
-    return filterValue;
-  }
-
-  if (fieldType === 'number' || filterType === 'number' || filterType === 'range') {
-    const filterValue = normalizeNumber(rawFilterValue);
-
-    if (filterValue === undefined || isNaN(filterValue)) {
-      return null;
-    }
-
-    return filterValue;
-  }
-
-  return rawFilterValue;
-};
-
-/**
- * Checks if two values are equal.
- * @param rawA
- * @param rawB
- */
-const areEqual = (rawA: string | number | Date, rawB: string | number | Date) => {
-  // Ensure that dates are compared as dates
-  if (typeof rawA !== typeof rawB) {
-    if (isDate(rawA)) {
-      rawB = normalizeDate(rawB) || rawB;
-    } else if (isDate(rawB)) {
-      rawA = normalizeDate(rawA) || rawA;
-    }
-  }
-
-  const a = isDate(rawA) ? rawA.getTime() : isString(rawA) ? rawA.toLowerCase() : rawA;
-  const b = isDate(rawB) ? rawB.getTime() : isString(rawB) ? rawB.toLowerCase() : rawB;
-
-  return a === b;
-};
-
-/**
- * Compares two numeric values.
- * @param rawA
- * @param rawB
- * @param op
- * @returns `true` if the comparison is successful.
- */
-const numericCompare = (
-  rawA: string | number | Date,
-  rawB: string | number | Date,
-  op: 'greater' | 'greater-equal' | 'less' | 'less-equal'
-) => {
-  const a = isDate(rawA) ? rawA.getTime() : isString(rawA) ? normalizeNumber(rawA) : rawA;
-  const b = isDate(rawB) ? rawB.getTime() : isString(rawB) ? normalizeNumber(rawB) : rawB;
-
-  if (isUndefined(a) || isUndefined(b)) return false;
-
-  if (op === 'greater') return a > b;
-  if (op === 'greater-equal') return a >= b;
-  if (op === 'less') return a < b;
-  if (op === 'less-equal') return a <= b;
-
-  return false;
 };
 
 /**
