@@ -274,7 +274,7 @@ const handlePaginationCount = ({ paginationCountElement, currentPage, totalPages
  */
 const handlePaginationButtons = (list: List) => {
   const setAttributes = (element: HTMLAnchorElement, shouldDisplay: boolean) => {
-    const disabledClass = getAttribute(element, 'disabledclass');
+    const disabledClass = getAttribute(element, 'paginationdisabledclass');
 
     element.classList[shouldDisplay ? 'remove' : 'add'](disabledClass);
     element.setAttribute('aria-disabled', shouldDisplay ? 'false' : 'true');

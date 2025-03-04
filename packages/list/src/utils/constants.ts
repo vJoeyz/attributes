@@ -368,7 +368,7 @@ export const SETTINGS = {
   /**
    * Defines the disabled CSS class.
    */
-  disabledclass: { key: 'disabledclass', defaultValue: `is-${LIST_ATTRIBUTE}-disabled` },
+  paginationdisabledclass: { key: 'paginationdisabledclass', defaultValue: `is-${LIST_ATTRIBUTE}-pagination-disabled` },
 
   /**
    * Defines an easing animation for any action in the list (sorting, page navigation, filtering).
