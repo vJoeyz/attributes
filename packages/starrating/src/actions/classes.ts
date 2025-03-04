@@ -10,7 +10,7 @@ import { getAttribute } from '../utils/selectors';
  * @param hoveredValue
  */
 export const setClasses = (name: string, group: Element, hoveredValue?: number) => {
-  const groupActiveClass = getAttribute(group, 'active');
+  const groupActiveClass = getAttribute(group, 'activeclass');
 
   const selectedValue = getSelectedGroupValue(name);
 
@@ -23,7 +23,7 @@ export const setClasses = (name: string, group: Element, hoveredValue?: number) 
     const star = queryStar(radioField);
     if (!star) continue;
 
-    const starActiveClass = getAttribute(star, 'active');
+    const starActiveClass = getAttribute(star, 'activeclass');
     const activeClass = starActiveClass || groupActiveClass;
 
     const value = parseInt(radio.value);

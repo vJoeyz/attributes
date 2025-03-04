@@ -14,7 +14,7 @@ export const ELEMENTS = [
 
 export const SETTINGS = {
   /**
-   * Defines a setting example definition.
+   * Defines the default active CSS class.
    */
-  active: { key: 'active', defaultValue: `is-${STAR_RATING_ATTRIBUTE}-active` },
+  activeclass: { key: 'activeclass', defaultValue: `is-${STAR_RATING_ATTRIBUTE}-active` },
 } as const satisfies AttributeSettings;

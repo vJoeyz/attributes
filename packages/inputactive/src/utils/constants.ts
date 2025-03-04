@@ -6,8 +6,8 @@ export const SETTINGS = {
   /**
    * Defines a custom active class.
    */
-  class: {
-    key: 'class',
+  activeclass: {
+    key: 'activeclass',
     defaultValue: `is-${INPUT_ACTIVE_ATTRIBUTE}-active`,
   },
 } as const satisfies AttributeSettings;

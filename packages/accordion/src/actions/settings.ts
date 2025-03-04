@@ -12,7 +12,7 @@ import type { AccordionGroupData, InitialState } from '../utils/types';
 export const getGroupSettings = (group: HTMLElement): AccordionGroupData => {
   const single = hasAttributeValue(group, 'single', 'true');
   const rawInitial = getAttribute(group, 'initial');
-  const activeClass = getAttribute(group, 'active');
+  const activeClass = getAttribute(group, 'activeclass');
 
   let initial: InitialState;
 
@@ -42,10 +42,10 @@ export const getAccordionSettings = (accordion: HTMLElement, groupData: Accordio
   if (!trigger || !content) return;
 
   const groupActiveClass = groupData.activeClass;
-  const accordionActiveClass = getAttribute(accordion, 'active');
-  const triggerActiveClass = getAttribute(trigger, 'active');
-  const contentActiveClass = getAttribute(content, 'active');
-  const arrowActiveClass = arrow ? getAttribute(arrow, 'active') : null;
+  const accordionActiveClass = getAttribute(accordion, 'activeclass');
+  const triggerActiveClass = getAttribute(trigger, 'activeclass');
+  const contentActiveClass = getAttribute(content, 'activeclass');
+  const arrowActiveClass = arrow ? getAttribute(arrow, 'activeclass') : null;
 
   return {
     accordion,

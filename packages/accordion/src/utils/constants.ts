@@ -53,8 +53,8 @@ export const SETTINGS = {
   /**
    * Defines the active CSS class to add.
    */
-  active: {
-    key: 'active',
+  activeclass: {
+    key: 'activeclass',
     defaultValue: `is-${ACCORDION_ATTRIBUTE}-active`,
   },
 } as const satisfies AttributeSettings;

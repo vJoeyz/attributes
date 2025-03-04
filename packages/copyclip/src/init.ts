@@ -25,7 +25,7 @@ export const init: FinsweetAttributeInit = async () => {
       const textToCopy = getAttribute(trigger, 'text');
       const successMessage = getAttribute(trigger, 'message');
       const successDuration = getAttribute(trigger, 'duration');
-      const successClass = getAttribute(trigger, 'active');
+      const successClass = getAttribute(trigger, 'activeclass');
 
       // Get the instance index
       const instance = getInstance(trigger);

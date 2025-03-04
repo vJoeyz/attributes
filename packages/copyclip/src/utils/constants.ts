@@ -36,5 +36,5 @@ export const SETTINGS = {
   /**
    * Defines the CSS Class added to the trigger on the success state.
    */
-  active: { key: 'active', defaultValue: `is-${COPY_CLIP_ATTRIBUTE}-active` },
+  activeclass: { key: 'activeclass', defaultValue: `is-${COPY_CLIP_ATTRIBUTE}-active` },
 } as const satisfies AttributeSettings;

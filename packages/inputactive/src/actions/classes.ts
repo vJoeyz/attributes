@@ -12,7 +12,7 @@ export const handleInputActiveClass = (input: HTMLInputElement) => {
   const checkboxField = input.closest(`.${FORM_CSS_CLASSES.checkboxField}`);
 
   if (isCheckbox && checkboxField) {
-    const activeClass = getAttribute(input, 'class');
+    const activeClass = getAttribute(input, 'activeclass');
 
     setClass(checkboxField, activeClass, input.checked);
     return;
@@ -27,7 +27,7 @@ export const handleInputActiveClass = (input: HTMLInputElement) => {
     const radioField = radio.closest(`.${FORM_CSS_CLASSES.radioField}`);
     if (!radioField) continue;
 
-    const activeClass = getAttribute(radio, 'class');
+    const activeClass = getAttribute(radio, 'activeclass');
 
     setClass(radioField, activeClass, radio.checked);
   }
