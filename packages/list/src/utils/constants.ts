@@ -425,7 +425,7 @@ export const SETTINGS = {
   /**
    * Defines if loaded Items can be cached using IndexedDB after fetching them.
    */
-  cache: { key: `cache`, values: ['true'] },
+  cache: { key: `cache`, values: ['true'], defaultValue: 'true' },
 } as const satisfies AttributeSettings;
 
 export const DEFAULT_PAGE_SIBLINGS = 1;
