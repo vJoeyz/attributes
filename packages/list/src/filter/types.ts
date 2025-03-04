@@ -12,7 +12,7 @@ export type FiltersCondition = {
   field: string;
   op: FilterOperator;
   type: FormFieldType;
-  value?: string | string[];
+  value: string | string[];
   filterMatch: FilterMatch;
   fieldMatch: FilterMatch;
   fuzzy?: number;

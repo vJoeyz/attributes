@@ -56,7 +56,7 @@ export const initTags = (list: List) => {
       }
 
       // Render the tags
-      for (const condition of group.conditions) {
+      group.conditions.forEach((condition, conditionIndex) => {
         // Get the tag, if existing
         const tagKey = `${condition.field}_${condition.op}`;
 
@@ -68,15 +68,14 @@ export const initTags = (list: List) => {
         const hasValue = condition.value && (Array.isArray(condition.value) ? condition.value.length : true);
         if (!hasValue) {
           tag?.cleanup();
-          continue;
+          return;
         }
 
         if (!tag) {
-          // TODO: rethink the tag cleanup because it should also remove the filter value!!!!!!
           const element = cloneNode(tagTemplate);
           const removeElement = queryElement('tag-remove', { scope: element });
           const removeCleanup = addListener(removeElement, 'click', () => {
-            condition.value = Array.isArray(condition.value) ? [] : '';
+            group.conditions[conditionIndex].value = Array.isArray(condition.value) ? [] : '';
           });
 
           tag = {
@@ -146,7 +145,7 @@ export const initTags = (list: List) => {
         if (!tagIsRendered) {
           tagList.element.appendChild(tag.element);
         }
-      }
+      });
 
       if (!tagListIsRendered) {
         tagsListsWrapper?.appendChild(tagList.element);

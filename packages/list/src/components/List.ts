@@ -232,6 +232,11 @@ export class List {
    */
   public loadingPaginatedItems?: Promise<void>;
 
+  /**
+   * Defines if the filter field values are being collected from the DOM or event listeners are being set.
+   */
+  public readingFilters?: boolean;
+
   constructor(public readonly wrapperElement: CollectionListWrapperElement, public readonly pageIndex: number) {
     // Collect elements
     const listElement = getCollectionElements(wrapperElement, 'list');
