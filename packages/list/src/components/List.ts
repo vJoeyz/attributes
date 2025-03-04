@@ -256,7 +256,7 @@ export class List {
     this.visibleCountFromElement = queryElement('visible-count-from', { instance });
     this.visibleCountToElement = queryElement('visible-count-to', { instance });
     this.resultsCountElement = queryElement('results-count', { instance });
-    this.cache = hasAttributeValue(this.listOrWrapper, 'cache', 'true');
+    this.cache = getAttribute(this.listOrWrapper, 'cache') === 'true';
 
     // Get pagination next elements
     const paginationNextElement = getCollectionElements(wrapperElement, 'pagination-next');

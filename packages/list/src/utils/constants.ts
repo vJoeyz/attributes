@@ -329,7 +329,7 @@ export const SETTINGS = {
   },
 
   /**
-   * Defines the descending CSS class.
+   * Defines the loading configuration.
    */
   load: {
     key: 'load',
@@ -364,6 +364,11 @@ export const SETTINGS = {
    * Defaults to {@link DEFAULT_PAGE_BOUNDARY}.
    */
   pageboundary: { key: 'pageboundary' },
+
+  /**
+   * Defines the disabled CSS class.
+   */
+  disabledclass: { key: 'disabledclass', defaultValue: `is-${LIST_ATTRIBUTE}-disabled` },
 
   /**
    * Defines an easing animation for any action in the list (sorting, page navigation, filtering).
@@ -425,7 +430,7 @@ export const SETTINGS = {
   /**
    * Defines if loaded Items can be cached using IndexedDB after fetching them.
    */
-  cache: { key: `cache`, values: ['true'] },
+  cache: { key: `cache`, values: ['true'], defaultValue: 'true' },
 } as const satisfies AttributeSettings;
 
 export const DEFAULT_PAGE_SIBLINGS = 1;
