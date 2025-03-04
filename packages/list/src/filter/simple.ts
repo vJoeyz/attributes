@@ -1,10 +1,10 @@
 import {
   addListener,
-  clearFormField,
-  extractCommaSeparatedValues,
   type FormField,
   type FormFieldType,
   isFormField,
+  isHTMLInputElement,
+  isHTMLSelectElement,
   isNumber,
 } from '@finsweet/attributes-utils';
 import { toRaw, watch } from '@vue/reactivity';
@@ -14,12 +14,12 @@ import type { ListItem } from '../components';
 import type { List } from '../components/List';
 import { getCheckboxGroup } from '../utils/dom';
 import { setReactive } from '../utils/reactivity';
-import { getAttribute, getElementSelector, queryElement } from '../utils/selectors';
+import { getAttribute, getElementSelector, getSettingSelector, queryElement } from '../utils/selectors';
 import { filterItems } from './filter';
 import type { Filters, FiltersCondition } from './types';
 
 export const initSimpleFilters = (list: List, form: HTMLFormElement) => {
-  const debounces = new Map<FormField, number>();
+  const debounces = new Map<string, number>();
 
   // Handle inputs
   const inputCleanup = addListener(form, 'input', (e) => {
@@ -30,31 +30,38 @@ export const initSimpleFilters = (list: List, form: HTMLFormElement) => {
     const field = getAttribute(target, 'field');
     if (!field) return;
 
+    const condition = getConditionData(target, field);
+
     const update = () => {
       const conditions = list.filters.groups[0]?.conditions || [];
 
-      const data = getConditionData(target, field);
+      const conditionIndex = conditions.findIndex((c) => c.field === field && c.op === condition.op);
 
-      const conditionIndex = conditions.findIndex((c) => c.field === field && c.op === data.op);
+      list.readingFilters = true;
+
       if (conditionIndex >= 0) {
-        conditions[conditionIndex] = data;
+        conditions[conditionIndex] = condition;
       } else {
-        conditions.push(data);
+        conditions.push(condition);
       }
+
+      list.readingFilters = false;
     };
 
-    const debounce = debounces.get(target);
+    const debounceKey = `${field}_${condition.op}`;
+    const debounce = debounces.get(debounceKey);
+
     if (debounce) {
       clearTimeout(debounce);
     }
 
     // With debouncing
     const timeout = getAttribute(target, 'debounce');
+
     if (isNumber(timeout) && !isNaN(timeout)) {
       const timeoutId = window.setTimeout(update, timeout);
 
-      debounces.set(target, timeoutId);
-
+      debounces.set(debounceKey, timeoutId);
       return;
     }
 
@@ -71,29 +78,43 @@ export const initSimpleFilters = (list: List, form: HTMLFormElement) => {
     const clearElement = target?.closest(getElementSelector('clear'));
     if (!clearElement) return;
 
-    const rawFilterKey = getAttribute(clearElement, 'field');
-    const fieldsToClear = rawFilterKey ? extractCommaSeparatedValues(rawFilterKey) : undefined;
+    const field = getAttribute(clearElement, 'field');
+    const operator = getAttribute(clearElement, 'operator');
 
-    for (const element of form.elements) {
-      const field = getAttribute(element, 'field');
+    const condition = list.filters.groups[0]?.conditions.find(
+      (condition) => condition.field === field && (operator ? condition.op === operator : true)
+    );
 
-      if (!field) continue;
-      if (!isFormField(element)) continue;
-      if (fieldsToClear && !fieldsToClear.includes(field)) continue;
+    if (!condition) return;
 
-      debounces.delete(element);
-      clearFormField(element);
+    debounces.delete(`${field}_${condition.op}`);
+
+    if (Array.isArray(condition.value)) {
+      condition.value = [];
+    } else {
+      condition.value = '';
     }
   });
 
   // Get initial filters
-  const filters = getSimpleFilters(form);
+  const filters = getSimpleFilters(list, form);
   setReactive(list.filters, filters);
+
+  // 2 way binding
+  watch(
+    list.filters.groups[0]?.conditions,
+    (conditions) => {
+      if (list.readingFilters) return;
+
+      setConditionsData(form, conditions);
+    },
+    { deep: true }
+  );
 
   // Get filters on node changes
   // TODO: bail when added/removed nodes are not form fields
   const mutationObserver = new MutationObserver(() => {
-    const filters = getSimpleFilters(form);
+    const filters = getSimpleFilters(list, form);
     setReactive(list.filters, filters);
   });
 
@@ -195,7 +216,7 @@ const getConditionData = (formField: FormField, field: string): FiltersCondition
       };
     }
 
-    // Default - Text
+    // Dates
     case 'date':
     case 'month':
     case 'week':
@@ -213,6 +234,7 @@ const getConditionData = (formField: FormField, field: string): FiltersCondition
       };
     }
 
+    // Default - Text
     default: {
       const { value } = formField;
 
@@ -227,6 +249,160 @@ const getConditionData = (formField: FormField, field: string): FiltersCondition
         fieldMatch,
         type,
       };
+    }
+  }
+};
+
+/**
+ * Sets the form fields' values based on the provided conditions.
+ * @param form
+ * @param conditions
+ */
+export const setConditionsData = (form: HTMLFormElement, conditions: FiltersCondition[]) => {
+  // for (const formField of form.elements) {
+  //   if (!isFormField(formField)) continue;
+
+  //   const field = getAttribute(formField, 'field');
+  //   if (!field) continue;
+
+  //   const type = formField.type as FormFieldType;
+  //   const op = getConditionOperator(formField);
+
+  //   const condition = conditions.find((c) => c.field === field && c.op === op);
+  //   if (!condition) continue;
+
+  //   const { value } = condition;
+
+  //   switch (type) {
+  //     // Checkboxes
+  //     case 'checkbox': {
+  //       if (!isHTMLInputElement(formField)) break;
+
+  //       // Single checkbox
+  //       if (!Array.isArray(value)) {
+  //         formField.checked = value === 'true';
+
+  //         simulateEvent(formField, ['input', 'change']);
+
+  //         break;
+  //       }
+
+  //       const groupCheckboxes = getCheckboxGroup(formField.name, form);
+  //       if (!groupCheckboxes?.length) break;
+
+  //       for (const checkbox of groupCheckboxes) {
+  //         const checkboxValue = getAttribute(checkbox, 'value') ?? checkbox.value;
+
+  //         checkbox.checked = value.includes(checkboxValue);
+
+  //         simulateEvent(checkbox, ['input', 'change']);
+  //       }
+
+  //       break;
+  //     }
+
+  //     // Radios
+  //     case 'radio': {
+  //       if (Array.isArray(value)) break;
+
+  //       const groupRadios = form.querySelectorAll<HTMLInputElement>(`input[name="${formField.name}"][type="${type}"]`);
+
+  //       for (const radio of groupRadios) {
+  //         const radioValue = getAttribute(radio, 'value') ?? radio.value;
+
+  //         radio.checked = radioValue === value;
+
+  //         simulateEvent(radio, ['input', 'change']);
+  //       }
+  //     }
+
+  //     // Select-multiple
+  //     case 'select-multiple': {
+  //       if (!Array.isArray(value) || !isHTMLSelectElement(formField)) break;
+
+  //       for (const option of formField.options) {
+  //         option.selected = value.includes(option.value);
+  //       }
+
+  //       simulateEvent(formField, ['input', 'change']);
+
+  //       break;
+  //     }
+
+  //     // Other
+  //     default: {
+  //       if (Array.isArray(value)) break;
+
+  //       formField.value = value;
+
+  //       simulateEvent(formField, ['input', 'change']);
+  //     }
+  //   }
+  // }
+
+  for (const { field, value, op, type } of conditions) {
+    const tagSelector = `:is(input, select, textarea)[type="${type}"]`;
+    const fieldSelector = getSettingSelector('field', field);
+    const operatorSelector = `:is(${getSettingSelector('operator', op)}, :not(${getSettingSelector('operator')}))`;
+    const selector = [tagSelector, fieldSelector, operatorSelector].join('');
+
+    const formField = form.querySelector(selector);
+    if (!isFormField(formField)) continue;
+
+    switch (type) {
+      // Checkboxes
+      case 'checkbox': {
+        if (!isHTMLInputElement(formField)) break;
+
+        // Single checkbox
+        if (!Array.isArray(value)) {
+          formField.checked = value === 'true';
+
+          break;
+        }
+
+        const groupCheckboxes = getCheckboxGroup(formField.name, form);
+        if (!groupCheckboxes?.length) break;
+
+        for (const checkbox of groupCheckboxes) {
+          const checkboxValue = getAttribute(checkbox, 'value') ?? checkbox.value;
+
+          checkbox.checked = value.includes(checkboxValue);
+        }
+
+        break;
+      }
+
+      // Radios
+      case 'radio': {
+        if (Array.isArray(value)) break;
+
+        const groupRadios = form.querySelectorAll<HTMLInputElement>(`input[name="${formField.name}"][type="${type}"]`);
+
+        for (const radio of groupRadios) {
+          const radioValue = getAttribute(radio, 'value') ?? radio.value;
+
+          radio.checked = radioValue === value;
+        }
+      }
+
+      // Select-multiple
+      case 'select-multiple': {
+        if (!Array.isArray(value) || !isHTMLSelectElement(formField)) break;
+
+        for (const option of formField.options) {
+          option.selected = value.includes(option.value);
+        }
+
+        break;
+      }
+
+      // Other
+      default: {
+        if (Array.isArray(value)) break;
+
+        formField.value = value;
+      }
     }
   }
 };
@@ -251,7 +427,9 @@ const getConditionOperator = (formField: FormField) => {
  * @returns An object with the form fields as keys and their values as values.
  * @param form A {@link HTMLFormElement} element.
  */
-export const getSimpleFilters = (form: HTMLFormElement) => {
+const getSimpleFilters = (list: List, form: HTMLFormElement) => {
+  list.readingFilters = true;
+
   const filters: Filters = {
     groups: [{ conditions: [], conditionsMatch: getAttribute(form, 'conditionsmatch', { filterInvalid: true }) }],
     groupsMatch: getAttribute(form, 'groupsmatch', { filterInvalid: true }),
@@ -272,6 +450,8 @@ export const getSimpleFilters = (form: HTMLFormElement) => {
       filters.groups[0].conditions.push(data);
     }
   }
+
+  list.readingFilters = false;
 
   return filters;
 };
