@@ -259,87 +259,6 @@ const getConditionData = (formField: FormField, field: string): FiltersCondition
  * @param conditions
  */
 export const setConditionsData = (form: HTMLFormElement, conditions: FiltersCondition[]) => {
-  // for (const formField of form.elements) {
-  //   if (!isFormField(formField)) continue;
-
-  //   const field = getAttribute(formField, 'field');
-  //   if (!field) continue;
-
-  //   const type = formField.type as FormFieldType;
-  //   const op = getConditionOperator(formField);
-
-  //   const condition = conditions.find((c) => c.field === field && c.op === op);
-  //   if (!condition) continue;
-
-  //   const { value } = condition;
-
-  //   switch (type) {
-  //     // Checkboxes
-  //     case 'checkbox': {
-  //       if (!isHTMLInputElement(formField)) break;
-
-  //       // Single checkbox
-  //       if (!Array.isArray(value)) {
-  //         formField.checked = value === 'true';
-
-  //         simulateEvent(formField, ['input', 'change']);
-
-  //         break;
-  //       }
-
-  //       const groupCheckboxes = getCheckboxGroup(formField.name, form);
-  //       if (!groupCheckboxes?.length) break;
-
-  //       for (const checkbox of groupCheckboxes) {
-  //         const checkboxValue = getAttribute(checkbox, 'value') ?? checkbox.value;
-
-  //         checkbox.checked = value.includes(checkboxValue);
-
-  //         simulateEvent(checkbox, ['input', 'change']);
-  //       }
-
-  //       break;
-  //     }
-
-  //     // Radios
-  //     case 'radio': {
-  //       if (Array.isArray(value)) break;
-
-  //       const groupRadios = form.querySelectorAll<HTMLInputElement>(`input[name="${formField.name}"][type="${type}"]`);
-
-  //       for (const radio of groupRadios) {
-  //         const radioValue = getAttribute(radio, 'value') ?? radio.value;
-
-  //         radio.checked = radioValue === value;
-
-  //         simulateEvent(radio, ['input', 'change']);
-  //       }
-  //     }
-
-  //     // Select-multiple
-  //     case 'select-multiple': {
-  //       if (!Array.isArray(value) || !isHTMLSelectElement(formField)) break;
-
-  //       for (const option of formField.options) {
-  //         option.selected = value.includes(option.value);
-  //       }
-
-  //       simulateEvent(formField, ['input', 'change']);
-
-  //       break;
-  //     }
-
-  //     // Other
-  //     default: {
-  //       if (Array.isArray(value)) break;
-
-  //       formField.value = value;
-
-  //       simulateEvent(formField, ['input', 'change']);
-  //     }
-  //   }
-  // }
-
   for (const { field, value, op, type } of conditions) {
     const tagSelector = `:is(input, select, textarea)[type="${type}"]`;
     const fieldSelector = getSettingSelector('field', field);
@@ -347,6 +266,7 @@ export const setConditionsData = (form: HTMLFormElement, conditions: FiltersCond
     const selector = [tagSelector, fieldSelector, operatorSelector].join('');
 
     const formField = form.querySelector(selector);
+    console.log({ field, value, op, type, formField });
     if (!isFormField(formField)) continue;
 
     switch (type) {
