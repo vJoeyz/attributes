@@ -276,6 +276,7 @@ const handlePaginationButtons = (list: List) => {
   const setAttributes = (element: HTMLAnchorElement, shouldDisplay: boolean) => {
     const disabledClass = getAttribute(element, 'paginationdisabledclass');
 
+    element.style.display = '';
     element.classList[shouldDisplay ? 'remove' : 'add'](disabledClass);
     element.setAttribute('aria-disabled', shouldDisplay ? 'false' : 'true');
     element.setAttribute('aria-hidden', shouldDisplay ? 'false' : 'true');
