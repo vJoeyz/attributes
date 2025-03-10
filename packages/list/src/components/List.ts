@@ -19,7 +19,7 @@ import { computed, effect, reactive, type Ref, ref, type ShallowRef, shallowRef,
 import type { Filters } from '../filter/types';
 import { getAllCollectionListWrappers, getCollectionElements } from '../utils/dom';
 import { getPaginationSearchEntries } from '../utils/pagination';
-import { getAttribute, getInstance, hasAttributeValue, queryAllElements, queryElement } from '../utils/selectors';
+import { getAttribute, getInstance, queryAllElements, queryElement } from '../utils/selectors';
 import { listInstancesStore } from '../utils/store';
 import { ListItem } from './ListItem';
 
@@ -552,29 +552,15 @@ export class List {
   }
 
   /**
-   * Stores new Collection Items in the instance.
-   *
-   * @param itemElements The new `Collection Item` elements to store.
-   * @param method Defines the storing method:
-   *
-   * - `unshift`: New items are added to the beginning of the store.
-   * - `push`: New items are added to the end of the store.
-   *
-   *  Defaults to `push`.
+   * Creates a new {@link ListItem} instance.
+   * @param itemElement The Collection Item element.
+   * @returns The created {@link ListItem} instance.
    */
-  addItems(itemElements: CollectionItemElement[], method: 'unshift' | 'push' = 'push') {
-    const { items, listElement } = this;
+  createItem = (itemElement: CollectionItemElement) => {
+    if (!this.listElement) return;
 
-    if (!listElement) return;
-
-    const newItems = itemElements.map((item) => new ListItem(item, listElement));
-
-    if (method === 'push') {
-      items.value = [...items.value, ...newItems];
-    } else {
-      items.value = [...newItems, ...items.value];
-    }
-  }
+    return new ListItem(itemElement, this.listElement);
+  };
 
   /**
    * Destroys the instance.

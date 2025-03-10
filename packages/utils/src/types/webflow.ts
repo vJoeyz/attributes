@@ -95,13 +95,13 @@ export interface Webflow extends Pick<Callback[], 'push'> {
 /**
  * CMS
  */
-export type CollectionListWrapperElement = HTMLDivElement;
-export type CollectionListElement = HTMLDivElement;
-export type CollectionItemElement = HTMLDivElement;
-export type CollectionEmptyElement = HTMLDivElement;
-export type PaginationWrapperElement = HTMLDivElement;
+export type CollectionListWrapperElement = HTMLElement;
+export type CollectionListElement = HTMLElement;
+export type CollectionItemElement = HTMLElement;
+export type CollectionEmptyElement = HTMLElement;
+export type PaginationWrapperElement = HTMLElement;
 export type PaginationButtonElement = HTMLAnchorElement;
-export type PageCountElement = HTMLDivElement;
+export type PageCountElement = HTMLElement;
 
 /**
  * Forms

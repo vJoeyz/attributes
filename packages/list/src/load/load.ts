@@ -1,4 +1,4 @@
-import { CMS_CSS_CLASSES, fetchPageDocument } from '@finsweet/attributes-utils';
+import { CMS_CSS_CLASSES, fetchPageDocument, isNotEmpty } from '@finsweet/attributes-utils';
 
 import type { List } from '../components/List';
 import { getCollectionElements } from '../utils/dom';
@@ -146,7 +146,7 @@ const parallelItemsLoad = async (list: List, totalPages: number, cache: boolean)
  * @param itemsTarget
  * @returns The URL of the next page, if any.
  */
-const parseLoadedPage = async (page: Document, list: List, itemsTarget?: Parameters<List['addItems']>[1]) => {
+const parseLoadedPage = async (page: Document, list: List, itemsTarget: 'push' | 'unshift' = 'push') => {
   // Get DOM Elements
   const allCollectionWrappers = page.querySelectorAll(`.${CMS_CSS_CLASSES.wrapper}`);
   const collectionListWrapper = allCollectionWrappers[list.pageIndex];
@@ -163,7 +163,14 @@ const parseLoadedPage = async (page: Document, list: List, itemsTarget?: Paramet
     list.initialItemsPerPage = itemsLength;
   }
 
-  list.addItems(collectionItems, itemsTarget);
+  // Add the new items to the list
+  const newItems = collectionItems.map(list.createItem).filter(isNotEmpty);
+
+  if (itemsTarget === 'push') {
+    list.items.value = [...list.items.value, ...newItems];
+  } else {
+    list.items.value = [...newItems, ...list.items.value];
+  }
 
   return nextPageURL;
 };
