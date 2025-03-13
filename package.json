@@ -36,8 +36,5 @@
     "onlyBuiltDependencies": [
       "esbuild"
     ]
-  },
-  "engines": {
-    "pnpm": ">=10"
   }
 }
