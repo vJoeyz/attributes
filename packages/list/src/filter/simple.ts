@@ -22,86 +22,17 @@ export const initSimpleFilters = (list: List, form: HTMLFormElement) => {
   const debounces = new Map<string, number>();
 
   // Handle inputs
-  const inputCleanup = addListener(form, 'input', (e) => {
-    const { target } = e;
-
-    if (!isFormField(target)) return;
-
-    const field = getAttribute(target, 'field');
-    if (!field) return;
-
-    const condition = getConditionData(target, field);
-
-    const update = () => {
-      const conditions = list.filters.groups[0]?.conditions || [];
-
-      const conditionIndex = conditions.findIndex((c) => c.field === field && c.op === condition.op);
-
-      list.readingFilters = true;
-
-      if (conditionIndex >= 0) {
-        conditions[conditionIndex] = condition;
-      } else {
-        conditions.push(condition);
-      }
-
-      list.readingFilters = false;
-    };
-
-    const debounceKey = `${field}_${condition.op}`;
-    const debounce = debounces.get(debounceKey);
-
-    if (debounce) {
-      clearTimeout(debounce);
-    }
-
-    // With debouncing
-    const timeout = getAttribute(target, 'debounce');
-
-    if (isNumber(timeout) && !isNaN(timeout)) {
-      const timeoutId = window.setTimeout(update, timeout);
-
-      debounces.set(debounceKey, timeoutId);
-      return;
-    }
-
-    // Without debouncing
-    update();
-  });
+  const inputCleanup = handleInputs(list, form, debounces);
 
   // Handle clear buttons
-  const clickCleanup = addListener(form, 'click', (e) => {
-    const { target } = e;
-
-    if (!(target instanceof Element)) return;
-
-    const clearElement = target?.closest(getElementSelector('clear'));
-    if (!clearElement) return;
-
-    const field = getAttribute(clearElement, 'field');
-    const operator = getAttribute(clearElement, 'operator');
-
-    const condition = list.filters.groups[0]?.conditions.find(
-      (condition) => condition.field === field && (operator ? condition.op === operator : true)
-    );
-
-    if (!condition) return;
-
-    debounces.delete(`${field}_${condition.op}`);
-
-    if (Array.isArray(condition.value)) {
-      condition.value = [];
-    } else {
-      condition.value = '';
-    }
-  });
+  const clickCleanup = handleClearButtons(list, debounces);
 
   // Get initial filters
   const filters = getSimpleFilters(list, form);
   setReactive(list.filters, filters);
 
   // 2 way binding
-  watch(
+  const twoWayBindingCleanup = watch(
     list.filters.groups[0]?.conditions,
     (conditions) => {
       if (list.readingFilters) return;
@@ -123,11 +54,13 @@ export const initSimpleFilters = (list: List, form: HTMLFormElement) => {
   //   subtree: true,
   // });
 
-  initFiltersResults(list, form);
+  const filterResultsCleanup = initFiltersResults(list, form);
 
   return () => {
     inputCleanup();
-    clickCleanup;
+    clickCleanup();
+    twoWayBindingCleanup();
+    filterResultsCleanup();
     mutationObserver.disconnect();
   };
 };
@@ -266,7 +199,6 @@ export const setConditionsData = (form: HTMLFormElement, conditions: FiltersCond
     const selector = [tagSelector, fieldSelector, operatorSelector].join('');
 
     const formField = form.querySelector(selector);
-    console.log({ field, value, op, type, formField });
     if (!isFormField(formField)) continue;
 
     switch (type) {
@@ -382,17 +314,17 @@ const getSimpleFilters = (list: List, form: HTMLFormElement) => {
  * @param form
  */
 const initFiltersResults = (list: List, form: HTMLFormElement) => {
-  for (const formField of form.elements) {
-    if (!isFormField(formField)) continue;
+  const cleanups = [...form.elements].map((formField) => {
+    if (!isFormField(formField)) return;
 
     const { type } = formField;
-    if (type !== 'checkbox' && type !== 'radio') continue;
+    if (type !== 'checkbox' && type !== 'radio') return;
 
     const field = getAttribute(formField, 'field');
-    if (!field) continue;
+    if (!field) return;
 
     const resultsCountElement = queryElement('filter-results-count', { scope: formField.parentElement });
-    if (!resultsCountElement) continue;
+    if (!resultsCountElement) return;
 
     const op = getConditionOperator(formField);
     const value = getAttribute(formField, 'value') || formField.value || '';
@@ -425,6 +357,104 @@ const initFiltersResults = (list: List, form: HTMLFormElement) => {
       });
     }, 0);
 
-    watch([list.filters, list.items], handler, { deep: true, immediate: true });
-  }
+    const cleanup = watch([list.filters, list.items], handler, { deep: true, immediate: true });
+    return cleanup;
+  });
+
+  return () => {
+    for (const cleanup of cleanups) {
+      cleanup?.();
+    }
+  };
+};
+
+/**
+ * Handles the form inputs.
+ * @param list
+ * @param form
+ * @param debounces
+ * @returns A cleanup function.
+ */
+const handleInputs = (list: List, form: HTMLFormElement, debounces: Map<string, number>) => {
+  return addListener(form, 'input', (e) => {
+    const { target } = e;
+
+    if (!isFormField(target)) return;
+
+    const field = getAttribute(target, 'field');
+    if (!field) return;
+
+    const condition = getConditionData(target, field);
+
+    const update = () => {
+      const conditions = list.filters.groups[0]?.conditions || [];
+
+      const conditionIndex = conditions.findIndex((c) => c.field === field && c.op === condition.op);
+
+      list.readingFilters = true;
+
+      if (conditionIndex >= 0) {
+        conditions[conditionIndex] = condition;
+      } else {
+        conditions.push(condition);
+      }
+
+      list.readingFilters = false;
+    };
+
+    const debounceKey = `${field}_${condition.op}`;
+    const debounce = debounces.get(debounceKey);
+
+    if (debounce) {
+      clearTimeout(debounce);
+    }
+
+    // With debouncing
+    const timeout = getAttribute(target, 'debounce');
+
+    if (isNumber(timeout) && !isNaN(timeout)) {
+      const timeoutId = window.setTimeout(update, timeout);
+
+      debounces.set(debounceKey, timeoutId);
+      return;
+    }
+
+    // Without debouncing
+    update();
+  });
+};
+
+/**
+ * Handles the clear buttons.
+ * @param list
+ * @param debounces
+ * @returns A cleanup function.
+ */
+const handleClearButtons = (list: List, debounces: Map<string, number>) => {
+  return addListener(window, 'click', (e) => {
+    const { target } = e;
+
+    if (!(target instanceof Element)) return;
+
+    const { instance, filters } = list;
+
+    const clearElementSelector = getElementSelector('clear', { instance });
+    const clearElement = target?.closest(clearElementSelector);
+    if (!clearElement) return;
+
+    const field = getAttribute(clearElement, 'field');
+
+    const conditions = filters.groups[0]?.conditions || [];
+    const conditionsToClear = field ? conditions.filter((condition) => condition.field === field) : conditions;
+
+    for (const condition of conditionsToClear) {
+      debounces.delete(`${condition.field}_${condition.op}`);
+
+      if (Array.isArray(condition.value)) {
+        condition.value = [];
+      } else {
+        condition.value = '';
+      }
+    }
+  });
 };
