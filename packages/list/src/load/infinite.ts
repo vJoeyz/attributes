@@ -18,7 +18,7 @@ export const initInfiniteMode = (list: List) => {
   const thresholdCoefficient = getInfiniteThreshold(list);
 
   // Add hook
-  list.addHook('paginate', (items) => {
+  list.addHook('pagination', (items) => {
     const paginatedItems = items.slice(0, list.itemsPerPage.value);
     return paginatedItems;
   });
@@ -38,7 +38,7 @@ export const initInfiniteMode = (list: List) => {
 
     if (shouldLoad) {
       list.itemsPerPage.value += list.initialItemsPerPage;
-      list.triggerHook('paginate');
+      list.triggerHook('pagination');
     }
   }, 100);
 
@@ -75,7 +75,7 @@ export const initInfiniteMode = (list: List) => {
       list.itemsPerPage.value += parseNumericAttribute(rawLoadCount, list.initialItemsPerPage);
     }
 
-    list.triggerHook('paginate');
+    list.triggerHook('pagination');
   });
 
   // Handle pagination next buttons display

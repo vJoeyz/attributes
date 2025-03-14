@@ -46,7 +46,9 @@ export const initListFiltering = (list: List, form: HTMLFormElement) => {
   // Trigger the hook when the filters change
   const filtersCleanup = watch(
     list.filters,
-    debounce(() => list.triggerHook('filter'), 0),
+    debounce(() => {
+      list.triggerHook('filter', { scrollToAnchor: true });
+    }, 0),
     { deep: true, immediate: true }
   );
 

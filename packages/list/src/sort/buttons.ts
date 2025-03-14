@@ -78,7 +78,7 @@ export const initButtons = (buttons: HTMLElement[], list: List) => {
         activeButton.value = button;
         currentDirection.value = sortDirection;
 
-        await list.triggerHook('sort');
+        await list.triggerHook('sort', { scrollToAnchor: true });
       });
 
       return [ariaSortCleanup, cssClassCleanup, clickCleanup];

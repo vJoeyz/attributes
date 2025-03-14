@@ -242,6 +242,29 @@ export const ELEMENTS = [
    * Defines an element that has a comma-separated list of slugs of elements to nest into a specific target.
    */
   'nest-slugs',
+
+  /**
+   * Defines an element to scroll to when any list actions are performed.
+   */
+  'scroll-anchor',
+
+  /**
+   * Defines an element to scroll to when filter actions are performed.
+   * If defined, it overrides the `scroll-anchor` element.
+   */
+  'scroll-anchor-filter',
+
+  /**
+   * Defines an element to scroll to when sort actions are performed.
+   * If defined, it overrides the `scroll-anchor` element.
+   */
+  'scroll-anchor-sort',
+
+  /**
+   * Defines an element to scroll to when pagination actions are performed.
+   * If defined, it overrides the `scroll-anchor` element.
+   */
+  'scroll-anchor-pagination',
 ] as const satisfies AttributeElements;
 
 export const SETTINGS = {

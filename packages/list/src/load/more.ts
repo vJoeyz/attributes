@@ -13,7 +13,7 @@ import { loadPaginatedCMSItems } from './load';
  */
 export const initMoreMode = (list: List) => {
   // Add hook
-  list.addHook('paginate', (items) => {
+  list.addHook('pagination', (items) => {
     const paginatedItems = items.slice(0, list.itemsPerPage.value);
     return paginatedItems;
   });
@@ -40,7 +40,7 @@ export const initMoreMode = (list: List) => {
       list.itemsPerPage.value += parseNumericAttribute(rawLoadCount, list.initialItemsPerPage);
     }
 
-    list.triggerHook('paginate');
+    list.triggerHook('pagination');
   });
 
   // Handle pagination next buttons display

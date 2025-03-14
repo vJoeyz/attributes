@@ -29,7 +29,7 @@ export const initPaginationMode = (list: List) => {
   if (!paginationWrapperElement) return;
 
   // Init hook
-  list.addHook('paginate', (items) => {
+  list.addHook('pagination', (items) => {
     const $itemsPerPage = itemsPerPage.value;
 
     const start = (currentPage.value - 1) * $itemsPerPage;
@@ -39,8 +39,12 @@ export const initPaginationMode = (list: List) => {
     return paginatedItems;
   });
 
-  const currentPageCleanup = watch(list.currentPage, () => list.triggerHook('paginate'));
-  const paginateCleanup = watch(list.itemsPerPage, () => list.triggerHook('paginate'));
+  const currentPageCleanup = watch(list.currentPage, () => {
+    list.triggerHook('pagination', { scrollToAnchor: true });
+  });
+  const paginateCleanup = watch(list.itemsPerPage, () => {
+    list.triggerHook('pagination', { scrollToAnchor: true });
+  });
 
   // Get settings
   const showQueryParams = hasAttributeValue(listOrWrapper, 'showquery', 'true');

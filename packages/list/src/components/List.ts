@@ -23,7 +23,7 @@ import { getAttribute, getInstance, queryAllElements, queryElement } from '../ut
 import { listInstancesStore } from '../utils/store';
 import { ListItem } from './ListItem';
 
-type HookKey = 'filter' | 'sort' | 'paginate' | 'beforeRender' | 'render' | 'afterRender';
+type HookKey = 'filter' | 'sort' | 'pagination' | 'beforeRender' | 'render' | 'afterRender';
 type HookCallback = (items: ListItem[]) => ListItem[] | Promise<ListItem[]> | void | Promise<void>;
 type Hooks = {
   [key in HookKey]: {
@@ -54,14 +54,14 @@ export class List {
       result: shallowRef([]),
     },
 
-    paginate: {
+    pagination: {
       previous: 'sort',
       callbacks: [],
       result: shallowRef([]),
     },
 
     beforeRender: {
-      previous: 'paginate',
+      previous: 'pagination',
       callbacks: [],
       result: shallowRef([]),
     },
@@ -168,6 +168,26 @@ export class List {
   public readonly visibleCountToElement?: HTMLElement | null;
 
   /**
+   * The scroll anchor element.
+   */
+  public readonly scrollAnchorElement?: HTMLElement | null;
+
+  /**
+   * A custom scroll anchor element for filter actions.
+   */
+  public readonly scrollAnchorFilterElement?: HTMLElement | null;
+
+  /**
+   * A custom scroll anchor element for sort actions.
+   */
+  public readonly scrollAnchorSortElement?: HTMLElement | null;
+
+  /**
+   * A custom scroll anchor element for pagination actions.
+   */
+  public readonly scrollAnchorPaginationElement?: HTMLElement | null;
+
+  /**
    * Defines the original amount of items per page.
    */
   public initialItemsPerPage: number;
@@ -256,6 +276,10 @@ export class List {
     this.visibleCountFromElement = queryElement('visible-count-from', { instance });
     this.visibleCountToElement = queryElement('visible-count-to', { instance });
     this.resultsCountElement = queryElement('results-count', { instance });
+    this.scrollAnchorElement = queryElement('scroll-anchor', { instance });
+    this.scrollAnchorFilterElement = queryElement('scroll-anchor-filter', { instance });
+    this.scrollAnchorSortElement = queryElement('scroll-anchor-sort', { instance });
+    this.scrollAnchorPaginationElement = queryElement('scroll-anchor-pagination', { instance });
     this.cache = getAttribute(this.listOrWrapper, 'cache') === 'true';
 
     // Get pagination next elements
@@ -534,8 +558,13 @@ export class List {
   /**
    * Triggers a hook.
    * @param key
+   * @param scrollToAnchor
    */
-  async triggerHook(key: HookKey) {
+  async triggerHook(key: HookKey, { scrollToAnchor }: { scrollToAnchor?: boolean } = {}) {
+    if (scrollToAnchor) {
+      this.scrollToAnchor(key);
+    }
+
     const hook = this.hooks[key];
 
     const { previous } = hook;
@@ -561,6 +590,28 @@ export class List {
 
     return new ListItem(itemElement, this.listElement);
   };
+
+  /**
+   * Scrolls to the specified anchor based on the action provided.
+   * @param action
+   */
+  scrollToAnchor(action?: HookKey) {
+    const { scrollAnchorFilterElement, scrollAnchorSortElement, scrollAnchorPaginationElement, scrollAnchorElement } =
+      this;
+
+    const anchor =
+      (action === 'filter'
+        ? scrollAnchorFilterElement
+        : action === 'sort'
+        ? scrollAnchorSortElement
+        : action === 'pagination'
+        ? scrollAnchorPaginationElement
+        : scrollAnchorElement) || scrollAnchorElement;
+
+    if (!anchor) return;
+
+    anchor.scrollIntoView({ behavior: 'smooth' });
+  }
 
   /**
    * Destroys the instance.

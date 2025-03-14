@@ -84,7 +84,7 @@ export const initDropdown = (dropdown: DropdownElement, list: List) => {
 
     closeDropdown(dropdownToggle);
 
-    await list.triggerHook('sort');
+    await list.triggerHook('sort', { scrollToAnchor: true });
   });
 
   return () => {

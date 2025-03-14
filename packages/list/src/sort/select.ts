@@ -18,11 +18,13 @@ export const initHTMLSelect = (selectElement: HTMLSelectElement, list: List) => 
   const changeCleanup = addListener(selectElement, 'change', async () => {
     [sortKey, sortDirection] = getSortingParams(selectElement.value);
 
-    await list.triggerHook('sort');
+    await list.triggerHook('sort', { scrollToAnchor: true });
   });
 
   // Sort items if a sortKey exists on page load
-  if (sortKey) list.triggerHook('sort');
+  if (sortKey) {
+    list.triggerHook('sort');
+  }
 
   // Prevent submit events on the form
   const form = selectElement.closest('form');
