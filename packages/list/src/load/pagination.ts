@@ -13,7 +13,7 @@ import { effect, type Ref, ref, watch } from '@vue/reactivity';
 import debounce from 'just-debounce';
 
 import type { List } from '../components/List';
-import { BREAKPOINTS_INDEX, DEFAULT_PAGE_BOUNDARY, DEFAULT_PAGE_SIBLINGS } from '../utils/constants';
+import { BREAKPOINTS_INDEX } from '../utils/constants';
 import { getCMSElementSelector } from '../utils/dom';
 import { getAttribute, getElementSelector, hasAttributeValue, queryElement } from '../utils/selectors';
 import { loadPaginatedCMSItems } from './load';
@@ -48,8 +48,10 @@ export const initPaginationMode = (list: List) => {
 
   // Get settings
   const showQueryParams = hasAttributeValue(listOrWrapper, 'showquery', 'true');
-  const [pageBoundary, pageBoundaryCleanup] = getBreakpointSetting(list, 'pageboundary', DEFAULT_PAGE_BOUNDARY);
-  const [pageSiblings, pageSiblingsCleanup] = getBreakpointSetting(list, 'pagesiblings', DEFAULT_PAGE_SIBLINGS);
+  const [pageBoundary, pageBoundaryCleanup] = getBreakpointSetting(list, 'pageboundary');
+  const [pageSiblings, pageSiblingsCleanup] = getBreakpointSetting(list, 'pagesiblings');
+
+  console.log({ pageBoundary: pageBoundary.value, pageSiblings: pageSiblings.value });
 
   // Page Button Template
   const pageButtonTemplate = queryElement('page-button', { scope: paginationWrapperElement });
@@ -341,18 +343,12 @@ const handlePaginationButtons = (list: List) => {
  * Gets a breakpoint setting and returns it as a store that will be updated on resize.
  * @param list
  * @param setting
- * @param defaultValue
  * @returns A store atom and a cleanup function.
  */
-const getBreakpointSetting = (
-  { listOrWrapper }: List,
-  setting: 'pagesiblings' | 'pageboundary',
-  defaultValue: number
-) => {
-  const store = ref(defaultValue);
-
+const getBreakpointSetting = ({ listOrWrapper }: List, setting: 'pagesiblings' | 'pageboundary') => {
   const rawValues = getAttribute(listOrWrapper, setting);
   const values = extractCommaSeparatedValues(rawValues).map(parseInt);
+  const store = ref(values[0]);
 
   const updateValue = () => {
     const currentBreakpoint = getCurrentBreakpoint();
@@ -368,7 +364,9 @@ const getBreakpointSetting = (
     }
   };
 
-  const cleanup = values.length ? addListener(window, 'resize', debounce(updateValue, 100)) : undefined;
+  const cleanup = addListener(window, 'resize', debounce(updateValue, 100));
+
+  updateValue();
 
   return [store, cleanup] as const;
 };

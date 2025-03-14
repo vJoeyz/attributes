@@ -375,18 +375,14 @@ export const SETTINGS = {
   /**
    * Defines the amount of digits to display either side of the current page.
    * It can be a comma-separated string listing the values in a `Desktop, Tablet, Landscape, Portrait` order.
-   *
-   * Defaults to {@link DEFAULT_PAGE_SIBLINGS}.
    */
-  pagesiblings: { key: 'pagesiblings' },
+  pagesiblings: { key: 'pagesiblings', defaultValue: '1' },
 
   /**
    * Defines the amount of digits to display at the start and end of a page buttons list.
    * It can be a comma-separated string listing the values in a `Desktop, Tablet, Landscape, Portrait` order.
-   *
-   * Defaults to {@link DEFAULT_PAGE_BOUNDARY}.
    */
-  pageboundary: { key: 'pageboundary' },
+  pageboundary: { key: 'pageboundary', defaultValue: '1' },
 
   /**
    * Defines the disabled CSS class.
@@ -462,9 +458,6 @@ export const SETTINGS = {
    */
   formatdisplay: { key: 'formatdisplay', values: ['true'] },
 } as const satisfies AttributeSettings;
-
-export const DEFAULT_PAGE_SIBLINGS = 1;
-export const DEFAULT_PAGE_BOUNDARY = 1;
 
 export const BREAKPOINTS_INDEX: { [key in WebflowBreakpoint]: number } = {
   main: 0,
