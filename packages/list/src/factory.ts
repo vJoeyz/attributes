@@ -12,6 +12,7 @@ import { initListTabs } from './tabs';
 import { getCMSElementSelector, getCollectionElements } from './utils/dom';
 import { getAttribute, queryAllElements, queryElement } from './utils/selectors';
 import { listInstancesStore } from './utils/store';
+import { initPrevNext } from './prevnext';
 
 /**
  * Creates a new `CMSList` instance, making sure there are no already existing instances on the page.
@@ -55,6 +56,8 @@ export const initList = (list: List) => {
   const sliders = queryAllElements('slider', { instance });
   const tabs = queryAllElements('tabs', { instance });
   const selects = queryAllElements('select', { instance });
+  const previousItemTarget = queryElement('previous-item', { instance });
+  const nextItemTarget = queryElement('next-item', { instance });
   const nest = items.length ? !!queryElement('nest-target', { scope: items[0].element }) : false;
 
   const cleanups = new Set<() => void>();
@@ -104,6 +107,10 @@ export const initList = (list: List) => {
 
   if (selects.length) {
     initListSelects(list, selects);
+  }
+
+  if (previousItemTarget || nextItemTarget) {
+    initPrevNext(list, previousItemTarget, nextItemTarget);
   }
 
   return () => {

@@ -265,6 +265,26 @@ export const ELEMENTS = [
    * If defined, it overrides the `scroll-anchor` element.
    */
   'scroll-anchor-pagination',
+
+  /**
+   * Defines the place where to put the previous item of a collection template page.
+   */
+  'previous-item',
+
+  /**
+   * Defines the place where to put the next item of a collection template page.
+   */
+  'next-item',
+
+  /**
+   * Defines an item to be displayed when the previous item is empty.
+   */
+  'previous-empty',
+
+  /**
+   * Defines an item to be displayed when the next item is empty.
+   */
+  'next-empty',
 ] as const satisfies AttributeElements;
 
 export const SETTINGS = {
