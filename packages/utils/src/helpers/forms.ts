@@ -101,3 +101,17 @@ export const setFormFieldValue = (element: FormField, value: string | boolean): 
   // Emit DOM events
   simulateEvent(element, ['click', 'input', 'change']);
 };
+
+/**
+ * Retrieves all radio inputs that belong to the same group.
+ * @param radio A radio input element that belongs to the group.
+ * @param form The form element that contains the radio inputs. If not provided, it will be inferred from the radio input.
+ * @returns An array of radio inputs.
+ */
+export const getRadioGroupInputs = (radio: FormField, form?: HTMLFormElement | null): HTMLInputElement[] => {
+  form ||= radio.form;
+
+  if (!form) return [];
+
+  return [...form.querySelectorAll<HTMLInputElement>(`input[name="${radio.name}"][type="${radio.type}"]`)];
+};

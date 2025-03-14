@@ -1,7 +1,9 @@
 import {
   addListener,
+  FORM_CSS_CLASSES,
   type FormField,
   type FormFieldType,
+  getRadioGroupInputs,
   isFormField,
   isHTMLInputElement,
   isHTMLSelectElement,
@@ -77,6 +79,16 @@ const getConditionData = (formField: FormField, field: string): FiltersCondition
 
   const filterMatch = getAttribute(formField, 'filtermatch', { filterInvalid: true });
   const fieldMatch = getAttribute(formField, 'fieldmatch', { filterInvalid: true });
+  const activeClass = getAttribute(formField, 'activeclass');
+
+  const baseData = {
+    field,
+    type,
+    op,
+    filterMatch,
+    fieldMatch,
+    activeClass,
+  } satisfies Partial<FiltersCondition>;
 
   switch (type) {
     // Checkbox
@@ -94,12 +106,8 @@ const getConditionData = (formField: FormField, field: string): FiltersCondition
         }
 
         return {
+          ...baseData,
           value: values,
-          field,
-          op,
-          filterMatch,
-          fieldMatch,
-          type,
         };
       }
 
@@ -108,12 +116,8 @@ const getConditionData = (formField: FormField, field: string): FiltersCondition
       const value = checked ? 'true' : '';
 
       return {
+        ...baseData,
         value,
-        field,
-        op,
-        filterMatch,
-        fieldMatch,
-        type,
       };
     }
 
@@ -126,12 +130,8 @@ const getConditionData = (formField: FormField, field: string): FiltersCondition
       const value = checkedRadio ? getAttribute(checkedRadio, 'value') ?? checkedRadio.value : '';
 
       return {
+        ...baseData,
         value,
-        field,
-        op,
-        filterMatch,
-        fieldMatch,
-        type,
       };
     }
 
@@ -140,12 +140,8 @@ const getConditionData = (formField: FormField, field: string): FiltersCondition
       const value = [...(formField as HTMLSelectElement).selectedOptions].map((option) => option.value);
 
       return {
+        ...baseData,
         value,
-        field,
-        op,
-        filterMatch,
-        fieldMatch,
-        type,
       };
     }
 
@@ -158,12 +154,8 @@ const getConditionData = (formField: FormField, field: string): FiltersCondition
       const value = valueAsDate ? valueAsDate.toISOString() : _value;
 
       return {
+        ...baseData,
         value,
-        field,
-        op,
-        filterMatch,
-        fieldMatch,
-        type,
       };
     }
 
@@ -174,13 +166,9 @@ const getConditionData = (formField: FormField, field: string): FiltersCondition
       const fuzzy = getAttribute(formField, 'fuzzy');
 
       return {
+        ...baseData,
         value,
-        field,
-        op,
         fuzzy,
-        filterMatch,
-        fieldMatch,
-        type,
       };
     }
   }
@@ -229,7 +217,7 @@ export const setConditionsData = (form: HTMLFormElement, conditions: FiltersCond
       case 'radio': {
         if (Array.isArray(value)) break;
 
-        const groupRadios = form.querySelectorAll<HTMLInputElement>(`input[name="${formField.name}"][type="${type}"]`);
+        const groupRadios = getRadioGroupInputs(formField, form);
 
         for (const radio of groupRadios) {
           const radioValue = getAttribute(radio, 'value') ?? radio.value;
@@ -297,6 +285,8 @@ const getSimpleFilters = (list: List, form: HTMLFormElement) => {
     if (!field) continue;
 
     const data = getConditionData(formField, field);
+
+    setActiveClass(formField, data.activeClass);
 
     if (!filters.groups[0].conditions.some((c) => c.field === field && c.op === data.op)) {
       filters.groups[0].conditions.push(data);
@@ -386,6 +376,8 @@ const handleInputs = (list: List, form: HTMLFormElement, debounces: Map<string, 
 
     const condition = getConditionData(target, field);
 
+    setActiveClass(target, condition.activeClass);
+
     const update = () => {
       const conditions = list.filters.groups[0]?.conditions || [];
 
@@ -457,4 +449,39 @@ const handleClearButtons = (list: List, debounces: Map<string, number>) => {
       }
     }
   });
+};
+
+/**
+ * Sets the active class to a form field.
+ * @param formField
+ * @param activeClass
+ */
+const setActiveClass = (formField: FormField, activeClass: string) => {
+  switch (formField.type) {
+    case 'checkbox': {
+      const checked = (formField as HTMLInputElement).checked;
+      const checkboxParent = formField.closest(`.${FORM_CSS_CLASSES.checkboxField}`);
+      const target = checkboxParent || formField;
+
+      target.classList.toggle(activeClass, checked);
+      break;
+    }
+
+    case 'radio': {
+      const groupRadios = getRadioGroupInputs(formField);
+
+      for (const radio of groupRadios) {
+        const radioParent = radio.closest(`.${FORM_CSS_CLASSES.radioField}`);
+        const target = radioParent || radio;
+
+        target.classList.toggle(activeClass, radio.checked);
+      }
+
+      break;
+    }
+
+    default: {
+      formField.classList.toggle(activeClass, !!formField.value);
+    }
+  }
 };

@@ -372,6 +372,14 @@ export const SETTINGS = {
   },
 
   /**
+   * Defines the active filter CSS class.
+   */
+  activeclass: {
+    key: 'activeclass',
+    defaultValue: `is-${LIST_ATTRIBUTE}-active`,
+  },
+
+  /**
    * Defines the loading configuration.
    */
   load: {

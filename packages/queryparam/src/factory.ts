@@ -1,5 +1,6 @@
 import {
   FORM_CSS_CLASSES,
+  getRadioGroupInputs,
   isHTMLInputElement,
   isHTMLSelectElement,
   isHTMLTextAreaElement,
@@ -24,7 +25,7 @@ export function queryParamFactory(elements: HTMLElement[], value: string) {
       const form = radio.closest('form');
 
       if (form) {
-        const groupRadios = [...form.querySelectorAll<HTMLInputElement>(`input[name="${radio.name}"]`)];
+        const groupRadios = getRadioGroupInputs(radio, form);
         const targetRadio = groupRadios.find((radio) => radio.value === value);
 
         if (targetRadio) {

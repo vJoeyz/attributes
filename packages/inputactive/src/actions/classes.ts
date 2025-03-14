@@ -1,4 +1,4 @@
-import { FORM_CSS_CLASSES } from '@finsweet/attributes-utils';
+import { FORM_CSS_CLASSES, getRadioGroupInputs } from '@finsweet/attributes-utils';
 
 import { getAttribute } from '../utils/selectors';
 
@@ -22,7 +22,7 @@ export const handleInputActiveClass = (input: HTMLInputElement) => {
   const isRadio = input.type === 'radio';
   if (!isRadio) return;
 
-  const groupRadios = document.querySelectorAll<HTMLInputElement>(`input[type="radio"][name="${input.name}"]`);
+  const groupRadios = getRadioGroupInputs(input);
   for (const radio of groupRadios) {
     const radioField = radio.closest(`.${FORM_CSS_CLASSES.radioField}`);
     if (!radioField) continue;

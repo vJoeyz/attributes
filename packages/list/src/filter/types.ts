@@ -15,6 +15,7 @@ export type FiltersCondition = {
   value: string | string[];
   filterMatch: FilterMatch;
   fieldMatch: FilterMatch;
+  activeClass: string;
   fuzzy?: number;
 };
 
