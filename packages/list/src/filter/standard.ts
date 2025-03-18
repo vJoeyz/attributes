@@ -17,9 +17,9 @@ import type { List } from '../components/List';
 import { getCheckboxGroup } from '../utils/dom';
 import { setReactive } from '../utils/reactivity';
 import { getAttribute, getElementSelector, getSettingSelector, queryElement } from '../utils/selectors';
+import { handleFiltersForm } from './elements';
 import { filterItems } from './filter';
 import type { Filters, FiltersCondition, FiltersGroup } from './types';
-import { handleFiltersForm } from './elements';
 
 /**
  * Initializes standard filters for a list.

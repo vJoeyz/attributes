@@ -1,7 +1,7 @@
+import { addListener } from '@finsweet/attributes-utils';
 import { effect } from '@vue/reactivity';
 
 import type { List } from '../components';
-import { addListener } from '@finsweet/attributes-utils';
 import { getAttribute } from '../utils/selectors';
 
 /**
