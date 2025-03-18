@@ -500,6 +500,12 @@ export const SETTINGS = {
    * If defined on a static item, the item will be filtered, sorted, etc…
    */
   interactive: { key: 'interactive', values: ['true'] },
+
+  /**
+   * Defines a custom amount of items to display per page.
+   * By default, it will use the Webflow pagination settings.
+   */
+  itemsperpage: { key: 'itemsperpage', isNumeric: true },
 } as const satisfies AttributeSettings;
 
 export const BREAKPOINTS_INDEX: { [key in WebflowBreakpoint]: number } = {

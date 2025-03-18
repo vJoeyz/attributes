@@ -319,8 +319,8 @@ export class List {
     // Collect items
     const collectionItemElements = getCollectionElements(wrapperElement, 'item');
 
-    this.initialItemsPerPage = collectionItemElements.length;
-    this.itemsPerPage = ref(collectionItemElements.length);
+    this.initialItemsPerPage = getAttribute(this.listOrWrapper, 'itemsperpage') || collectionItemElements.length;
+    this.itemsPerPage = ref(this.initialItemsPerPage);
 
     if (listElement) {
       const items = collectionItemElements.map((element, index) => new ListItem(element, listElement, index));
