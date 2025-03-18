@@ -15,12 +15,12 @@ declare module '@vue/reactivity' {
 }
 
 /**
- * Inits advanced filters for a list.
+ * Inits dynamic filters for a list.
  * @param list
  * @param form
  * @returns A cleanup function
  */
-export const initAdvancedFilters = (list: List, form: HTMLFormElement) => {
+export const initDynamicFilters = (list: List, form: HTMLFormElement) => {
   const conditionGroup = queryElement('condition-group', { scope: form });
   if (!conditionGroup) return;
 

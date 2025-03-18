@@ -1,11 +1,11 @@
-import { effect, watch } from '@vue/reactivity';
+import { watch } from '@vue/reactivity';
 import debounce from 'just-debounce';
 
 import type { List } from '../components/List';
 import { queryElement } from '../utils/selectors';
-import { initAdvancedFilters } from './advanced';
+import { initDynamicFilters } from './dynamic';
 import { filterItems } from './filter';
-import { initSimpleFilters } from './simple';
+import { initStandardFilters } from './standard';
 import { initTags } from './tags';
 import type { Filters } from './types';
 import { handleFilterElements } from './elements';
@@ -23,8 +23,8 @@ export const initListFiltering = (list: List, form: HTMLFormElement) => {
   const elementsCleanup = handleFilterElements(list);
 
   // Init filters
-  const isAdvanced = !!queryElement('condition-group', { scope: form });
-  const filteringCleanup = isAdvanced ? initAdvancedFilters(list, form) : initSimpleFilters(list, form);
+  const isDynamic = !!queryElement('condition-group', { scope: form });
+  const filteringCleanup = isDynamic ? initDynamicFilters(list, form) : initStandardFilters(list, form);
 
   // Init Tags
   const tagsCleanup = initTags(list);

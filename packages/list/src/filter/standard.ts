@@ -20,7 +20,13 @@ import { getAttribute, getElementSelector, getSettingSelector, queryElement } fr
 import { filterItems } from './filter';
 import type { Filters, FiltersCondition } from './types';
 
-export const initSimpleFilters = (list: List, form: HTMLFormElement) => {
+/**
+ * Initializes standard filters for a list.
+ * @param list
+ * @param form
+ * @returns A cleanup function.
+ */
+export const initStandardFilters = (list: List, form: HTMLFormElement) => {
   const debounces = new Map<string, number>();
 
   // Handle inputs
