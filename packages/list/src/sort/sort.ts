@@ -1,5 +1,5 @@
 import type { ListItem } from '../components/ListItem';
-import type { SortingDirection } from './types';
+import type { Sorting, SortingDirection } from './types';
 
 /**
  * Sorts the items of a `CMSList`.
@@ -9,17 +9,13 @@ import type { SortingDirection } from './types';
  * @param direction The direction to sort.
  * @param sortKey The key of the field to use as sorting reference.
  */
-export const sortListItems = (
-  items: ListItem[],
-  sortKey?: string,
-  direction?: SortingDirection
-): ListItem[] | undefined => {
-  const validSortKey = !!direction && !!sortKey && items.some(({ fields }) => sortKey in fields);
-  if (!validSortKey) return;
+export const sortListItems = (items: ListItem[], { field, direction }: Sorting): ListItem[] | undefined => {
+  const validField = !!direction && !!field && items.some(({ fields }) => field in fields);
+  if (!validField) return;
 
   const sorted = [...items].sort((firstItem, secondItem) => {
-    const firstItemProp = firstItem.fields[sortKey];
-    const secondItemProp = secondItem.fields[sortKey];
+    const firstItemProp = firstItem.fields[field];
+    const secondItemProp = secondItem.fields[field];
 
     if (!firstItemProp) return 1;
     if (!secondItemProp) return -1;

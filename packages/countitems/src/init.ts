@@ -1,4 +1,4 @@
-import { type FinsweetAttributeInit, getCollectionElements, waitWebflowReady } from '@finsweet/attributes-utils';
+import { CMS_CSS_CLASSES, type FinsweetAttributeInit, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { getInstance, queryAllElements, queryElement } from './utils/selectors';
 
@@ -11,7 +11,8 @@ export const init: FinsweetAttributeInit = async () => {
   const listReferences = queryAllElements('list');
 
   for (const listReference of listReferences) {
-    const listElement = getCollectionElements(listReference, 'list') || listReference;
+    const listWrapper = listReference.closest(`.${CMS_CSS_CLASSES.wrapper}`);
+    const listElement = listWrapper?.querySelector(`.${CMS_CSS_CLASSES.list}}`) || listReference;
 
     const instance = getInstance(listReference);
 

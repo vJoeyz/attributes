@@ -11,8 +11,7 @@ import { computed, effect, ref } from '@vue/reactivity';
 
 import type { List } from '../components/List';
 import { getAttribute, hasAttributeValue } from '../utils/selectors';
-import { sortListItems } from './sort';
-import type { SortingDirection } from './types';
+import type { Sorting, SortingDirection } from './types';
 
 /**
  * Inits the sorting with a group of Buttons.
@@ -23,15 +22,10 @@ import type { SortingDirection } from './types';
 export const initButtons = (buttons: HTMLElement[], list: List) => {
   const activeButton = ref<HTMLElement | undefined>();
 
-  let sortDirection: SortingDirection | undefined;
-  let sortKey: string;
-
-  list.addHook('sort', (items) => sortListItems(items, sortKey, sortDirection));
-
   const cleanups = buttons
     .flatMap((button) => {
-      const buttonSortKey = getAttribute(button, 'field');
-      if (!buttonSortKey) return;
+      const field = getAttribute(button, 'field');
+      if (!field) return;
 
       const reverse = hasAttributeValue(button, 'reverse', 'true');
       const ascClass = getAttribute(button, 'ascclass');
@@ -72,13 +66,15 @@ export const initButtons = (buttons: HTMLElement[], list: List) => {
       const clickCleanup = addListener(button, 'click', async (e) => {
         e.preventDefault();
 
-        sortKey = buttonSortKey;
-        sortDirection = getNextDirection(currentDirection.value, reverse);
-
         activeButton.value = button;
-        currentDirection.value = sortDirection;
+        currentDirection.value = getNextDirection(currentDirection.value, reverse);
 
-        await list.triggerHook('sort', { scrollToAnchor: true });
+        const sorting: Sorting = {
+          field,
+          direction: currentDirection.value,
+        };
+
+        Object.assign(list.sorting, sorting);
       });
 
       return [ariaSortCleanup, cssClassCleanup, clickCleanup];

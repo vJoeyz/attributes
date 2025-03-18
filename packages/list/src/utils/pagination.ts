@@ -18,18 +18,3 @@ export const getPaginationSearchEntries = (paginationButton: PaginationButtonEle
   const searchEntries = [...searchParams.entries()];
   return searchEntries;
 };
-
-/**
- * Updates the page query parameters.
- * @param listInstance A {@link List} instance.
- */
-export const setPaginationQueryParams = ({ currentPage, pagesQuery }: List) => {
-  if (!pagesQuery || !currentPage) return;
-
-  const url = new URL(location.href);
-  const { searchParams } = url;
-
-  searchParams.set(pagesQuery, `${currentPage}`);
-
-  history.replaceState(null, '', url.toString());
-};

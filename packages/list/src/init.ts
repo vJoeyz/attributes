@@ -1,12 +1,8 @@
-import {
-  type FinsweetAttributeInit,
-  getCMSElementSelector,
-  isNotEmpty,
-  waitWebflowReady,
-} from '@finsweet/attributes-utils';
+import { type FinsweetAttributeInit, isNotEmpty, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { createListInstance, initList } from './factory';
 import { queryAllElements } from './utils/selectors';
+import { getCMSElementSelector } from './utils/dom';
 
 /**
  * Inits the attribute.

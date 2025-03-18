@@ -1,8 +1,7 @@
 import { addListener, normalizePropKey } from '@finsweet/attributes-utils';
 
 import type { List } from '../components/List';
-import { sortListItems } from './sort';
-import type { SortingDirection } from './types';
+import type { Sorting, SortingDirection } from './types';
 
 /**
  * Inits sorting on an `HTMLSelectElement`.
@@ -10,21 +9,17 @@ import type { SortingDirection } from './types';
  * @param list The {@link List} instance.
  */
 export const initHTMLSelect = (selectElement: HTMLSelectElement, list: List) => {
-  let [sortKey, sortDirection] = getSortingParams(selectElement.value);
+  const handleSelect = () => {
+    const sorting = getSortingParams(selectElement.value);
 
-  list.addHook('sort', (items) => sortListItems(items, sortKey, sortDirection));
+    Object.assign(list.sorting, sorting);
+  };
 
   // Sort on change
-  const changeCleanup = addListener(selectElement, 'change', async () => {
-    [sortKey, sortDirection] = getSortingParams(selectElement.value);
+  const changeCleanup = addListener(selectElement, 'change', handleSelect);
 
-    await list.triggerHook('sort', { scrollToAnchor: true });
-  });
-
-  // Sort items if a sortKey exists on page load
-  if (sortKey) {
-    list.triggerHook('sort');
-  }
+  // Sort on init
+  handleSelect();
 
   // Prevent submit events on the form
   const form = selectElement.closest('form');
@@ -51,22 +46,22 @@ const handleFormSubmit = (e: Event) => {
  * Extracts the `sortKey` and `direction` from a Select element value.
  * @param value The Select element value.
  */
-const getSortingParams = (value: string) => {
-  let sortKey: string;
-  let sortDirection: SortingDirection;
+const getSortingParams = (value: string): Sorting => {
+  let field: string;
+  let direction: SortingDirection;
 
   if (value.endsWith('-asc')) {
-    sortDirection = 'asc';
-    sortKey = value.slice(0, -4);
+    direction = 'asc';
+    field = value.slice(0, -4);
   } else if (value.endsWith('-desc')) {
-    sortDirection = 'desc';
-    sortKey = value.slice(0, -5);
+    direction = 'desc';
+    field = value.slice(0, -5);
   } else {
-    sortDirection = 'asc';
-    sortKey = value;
+    direction = 'asc';
+    field = value;
   }
 
-  sortKey = normalizePropKey(sortKey);
+  field = normalizePropKey(field);
 
-  return [sortKey, sortDirection] as const;
+  return { field, direction };
 };

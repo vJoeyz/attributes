@@ -35,7 +35,7 @@ export const initSimpleFilters = (list: List, form: HTMLFormElement) => {
 
   // 2 way binding
   const twoWayBindingCleanup = watch(
-    list.filters.groups[0]?.conditions,
+    () => list.filters.groups[0]?.conditions,
     (conditions) => {
       if (list.readingFilters) return;
 

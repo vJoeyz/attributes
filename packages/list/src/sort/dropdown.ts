@@ -18,13 +18,12 @@ import { effect, type Ref, ref } from '@vue/reactivity';
 
 import type { List } from '../components/List';
 import { getAttribute, queryElement } from '../utils/selectors';
-import { sortListItems } from './sort';
-import type { SortingDirection } from './types';
+import type { Sorting, SortingDirection } from './types';
 
 type DropdownOption = {
   element: HTMLAnchorElement;
-  sortKey?: string;
-  sortDirection?: SortingDirection;
+  field?: string;
+  direction?: SortingDirection;
   cleanup: () => void;
 };
 
@@ -46,11 +45,6 @@ export const initDropdown = (dropdown: DropdownElement, list: List) => {
   setDropdownAria(dropdownToggle, dropdownList);
 
   const activeOption = ref<DropdownOption | undefined>();
-
-  let sortKey: string | undefined;
-  let sortDirection: SortingDirection | undefined;
-
-  list.addHook('sort', (items) => sortListItems(items, sortKey, sortDirection));
 
   // Listen events
   const dropdownLabelCleanup = initDropdownLabel(dropdownToggle, activeOption);
@@ -80,11 +74,14 @@ export const initDropdown = (dropdown: DropdownElement, list: List) => {
 
     activeOption.value = optionData;
 
-    ({ sortKey, sortDirection } = optionData);
+    const sorting: Sorting = {
+      field: optionData.field,
+      direction: optionData.direction,
+    };
+
+    Object.assign(list.sorting, sorting);
 
     closeDropdown(dropdownToggle);
-
-    await list.triggerHook('sort', { scrollToAnchor: true });
   });
 
   return () => {
@@ -107,26 +104,26 @@ const initDropdownOptions = (dropdownList: DropdownList, activeOption: Ref<Dropd
   for (const element of options) {
     element.setAttribute(ARIA_ROLE_KEY, ARIA_ROLE_VALUES.option);
 
-    const fieldKey = getAttribute(element, 'field');
+    const rawField = getAttribute(element, 'field');
 
-    let sortKey: string | undefined;
-    let sortDirection: SortingDirection | undefined;
+    let field: string | undefined;
+    let direction: SortingDirection | undefined;
 
-    if (fieldKey) {
-      if (fieldKey.endsWith('-asc')) {
-        sortDirection = 'asc';
-        sortKey = fieldKey.slice(0, -4);
-      } else if (fieldKey.endsWith('-desc')) {
-        sortDirection = 'desc';
-        sortKey = fieldKey.slice(0, -5);
+    if (rawField) {
+      if (rawField.endsWith('-asc')) {
+        direction = 'asc';
+        field = rawField.slice(0, -4);
+      } else if (rawField.endsWith('-desc')) {
+        direction = 'desc';
+        field = rawField.slice(0, -5);
       } else {
-        sortDirection = 'asc';
-        sortKey = fieldKey;
+        direction = 'asc';
+        field = rawField;
       }
     }
 
-    if (sortKey) {
-      sortKey = normalizePropKey(sortKey);
+    if (field) {
+      field = normalizePropKey(field);
     }
 
     // Handle active state
@@ -142,7 +139,7 @@ const initDropdownOptions = (dropdownList: DropdownList, activeOption: Ref<Dropd
       }
     });
 
-    dropdownOptions.set(element, { element, sortKey, sortDirection, cleanup });
+    dropdownOptions.set(element, { element, field, direction, cleanup });
   }
 
   return dropdownOptions;

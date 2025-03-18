@@ -17,7 +17,8 @@ import { animations } from '@finsweet/attributes-utils';
 import { computed, effect, reactive, type Ref, ref, type ShallowRef, shallowRef, watch } from '@vue/reactivity';
 
 import type { Filters } from '../filter/types';
-import { getAllCollectionListWrappers, getCollectionElements } from '../utils/dom';
+import type { Sorting } from '../sort/types';
+import { getAllCollectionListWrappers, getCMSElementSelector, getCollectionElements } from '../utils/dom';
 import { getPaginationSearchEntries } from '../utils/pagination';
 import { getAttribute, getInstance, queryAllElements, queryElement } from '../utils/selectors';
 import { listInstancesStore } from '../utils/store';
@@ -216,15 +217,15 @@ export class List {
   });
 
   /**
+   * Defines the active sorting.
+   */
+  public readonly sorting = reactive<Sorting>({});
+
+  /**
    * Defines if the pagination query param should be added to the URL when switching pages.
    * @example '?5f7457b3_page=1'
    */
-  public readonly showPagesQuery = ref(false);
-
-  /**
-   * Defines the Webflow modules to restart after rendering.
-   */
-  public readonly webflowModules = new Set<WebflowModule>();
+  public readonly showQuery: boolean;
 
   /**
    * Defines if loaded Items can be cached using IndexedDB after fetching them.
@@ -232,15 +233,27 @@ export class List {
   public readonly cache: boolean;
 
   /**
-   * Defines the query key for the paginated pages.
-   * @example '5f7457b3_page'
+   * Defines the Webflow modules to restart after rendering.
    */
-  public pagesQuery?: string;
+  public readonly webflowModules = new Set<WebflowModule>();
 
   /**
-   * Defines an awaitable Promise that resolves once the pagination data (`currentPage` + `pagesQuery`) has been retrieved.
+   * Defines the URL query key for the paginated pages.
+   * @example '5f7457b3_page'
    */
-  public loadingPaginationQuery?: Promise<void>;
+  public paginationSearchParam?: string;
+
+  /**
+   * Defines the query prefix for all the list's query params.
+   * If pagination query exists, it is used as the prefix: '5f7457b3_page' => '5f7457b3'
+   * If not, it falls back to the list's instance or the list's index.
+   */
+  public searchParamsPrefix!: string;
+
+  /**
+   * Defines an awaitable Promise that resolves once the pagination data (`currentPage` + `paginationSearchParam`) has been retrieved.
+   */
+  public loadingSearchParamsData?: Promise<void>;
 
   /**
    * Defines an awaitable Promise that resolves once the pagination elements have been loaded.
@@ -281,6 +294,7 @@ export class List {
     this.scrollAnchorSortElement = queryElement('scroll-anchor-sort', { instance });
     this.scrollAnchorPaginationElement = queryElement('scroll-anchor-pagination', { instance });
     this.cache = getAttribute(this.listOrWrapper, 'cache') === 'true';
+    this.showQuery = getAttribute(this.listOrWrapper, 'showquery') === 'true';
 
     // Get pagination next elements
     const paginationNextElement = getCollectionElements(wrapperElement, 'pagination-next');
@@ -316,7 +330,14 @@ export class List {
     }
 
     // Extract pagination data
-    this.loadingPaginationQuery = this.#getPaginationQuery();
+    this.loadingSearchParamsData = this.#getCMSPaginationData().then((paginationSearchParam) => {
+      if (paginationSearchParam) {
+        this.searchParamsPrefix = paginationSearchParam.split('_')[0];
+      }
+
+      this.searchParamsPrefix ||= instance || `${pageIndex}`;
+    });
+
     this.loadingPaginationElements = this.#getCMSPaginationElements();
 
     // Init hooks
@@ -407,14 +428,14 @@ export class List {
    * Collects the pagination query info.
    * @returns A Promise that resolves once the pagination query info has been collected.
    */
-  async #getPaginationQuery() {
+  async #getCMSPaginationData() {
     const paginationButton = this.paginationNextCMSElement.value || this.paginationPreviousCMSElement.value;
     if (!paginationButton) return;
 
     const searchEntries = getPaginationSearchEntries(paginationButton);
     if (!searchEntries.length) return;
 
-    let pagesQuery: string | undefined;
+    let paginationSearchParam: string | undefined;
     let rawTargetPage: string | undefined;
 
     if (searchEntries.length === 1) {
@@ -422,7 +443,7 @@ export class List {
 
       if (!pageEntry) return;
 
-      [pagesQuery, rawTargetPage] = pageEntry;
+      [paginationSearchParam, rawTargetPage] = pageEntry;
     }
 
     // If there's more than one `searchParam` we need to fetch the original page to find the correspondent pageQuery.
@@ -432,7 +453,7 @@ export class List {
       const initialPage = await fetchPageDocument(origin + pathname);
       if (!initialPage) return;
 
-      const initialCollectionListWrappers = initialPage.querySelectorAll(`.${CMS_CSS_CLASSES.wrapper}`);
+      const initialCollectionListWrappers = initialPage.querySelectorAll(getCMSElementSelector('wrapper'));
 
       const initialCollectionListWrapper = initialCollectionListWrappers[this.pageIndex];
       if (!initialCollectionListWrapper) return;
@@ -443,18 +464,20 @@ export class List {
       const [initialPageEntry] = getPaginationSearchEntries(initialPaginationNext) || [];
       if (!initialPageEntry) return;
 
-      [pagesQuery] = initialPageEntry;
+      [paginationSearchParam] = initialPageEntry;
 
-      [, rawTargetPage] = searchEntries.find(([query]) => query === pagesQuery) || [];
+      [, rawTargetPage] = searchEntries.find(([query]) => query === paginationSearchParam) || [];
     }
 
-    if (!pagesQuery || !rawTargetPage) return;
+    if (!paginationSearchParam || !rawTargetPage) return;
 
     const targetPage = parseInt(rawTargetPage);
     const currentPage = this.paginationNextCMSElement.value ? targetPage - 1 : targetPage + 1;
 
-    this.pagesQuery = pagesQuery;
+    this.paginationSearchParam = paginationSearchParam;
     this.currentPage.value = currentPage;
+
+    return paginationSearchParam;
   }
 
   /**
@@ -462,7 +485,7 @@ export class List {
    * @returns A Promise that resolves once the missing pagination elements have been collected.
    */
   async #getCMSPaginationElements() {
-    await this.loadingPaginationQuery;
+    await this.loadingSearchParamsData;
 
     const { origin, pathname } = window.location;
     const {
@@ -473,7 +496,7 @@ export class List {
       paginationPreviousCMSElement,
       emptyElement,
       currentPage,
-      pagesQuery,
+      paginationSearchParam,
       pageIndex,
     } = this;
 
@@ -485,7 +508,7 @@ export class List {
         const $currentPage = currentPage.value;
         if (!$currentPage || $currentPage === 1) return;
 
-        const page = await fetchPageDocument(`${origin}${pathname}?${pagesQuery}=${$currentPage - 1}`);
+        const page = await fetchPageDocument(`${origin}${pathname}?${paginationSearchParam}=${$currentPage - 1}`);
         if (!page) return;
 
         const allCollectionWrappers = getAllCollectionListWrappers(page);
@@ -508,7 +531,7 @@ export class List {
       (async () => {
         if (paginationPreviousCMSElement.value && emptyElement.value) return;
 
-        const page = await fetchPageDocument(`${origin}${pathname}?${pagesQuery}=9999`);
+        const page = await fetchPageDocument(`${origin}${pathname}?${paginationSearchParam}=9999`);
         if (!page) return;
 
         const allCollectionWrappers = getAllCollectionListWrappers(page);
@@ -611,6 +634,39 @@ export class List {
     if (!anchor) return;
 
     anchor.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  /**
+   * Gets a search param from the URL using the list's search params prefix.
+   * @param key
+   * @returns The value of the search param or null if not found.
+   */
+  async getSearchParam(key: string) {
+    await this.loadingSearchParamsData;
+
+    const { searchParams } = new URL(location.href);
+
+    return searchParams.get(`${this.searchParamsPrefix}_${key}`);
+  }
+
+  /**
+   * Sets a search param in the URL using the list's search params prefix.
+   * @param key
+   * @param value
+   */
+  async setSearchParam(key: string, value?: string | null) {
+    await this.loadingSearchParamsData;
+
+    const url = new URL(location.href);
+    const name = `${this.searchParamsPrefix}_${key}`;
+
+    if (value) {
+      url.searchParams.set(name, value);
+    } else {
+      url.searchParams.delete(name);
+    }
+
+    history.replaceState({}, '', url.toString());
   }
 
   /**

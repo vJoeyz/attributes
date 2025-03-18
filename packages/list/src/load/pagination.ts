@@ -41,17 +41,19 @@ export const initPaginationMode = (list: List) => {
 
   const currentPageCleanup = watch(list.currentPage, () => {
     list.triggerHook('pagination', { scrollToAnchor: true });
+
+    if (list.showQuery) {
+      list.setSearchParam('page', currentPage.value.toString());
+    }
   });
+
   const paginateCleanup = watch(list.itemsPerPage, () => {
     list.triggerHook('pagination', { scrollToAnchor: true });
   });
 
   // Get settings
-  const showQueryParams = hasAttributeValue(listOrWrapper, 'showquery', 'true');
   const [pageBoundary, pageBoundaryCleanup] = getBreakpointSetting(list, 'pageboundary');
   const [pageSiblings, pageSiblingsCleanup] = getBreakpointSetting(list, 'pagesiblings');
-
-  console.log({ pageBoundary: pageBoundary.value, pageSiblings: pageSiblings.value });
 
   // Page Button Template
   const pageButtonTemplate = queryElement('page-button', { scope: paginationWrapperElement });
@@ -64,11 +66,6 @@ export const initPaginationMode = (list: List) => {
   } else {
     pageDotsTemplate = document.createElement('div');
     pageDotsTemplate.textContent = '...';
-  }
-
-  // Handle query params
-  if (showQueryParams) {
-    handlePaginationQuery(list);
   }
 
   // Handle page buttons
@@ -245,7 +242,7 @@ const createPageButton = (
   pageButtonTemplate: HTMLElement,
   pageDotsTemplate: HTMLElement,
   targetPage: number | null,
-  { pagesQuery }: List
+  { paginationSearchParam }: List
 ) => {
   if (!targetPage) return cloneNode(pageDotsTemplate);
 
@@ -253,8 +250,8 @@ const createPageButton = (
   newElement.classList.remove(CURRENT_CSS_CLASS);
   newElement.textContent = `${targetPage}`;
 
-  if (isHTMLAnchorElement(newElement) && pagesQuery) {
-    newElement.href = `?${pagesQuery}=${targetPage}`;
+  if (isHTMLAnchorElement(newElement) && paginationSearchParam) {
+    newElement.href = `?${paginationSearchParam}=${targetPage}`;
   }
 
   return newElement;
@@ -295,7 +292,7 @@ const handlePaginationButtons = (list: List) => {
 
       setAttributes(element, shouldDisplay);
 
-      element.href = `?${list.pagesQuery}=${list.currentPage.value - 1}`;
+      element.href = `?${list.paginationSearchParam}=${list.currentPage.value - 1}`;
     });
 
     list.allPaginationNextElements.value.forEach((element) => {
@@ -303,7 +300,7 @@ const handlePaginationButtons = (list: List) => {
 
       setAttributes(element, shouldDisplay);
 
-      element.href = `?${list.pagesQuery}=${list.currentPage.value + 1}`;
+      element.href = `?${list.paginationSearchParam}=${list.currentPage.value + 1}`;
     });
   });
 
@@ -369,20 +366,4 @@ const getBreakpointSetting = ({ listOrWrapper }: List, setting: 'pagesiblings' |
   updateValue();
 
   return [store, cleanup] as const;
-};
-
-/**
- * Updates the page query parameters.
- * @param list A {@link List} instance.
- */
-export const handlePaginationQuery = ({ currentPage, pagesQuery }: List) => {
-  if (!pagesQuery) return;
-
-  effect(() => {
-    const url = new URL(location.href);
-
-    url.searchParams.set(pagesQuery, currentPage.value.toString());
-
-    history.replaceState(null, '', url);
-  });
 };

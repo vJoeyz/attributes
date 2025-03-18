@@ -14,7 +14,7 @@ export const loadPaginatedCMSItems = async (list: List): Promise<void> => {
     paginationNextCMSElement,
     paginationPreviousCMSElement,
     paginationCountElement,
-    loadingPaginationQuery,
+    loadingSearchParamsData,
     loaderElement,
     cache: cacheItems,
   } = list;
@@ -37,10 +37,13 @@ export const loadPaginatedCMSItems = async (list: List): Promise<void> => {
       }
     }
 
-    await loadingPaginationQuery;
+    await loadingSearchParamsData;
 
-    if (totalPages) await parallelItemsLoad(list, totalPages, cacheItems);
-    else await chainedPagesLoad(list, cacheItems);
+    if (totalPages) {
+      await parallelItemsLoad(list, totalPages, cacheItems);
+    } else {
+      await chainedPagesLoad(list, cacheItems);
+    }
 
     if (loaderElement) {
       loaderElement.style.display = 'none';
@@ -107,13 +110,21 @@ const parallelItemsLoad = async (list: List, totalPages: number, cache: boolean)
 
   const currentPage = list.currentPage.value;
 
-  if (!list.pagesQuery || !currentPage) return;
+  if (!list.paginationSearchParam || !currentPage) return;
 
   const { origin, pathname } = window.location;
 
+  /**
+   * @param pageNumber
+   * @returns The URL of the specified page.
+   */
+  const getPageURL = (pageNumber: number) => `${origin}${pathname}?${list.paginationSearchParam}=${pageNumber}`;
+
   // Previous Pages
   for (let pageNumber = currentPage - 1; pageNumber >= 1; pageNumber--) {
-    const page = await fetchPageDocument(`${origin}${pathname}?${list.pagesQuery}=${pageNumber}`, { cache });
+    const url = getPageURL(pageNumber);
+
+    const page = await fetchPageDocument(url, { cache });
     if (!page) return;
 
     await parseLoadedPage(page, list, 'unshift');
@@ -126,7 +137,9 @@ const parallelItemsLoad = async (list: List, totalPages: number, cache: boolean)
     fetchPromises[pageNumber] = (async () => {
       const previousPromise = fetchPromises[pageNumber - 1];
 
-      const page = await fetchPageDocument(`${origin}${pathname}?${list.pagesQuery}=${pageNumber}`, { cache });
+      const url = getPageURL(pageNumber);
+
+      const page = await fetchPageDocument(url, { cache });
 
       await previousPromise;
 

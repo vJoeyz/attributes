@@ -1,5 +1,4 @@
 export * from './arrays';
-export * from './cms';
 export * from './dates';
 export * from './dom';
 export * from './events';
