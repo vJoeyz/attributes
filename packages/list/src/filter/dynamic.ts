@@ -44,6 +44,7 @@ export const initDynamicFilters = (list: List, form: HTMLFormElement) => {
       renderController.update(shouldRender);
     });
 
+    // TODO: support fs-list-filteron
     const inputCleanup = addListener(conditionGroupMatch, 'input', () => {
       list.filters.groupsMatch = conditionGroupMatch.value as FilterMatch;
     });

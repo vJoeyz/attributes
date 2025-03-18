@@ -18,7 +18,8 @@ import { getCheckboxGroup } from '../utils/dom';
 import { setReactive } from '../utils/reactivity';
 import { getAttribute, getElementSelector, getSettingSelector, queryElement } from '../utils/selectors';
 import { filterItems } from './filter';
-import type { Filters, FiltersCondition } from './types';
+import type { Filters, FiltersCondition, FiltersGroup } from './types';
+import { handleFiltersForm } from './elements';
 
 /**
  * Initializes standard filters for a list.
@@ -30,13 +31,17 @@ export const initStandardFilters = (list: List, form: HTMLFormElement) => {
   const debounces = new Map<string, number>();
 
   // Handle inputs
-  const inputCleanup = handleInputs(list, form, debounces);
+  const formElementCleanup = handleFiltersForm(form);
+  const formFieldsCleanup = handleFormFields(list, form, debounces);
 
   // Handle clear buttons
   const clickCleanup = handleClearButtons(list, debounces);
 
   // Get initial filters
-  const filters = getSimpleFilters(list, form);
+  const groupsMatch = getAttribute(form, 'groupsmatch', { filterInvalid: true });
+  const group = getSimpleFilters(list, form);
+  const filters: Filters = { groups: [group], groupsMatch };
+
   setReactive(list.filters, filters);
 
   // 2 way binding
@@ -53,7 +58,9 @@ export const initStandardFilters = (list: List, form: HTMLFormElement) => {
   // Get filters on node changes
   // TODO: bail when added/removed nodes are not form fields
   const mutationObserver = new MutationObserver(() => {
-    const filters = getSimpleFilters(list, form);
+    const group = getSimpleFilters(list, form);
+    const filters: Filters = { groups: [group], groupsMatch };
+
     setReactive(list.filters, filters);
   });
 
@@ -65,7 +72,8 @@ export const initStandardFilters = (list: List, form: HTMLFormElement) => {
   const filterResultsCleanup = initFiltersResults(list, form);
 
   return () => {
-    inputCleanup();
+    formElementCleanup();
+    formFieldsCleanup();
     clickCleanup();
     twoWayBindingCleanup();
     filterResultsCleanup();
@@ -276,9 +284,9 @@ const getConditionOperator = (formField: FormField) => {
 const getSimpleFilters = (list: List, form: HTMLFormElement) => {
   list.readingFilters = true;
 
-  const filters: Filters = {
-    groups: [{ conditions: [], conditionsMatch: getAttribute(form, 'conditionsmatch', { filterInvalid: true }) }],
-    groupsMatch: getAttribute(form, 'groupsmatch', { filterInvalid: true }),
+  const group: FiltersGroup = {
+    conditions: [],
+    conditionsMatch: getAttribute(form, 'conditionsmatch', { filterInvalid: true }),
   };
 
   for (const formField of form.elements) {
@@ -294,14 +302,14 @@ const getSimpleFilters = (list: List, form: HTMLFormElement) => {
 
     setActiveClass(formField, data.activeClass);
 
-    if (!filters.groups[0].conditions.some((c) => c.field === field && c.op === data.op)) {
-      filters.groups[0].conditions.push(data);
+    if (!group.conditions.some((c) => c.field === field && c.op === data.op)) {
+      group.conditions.push(data);
     }
   }
 
   list.readingFilters = false;
 
-  return filters;
+  return group;
 };
 
 /**
@@ -371,8 +379,22 @@ const initFiltersResults = (list: List, form: HTMLFormElement) => {
  * @param debounces
  * @returns A cleanup function.
  */
-const handleInputs = (list: List, form: HTMLFormElement, debounces: Map<string, number>) => {
-  return addListener(form, 'input', (e) => {
+const handleFormFields = (list: List, form: HTMLFormElement, debounces: Map<string, number>) => {
+  const event = getAttribute(form, 'filteron', { filterInvalid: true });
+
+  // submit
+  if (event === 'submit') {
+    return addListener(form, 'submit', (e) => {
+      list.readingFilters = true;
+
+      list.filters.groups[0] = getSimpleFilters(list, form);
+
+      list.readingFilters = false;
+    });
+  }
+
+  // input / change
+  return addListener(form, event, (e) => {
     const { target } = e;
 
     if (!isFormField(target)) return;

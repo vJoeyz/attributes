@@ -459,6 +459,17 @@ export const SETTINGS = {
   fuzzy: { key: 'fuzzy', defaultValue: '0.2', isNumeric: true },
 
   /**
+   * Defines when the lists should be filtered.
+   */
+  filteron: { key: 'filteron', values: ['input', 'change', 'submit'], defaultValue: 'input' },
+
+  /**
+   * Defines if the form's default submissions shouldn't be prevented.
+   * By default, fs-list prevents the form's default submission to handle the filtering.
+   */
+  allowsubmit: { key: 'allowsubmit', values: ['true'] },
+
+  /**
    * Defines a filter value.
    * Only used for checkboxes and radios to work around Webflow now allowing to define CMS based values for them.
    */
