@@ -4,11 +4,11 @@ import debounce from 'just-debounce';
 import type { List } from '../components/List';
 import { queryElement } from '../utils/selectors';
 import { initDynamicFilters } from './dynamic';
+import { handleFilterElements } from './elements';
 import { filterItems } from './filter';
 import { initStandardFilters } from './standard';
 import { initTags } from './tags';
 import type { Filters } from './types';
-import { handleFilterElements } from './elements';
 
 /**
  * Inits loading functionality for the list.

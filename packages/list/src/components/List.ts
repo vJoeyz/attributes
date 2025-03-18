@@ -331,11 +331,9 @@ export class List {
 
     // Extract pagination data
     this.loadingSearchParamsData = this.#getCMSPaginationData().then((paginationSearchParam) => {
-      if (paginationSearchParam) {
-        this.searchParamsPrefix = paginationSearchParam.split('_')[0];
-      }
+      const prefix = paginationSearchParam ? paginationSearchParam.split('_')[0] : undefined;
 
-      this.searchParamsPrefix ||= instance || `${pageIndex}`;
+      this.searchParamsPrefix = prefix || instance || `${pageIndex}`;
     });
 
     this.loadingPaginationElements = this.#getCMSPaginationElements();
