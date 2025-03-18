@@ -35,11 +35,6 @@ export const initStaticItems = (list: List, staticItems: HTMLElement[]) => {
   interactiveItems.sort((a, b) => a.position - b.position);
   nonInteractiveItems.sort((a, b) => a.position - b.position);
 
-  // Interactive items are added as regular elements
-  for (const { position, item } of interactiveItems) {
-    list.items.value.splice(position, 0, item);
-  }
-
   // Non-interactive items are injected before rendering
   const cleanup = list.addHook('beforeRender', (items) => {
     const newItems = [...items];
@@ -63,6 +58,18 @@ export const initStaticItems = (list: List, staticItems: HTMLElement[]) => {
 
     return newItems;
   });
+
+  // Interactive items are added as regular elements
+  for (const { position, item } of interactiveItems) {
+    list.items.value.splice(position, 0, item);
+  }
+
+  // Manually trigger the beforeRender hook if there are no interactive items
+  // This is necessary because the beforeRender hook will not be triggered if there are no
+  // mutations to the items array
+  if (!interactiveItems.length) {
+    list.triggerHook('beforeRender');
+  }
 
   return cleanup;
 };
