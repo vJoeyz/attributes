@@ -90,7 +90,7 @@ export const initList = (list: List) => {
   // Static Items
   const listSelector = getElementSelector('list', { instance });
   const itemSelector = getElementSelector('item', { instance });
-  const staticItemSelector = `${itemSelector}:not(${listSelector} ${itemSelector})`;
+  const staticItemSelector = `:is(${itemSelector}):not(:is(${listSelector}) :is(${itemSelector}))`;
   const staticItems = document.querySelectorAll<HTMLElement>(staticItemSelector);
   if (staticItems.length) {
     const cleanup = initStaticItems(list, [...staticItems]);
