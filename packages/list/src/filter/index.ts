@@ -33,7 +33,7 @@ export const initListFiltering = (list: List, form: HTMLFormElement) => {
   const filtersCleanup = watch(
     list.filters,
     debounce((filters: Filters) => {
-      list.triggerHook('filter', { scrollToAnchor: true });
+      list.triggerHook('filter', { scrollToAnchor: list.hasInteracted.value });
 
       // Handle query params
       if (list.showQuery) {

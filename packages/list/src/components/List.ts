@@ -227,6 +227,15 @@ export class List {
   public readonly sorting = reactive<Sorting>({});
 
   /**
+   * Defines if the user has interacted with the filters.
+   */
+  public readonly hasInteracted = computed(
+    () =>
+      this.sorting.interacted ||
+      this.filters.groups.some((group) => group.conditions.some((condition) => condition.interacted))
+  );
+
+  /**
    * Defines if the pagination query param should be added to the URL when switching pages.
    * @example '?5f7457b3_page=1'
    */
@@ -348,6 +357,7 @@ export class List {
     this.#initHooks();
 
     // Elements side effects
+    // TODO: Cleanup
     this.#initElements();
   }
 
@@ -420,12 +430,24 @@ export class List {
    */
   #initElements() {
     // items-count
-    // TODO: Cleanup
-    effect(() => {
+    const itemsCountCleanup = effect(() => {
       if (this.itemsCountElement) {
         this.itemsCountElement.textContent = `${this.items.value.length}`;
       }
     });
+
+    // initial
+    const initialElementCleanup = effect(() => {
+      if (this.initialElement) {
+        this.wrapperElement.style.display = this.hasInteracted.value ? '' : 'none';
+        this.initialElement.style.display = this.hasInteracted.value ? 'none' : '';
+      }
+    });
+
+    return () => {
+      itemsCountCleanup();
+      initialElementCleanup();
+    };
   }
 
   /**

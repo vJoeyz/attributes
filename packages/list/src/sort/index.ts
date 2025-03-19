@@ -30,23 +30,25 @@ export const initListSorting = (list: List, triggers: HTMLElement[]) => {
   // Set up reactivity
   const sortingCleanup = watch(
     list.sorting,
-    debounce(({ field, direction }: Sorting) => {
-      list.triggerHook('sort', { scrollToAnchor: true });
+    debounce((sorting: Sorting) => {
+      list.triggerHook('sort', { scrollToAnchor: list.hasInteracted.value });
 
       // Handle query params
       if (list.showQuery) {
-        list.setSearchParam('field', field);
-        list.setSearchParam('direction', direction);
+        list.setSearchParam('sorting', JSON.stringify(sorting));
       }
     }, 0),
     { deep: true, immediate: true }
   );
 
   // Read query params
-  Promise.all([list.getSearchParam('field'), list.getSearchParam('direction')]).then(([field, direction]) => {
-    if (field && direction) {
-      Object.assign(list.sorting, { field, direction });
-    }
+  Promise.all([list.getSearchParam('sorting')]).then(([rawSorting]) => {
+    if (!rawSorting) return;
+
+    try {
+      const sorting = JSON.parse(rawSorting);
+      Object.assign(list.sorting, sorting);
+    } catch {}
   });
 
   return () => {

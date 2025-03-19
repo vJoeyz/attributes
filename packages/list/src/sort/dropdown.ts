@@ -77,6 +77,7 @@ export const initDropdown = (dropdown: DropdownElement, list: List) => {
     const sorting: Sorting = {
       field: optionData.field,
       direction: optionData.direction,
+      interacted: true,
     };
 
     Object.assign(list.sorting, sorting);

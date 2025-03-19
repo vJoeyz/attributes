@@ -1,6 +1,7 @@
 export type Sorting = {
   field?: string;
   direction?: SortingDirection;
+  interacted?: boolean;
 };
 
 /**

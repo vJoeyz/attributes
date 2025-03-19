@@ -72,6 +72,7 @@ export const initButtons = (buttons: HTMLElement[], list: List) => {
         const sorting: Sorting = {
           field,
           direction: currentDirection.value,
+          interacted: true,
         };
 
         Object.assign(list.sorting, sorting);

@@ -9,14 +9,14 @@ import type { Sorting, SortingDirection } from './types';
  * @param list The {@link List} instance.
  */
 export const initHTMLSelect = (selectElement: HTMLSelectElement, list: List) => {
-  const handleSelect = () => {
-    const sorting = getSortingParams(selectElement.value);
+  const handleSelect = (interacted = false) => {
+    const sorting = getSortingParams(selectElement.value, interacted);
 
     Object.assign(list.sorting, sorting);
   };
 
   // Sort on change
-  const changeCleanup = addListener(selectElement, 'change', handleSelect);
+  const changeCleanup = addListener(selectElement, 'change', () => handleSelect(true));
 
   // Sort on init
   handleSelect();
@@ -45,8 +45,9 @@ const handleFormSubmit = (e: Event) => {
 /**
  * Extracts the `sortKey` and `direction` from a Select element value.
  * @param value The Select element value.
+ * @param interacted Indicates if the user interacted with the select element.
  */
-const getSortingParams = (value: string): Sorting => {
+const getSortingParams = (value: string, interacted = false): Sorting => {
   let field: string;
   let direction: SortingDirection;
 
