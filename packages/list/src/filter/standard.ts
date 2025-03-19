@@ -15,7 +15,6 @@ import debounce from 'just-debounce';
 import type { ListItem } from '../components';
 import type { List } from '../components/List';
 import { getCheckboxGroup } from '../utils/dom';
-import { setReactive } from '../utils/reactivity';
 import { getAttribute, getElementSelector, getSettingSelector, queryElement } from '../utils/selectors';
 import { handleFiltersForm } from './elements';
 import { filterItems } from './filter';
@@ -42,7 +41,7 @@ export const initStandardFilters = (list: List, form: HTMLFormElement) => {
   const group = getSimpleFilters(list, form);
   const filters: Filters = { groups: [group], groupsMatch };
 
-  setReactive(list.filters, filters);
+  Object.assign(list.filters, filters);
 
   // 2 way binding
   const twoWayBindingCleanup = watch(
@@ -61,7 +60,7 @@ export const initStandardFilters = (list: List, form: HTMLFormElement) => {
     const group = getSimpleFilters(list, form);
     const filters: Filters = { groups: [group], groupsMatch };
 
-    setReactive(list.filters, filters);
+    Object.assign(list.filters, filters);
   });
 
   // mutationObserver.observe(form, {
@@ -85,8 +84,9 @@ export const initStandardFilters = (list: List, form: HTMLFormElement) => {
  * @returns The value of a given form field.
  * @param formField A {@link FormField} element.
  * @param field The field name.
+ * @param interacted Indicates if the form field has been interacted with.
  */
-const getConditionData = (formField: FormField, field: string): FiltersCondition => {
+const getConditionData = (formField: FormField, field: string, interacted = false): FiltersCondition => {
   const type = formField.type as FormFieldType;
 
   const op = getConditionOperator(formField);
@@ -102,6 +102,7 @@ const getConditionData = (formField: FormField, field: string): FiltersCondition
     filterMatch,
     fieldMatch,
     activeClass,
+    interacted,
   } satisfies Partial<FiltersCondition>;
 
   switch (type) {
@@ -279,9 +280,11 @@ const getConditionOperator = (formField: FormField) => {
 
 /**
  * @returns An object with the form fields as keys and their values as values.
+ * @param list A {@link List} instance.
  * @param form A {@link HTMLFormElement} element.
+ * @param interacted Indicates if the form has been interacted with.
  */
-const getSimpleFilters = (list: List, form: HTMLFormElement) => {
+const getSimpleFilters = (list: List, form: HTMLFormElement, interacted = false) => {
   list.readingFilters = true;
 
   const group: FiltersGroup = {
@@ -387,7 +390,7 @@ const handleFormFields = (list: List, form: HTMLFormElement, debounces: Map<stri
     return addListener(form, 'submit', (e) => {
       list.readingFilters = true;
 
-      list.filters.groups[0] = getSimpleFilters(list, form);
+      list.filters.groups[0] = getSimpleFilters(list, form, true);
 
       list.readingFilters = false;
     });
@@ -402,7 +405,7 @@ const handleFormFields = (list: List, form: HTMLFormElement, debounces: Map<stri
     const field = getAttribute(target, 'field');
     if (!field) return;
 
-    const condition = getConditionData(target, field);
+    const condition = getConditionData(target, field, true);
 
     setActiveClass(target, condition.activeClass);
 

@@ -93,7 +93,7 @@ export class List {
   /**
    * The `Collection List` element.
    */
-  public readonly listElement?: CollectionListElement | null;
+  public readonly listElement: CollectionListElement | null;
 
   /**
    * The `Pagination` wrapper element.
@@ -137,6 +137,11 @@ export class List {
    * The `Empty State` element.
    */
   public readonly emptyElement = ref<CollectionEmptyElement | null | undefined>();
+
+  /**
+   * An initial element to display when there are no filters applied.
+   */
+  public readonly initialElement?: HTMLElement | null;
 
   /**
    * A custom loader element.
@@ -283,6 +288,7 @@ export class List {
 
     this.emptyElement.value =
       getCollectionElements(wrapperElement, 'empty') || queryElement<CollectionEmptyElement>('empty', { instance });
+    this.initialElement = queryElement('initial', { instance });
     this.loaderElement = queryElement('loader', { instance });
     this.itemsCountElement = queryElement('items-count', { instance });
     this.visibleCountElement = queryElement('visible-count', { instance });

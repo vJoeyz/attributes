@@ -4,7 +4,6 @@ import { dset } from 'dset';
 
 import type { List } from '../components/List';
 import type { ListItem } from '../components/ListItem';
-import { setReactive } from '../utils/reactivity';
 import { queryAllElements, queryElement } from '../utils/selectors';
 import type { FilterMatch, FilterOperator } from './types';
 
@@ -86,12 +85,12 @@ export const initDynamicFilters = (list: List, form: HTMLFormElement) => {
 
   // Get initial filters
   const filters = getAdvancedFilters(form);
-  setReactive(list.filters, filters);
+  Object.assign(list.filters, filters);
 
   // Get filters on node changes
   const mutationObserver = new MutationObserver(() => {
     const filters = getAdvancedFilters(form);
-    setReactive(list.filters, filters);
+    Object.assign(list.filters, filters);
   });
 
   mutationObserver.observe(form, {

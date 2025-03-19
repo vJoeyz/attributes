@@ -39,31 +39,22 @@ export const getCMSElementSelector = (key: keyof typeof CMS_CSS_SELECTORS) => {
  * @param page The page document.
  * @returns The specified collection element/elements.
  */
-export function getCollectionElements(
-  referenceElement: Element,
-  target: 'page-count'
-): PageCountElement | null | undefined;
+export function getCollectionElements(referenceElement: Element, target: 'page-count'): PageCountElement | null;
 export function getCollectionElements(
   referenceElement: Element,
   target: 'pagination-next' | 'pagination-previous'
-): PaginationButtonElement | null | undefined;
+): PaginationButtonElement | null;
 export function getCollectionElements(
   referenceElement: Element,
   target: 'pagination-wrapper'
-): PaginationWrapperElement | null | undefined;
-export function getCollectionElements(
-  referenceElement: Element,
-  target: 'empty'
-): CollectionEmptyElement | null | undefined;
+): PaginationWrapperElement | null;
+export function getCollectionElements(referenceElement: Element, target: 'empty'): CollectionEmptyElement | null;
 export function getCollectionElements(referenceElement: Element, target: 'item'): CollectionItemElement[];
-export function getCollectionElements(
-  referenceElement: Element,
-  target: 'list'
-): CollectionListElement | null | undefined;
+export function getCollectionElements(referenceElement: Element, target: 'list'): CollectionListElement | null;
 export function getCollectionElements(
   referenceElement: Element,
   target: 'wrapper'
-): CollectionListWrapperElement | null | undefined;
+): CollectionListWrapperElement | null;
 export function getCollectionElements(
   referenceElement: Element,
   target: keyof typeof CMS_CSS_SELECTORS
@@ -74,12 +65,11 @@ export function getCollectionElements(
   | PaginationButtonElement
   | PageCountElement
   | CollectionEmptyElement
-  | null
-  | undefined {
+  | null {
   const collectionListWrapper = referenceElement.closest<CollectionListWrapperElement>(
     getCMSElementSelector('wrapper')
   );
-  if (!collectionListWrapper) return;
+  if (!collectionListWrapper) return null;
 
   const collectionList = collectionListWrapper.querySelector<CollectionListElement>(getCMSElementSelector('list'));
 

@@ -117,6 +117,11 @@ export const ELEMENTS = [
   'filters',
 
   /**
+   * Defines an element that will be displayed instead of the list when there are no filters applied.
+   */
+  'initial',
+
+  /**
    * Defines the tag element.
    */
   'tag',

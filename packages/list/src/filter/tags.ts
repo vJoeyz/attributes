@@ -66,8 +66,10 @@ export const initTags = (list: List) => {
         const tagIsRendered = !!tag;
 
         // Remove the tag if the value is empty
-        const hasValue = condition.value && (Array.isArray(condition.value) ? condition.value.length : true);
-        if (!hasValue) {
+        const shouldRender =
+          condition.interacted && condition.value && (Array.isArray(condition.value) ? condition.value.length : true);
+
+        if (!shouldRender) {
           tag?.cleanup();
           return;
         }

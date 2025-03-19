@@ -17,6 +17,7 @@ export type FiltersCondition = {
   fieldMatch: FilterMatch;
   activeClass: string;
   fuzzy?: number;
+  interacted?: boolean;
 };
 
 export type FiltersGroup = {
