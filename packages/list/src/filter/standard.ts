@@ -8,6 +8,7 @@ import {
   isHTMLInputElement,
   isHTMLSelectElement,
   isNumber,
+  simulateEvent,
 } from '@finsweet/attributes-utils';
 import { toRaw, watch } from '@vue/reactivity';
 import debounce from 'just-debounce';
@@ -211,7 +212,13 @@ export const setConditionsData = (form: HTMLFormElement, conditions: FiltersCond
 
         // Single checkbox
         if (!Array.isArray(value)) {
-          formField.checked = value === 'true';
+          const check = value === 'true';
+
+          if (check !== formField.checked) {
+            formField.checked = check;
+
+            simulateEvent(formField, ['input', 'change']);
+          }
 
           break;
         }
@@ -221,8 +228,13 @@ export const setConditionsData = (form: HTMLFormElement, conditions: FiltersCond
 
         for (const checkbox of groupCheckboxes) {
           const checkboxValue = getAttribute(checkbox, 'value') ?? checkbox.value;
+          const check = value.includes(checkboxValue);
 
-          checkbox.checked = value.includes(checkboxValue);
+          if (check !== checkbox.checked) {
+            checkbox.checked = check;
+
+            simulateEvent(checkbox, ['input', 'change']);
+          }
         }
 
         break;
@@ -236,8 +248,13 @@ export const setConditionsData = (form: HTMLFormElement, conditions: FiltersCond
 
         for (const radio of groupRadios) {
           const radioValue = getAttribute(radio, 'value') ?? radio.value;
+          const check = radioValue === value;
 
-          radio.checked = radioValue === value;
+          if (check !== radio.checked) {
+            radio.checked = check;
+
+            simulateEvent(radio, ['input', 'change']);
+          }
         }
       }
 
@@ -246,7 +263,13 @@ export const setConditionsData = (form: HTMLFormElement, conditions: FiltersCond
         if (!Array.isArray(value) || !isHTMLSelectElement(formField)) break;
 
         for (const option of formField.options) {
-          option.selected = value.includes(option.value);
+          const select = value.includes(option.value);
+
+          if (select !== option.selected) {
+            option.selected = select;
+
+            simulateEvent(option, ['input', 'change']);
+          }
         }
 
         break;
@@ -256,7 +279,11 @@ export const setConditionsData = (form: HTMLFormElement, conditions: FiltersCond
       default: {
         if (Array.isArray(value)) break;
 
-        formField.value = value;
+        if (formField.value !== value) {
+          formField.value = value;
+
+          simulateEvent(formField, ['input', 'change']);
+        }
       }
     }
   }
