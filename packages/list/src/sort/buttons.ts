@@ -11,7 +11,7 @@ import { computed, effect, ref } from '@vue/reactivity';
 
 import type { List } from '../components/List';
 import { getAttribute, hasAttributeValue } from '../utils/selectors';
-import type { Sorting, SortingDirection } from './types';
+import type { SortingDirection } from './types';
 
 /**
  * Inits the sorting with a group of Buttons.
@@ -69,13 +69,11 @@ export const initButtons = (buttons: HTMLElement[], list: List) => {
         activeButton.value = button;
         currentDirection.value = getNextDirection(currentDirection.value, reverse);
 
-        const sorting: Sorting = {
+        list.sorting.value = {
           field,
           direction: currentDirection.value,
           interacted: true,
         };
-
-        Object.assign(list.sorting, sorting);
       });
 
       return [ariaSortCleanup, cssClassCleanup, clickCleanup];

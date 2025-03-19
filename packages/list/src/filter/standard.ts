@@ -40,13 +40,12 @@ export const initStandardFilters = (list: List, form: HTMLFormElement) => {
   // Get initial filters
   const groupsMatch = getAttribute(form, 'groupsmatch', { filterInvalid: true });
   const group = getSimpleFilters(list, form);
-  const filters: Filters = { groups: [group], groupsMatch };
 
-  Object.assign(list.filters, filters);
+  list.filters.value = { groups: [group], groupsMatch };
 
   // 2 way binding
   const twoWayBindingCleanup = watch(
-    () => list.filters.groups[0]?.conditions,
+    () => list.filters.value.groups[0]?.conditions,
     (conditions) => {
       if (list.readingFilters) return;
 
@@ -59,9 +58,8 @@ export const initStandardFilters = (list: List, form: HTMLFormElement) => {
   // TODO: bail when added/removed nodes are not form fields
   const mutationObserver = new MutationObserver(() => {
     const group = getSimpleFilters(list, form);
-    const filters: Filters = { groups: [group], groupsMatch };
 
-    Object.assign(list.filters, filters);
+    list.filters.value = { groups: [group], groupsMatch };
   });
 
   // mutationObserver.observe(form, {
@@ -94,7 +92,6 @@ const getConditionData = (formField: FormField, field: string, interacted = fals
 
   const filterMatch = getAttribute(formField, 'filtermatch', { filterInvalid: true });
   const fieldMatch = getAttribute(formField, 'fieldmatch', { filterInvalid: true });
-  const activeClass = getAttribute(formField, 'activeclass');
 
   const baseData = {
     field,
@@ -102,7 +99,6 @@ const getConditionData = (formField: FormField, field: string, interacted = fals
     op,
     filterMatch,
     fieldMatch,
-    activeClass,
     interacted,
   } satisfies Partial<FiltersCondition>;
 
@@ -197,7 +193,7 @@ const getConditionData = (formField: FormField, field: string, interacted = fals
  */
 export const setConditionsData = (form: HTMLFormElement, conditions: FiltersCondition[]) => {
   for (const { field, value, op, type } of conditions) {
-    const tagSelector = `:is(input, select, textarea)[type="${type}"]`;
+    const tagSelector = `:is(input[type="${type}"], select, textarea)`;
     const fieldSelector = getSettingSelector('field', field);
     const operatorSelector = `:is(${getSettingSelector('operator', op)}, :not(${getSettingSelector('operator')}))`;
     const selector = [tagSelector, fieldSelector, operatorSelector].join('');
@@ -256,6 +252,8 @@ export const setConditionsData = (form: HTMLFormElement, conditions: FiltersCond
             simulateEvent(radio, ['input', 'change']);
           }
         }
+
+        break;
       }
 
       // Select-multiple
@@ -330,7 +328,7 @@ const getSimpleFilters = (list: List, form: HTMLFormElement, interacted = false)
 
     const data = getConditionData(formField, field);
 
-    setActiveClass(formField, data.activeClass);
+    setActiveClass(formField);
 
     if (!group.conditions.some((c) => c.field === field && c.op === data.op)) {
       group.conditions.push(data);
@@ -417,7 +415,7 @@ const handleFormFields = (list: List, form: HTMLFormElement, debounces: Map<stri
     return addListener(form, 'submit', (e) => {
       list.readingFilters = true;
 
-      list.filters.groups[0] = getSimpleFilters(list, form, true);
+      list.filters.value.groups[0] = getSimpleFilters(list, form, true);
 
       list.readingFilters = false;
     });
@@ -434,10 +432,10 @@ const handleFormFields = (list: List, form: HTMLFormElement, debounces: Map<stri
 
     const condition = getConditionData(target, field, true);
 
-    setActiveClass(target, condition.activeClass);
+    setActiveClass(target);
 
     const update = () => {
-      const conditions = list.filters.groups[0]?.conditions || [];
+      const conditions = list.filters.value.groups[0]?.conditions || [];
 
       const conditionIndex = conditions.findIndex((c) => c.field === field && c.op === condition.op);
 
@@ -494,7 +492,7 @@ const handleClearButtons = (list: List, debounces: Map<string, number>) => {
 
     const field = getAttribute(clearElement, 'field');
 
-    const conditions = filters.groups[0]?.conditions || [];
+    const conditions = filters.value.groups[0]?.conditions || [];
     const conditionsToClear = field ? conditions.filter((condition) => condition.field === field) : conditions;
 
     for (const condition of conditionsToClear) {
@@ -512,9 +510,10 @@ const handleClearButtons = (list: List, debounces: Map<string, number>) => {
 /**
  * Sets the active class to a form field.
  * @param formField
- * @param activeClass
  */
-const setActiveClass = (formField: FormField, activeClass: string) => {
+const setActiveClass = (formField: FormField) => {
+  const activeClass = getAttribute(formField, 'activeclass');
+
   switch (formField.type) {
     case 'checkbox': {
       const { checked } = formField as HTMLInputElement;

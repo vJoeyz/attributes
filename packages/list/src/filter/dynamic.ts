@@ -5,7 +5,7 @@ import { dset } from 'dset';
 import type { List } from '../components/List';
 import type { ListItem } from '../components/ListItem';
 import { queryAllElements, queryElement } from '../utils/selectors';
-import type { FilterMatch, FilterOperator } from './types';
+import type { FilterMatch, FilterOperator, Filters, FiltersCondition, FiltersGroup } from './types';
 
 declare module '@vue/reactivity' {
   export interface RefUnwrapBailTypes {
@@ -45,7 +45,7 @@ export const initDynamicFilters = (list: List, form: HTMLFormElement) => {
 
     // TODO: support fs-list-filteron
     const inputCleanup = addListener(conditionGroupMatch, 'input', () => {
-      list.filters.groupsMatch = conditionGroupMatch.value as FilterMatch;
+      list.filters.value.groupsMatch = conditionGroupMatch.value as FilterMatch;
     });
 
     cleanups.add(renderCleanup);
@@ -84,13 +84,11 @@ export const initDynamicFilters = (list: List, form: HTMLFormElement) => {
   }
 
   // Get initial filters
-  const filters = getAdvancedFilters(form);
-  Object.assign(list.filters, filters);
+  list.filters.value = getAdvancedFilters(form);
 
   // Get filters on node changes
   const mutationObserver = new MutationObserver(() => {
-    const filters = getAdvancedFilters(form);
-    Object.assign(list.filters, filters);
+    list.filters.value = getAdvancedFilters(form);
   });
 
   mutationObserver.observe(form, {
@@ -381,28 +379,43 @@ const getConditionValue = (conditionValue?: FormField | null) => {
  */
 export const getAdvancedFilters = (form: HTMLFormElement) => {
   const conditionGroupMatch = queryElement<HTMLSelectElement>('condition-group-match', { scope: form });
-  const groupsMatch = conditionGroupMatch?.value as FilterMatch | undefined;
+  const groupsMatch = (conditionGroupMatch?.value || 'and') as FilterMatch;
 
   const conditionGroups = queryAllElements('condition-group', { scope: form });
   const groups = conditionGroups.map((conditionGroup) => {
     const conditionMatch = queryElement<HTMLSelectElement>('condition-match', { scope: conditionGroup });
-    const conditionsMatch = conditionMatch?.value as FilterMatch | undefined;
+    const conditionsMatch = (conditionMatch?.value || 'and') as FilterMatch;
 
-    const conditions = queryAllElements('condition', { scope: conditionGroup }).map((condition) => {
-      const conditionField = queryElement<HTMLSelectElement>('condition-field', { scope: condition });
-      const field = conditionField?.value;
+    const conditions = queryAllElements('condition', { scope: conditionGroup }).reduce<FiltersCondition[]>(
+      (acc, condition) => {
+        const conditionField = queryElement<HTMLSelectElement>('condition-field', { scope: condition });
+        const field = conditionField?.value;
+        if (!field) return acc;
 
-      const conditionOperator = queryElement<HTMLSelectElement>('condition-operator', { scope: condition });
-      const op = conditionOperator?.value as FilterOperator;
+        const conditionOperator = queryElement<HTMLSelectElement>('condition-operator', { scope: condition });
+        const op = conditionOperator?.value as FilterOperator;
+        if (!op) return acc;
 
-      const conditionValue = queryElement<FormField>('condition-value', { scope: condition });
-      const value = getConditionValue(conditionValue);
+        const conditionValue = queryElement<FormField>('condition-value', { scope: condition });
+        const value = getConditionValue(conditionValue);
+        if (!value) return acc;
 
-      return { field, op, value };
-    });
+        acc.push({
+          field,
+          op,
+          value,
+          fieldMatch: 'or', // TODO
+          filterMatch: 'or', // TODO
+          type: 'select-one', // TODO
+        });
 
-    return { conditionsMatch, conditions };
+        return acc;
+      },
+      []
+    );
+
+    return { conditionsMatch, conditions } satisfies FiltersGroup;
   });
 
-  return { groupsMatch, groups };
+  return { groupsMatch, groups } satisfies Filters;
 };

@@ -216,7 +216,7 @@ export class List {
   /**
    * Defines the active filters.
    */
-  public readonly filters = reactive<Filters>({
+  public readonly filters = ref<Filters>({
     groups: [{ conditions: [], conditionsMatch: 'and' }],
     groupsMatch: 'and',
   });
@@ -224,15 +224,15 @@ export class List {
   /**
    * Defines the active sorting.
    */
-  public readonly sorting = reactive<Sorting>({});
+  public readonly sorting = ref<Sorting>({});
 
   /**
    * Defines if the user has interacted with the filters.
    */
   public readonly hasInteracted = computed(
     () =>
-      this.sorting.interacted ||
-      this.filters.groups.some((group) => group.conditions.some((condition) => condition.interacted))
+      this.sorting.value.interacted ||
+      this.filters.value.groups.some((group) => group.conditions.some((condition) => condition.interacted))
   );
 
   /**

@@ -74,13 +74,11 @@ export const initDropdown = (dropdown: DropdownElement, list: List) => {
 
     activeOption.value = optionData;
 
-    const sorting: Sorting = {
+    list.sorting.value = {
       field: optionData.field,
       direction: optionData.direction,
       interacted: true,
     };
-
-    Object.assign(list.sorting, sorting);
 
     closeDropdown(dropdownToggle);
   });

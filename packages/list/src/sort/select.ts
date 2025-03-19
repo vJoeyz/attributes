@@ -10,9 +10,7 @@ import type { Sorting, SortingDirection } from './types';
  */
 export const initHTMLSelect = (selectElement: HTMLSelectElement, list: List) => {
   const handleSelect = (interacted = false) => {
-    const sorting = getSortingParams(selectElement.value, interacted);
-
-    Object.assign(list.sorting, sorting);
+    list.sorting.value = getSortingParams(selectElement.value, interacted);
   };
 
   // Sort on change

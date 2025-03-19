@@ -25,7 +25,7 @@ export const initListSorting = (list: List, triggers: HTMLElement[]) => {
     : initButtons(triggers, list);
 
   // Set up sorting hook
-  const hookCleanup = list.addHook('sort', (items) => sortListItems(items, list.sorting));
+  const hookCleanup = list.addHook('sort', (items) => sortListItems(items, list.sorting.value));
 
   // Set up reactivity
   const sortingCleanup = watch(
@@ -46,8 +46,7 @@ export const initListSorting = (list: List, triggers: HTMLElement[]) => {
     if (!rawSorting) return;
 
     try {
-      const sorting = JSON.parse(rawSorting);
-      Object.assign(list.sorting, sorting);
+      list.sorting.value = JSON.parse(rawSorting);
     } catch {}
   });
 

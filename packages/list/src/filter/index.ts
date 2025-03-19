@@ -17,7 +17,7 @@ import type { Filters } from './types';
  */
 export const initListFiltering = (list: List, form: HTMLFormElement) => {
   // Init hook
-  const hookCleanup = list.addHook('filter', (items) => filterItems(list.filters, items));
+  const hookCleanup = list.addHook('filter', (items) => filterItems(list.filters.value, items));
 
   // Handle elements
   const elementsCleanup = handleFilterElements(list);
@@ -48,8 +48,7 @@ export const initListFiltering = (list: List, form: HTMLFormElement) => {
     if (!rawFilters) return;
 
     try {
-      const filters = JSON.parse(rawFilters);
-      Object.assign(list.filters, filters);
+      list.filters.value = JSON.parse(rawFilters);
     } catch {}
   });
 
