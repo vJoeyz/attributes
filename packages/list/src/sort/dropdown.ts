@@ -18,7 +18,7 @@ import { effect, type Ref, ref } from '@vue/reactivity';
 
 import type { List } from '../components/List';
 import { getAttribute, queryElement } from '../utils/selectors';
-import type { Sorting, SortingDirection } from './types';
+import type { SortingDirection } from './types';
 
 type DropdownOption = {
   element: HTMLAnchorElement;

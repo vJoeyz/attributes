@@ -15,7 +15,7 @@ import debounce from 'just-debounce';
 import type { List } from '../components/List';
 import { BREAKPOINTS_INDEX } from '../utils/constants';
 import { getCMSElementSelector } from '../utils/dom';
-import { getAttribute, getElementSelector, hasAttributeValue, queryElement } from '../utils/selectors';
+import { getAttribute, getElementSelector, queryElement } from '../utils/selectors';
 import { loadPaginatedCMSItems } from './load';
 
 /**
@@ -25,7 +25,7 @@ import { loadPaginatedCMSItems } from './load';
  * @returns A callback to destroy the event listeners.
  */
 export const initPaginationMode = (list: List) => {
-  const { currentPage, itemsPerPage, paginationWrapperElement, listOrWrapper } = list;
+  const { currentPage, itemsPerPage, paginationWrapperElement } = list;
   if (!paginationWrapperElement) return;
 
   // Init hook

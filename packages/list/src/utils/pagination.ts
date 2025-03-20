@@ -1,9 +1,5 @@
 import { type PaginationButtonElement } from '@finsweet/attributes-utils';
 
-import type { List } from '../components/List';
-
-const { location, history } = window;
-
 /**
  * Extracts the {@link URLSearchParams} from a list's Pagination Button.
  * @param paginationButton A {@link PaginationButtonElement}.

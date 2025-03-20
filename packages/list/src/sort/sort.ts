@@ -1,5 +1,5 @@
 import type { ListItem } from '../components/ListItem';
-import type { Sorting, SortingDirection } from './types';
+import type { Sorting } from './types';
 
 /**
  * Sorts the items of a `CMSList`.
