@@ -1,5 +1,3 @@
-import { type CollectionListWrapperElement } from '@finsweet/attributes-utils';
-
 import { initListCombine } from './combine';
 import { List } from './components/List';
 import { initListFiltering } from './filter';
@@ -11,7 +9,7 @@ import { initListSliders } from './slider';
 import { initListSorting } from './sort';
 import { initStaticItems } from './static';
 import { initListTabs } from './tabs';
-import { getCMSElementSelector, getCollectionElements } from './utils/dom';
+import { getAllCollectionListWrappers, getCollectionElements } from './utils/dom';
 import { getAttribute, getElementSelector, queryAllElements, queryElement } from './utils/selectors';
 import { listInstancesStore } from './utils/store';
 
@@ -27,11 +25,9 @@ export const createListInstance = (referenceElement: HTMLElement): List | undefi
   const existingListInstance = listInstancesStore.get(wrapper);
   if (existingListInstance) return existingListInstance;
 
-  const pageListElements = [
-    ...document.querySelectorAll<CollectionListWrapperElement>(getCMSElementSelector('wrapper')),
-  ];
+  const allWrappers = getAllCollectionListWrappers();
 
-  const index = pageListElements.indexOf(wrapper);
+  const index = allWrappers.indexOf(wrapper);
   if (index === -1) return;
 
   const listInstance = new List(wrapper, index);

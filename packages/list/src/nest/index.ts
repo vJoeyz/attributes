@@ -1,8 +1,8 @@
 import { cloneNode, extractCommaSeparatedValues, fetchPageDocument } from '@finsweet/attributes-utils';
 import { effect } from '@vue/reactivity';
 
-import { type List, ListItem } from '../components';
-import { getCollectionElements } from '../utils/dom';
+import { List, ListItem } from '../components';
+import { getAllCollectionListWrappers, getCollectionElements } from '../utils/dom';
 import {
   getAttribute,
   getElementSelector,
@@ -151,21 +151,24 @@ const handleExternalNesting = async (list: List, item: ListItem, target: HTMLEle
   const sourceWrapper = getCollectionElements(sourceReference, 'wrapper');
   if (!sourceWrapper) return;
 
-  const sourceList = getCollectionElements(sourceReference, 'list');
-  const sourceItems = getCollectionElements(sourceReference, 'item');
-  const sourceEmpty = getCollectionElements(sourceReference, 'empty');
+  const allWrappers = getAllCollectionListWrappers(scope);
 
-  if (sourceEmpty) {
-    target.append(sourceEmpty);
+  const index = allWrappers.indexOf(sourceWrapper);
+  if (index === -1) return;
+
+  const sourceInstance = new List(sourceWrapper, index, false);
+
+  if (sourceInstance.emptyElement.value) {
+    target.append(sourceInstance.emptyElement.value);
     return;
   }
 
-  if (!sourceList || !sourceItems.length) return;
+  if (!sourceInstance.items.value.length) return;
 
   // Recursively nest items
   await Promise.all(
-    sourceItems.map(async (sourceItem) => {
-      const nestedTargets = queryAllElements('nest-target', { scope: sourceItem });
+    sourceInstance.items.value.map(async (sourceItem) => {
+      const nestedTargets = queryAllElements('nest-target', { scope: sourceItem.element });
       if (!nestedTargets.length) return;
 
       await Promise.all(
@@ -173,9 +176,7 @@ const handleExternalNesting = async (list: List, item: ListItem, target: HTMLEle
           const nestedInstance = getAttribute(nestedTarget, 'nest');
           if (!nestedInstance) return;
 
-          const nestedItem = new ListItem(sourceItem, sourceList);
-
-          await handleExternalNesting(list, nestedItem, nestedTarget, nestedInstance);
+          await handleExternalNesting(list, sourceItem, nestedTarget, nestedInstance);
 
           item.collectFields();
         })

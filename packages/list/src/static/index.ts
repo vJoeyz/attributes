@@ -19,7 +19,6 @@ export const initStaticItems = (list: List, staticItems: HTMLElement[]) => {
       const interactive = getAttribute(staticItem, 'interactive');
 
       const item = list.createItem(staticItem);
-      if (!item) return acc;
 
       if (interactive) {
         acc.interactiveItems.push({ position, item });
@@ -49,7 +48,6 @@ export const initStaticItems = (list: List, staticItems: HTMLElement[]) => {
       while (index < newItems.length) {
         const elementClone = cloneNode(item.element);
         const itemClone = list.createItem(elementClone);
-        if (!itemClone) break;
 
         newItems.splice(index, 0, itemClone);
         index += repeat;
