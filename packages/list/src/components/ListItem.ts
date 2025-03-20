@@ -6,10 +6,10 @@ import {
 } from '@finsweet/attributes-utils';
 import { nanoid } from 'nanoid';
 
+import type { FilterTaskMatchedFields } from '../filter/types';
 import { getCMSElementSelector } from '../utils/dom';
 import { getAttribute, getSettingSelector, queryElement } from '../utils/selectors';
 import type { List } from './List';
-import type { FilterTaskMatchedFields } from '../filter/types';
 
 declare module '@vue/reactivity' {
   export interface RefUnwrapBailTypes {

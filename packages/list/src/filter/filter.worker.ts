@@ -2,9 +2,9 @@ import { extractCommaSeparatedValues, isString } from '@finsweet/attributes-util
 import type { SearchResult } from 'minisearch';
 import MiniSearch from 'minisearch';
 
+import type { ListItemFieldValue } from '../components';
 import type { FiltersCondition, FiltersGroup, FilterTaskData, FilterTaskItem } from './types';
 import { areEqual, numericCompare, parseFilterValue } from './utils';
-import type { ListItemFieldValue } from '../components';
 
 self.onmessage = (e: MessageEvent<FilterTaskData>) => {
   let miniSearch: MiniSearch<FilterTaskItem> | undefined;
