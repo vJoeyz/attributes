@@ -62,5 +62,5 @@ const getSortingParams = (value: string, interacted = false): Sorting => {
 
   field = normalizePropKey(field);
 
-  return { field, direction };
+  return { field, direction, interacted };
 };
