@@ -115,3 +115,15 @@ export const getRadioGroupInputs = (radio: FormField, form?: HTMLFormElement | n
 
   return [...form.querySelectorAll<HTMLInputElement>(`input[name="${radio.name}"][type="${radio.type}"]`)];
 };
+
+/**
+ * Gets the wrapper element for a given form field.
+ * @param formField The FormField element to get the wrapper for.
+ * @returns The closest wrapper element or the formField itself if no wrapper is found.
+ */
+export const getFormFieldWrapper = (formField: FormField) => {
+  const wrapper = formField.closest<HTMLElement>(
+    `.${FORM_CSS_CLASSES.checkboxField}, .${FORM_CSS_CLASSES.radioField}, label`
+  );
+  return wrapper || formField;
+};

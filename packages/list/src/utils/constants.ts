@@ -449,6 +449,11 @@ export const SETTINGS = {
   highlightclass: { key: 'highlightclass', defaultValue: `is-${LIST_ATTRIBUTE}-highlight` },
 
   /**
+   * Defines if a filter should be hidden when it has no expected results.
+   */
+  hideempty: { key: 'hideempty', values: ['true'] },
+
+  /**
    * Defines a filter operator.
    */
   operator: {

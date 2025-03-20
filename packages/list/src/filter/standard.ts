@@ -3,6 +3,7 @@ import {
   FORM_CSS_CLASSES,
   type FormField,
   type FormFieldType,
+  getFormFieldWrapper,
   getRadioGroupInputs,
   isFormField,
   isHTMLInputElement,
@@ -355,8 +356,12 @@ const initFiltersResults = (list: List, form: HTMLFormElement) => {
     const fieldKey = getAttribute(formField, 'field');
     if (!fieldKey) return;
 
+    const hideEmpty = getAttribute(formField, 'hideempty') === 'true';
     const resultsCountElement = queryElement('filter-results-count', { scope: formField.parentElement });
-    if (!resultsCountElement) return;
+
+    if (!resultsCountElement && !hideEmpty) return;
+
+    const formFieldWrapper = getFormFieldWrapper(formField);
 
     const op = getConditionOperator(formField);
     const value = getAttribute(formField, 'value') || formField.value || '';
@@ -385,7 +390,13 @@ const initFiltersResults = (list: List, form: HTMLFormElement) => {
       }
 
       filterItems(filtersClone, items).then((filteredItems) => {
-        resultsCountElement.textContent = `${filteredItems.length}`;
+        if (resultsCountElement) {
+          resultsCountElement.textContent = `${filteredItems.length}`;
+        }
+
+        if (hideEmpty) {
+          formFieldWrapper.style.display = filteredItems.length ? '' : 'none';
+        }
       });
     }, 0);
 
@@ -517,8 +528,7 @@ const setActiveClass = (formField: FormField) => {
   switch (formField.type) {
     case 'checkbox': {
       const { checked } = formField as HTMLInputElement;
-      const checkboxParent = formField.closest(`.${FORM_CSS_CLASSES.checkboxField}`);
-      const target = checkboxParent || formField;
+      const target = getFormFieldWrapper(formField);
 
       target.classList.toggle(activeClass, checked);
       break;
@@ -528,8 +538,7 @@ const setActiveClass = (formField: FormField) => {
       const groupRadios = getRadioGroupInputs(formField);
 
       for (const radio of groupRadios) {
-        const radioParent = radio.closest(`.${FORM_CSS_CLASSES.radioField}`);
-        const target = radioParent || radio;
+        const target = getFormFieldWrapper(radio);
 
         target.classList.toggle(activeClass, radio.checked);
       }
