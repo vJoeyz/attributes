@@ -1,5 +1,6 @@
 import {
   type CollectionItemElement,
+  type CollectionListElement,
   isHTMLAnchorElement,
   normalizeDate,
   normalizeNumber,
@@ -9,7 +10,6 @@ import { nanoid } from 'nanoid';
 import type { FilterTaskMatchedFields } from '../filter/types';
 import { getCMSElementSelector } from '../utils/dom';
 import { getAttribute, getSettingSelector, queryElement } from '../utils/selectors';
-import type { List } from './List';
 
 declare module '@vue/reactivity' {
   export interface RefUnwrapBailTypes {
@@ -88,7 +88,7 @@ export class ListItem {
     /**
      * The `Collection List` parent element.
      */
-    public readonly list: List,
+    public readonly listElement: CollectionListElement,
 
     /**
      * The element's current index in the rendered DOM.
@@ -134,7 +134,7 @@ export class ListItem {
 
       const listSelector = getCMSElementSelector('list');
       const parentList = element.closest(listSelector);
-      const isInsideNestedList = this.list.listElement && parentList && parentList !== this.list.listElement; // TODO: support custom lists and nested lists via `fs-list-element="nest-target"`
+      const isInsideNestedList = parentList && parentList !== this.listElement; // TODO: support custom lists and nested lists via `fs-list-element="nest-target"`
 
       if (isInsideNestedList) {
         this.fields[fieldKey] ||= { fieldKey, type, value: [] };

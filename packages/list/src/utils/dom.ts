@@ -103,9 +103,8 @@ export function getCollectionElements(
  * @returns All the `Collection List Wrapper` elements in the page.
  * @param page
  */
-export const getAllCollectionListWrappers = (page: Document = document) => [
-  ...page.querySelectorAll<CollectionListWrapperElement>(getCMSElementSelector('wrapper')),
-];
+export const getAllCollectionListWrappers = (page: Document) =>
+  page.querySelectorAll<CollectionListWrapperElement>(getCMSElementSelector('wrapper'));
 
 /**
  * @returns All the checkboxes in a group.
