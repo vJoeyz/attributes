@@ -366,42 +366,50 @@ const initFiltersResults = (list: List, form: HTMLFormElement) => {
     const op = getConditionOperator(formField);
     const value = getAttribute(formField, 'value') || formField.value || '';
 
-    const handler = debounce(([filters, items]: [Filters, ListItem[]]) => {
-      const filtersClone = structuredClone(toRaw(filters)) as Filters;
+    const handler = debounce(
+      ({ filters = list.filters.value, items = list.items.value }: { filters?: Filters; items?: ListItem[] }) => {
+        const filtersClone = structuredClone(toRaw(filters)) as Filters;
 
-      const conditionsGroup = filtersClone.groups[0];
-      if (!conditionsGroup) return;
+        const conditionsGroup = filtersClone.groups[0];
+        if (!conditionsGroup) return;
 
-      const { conditions = [] } = conditionsGroup;
-      const conditionIndex = conditions.findIndex((c) => c.fieldKey === fieldKey && c.op === op);
+        const { conditions = [] } = conditionsGroup;
+        const conditionIndex = conditions.findIndex((c) => c.fieldKey === fieldKey && c.op === op);
 
-      const condition = conditions[conditionIndex];
-      if (!condition) return;
+        const condition = conditions[conditionIndex];
+        if (!condition) return;
 
-      // Inject the condition value
-      if (Array.isArray(condition.value)) {
-        if (condition.filterMatch === 'and') {
-          condition.value.push(value);
+        // Inject the condition value
+        if (Array.isArray(condition.value)) {
+          if (condition.filterMatch === 'and') {
+            condition.value.push(value);
+          } else {
+            condition.value = [value];
+          }
         } else {
-          condition.value = [value];
-        }
-      } else {
-        condition.value = value;
-      }
-
-      filterItems(filtersClone, items).then((filteredItems) => {
-        if (resultsCountElement) {
-          resultsCountElement.textContent = `${filteredItems.length}`;
+          condition.value = value;
         }
 
-        if (hideEmpty) {
-          formFieldWrapper.style.display = filteredItems.length ? '' : 'none';
-        }
-      });
-    }, 0);
+        filterItems(filtersClone, items).then((filteredItems) => {
+          if (resultsCountElement) {
+            resultsCountElement.textContent = `${filteredItems.length}`;
+          }
 
-    const cleanup = watch([list.filters, list.items], handler, { deep: true, immediate: true });
-    return cleanup;
+          if (hideEmpty) {
+            formFieldWrapper.style.display = filteredItems.length ? '' : 'none';
+          }
+        });
+      },
+      0
+    );
+
+    const itemsCleanup = watch(list.items, (items) => handler({ items }));
+    const filtersCleanup = watch(list.filters, (filters) => handler({ filters }), { deep: true, immediate: true });
+
+    return () => {
+      itemsCleanup();
+      filtersCleanup();
+    };
   });
 
   return () => {
