@@ -1,4 +1,4 @@
-import { extractCommaSeparatedValues, isNotEmpty } from '@finsweet/attributes-utils';
+import { extractCommaSeparatedValues } from '@finsweet/attributes-utils';
 import { effect } from '@vue/reactivity';
 
 import type { List } from '../components';
@@ -23,7 +23,7 @@ export const initListCombine = (targetList: List, rawSourceInstances: string) =>
     const cleanup = effect(() => {
       if (!sourceList.items.value.length) return;
 
-      const elements = sourceList.items.value.map((item) => targetList.createItem(item.element)).filter(isNotEmpty);
+      const elements = sourceList.items.value.map((item) => targetList.createItem(item.element));
 
       sourceList.items.value.length = 0;
       targetList.items.value = [...targetList.items.value, ...elements];

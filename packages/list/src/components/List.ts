@@ -14,7 +14,7 @@ import {
   type WebflowModule,
 } from '@finsweet/attributes-utils';
 import { animations } from '@finsweet/attributes-utils';
-import { computed, effect, reactive, type Ref, ref, type ShallowRef, shallowRef, watch } from '@vue/reactivity';
+import { computed, effect, type Ref, ref, type ShallowRef, shallowRef, watch } from '@vue/reactivity';
 
 import type { Filters } from '../filter/types';
 import type { Sorting } from '../sort/types';
@@ -294,7 +294,23 @@ export class List {
    */
   public readingFilters?: boolean;
 
-  constructor(public readonly wrapperElement: CollectionListWrapperElement, public readonly pageIndex: number) {
+  constructor(
+    /**
+     * The `Collection List Wrapper` element.
+     */
+    public readonly wrapperElement: CollectionListWrapperElement,
+
+    /**
+     * The index of the list in the page.
+     */
+    public readonly pageIndex: number,
+
+    /**
+     * Defines if the instance should be reactive.
+     * If set to `false`, the instance will not load any CMS data nor will it trigger any hooks.
+     */
+    reactive = true
+  ) {
     // Collect elements
     const listElement = getCollectionElements(wrapperElement, 'list');
     this.listElement = listElement;
@@ -350,11 +366,14 @@ export class List {
     this.itemsPerPage = ref(this.initialItemsPerPage);
 
     if (listElement) {
-      const items = collectionItemElements.map((element, index) => new ListItem(element, listElement, index));
+      const items = collectionItemElements.map((element, index) => new ListItem(element, this, index));
 
       this.items.value = items;
       this.renderedItems = new Set(items);
     }
+
+    // Init reactivity
+    if (!reactive) return;
 
     // Extract pagination data
     this.loadingSearchParamsData = this.#getCMSPaginationData().then((paginationSearchParam) => {
@@ -646,11 +665,7 @@ export class List {
    * @param itemElement The Collection Item element.
    * @returns The created {@link ListItem} instance.
    */
-  createItem = (itemElement: CollectionItemElement) => {
-    if (!this.listElement) return;
-
-    return new ListItem(itemElement, this.listElement);
-  };
+  createItem = (itemElement: CollectionItemElement) => new ListItem(itemElement, this);
 
   /**
    * Scrolls to the specified anchor based on the action provided.
