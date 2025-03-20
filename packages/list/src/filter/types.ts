@@ -1,6 +1,6 @@
 import type { FormFieldType } from '@finsweet/attributes-utils';
 
-import type { ListItem } from '../components';
+import type { ListItem, ListItemFieldValue } from '../components';
 import type { SETTINGS } from '../utils/constants';
 
 type FilterOperatorValues = (typeof SETTINGS)['operator']['values'];
@@ -29,10 +29,14 @@ export type Filters = {
   groups: FiltersGroup[];
 };
 
-export type PickedListItem = Pick<ListItem, 'id' | 'fields'>;
+export type FilterTaskMatchedFields = {
+  [fieldKey: string]: Array<{ fieldValue: ListItemFieldValue; filterValue: string }>;
+};
 
-export type FilterTaskData = { filters: Filters; items: PickedListItem[] };
-export type FilterTaskResult = PickedListItem[];
+export type FilterTaskItem = Pick<ListItem, 'id' | 'fields'> & { matchedFields: FilterTaskMatchedFields };
+
+export type FilterTaskData = { filters: Filters; items: FilterTaskItem[] };
+export type FilterTaskResult = FilterTaskItem[];
 export type FilterTask = {
   data: FilterTaskData;
   resolve: (result: FilterTaskResult) => void;

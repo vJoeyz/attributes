@@ -242,6 +242,16 @@ export class List {
   public readonly showQuery: boolean;
 
   /**
+   * Defines if the matched fields when filtering should be highlighted.
+   */
+  public readonly highlight?: boolean;
+
+  /**
+   * Defines the class to apply when highlighting matched fields.
+   */
+  public readonly highlightClass: string;
+
+  /**
    * Defines if loaded Items can be cached using IndexedDB after fetching them.
    */
   public readonly cache: boolean;
@@ -326,6 +336,8 @@ export class List {
     this.scrollAnchorPaginationElement = queryElement('scroll-anchor-pagination', { instance });
     this.cache = getAttribute(this.listOrWrapper, 'cache') === 'true';
     this.showQuery = getAttribute(this.listOrWrapper, 'showquery') === 'true';
+    this.highlight = getAttribute(this.listOrWrapper, 'highlight') === 'true';
+    this.highlightClass = getAttribute(this.listOrWrapper, 'highlightclass');
 
     // Get pagination next elements
     const paginationNextElement = getCollectionElements(wrapperElement, 'pagination-next');

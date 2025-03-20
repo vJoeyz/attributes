@@ -439,6 +439,16 @@ export const SETTINGS = {
   showquery: { key: 'showquery', values: ['true'] },
 
   /**
+   * Defines if the matched fields when filtering should be highlighted.
+   */
+  highlight: { key: 'highlight', values: ['true'] },
+
+  /**
+   * Defines the highlight CSS class.
+   */
+  highlightclass: { key: 'highlightclass', defaultValue: `is-${LIST_ATTRIBUTE}-highlight` },
+
+  /**
    * Defines a filter operator.
    */
   operator: {

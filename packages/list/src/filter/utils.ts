@@ -7,19 +7,19 @@ import {
   normalizeNumber,
 } from '@finsweet/attributes-utils';
 
-import type { ListItemField } from '../components';
+import type { ListItemField, ListItemFieldValue } from '../components';
 
 /**
  * Parses the filter value based on the field type.
- * @param rawFilterValue
+ * @param filterValue
  * @param fieldData
  * @returns The parsed filter value, if it could be parsed. Otherwise, `null`.
  */
 export const parseFilterValue = (
-  rawFilterValue: string | number | Date,
+  filterValue: string,
   filterType: FormFieldType,
   fieldType?: ListItemField['type']
-) => {
+): ListItemFieldValue | null => {
   if (
     fieldType === 'date' ||
     filterType === 'date' ||
@@ -28,33 +28,33 @@ export const parseFilterValue = (
     filterType === 'month' ||
     filterType === 'week'
   ) {
-    const filterValue = normalizeDate(rawFilterValue);
+    const parsedFilterValue = normalizeDate(filterValue);
 
-    if (filterValue === undefined || isNaN(filterValue.getTime())) {
+    if (parsedFilterValue === undefined || isNaN(parsedFilterValue.getTime())) {
       return null;
     }
 
-    return filterValue;
+    return parsedFilterValue;
   }
 
   if (fieldType === 'number' || filterType === 'number' || filterType === 'range') {
-    const filterValue = normalizeNumber(rawFilterValue);
+    const parsedFilterValue = normalizeNumber(filterValue);
 
-    if (filterValue === undefined || isNaN(filterValue)) {
+    if (parsedFilterValue === undefined || isNaN(parsedFilterValue)) {
       return null;
     }
 
-    return filterValue;
+    return parsedFilterValue;
   }
 
-  return rawFilterValue;
+  return filterValue;
 };
 /**
  * Checks if two values are equal.
  * @param rawA
  * @param rawB
  */
-export const areEqual = (rawA: string | number | Date, rawB: string | number | Date) => {
+export const areEqual = (rawA: ListItemFieldValue, rawB: ListItemFieldValue) => {
   // Ensure that dates are compared as dates
   if (typeof rawA !== typeof rawB) {
     if (isDate(rawA)) {
@@ -77,8 +77,8 @@ export const areEqual = (rawA: string | number | Date, rawB: string | number | D
  * @returns `true` if the comparison is successful.
  */
 export const numericCompare = (
-  rawA: string | number | Date,
-  rawB: string | number | Date,
+  rawA: ListItemFieldValue,
+  rawB: ListItemFieldValue,
   op: 'greater' | 'greater-equal' | 'less' | 'less-equal'
 ) => {
   const a = isDate(rawA) ? rawA.getTime() : isString(rawA) ? normalizeNumber(rawA) : rawA;

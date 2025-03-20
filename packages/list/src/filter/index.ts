@@ -17,7 +17,7 @@ import type { Filters } from './types';
  */
 export const initListFiltering = (list: List, form: HTMLFormElement) => {
   // Init hook
-  const hookCleanup = list.addHook('filter', (items) => filterItems(list.filters.value, items));
+  const hookCleanup = list.addHook('filter', (items) => filterItems(list.filters.value, items, list.highlight));
 
   // Handle elements
   const elementsCleanup = handleFilterElements(list);

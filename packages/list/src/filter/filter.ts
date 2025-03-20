@@ -3,7 +3,7 @@ import { toRaw } from '@vue/reactivity';
 import type { ListItem } from '../components/ListItem';
 // @ts-expect-error - FilterWorker is not recognized by TypeScript
 import FilterWorker from './filter.worker.js';
-import type { Filters, FilterTask, FilterTaskData, FilterTaskResult } from './types';
+import type { Filters, FilterTask, FilterTaskData, FilterTaskItem, FilterTaskResult } from './types';
 
 const WORKER_POOL_SIZE = navigator.hardwareConcurrency || 4;
 
@@ -81,20 +81,39 @@ const runFilterTask = (data: FilterTaskData) => {
  * Filters the provided items based on the provided filters.
  * @param filters
  * @param items
+ * @param highlight
  * @returns The filtered items.
  */
-export const filterItems = async (filters: Filters, items: ListItem[]) => {
+export const filterItems = async (filters: Filters, items: ListItem[], highlight?: boolean) => {
   const itemsMap = new Map<string, ListItem>();
-  const itemsData = items.map((item) => {
+  const itemsData = items.map<FilterTaskItem>((item) => {
     itemsMap.set(item.id, item);
 
     const { id, fields } = item;
-    return { id, fields };
+
+    return { id, fields, matchedFields: {} };
   });
 
   const filteredItems = await runFilterTask({ items: itemsData, filters: toRaw(filters) });
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const result = filteredItems.map(({ id }) => itemsMap.get(id)!);
+  const result = filteredItems.map(({ id, matchedFields }) => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const item = itemsMap.get(id)!;
+
+    itemsMap.delete(id);
+
+    // Highlight the matched fields
+    if (highlight) {
+      item.highlight(matchedFields);
+    }
+
+    return item;
+  });
+
+  // Reset the highlight for the remaining items
+  if (highlight) {
+    itemsMap.forEach((item) => item.highlight({}));
+  }
+
   return result;
 };
