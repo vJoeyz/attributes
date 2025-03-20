@@ -1,5 +1,6 @@
 import {
   addListener,
+  clearFormField,
   FORM_CSS_CLASSES,
   type FormField,
   type FormFieldType,
@@ -251,6 +252,17 @@ export const setConditionsData = (form: HTMLFormElement, conditions: FiltersCond
             radio.checked = check;
 
             simulateEvent(radio, ['input', 'change']);
+
+            if (check) continue;
+
+            // When unchecking a custom Webflow radio, we need to manually remove the focus and checked classes
+            const customRadio = radio.parentElement?.querySelector(`.${FORM_CSS_CLASSES.radioInput}`);
+            if (!customRadio) continue;
+
+            customRadio.classList.remove(
+              FORM_CSS_CLASSES.checkboxOrRadioFocus,
+              FORM_CSS_CLASSES.checkboxOrRadioChecked
+            );
           }
         }
 
