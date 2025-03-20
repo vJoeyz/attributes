@@ -389,8 +389,8 @@ export const getAdvancedFilters = (form: HTMLFormElement) => {
     const conditions = queryAllElements('condition', { scope: conditionGroup }).reduce<FiltersCondition[]>(
       (acc, condition) => {
         const conditionField = queryElement<HTMLSelectElement>('condition-field', { scope: condition });
-        const field = conditionField?.value;
-        if (!field) return acc;
+        const fieldKey = conditionField?.value;
+        if (!fieldKey) return acc;
 
         const conditionOperator = queryElement<HTMLSelectElement>('condition-operator', { scope: condition });
         const op = conditionOperator?.value as FilterOperator;
@@ -401,7 +401,7 @@ export const getAdvancedFilters = (form: HTMLFormElement) => {
         if (!value) return acc;
 
         acc.push({
-          field,
+          fieldKey,
           op,
           value,
           fieldMatch: 'or', // TODO

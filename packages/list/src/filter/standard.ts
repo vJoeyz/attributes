@@ -82,10 +82,10 @@ export const initStandardFilters = (list: List, form: HTMLFormElement) => {
 /**
  * @returns The value of a given form field.
  * @param formField A {@link FormField} element.
- * @param field The field name.
+ * @param fieldKey The field name.
  * @param interacted Indicates if the form field has been interacted with.
  */
-const getConditionData = (formField: FormField, field: string, interacted = false): FiltersCondition => {
+const getConditionData = (formField: FormField, fieldKey: string, interacted = false): FiltersCondition => {
   const type = formField.type as FormFieldType;
 
   const op = getConditionOperator(formField);
@@ -94,7 +94,7 @@ const getConditionData = (formField: FormField, field: string, interacted = fals
   const fieldMatch = getAttribute(formField, 'fieldmatch', { filterInvalid: true });
 
   const baseData = {
-    field,
+    fieldKey,
     type,
     op,
     filterMatch,
@@ -192,9 +192,9 @@ const getConditionData = (formField: FormField, field: string, interacted = fals
  * @param conditions
  */
 export const setConditionsData = (form: HTMLFormElement, conditions: FiltersCondition[]) => {
-  for (const { field, value, op, type } of conditions) {
+  for (const { fieldKey, value, op, type } of conditions) {
     const tagSelector = `:is(input[type="${type}"], select, textarea)`;
-    const fieldSelector = getSettingSelector('field', field);
+    const fieldSelector = getSettingSelector('field', fieldKey);
     const operatorSelector = `:is(${getSettingSelector('operator', op)}, :not(${getSettingSelector('operator')}))`;
     const selector = [tagSelector, fieldSelector, operatorSelector].join('');
 
@@ -323,14 +323,14 @@ const getSimpleFilters = (list: List, form: HTMLFormElement, interacted = false)
     const { type } = formField;
     if (type === 'submit') continue;
 
-    const field = getAttribute(formField, 'field');
-    if (!field) continue;
+    const fieldKey = getAttribute(formField, 'field');
+    if (!fieldKey) continue;
 
-    const data = getConditionData(formField, field);
+    const data = getConditionData(formField, fieldKey, interacted);
 
     setActiveClass(formField);
 
-    if (!group.conditions.some((c) => c.field === field && c.op === data.op)) {
+    if (!group.conditions.some((c) => c.fieldKey === fieldKey && c.op === data.op)) {
       group.conditions.push(data);
     }
   }
@@ -352,8 +352,8 @@ const initFiltersResults = (list: List, form: HTMLFormElement) => {
     const { type } = formField;
     if (type !== 'checkbox' && type !== 'radio') return;
 
-    const field = getAttribute(formField, 'field');
-    if (!field) return;
+    const fieldKey = getAttribute(formField, 'field');
+    if (!fieldKey) return;
 
     const resultsCountElement = queryElement('filter-results-count', { scope: formField.parentElement });
     if (!resultsCountElement) return;
@@ -368,7 +368,7 @@ const initFiltersResults = (list: List, form: HTMLFormElement) => {
       if (!conditionsGroup) return;
 
       const { conditions = [] } = conditionsGroup;
-      const conditionIndex = conditions.findIndex((c) => c.field === field && c.op === op);
+      const conditionIndex = conditions.findIndex((c) => c.fieldKey === fieldKey && c.op === op);
 
       const condition = conditions[conditionIndex];
       if (!condition) return;
@@ -412,7 +412,7 @@ const handleFormFields = (list: List, form: HTMLFormElement, debounces: Map<stri
 
   // submit
   if (event === 'submit') {
-    return addListener(form, 'submit', (e) => {
+    return addListener(form, 'submit', () => {
       list.readingFilters = true;
 
       list.filters.value.groups[0] = getSimpleFilters(list, form, true);
@@ -427,17 +427,17 @@ const handleFormFields = (list: List, form: HTMLFormElement, debounces: Map<stri
 
     if (!isFormField(target)) return;
 
-    const field = getAttribute(target, 'field');
-    if (!field) return;
+    const fieldKey = getAttribute(target, 'field');
+    if (!fieldKey) return;
 
-    const condition = getConditionData(target, field, true);
+    const condition = getConditionData(target, fieldKey, true);
 
     setActiveClass(target);
 
     const update = () => {
       const conditions = list.filters.value.groups[0]?.conditions || [];
 
-      const conditionIndex = conditions.findIndex((c) => c.field === field && c.op === condition.op);
+      const conditionIndex = conditions.findIndex((c) => c.fieldKey === fieldKey && c.op === condition.op);
 
       list.readingFilters = true;
 
@@ -450,7 +450,7 @@ const handleFormFields = (list: List, form: HTMLFormElement, debounces: Map<stri
       list.readingFilters = false;
     };
 
-    const debounceKey = `${field}_${condition.op}`;
+    const debounceKey = `${fieldKey}_${condition.op}`;
     const debounce = debounces.get(debounceKey);
 
     if (debounce) {
@@ -490,13 +490,13 @@ const handleClearButtons = (list: List, debounces: Map<string, number>) => {
     const clearElement = target?.closest(clearElementSelector);
     if (!clearElement) return;
 
-    const field = getAttribute(clearElement, 'field');
+    const fieldKey = getAttribute(clearElement, 'field');
 
     const conditions = filters.value.groups[0]?.conditions || [];
-    const conditionsToClear = field ? conditions.filter((condition) => condition.field === field) : conditions;
+    const conditionsToClear = fieldKey ? conditions.filter((condition) => condition.fieldKey === fieldKey) : conditions;
 
     for (const condition of conditionsToClear) {
-      debounces.delete(`${condition.field}_${condition.op}`);
+      debounces.delete(`${condition.fieldKey}_${condition.op}`);
 
       if (Array.isArray(condition.value)) {
         condition.value = [];

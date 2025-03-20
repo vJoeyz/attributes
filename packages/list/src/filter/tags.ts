@@ -61,7 +61,7 @@ export const initTags = (list: List) => {
         // Render the tags
         group.conditions.forEach((condition, conditionIndex) => {
           // Get the tag, if existing
-          const tagKey = `${condition.field}_${condition.op}`;
+          const tagKey = `${condition.fieldKey}_${condition.op}`;
 
           let tag = tagList.tags.get(tagKey);
 
@@ -112,7 +112,7 @@ export const initTags = (list: List) => {
 
           // Field
           if (fieldElement) {
-            fieldElement.textContent = condition.field;
+            fieldElement.textContent = condition.fieldKey;
           }
 
           // Operator

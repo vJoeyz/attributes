@@ -9,7 +9,7 @@ export type FilterOperator = FilterOperatorValues[number];
 export type FilterMatch = 'and' | 'or';
 
 export type FiltersCondition = {
-  field: string;
+  fieldKey: string;
   op: FilterOperator;
   type: FormFieldType;
   value: string | string[];

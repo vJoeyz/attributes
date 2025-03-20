@@ -16,7 +16,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
     const groupsPredicate = (groupData: FiltersGroup) => {
       const conditionsPredicate = (filterData: FiltersCondition) => {
         const fieldsPredicate = (field: string) => {
-          if (!filterData.field || !filterData.op || !filterData.value) return true;
+          if (!filterData.fieldKey || !filterData.op || !filterData.value) return true;
 
           const fieldData = item.fields[field];
           if (!fieldData) return false;
@@ -662,9 +662,9 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
         };
 
         const fields =
-          filterData.field === '*'
+          filterData.fieldKey === '*'
             ? Object.keys(items[0]?.fields || {})
-            : extractCommaSeparatedValues(filterData.field);
+            : extractCommaSeparatedValues(filterData.fieldKey);
 
         return filterData.fieldMatch === 'and' ? fields.every(fieldsPredicate) : fields.some(fieldsPredicate);
       };
