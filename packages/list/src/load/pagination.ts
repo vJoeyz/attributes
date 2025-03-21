@@ -88,20 +88,21 @@ export const initPaginationMode = (list: List) => {
     }
   }
 
-  // Handle pagination buttons
-  const paginationButtonsCleanup = handlePaginationButtons(list);
-
   // Init items load
   loadPaginatedCMSItems(list);
 
-  // Handle pagination count
-  handlePaginationCount(list);
+  // Handle pagination elements
+  const paginationWrapperCleanup = handlePaginationWrapper(list);
+  const paginationButtonsCleanup = handlePaginationButtons(list);
+  const paginationCountCleanup = handlePaginationCount(list);
 
   // Return destroy callback
   return () => {
     pageBoundaryCleanup?.();
     pageSiblingsCleanup?.();
     pageButtonsCleanup?.();
+    paginationWrapperCleanup?.();
+    paginationCountCleanup?.();
     paginationButtonsCleanup();
     currentPageCleanup();
     paginateCleanup();
@@ -260,20 +261,38 @@ const createPageButton = (
 /**
  * Updates the native `Page Count` element.
  * @param list The {@link List} instance.
+ * @returns A cleanup function to remove the effect.
  */
 const handlePaginationCount = ({ paginationCountElement, currentPage, totalPages }: List) => {
   if (!paginationCountElement) return;
 
-  // TODO: Cleanup
-  effect(() => {
+  const cleanup = effect(() => {
     paginationCountElement.setAttribute('aria-label', `Page ${currentPage.value} of ${totalPages.value}`);
     paginationCountElement.textContent = `${currentPage.value} / ${totalPages.value}`;
   });
+
+  return cleanup;
+};
+
+/**
+ * Handles the display of the pagination wrapper element.
+ * @param list The {@link List} instance.
+ * @returns A cleanup function to remove the effect.
+ */
+const handlePaginationWrapper = (list: List) => {
+  if (!list.paginationWrapperElement) return;
+
+  const cleanup = effect(() => {
+    list.paginationWrapperElement!.style.display = list.hooks.pagination.result.value.length > 0 ? '' : 'none';
+  });
+
+  return cleanup;
 };
 
 /**
  * Handles the `display` and `href` properties of native pagination buttons (`Previous` & `Next`).
  * @param list The {@link List} instance.
+ * @returns A cleanup function to remove the effect.
  */
 const handlePaginationButtons = (list: List) => {
   const setAttributes = (element: HTMLAnchorElement, shouldDisplay: boolean) => {
