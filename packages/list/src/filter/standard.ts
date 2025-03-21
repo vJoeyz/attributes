@@ -215,7 +215,7 @@ export const setConditionsData = (form: HTMLFormElement, conditions: FiltersCond
           if (check !== formField.checked) {
             formField.checked = check;
 
-            simulateEvent(formField, ['input', 'change']);
+            simulateEvent(formField, ['click', 'input', 'change']);
           }
 
           break;
@@ -231,7 +231,7 @@ export const setConditionsData = (form: HTMLFormElement, conditions: FiltersCond
           if (check !== checkbox.checked) {
             checkbox.checked = check;
 
-            simulateEvent(checkbox, ['input', 'change']);
+            simulateEvent(checkbox, ['click', 'input', 'change']);
           }
         }
 
@@ -251,7 +251,7 @@ export const setConditionsData = (form: HTMLFormElement, conditions: FiltersCond
           if (check !== radio.checked) {
             radio.checked = check;
 
-            simulateEvent(radio, ['input', 'change']);
+            simulateEvent(radio, ['click', 'input', 'change']);
 
             if (check) continue;
 
