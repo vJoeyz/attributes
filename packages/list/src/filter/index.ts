@@ -17,7 +17,12 @@ import type { Filters } from './types';
  */
 export const initListFiltering = (list: List, form: HTMLFormElement) => {
   // Init hook
-  const hookCleanup = list.addHook('filter', (items) => filterItems(list.filters.value, items, list.highlight));
+  const hookCleanup = list.addHook('filter', async (items) => {
+    list.currentPage.value = 1; // Reset the current page
+
+    const filteredItems = await filterItems(list.filters.value, items, list.highlight);
+    return filteredItems;
+  });
 
   // Handle elements
   const elementsCleanup = handleFilterElements(list);

@@ -39,13 +39,21 @@ export const initPaginationMode = (list: List) => {
     return paginatedItems;
   });
 
-  const currentPageCleanup = watch(list.currentPage, () => {
-    list.triggerHook('pagination', { scrollToAnchor: true });
+  const currentPageCleanup = watch(
+    list.currentPage,
+    () => {
+      // We reset currentPage to 1 when filtering and sorting,
+      // we don't want to trigger pagination again when that happens
+      if (list.currentHook) return;
 
-    if (list.showQuery) {
-      list.setSearchParam('page', currentPage.value.toString());
-    }
-  });
+      list.triggerHook('pagination', { scrollToAnchor: true });
+
+      if (list.showQuery) {
+        list.setSearchParam('page', currentPage.value.toString());
+      }
+    },
+    {}
+  );
 
   const paginateCleanup = watch(list.itemsPerPage, () => {
     list.triggerHook('pagination', { scrollToAnchor: true });

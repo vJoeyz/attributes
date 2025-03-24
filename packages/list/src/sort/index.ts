@@ -25,7 +25,12 @@ export const initListSorting = (list: List, triggers: HTMLElement[]) => {
     : initButtons(triggers, list);
 
   // Set up sorting hook
-  const hookCleanup = list.addHook('sort', (items) => sortListItems(items, list.sorting.value));
+  const hookCleanup = list.addHook('sort', (items) => {
+    list.currentPage.value = 1; // Reset the current page
+
+    const sortedItems = sortListItems(items, list.sorting.value);
+    return sortedItems;
+  });
 
   // Set up reactivity
   const sortingCleanup = watch(

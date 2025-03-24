@@ -81,6 +81,11 @@ export class List {
   };
 
   /**
+   * The current hook being executed.
+   */
+  public currentHook?: HookKey;
+
+  /**
    * A set holding all rendered {@link ListItem} instances.
    */
   public renderedItems: Set<ListItem> = new Set();
@@ -641,6 +646,8 @@ export class List {
    * @param scrollToAnchor
    */
   async triggerHook(key: HookKey, { scrollToAnchor }: { scrollToAnchor?: boolean } = {}) {
+    this.currentHook = key;
+
     if (scrollToAnchor) {
       this.scrollToAnchor(key);
     }
@@ -658,6 +665,8 @@ export class List {
     }
 
     hook.result.value = result;
+
+    this.currentHook = undefined;
   }
 
   /**
