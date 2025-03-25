@@ -60,6 +60,9 @@ export const initTags = (list: List) => {
   const watcherCleanup = watch(
     list.filters,
     (filters: Filters) => {
+      // Render the tag groups
+      let renderedGroups = 0;
+
       filters.groups.forEach((group, groupIndex) => {
         // Get the tag list, if existing
         let tagGroupData = renderedTagGroups.get(groupIndex);
@@ -88,6 +91,8 @@ export const initTags = (list: List) => {
         }
 
         // Render the tags
+        let renderedTags = 0;
+
         const shouldRender = group.conditions
           .map((condition, conditionIndex) => {
             // Get the tag, if existing
@@ -133,9 +138,12 @@ export const initTags = (list: List) => {
             populateTag(condition, tagData);
 
             if (!tagIsRendered) {
-              const anchor = tagGroupData.element.children[indexOfTagTemplate + conditionIndex] || null;
+              const anchor = tagGroupData.element.children[indexOfTagTemplate + renderedTags] || null;
+
               tagGroupData.element.insertBefore(tagData.element, anchor);
             }
+
+            renderedTags++;
 
             return true;
           })
@@ -147,9 +155,12 @@ export const initTags = (list: List) => {
         }
 
         if (!tagListIsRendered) {
-          const anchor = tagsListsWrapper.children[indexOfTagGroupTemplate + groupIndex] || null;
+          const anchor = tagsListsWrapper.children[indexOfTagGroupTemplate + renderedGroups] || null;
+
           tagsListsWrapper.insertBefore(tagGroupData.element, anchor);
         }
+
+        renderedGroups++;
       });
     },
     { deep: true }
