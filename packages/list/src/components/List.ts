@@ -298,6 +298,11 @@ export class List {
    */
   public readingFilters?: boolean;
 
+  /**
+   * Defines if the filter field values are being set to the DOM.
+   */
+  public settingFilters?: boolean;
+
   constructor(
     /**
      * The `Collection List Wrapper` element.

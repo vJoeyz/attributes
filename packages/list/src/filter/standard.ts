@@ -67,7 +67,7 @@ const initStandardFiltersForm = (list: List, form: HTMLFormElement, groupIndex: 
     (conditions) => {
       if (list.readingFilters) return;
 
-      setConditionsData(form, conditions);
+      setConditionsData(list, form, conditions);
     },
     { deep: true }
   );
@@ -206,10 +206,13 @@ const getConditionData = (formField: FormField, fieldKey: string, interacted = f
 
 /**
  * Sets the form fields' values based on the provided conditions.
+ * @param list
  * @param form
  * @param conditions
  */
-export const setConditionsData = (form: HTMLFormElement, conditions: FiltersCondition[]) => {
+export const setConditionsData = (list: List, form: HTMLFormElement, conditions: FiltersCondition[]) => {
+  list.settingFilters = true;
+
   for (const { fieldKey, value, op, type } of conditions) {
     const tagSelector = `:is(input[type="${type}"], select, textarea)`;
     const fieldSelector = getSettingSelector('field', fieldKey);
@@ -314,6 +317,8 @@ export const setConditionsData = (form: HTMLFormElement, conditions: FiltersCond
       }
     }
   }
+
+  list.settingFilters = false;
 };
 
 /**
@@ -470,6 +475,8 @@ const handleFormFields = (list: List, form: HTMLFormElement, groupIndex: number,
 
   // input / change
   return addListener(form, event, (e) => {
+    if (list.settingFilters) return;
+
     const { target } = e;
 
     if (!isFormField(target)) return;

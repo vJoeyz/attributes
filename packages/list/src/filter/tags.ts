@@ -116,7 +116,9 @@ export const initTags = (list: List) => {
               tagData = {
                 element,
                 remove: () => {
-                  group.conditions[conditionIndex].value = Array.isArray(condition.value) ? [] : '';
+                  filters.groups[groupIndex].conditions[conditionIndex].value = Array.isArray(condition.value)
+                    ? []
+                    : '';
                 },
                 cleanup: () => {
                   removeCleanup();
@@ -131,7 +133,7 @@ export const initTags = (list: List) => {
             populateTag(condition, tagData);
 
             if (!tagIsRendered) {
-              const anchor = tagGroupData.element.childNodes[indexOfTagTemplate + conditionIndex] || null;
+              const anchor = tagGroupData.element.children[indexOfTagTemplate + conditionIndex] || null;
               tagGroupData.element.insertBefore(tagData.element, anchor);
             }
 
@@ -145,7 +147,7 @@ export const initTags = (list: List) => {
         }
 
         if (!tagListIsRendered) {
-          const anchor = tagsListsWrapper.childNodes[indexOfTagGroupTemplate + groupIndex] || null;
+          const anchor = tagsListsWrapper.children[indexOfTagGroupTemplate + groupIndex] || null;
           tagsListsWrapper.insertBefore(tagGroupData.element, anchor);
         }
       });
