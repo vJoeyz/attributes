@@ -16,7 +16,7 @@ export const getSettings = (
       handleElements: HTMLElement[];
       inputElements: HTMLInputElement[];
       displayValueElements: HTMLElement[];
-      formatValueDisplay: boolean;
+      formatValueDisplay?: string;
       trackLeft: number;
       trackRight: number;
       trackWidth: number;
@@ -38,7 +38,7 @@ export const getSettings = (
 
   const displayValueElements = queryAllElements('display-value', { scope: wrapperElement });
 
-  const formatValueDisplay = hasAttributeValue(wrapperElement, 'formatdisplay', 'true');
+  const formatValueDisplay = getAttribute(wrapperElement, 'formatdisplay');
 
   const updateOnRelease = hasAttributeValue(wrapperElement, 'update', 'release');
 

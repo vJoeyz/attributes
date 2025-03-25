@@ -1,4 +1,5 @@
 import { isFormField, isHTMLFormElement } from '@finsweet/attributes-utils';
+
 import { initListCombine } from './combine';
 import { List } from './components/List';
 import { initListFiltering } from './filter';

@@ -60,7 +60,7 @@ export class Handle {
       startValue: number;
       inputElement?: HTMLInputElement;
       displayValueElement?: HTMLElement;
-      formatValueDisplay: boolean;
+      formatValueDisplay?: string;
     }
   ) {
     this.inputElement = inputElement;
@@ -138,9 +138,11 @@ export class Handle {
     this.setValue(index === 0 ? minRange : maxRange, false);
   }
 
-  private formatValue(value: number) {
+  private formatValue(value: number, rawLocale: string) {
+    const locale = rawLocale === 'true' ? undefined : rawLocale;
+
     try {
-      return value.toLocaleString(document.documentElement?.lang);
+      return value.toLocaleString(locale);
     } catch {
       return value.toLocaleString(window.navigator?.language || undefined);
     }
@@ -187,7 +189,9 @@ export class Handle {
     element.setAttribute(ARIA_VALUENOW_KEY, stringValue);
 
     if (displayValueElement)
-      displayValueElement.textContent = formatValueDisplay ? this.formatValue(newValue) : stringValue;
+      displayValueElement.textContent = formatValueDisplay
+        ? this.formatValue(newValue, formatValueDisplay)
+        : stringValue;
 
     if (updateInputElement) this.updateInputElement();
 
