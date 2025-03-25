@@ -159,6 +159,16 @@ export const ELEMENTS = [
   'tag-remove',
 
   /**
+   * Defines the wrapper of the tags for a conditions group.
+   */
+  'tag-group',
+
+  /**
+   * Defines a button that will remove an entire tag group (and the correspondent filters).
+   */
+  'tag-group-remove',
+
+  /**
    * Defines a Condition group wrapper that wraps all the conditions added to that group.
    */
   'condition-group',

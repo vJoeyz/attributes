@@ -222,8 +222,7 @@ export class List {
    * Defines the active filters.
    */
   public readonly filters = ref<Filters>({
-    groups: [{ conditions: [], conditionsMatch: 'and' }],
-    groupsMatch: 'and',
+    groups: [],
   });
 
   /**

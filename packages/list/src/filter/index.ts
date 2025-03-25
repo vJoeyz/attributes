@@ -13,9 +13,9 @@ import type { Filters } from './types';
 /**
  * Inits loading functionality for the list.
  * @param list
- * @param form
+ * @param forms
  */
-export const initListFiltering = (list: List, form: HTMLFormElement) => {
+export const initListFiltering = (list: List, forms: HTMLFormElement[]) => {
   // Init hook
   const hookCleanup = list.addHook('filter', async (items) => {
     list.currentPage.value = 1; // Reset the current page
@@ -28,8 +28,8 @@ export const initListFiltering = (list: List, form: HTMLFormElement) => {
   const elementsCleanup = handleFilterElements(list);
 
   // Init filters
-  const isDynamic = !!queryElement('condition-group', { scope: form });
-  const filteringCleanup = isDynamic ? initDynamicFilters(list, form) : initStandardFilters(list, form);
+  const isDynamic = !!queryElement('condition-group', { scope: forms[0] });
+  const filteringCleanup = isDynamic ? initDynamicFilters(list, forms[0]) : initStandardFilters(list, forms);
 
   // Init Tags
   const tagsCleanup = initTags(list);

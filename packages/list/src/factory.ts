@@ -1,3 +1,4 @@
+import { isFormField, isHTMLFormElement } from '@finsweet/attributes-utils';
 import { initListCombine } from './combine';
 import { List } from './components/List';
 import { initListFiltering } from './filter';
@@ -49,8 +50,8 @@ export const initList = (list: List) => {
   const cleanups = new Set<(() => void) | undefined>();
 
   // Filter
-  const filtersForm = queryElement('filters', { instance });
-  if (filtersForm instanceof HTMLFormElement) {
+  const filtersForm = queryAllElements('filters', { instance }).filter(isHTMLFormElement);
+  if (filtersForm.length) {
     const cleanup = initListFiltering(list, filtersForm);
     cleanups.add(cleanup);
   }

@@ -25,7 +25,7 @@ export type FiltersGroup = {
 };
 
 export type Filters = {
-  groupsMatch: FilterMatch;
+  groupsMatch?: FilterMatch;
   groups: FiltersGroup[];
 };
 

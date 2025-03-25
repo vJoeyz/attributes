@@ -1,6 +1,5 @@
 import {
   addListener,
-  clearFormField,
   FORM_CSS_CLASSES,
   type FormField,
   type FormFieldType,
@@ -29,25 +28,42 @@ import type { Filters, FiltersCondition, FiltersGroup } from './types';
  * @param form
  * @returns A cleanup function.
  */
-export const initStandardFilters = (list: List, form: HTMLFormElement) => {
+export const initStandardFilters = (list: List, forms: HTMLFormElement[]) => {
+  const cleanups = forms.map((form, groupIndex) => initStandardFiltersForm(list, form, groupIndex));
+
+  return () => {
+    for (const cleanup of cleanups) {
+      cleanup();
+    }
+  };
+};
+
+/**
+ * Initializes standard filters for a list.
+ * @param list
+ * @param form
+ * @param groupIndex
+ * @returns A cleanup function.
+ */
+const initStandardFiltersForm = (list: List, form: HTMLFormElement, groupIndex: number) => {
   const debounces = new Map<string, number>();
 
   // Handle inputs
   const formElementCleanup = handleFiltersForm(form);
-  const formFieldsCleanup = handleFormFields(list, form, debounces);
+  const formFieldsCleanup = handleFormFields(list, form, groupIndex, debounces);
 
   // Handle clear buttons
-  const clickCleanup = handleClearButtons(list, debounces);
+  const clickCleanup = handleClearButtons(list, groupIndex, debounces);
 
   // Get initial filters
   const groupsMatch = getAttribute(form, 'groupsmatch', { filterInvalid: true });
-  const group = getSimpleFilters(list, form);
 
-  list.filters.value = { groups: [group], groupsMatch };
+  list.filters.value.groupsMatch ||= groupsMatch;
+  list.filters.value.groups[groupIndex] = getSimpleFilters(list, form);
 
   // 2 way binding
   const twoWayBindingCleanup = watch(
-    () => list.filters.value.groups[0]?.conditions,
+    () => list.filters.value.groups[groupIndex]?.conditions,
     (conditions) => {
       if (list.readingFilters) return;
 
@@ -69,7 +85,7 @@ export const initStandardFilters = (list: List, form: HTMLFormElement) => {
   //   subtree: true,
   // });
 
-  const filterResultsCleanup = initFiltersResults(list, form);
+  const filterResultsCleanup = initFiltersResults(list, form, groupIndex);
 
   return () => {
     formElementCleanup();
@@ -358,7 +374,7 @@ const getSimpleFilters = (list: List, form: HTMLFormElement, interacted = false)
  * @param list
  * @param form
  */
-const initFiltersResults = (list: List, form: HTMLFormElement) => {
+const initFiltersResults = (list: List, form: HTMLFormElement, groupIndex: number) => {
   const cleanups = [...form.elements].map((formField) => {
     if (!isFormField(formField)) return;
 
@@ -382,7 +398,7 @@ const initFiltersResults = (list: List, form: HTMLFormElement) => {
       ({ filters = list.filters.value, items = list.items.value }: { filters?: Filters; items?: ListItem[] }) => {
         const filtersClone = structuredClone(toRaw(filters)) as Filters;
 
-        const conditionsGroup = filtersClone.groups[0];
+        const conditionsGroup = filtersClone.groups[groupIndex];
         if (!conditionsGroup) return;
 
         const { conditions = [] } = conditionsGroup;
@@ -438,7 +454,7 @@ const initFiltersResults = (list: List, form: HTMLFormElement) => {
  * @param debounces
  * @returns A cleanup function.
  */
-const handleFormFields = (list: List, form: HTMLFormElement, debounces: Map<string, number>) => {
+const handleFormFields = (list: List, form: HTMLFormElement, groupIndex: number, debounces: Map<string, number>) => {
   const event = getAttribute(form, 'filteron', { filterInvalid: true });
 
   // submit
@@ -446,7 +462,7 @@ const handleFormFields = (list: List, form: HTMLFormElement, debounces: Map<stri
     return addListener(form, 'submit', () => {
       list.readingFilters = true;
 
-      list.filters.value.groups[0] = getSimpleFilters(list, form, true);
+      list.filters.value.groups[groupIndex] = getSimpleFilters(list, form, true);
 
       list.readingFilters = false;
     });
@@ -466,7 +482,7 @@ const handleFormFields = (list: List, form: HTMLFormElement, debounces: Map<stri
     setActiveClass(target);
 
     const update = () => {
-      const conditions = list.filters.value.groups[0]?.conditions || [];
+      const conditions = list.filters.value.groups[groupIndex]?.conditions || [];
 
       const conditionIndex = conditions.findIndex((c) => c.fieldKey === fieldKey && c.op === condition.op);
 
@@ -509,7 +525,7 @@ const handleFormFields = (list: List, form: HTMLFormElement, debounces: Map<stri
  * @param debounces
  * @returns A cleanup function.
  */
-const handleClearButtons = (list: List, debounces: Map<string, number>) => {
+const handleClearButtons = (list: List, groupIndex: number, debounces: Map<string, number>) => {
   return addListener(window, 'click', (e) => {
     const { target } = e;
 
@@ -523,7 +539,7 @@ const handleClearButtons = (list: List, debounces: Map<string, number>) => {
 
     const fieldKey = getAttribute(clearElement, 'field');
 
-    const conditions = filters.value.groups[0]?.conditions || [];
+    const conditions = filters.value.groups[groupIndex]?.conditions || [];
     const conditionsToClear = fieldKey ? conditions.filter((condition) => condition.fieldKey === fieldKey) : conditions;
 
     for (const condition of conditionsToClear) {

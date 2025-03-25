@@ -99,6 +99,12 @@ export const isFormField = (element: Element | EventTarget | null): element is F
   isHTMLInputElement(element) || isHTMLSelectElement(element) || isHTMLTextAreaElement(element);
 
 /**
+ * Checks if an element is a form element
+ * @param target
+ */
+export const isHTMLFormElement = (target: unknown): target is HTMLFormElement => target instanceof HTMLFormElement;
+
+/**
  * @returns `true` if the target is an instance of HTMLAnchorElement type.
  * @param target
  */

@@ -3,9 +3,21 @@ import { watch } from '@vue/reactivity';
 
 import type { List } from '../components/List';
 import { SETTINGS } from '../utils/constants';
-import { getAttribute, queryElement } from '../utils/selectors';
-import type { FilterOperator, Filters } from './types';
+import { getAttribute, getElementSelector, queryElement } from '../utils/selectors';
+import type { FilterOperator, Filters, FiltersCondition, FiltersGroup } from './types';
 import { parseFilterValue } from './utils';
+
+type TagData = {
+  element: HTMLElement;
+  remove: () => void;
+  cleanup: () => void;
+};
+
+type TagGroupData = {
+  element: HTMLElement;
+  renderedTags: Map<string, TagData>;
+  cleanup: () => void;
+};
 
 const OPERATOR_SYMBOLS: Record<FilterOperator, string> = {
   empty: '∅',
@@ -30,175 +42,111 @@ export const initTags = (list: List) => {
   const tagTemplate = queryElement('tag', { instance: list.instance });
   if (!tagTemplate) return;
 
-  const tagsList = tagTemplate.parentElement;
-  if (!tagsList) return;
+  const tagGroupTemplate =
+    tagTemplate.closest<HTMLElement>(getElementSelector('tag-group')) || tagTemplate.parentElement;
+  if (!tagGroupTemplate) return;
 
-  const tagsListsWrapper = tagsList.parentElement;
+  const tagsListsWrapper = tagGroupTemplate.parentNode;
+  if (!tagsListsWrapper) return;
 
+  const indexOfTagTemplate = Array.from(tagGroupTemplate.children).indexOf(tagTemplate);
+  const indexOfTagGroupTemplate = Array.from(tagsListsWrapper.children).indexOf(tagGroupTemplate);
+
+  tagGroupTemplate.remove();
   tagTemplate.remove();
 
-  const tagsListTemplate = cloneNode(tagsList);
-
-  const renderedTagLists: Array<{
-    element: HTMLElement;
-    tags: Map<string, { element: HTMLElement; cleanup: () => void }>;
-  }> = [{ element: tagsList, tags: new Map() }];
+  const renderedTagGroups: Map<number, TagGroupData> = new Map();
 
   const watcherCleanup = watch(
     list.filters,
     (filters: Filters) => {
       filters.groups.forEach((group, groupIndex) => {
         // Get the tag list, if existing
-        let tagList = renderedTagLists[groupIndex];
+        let tagGroupData = renderedTagGroups.get(groupIndex);
 
-        const tagListIsRendered = !!tagList;
+        const tagListIsRendered = !!tagGroupData;
 
-        if (!tagList) {
-          tagList = { element: cloneNode(tagsListTemplate), tags: new Map() };
-          renderedTagLists[groupIndex] = tagList;
+        if (!tagGroupData) {
+          const element = cloneNode(tagGroupTemplate);
+          const removeElement = queryElement('tag-group-remove', { scope: element });
+          const removeCleanup = addListener(removeElement, 'click', () => {
+            tagGroupData?.renderedTags.forEach((tag) => tag.remove());
+          });
+
+          tagGroupData = {
+            element,
+            renderedTags: new Map(),
+            cleanup: () => {
+              removeCleanup();
+              tagGroupData?.renderedTags.forEach((tag) => tag.cleanup());
+              tagGroupData?.element.remove();
+              renderedTagGroups.delete(groupIndex);
+            },
+          };
+
+          renderedTagGroups.set(groupIndex, tagGroupData);
         }
 
         // Render the tags
-        group.conditions.forEach((condition, conditionIndex) => {
-          // Get the tag, if existing
-          const tagKey = `${condition.fieldKey}_${condition.op}`;
+        const shouldRender = group.conditions
+          .map((condition, conditionIndex) => {
+            // Get the tag, if existing
+            const tagKey = `${condition.fieldKey}_${condition.op}`;
 
-          let tag = tagList.tags.get(tagKey);
+            let tagData = tagGroupData.renderedTags.get(tagKey);
 
-          const tagIsRendered = !!tag;
+            const tagIsRendered = !!tagData;
 
-          // Remove the tag if the value is empty
-          const shouldRender =
-            !!condition.interacted &&
-            !!condition.value &&
-            (Array.isArray(condition.value) ? !!condition.value.length : true);
+            // Remove the tag if the value is empty
+            const shouldRender =
+              !!condition.interacted &&
+              !!condition.value &&
+              (Array.isArray(condition.value) ? !!condition.value.length : true);
 
-          if (!shouldRender) {
-            tag?.cleanup();
-            return;
-          }
-
-          if (!tag) {
-            const element = cloneNode(tagTemplate);
-            const removeElement = queryElement('tag-remove', { scope: element });
-            const removeCleanup = addListener(removeElement, 'click', () => {
-              group.conditions[conditionIndex].value = Array.isArray(condition.value) ? [] : '';
-            });
-
-            tag = {
-              element,
-              cleanup: () => {
-                removeCleanup();
-                tag?.element.remove();
-                tagList.tags.delete(tagKey);
-              },
-            };
-
-            tagList.tags.set(tagKey, tag);
-          }
-
-          const fieldElement = queryElement('tag-field', { scope: tag.element });
-          const operatorElement = queryElement('tag-operator', { scope: tag.element });
-          const valueElement = queryElement('tag-value', { scope: tag.element });
-
-          const operatorOverwriteElements = new Map(
-            SETTINGS.operator.values
-              .map((operator) => {
-                const operatorOverwriteElement = queryElement(`tag-operator-${operator}`, { scope: tag.element });
-                if (!operatorOverwriteElement) return;
-
-                return [operator, operatorOverwriteElement] as const;
-              })
-              .filter(isNotEmpty)
-          );
-
-          // Field
-          if (fieldElement) {
-            fieldElement.textContent = condition.fieldKey;
-          }
-
-          // Operator
-          const operator = condition.op;
-          const operatorOverwriteElement = operatorOverwriteElements.get(operator);
-
-          if (operatorElement || operatorOverwriteElement) {
-            // Overwrite exists
-            if (operatorOverwriteElement) {
-              operatorElement?.remove();
-              operatorOverwriteElements.delete(operator);
+            if (!shouldRender) {
+              tagData?.cleanup();
+              return false;
             }
 
-            // Fallback
-            else if (operatorElement) {
-              const operatorSymbol = OPERATOR_SYMBOLS[operator];
-              operatorElement.textContent = operatorSymbol;
+            if (!tagData) {
+              const element = cloneNode(tagTemplate);
+              const removeElement = queryElement('tag-remove', { scope: element });
+              const removeCleanup = addListener(removeElement, 'click', () => tagData?.remove());
+
+              tagData = {
+                element,
+                remove: () => {
+                  group.conditions[conditionIndex].value = Array.isArray(condition.value) ? [] : '';
+                },
+                cleanup: () => {
+                  removeCleanup();
+                  tagData?.element.remove();
+                  tagGroupData.renderedTags.delete(tagKey);
+                },
+              };
+
+              tagGroupData.renderedTags.set(tagKey, tagData);
             }
 
-            // Remove all unused overwrites
-            for (const [, element] of operatorOverwriteElements) {
-              element.remove();
-            }
-          }
+            populateTag(condition, tagData);
 
-          // Value
-          if (valueElement) {
-            // No value
-            if (!condition.value) {
-              valueElement.remove();
+            if (!tagIsRendered) {
+              const anchor = tagGroupData.element.childNodes[indexOfTagTemplate + conditionIndex] || null;
+              tagGroupData.element.insertBefore(tagData.element, anchor);
             }
 
-            // Has value
-            else {
-              // Format the value, if needed
-              let formattedValue = condition.value;
+            return true;
+          })
+          .some(Boolean);
 
-              const formatDisplay = getAttribute(valueElement, 'formatdisplay');
-              if (formatDisplay) {
-                const locale = formatDisplay === 'true' ? undefined : formatDisplay;
-
-                if (Array.isArray(condition.value)) {
-                  formattedValue = condition.value.map((value) => {
-                    const parsedValue = parseFilterValue(value, condition.type);
-
-                    if (isNumber(parsedValue)) {
-                      return parsedValue.toLocaleString(locale);
-                    }
-
-                    if (isDate(parsedValue)) {
-                      return parsedValue.toLocaleDateString(locale);
-                    }
-
-                    return value;
-                  });
-                } else {
-                  const parsedValue = parseFilterValue(condition.value, condition.type);
-
-                  if (isNumber(parsedValue)) {
-                    formattedValue = parsedValue.toLocaleString(locale);
-                  }
-
-                  if (isDate(parsedValue)) {
-                    formattedValue = parsedValue.toLocaleDateString(locale);
-                  }
-                }
-              }
-
-              // Set the value
-              const value = Array.isArray(formattedValue)
-                ? formattedValue.join(condition.filterMatch === 'or' ? ' | ' : ' & ')
-                : formattedValue;
-
-              valueElement.textContent = value;
-            }
-          }
-
-          if (!tagIsRendered) {
-            tagList.element.appendChild(tag.element);
-          }
-        });
+        if (!shouldRender) {
+          tagGroupData?.cleanup();
+          return;
+        }
 
         if (!tagListIsRendered) {
-          tagsListsWrapper?.appendChild(tagList.element);
+          const anchor = tagsListsWrapper.childNodes[indexOfTagGroupTemplate + groupIndex] || null;
+          tagsListsWrapper.insertBefore(tagGroupData.element, anchor);
         }
       });
     },
@@ -208,10 +156,112 @@ export const initTags = (list: List) => {
   return () => {
     watcherCleanup();
 
-    for (const { tags } of renderedTagLists) {
-      for (const [, tag] of tags) {
-        tag.cleanup();
-      }
+    for (const [, { cleanup }] of renderedTagGroups) {
+      cleanup();
     }
   };
+};
+
+/**
+ * Populates a tag with the condition data.
+ * @param condition
+ * @param tagData
+ */
+const populateTag = (condition: FiltersCondition, tagData: TagData) => {
+  const scope = tagData.element;
+
+  const fieldElement = queryElement('tag-field', { scope });
+  const operatorElement = queryElement('tag-operator', { scope });
+  const valueElement = queryElement('tag-value', { scope });
+
+  const operatorOverwriteElements = new Map(
+    SETTINGS.operator.values
+      .map((operator) => {
+        const operatorOverwriteElement = queryElement(`tag-operator-${operator}`, { scope });
+        if (!operatorOverwriteElement) return;
+
+        return [operator, operatorOverwriteElement] as const;
+      })
+      .filter(isNotEmpty)
+  );
+
+  // Field
+  if (fieldElement) {
+    fieldElement.textContent = condition.fieldKey;
+  }
+
+  // Operator
+  const operator = condition.op;
+  const operatorOverwriteElement = operatorOverwriteElements.get(operator);
+
+  if (operatorElement || operatorOverwriteElement) {
+    // Overwrite exists
+    if (operatorOverwriteElement) {
+      operatorElement?.remove();
+      operatorOverwriteElements.delete(operator);
+    }
+
+    // Fallback
+    else if (operatorElement) {
+      const operatorSymbol = OPERATOR_SYMBOLS[operator];
+      operatorElement.textContent = operatorSymbol;
+    }
+
+    // Remove all unused overwrites
+    for (const [, element] of operatorOverwriteElements) {
+      element.remove();
+    }
+  }
+
+  // Value
+  if (valueElement) {
+    // No value
+    if (!condition.value) {
+      valueElement.remove();
+    }
+
+    // Has value
+    else {
+      // Format the value, if needed
+      let formattedValue = condition.value;
+
+      const formatDisplay = getAttribute(valueElement, 'formatdisplay');
+      if (formatDisplay) {
+        const locale = formatDisplay === 'true' ? undefined : formatDisplay;
+
+        if (Array.isArray(condition.value)) {
+          formattedValue = condition.value.map((value) => {
+            const parsedValue = parseFilterValue(value, condition.type);
+
+            if (isNumber(parsedValue)) {
+              return parsedValue.toLocaleString(locale);
+            }
+
+            if (isDate(parsedValue)) {
+              return parsedValue.toLocaleDateString(locale);
+            }
+
+            return value;
+          });
+        } else {
+          const parsedValue = parseFilterValue(condition.value, condition.type);
+
+          if (isNumber(parsedValue)) {
+            formattedValue = parsedValue.toLocaleString(locale);
+          }
+
+          if (isDate(parsedValue)) {
+            formattedValue = parsedValue.toLocaleDateString(locale);
+          }
+        }
+      }
+
+      // Set the value
+      const value = Array.isArray(formattedValue)
+        ? formattedValue.join(condition.filterMatch === 'or' ? ' | ' : ' & ')
+        : formattedValue;
+
+      valueElement.textContent = value;
+    }
+  }
 };
