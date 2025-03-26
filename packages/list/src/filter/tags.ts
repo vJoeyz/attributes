@@ -200,7 +200,7 @@ const populateTag = (condition: FiltersCondition, tagData: TagData) => {
 
   // Field
   if (fieldElement) {
-    fieldElement.textContent = condition.fieldKey;
+    fieldElement.textContent = condition.customTagField || condition.fieldKey;
   }
 
   // Operator

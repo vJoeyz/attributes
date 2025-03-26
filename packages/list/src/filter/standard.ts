@@ -108,6 +108,7 @@ const getConditionData = (formField: FormField, fieldKey: string, interacted = f
 
   const op = getConditionOperator(formField);
 
+  const customTagField = getAttribute(formField, 'tagfield');
   const filterMatch = getAttribute(formField, 'filtermatch', { filterInvalid: true });
   const fieldMatch = getAttribute(formField, 'fieldmatch', { filterInvalid: true });
 
@@ -118,6 +119,7 @@ const getConditionData = (formField: FormField, fieldKey: string, interacted = f
     filterMatch,
     fieldMatch,
     interacted,
+    customTagField,
   } satisfies Partial<FiltersCondition>;
 
   switch (type) {

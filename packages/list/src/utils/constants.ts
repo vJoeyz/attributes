@@ -521,6 +521,11 @@ export const SETTINGS = {
   cache: { key: `cache`, values: ['true'], defaultValue: 'true' },
 
   /**
+   * Defines a custom display value for a field in a tag.
+   */
+  tagfield: { key: 'tagfield' },
+
+  /**
    * If added to a tag, numeric and date numbers will be formatted when displaying them in the tags.
    * If "true" the format will default to the user’s locale.
    * A specific locale can be forced using IETF BCP 47 language tags like "en-US".

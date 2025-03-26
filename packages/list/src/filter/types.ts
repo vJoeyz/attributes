@@ -10,6 +10,7 @@ export type FilterMatch = 'and' | 'or';
 
 export type FiltersCondition = {
   fieldKey: string;
+  customTagField?: string;
   op: FilterOperator;
   type: FormFieldType;
   value: string | string[];
