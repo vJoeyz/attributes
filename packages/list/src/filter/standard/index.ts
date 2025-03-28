@@ -4,7 +4,7 @@ import { watch } from '@vue/reactivity';
 import type { List } from '../../components/List';
 import { getAttribute, getElementSelector } from '../../utils/selectors';
 import { handleFiltersForm, setActiveClass } from '../elements';
-import { initFacetCounts } from './facets';
+import { initFacets } from './facets';
 import { getConditionData, getStandardFiltersGroup, setConditionsData } from './conditions';
 
 /**
@@ -70,7 +70,7 @@ const initStandardFiltersForm = (list: List, form: HTMLFormElement, groupIndex: 
   //   subtree: true,
   // });
 
-  const facetCountsCleanup = initFacetCounts(list, form, groupIndex);
+  const facetCountsCleanup = initFacets(list, form, groupIndex);
 
   return () => {
     formElementCleanup();

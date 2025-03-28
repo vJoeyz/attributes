@@ -1,76 +1,32 @@
-import { isFormField } from '@finsweet/attributes-utils';
+import { isHTMLInputElement, isHTMLSelectElement } from '@finsweet/attributes-utils';
 import { toRaw, watch } from '@vue/reactivity';
 import debounce from 'just-debounce';
 
 import type { ListItem } from '../../components';
 import type { List } from '../../components/List';
-import { getAttribute, getSettingSelector, queryElement } from '../../utils/selectors';
+import { getAttribute, getElementSelector, getSettingSelector, queryElement } from '../../utils/selectors';
 
 import { filterItems } from '../filter';
-import type { Filters } from '../types';
+import type { FilterOperator, Filters } from '../types';
 import { getConditionOperator } from './conditions';
 
 /**
  * Initializes a specific filter's results count.
  * @param list
  * @param form
+ * @param groupIndex
  */
-export const initFacetCounts = (list: List, form: HTMLFormElement, groupIndex: number) => {
+export const initFacets = (list: List, form: HTMLFormElement, groupIndex: number) => {
   const cleanups = [...form.elements].map((formField) => {
-    if (!isFormField(formField)) return;
+    const isInput = isHTMLInputElement(formField);
+    const isSelect = isHTMLSelectElement(formField);
+    if (!isInput && !isSelect) return;
 
-    const { type } = formField;
-    if (type !== 'checkbox' && type !== 'radio') return;
+    const handler = isInput
+      ? createInputFacetsHandler(list, formField, groupIndex)
+      : createSelectOptionsFacetsHandler(list, formField, groupIndex);
 
-    const fieldKey = getAttribute(formField, 'field');
-    if (!fieldKey) return;
-
-    const hideEmptySelector = getSettingSelector('hideempty', 'true');
-
-    const hideEmptyTarget = formField.closest<HTMLElement>(hideEmptySelector);
-    const resultsCountElement = queryElement('filter-results-count', { scope: formField.parentElement });
-
-    if (!resultsCountElement && !hideEmptyTarget) return;
-
-    const op = getConditionOperator(formField);
-    const value = getAttribute(formField, 'value') || formField.value || '';
-
-    const handler = debounce(
-      ({ filters = list.filters.value, items = list.items.value }: { filters?: Filters; items?: ListItem[] }) => {
-        const filtersClone = structuredClone(toRaw(filters)) as Filters;
-
-        const conditionsGroup = filtersClone.groups[groupIndex];
-        if (!conditionsGroup) return;
-
-        const { conditions = [] } = conditionsGroup;
-        const conditionIndex = conditions.findIndex((c) => c.fieldKey === fieldKey && c.op === op);
-
-        const condition = conditions[conditionIndex];
-        if (!condition) return;
-
-        // Inject the condition value
-        if (Array.isArray(condition.value)) {
-          if (condition.filterMatch === 'and') {
-            condition.value.push(value);
-          } else {
-            condition.value = [value];
-          }
-        } else {
-          condition.value = value;
-        }
-
-        filterItems(filtersClone, items).then((filteredItems) => {
-          if (resultsCountElement) {
-            resultsCountElement.textContent = `${filteredItems.length}`;
-          }
-
-          if (hideEmptyTarget) {
-            hideEmptyTarget.style.display = filteredItems.length ? '' : 'none';
-          }
-        });
-      },
-      0
-    );
+    if (!handler) return;
 
     const itemsCleanup = watch(list.items, (items) => handler({ items }));
     const filtersCleanup = watch(list.filters, (filters) => handler({ filters }), { deep: true, immediate: true });
@@ -86,4 +42,138 @@ export const initFacetCounts = (list: List, form: HTMLFormElement, groupIndex: n
       cleanup?.();
     }
   };
+};
+
+const createInputFacetsHandler = (list: List, formField: HTMLInputElement, groupIndex: number) => {
+  const fieldKey = getAttribute(formField, 'field');
+  if (!fieldKey) return;
+
+  const resultsCountElement = queryElement('filter-results-count', { scope: formField.parentElement });
+  const hideOnEmptyETarget = formField.closest<HTMLElement>(getSettingSelector('emptybehavior', 'hide'));
+  const addClassOnEmptyTarget = formField.closest<HTMLElement>(getSettingSelector('emptybehavior', 'add-class'));
+
+  if (!resultsCountElement && !hideOnEmptyETarget && !addClassOnEmptyTarget) return;
+
+  const op = getConditionOperator(formField);
+  const value = getAttribute(formField, 'value') || formField.value || '';
+  const emptyClassName = getAttribute(addClassOnEmptyTarget, 'emptyclass');
+
+  const handler = debounce(
+    ({ filters = list.filters.value, items = list.items.value }: { filters?: Filters; items?: ListItem[] }) => {
+      triggerFacetFilter({
+        filters,
+        items,
+        fieldKey,
+        op,
+        groupIndex,
+        value,
+      })?.then((filteredItems) => {
+        const hasResults = filteredItems.length > 0;
+
+        if (resultsCountElement) {
+          resultsCountElement.textContent = `${filteredItems.length}`;
+        }
+
+        if (hideOnEmptyETarget) {
+          hideOnEmptyETarget.style.display = hasResults ? '' : 'none';
+        }
+
+        if (addClassOnEmptyTarget) {
+          addClassOnEmptyTarget.classList.toggle(emptyClassName, !hasResults);
+        }
+      });
+    },
+    0
+  );
+
+  return handler;
+};
+
+const createSelectOptionsFacetsHandler = (list: List, formField: HTMLSelectElement, groupIndex: number) => {
+  const fieldKey = getAttribute(formField, 'field');
+  if (!fieldKey) return;
+
+  const op = getConditionOperator(formField);
+  const displayFacetCounts = formField.matches(getElementSelector('filter-results-count'));
+  const hideOnEmpty = getAttribute(formField, 'emptybehavior', { filterInvalid: true }) === 'hide';
+
+  const options: HTMLOptionElement[] = [...formField.options];
+  const optionLabels = options.reduce(
+    (acc, option) => acc.set(option, option.value),
+    new Map<HTMLOptionElement, string>()
+  );
+
+  if (!options.length) return;
+
+  const handler = debounce(
+    ({ filters = list.filters.value, items = list.items.value }: { filters?: Filters; items?: ListItem[] }) => {
+      for (const option of options) {
+        const { value } = option;
+        if (!value) continue;
+
+        triggerFacetFilter({
+          filters,
+          items,
+          fieldKey,
+          op,
+          groupIndex,
+          value,
+        })?.then((filteredItems) => {
+          const hasResults = filteredItems.length > 0;
+
+          if (displayFacetCounts) {
+            const label = optionLabels.get(option) || '';
+            option.label = `${label} (${filteredItems.length})`;
+          }
+
+          if (hideOnEmpty && !option.selected) {
+            option.style.display = hasResults ? '' : 'none';
+          }
+        });
+      }
+    },
+    0
+  );
+
+  return handler;
+};
+
+const triggerFacetFilter = ({
+  filters,
+  items,
+  fieldKey,
+  op,
+  groupIndex,
+  value,
+}: {
+  filters: Filters;
+  items: ListItem[];
+  fieldKey: string;
+  op: FilterOperator;
+  groupIndex: number;
+  value: string;
+}) => {
+  const filtersClone = structuredClone(toRaw(filters)) as Filters;
+
+  const conditionsGroup = filtersClone.groups[groupIndex];
+  if (!conditionsGroup) return;
+
+  const { conditions = [] } = conditionsGroup;
+  const conditionIndex = conditions.findIndex((c) => c.fieldKey === fieldKey && c.op === op);
+
+  const condition = conditions[conditionIndex];
+  if (!condition) return;
+
+  // Inject the condition value
+  if (Array.isArray(condition.value)) {
+    if (condition.filterMatch === 'and') {
+      condition.value.push(value);
+    } else {
+      condition.value = [value];
+    }
+  } else {
+    condition.value = value;
+  }
+
+  return filterItems(filtersClone, items);
 };
