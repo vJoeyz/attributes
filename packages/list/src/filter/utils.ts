@@ -81,8 +81,19 @@ export const numericCompare = (
   rawB: ListItemFieldValue,
   op: 'greater' | 'greater-equal' | 'less' | 'less-equal'
 ) => {
-  const a = isDate(rawA) ? rawA.getTime() : isString(rawA) ? normalizeNumber(rawA) : rawA;
-  const b = isDate(rawB) ? rawB.getTime() : isString(rawB) ? normalizeNumber(rawB) : rawB;
+  let a: number | undefined;
+  let b: number | undefined;
+
+  if (isDate(rawA) || isDate(rawB)) {
+    a = normalizeDate(rawA)?.getTime();
+    b = normalizeDate(rawB)?.getTime();
+  } else if (isString(rawA) || isString(rawB)) {
+    a = normalizeNumber(rawA);
+    b = normalizeNumber(rawB);
+  } else {
+    a = rawA;
+    b = rawB;
+  }
 
   if (isUndefined(a) || isUndefined(b)) return false;
 
