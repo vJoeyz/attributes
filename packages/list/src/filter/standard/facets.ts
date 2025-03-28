@@ -5,7 +5,6 @@ import debounce from 'just-debounce';
 import type { ListItem } from '../../components';
 import type { List } from '../../components/List';
 import { getAttribute, getElementSelector, getSettingSelector, queryElement } from '../../utils/selectors';
-
 import { filterItems } from '../filter';
 import type { FilterOperator, Filters } from '../types';
 import { getConditionOperator } from './conditions';
@@ -44,6 +43,12 @@ export const initFacets = (list: List, form: HTMLFormElement, groupIndex: number
   };
 };
 
+/**
+ * Creates a handler for input facets.
+ * @param list
+ * @param formField
+ * @param groupIndex
+ */
 const createInputFacetsHandler = (list: List, formField: HTMLInputElement, groupIndex: number) => {
   const fieldKey = getAttribute(formField, 'field');
   if (!fieldKey) return;
@@ -89,6 +94,12 @@ const createInputFacetsHandler = (list: List, formField: HTMLInputElement, group
   return handler;
 };
 
+/**
+ * Creates a handler for select options facets.
+ * @param list
+ * @param formField
+ * @param groupIndex
+ */
 const createSelectOptionsFacetsHandler = (list: List, formField: HTMLSelectElement, groupIndex: number) => {
   const fieldKey = getAttribute(formField, 'field');
   if (!fieldKey) return;
@@ -138,6 +149,11 @@ const createSelectOptionsFacetsHandler = (list: List, formField: HTMLSelectEleme
   return handler;
 };
 
+/**
+ * Triggers a facet search.
+ * @param params
+ * @returns The promise of the filtered items.
+ */
 const triggerFacetFilter = ({
   filters,
   items,

@@ -12,8 +12,8 @@ import {
 import type { List } from '../../components/List';
 import { getCheckboxGroup } from '../../utils/dom';
 import { getAttribute, getSettingSelector } from '../../utils/selectors';
-import type { FiltersCondition, FiltersGroup } from '../types';
 import { setActiveClass } from '../elements';
+import type { FiltersCondition, FiltersGroup } from '../types';
 
 /**
  * @returns The value of a given form field.

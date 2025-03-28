@@ -4,8 +4,8 @@ import { watch } from '@vue/reactivity';
 import type { List } from '../../components/List';
 import { getAttribute, getElementSelector } from '../../utils/selectors';
 import { handleFiltersForm, setActiveClass } from '../elements';
-import { initFacets } from './facets';
 import { getConditionData, getStandardFiltersGroup, setConditionsData } from './conditions';
+import { initFacets } from './facets';
 
 /**
  * Initializes standard filters for a list.

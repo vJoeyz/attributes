@@ -1,4 +1,4 @@
-import { addListener, getFormFieldWrapper, getRadioGroupInputs, type FormField } from '@finsweet/attributes-utils';
+import { addListener, type FormField, getFormFieldWrapper, getRadioGroupInputs } from '@finsweet/attributes-utils';
 import { effect } from '@vue/reactivity';
 
 import type { List } from '../components';
