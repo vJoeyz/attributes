@@ -1,4 +1,4 @@
-import { addListener } from '@finsweet/attributes-utils';
+import { addListener, getFormFieldWrapper, getRadioGroupInputs, type FormField } from '@finsweet/attributes-utils';
 import { effect } from '@vue/reactivity';
 
 import type { List } from '../components';
@@ -47,4 +47,38 @@ export const handleFiltersForm = (form: HTMLFormElement) => {
       e.stopPropagation();
     }
   });
+};
+
+/**
+ * Sets the active class to a form field.
+ * @param formField
+ */
+export const setActiveClass = (formField: FormField) => {
+  const activeClass = getAttribute(formField, 'activeclass');
+
+  switch (formField.type) {
+    case 'checkbox': {
+      const { checked } = formField as HTMLInputElement;
+      const target = getFormFieldWrapper(formField);
+
+      target.classList.toggle(activeClass, checked);
+      break;
+    }
+
+    case 'radio': {
+      const groupRadios = getRadioGroupInputs(formField);
+
+      for (const radio of groupRadios) {
+        const target = getFormFieldWrapper(radio);
+
+        target.classList.toggle(activeClass, radio.checked);
+      }
+
+      break;
+    }
+
+    default: {
+      formField.classList.toggle(activeClass, !!formField.value);
+    }
+  }
 };
