@@ -129,6 +129,12 @@ const initConditionGroup = (list: List, conditionGroup: HTMLElement, conditionGr
 
   const conditionGroupPath = computed(() => `groups.${conditionGroupIndex.value}`);
 
+  // Add the condition group to the filters
+  dset(list.filters.value, conditionGroupPath.value, {
+    conditionsMatch: 'and',
+    conditions: [],
+  });
+
   // Store cleanups
   const cleanups = new Set<() => void>();
 
