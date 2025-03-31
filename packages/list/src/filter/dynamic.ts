@@ -44,12 +44,12 @@ export const initDynamicFilters = (list: List, form: HTMLFormElement) => {
     });
 
     // TODO: support fs-list-filteron
-    const inputCleanup = addListener(conditionGroupMatch, 'input', () => {
+    const inputCleanup = addListener(conditionGroupMatch, 'change', () => {
       list.filters.value.groupsMatch = conditionGroupMatch.value as FilterMatch;
     });
 
     cleanups.add(renderCleanup);
-    cleanups.add(renderController.destroy);
+    cleanups.add(() => renderController.destroy());
     cleanups.add(inputCleanup);
   }
 
@@ -87,14 +87,15 @@ export const initDynamicFilters = (list: List, form: HTMLFormElement) => {
   list.filters.value = getAdvancedFilters(form);
 
   // Get filters on node changes
-  const mutationObserver = new MutationObserver(() => {
-    list.filters.value = getAdvancedFilters(form);
-  });
+  // TODO: Prevent conditions addition/removal to trigger the mutation observer
+  // const mutationObserver = new MutationObserver(() => {
+  //   list.filters.value = getAdvancedFilters(form);
+  // });
 
-  mutationObserver.observe(form, {
-    childList: true,
-    subtree: true,
-  });
+  // mutationObserver.observe(form, {
+  //   childList: true,
+  //   subtree: true,
+  // });
 
   // Construct destroy
   const destroy = () => {
@@ -104,7 +105,7 @@ export const initDynamicFilters = (list: List, form: HTMLFormElement) => {
 
     cleanups.clear();
     conditionGroup.remove();
-    mutationObserver.disconnect();
+    // mutationObserver.disconnect();
 
     conditionGroups.value = conditionGroups.value.filter(($conditionGroup) => $conditionGroup !== conditionGroup);
   };
@@ -142,14 +143,14 @@ const initConditionGroup = (list: List, conditionGroup: HTMLElement, conditionGr
       renderController.update(shouldRender);
     });
 
-    const inputCleanup = addListener(conditionMatch, 'input', () => {
+    const inputCleanup = addListener(conditionMatch, 'change', () => {
       const conditionsMatch = conditionMatch.value as FilterMatch;
 
-      dset(list.filters, conditionGroupPath.value, { conditionsMatch, conditions: [] });
+      dset(list.filters.value, `${conditionGroupPath.value}.conditionsMatch`, conditionsMatch);
     });
 
     cleanups.add(renderCleanup);
-    cleanups.add(renderController.destroy);
+    cleanups.add(() => renderController.destroy());
     cleanups.add(inputCleanup);
   }
 
@@ -198,7 +199,7 @@ const initConditionGroup = (list: List, conditionGroup: HTMLElement, conditionGr
 
     cleanups.add(clickCleanup);
     cleanups.add(renderCleanup);
-    cleanups.add(renderController.destroy);
+    cleanups.add(() => renderController.destroy());
   }
 
   // Init default condition
@@ -256,32 +257,31 @@ const initCondition = (
   const cleanups = new Set<() => void>();
 
   // Bind condition values
-  const fieldInputCleanup = addListener(conditionField, 'input', () => {
-    const field = conditionField.value;
-
-    dset(list.filters, `${conditionPath.value}.field`, field);
-  });
-
-  const operatorInputCleanup = addListener(conditionOperator, 'input', () => {
+  const changeHandler = () => {
+    const fieldKey = conditionField.value;
     const op = conditionOperator.value as FilterOperator;
-
-    dset(list.filters, `${conditionPath.value}.op`, op);
-  });
-
-  const valueInputCleanup = addListener(conditionValue, 'input', () => {
     const value = getConditionValue(conditionValue);
 
-    dset(list.filters, `${conditionPath.value}.value`, value);
-  });
+    if (!fieldKey || !op) return;
+
+    // TODO: merge values instead of overriding
+    dset(list.filters.value, conditionPath.value, {
+      fieldKey,
+      op,
+      value,
+      fieldMatch: 'or', // TODO
+      filterMatch: 'or', // TODO
+      type: 'select-one', // TODO
+    });
+  };
+
+  const fieldInputCleanup = addListener(conditionField, 'change', changeHandler);
+  const operatorInputCleanup = addListener(conditionOperator, 'change', changeHandler);
+  const valueInputCleanup = addListener(conditionValue, 'change', changeHandler);
 
   cleanups.add(fieldInputCleanup);
   cleanups.add(operatorInputCleanup);
   cleanups.add(valueInputCleanup);
-
-  // Populate condition field options
-  const itemsCleanup = watch(list.items, (items) => populateConditionField(items, conditionField), { immediate: true });
-
-  cleanups.add(itemsCleanup);
 
   // Handle remove button
   const conditionRemove = queryElement('condition-remove', { scope: condition });
@@ -316,44 +316,6 @@ const initCondition = (
   };
 
   return destroy;
-};
-
-/**
- * Populates a condition field dropdown with the fields from the list items
- * @param items
- * @param conditionField
- */
-const populateConditionField = (items: readonly ListItem[], conditionField: HTMLSelectElement) => {
-  // Collect fields
-  const fields = items.reduce((acc, curr) => {
-    for (const key in curr.fields) {
-      acc.add(key);
-    }
-
-    return acc;
-  }, new Set<string>());
-
-  // Clear options
-  for (const option of conditionField.options) {
-    if (option.value) {
-      option.remove();
-    }
-  }
-
-  // Populate options
-  for (const field of fields) {
-    const option = document.createElement('option');
-
-    option.value = field;
-    option.textContent = field;
-
-    conditionField.appendChild(option);
-  }
-
-  // Simulate input event
-  queueMicrotask(() => {
-    simulateEvent(conditionField, 'input');
-  });
 };
 
 /**
