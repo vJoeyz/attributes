@@ -97,9 +97,9 @@ export const ELEMENTS = [
   'results-count',
 
   /**
-   * All filters results count
+   * A specific filter results count prediction.
    */
-  'filter-results-count',
+  'facet-count',
 
   /**
    * Defines the template element to generate all page buttons for the `pagination` mode.
@@ -460,12 +460,12 @@ export const SETTINGS = {
   /**
    * Defines the behavior of filter elements when there are no results.
    */
-  emptybehavior: { key: 'emptybehavior', values: ['hide', 'add-class'] },
+  emptyfacet: { key: 'emptyfacet', values: ['hide', 'add-class'] },
 
   /**
    * Defines the empty CSS class.
    */
-  emptyclass: { key: 'emptyclass', defaultValue: `is-${LIST_ATTRIBUTE}-empty` },
+  emptyfacetclass: { key: 'emptyfacetclass', defaultValue: `is-${LIST_ATTRIBUTE}-emptyfacet` },
 
   /**
    * Defines a filter operator.

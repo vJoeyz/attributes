@@ -53,15 +53,15 @@ const createInputFacetsHandler = (list: List, formField: HTMLInputElement, group
   const fieldKey = getAttribute(formField, 'field');
   if (!fieldKey) return;
 
-  const resultsCountElement = queryElement('filter-results-count', { scope: formField.parentElement });
-  const hideOnEmptyETarget = formField.closest<HTMLElement>(getSettingSelector('emptybehavior', 'hide'));
-  const addClassOnEmptyTarget = formField.closest<HTMLElement>(getSettingSelector('emptybehavior', 'add-class'));
+  const facetCountElement = queryElement('facet-count', { scope: formField.parentElement });
+  const hideOnEmptyETarget = formField.closest<HTMLElement>(getSettingSelector('emptyfacet', 'hide'));
+  const addClassOnEmptyTarget = formField.closest<HTMLElement>(getSettingSelector('emptyfacet', 'add-class'));
 
-  if (!resultsCountElement && !hideOnEmptyETarget && !addClassOnEmptyTarget) return;
+  if (!facetCountElement && !hideOnEmptyETarget && !addClassOnEmptyTarget) return;
 
   const op = getConditionOperator(formField);
   const value = getAttribute(formField, 'value') || formField.value || '';
-  const emptyClassName = getAttribute(addClassOnEmptyTarget, 'emptyclass');
+  const emptyClassName = getAttribute(addClassOnEmptyTarget, 'emptyfacetclass');
 
   const handler = debounce(
     ({ filters = list.filters.value, items = list.items.value }: { filters?: Filters; items?: ListItem[] }) => {
@@ -75,8 +75,8 @@ const createInputFacetsHandler = (list: List, formField: HTMLInputElement, group
       })?.then((filteredItems) => {
         const hasResults = filteredItems.length > 0;
 
-        if (resultsCountElement) {
-          resultsCountElement.textContent = `${filteredItems.length}`;
+        if (facetCountElement) {
+          facetCountElement.textContent = `${filteredItems.length}`;
         }
 
         if (hideOnEmptyETarget) {
@@ -105,8 +105,8 @@ const createSelectOptionsFacetsHandler = (list: List, formField: HTMLSelectEleme
   if (!fieldKey) return;
 
   const op = getConditionOperator(formField);
-  const displayFacetCounts = formField.matches(getElementSelector('filter-results-count'));
-  const hideOnEmpty = getAttribute(formField, 'emptybehavior', { filterInvalid: true }) === 'hide';
+  const displayFacetCounts = formField.matches(getElementSelector('facet-count'));
+  const hideOnEmpty = getAttribute(formField, 'emptyfacet', { filterInvalid: true }) === 'hide';
 
   const options: HTMLOptionElement[] = [...formField.options];
   const optionLabels = options.reduce(
