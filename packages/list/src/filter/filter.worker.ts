@@ -1,7 +1,6 @@
 import { extractCommaSeparatedValues } from '@finsweet/attributes-utils';
 
-import type { ListItemFieldValue } from '../components';
-import type { FiltersCondition, FiltersGroup, FilterTaskData } from './types';
+import type { FieldValue, FiltersCondition, FiltersGroup, FilterTaskData } from './types';
 import { areEqual, numericCompare, parseFilterValue } from './utils';
 
 self.onmessage = (e: MessageEvent<FilterTaskData>) => {
@@ -11,7 +10,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
     const groupsPredicate = (groupData: FiltersGroup) => {
       const conditionsPredicate = (filterData: FiltersCondition) => {
         const fieldsPredicate = (fieldKey: string) => {
-          if (!filterData.fieldKey || !filterData.op || !filterData.value) return true;
+          if (!filterData.op) return true;
 
           const fieldData = item.fields[fieldKey];
           if (!fieldData) return false;
@@ -29,13 +28,15 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
             }
 
             case 'equal': {
+              if (!filterValue) return true;
+
               const compare = ({
                 fieldValue,
                 parsedFilterValue,
                 filterValue,
               }: {
-                fieldValue: ListItemFieldValue;
-                parsedFilterValue: ListItemFieldValue;
+                fieldValue: FieldValue;
+                parsedFilterValue: FieldValue;
                 filterValue: string;
               }) => {
                 const match = areEqual(fieldValue, parsedFilterValue, filterData.fuzzyThreshold);
@@ -162,12 +163,14 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
             }
 
             case 'not-equal': {
+              if (!filterValue) return true;
+
               const compare = ({
                 fieldValue,
                 parsedFilterValue,
               }: {
-                fieldValue: ListItemFieldValue;
-                parsedFilterValue: ListItemFieldValue;
+                fieldValue: FieldValue;
+                parsedFilterValue: FieldValue;
               }) => areEqual(fieldValue, parsedFilterValue, filterData.fuzzyThreshold);
 
               // Both are arrays
@@ -285,13 +288,15 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
             }
 
             case 'contain': {
+              if (!filterValue) return true;
+
               const compare = ({
                 fieldValue,
                 filterValue,
                 lowerCaseFieldValue,
                 lowerCaseFilterValue,
               }: {
-                fieldValue: ListItemFieldValue;
+                fieldValue: FieldValue;
                 filterValue: string;
                 lowerCaseFieldValue: string;
                 lowerCaseFilterValue: string;
@@ -434,6 +439,8 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
             }
 
             case 'not-contain': {
+              if (!filterValue) return true;
+
               // Both are arrays
               if (Array.isArray(filterValue) && Array.isArray(fieldValue)) {
                 if (!filterValue.length) return true;
@@ -566,6 +573,8 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
             case 'greater-equal':
             case 'less':
             case 'less-equal': {
+              if (!filterValue) return true;
+
               const operator = filterData.op as 'greater' | 'greater-equal' | 'less' | 'less-equal';
 
               // Both are arrays
