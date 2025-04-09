@@ -22,8 +22,8 @@ type TagGroupData = {
 const OPERATOR_SYMBOLS: Record<FilterOperator, string> = {
   empty: '∅',
   'not-empty': '!∅',
-  contain: '∈',
-  'not-contain': '∉',
+  contain: '⊃',
+  'not-contain': '⊅',
   equal: '=',
   'not-equal': '≠',
   less: '<',
