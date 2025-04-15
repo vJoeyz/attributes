@@ -83,7 +83,7 @@ export const areEqual = (fieldValue: FieldValue, filterValue: FieldValue, fuzzyT
     const normalizedFuzzyThreshold = fuzzyThreshold / 100;
 
     const score = fuzzysort.single(normalizedFilterValue.toString(), normalizedFieldValue.toString())?.score;
-    return score && score >= normalizedFuzzyThreshold;
+    return !!score && score >= normalizedFuzzyThreshold;
   }
 
   return normalizedFieldValue === normalizedFilterValue;

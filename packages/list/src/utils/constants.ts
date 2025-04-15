@@ -149,6 +149,10 @@ export const ELEMENTS = [
   'tag-operator-not-equal',
   'tag-operator-contain',
   'tag-operator-not-contain',
+  'tag-operator-start',
+  'tag-operator-not-start',
+  'tag-operator-end',
+  'tag-operator-not-end',
   'tag-operator-greater',
   'tag-operator-greater-equal',
   'tag-operator-less',
@@ -314,6 +318,10 @@ const SELECT_ONE = 'select-one';
 const SELECT_MULTIPLE = 'select-multiple';
 const OP_CONTAIN = 'contain';
 const OP_NOT_CONTAIN = 'not-contain';
+const OP_START = 'start';
+const OP_NOT_START = 'not-start';
+const OP_END = 'end';
+const OP_NOT_END = 'not-end';
 const OP_EQUAL = 'equal';
 const OP_NOT_EQUAL = 'not-equal';
 const OP_GREATER = 'greater';
@@ -499,6 +507,10 @@ export const SETTINGS = {
       OP_NOT_EQUAL,
       OP_CONTAIN,
       OP_NOT_CONTAIN,
+      OP_START,
+      OP_NOT_START,
+      OP_END,
+      OP_NOT_END,
       OP_GREATER,
       OP_GREATER_EQUAL,
       OP_LESS,
@@ -594,6 +606,10 @@ export const ALLOWED_DYNAMIC_FIELD_TYPES: Record<
     single: {
       [OP_CONTAIN]: [TEXT],
       [OP_NOT_CONTAIN]: [TEXT],
+      [OP_START]: [TEXT],
+      [OP_NOT_START]: [TEXT],
+      [OP_END]: [TEXT],
+      [OP_NOT_END]: [TEXT],
       [OP_EQUAL]: [SELECT_ONE, TEXT],
       [OP_NOT_EQUAL]: [SELECT_ONE, TEXT],
       [OP_EMPTY]: [],
@@ -602,6 +618,10 @@ export const ALLOWED_DYNAMIC_FIELD_TYPES: Record<
     multiple: {
       [OP_CONTAIN]: [TEXT],
       [OP_NOT_CONTAIN]: [TEXT],
+      [OP_START]: [TEXT],
+      [OP_NOT_START]: [TEXT],
+      [OP_END]: [TEXT],
+      [OP_NOT_END]: [TEXT],
       [OP_EQUAL]: [SELECT_MULTIPLE, SELECT_ONE, TEXT],
       [OP_NOT_EQUAL]: [SELECT_MULTIPLE, SELECT_ONE, TEXT],
       [OP_EMPTY]: [],
