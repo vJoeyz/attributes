@@ -54,33 +54,36 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
 
           const filterValueIsArray = Array.isArray(filterValue);
           const fieldValueIsArray = Array.isArray(fieldValue);
+          const emptyFilterValue = filterValue === '' || (filterValueIsArray && !filterValue.length);
+          const emptyFieldValue = fieldValue === '' || (fieldValueIsArray && !fieldValue.length);
 
-          if (!filterValue) return true;
-          if (filterValueIsArray && !filterValue.length) return true;
-          if (fieldValueIsArray && !fieldValue.length) return isNegative;
-
-          const filterValueComparisonMethod = filterMatch === 'and' ? 'every' : 'some';
+          if (emptyFilterValue) return groupData.conditionsMatch === 'and';
+          if (emptyFieldValue) return isNegative;
 
           // Both are arrays
           if (filterValueIsArray && fieldValueIsArray) {
-            return filterValue[filterValueComparisonMethod]((filterValue) => {
+            const predicate = (filterValue: string) => {
               const parsedFilterValue = parseFilterValue(filterValue, filterData.type, fieldData.type);
               if (parsedFilterValue === null) return false;
 
               return fieldMatch === 'and'
                 ? fieldValue.every((fieldValue) => compare(fieldValue, filterValue, parsedFilterValue))
                 : fieldValue.some((fieldValue) => compare(fieldValue, filterValue, parsedFilterValue));
-            });
+            };
+
+            return filterMatch === 'and' ? filterValue.every(predicate) : filterValue.some(predicate);
           }
 
           // Filter is array, field is single
           if (filterValueIsArray && !fieldValueIsArray) {
-            return filterValue[filterValueComparisonMethod]((filterValue) => {
+            const predicate = (filterValue: string) => {
               const parsedFilterValue = parseFilterValue(filterValue, filterData.type, fieldData.type);
               if (parsedFilterValue === null) return false;
 
               return compare(fieldValue, filterValue, parsedFilterValue);
-            });
+            };
+
+            return filterMatch === 'and' ? filterValue.every(predicate) : filterValue.some(predicate);
           }
 
           // Filter is single, field is array
