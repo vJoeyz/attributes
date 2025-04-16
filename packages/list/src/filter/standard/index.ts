@@ -57,19 +57,6 @@ const initStandardFiltersForm = (list: List, form: HTMLFormElement, groupIndex: 
     { deep: true }
   );
 
-  // Get filters on node changes
-  // TODO: bail when added/removed nodes are not form fields
-  const mutationObserver = new MutationObserver(() => {
-    const group = getStandardFiltersGroup(list, form);
-
-    list.filters.value = { groups: [group], groupsMatch };
-  });
-
-  // mutationObserver.observe(form, {
-  //   childList: true,
-  //   subtree: true,
-  // });
-
   const facetCountsCleanup = initFacets(list, form, groupIndex);
 
   return () => {
@@ -78,7 +65,6 @@ const initStandardFiltersForm = (list: List, form: HTMLFormElement, groupIndex: 
     clickCleanup();
     twoWayBindingCleanup();
     facetCountsCleanup();
-    mutationObserver.disconnect();
   };
 };
 

@@ -338,9 +338,12 @@ const initConditionValueField = (
     dset(filters.value, `${condition.path.value}.type`, activeFormFieldType);
   };
 
-  const changeCleanups = [...allConditionFormFields].map(([, formField]) =>
-    addListener(formField, 'change', changeHandler)
-  );
+  const changeCleanups = [...allConditionFormFields].map(([, formField]) => {
+    const event = getAttribute(formField, 'filteron', { filterInvalid: true });
+    const target = event === 'submit' ? formField.form : formField;
+
+    return addListener(target, event, changeHandler);
+  });
 
   const formFieldsRunner = effect(() => {
     const { fieldKey, op }: FiltersCondition = dlv(filters.value, condition.path.value);

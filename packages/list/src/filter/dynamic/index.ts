@@ -6,6 +6,7 @@ import { queryElement } from '../../utils/selectors';
 import type { AllFieldsData, FilterMatch } from '../types';
 import { type ConditionGroup, initConditionGroup, initConditionGroupsAdd, initConditionGroupsMatch } from './groups';
 import { getFilterMatchValue } from './utils';
+import { handleFiltersForm } from '../elements';
 
 /**
  * Inits dynamic filters for a list.
@@ -24,8 +25,6 @@ export const initDynamicFilters = (list: List, form: HTMLFormElement) => {
 
   const conditionGroupTemplate = cloneNode(conditionGroupElement);
   const conditionGroups = shallowRef<ConditionGroup[]>([]);
-
-  const cleanups = new Set<() => void>();
 
   // Collect all fields' data
   const allFieldsData = computed(() =>
@@ -47,6 +46,12 @@ export const initDynamicFilters = (list: List, form: HTMLFormElement) => {
       return acc;
     }, {})
   );
+
+  const cleanups = new Set<() => void>();
+
+  // Handle submissions
+  const formElementCleanup = handleFiltersForm(form);
+  cleanups.add(formElementCleanup);
 
   // Handle adding condition groups
   const conditionGroupAddButton =
