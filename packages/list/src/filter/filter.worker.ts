@@ -74,7 +74,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
           }
 
           // Filter is array, field is single
-          else if (filterValueIsArray && !fieldValueIsArray) {
+          if (filterValueIsArray && !fieldValueIsArray) {
             return filterValue[filterValueComparisonMethod]((filterValue) => {
               const parsedFilterValue = parseFilterValue(filterValue, filterData.type, fieldData.type);
               if (parsedFilterValue === null) return false;
@@ -84,7 +84,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
           }
 
           // Filter is single, field is array
-          else if (!filterValueIsArray && fieldValueIsArray) {
+          if (!filterValueIsArray && fieldValueIsArray) {
             const parsedFilterValue = parseFilterValue(filterValue, filterData.type, fieldData.type);
             if (parsedFilterValue === null) return false;
 
@@ -94,7 +94,7 @@ self.onmessage = (e: MessageEvent<FilterTaskData>) => {
           }
 
           // Filter is single, field is single
-          else if (!filterValueIsArray && !fieldValueIsArray) {
+          if (!filterValueIsArray && !fieldValueIsArray) {
             const parsedFilterValue = parseFilterValue(filterValue, filterData.type, fieldData.type);
             if (parsedFilterValue === null) return false;
 

@@ -3,10 +3,10 @@ import { computed, shallowRef, watch } from '@vue/reactivity';
 
 import type { List } from '../../components/List';
 import { queryElement } from '../../utils/selectors';
+import { handleFiltersForm } from '../elements';
 import type { AllFieldsData, FilterMatch } from '../types';
 import { type ConditionGroup, initConditionGroup, initConditionGroupsAdd, initConditionGroupsMatch } from './groups';
 import { getFilterMatchValue } from './utils';
-import { handleFiltersForm } from '../elements';
 
 /**
  * Inits dynamic filters for a list.
