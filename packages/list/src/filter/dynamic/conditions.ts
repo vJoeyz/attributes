@@ -533,10 +533,10 @@ export const initCondition = (
       const $groupIndex = conditionGroup.index.value;
       const $conditionIndex = condition.index.value;
 
-      list.filters.value.groups[$groupIndex].conditions.splice($conditionIndex, 1);
-
       conditionGroup.conditions.value.splice($conditionIndex, 1);
       conditionGroup.conditions.value = [...conditionGroup.conditions.value];
+
+      list.filters.value.groups[$groupIndex].conditions.splice($conditionIndex, 1);
     },
   };
 
