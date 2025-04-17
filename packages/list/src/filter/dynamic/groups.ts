@@ -158,9 +158,10 @@ export const initConditionGroup = (
 
       const $conditionIndex = conditionGroup.index.value;
 
-      list.filters.value.groups.splice($conditionIndex, 1);
       conditionGroups.value.splice($conditionIndex, 1);
       conditionGroups.value = [...conditionGroups.value];
+
+      list.filters.value.groups.splice($conditionIndex, 1);
     },
   };
 

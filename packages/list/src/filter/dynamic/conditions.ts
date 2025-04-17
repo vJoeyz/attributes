@@ -9,9 +9,10 @@ import {
   Renderer,
   simulateEvent,
 } from '@finsweet/attributes-utils';
-import { computed, type ComputedRef, effect } from '@vue/reactivity';
+import { computed, type ComputedRef, effect, watch } from '@vue/reactivity';
 import dlv from 'dlv';
 import { dset } from 'dset';
+import debounce from 'just-debounce';
 
 import type { List } from '../../components';
 import { ALLOWED_DYNAMIC_FIELD_TYPES, SETTINGS } from '../../utils/constants';
@@ -188,9 +189,8 @@ const initConditionOperatorSelect = (
   });
 
   // Options display logic
-  const optionsRunner = effect(() => {
-    const { fieldKey, value: filterValue }: FiltersCondition = dlv(filters.value, condition.path.value);
-    const fieldData = fieldKey ? allFieldsData.value[fieldKey] : undefined;
+  const optionsHandler = ([fieldKey, allFieldsData]: [FiltersCondition['fieldKey'], AllFieldsData]) => {
+    const fieldData = fieldKey ? allFieldsData[fieldKey] : undefined;
 
     let invalidSelectedOption = false;
 
@@ -289,11 +289,17 @@ const initConditionOperatorSelect = (
     if (invalidSelectedOption) {
       simulateEvent(element, ['input', 'change']);
     }
-  });
+  };
+
+  const optionsCleanup = watch(
+    [() => dlv(filters.value, `${condition.path.value}.fieldKey`), allFieldsData],
+    debounce(optionsHandler, 0),
+    { immediate: true }
+  );
 
   return () => {
     changeCleanup();
-    optionsRunner.effect.stop();
+    optionsCleanup();
   };
 };
 
@@ -366,9 +372,12 @@ const initConditionValueField = (
     return addListener(target, event, changeHandler);
   });
 
-  const formFieldsRunner = effect(() => {
-    const { fieldKey, op }: FiltersCondition = dlv(filters.value, condition.path.value);
-    const fieldData = fieldKey ? allFieldsData.value[fieldKey] : undefined;
+  const formFieldsHandler = ([fieldKey, op, allFieldsData]: [
+    FiltersCondition['fieldKey'],
+    FiltersCondition['op'],
+    AllFieldsData
+  ]) => {
+    const fieldData = fieldKey ? allFieldsData[fieldKey] : undefined;
 
     let allowedFormFields: FormFieldType[] = [];
 
@@ -399,14 +408,13 @@ const initConditionValueField = (
 
       simulateEvent(activeFormField, ['input', 'change']);
     }
-  });
+  };
 
-  const optionsRunner = effect(() => {
+  const optionsHandler = ([fieldKey, allFieldsData]: [FiltersCondition['fieldKey'], AllFieldsData]) => {
     const selectElements = [...allConditionFormFields.values()].filter(isHTMLSelectElement);
     if (!selectElements.length) return;
 
-    const { fieldKey }: FiltersCondition = dlv(filters.value, condition.path.value);
-    const fieldData = fieldKey ? allFieldsData.value[fieldKey] : undefined;
+    const fieldData = fieldKey ? allFieldsData[fieldKey] : undefined;
     const rawValues = fieldData?.rawValues || new Set<string>();
 
     const valuesToAdd = new Set(rawValues);
@@ -438,15 +446,31 @@ const initConditionValueField = (
     if (invalidSelectedOption) {
       simulateEvent(activeSelect, ['input', 'change']);
     }
-  });
+  };
+
+  const formFieldsCleanup = watch(
+    [
+      () => dlv(filters.value, `${condition.path.value}.fieldKey`),
+      () => dlv(filters.value, `${condition.path.value}.op`),
+      allFieldsData,
+    ],
+    debounce(formFieldsHandler, 0),
+    { immediate: true }
+  );
+
+  const optionsCleanup = watch(
+    [() => dlv(filters.value, `${condition.path.value}.fieldKey`), allFieldsData],
+    debounce(optionsHandler, 0),
+    { immediate: true }
+  );
 
   return () => {
     for (const cleanup of changeCleanups) {
       cleanup();
     }
 
-    formFieldsRunner.effect.stop();
-    optionsRunner.effect.stop();
+    formFieldsCleanup();
+    optionsCleanup();
   };
 };
 
