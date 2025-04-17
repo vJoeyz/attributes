@@ -1,11 +1,11 @@
 import {
   addListener,
   cloneNode,
+  extractCommaSeparatedValues,
   type FormField,
   type FormFieldType,
   isFormField,
   isHTMLSelectElement,
-  isNotEmpty,
   Renderer,
   simulateEvent,
 } from '@finsweet/attributes-utils';
@@ -16,9 +16,9 @@ import { dset } from 'dset';
 import type { List } from '../../components';
 import { ALLOWED_DYNAMIC_FIELD_TYPES, SETTINGS } from '../../utils/constants';
 import { getAttribute, getElementSelector, queryAllElements, queryElement } from '../../utils/selectors';
-import type { AllFieldsData, FilterMatch, FilterOperator, FiltersCondition } from '../types';
+import type { AllFieldsData, FilterOperator, FiltersCondition } from '../types';
 import type { ConditionGroup } from './groups';
-import { getFilterMatchValue } from './utils';
+import { getFilterMatchValue, parseOperatorValue } from './utils';
 
 export type Condition = {
   element: HTMLElement;
@@ -34,7 +34,6 @@ export type Condition = {
  * @param conditionGroup
  */
 export const initConditionsMatch = (list: List, element: HTMLSelectElement, conditionGroup: ConditionGroup) => {
-  // TODO: support fs-list-filteron
   const inputCleanup = addListener(element, 'change', () => {
     const conditionsMatch = getFilterMatchValue(element);
 
@@ -165,33 +164,6 @@ const initConditionFieldKeySelect = (
 };
 
 /**
- * Parses the operator and field match value from a condition operator selection.
- * @param value
- */
-const parseOperatorValue = (value: string): { op?: FilterOperator; fieldMatch?: FilterMatch } => {
-  let op: FilterOperator | undefined;
-  let fieldMatch: FilterMatch | undefined;
-
-  const SUFFIXES = ['', '-and', '-or'];
-
-  for (const operator of SETTINGS.operator.values) {
-    if (!SUFFIXES.some((s) => value === `${operator}${s}`)) continue;
-
-    op = operator;
-
-    if (value.endsWith('-and')) {
-      fieldMatch = 'and';
-    } else if (value.endsWith('-or')) {
-      fieldMatch = 'or';
-    }
-
-    break;
-  }
-
-  return { op, fieldMatch };
-};
-
-/**
  * Inits the condition operator select of a condition.
  * The options are dynamically displayed depending on the selected field key.
  * The logic for displaying options is defined in {@link ALLOWED_DYNAMIC_FIELD_TYPES}.
@@ -217,48 +189,97 @@ const initConditionOperatorSelect = (
 
   // Options display logic
   const optionsRunner = effect(() => {
-    const { fieldKey }: FiltersCondition = dlv(filters.value, condition.path.value);
+    const { fieldKey, value: filterValue }: FiltersCondition = dlv(filters.value, condition.path.value);
     const fieldData = fieldKey ? allFieldsData.value[fieldKey] : undefined;
 
     let invalidSelectedOption = false;
 
     // Collect all options data
-    const optionsData = [...element.options].map((option) => {
-      const { op, fieldMatch } = parseOperatorValue(option.value);
+    type OptionData = { option: HTMLOptionElement } & ReturnType<typeof parseOperatorValue>;
 
-      let isValid = option.value === '';
+    const { optionsData, optionsDataByOp, optionsToHide, optionsToDisplay } = [...element.options].reduce<{
+      optionsData: OptionData[];
+      optionsDataByOp: Map<FilterOperator, OptionData[]>;
+      optionsToHide: HTMLOptionElement[];
+      optionsToDisplay: HTMLOptionElement[];
+    }>(
+      (acc, option) => {
+        const invalid = () => {
+          acc.optionsToHide.push(option);
+          return acc;
+        };
 
-      if (!isValid && fieldData && op) {
-        isValid = !!ALLOWED_DYNAMIC_FIELD_TYPES[fieldData.type]?.[fieldData.valueType]?.[op];
+        if (!option.value) return invalid();
+        if (!fieldData) return invalid();
+
+        const operatorData = parseOperatorValue(option.value);
+        if (!operatorData.op) return invalid();
+
+        let isFieldKeyValid = !operatorData.fieldKey;
+
+        if (operatorData.fieldKey) {
+          const fieldKeys =
+            operatorData.fieldKey === '*'
+              ? Object.keys(allFieldsData.value)
+              : extractCommaSeparatedValues(operatorData.fieldKey);
+
+          isFieldKeyValid = fieldKeys.some((key) => key === fieldKey);
+        }
+
+        if (!isFieldKeyValid) return invalid();
+
+        const isValid = !!ALLOWED_DYNAMIC_FIELD_TYPES[fieldData.type]?.[fieldData.valueType]?.[operatorData.op];
+        if (!isValid) return invalid();
+
+        const optionData: OptionData = { option, ...operatorData };
+
+        acc.optionsData.push(optionData);
+        acc.optionsDataByOp.set(operatorData.op, [...(acc.optionsDataByOp.get(operatorData.op) || []), optionData]);
+
+        return acc;
+      },
+      {
+        optionsData: [],
+        optionsDataByOp: new Map(),
+        optionsToHide: [],
+        optionsToDisplay: [],
+      }
+    );
+
+    const isMultiFieldValue = fieldData?.valueType === 'multiple';
+
+    for (const { op, option, fieldMatch = SETTINGS.fieldmatch.defaultValue } of optionsData) {
+      const opOptionsData = optionsDataByOp.get(op!) || [];
+
+      let optionWithPreference;
+
+      if (isMultiFieldValue) {
+        optionWithPreference =
+          opOptionsData.find((other) => other.fieldMatch === fieldMatch) ||
+          opOptionsData.find((other) => other.fieldMatch) ||
+          opOptionsData.find((other) => !other.fieldMatch);
+      } else {
+        optionWithPreference = opOptionsData.find((other) => !other.fieldMatch);
       }
 
-      return { option, op, fieldMatch, isValid };
-    });
-
-    // Filter out invalid options, or options that have less preference
-    for (const { option, op, fieldMatch, isValid } of optionsData) {
-      let shouldDisplay = isValid;
-
-      // Options that have a fieldMatch are preferred over those that don't
-      // when the fieldValueType is 'multiple'
-      if (isValid && fieldData?.valueType === 'multiple' && !fieldMatch) {
-        shouldDisplay = !optionsData.some(
-          (other) => other.option !== option && other.isValid && other.op === op && other.fieldMatch
-        );
+      const otherOptionHasPreference = optionWithPreference?.option !== option;
+      if (otherOptionHasPreference) {
+        optionsToHide.push(option);
+      } else {
+        optionsToDisplay.push(option);
       }
+    }
 
-      // Options that don't have a fieldMatch are preferred over those that do
-      // when the fieldValueType is 'single'
-      if (isValid && fieldData?.valueType === 'single' && fieldMatch) {
-        shouldDisplay = !optionsData.some(
-          (other) => other.option !== option && other.isValid && other.op === op && !other.fieldMatch
-        );
-      }
+    for (const option of optionsToDisplay) {
+      option.style.display = '';
+      option.disabled = false;
+    }
 
-      option.style.display = shouldDisplay ? '' : 'none';
-      option.disabled = !shouldDisplay;
+    for (const option of optionsToHide) {
+      option.style.display = 'none';
+      option.disabled = true;
 
-      if (!shouldDisplay && option.selected) {
+      if (option.selected) {
         option.selected = false;
         invalidSelectedOption = true;
       }
@@ -441,7 +462,9 @@ const getConditionValue = (conditionValueField: FormField) => {
   switch (type) {
     // Select multiple
     case 'select-multiple': {
-      value = [...(conditionValueField as HTMLSelectElement).selectedOptions].map((option) => option.value);
+      value = [...(conditionValueField as HTMLSelectElement).selectedOptions]
+        .map((option) => option.value)
+        .filter(Boolean);
       break;
     }
 
@@ -476,10 +499,9 @@ const getConditionData = (
   conditionOperatorSelect: HTMLSelectElement,
   conditionValueField: FormField
 ): FiltersCondition | undefined => {
-  const type = conditionValueField.type as FormFieldType;
-  const rawOp = conditionOperatorSelect.value as FilterOperator;
   const fieldKey = conditionFieldSelect.value;
-  const op = SETTINGS.operator.values.includes(rawOp) ? rawOp : undefined;
+  const type = conditionValueField.type as FormFieldType;
+  const { op, fieldMatch } = parseOperatorValue(conditionOperatorSelect.value);
 
   const value = getConditionValue(conditionValueField);
   const fuzzyThreshold = getAttribute(conditionValueField, 'fuzzy');
@@ -490,8 +512,7 @@ const getConditionData = (
     op,
     value,
     fuzzyThreshold,
-    fieldMatch: 'or', // TODO
-    filterMatch: 'or', // TODO
+    fieldMatch,
   };
 };
 
