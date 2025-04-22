@@ -537,6 +537,7 @@ const getConditionData = (
     value,
     fuzzyThreshold,
     fieldMatch,
+    interacted: true,
   };
 };
 
