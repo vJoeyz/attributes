@@ -62,20 +62,18 @@ export const initConditionsMatch = (list: List, element: HTMLSelectElement, cond
  * @param element
  * @param conditionTemplate
  * @param conditionGroup
- * @param allFieldsData
  * @returns A cleanup function
  */
 export const initConditionAdd = (
   list: List,
   element: HTMLElement,
   conditionTemplate: HTMLElement,
-  conditionGroup: ConditionGroup,
-  allFieldsData: ComputedRef<AllFieldsData>
+  conditionGroup: ConditionGroup
 ) => {
   const cleanup = addListener(element, 'click', () => {
     const conditionClone = cloneNode(conditionTemplate);
 
-    const condition = initCondition(list, conditionClone, conditionGroup, allFieldsData);
+    const condition = initCondition(list, conditionClone, conditionGroup);
     if (!condition) return;
 
     const $conditions = conditionGroup.conditions.value;
@@ -125,24 +123,18 @@ const initConditionRemove = (element: HTMLElement, condition: Condition, conditi
  * @param list
  * @param element
  * @param condition
- * @param allFieldsData
  * @returns A cleanup function
  */
-const initConditionFieldKeySelect = (
-  { filters }: List,
-  element: HTMLSelectElement,
-  condition: Condition,
-  allFieldsData: ComputedRef<AllFieldsData>
-) => {
+const initConditionFieldKeySelect = (list: List, element: HTMLSelectElement, condition: Condition) => {
   const changeCleanup = addListener(element, 'change', () => {
-    dset(filters.value, `${condition.path.value}.fieldKey`, element.value);
+    dset(list.filters.value, `${condition.path.value}.fieldKey`, element.value);
   });
 
   const fieldsRunner = effect(() => {
     let invalidSelectedOption = false;
 
     for (const option of element.options) {
-      const isValid = !!allFieldsData.value[option.value];
+      const isValid = !!list.allFieldsData.value[option.value];
 
       option.style.display = isValid ? '' : 'none';
       option.disabled = !isValid;
@@ -171,26 +163,21 @@ const initConditionFieldKeySelect = (
  * @param list
  * @param element
  * @param condition
- * @param allFieldsData
  * @returns A cleanup function
  */
-const initConditionOperatorSelect = (
-  { filters }: List,
-  element: HTMLSelectElement,
-  condition: Condition,
-  allFieldsData: ComputedRef<AllFieldsData>
-) => {
+const initConditionOperatorSelect = (list: List, element: HTMLSelectElement, condition: Condition) => {
   // Change listener
   const changeCleanup = addListener(element, 'change', () => {
     const { op, fieldMatch = SETTINGS.fieldmatch.defaultValue } = parseOperatorValue(element.value);
 
-    dset(filters.value, `${condition.path.value}.op`, op);
-    dset(filters.value, `${condition.path.value}.fieldMatch`, fieldMatch);
+    dset(list.filters.value, `${condition.path.value}.op`, op);
+    dset(list.filters.value, `${condition.path.value}.fieldMatch`, fieldMatch);
   });
 
   // Options display logic
   const optionsHandler = ([fieldKey, allFieldsData]: [FiltersCondition['fieldKey'], AllFieldsData]) => {
     const fieldData = fieldKey ? allFieldsData[fieldKey] : undefined;
+    const allFieldKeys = Object.keys(allFieldsData);
 
     let invalidSelectedOption = false;
 
@@ -219,9 +206,7 @@ const initConditionOperatorSelect = (
 
         if (operatorData.fieldKey) {
           const fieldKeys =
-            operatorData.fieldKey === '*'
-              ? Object.keys(allFieldsData.value)
-              : extractCommaSeparatedValues(operatorData.fieldKey);
+            operatorData.fieldKey === '*' ? allFieldKeys : extractCommaSeparatedValues(operatorData.fieldKey);
 
           isFieldKeyValid = fieldKeys.some((key) => key === fieldKey);
         }
@@ -292,7 +277,7 @@ const initConditionOperatorSelect = (
   };
 
   const optionsCleanup = watch(
-    [() => dlv(filters.value, `${condition.path.value}.fieldKey`), allFieldsData],
+    [() => dlv(list.filters.value, `${condition.path.value}.fieldKey`), list.allFieldsData],
     debounce(optionsHandler, 0),
     { immediate: true }
   );
@@ -309,19 +294,18 @@ const initConditionOperatorSelect = (
  * @param initialFormField
  * @param conditionElement
  * @param condition
- * @param allFieldsData
  * @returns A cleanup function
  */
 const initConditionValueField = (
-  { instance, filters }: List,
+  list: List,
   initialFormField: FormField,
   conditionElement: HTMLElement,
-  condition: Condition,
-  allFieldsData: ComputedRef<AllFieldsData>
+  condition: Condition
 ) => {
   const conditionValueFieldAnchor = new Comment();
   initialFormField.after(conditionValueFieldAnchor);
 
+  const { instance } = list;
   const conditionSelector = getElementSelector('condition', { instance });
   const conditionFormFieldSelector = getElementSelector('condition-value', { instance });
   const externalConditionValueSelector = `:is(${conditionFormFieldSelector}):not(:is(${conditionSelector}) :is(${conditionFormFieldSelector}))`;
@@ -360,9 +344,9 @@ const initConditionValueField = (
     const value = getConditionValue(activeFormField);
     const fuzzyThreshold = getAttribute(activeFormField, 'fuzzy');
 
-    dset(filters.value, `${condition.path.value}.value`, value);
-    dset(filters.value, `${condition.path.value}.fuzzyThreshold`, fuzzyThreshold);
-    dset(filters.value, `${condition.path.value}.type`, activeFormFieldType);
+    dset(list.filters.value, `${condition.path.value}.value`, value);
+    dset(list.filters.value, `${condition.path.value}.fuzzyThreshold`, fuzzyThreshold);
+    dset(list.filters.value, `${condition.path.value}.type`, activeFormFieldType);
   };
 
   const changeCleanups = [...allConditionFormFields].map(([, formField]) => {
@@ -450,16 +434,16 @@ const initConditionValueField = (
 
   const formFieldsCleanup = watch(
     [
-      () => dlv(filters.value, `${condition.path.value}.fieldKey`),
-      () => dlv(filters.value, `${condition.path.value}.op`),
-      allFieldsData,
+      () => dlv(list.filters.value, `${condition.path.value}.fieldKey`),
+      () => dlv(list.filters.value, `${condition.path.value}.op`),
+      list.allFieldsData,
     ],
     debounce(formFieldsHandler, 0),
     { immediate: true }
   );
 
   const optionsCleanup = watch(
-    [() => dlv(filters.value, `${condition.path.value}.fieldKey`), allFieldsData],
+    [() => dlv(list.filters.value, `${condition.path.value}.fieldKey`), list.allFieldsData],
     debounce(optionsHandler, 0),
     { immediate: true }
   );
@@ -546,15 +530,9 @@ const getConditionData = (
  * @param list
  * @param element
  * @param conditionGroup
- * @param allFieldsData
  * @returns A cleanup function
  */
-export const initCondition = (
-  list: List,
-  element: HTMLElement,
-  conditionGroup: ConditionGroup,
-  allFieldsData: ComputedRef<AllFieldsData>
-) => {
+export const initCondition = (list: List, element: HTMLElement, conditionGroup: ConditionGroup) => {
   const conditionFieldKeySelect = queryElement('condition-field', { scope: element });
   if (!isHTMLSelectElement(conditionFieldKeySelect)) return;
 
@@ -608,29 +586,13 @@ export const initCondition = (
     dset(list.filters.value, condition.path.value, initialConditionData);
   }
 
-  const conditionFieldKeySelectCleanup = initConditionFieldKeySelect(
-    list,
-    conditionFieldKeySelect,
-    condition,
-    allFieldsData
-  );
+  const conditionFieldKeySelectCleanup = initConditionFieldKeySelect(list, conditionFieldKeySelect, condition);
   cleanups.add(conditionFieldKeySelectCleanup);
 
-  const conditionOperatorSelectCleanup = initConditionOperatorSelect(
-    list,
-    conditionOperatorSelect,
-    condition,
-    allFieldsData
-  );
+  const conditionOperatorSelectCleanup = initConditionOperatorSelect(list, conditionOperatorSelect, condition);
   cleanups.add(conditionOperatorSelectCleanup);
 
-  const conditionValueFieldCleanup = initConditionValueField(
-    list,
-    initialConditionValueFormField,
-    element,
-    condition,
-    allFieldsData
-  );
+  const conditionValueFieldCleanup = initConditionValueField(list, initialConditionValueFormField, element, condition);
   cleanups.add(conditionValueFieldCleanup);
 
   return condition;

@@ -1,10 +1,10 @@
 import { cloneNode } from '@finsweet/attributes-utils';
-import { computed, shallowRef, watch } from '@vue/reactivity';
+import { shallowRef, watch } from '@vue/reactivity';
 
 import type { List } from '../../components/List';
 import { queryElement } from '../../utils/selectors';
 import { handleFiltersForm } from '../elements';
-import type { AllFieldsData, FilterMatch } from '../types';
+import type { FilterMatch } from '../types';
 import { type ConditionGroup, initConditionGroup, initConditionGroupsAdd, initConditionGroupsMatch } from './groups';
 import { getFilterMatchValue } from './utils';
 
@@ -26,27 +26,6 @@ export const initDynamicFilters = (list: List, form: HTMLFormElement) => {
   const conditionGroupTemplate = cloneNode(conditionGroupElement);
   const conditionGroups = shallowRef<ConditionGroup[]>([]);
 
-  // Collect all fields' data
-  const allFieldsData = computed(() =>
-    list.items.value.reduce<AllFieldsData>((acc, item) => {
-      for (const [key, field] of Object.entries(item.fields)) {
-        acc[key] ||= {
-          type: field.type,
-          valueType: Array.isArray(field.value) ? 'multiple' : 'single',
-          rawValues: new Set<string>(),
-        };
-
-        const fieldRawValues = Array.isArray(field.rawValue) ? field.rawValue : [field.rawValue];
-
-        for (const rawValue of fieldRawValues) {
-          acc[key].rawValues.add(rawValue);
-        }
-      }
-
-      return acc;
-    }, {})
-  );
-
   const cleanups = new Set<() => void>();
 
   // Handle submissions
@@ -63,8 +42,7 @@ export const initDynamicFilters = (list: List, form: HTMLFormElement) => {
       conditionGroupAddButton,
       conditionGroupTemplate,
       conditionGroupsWrapper,
-      conditionGroups,
-      allFieldsData
+      conditionGroups
     );
 
     cleanups.add(cleanup);
@@ -87,7 +65,7 @@ export const initDynamicFilters = (list: List, form: HTMLFormElement) => {
   list.filters.value.groupsMatch = groupsMatch;
 
   // Init default condition group
-  initConditionGroup(list, conditionGroupElement, conditionGroups, allFieldsData);
+  initConditionGroup(list, conditionGroupElement, conditionGroups);
 
   return () => {
     for (const conditionGroup of conditionGroups.value) {

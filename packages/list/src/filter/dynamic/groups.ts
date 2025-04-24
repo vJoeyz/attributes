@@ -55,7 +55,6 @@ export const initConditionGroupsMatch = (
  * @param conditionGroupTemplate
  * @param conditionGroupsWrapper
  * @param conditionGroups
- * @param allFieldsData
  * @returns A cleanup function
  */
 export const initConditionGroupsAdd = (
@@ -63,13 +62,12 @@ export const initConditionGroupsAdd = (
   element: HTMLElement,
   conditionGroupTemplate: HTMLElement,
   conditionGroupsWrapper: HTMLElement,
-  conditionGroups: ShallowRef<ConditionGroup[]>,
-  allFieldsData: ComputedRef<AllFieldsData>
+  conditionGroups: ShallowRef<ConditionGroup[]>
 ) => {
   const clickCleanup = addListener(element, 'click', () => {
     const clone = cloneNode(conditionGroupTemplate);
 
-    const conditionGroup = initConditionGroup(list, clone, conditionGroups, allFieldsData);
+    const conditionGroup = initConditionGroup(list, clone, conditionGroups);
     if (!conditionGroup) return;
 
     const previousConditionGroup = conditionGroups.value[conditionGroups.value.length - 2];
@@ -122,14 +120,12 @@ const initConditionGroupRemove = (
  * @param list
  * @param element
  * @param conditionGroups
- * @param allFieldsData
  * @returns The condition group instance
  */
 export const initConditionGroup = (
   list: List,
   element: HTMLElement,
-  conditionGroups: ShallowRef<ConditionGroup[]>,
-  allFieldsData: ComputedRef<AllFieldsData>
+  conditionGroups: ShallowRef<ConditionGroup[]>
 ): ConditionGroup | undefined => {
   const conditionElement = queryElement('condition', { scope: element });
   if (!conditionElement) return;
@@ -181,7 +177,7 @@ export const initConditionGroup = (
   // Handle adding conditions to the group
   const conditionAddButton = queryElement('condition-add', { scope: element });
   if (conditionAddButton) {
-    const cleanup = initConditionAdd(list, conditionAddButton, conditionTemplate, conditionGroup, allFieldsData);
+    const cleanup = initConditionAdd(list, conditionAddButton, conditionTemplate, conditionGroup);
     cleanups.add(cleanup);
   }
 
@@ -199,7 +195,7 @@ export const initConditionGroup = (
   } satisfies FiltersGroup);
 
   // Init default condition
-  initCondition(list, conditionElement, conditionGroup, allFieldsData);
+  initCondition(list, conditionElement, conditionGroup);
 
   return conditionGroup;
 };

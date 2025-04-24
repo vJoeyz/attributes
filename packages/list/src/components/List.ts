@@ -16,7 +16,7 @@ import {
 import { animations } from '@finsweet/attributes-utils';
 import { computed, effect, type Ref, ref, type ShallowRef, shallowRef, watch } from '@vue/reactivity';
 
-import type { Filters } from '../filter/types';
+import type { AllFieldsData, Filters } from '../filter/types';
 import type { Sorting } from '../sort/types';
 import { getAllCollectionListWrappers, getCMSElementSelector, getCollectionElements } from '../utils/dom';
 import { getPaginationSearchEntries } from '../utils/pagination';
@@ -226,6 +226,29 @@ export class List {
   public readonly filters = ref<Filters>({
     groups: [],
   });
+
+  /**
+   * Contains all the fields data of the list.
+   */
+  public readonly allFieldsData = computed(() =>
+    this.items.value.reduce<AllFieldsData>((acc, item) => {
+      for (const [key, field] of Object.entries(item.fields)) {
+        acc[key] ||= {
+          type: field.type,
+          valueType: Array.isArray(field.value) ? 'multiple' : 'single',
+          rawValues: new Set<string>(),
+        };
+
+        const fieldRawValues = Array.isArray(field.rawValue) ? field.rawValue : [field.rawValue];
+
+        for (const rawValue of fieldRawValues) {
+          acc[key].rawValues.add(rawValue);
+        }
+      }
+
+      return acc;
+    }, {})
+  );
 
   /**
    * Defines the active sorting.
