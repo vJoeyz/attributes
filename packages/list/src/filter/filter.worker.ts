@@ -1,4 +1,5 @@
 import { extractCommaSeparatedValues } from '@finsweet/attributes-utils';
+
 import type { FieldValue, FiltersCondition, FiltersGroup, FilterTaskData } from './types';
 import { areEqual, numericCompare, parseFilterValue } from './utils';
 

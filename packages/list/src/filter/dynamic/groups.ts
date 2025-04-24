@@ -4,7 +4,7 @@ import { dset } from 'dset';
 
 import type { List } from '../../components';
 import { queryElement } from '../../utils/selectors';
-import type { AllFieldsData, FilterMatch, FiltersGroup } from '../types';
+import type { FilterMatch, FiltersGroup } from '../types';
 import { type Condition, initCondition, initConditionAdd, initConditionsMatch } from './conditions';
 import { getFilterMatchValue } from './utils';
 
