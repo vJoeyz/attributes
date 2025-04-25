@@ -1,9 +1,9 @@
-import { addListener, cloneNode, Renderer } from '@finsweet/attributes-utils';
+import { addListener, cloneNode } from '@finsweet/attributes-utils';
 import { computed, type ComputedRef, effect, type ShallowRef, shallowRef } from '@vue/reactivity';
 import { dset } from 'dset';
 
 import type { List } from '../../components';
-import { queryElement } from '../../utils/selectors';
+import { getAttribute, queryElement } from '../../utils/selectors';
 import type { FilterMatch, FiltersGroup } from '../types';
 import { type Condition, initCondition, initConditionAdd, initConditionsMatch } from './conditions';
 import { getFilterMatchValue } from './utils';
@@ -33,18 +33,18 @@ export const initConditionGroupsMatch = (
     list.filters.value.groupsMatch = getFilterMatchValue(element);
   });
 
-  const renderer = new Renderer(element);
+  const disabledClass = getAttribute(element, 'dynamicdisabledclass');
 
-  const renderRunner = effect(() => {
-    const shouldRender = conditionGroups.value.length > 1;
+  const runner = effect(() => {
+    const disabled = conditionGroups.value.length <= 1;
 
-    renderer.update(shouldRender);
+    element.disabled = disabled;
+    element.classList.toggle(disabledClass, disabled);
   });
 
   return () => {
     inputCleanup();
-    renderRunner.effect.stop();
-    renderer.destroy();
+    runner.effect.stop();
   };
 };
 
@@ -100,18 +100,23 @@ const initConditionGroupRemove = (
     conditionGroup.cleanup();
   });
 
-  const renderer = new Renderer(element);
+  const disabledClass = getAttribute(element, 'dynamicdisabledclass');
 
-  const renderRunner = effect(() => {
-    const shouldRender = conditionGroups.value.length > 1;
+  const runner = effect(() => {
+    const disabled = conditionGroups.value.length <= 1;
 
-    renderer.update(shouldRender);
+    if ('disabled' in element) {
+      element.disabled = disabled;
+    } else {
+      element.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+    }
+
+    element.classList.toggle(disabledClass, disabled);
   });
 
   return () => {
     clickCleanup();
-    renderRunner.effect.stop();
-    renderer.destroy();
+    runner.effect.stop();
   };
 };
 

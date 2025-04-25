@@ -6,7 +6,6 @@ import {
   type FormFieldType,
   isFormField,
   isHTMLSelectElement,
-  Renderer,
   simulateEvent,
 } from '@finsweet/attributes-utils';
 import { computed, type ComputedRef, effect, watch } from '@vue/reactivity';
@@ -41,18 +40,18 @@ export const initConditionsMatch = (list: List, element: HTMLSelectElement, cond
     dset(list.filters.value, `${conditionGroup.path.value}.conditionsMatch`, conditionsMatch);
   });
 
-  const renderer = new Renderer(element);
+  const disabledClass = getAttribute(element, 'dynamicdisabledclass');
 
-  const renderRunner = effect(() => {
-    const shouldRender = conditionGroup.conditions.value.length > 1;
+  const runner = effect(() => {
+    const disabled = conditionGroup.conditions.value.length <= 1;
 
-    renderer.update(shouldRender);
+    element.disabled = disabled;
+    element.classList.toggle(disabledClass, disabled);
   });
 
   return () => {
     inputCleanup();
-    renderRunner.effect.stop();
-    renderer.destroy();
+    runner.effect.stop();
   };
 };
 
@@ -103,18 +102,23 @@ const initConditionRemove = (element: HTMLElement, condition: Condition, conditi
     condition.cleanup();
   });
 
-  const renderer = new Renderer(element);
+  const disabledClass = getAttribute(element, 'dynamicdisabledclass');
 
-  const renderRunner = effect(() => {
-    const shouldRender = conditionGroup.conditions.value.length > 1;
+  const runner = effect(() => {
+    const disabled = conditionGroup.conditions.value.length <= 1;
 
-    renderer.update(shouldRender);
+    if ('disabled' in element) {
+      element.disabled = disabled;
+    } else {
+      element.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+    }
+
+    element.classList.toggle(disabledClass, disabled);
   });
 
   return () => {
     clickCleanup();
-    renderRunner.effect.stop();
-    renderer.destroy();
+    runner.effect.stop();
   };
 };
 

@@ -424,6 +424,14 @@ export const SETTINGS = {
   },
 
   /**
+   * Defines the disabled filter CSS class.
+   */
+  dynamicdisabledclass: {
+    key: 'dynamicdisabledclass',
+    defaultValue: `is-${LIST_ATTRIBUTE}-dynamic-disabled`,
+  },
+
+  /**
    * Defines the loading configuration.
    */
   load: {
