@@ -38,7 +38,7 @@ export const initConditionGroupsMatch = (
   const runner = effect(() => {
     const disabled = conditionGroups.value.length <= 1;
 
-    element.disabled = disabled;
+    element.setAttribute('aria-disabled', disabled ? 'true' : 'false');
     element.classList.toggle(disabledClass, disabled);
   });
 
@@ -105,12 +105,7 @@ const initConditionGroupRemove = (
   const runner = effect(() => {
     const disabled = conditionGroups.value.length <= 1;
 
-    if ('disabled' in element) {
-      element.disabled = disabled;
-    } else {
-      element.setAttribute('aria-disabled', disabled ? 'true' : 'false');
-    }
-
+    element.setAttribute('aria-disabled', disabled ? 'true' : 'false');
     element.classList.toggle(disabledClass, disabled);
   });
 
