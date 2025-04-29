@@ -402,23 +402,18 @@ const initConditionValueField = (
     const fieldData = fieldKey ? allFieldsData[fieldKey] : undefined;
     const rawValues = fieldData?.rawValues || new Set<string>();
 
-    const valuesToAdd = new Set(rawValues);
+    const sortedValues = [...rawValues].sort((a, b) => a.localeCompare(b));
 
     for (const selectElement of selectElements) {
-      let invalidSelectedOption = false;
+      const invalidSelectedOption = selectElement.value !== '' && !rawValues.has(selectElement.value);
 
       for (const option of [...selectElement.options]) {
-        const isValid = option.value === '' || valuesToAdd.has(option.value);
-
-        if (!isValid) {
+        if (option.value !== '') {
           option.remove();
-          invalidSelectedOption = true;
         }
-
-        valuesToAdd.delete(option.value);
       }
 
-      for (const value of valuesToAdd) {
+      for (const value of sortedValues) {
         const option = document.createElement('option');
         option.value = value;
         option.textContent = value;
