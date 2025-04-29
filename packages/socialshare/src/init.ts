@@ -1,4 +1,5 @@
 import { type FinsweetAttributeInit, waitAttributeLoaded, waitWebflowReady } from '@finsweet/attributes-utils';
+import type { List } from '@finsweet/attributes-list';
 
 import { listenTriggerClicks } from './actions/trigger';
 import { createSocialShareInstances } from './factory';
@@ -17,11 +18,10 @@ export const init: FinsweetAttributeInit = async () => {
   createSocialShareInstances();
 
   // create button from dynamic list in memory
-  // @ts-expect-error TODO: Support fs-list
-  const listInstances: CMSList[] = (await waitAttributeLoaded('cmsload')) || [];
+  const listInstances: List[] = (await waitAttributeLoaded('list')) || [];
 
   for (const { items } of listInstances) {
-    for (const { element } of items) {
+    for (const { element } of items.value) {
       createSocialShareInstances(element);
     }
   }

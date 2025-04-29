@@ -4,7 +4,7 @@ import { queryAllElements } from '../utils/selectors';
 
 /**
  * @returns All the accordion elements on the page.
- * @param lists The `cmsload` instances. If provided, all the loaded accordions will also be added.
+ * @param lists The `list` instances. If provided, all the loaded accordions will also be added.
  */
 export const queryAllAccordions = (lists?: List[]) => {
   const allAccordions = queryAllElements('accordion');

@@ -1,4 +1,9 @@
-import { type FinsweetAttributeInit, isNotEmpty, waitWebflowReady } from '@finsweet/attributes-utils';
+import {
+  type FinsweetAttributeInit,
+  isNotEmpty,
+  waitAttributeLoaded,
+  waitWebflowReady,
+} from '@finsweet/attributes-utils';
 
 import { listenEvents } from './actions/events';
 import { observeElements } from './actions/observe';
@@ -11,9 +16,7 @@ import { queryAllElements } from './utils/selectors';
  */
 export const init: FinsweetAttributeInit = async () => {
   await waitWebflowReady();
-
-  // TODO: Make compatible with fs-list
-  // await waitAttributeLoaded('cmsselect');
+  await waitAttributeLoaded('list');
 
   const referenceElements = queryAllElements('dropdown');
 

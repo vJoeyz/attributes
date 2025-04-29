@@ -1,6 +1,6 @@
 import { type FinsweetAttributeInit, waitWebflowReady } from '@finsweet/attributes-utils';
 
-import { listenCMSLoad } from './actions/cms';
+import { listenListLoad } from './actions/list';
 import { initVideoHLS } from './actions/video';
 import { hlsInstancesStore } from './utils/stores';
 
@@ -13,7 +13,7 @@ export const init: FinsweetAttributeInit = async () => {
   const videos = document.querySelectorAll('video');
   videos.forEach(initVideoHLS);
 
-  await listenCMSLoad();
+  await listenListLoad();
 
   return {
     result: hlsInstancesStore,

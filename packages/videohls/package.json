@@ -19,5 +19,8 @@
   "dependencies": {
     "@finsweet/attributes-utils": "workspace:*",
     "hls.js": "^1.4.5"
+  },
+  "devDependencies": {
+    "@finsweet/attributes-list": "workspace:*"
   }
 }
