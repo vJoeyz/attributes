@@ -12,7 +12,7 @@ export const init: FinsweetAttributeInit = async () => {
 
   const componentTargetsData = collectComponentTargetsData();
 
-  await prefetchComponentsPages(componentTargetsData);
+  prefetchComponentsPages(componentTargetsData);
 
   const componentsData = await initComponents(componentTargetsData);
 

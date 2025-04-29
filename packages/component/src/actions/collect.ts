@@ -1,4 +1,4 @@
-import { isNotEmpty } from '@finsweet/attributes-utils';
+import { extractCommaSeparatedValues, isNotEmpty } from '@finsweet/attributes-utils';
 
 import { getAttribute, getInstance, queryAllElements } from '../utils/selectors';
 import type { ComponentTargetData } from '../utils/types';
@@ -9,10 +9,11 @@ import type { ComponentTargetData } from '../utils/types';
  */
 export const collectComponentTargetsData = () => {
   const targetElements = queryAllElements('target');
-  const targetsData: ComponentTargetData[] = [...targetElements]
-    .map((target) => {
+  const targetsData = [...targetElements]
+    .map<ComponentTargetData | undefined>((target) => {
       const instance = getInstance(target);
       const proxy = getAttribute(null, 'proxy');
+      const rawPosition = getAttribute(target, 'position');
       const rawSource = getAttribute(target, 'source');
       const rawLoadCSS = getAttribute(target, 'css');
       const rawAutoRender = getAttribute(target, 'render');
@@ -23,6 +24,7 @@ export const collectComponentTargetsData = () => {
       const loadCSS = !rawLoadCSS || rawLoadCSS === 'true';
       const autoRender = !rawAutoRender || rawAutoRender === 'true';
       const resetIx = rawResetIx === 'true';
+      const positions = rawPosition ? extractCommaSeparatedValues(rawPosition).map(getPosition) : [0.5];
 
       let source: URL;
       let proxiedSource: URL | undefined;
@@ -39,9 +41,56 @@ export const collectComponentTargetsData = () => {
         return;
       }
 
-      return { target, instance, source, proxiedSource, loadCSS, autoRender, resetIx };
+      return { target, instance, source, proxiedSource, loadCSS, autoRender, resetIx, positions };
     })
     .filter(isNotEmpty);
 
   return targetsData;
+};
+
+/**
+ * @param rawPosition
+ * @returns The position of a component inside the target, as a number between 0 and 1.
+ */
+const getPosition = (rawPosition: string) => {
+  switch (rawPosition) {
+    case 'first':
+    case 'start': {
+      return 0;
+    }
+
+    case 'one-quarter': {
+      return 0.25;
+    }
+
+    case 'one-third': {
+      return 0.33;
+    }
+
+    case 'middle':
+    case 'center':
+    case 'half':
+    case 'one-half': {
+      return 0.5;
+    }
+
+    case 'two-thirds': {
+      return 0.66;
+    }
+
+    case 'three-quarters': {
+      return 0.75;
+    }
+
+    case 'end':
+    case 'last': {
+      return 1;
+    }
+
+    default: {
+      const position = parseFloat(rawPosition);
+
+      return isNaN(position) ? 0.5 : position / 100;
+    }
+  }
 };

@@ -21,6 +21,11 @@ export const SETTINGS = {
   },
 
   /**
+   * Defines a specific position of the component inside the target.
+   */
+  position: { key: 'position' },
+
+  /**
    * Defines if the CSS of the component should be imported when the component is external.
    * If the component is external and this setting is set to true,
    * the component will be loaded with the CSS inside a Shadow DOM.
@@ -48,6 +53,16 @@ export const SETTINGS = {
    */
   proxy: {
     key: 'proxy',
+  },
+
+  /**
+   * Defines if the component should be loaded from the cache.
+   * By default, the component will be loaded from the cache if available.
+   * If set to false, the component will never be loaded from the cache.
+   */
+  cache: {
+    key: 'cache',
+    values: ['false'],
   },
 
   /**

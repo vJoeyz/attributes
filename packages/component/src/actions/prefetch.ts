@@ -3,7 +3,7 @@ import { fetchPageDocument } from '@finsweet/attributes-utils';
 import { getAttribute } from '../utils/selectors';
 import type { ComponentTargetData } from '../utils/types';
 
-const componentsPages: Record<string, Document | null> = {};
+const componentsPages: Map<string, Promise<Document | null>> = new Map();
 
 /**
  * Prefetches the pages of the components.
@@ -14,36 +14,29 @@ const componentsPages: Record<string, Document | null> = {};
  * So with this trick we filter and prefetch all the pages before initting the components.
  *
  * @param componentsData
- * @param cachekey
- * @param cacheversion
  */
-export const prefetchComponentsPages = async (componentTargetsData: ComponentTargetData[]) => {
+export const prefetchComponentsPages = (componentTargetsData: ComponentTargetData[]) => {
+  const cache = getAttribute(null, 'cache') !== 'false';
   const cacheKey = getAttribute(null, 'cachekey');
   const cacheVersion = getAttribute(null, 'cacheversion') ?? 1;
 
-  const uniqueSourcesToFetch = [
-    ...new Set(componentTargetsData.map(({ proxiedSource, source }) => proxiedSource?.href || source.href)),
-  ];
+  for (const { proxiedSource, source } of componentTargetsData) {
+    const href = proxiedSource?.href || source.href;
+    if (componentsPages.has(href)) continue;
 
-  const pagesData = await Promise.all(
-    uniqueSourcesToFetch.map(async (href) => {
-      const page = await fetchPageDocument(href, {
-        cacheKey,
-        cacheExternal: true,
-        cacheVersion,
-      });
+    const promise = fetchPageDocument(href, {
+      cache,
+      cacheKey,
+      cacheExternal: cache,
+      cacheVersion,
+    });
 
-      page?.cloneNode(true);
-
-      return [href, page] as const;
-    })
-  );
-
-  Object.assign(componentsPages, Object.fromEntries(pagesData));
+    componentsPages.set(href, promise);
+  }
 };
 
 /**
  * @returns A prefetched component page.
  * @param source The source URL of the component.
  */
-export const getComponentPage = (source: URL) => componentsPages[source.href];
+export const getComponentPage = (source: URL) => componentsPages.get(source.href);

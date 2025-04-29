@@ -6,6 +6,7 @@ export type ComponentTargetData = {
   loadCSS: boolean;
   autoRender: boolean;
   resetIx: boolean;
+  positions: number[];
 };
 
 export type ComponentData = ComponentTargetData & {
