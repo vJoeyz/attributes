@@ -1,6 +1,7 @@
-import { waitAttributeLoaded } from '@finsweet/attributes-utils';
-import { initVideoHLS } from './video';
 import type { List } from '@finsweet/attributes-list';
+import { waitAttributeLoaded } from '@finsweet/attributes-utils';
+
+import { initVideoHLS } from './video';
 
 /**
  * Listens for newly added videos via CMS Load and inits an hls.js instance for them.
