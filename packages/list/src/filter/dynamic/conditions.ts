@@ -397,37 +397,38 @@ const initConditionValueField = (
     const selectElements = [...allConditionFormFields.values()].filter(isHTMLSelectElement);
     if (!selectElements.length) return;
 
+    const activeSelect = activeFormFieldType ? allConditionFormFields.get(activeFormFieldType) : undefined;
+
     const fieldData = fieldKey ? allFieldsData[fieldKey] : undefined;
     const rawValues = fieldData?.rawValues || new Set<string>();
 
     const valuesToAdd = new Set(rawValues);
 
-    const activeSelect = activeFormFieldType ? allConditionFormFields.get(activeFormFieldType) : undefined;
-    if (!isHTMLSelectElement(activeSelect)) return;
+    for (const selectElement of selectElements) {
+      let invalidSelectedOption = false;
 
-    let invalidSelectedOption = false;
+      for (const option of [...selectElement.options]) {
+        const isValid = option.value === '' || valuesToAdd.has(option.value);
 
-    for (const option of [...activeSelect.options]) {
-      const isValid = option.value === '' || valuesToAdd.has(option.value);
+        if (!isValid) {
+          option.remove();
+          invalidSelectedOption = true;
+        }
 
-      if (!isValid) {
-        option.remove();
-        invalidSelectedOption = true;
+        valuesToAdd.delete(option.value);
       }
 
-      valuesToAdd.delete(option.value);
-    }
+      for (const value of valuesToAdd) {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value;
 
-    for (const value of valuesToAdd) {
-      const option = document.createElement('option');
-      option.value = value;
-      option.textContent = value;
+        selectElement.append(option);
+      }
 
-      activeSelect.append(option);
-    }
-
-    if (invalidSelectedOption) {
-      simulateEvent(activeSelect, ['input', 'change']);
+      if (selectElement === activeSelect && invalidSelectedOption) {
+        simulateEvent(selectElement, ['input', 'change']);
+      }
     }
   };
 
