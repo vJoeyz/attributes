@@ -1,5 +1,11 @@
 # @finsweet/attributes-inject
 
+## 2.1.0
+
+### Minor Changes
+
+- fa746b6: feat: fs-inject
+
 ## 2.0.1
 
 ### Patch Changes
