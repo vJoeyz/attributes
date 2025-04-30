@@ -21,7 +21,9 @@ export const prefetchComponentsPages = (componentTargetsData: ComponentTargetDat
   const cacheVersion = getAttribute(null, 'cacheversion') ?? 1;
 
   for (const { proxiedSource, source } of componentTargetsData) {
-    const href = proxiedSource?.href || source.href;
+    const href = proxiedSource?.href || source?.href;
+    if (!href) continue;
+
     if (componentsPages.has(href)) continue;
 
     const promise = fetchPageDocument(href, {

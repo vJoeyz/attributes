@@ -30,7 +30,9 @@ export const initComponents = async (componentTargetsData: ComponentTargetData[]
 const initComponent = async (componentTargetData: ComponentTargetData): Promise<Array<ComponentData> | undefined> => {
   const { target, instance, proxiedSource, source, loadCSS, autoRender, positions } = componentTargetData;
 
-  const page = await getComponentPage(proxiedSource || source);
+  const componentsSource = proxiedSource || source;
+
+  const page = componentsSource ? await getComponentPage(componentsSource) : document;
   if (!page) return;
 
   const components = queryAllElements('component', { instance, scope: page }).map((component) => cloneNode(component));
@@ -44,78 +46,82 @@ const initComponent = async (componentTargetData: ComponentTargetData): Promise<
   if (!componentsToInject.length) return;
 
   return Promise.all(
-    components.map(async (component, index) => {
-      const render = (component: HTMLElement) => {
-        // Rich Text Block component injection
-        if (isRTB) {
-          const position = positions[index] ?? 0.5;
+    components
+      .map<ComponentData | undefined>((component, index) => {
+        const render = (component: HTMLElement) => {
+          // Rich Text Block component injection
+          if (isRTB) {
+            const position = positions[index] ?? 0.5;
 
-          let targetPosition = Math.round(targetChildren.length * position);
-          let referenceNode = targetChildren[targetPosition];
-          let previousNode = targetChildren[targetPosition - 1];
+            let targetPosition = Math.round(targetChildren.length * position);
+            let referenceNode = targetChildren[targetPosition];
+            let previousNode = targetChildren[targetPosition - 1];
 
-          while (previousNode && /^h[1-6]$/i.test(previousNode.tagName)) {
-            targetPosition -= 1;
-            referenceNode = targetChildren[targetPosition];
-            previousNode = targetChildren[targetPosition - 1];
+            while (previousNode && /^h[1-6]$/i.test(previousNode.tagName)) {
+              targetPosition -= 1;
+              referenceNode = targetChildren[targetPosition];
+              previousNode = targetChildren[targetPosition - 1];
+            }
+
+            if (targetPosition < 0) {
+              target.prepend(component);
+            } else {
+              target.insertBefore(component, referenceNode || null);
+            }
           }
 
-          if (targetPosition < 0) {
-            target.prepend(component);
-          } else {
-            target.insertBefore(component, referenceNode || null);
+          // Normal component injection
+          else {
+            target.append(component);
           }
+        };
+
+        // Same site component
+        if (isSameSite) {
+          if (autoRender) {
+            render(component);
+          }
+
+          return {
+            ...componentTargetData,
+            component,
+          };
         }
 
-        // Normal component injection
-        else {
-          target.append(component);
-        }
-      };
+        // External component
+        if (!source) return;
 
-      // Same site component
-      if (isSameSite) {
+        // Create a shadow root
+        let shadowRoot: ShadowRoot | undefined;
+        let shadowRootTarget: HTMLElement | undefined;
+
+        // Load the CSS
+        // To load the external CSS, we attach a Shadow DOM to the target element
+        if (loadCSS) {
+          shadowRootTarget = document.createElement('div');
+          shadowRootTarget.style.display = 'contents';
+
+          shadowRoot = shadowRootTarget.attachShadow({ mode: 'open' });
+
+          attachPageStyles(shadowRoot, page).then(() => {
+            shadowRoot!.append(component);
+          });
+        }
+
+        // Convert relative URLs to absolute URLs
+        convertRelativeUrlsToAbsolute(component, source);
+
+        // Render the component
         if (autoRender) {
-          render(component);
+          render(shadowRootTarget || component);
         }
 
         return {
           ...componentTargetData,
+          shadowRoot,
           component,
         };
-      }
-
-      // External component
-      // Create a shadow root
-      let shadowRoot: ShadowRoot | undefined;
-      let shadowRootTarget: HTMLElement | undefined;
-
-      // Load the CSS
-      // To load the external CSS, we attach a Shadow DOM to the target element
-      if (loadCSS) {
-        shadowRootTarget = document.createElement('div');
-        shadowRootTarget.style.display = 'contents';
-
-        shadowRoot = shadowRootTarget.attachShadow({ mode: 'open' });
-
-        attachPageStyles(shadowRoot, page).then(() => {
-          shadowRoot!.append(component);
-        });
-      }
-
-      // Convert relative URLs to absolute URLs
-      convertRelativeUrlsToAbsolute(component, source);
-
-      // Render the component
-      if (autoRender) {
-        render(shadowRootTarget || component);
-      }
-
-      return {
-        ...componentTargetData,
-        shadowRoot,
-        component,
-      };
-    })
+      })
+      .filter(isNotEmpty)
   );
 };

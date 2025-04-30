@@ -19,26 +19,26 @@ export const collectComponentTargetsData = () => {
       const rawAutoRender = getAttribute(target, 'render');
       const rawResetIx = getAttribute(target, 'resetix');
 
-      if (!rawSource) return;
-
       const loadCSS = !rawLoadCSS || rawLoadCSS === 'true';
       const autoRender = !rawAutoRender || rawAutoRender === 'true';
       const resetIx = rawResetIx === 'true';
       const positions = rawPosition ? extractCommaSeparatedValues(rawPosition).map(getPosition) : [0.5];
 
-      let source: URL;
+      let source: URL | undefined;
       let proxiedSource: URL | undefined;
 
-      try {
-        source = new URL(rawSource, window.location.origin);
+      if (rawSource) {
+        try {
+          source = new URL(rawSource, window.location.origin);
 
-        // If source is external, prefix it with the proxy if provided
-        if (source.origin !== window.location.origin && proxy) {
-          proxiedSource = new URL(proxy + source.href);
+          // If source is external, prefix it with the proxy if provided
+          if (source.origin !== window.location.origin && proxy) {
+            proxiedSource = new URL(proxy + source.href);
+          }
+        } catch (err) {
+          // Source is invalid
+          return;
         }
-      } catch (err) {
-        // Source is invalid
-        return;
       }
 
       return { target, instance, source, proxiedSource, loadCSS, autoRender, resetIx, positions };
