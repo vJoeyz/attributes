@@ -1,9 +1,9 @@
-import { COMPONENT_ATTRIBUTE, generateSelectors } from '@finsweet/attributes-utils';
+import { generateSelectors, INJECT_ATTRIBUTE } from '@finsweet/attributes-utils';
 
 import { ELEMENTS, SETTINGS } from './constants';
 
 export const { getAttribute, getInstance, queryAllElements, queryElement } = generateSelectors(
-  COMPONENT_ATTRIBUTE,
+  INJECT_ATTRIBUTE,
   ELEMENTS,
   SETTINGS
 );

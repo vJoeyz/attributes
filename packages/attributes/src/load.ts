@@ -22,8 +22,8 @@ export const loadAttribute = async (solution: FinsweetAttributeKey) => {
       return import('@finsweet/attributes-combobox');
     }
 
-    case 'component': {
-      return import('@finsweet/attributes-component');
+    case 'inject': {
+      return import('@finsweet/attributes-inject');
     }
 
     case 'copyclip': {
@@ -84,10 +84,6 @@ export const loadAttribute = async (solution: FinsweetAttributeKey) => {
 
     case 'readtime': {
       return import('@finsweet/attributes-readtime');
-    }
-
-    case 'richtext': {
-      return import('@finsweet/attributes-richtext');
     }
 
     case 'scrolldisable': {

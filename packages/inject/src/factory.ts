@@ -3,7 +3,7 @@ import { cloneNode, isNotEmpty, restartWebflow, RICH_TEXT_BLOCK_CSS_CLASS } from
 import { attachPageStyles } from './actions/css';
 import { getComponentPage } from './actions/prefetch';
 import { convertRelativeUrlsToAbsolute, isSameWebflowProject } from './utils/helpers';
-import { queryAllElements, queryElement } from './utils/selectors';
+import { queryAllElements } from './utils/selectors';
 import type { ComponentData, ComponentTargetData } from './utils/types';
 
 /**
@@ -33,7 +33,7 @@ const initComponent = async (componentTargetData: ComponentTargetData): Promise<
   const page = await getComponentPage(proxiedSource || source);
   if (!page) return;
 
-  let components = queryAllElements('component', { instance, scope: page }).map((component) => cloneNode(component));
+  const components = queryAllElements('component', { instance, scope: page }).map((component) => cloneNode(component));
   if (!components.length) return;
 
   const targetChildren = [...target.children];

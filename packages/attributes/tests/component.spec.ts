@@ -3,12 +3,12 @@ import { expect, test } from '@playwright/test';
 import { waitAttributeLoaded } from './utils';
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('http://fs-attributes.webflow.io/component');
+  await page.goto('http://fs-attributes.webflow.io/inject');
 });
 
-test.describe('component', () => {
+test.describe('inject', () => {
   test('Loads same-project components', async ({ page }) => {
-    await waitAttributeLoaded(page, 'component');
+    await waitAttributeLoaded(page, 'inject');
 
     const target1 = page.getByTestId('target-1');
     const target2 = page.getByTestId('target-2');
@@ -18,14 +18,14 @@ test.describe('component', () => {
   });
 
   test('Loads external-project components', async ({ page }) => {
-    await waitAttributeLoaded(page, 'component');
+    await waitAttributeLoaded(page, 'inject');
 
     const target3 = page.getByTestId('target-3');
     const target4 = page.getByTestId('target-4');
 
     // Components are rendered
-    const target3Component = target3.locator('[fs-component-element="component"]');
-    const target4Component = target4.locator('[fs-component-element="component"]');
+    const target3Component = target3.locator('[fs-inject-element="component"]');
+    const target4Component = target4.locator('[fs-inject-element="component"]');
 
     await expect(target3Component).toBeVisible();
     await expect(target4Component).toBeVisible();

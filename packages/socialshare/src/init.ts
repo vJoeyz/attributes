@@ -1,5 +1,5 @@
-import { type FinsweetAttributeInit, waitAttributeLoaded, waitWebflowReady } from '@finsweet/attributes-utils';
 import type { List } from '@finsweet/attributes-list';
+import { type FinsweetAttributeInit, waitAttributeLoaded, waitWebflowReady } from '@finsweet/attributes-utils';
 
 import { listenTriggerClicks } from './actions/trigger';
 import { createSocialShareInstances } from './factory';

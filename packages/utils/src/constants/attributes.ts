@@ -8,7 +8,7 @@ export const CODE_HIGHLIGHT_ATTRIBUTE = 'codehighlight';
 
 export const COMBO_BOX_ATTRIBUTE = 'combobox';
 
-export const COMPONENT_ATTRIBUTE = 'component';
+export const INJECT_ATTRIBUTE = 'inject';
 
 export const COPY_CLIP_ATTRIBUTE = 'copyclip';
 

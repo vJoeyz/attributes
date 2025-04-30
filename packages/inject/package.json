@@ -1,7 +1,7 @@
 {
-  "name": "@finsweet/attributes-richtext",
-  "version": "1.10.3",
-  "description": "Add HTML to Rich Text elements, add components from the same page or from different pages, add classes, ids, attributes, and more.",
+  "name": "@finsweet/attributes-inject",
+  "version": "2.0.1",
+  "description": "Import components from any internal or external Webflow project.",
   "private": true,
   "type": "module",
   "types": "src/index.ts",
@@ -16,11 +16,7 @@
       "import": "./src/index.ts"
     }
   },
-  "devDependencies": {
-    "@types/dompurify": "^3.0.2"
-  },
   "dependencies": {
-    "@finsweet/attributes-utils": "workspace:*",
-    "dompurify": "^3.0.3"
+    "@finsweet/attributes-utils": "workspace:*"
   }
 }

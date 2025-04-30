@@ -1,4 +1,4 @@
-# @finsweet/attributes-component
+# @finsweet/attributes-inject
 
 ## 2.0.1
 
