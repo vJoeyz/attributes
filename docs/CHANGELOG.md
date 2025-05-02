@@ -1,5 +1,11 @@
 # @finsweet/attributes-docs
 
+## 2.0.6
+
+### Patch Changes
+
+- 8d63240: chore: toggle xray class
+
 ## 2.0.5
 
 ### Patch Changes
