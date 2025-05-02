@@ -323,15 +323,11 @@ const xrayInit = (): void => {
 
   xrayElements = queryElementsWithFsAttributes();
 
-  if (xrayActive) {
-    xrayElements.forEach((element) => {
-      if (checkAndIgnoreElement(element)) return;
+  xrayElements.forEach((element) => {
+    if (checkAndIgnoreElement(element)) return;
 
-      if (element && !element.classList.contains(targetClass)) {
-        element.classList.add(targetClass);
-      }
-    });
-  }
+    element.classList.toggle(targetClass, xrayActive);
+  });
 };
 
 /**
@@ -349,7 +345,7 @@ const handleKeydown = (e: KeyboardEvent) => {
     xrayElements.forEach((element) => {
       if (checkAndIgnoreElement(element)) return;
 
-      element.classList.toggle(targetClass);
+      element.classList.toggle(targetClass, xrayActive);
     });
   }
 };
