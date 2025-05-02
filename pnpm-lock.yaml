@@ -94,9 +94,6 @@ importers:
       '@finsweet/attributes-copyclip':
         specifier: workspace:*
         version: link:../copyclip
-      '@finsweet/attributes-countitems':
-        specifier: workspace:*
-        version: link:../countitems
       '@finsweet/attributes-displayvalues':
         specifier: workspace:*
         version: link:../displayvalues
@@ -215,12 +212,6 @@ importers:
       clipboard:
         specifier: ^2.0.11
         version: 2.0.11
-
-  packages/countitems:
-    dependencies:
-      '@finsweet/attributes-utils':
-        specifier: workspace:*
-        version: link:../utils
 
   packages/displayvalues:
     dependencies:

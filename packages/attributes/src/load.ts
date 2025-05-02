@@ -30,10 +30,6 @@ export const loadAttribute = async (solution: FinsweetAttributeKey) => {
       return import('@finsweet/attributes-copyclip');
     }
 
-    case 'countitems': {
-      return import('@finsweet/attributes-countitems');
-    }
-
     case 'displayvalues': {
       return import('@finsweet/attributes-displayvalues');
     }

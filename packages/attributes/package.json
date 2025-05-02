@@ -42,7 +42,6 @@
     "@finsweet/attributes-combobox": "workspace:*",
     "@finsweet/attributes-inject": "workspace:*",
     "@finsweet/attributes-copyclip": "workspace:*",
-    "@finsweet/attributes-countitems": "workspace:*",
     "@finsweet/attributes-displayvalues": "workspace:*",
     "@finsweet/attributes-favcustom": "workspace:*",
     "@finsweet/attributes-formsubmit": "workspace:*",

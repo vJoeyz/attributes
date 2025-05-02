@@ -12,8 +12,6 @@ export const INJECT_ATTRIBUTE = 'inject';
 
 export const COPY_CLIP_ATTRIBUTE = 'copyclip';
 
-export const COUNT_ITEMS_ATTRIBUTE = 'countitems';
-
 export const DISPLAY_VALUES_ATTRIBUTE = 'displayvalues';
 
 export const DOCS_ATTRIBUTE = 'docs';
