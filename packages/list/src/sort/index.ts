@@ -8,6 +8,7 @@ import { initDropdown } from './dropdown';
 import { initHTMLSelect } from './select';
 import { sortListItems } from './sort';
 import type { Sorting } from './types';
+import { getAttribute } from '../utils/selectors';
 
 /**
  * Inits sorting functionality for the list.
@@ -24,12 +25,33 @@ export const initListSorting = (list: List, triggers: HTMLElement[]) => {
     ? initDropdown(isDropdown, list)
     : initButtons(triggers, list);
 
-  // Set up sorting hook
-  const hookCleanup = list.addHook('sort', (items) => {
+  // Set up hooks
+  const sortHookCleanup = list.addHook('sort', (items) => {
     list.currentPage.value = 1; // Reset the current page
 
     const sortedItems = sortListItems(items, list.sorting.value);
     return sortedItems;
+  });
+
+  const beforeRenderHookCleanup = list.addHook('beforeRender', async (items) => {
+    if (list.triggeredHook === 'sort') {
+      const className = getAttribute(list.listElement, 'sortingclass');
+
+      list.wrapperElement.classList.add(className);
+
+      const animations = list.wrapperElement.getAnimations({ subtree: true });
+
+      await Promise.all(animations.map((a) => a.finished));
+    }
+
+    return items;
+  });
+
+  const afterRenderHookCleanup = list.addHook('afterRender', (items) => {
+    const className = getAttribute(list.listElement, 'sortingclass');
+    list.wrapperElement.classList.remove(className);
+
+    return items;
   });
 
   // Set up reactivity
@@ -57,7 +79,9 @@ export const initListSorting = (list: List, triggers: HTMLElement[]) => {
 
   return () => {
     modeCleanup?.();
-    hookCleanup();
+    sortHookCleanup();
+    beforeRenderHookCleanup();
+    afterRenderHookCleanup();
     sortingCleanup();
   };
 };

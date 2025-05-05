@@ -6,6 +6,7 @@ import { initAllMode } from './all';
 import { initInfiniteMode } from './infinite';
 import { initMoreMode } from './more';
 import { initPaginationMode } from './pagination';
+import { getAttribute } from '../utils/selectors';
 
 type LoadModeValues = (typeof SETTINGS)['load']['values'];
 type LoadMode = LoadModeValues[keyof LoadModeValues];
@@ -52,8 +53,31 @@ export const initListLoading = (list: List, mode: LoadMode) => {
       ? initInfiniteMode(list)
       : initPaginationMode(list);
 
+  const beforeRenderHookCleanup = list.addHook('beforeRender', async (items) => {
+    if (list.triggeredHook === 'pagination') {
+      const className = getAttribute(list.listElement, 'loadingclass');
+
+      list.wrapperElement.classList.add(className);
+
+      const animations = list.wrapperElement.getAnimations({ subtree: true });
+
+      await Promise.all(animations.map((a) => a.finished));
+    }
+
+    return items;
+  });
+
+  const afterRenderHookCleanup = list.addHook('afterRender', (items) => {
+    const className = getAttribute(list.listElement, 'loadingclass');
+    list.wrapperElement.classList.remove(className);
+
+    return items;
+  });
+
   return () => {
     loadModeCleanup?.();
+    beforeRenderHookCleanup();
+    afterRenderHookCleanup();
     elementsRunner.effect.stop();
   };
 };

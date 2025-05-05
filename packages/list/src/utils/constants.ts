@@ -597,7 +597,24 @@ export const SETTINGS = {
    * By default, it will use the Webflow pagination settings.
    */
   itemsperpage: { key: 'itemsperpage', isNumeric: true },
+
+  /**
+   * Defines the CSS class to be added to the list when filtering.
+   */
+  filteringclass: { key: 'filteringclass', defaultValue: `is-${LIST_ATTRIBUTE}-filtering` },
+
+  /**
+   * Defines the CSS class to be added to the list when paginating.
+   */
+  loadingclass: { key: 'loadingclass', defaultValue: `is-${LIST_ATTRIBUTE}-loading` },
+
+  /**
+   * Defines the CSS class to be added to the list when sorting.
+   */
+  sortingclass: { key: 'sortingclass', defaultValue: `is-${LIST_ATTRIBUTE}-sorting` },
 } as const satisfies AttributeSettings;
+
+export const RENDER_INDEX_CSS_VARIABLE = `--fs-${LIST_ATTRIBUTE}-renderindex`;
 
 export const BREAKPOINTS_INDEX: { [key in WebflowBreakpoint]: number } = {
   main: 0,

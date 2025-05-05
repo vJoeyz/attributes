@@ -7,13 +7,13 @@ import {
   fetchPageDocument,
   getObjectEntries,
   isNumber,
+  LIST_ATTRIBUTE,
   type PageCountElement,
   type PaginationButtonElement,
   type PaginationWrapperElement,
   restartWebflow,
   type WebflowModule,
 } from '@finsweet/attributes-utils';
-import { animations } from '@finsweet/attributes-utils';
 import { computed, effect, type Ref, ref, type ShallowRef, shallowRef, watch } from '@vue/reactivity';
 
 import type { AllFieldsData, Filters } from '../filter/types';
@@ -23,6 +23,7 @@ import { getPaginationSearchEntries } from '../utils/pagination';
 import { getAttribute, getInstance, queryAllElements, queryElement } from '../utils/selectors';
 import { listInstancesStore } from '../utils/store';
 import { ListItem } from './ListItem';
+import { RENDER_INDEX_CSS_VARIABLE } from '../utils/constants';
 
 type HookKey = 'filter' | 'sort' | 'pagination' | 'beforeRender' | 'render' | 'afterRender';
 type HookCallback = (items: ListItem[]) => ListItem[] | Promise<ListItem[]> | void | Promise<void>;
@@ -84,6 +85,11 @@ export class List {
    * The current hook being executed.
    */
   public currentHook?: HookKey;
+
+  /**
+   * The hook that triggered the current lifecycle.
+   */
+  public triggeredHook?: HookKey;
 
   /**
    * A set holding all rendered {@link ListItem} instances.
@@ -432,41 +438,49 @@ export class List {
   #initHooks() {
     // Add render hook
     this.addHook('render', async (items) => {
-      const { fade } = animations;
+      let renderIndex = 0;
 
-      items.forEach((item, index) => {
-        const previousItem = items[index - 1];
-        const duration = getAttribute(item.element, 'duration');
+      await Promise.all(
+        items.map(async (item, index) => {
+          const previousItem = items[index - 1];
 
-        const render = () => {
-          if (previousItem) {
-            previousItem.element.after(item.element);
-          } else {
-            this.listElement?.prepend(item.element);
+          const render = () => {
+            item.element.style.setProperty(RENDER_INDEX_CSS_VARIABLE, `${renderIndex}`);
+
+            if (previousItem) {
+              previousItem.element.after(item.element);
+            } else {
+              this.listElement?.prepend(item.element);
+            }
+
+            item.currentIndex = index;
+            renderIndex += 1;
+
+            const animations = item.element.getAnimations({ subtree: true });
+
+            return Promise.all(animations.map((a) => a.finished));
+          };
+
+          // Is rendered
+          if (isNumber(item.currentIndex)) {
+            if (item.currentIndex !== index) {
+              await render();
+            }
+
+            this.renderedItems.delete(item);
           }
 
-          // fade.animateIn(item.element, { duration: duration / 1000 });
-          item.currentIndex = index;
-        };
-
-        // Is rendered
-        if (isNumber(item.currentIndex)) {
-          if (item.currentIndex !== index) {
-            render();
+          // Is not rendered
+          else {
+            await render();
           }
 
-          this.renderedItems.delete(item);
-        }
-
-        // Is not rendered
-        else {
-          render();
-        }
-      });
+          item.element.style.removeProperty(RENDER_INDEX_CSS_VARIABLE);
+        })
+      );
 
       // Remove items that should not be rendered anymore
       this.renderedItems.forEach((renderedItem) => {
-        // fade.animateOut(renderedItem.element);
         renderedItem.element.remove();
         renderedItem.currentIndex = undefined;
       });
@@ -486,7 +500,7 @@ export class List {
       const items = previous ? this.hooks[previous].result : this.items;
 
       // TODO: Cleanups
-      watch(items, () => this.triggerHook(key), { immediate: true });
+      watch(items, () => this.#runHook(key), { immediate: true });
     }
   }
 
@@ -670,16 +684,12 @@ export class List {
   }
 
   /**
-   * Triggers a hook.
+   * Runs a hook.
    * @param key
    * @param scrollToAnchor
    */
-  async triggerHook(key: HookKey, { scrollToAnchor }: { scrollToAnchor?: boolean } = {}) {
+  async #runHook(key: HookKey) {
     this.currentHook = key;
-
-    if (scrollToAnchor) {
-      this.scrollToAnchor(key);
-    }
 
     const hook = this.hooks[key];
 
@@ -696,6 +706,23 @@ export class List {
     hook.result.value = result;
 
     this.currentHook = undefined;
+  }
+
+  /**
+   * Triggers a hook.
+   * @param key
+   * @param options.scrollToAnchor
+   */
+  async triggerHook(key: HookKey, { scrollToAnchor }: { scrollToAnchor?: boolean } = {}) {
+    this.triggeredHook = key;
+
+    if (scrollToAnchor) {
+      this.scrollToAnchor(key);
+    }
+
+    await this.#runHook(key);
+
+    this.triggeredHook = undefined;
   }
 
   /**

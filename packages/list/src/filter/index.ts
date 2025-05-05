@@ -2,7 +2,7 @@ import { watch } from '@vue/reactivity';
 import debounce from 'just-debounce';
 
 import type { List } from '../components/List';
-import { queryElement } from '../utils/selectors';
+import { getAttribute, queryElement } from '../utils/selectors';
 import { initDynamicFilters } from './dynamic';
 import { handleFilterElements } from './elements';
 import { filterItems } from './filter';
@@ -16,12 +16,43 @@ import type { Filters } from './types';
  * @param forms
  */
 export const initListFiltering = (list: List, forms: HTMLFormElement[]) => {
-  // Init hook
-  const hookCleanup = list.addHook('filter', async (items) => {
+  // Init hooks
+  const filterHookCleanup = list.addHook('filter', async (items) => {
     list.currentPage.value = 1; // Reset the current page
 
     const filteredItems = await filterItems(list.filters.value, items, list.highlight);
     return filteredItems;
+  });
+
+  const beforeRenderHookCleanup = list.addHook('beforeRender', async (items) => {
+    if (list.triggeredHook === 'filter') {
+      const className = getAttribute(list.listElement, 'filteringclass');
+
+      list.wrapperElement.classList.add(className);
+
+      const animations = list.wrapperElement.getAnimations({ subtree: true });
+
+      await Promise.all(animations.map((a) => a.finished));
+    }
+
+    return items;
+  });
+
+  const afterRenderHookCleanup = list.addHook('afterRender', (items) => {
+    const className = getAttribute(list.listElement, 'filteringclass');
+    list.wrapperElement.classList.remove(className);
+
+    const hasItems = !!items.length;
+
+    if (list.listElement) {
+      list.listElement.style.display = hasItems ? '' : 'none';
+    }
+
+    if (list.emptyElement.value) {
+      list.emptyElement.value.style.display = hasItems ? 'none' : '';
+    }
+
+    return items;
   });
 
   // Handle elements
@@ -58,7 +89,9 @@ export const initListFiltering = (list: List, forms: HTMLFormElement[]) => {
   });
 
   return () => {
-    hookCleanup();
+    filterHookCleanup();
+    beforeRenderHookCleanup();
+    afterRenderHookCleanup();
     elementsCleanup();
     tagsCleanup?.();
     filtersCleanup();

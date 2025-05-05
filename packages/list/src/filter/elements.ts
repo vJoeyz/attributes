@@ -12,17 +12,6 @@ import { getAttribute } from '../utils/selectors';
 export const handleFilterElements = (list: List) => {
   const elementsRunner = effect(() => {
     const filteredItems = list.hooks.filter.result.value;
-    const hasItems = !!filteredItems.length;
-
-    // List
-    if (list.listElement) {
-      list.listElement.style.display = hasItems ? '' : 'none';
-    }
-
-    // Empty
-    if (list.emptyElement.value) {
-      list.emptyElement.value.style.display = hasItems ? 'none' : '';
-    }
 
     // Results count
     if (list.resultsCountElement) {
