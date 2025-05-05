@@ -25,6 +25,7 @@ export const getConditionData = (formField: FormField, fieldKey: string, interac
   const type = formField.type as FormFieldType;
 
   const op = getConditionOperator(formField);
+  const id = `${fieldKey}_${op}`;
 
   const customTagField = getAttribute(formField, 'tagfield');
   const filterMatch = getAttribute(formField, 'filtermatch', { filterInvalid: true });
@@ -94,6 +95,7 @@ export const getConditionData = (formField: FormField, fieldKey: string, interac
   }
 
   return {
+    id,
     fieldKey,
     type,
     op,
@@ -243,12 +245,14 @@ export const getConditionOperator = (formField: FormField) => {
  * @returns An object with the form fields as keys and their values as values.
  * @param list A {@link List} instance.
  * @param form A {@link HTMLFormElement} element.
+ * @param groupIndex The index of the group.
  * @param interacted Indicates if the form has been interacted with.
  */
-export const getStandardFiltersGroup = (list: List, form: HTMLFormElement, interacted = false) => {
+export const getStandardFiltersGroup = (list: List, form: HTMLFormElement, groupIndex: number, interacted = false) => {
   list.readingFilters = true;
 
   const group: FiltersGroup = {
+    id: groupIndex.toString(),
     conditions: [],
     conditionsMatch: getAttribute(form, 'conditionsmatch', { filterInvalid: true }),
   };

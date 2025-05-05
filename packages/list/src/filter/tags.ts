@@ -16,6 +16,7 @@ type TagData = {
 type TagGroupData = {
   element: HTMLElement;
   renderedTags: Map<string, TagData>;
+  remove: () => void;
   cleanup: () => void;
 };
 
@@ -39,9 +40,10 @@ const OPERATOR_SYMBOLS: Record<FilterOperator, string> = {
 /**
  * Inits the tags for the list.
  * @param list
- * @returns
+ * @param isDynamic Defines if the filters are dynamic or not
+ * @returns A cleanup function
  */
-export const initTags = (list: List) => {
+export const initTags = (list: List, isDynamic: boolean) => {
   const tagTemplate = queryElement('tag', { instance: list.instance });
   if (!tagTemplate) return;
 
@@ -58,17 +60,17 @@ export const initTags = (list: List) => {
   tagGroupTemplate.remove();
   tagTemplate.remove();
 
-  const renderedTagGroups: Map<number, TagGroupData> = new Map();
+  const renderedTagGroups: Map<string, TagGroupData> = new Map();
 
   const watcherCleanup = watch(
     list.filters,
     (filters: Filters) => {
       // Render the tag groups
-      let renderedGroups = 0;
+      const newRenderedTagGroups = new Map<string, TagGroupData>();
 
-      filters.groups.forEach((group, groupIndex) => {
+      filters.groups.forEach((group) => {
         // Get the tag list, if existing
-        let tagGroupData = renderedTagGroups.get(groupIndex);
+        let tagGroupData = renderedTagGroups.get(group.id);
 
         const tagListIsRendered = !!tagGroupData;
 
@@ -76,32 +78,40 @@ export const initTags = (list: List) => {
           const element = cloneNode(tagGroupTemplate);
           const removeElement = queryElement('tag-group-remove', { scope: element });
           const removeCleanup = addListener(removeElement, 'click', () => {
-            tagGroupData?.renderedTags.forEach((tag) => tag.remove());
+            tagGroupData?.remove();
           });
 
           tagGroupData = {
             element,
             renderedTags: new Map(),
+            remove: () => {
+              tagGroupData?.renderedTags.forEach((tag) => tag.remove());
+
+              const hasGroups = filters.groups.length > 1;
+
+              if (isDynamic && hasGroups) {
+                const groupIndex = filters.groups.findIndex((g) => g.id === group.id);
+                filters.groups.splice(groupIndex, 1);
+              }
+            },
             cleanup: () => {
               removeCleanup();
               tagGroupData?.renderedTags.forEach((tag) => tag.cleanup());
               tagGroupData?.element.remove();
-              renderedTagGroups.delete(groupIndex);
+              renderedTagGroups.delete(group.id);
             },
           };
 
-          renderedTagGroups.set(groupIndex, tagGroupData);
+          renderedTagGroups.set(group.id, tagGroupData);
         }
 
         // Render the tags
-        let renderedTags = 0;
+        const newRenderedTags = new Map<string, TagData>();
 
         const shouldRender = group.conditions
-          .map((condition, conditionIndex) => {
+          .map((condition) => {
             // Get the tag, if existing
-            const tagKey = `${condition.fieldKey}_${condition.op}`;
-
-            let tagData = tagGroupData.renderedTags.get(tagKey);
+            let tagData = tagGroupData.renderedTags.get(condition.id);
 
             const tagIsRendered = !!tagData;
 
@@ -124,47 +134,66 @@ export const initTags = (list: List) => {
               tagData = {
                 element,
                 remove: () => {
-                  filters.groups[groupIndex].conditions[conditionIndex].value = Array.isArray(condition.value)
-                    ? []
-                    : '';
+                  const hasConditions = group.conditions.length > 1;
+                  const conditionIndex = group.conditions.findIndex((c) => c.id === condition.id);
+
+                  if (isDynamic && hasConditions) {
+                    group.conditions.splice(conditionIndex, 1);
+                  } else {
+                    group.conditions[conditionIndex].value = Array.isArray(condition.value) ? [] : '';
+                  }
                 },
                 cleanup: () => {
                   removeCleanup();
                   tagData?.element.remove();
-                  tagGroupData.renderedTags.delete(tagKey);
+                  tagGroupData.renderedTags.delete(condition.id);
                 },
               };
 
-              tagGroupData.renderedTags.set(tagKey, tagData);
+              tagGroupData.renderedTags.set(condition.id, tagData);
             }
 
             populateTag(condition, tagData);
 
             if (!tagIsRendered) {
-              const anchor = tagGroupData.element.children[indexOfTagTemplate + renderedTags] || null;
+              const anchor = tagGroupData.element.children[indexOfTagTemplate + newRenderedTags.size] || null;
 
               tagGroupData.element.insertBefore(tagData.element, anchor);
             }
 
-            renderedTags += 1;
+            newRenderedTags.set(condition.id, tagData);
 
             return true;
           })
           .some(Boolean);
 
+        // Remove the tags that are not rendered anymore
+        for (const [id, tagData] of tagGroupData.renderedTags) {
+          if (!newRenderedTags.has(id)) {
+            tagData.cleanup();
+          }
+        }
+
         if (!shouldRender) {
-          tagGroupData?.cleanup();
+          tagGroupData.cleanup();
           return;
         }
 
         if (!tagListIsRendered) {
-          const anchor = tagsListsWrapper.children[indexOfTagGroupTemplate + renderedGroups] || null;
+          const anchor = tagsListsWrapper.children[indexOfTagGroupTemplate + newRenderedTagGroups.size] || null;
 
           tagsListsWrapper.insertBefore(tagGroupData.element, anchor);
         }
 
-        renderedGroups += 1;
+        newRenderedTagGroups.set(group.id, tagGroupData);
       });
+
+      // Remove the tag groups that are not rendered anymore
+      for (const [id, tagGroupData] of renderedTagGroups) {
+        if (!newRenderedTagGroups.has(id)) {
+          tagGroupData.cleanup();
+        }
+      }
     },
     { deep: true }
   );

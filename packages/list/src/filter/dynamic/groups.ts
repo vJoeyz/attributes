@@ -1,17 +1,15 @@
 import { addListener, cloneNode } from '@finsweet/attributes-utils';
-import { computed, type ComputedRef, effect, type ShallowRef, shallowRef } from '@vue/reactivity';
-import { dset } from 'dset';
+import { computed, type ComputedRef, effect, type ShallowRef, shallowRef, watch } from '@vue/reactivity';
 
 import type { List } from '../../components';
 import { getAttribute, queryElement } from '../../utils/selectors';
-import type { FilterMatch, FiltersGroup } from '../types';
+import type { FilterMatch } from '../types';
 import { type Condition, initCondition, initConditionAdd, initConditionsMatch } from './conditions';
 import { getFilterMatchValue } from './utils';
 
 export type ConditionGroup = {
+  id: string;
   element: HTMLElement;
-  index: ComputedRef<number>;
-  path: ComputedRef<string>;
   conditions: ShallowRef<Condition[]>;
   cleanup: () => void;
 };
@@ -116,6 +114,15 @@ const initConditionGroupRemove = (
 };
 
 /**
+ * @returns The condition group with the given ID, or undefined if not found.
+ * @param list
+ * @param conditionGroup
+ */
+export const getFiltersGroup = (list: List, conditionGroup: ConditionGroup) => {
+  return list.filters.value.groups.find((group) => group.id === conditionGroup.id);
+};
+
+/**
  * Inits a condition group for a dynamic filters setup.
  * @param list
  * @param element
@@ -133,12 +140,13 @@ export const initConditionGroup = (
   const conditionTemplate = cloneNode(conditionElement);
 
   // Store the condition group
+  const id = crypto.randomUUID();
   const cleanups = new Set<() => void>();
+
   const conditionGroup: ConditionGroup = {
+    id,
     element,
     conditions: shallowRef<Condition[]>([]),
-    index: computed(() => conditionGroups.value.indexOf(conditionGroup)),
-    path: computed(() => `groups.${conditionGroup.index.value}`),
 
     cleanup: () => {
       for (const condition of conditionGroup.conditions.value) {
@@ -152,16 +160,14 @@ export const initConditionGroup = (
       cleanups.clear();
       element.remove();
 
-      const $conditionIndex = conditionGroup.index.value;
+      conditionGroups.value = conditionGroups.value.filter((group) => group.id !== id);
 
-      conditionGroups.value.splice($conditionIndex, 1);
-      conditionGroups.value = [...conditionGroups.value];
+      const conditionGroupIndex = list.filters.value.groups.findIndex((group) => group.id === id);
+      if (conditionGroupIndex === -1) return;
 
-      list.filters.value.groups.splice($conditionIndex, 1);
+      list.filters.value.groups.splice(conditionGroupIndex, 1);
     },
   };
-
-  conditionGroups.value = [...conditionGroups.value, conditionGroup];
 
   // Handle condition matching
   let conditionsMatch: FilterMatch = 'and';
@@ -173,6 +179,15 @@ export const initConditionGroup = (
     const cleanup = initConditionsMatch(list, conditionsMatchSelect, conditionGroup);
     cleanups.add(cleanup);
   }
+
+  // Store the group
+  conditionGroups.value = [...conditionGroups.value, conditionGroup];
+
+  list.filters.value.groups.push({
+    id,
+    conditionsMatch,
+    conditions: [],
+  });
 
   // Handle adding conditions to the group
   const conditionAddButton = queryElement('condition-add', { scope: element });
@@ -188,14 +203,19 @@ export const initConditionGroup = (
     cleanups.add(cleanup);
   }
 
-  // Add the condition group to the filters
-  dset(list.filters.value, conditionGroup.path.value, {
-    conditionsMatch,
-    conditions: [],
-  } satisfies FiltersGroup);
-
   // Init default condition
   initCondition(list, conditionElement, conditionGroup);
+
+  const autoCleanup = watch(
+    () => getFiltersGroup(list, conditionGroup),
+    (filtersGroup) => {
+      if (!filtersGroup) {
+        conditionGroup.cleanup();
+      }
+    }
+  );
+
+  cleanups.add(autoCleanup);
 
   return conditionGroup;
 };
