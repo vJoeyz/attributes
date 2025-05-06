@@ -58,6 +58,11 @@ export class ListItem {
   public readonly href?: string;
 
   /**
+   * Defines the class to apply when highlighting matched fields.
+   */
+  public readonly highlightClass: string;
+
+  /**
    * The item's properties.
    * Defined by {@link ListItemFields}.
    */
@@ -100,6 +105,7 @@ export class ListItem {
     }
 
     this.href = link?.href;
+    this.highlightClass = getAttribute(element, 'highlightclass');
 
     this.collectFields();
   }
@@ -186,7 +192,7 @@ export class ListItem {
 
         const regex = new RegExp(match.filterValue, 'gi');
 
-        element.innerHTML = originalHTML.replace(regex, `<span class="${this.list.highlightClass}">$&</span>`);
+        element.innerHTML = originalHTML.replace(regex, `<span class="${this.highlightClass}">$&</span>`);
       }
     }
   }

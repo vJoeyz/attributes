@@ -612,9 +612,18 @@ export const SETTINGS = {
    * Defines the CSS class to be added to the list when sorting.
    */
   sortingclass: { key: 'sortingclass', defaultValue: `is-${LIST_ATTRIBUTE}-sorting` },
-} as const satisfies AttributeSettings;
 
-export const RENDER_INDEX_CSS_VARIABLE = `--fs-${LIST_ATTRIBUTE}-renderindex`;
+  /**
+   * Defines the CSS class to be added to items before rendering them.
+   */
+  startingclass: { key: 'startingclass', defaultValue: `is-${LIST_ATTRIBUTE}-starting` },
+
+  /**
+   * Defines a stagger delay for the items when filtering.
+   * If applied, the items will receive a `transition-delay` CSS property.
+   */
+  stagger: { key: 'stagger', isNumeric: true },
+} as const satisfies AttributeSettings;
 
 export const BREAKPOINTS_INDEX: { [key in WebflowBreakpoint]: number } = {
   main: 0,
@@ -698,3 +707,12 @@ export const ALLOWED_DYNAMIC_FIELD_TYPES: Record<
     },
   },
 };
+
+export const RENDER_INDEX_CSS_VARIABLE = `--fs-${LIST_ATTRIBUTE}-renderindex`;
+
+window.CSS.registerProperty({
+  name: RENDER_INDEX_CSS_VARIABLE,
+  syntax: '<number>',
+  inherits: false,
+  initialValue: '0',
+});

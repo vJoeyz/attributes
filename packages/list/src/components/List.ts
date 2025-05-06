@@ -7,7 +7,6 @@ import {
   fetchPageDocument,
   getObjectEntries,
   isNumber,
-  LIST_ATTRIBUTE,
   type PageCountElement,
   type PaginationButtonElement,
   type PaginationWrapperElement,
@@ -282,11 +281,6 @@ export class List {
   public readonly highlight?: boolean;
 
   /**
-   * Defines the class to apply when highlighting matched fields.
-   */
-  public readonly highlightClass: string;
-
-  /**
    * Defines if loaded Items can be cached using IndexedDB after fetching them.
    */
   public readonly cache: boolean;
@@ -377,7 +371,6 @@ export class List {
     this.cache = getAttribute(this.listOrWrapper, 'cache') === 'true';
     this.showQuery = getAttribute(this.listOrWrapper, 'showquery') === 'true';
     this.highlight = getAttribute(this.listOrWrapper, 'highlight') === 'true';
-    this.highlightClass = getAttribute(this.listOrWrapper, 'highlightclass');
 
     // Get pagination next elements
     const paginationNextElement = getCollectionElements(wrapperElement, 'pagination-next');
@@ -438,14 +431,24 @@ export class List {
   #initHooks() {
     // Add render hook
     this.addHook('render', async (items) => {
+      let startingClass: string;
+      let stagger: number | undefined;
       let renderIndex = 0;
 
-      await Promise.all(
+      const renderPromise = Promise.all(
         items.map(async (item, index) => {
+          startingClass ||= getAttribute(item.element, 'startingclass');
+          stagger ||= getAttribute(item.element, 'stagger');
+
           const previousItem = items[index - 1];
 
-          const render = () => {
+          const render = async () => {
             item.element.style.setProperty(RENDER_INDEX_CSS_VARIABLE, `${renderIndex}`);
+            item.element.classList.add(startingClass);
+
+            if (stagger) {
+              item.element.style.transitionDelay = `${renderIndex * stagger}ms`;
+            }
 
             if (previousItem) {
               previousItem.element.after(item.element);
@@ -456,9 +459,19 @@ export class List {
             item.currentIndex = index;
             renderIndex += 1;
 
+            await new Promise((resolve) => requestAnimationFrame(resolve));
+
+            item.element.classList.remove(startingClass);
+
             const animations = item.element.getAnimations({ subtree: true });
 
-            return Promise.all(animations.map((a) => a.finished));
+            return Promise.all(animations.map((a) => a.finished)).then(() => {
+              item.element.style.removeProperty(RENDER_INDEX_CSS_VARIABLE);
+
+              if (stagger) {
+                item.element.style.transitionDelay = '';
+              }
+            });
           };
 
           // Is rendered
@@ -474,8 +487,6 @@ export class List {
           else {
             await render();
           }
-
-          item.element.style.removeProperty(RENDER_INDEX_CSS_VARIABLE);
         })
       );
 
@@ -486,6 +497,8 @@ export class List {
       });
 
       this.renderedItems = new Set(items);
+
+      await renderPromise;
 
       return items;
     });
