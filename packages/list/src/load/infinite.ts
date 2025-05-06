@@ -36,11 +36,11 @@ export const initInfiniteMode = (list: List) => {
     const validRange = thresholdCoefficient * innerHeight;
     const shouldLoad = bottom > 0 && bottom <= validRange;
 
-    if (shouldLoad) {
+    if (shouldLoad && list.itemsPerPage.value < list.items.value.length) {
       list.itemsPerPage.value += list.initialItemsPerPage;
       list.triggerHook('pagination');
     }
-  }, 100);
+  }, 10);
 
   const observer = new IntersectionObserver((entries) => {
     for (const { isIntersecting } of entries) {
