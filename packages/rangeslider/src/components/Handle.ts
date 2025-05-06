@@ -208,7 +208,7 @@ export class Handle {
 
     if (!inputElement) return;
 
-    setFormFieldValue(inputElement, `${Number(currentValue?.toFixed(2))}`);
+    setFormFieldValue(inputElement, currentValue.toFixed(2));
 
     this.updatingInput = false;
   }
@@ -226,14 +226,14 @@ export class Handle {
   public setConstraints(minValue: number, maxValue: number): void {
     const { element } = this;
 
-    const minValFixed = Number(minValue.toFixed(2));
-    const maxValFixed = Number(maxValue.toFixed(2));
+    const minValFixed = minValue.toFixed(2);
+    const maxValFixed = maxValue.toFixed(2);
 
-    element.setAttribute(ARIA_VALUEMIN_KEY, `${minValFixed}`);
-    element.setAttribute(ARIA_VALUEMAX_KEY, `${maxValFixed}`);
+    element.setAttribute(ARIA_VALUEMIN_KEY, minValFixed);
+    element.setAttribute(ARIA_VALUEMAX_KEY, maxValFixed);
 
-    this.minValue = minValFixed;
-    this.maxValue = maxValFixed;
+    this.minValue = Number(minValFixed);
+    this.maxValue = Number(maxValFixed);
   }
 
   /**
