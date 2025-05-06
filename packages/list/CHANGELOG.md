@@ -1,5 +1,11 @@
 # @finsweet/attributes-list
 
+## 1.2.3
+
+### Patch Changes
+
+- 76a962f: fix: only highlight text nodes
+
 ## 1.2.2
 
 ### Patch Changes
