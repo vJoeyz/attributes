@@ -17,12 +17,12 @@ import { computed, effect, type Ref, ref, type ShallowRef, shallowRef, watch } f
 
 import type { AllFieldsData, Filters } from '../filter/types';
 import type { Sorting } from '../sort/types';
+import { RENDER_INDEX_CSS_VARIABLE } from '../utils/constants';
 import { getAllCollectionListWrappers, getCMSElementSelector, getCollectionElements } from '../utils/dom';
 import { getPaginationSearchEntries } from '../utils/pagination';
 import { getAttribute, getInstance, queryAllElements, queryElement } from '../utils/selectors';
 import { listInstancesStore } from '../utils/store';
 import { ListItem } from './ListItem';
-import { RENDER_INDEX_CSS_VARIABLE } from '../utils/constants';
 
 type HookKey = 'filter' | 'sort' | 'pagination' | 'beforeRender' | 'render' | 'afterRender';
 type HookCallback = (items: ListItem[]) => ListItem[] | Promise<ListItem[]> | void | Promise<void>;
@@ -436,7 +436,7 @@ export class List {
       let renderIndex = 0;
 
       const renderPromise = Promise.all(
-        items.map(async (item, index) => {
+        items.map((item, index) => {
           startingClass ||= getAttribute(item.element, 'startingclass');
           stagger ||= getAttribute(item.element, 'stagger');
 
@@ -459,7 +459,7 @@ export class List {
             item.currentIndex = index;
             renderIndex += 1;
 
-            await new Promise((resolve) => requestAnimationFrame(resolve));
+            await new Promise(requestAnimationFrame);
 
             item.element.classList.remove(startingClass);
 
@@ -476,16 +476,16 @@ export class List {
 
           // Is rendered
           if (isNumber(item.currentIndex)) {
-            if (item.currentIndex !== index) {
-              await render();
-            }
-
             this.renderedItems.delete(item);
+
+            if (item.currentIndex !== index) {
+              return render();
+            }
           }
 
           // Is not rendered
           else {
-            await render();
+            return render();
           }
         })
       );
