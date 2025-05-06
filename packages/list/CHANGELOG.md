@@ -1,5 +1,11 @@
 # @finsweet/attributes-list
 
+## 1.2.4
+
+### Patch Changes
+
+- 87fef70: fix: resetix
+
 ## 1.2.3
 
 ### Patch Changes
