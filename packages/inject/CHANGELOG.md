@@ -1,5 +1,13 @@
 # @finsweet/attributes-inject
 
+## 2.1.1
+
+### Patch Changes
+
+- c7b544d: chore: updated dependencies
+- Updated dependencies [c7b544d]
+  - @finsweet/attributes-utils@0.0.2
+
 ## 2.1.0
 
 ### Minor Changes
