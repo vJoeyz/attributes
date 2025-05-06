@@ -1,5 +1,12 @@
 # @finsweet/attributes-list
 
+## 1.2.6
+
+### Patch Changes
+
+- 58529b7: fix: make infinite loading more responsive
+- ed6876f: fix: update page count in more/infinite modes
+
 ## 1.2.5
 
 ### Patch Changes
