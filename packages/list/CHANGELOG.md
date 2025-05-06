@@ -1,5 +1,12 @@
 # @finsweet/attributes-list
 
+## 1.2.5
+
+### Patch Changes
+
+- 216237e: fix: fall back fs-list-loadcount source to the list element
+- b84f8cd: fix: support `fs-list-element="clear"` in dynamic mode
+
 ## 1.2.4
 
 ### Patch Changes
