@@ -1,6 +1,6 @@
 {
   "name": "@finsweet/attributes-modal",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Create accessible modal popups easily on Webflow.",
   "private": true,
   "type": "module",

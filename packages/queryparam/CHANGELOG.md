@@ -1,5 +1,13 @@
 # @finsweet/attributes-queryparam
 
+## 1.2.4
+
+### Patch Changes
+
+- d21cbca: refactor: unify form field value getters and setters
+- Updated dependencies [d21cbca]
+  - @finsweet/attributes-utils@0.0.3
+
 ## 1.2.3
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @finsweet/attributes-displayvalues
 
+## 2.0.3
+
+### Patch Changes
+
+- d21cbca: refactor: unify form field value getters and setters
+- Updated dependencies [d21cbca]
+  - @finsweet/attributes-utils@0.0.3
+
 ## 2.0.2
 
 ### Patch Changes
