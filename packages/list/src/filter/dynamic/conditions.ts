@@ -6,6 +6,7 @@ import {
   type FormFieldType,
   isFormField,
   isHTMLSelectElement,
+  setFormFieldValue,
   simulateEvent,
 } from '@finsweet/attributes-utils';
 import { effect, watch } from '@vue/reactivity';
@@ -13,7 +14,13 @@ import debounce from 'just-debounce';
 
 import type { List } from '../../components';
 import { ALLOWED_DYNAMIC_FIELD_TYPES, SETTINGS } from '../../utils/constants';
-import { getAttribute, getElementSelector, queryAllElements, queryElement } from '../../utils/selectors';
+import {
+  CUSTOM_VALUE_ATTRIBUTE,
+  getAttribute,
+  getElementSelector,
+  queryAllElements,
+  queryElement,
+} from '../../utils/selectors';
 import type { AllFieldsData, FilterOperator, FiltersCondition } from '../types';
 import { type ConditionGroup, getFiltersGroup } from './groups';
 import { getFilterMatchValue, parseOperatorValue } from './utils';
@@ -343,10 +350,13 @@ const initConditionValueField = (
   let activeFormFieldType: FormFieldType | undefined;
 
   const changeHandler = () => {
+    if (list.settingFilters) return;
     if (!activeFormFieldType) return;
 
     const filtersCondition = getFiltersCondition(list, condition);
     if (!filtersCondition) return;
+
+    list.readingFilters = true;
 
     const activeFormField = allConditionFormFields.get(activeFormFieldType)!;
 
@@ -358,6 +368,8 @@ const initConditionValueField = (
       fuzzyThreshold,
       type: activeFormFieldType,
     });
+
+    list.readingFilters = false;
   };
 
   const changeCleanups = [...allConditionFormFields].map(([, formField]) => {
@@ -455,6 +467,17 @@ const initConditionValueField = (
     { immediate: true }
   );
 
+  const twoWayBindingCleanup = watch(
+    () => getFiltersCondition(list, condition)?.value,
+    (value) => {
+      if (list.readingFilters) return;
+
+      for (const formField of allConditionFormFields.values()) {
+        setFormFieldValue(formField, value, CUSTOM_VALUE_ATTRIBUTE);
+      }
+    }
+  );
+
   return () => {
     for (const cleanup of changeCleanups) {
       cleanup();
@@ -462,6 +485,7 @@ const initConditionValueField = (
 
     formFieldsCleanup();
     optionsCleanup();
+    twoWayBindingCleanup();
   };
 };
 

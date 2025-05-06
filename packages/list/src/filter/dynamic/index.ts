@@ -101,6 +101,8 @@ const handleClearButtons = (list: List) => {
     const clearElement = target?.closest(clearElementSelector);
     if (!clearElement) return;
 
+    list.settingFilters = true;
+
     // Remove all groups and conditions except the first one
     filters.value.groups.splice(1);
 
@@ -113,5 +115,7 @@ const handleClearButtons = (list: List) => {
     if (!firstCondition) return;
 
     firstCondition.value = Array.isArray(firstCondition.value) ? [] : '';
+
+    list.settingFilters = false;
   });
 };
