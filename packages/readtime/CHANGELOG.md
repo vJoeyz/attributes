@@ -1,5 +1,13 @@
 # @finsweet/attributes-readtime
 
+## 1.2.5
+
+### Patch Changes
+
+- c7b544d: chore: updated dependencies
+- Updated dependencies [c7b544d]
+  - @finsweet/attributes-utils@0.0.2
+
 ## 1.2.4
 
 ### Patch Changes

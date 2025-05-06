@@ -1,5 +1,13 @@
 # @finsweet/attributes-scrolldisable
 
+## 1.6.4
+
+### Patch Changes
+
+- c7b544d: chore: updated dependencies
+- Updated dependencies [c7b544d]
+  - @finsweet/attributes-utils@0.0.2
+
 ## 1.6.3
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @finsweet/attributes-smartlightbox
 
+## 1.7.2
+
+### Patch Changes
+
+- c7b544d: chore: updated dependencies
+- Updated dependencies [c7b544d]
+  - @finsweet/attributes-utils@0.0.2
+
 ## 1.7.1
 
 ### Patch Changes

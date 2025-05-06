@@ -1,5 +1,11 @@
 # @finsweet/attributes-utils
 
+## 0.0.2
+
+### Patch Changes
+
+- c7b544d: chore: updated dependencies
+
 ## 0.0.1
 
 ### Patch Changes
