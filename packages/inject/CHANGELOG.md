@@ -1,5 +1,11 @@
 # @finsweet/attributes-inject
 
+## 2.1.2
+
+### Patch Changes
+
+- 87fef70: fix: resetix
+
 ## 2.1.1
 
 ### Patch Changes
