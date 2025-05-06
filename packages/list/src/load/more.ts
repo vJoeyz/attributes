@@ -26,7 +26,7 @@ export const initMoreMode = (list: List) => {
 
     e.preventDefault();
 
-    const rawLoadCount = getAttribute(e.target, 'loadcount');
+    const rawLoadCount = getAttribute(e.target, 'loadcount') || getAttribute(list.listOrWrapper, 'loadcount');
 
     if (rawLoadCount === 'all') {
       cleanupLoadRemaingWatcher ||= watch(
