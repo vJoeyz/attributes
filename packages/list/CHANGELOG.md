@@ -1,5 +1,11 @@
 # @finsweet/attributes-list
 
+## 1.2.1
+
+### Patch Changes
+
+- 43ffe73: fix: removal of items
+
 ## 1.2.0
 
 ### Minor Changes
