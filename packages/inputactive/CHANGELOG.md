@@ -1,5 +1,12 @@
 # @finsweet/attributes-inputactive
 
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies [d21cbca]
+  - @finsweet/attributes-utils@0.0.3
+
 ## 1.0.2
 
 ### Patch Changes

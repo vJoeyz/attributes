@@ -1,5 +1,14 @@
 # @finsweet/attributes-list
 
+## 1.2.7
+
+### Patch Changes
+
+- 1c2900f: fix: support 2 way binding for dynamic filter values
+- d21cbca: refactor: unify form field value getters and setters
+- Updated dependencies [d21cbca]
+  - @finsweet/attributes-utils@0.0.3
+
 ## 1.2.6
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @finsweet/attributes-utils
 
+## 0.0.3
+
+### Patch Changes
+
+- d21cbca: refactor: unify form field value getters and setters
+
 ## 0.0.2
 
 ### Patch Changes
