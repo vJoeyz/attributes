@@ -1,5 +1,15 @@
 # @finsweet/attributes-list
 
+## 1.2.0
+
+### Minor Changes
+
+- 205c30b: feat: list animations
+
+### Patch Changes
+
+- f349526: chore: finalize animations
+
 ## 1.1.0
 
 ### Minor Changes
