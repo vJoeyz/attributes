@@ -25,7 +25,7 @@ export function queryParamFactory(elements: HTMLElement[], value: string) {
       const form = radio.closest('form');
 
       if (form) {
-        const groupRadios = getRadioGroupInputs(radio, form);
+        const groupRadios = getRadioGroupInputs(radio);
         const targetRadio = groupRadios.find((radio) => radio.value === value);
 
         if (targetRadio) {

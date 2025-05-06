@@ -1,72 +1,86 @@
 import { FORM_CSS_CLASSES } from '../constants';
-import type { FormField } from '../types';
+import type { FormField, FormFieldType } from '../types';
 import { simulateEvent } from './events';
-import { isHTMLInputElement } from './guards';
+import { isBoolean, isHTMLInputElement, isHTMLSelectElement, isNotEmpty } from './guards';
 
 /**
- * Clears the form field's value and emits an input and changed event.
- * If the field is a checkbox or a radio, it will unselect it.
- * @param field The `FormField` to clear.
- * @param omitEvents By default, events are dispatched from the `FormField`. In some cases, these events might collide with other logic of the system.
- * You can omit certain events from being dispatched by passing them in an array.
+ * Gets the value of a given form field.
+ * @param formField A {@link FormField} element.
+ * @param customValueAttribute Optional custom value attribute used to identify checkboxes and radios.
  */
-export const clearFormField = (field: FormField, omitEvents: Parameters<typeof simulateEvent>['1'] = []): void => {
-  const { type } = field;
+export const getFormFieldValue = (formField: FormField, customValueAttribute?: string): string | string[] => {
+  const type = formField.type as FormFieldType;
 
-  if (isHTMLInputElement(field) && ['checkbox', 'radio'].includes(type)) {
-    if (!field.checked) return;
+  let value: string | string[];
 
-    // Reset the field's value
-    field.checked = false;
+  switch (type) {
+    // Checkbox
+    case 'checkbox': {
+      // Group
+      const groupCheckboxes = getCheckboxGroup(formField.name, formField.form, customValueAttribute);
+      if (groupCheckboxes?.length) {
+        value = [];
 
-    // Emit DOM events
-    simulateEvent(
-      field,
-      (['click', 'input', 'change'] as const).filter((event) => !omitEvents.includes(event))
-    );
+        for (const checkbox of groupCheckboxes) {
+          const checkboxValue = customValueAttribute
+            ? (checkbox.getAttribute(customValueAttribute) ?? checkbox.value)
+            : checkbox.value;
 
-    if (type === 'checkbox') return;
+          if (!checkboxValue || !checkbox.checked) continue;
 
-    // Clear custom radio button classes
-    const { parentElement } = field;
-    if (!parentElement) return;
+          value.push(checkboxValue);
+        }
 
-    const radioInput = parentElement.querySelector(`.${FORM_CSS_CLASSES.radioInput}`);
-    if (!radioInput) return;
+        break;
+      }
 
-    radioInput.classList.remove(FORM_CSS_CLASSES.checkboxOrRadioFocus, FORM_CSS_CLASSES.checkboxOrRadioChecked);
+      // Single
+      const { checked } = formField as HTMLInputElement;
+      value = checked ? 'true' : '';
 
-    return;
+      break;
+    }
+
+    // Radio
+    case 'radio': {
+      const checkedRadio = formField.form?.querySelector<HTMLInputElement>(
+        `input[name="${formField.name}"][type="radio"]:checked`
+      );
+
+      value = checkedRadio
+        ? customValueAttribute
+          ? (checkedRadio.getAttribute(customValueAttribute) ?? checkedRadio.value)
+          : checkedRadio.value
+        : '';
+
+      break;
+    }
+
+    // Select multiple
+    case 'select-multiple': {
+      value = [...(formField as HTMLSelectElement).selectedOptions].map((option) => option.value).filter(Boolean);
+
+      break;
+    }
+
+    // Dates
+    case 'date':
+    case 'month':
+    case 'week':
+    case 'time': {
+      const { valueAsDate, value: _value } = formField as HTMLInputElement;
+      value = valueAsDate ? valueAsDate.toISOString() : _value;
+
+      break;
+    }
+
+    // Default - Text
+    default: {
+      value = formField.value;
+    }
   }
 
-  // Reset the field's value
-  field.value = '';
-
-  // Emit DOM events
-  simulateEvent(
-    field,
-    (['input', 'change'] as const).filter((eventKey) => !omitEvents.includes(eventKey))
-  );
-};
-
-/**
- * Gets the value of a given input element.
- * @param {FormField} input
- */
-export const getFormFieldValue = (input: FormField): string => {
-  let { value } = input;
-
-  // Perform actions depending on input type
-  if (input.type === 'checkbox') value = (<HTMLInputElement>input).checked.toString();
-  if (input.type === 'radio') {
-    // Get the checked radio
-    const checkedOption = input.closest('form')?.querySelector(`input[name="${input.name}"]:checked`);
-
-    // If exists, set its value
-    value = isHTMLInputElement(checkedOption) ? checkedOption.value : '';
-  }
-
-  return value.toString();
+  return value;
 };
 
 /**
@@ -75,31 +89,110 @@ export const getFormFieldValue = (input: FormField): string => {
  * @param element The FormField to update.
  * @param value `boolean` for Checkboxes and Radios, `string` for the rest.
  */
-export const setFormFieldValue = (element: FormField, value: string | boolean): void => {
-  const { type } = element;
+export const setFormFieldValue = (
+  formField: FormField,
+  value: string | boolean | string[],
+  customValueAttribute?: string
+): void => {
+  const type = formField.type as FormFieldType;
 
-  const isRadio = type === 'radio';
-  const isCheckbox = type === 'checkbox';
+  switch (type) {
+    // Checkboxes
+    case 'checkbox': {
+      if (!isHTMLInputElement(formField)) break;
 
-  if (isRadio || isCheckbox) {
-    if (
-      !isHTMLInputElement(element) ||
-      typeof value !== 'boolean' ||
-      value === element.checked ||
-      (isRadio && value === false)
-    ) {
-      return;
+      // Single checkbox
+      if (!Array.isArray(value)) {
+        const check = isBoolean(value) ? value : value === 'true';
+
+        if (check !== formField.checked) {
+          formField.checked = check;
+
+          simulateEvent(formField, ['click', 'input', 'change']);
+        }
+
+        break;
+      }
+
+      const groupCheckboxes = getCheckboxGroup(formField.name, formField.form);
+      if (!groupCheckboxes?.length) break;
+
+      for (const checkbox of groupCheckboxes) {
+        const checkboxValue = customValueAttribute
+          ? (checkbox.getAttribute(customValueAttribute) ?? checkbox.value)
+          : checkbox.value;
+
+        const check = value.includes(checkboxValue);
+
+        if (check !== checkbox.checked) {
+          checkbox.checked = check;
+
+          simulateEvent(checkbox, ['click', 'input', 'change']);
+        }
+      }
+
+      break;
     }
 
-    element.checked = value;
-  } else {
-    if (element.value === value) return;
+    // Radios
+    case 'radio': {
+      if (Array.isArray(value)) break;
 
-    element.value = value.toString();
+      const groupRadios = getRadioGroupInputs(formField);
+
+      for (const radio of groupRadios) {
+        const radioValue = customValueAttribute
+          ? (radio.getAttribute(customValueAttribute) ?? radio.value)
+          : radio.value;
+
+        const check = radioValue === value;
+
+        if (check !== radio.checked) {
+          radio.checked = check;
+
+          simulateEvent(radio, ['click', 'input', 'change']);
+
+          if (check) continue;
+
+          // When unchecking a custom Webflow radio, we need to manually remove the focus and checked classes
+          const customRadio = radio.parentElement?.querySelector(`.${FORM_CSS_CLASSES.radioInput}`);
+          if (!customRadio) continue;
+
+          customRadio.classList.remove(FORM_CSS_CLASSES.checkboxOrRadioFocus, FORM_CSS_CLASSES.checkboxOrRadioChecked);
+        }
+      }
+
+      break;
+    }
+
+    // Select-multiple
+    case 'select-multiple': {
+      if (!Array.isArray(value) || !isHTMLSelectElement(formField)) break;
+
+      for (const option of formField.options) {
+        const select = value.includes(option.value);
+
+        if (select !== option.selected) {
+          option.selected = select;
+
+          simulateEvent(option, ['input', 'change']);
+        }
+      }
+
+      break;
+    }
+
+    // Other
+    default: {
+      if (Array.isArray(value)) break;
+
+      if (formField.value !== value) {
+        formField.value = value.toString();
+
+        simulateEvent(formField, ['input', 'change']);
+      }
+    }
   }
-
-  // Emit DOM events
-  simulateEvent(element, ['click', 'input', 'change']);
 };
 
 /**
@@ -108,12 +201,28 @@ export const setFormFieldValue = (element: FormField, value: string | boolean): 
  * @param form The form element that contains the radio inputs. If not provided, it will be inferred from the radio input.
  * @returns An array of radio inputs.
  */
-export const getRadioGroupInputs = (radio: FormField, form?: HTMLFormElement | null): HTMLInputElement[] => {
-  form ||= radio.form;
+export const getRadioGroupInputs = (radio: FormField): HTMLInputElement[] => {
+  if (!radio.form) return [];
 
-  if (!form) return [];
+  return [...radio.form.querySelectorAll<HTMLInputElement>(`input[name="${radio.name}"][type="${radio.type}"]`)];
+};
 
-  return [...form.querySelectorAll<HTMLInputElement>(`input[name="${radio.name}"][type="${radio.type}"]`)];
+/**
+ * @returns All the checkboxes in a group.
+ * @param name The name of the group.
+ * @param form The form element containing the group.
+ * @param customValueAttribute Optional custom value attribute used to identify checkboxes.
+ */
+export const getCheckboxGroup = (name: string, form: HTMLFormElement | null, customValueAttribute?: string) => {
+  const groupSelector = [
+    `input[name="${name}"][type="checkbox"][value]`,
+    customValueAttribute && `input[name="${name}"][type="checkbox"][${customValueAttribute}]`,
+  ]
+    .filter(isNotEmpty)
+    .join(',');
+
+  const groupCheckboxes = form?.querySelectorAll<HTMLInputElement>(groupSelector);
+  return groupCheckboxes;
 };
 
 /**

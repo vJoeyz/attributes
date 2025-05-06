@@ -10,7 +10,7 @@ import {
 } from '@finsweet/attributes-utils';
 
 import type { ELEMENTS } from './constants';
-import { getElementSelector, getSettingSelector } from './selectors';
+import { getElementSelector } from './selectors';
 
 export const CMS_CSS_SELECTORS = {
   wrapper: `.${CMS_CSS_CLASSES.wrapper}`,
@@ -106,18 +106,3 @@ export function getCollectionElements(
 export const getAllCollectionListWrappers = (page: Document = document) => [
   ...page.querySelectorAll<CollectionListWrapperElement>(getCMSElementSelector('wrapper')),
 ];
-
-/**
- * @returns All the checkboxes in a group.
- * @param name The name of the group.
- * @param form The form element containing the group.
- */
-export const getCheckboxGroup = (name: string, form: HTMLFormElement | null) => {
-  const groupSelector = [
-    `input[name="${name}"][type="checkbox"][value]`,
-    `input[name="${name}"][type="checkbox"]${getSettingSelector('value')}`,
-  ].join(',');
-
-  const groupCheckboxes = form?.querySelectorAll<HTMLInputElement>(groupSelector);
-  return groupCheckboxes;
-};

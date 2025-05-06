@@ -18,6 +18,6 @@ export const syncValue = (sourceElement: FormField) => {
 
     const displayValue = sourceValue ? sourceValue : placeholderValue;
 
-    displayTarget.textContent = displayValue;
+    displayTarget.textContent = displayValue?.toString() || '';
   }
 };

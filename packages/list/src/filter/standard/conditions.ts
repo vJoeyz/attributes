@@ -1,17 +1,13 @@
 import {
-  FORM_CSS_CLASSES,
   type FormField,
   type FormFieldType,
-  getRadioGroupInputs,
+  getFormFieldValue,
   isFormField,
-  isHTMLInputElement,
-  isHTMLSelectElement,
-  simulateEvent,
+  setFormFieldValue,
 } from '@finsweet/attributes-utils';
 
 import type { List } from '../../components/List';
-import { getCheckboxGroup } from '../../utils/dom';
-import { getAttribute, getSettingSelector } from '../../utils/selectors';
+import { CUSTOM_VALUE_ATTRIBUTE, getAttribute, getSettingSelector } from '../../utils/selectors';
 import { setActiveClass } from '../elements';
 import type { FiltersCondition, FiltersGroup } from '../types';
 
@@ -32,67 +28,7 @@ export const getConditionData = (formField: FormField, fieldKey: string, interac
   const fieldMatch = getAttribute(formField, 'fieldmatch', { filterInvalid: true });
   const fuzzyThreshold = getAttribute(formField, 'fuzzy');
 
-  let value: string | string[];
-
-  switch (type) {
-    // Checkbox
-    case 'checkbox': {
-      // Group
-      const groupCheckboxes = getCheckboxGroup(formField.name, formField.form);
-      if (groupCheckboxes?.length) {
-        value = [];
-
-        for (const checkbox of groupCheckboxes) {
-          const checkboxValue = getAttribute(checkbox, 'value') ?? checkbox.value;
-          if (!checkboxValue || !checkbox.checked) continue;
-
-          value.push(checkboxValue);
-        }
-
-        break;
-      }
-
-      // Single
-      const { checked } = formField as HTMLInputElement;
-      value = checked ? 'true' : '';
-
-      break;
-    }
-
-    // Radio
-    case 'radio': {
-      const checkedRadio = formField.form?.querySelector<HTMLInputElement>(
-        `input[name="${formField.name}"][type="radio"]:checked`
-      );
-
-      value = checkedRadio ? (getAttribute(checkedRadio, 'value') ?? checkedRadio.value) : '';
-
-      break;
-    }
-
-    // Select multiple
-    case 'select-multiple': {
-      value = [...(formField as HTMLSelectElement).selectedOptions].map((option) => option.value).filter(Boolean);
-
-      break;
-    }
-
-    // Dates
-    case 'date':
-    case 'month':
-    case 'week':
-    case 'time': {
-      const { valueAsDate, value: _value } = formField as HTMLInputElement;
-      value = valueAsDate ? valueAsDate.toISOString() : _value;
-
-      break;
-    }
-
-    // Default - Text
-    default: {
-      value = formField.value;
-    }
-  }
+  const value = getFormFieldValue(formField, CUSTOM_VALUE_ATTRIBUTE);
 
   return {
     id,
@@ -126,100 +62,7 @@ export const setConditionsData = (list: List, form: HTMLFormElement, conditions:
     const formField = form.querySelector(selector);
     if (!isFormField(formField)) continue;
 
-    switch (type) {
-      // Checkboxes
-      case 'checkbox': {
-        if (!isHTMLInputElement(formField)) break;
-
-        // Single checkbox
-        if (!Array.isArray(value)) {
-          const check = value === 'true';
-
-          if (check !== formField.checked) {
-            formField.checked = check;
-
-            simulateEvent(formField, ['click', 'input', 'change']);
-          }
-
-          break;
-        }
-
-        const groupCheckboxes = getCheckboxGroup(formField.name, form);
-        if (!groupCheckboxes?.length) break;
-
-        for (const checkbox of groupCheckboxes) {
-          const checkboxValue = getAttribute(checkbox, 'value') ?? checkbox.value;
-          const check = value.includes(checkboxValue);
-
-          if (check !== checkbox.checked) {
-            checkbox.checked = check;
-
-            simulateEvent(checkbox, ['click', 'input', 'change']);
-          }
-        }
-
-        break;
-      }
-
-      // Radios
-      case 'radio': {
-        if (Array.isArray(value)) break;
-
-        const groupRadios = getRadioGroupInputs(formField, form);
-
-        for (const radio of groupRadios) {
-          const radioValue = getAttribute(radio, 'value') ?? radio.value;
-          const check = radioValue === value;
-
-          if (check !== radio.checked) {
-            radio.checked = check;
-
-            simulateEvent(radio, ['click', 'input', 'change']);
-
-            if (check) continue;
-
-            // When unchecking a custom Webflow radio, we need to manually remove the focus and checked classes
-            const customRadio = radio.parentElement?.querySelector(`.${FORM_CSS_CLASSES.radioInput}`);
-            if (!customRadio) continue;
-
-            customRadio.classList.remove(
-              FORM_CSS_CLASSES.checkboxOrRadioFocus,
-              FORM_CSS_CLASSES.checkboxOrRadioChecked
-            );
-          }
-        }
-
-        break;
-      }
-
-      // Select-multiple
-      case 'select-multiple': {
-        if (!Array.isArray(value) || !isHTMLSelectElement(formField)) break;
-
-        for (const option of formField.options) {
-          const select = value.includes(option.value);
-
-          if (select !== option.selected) {
-            option.selected = select;
-
-            simulateEvent(option, ['input', 'change']);
-          }
-        }
-
-        break;
-      }
-
-      // Other
-      default: {
-        if (Array.isArray(value)) break;
-
-        if (formField.value !== value) {
-          formField.value = value;
-
-          simulateEvent(formField, ['input', 'change']);
-        }
-      }
-    }
+    setFormFieldValue(formField, value, CUSTOM_VALUE_ATTRIBUTE);
   }
 
   list.settingFilters = false;
