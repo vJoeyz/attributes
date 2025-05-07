@@ -320,31 +320,31 @@ const initConditionValueField = (
 
   const { instance } = list;
   const conditionSelector = getElementSelector('condition', { instance });
-  const conditionFormFieldSelector = getElementSelector('condition-value', { instance });
-  const externalConditionValueSelector = `:is(${conditionFormFieldSelector}):not(:is(${conditionSelector}) :is(${conditionFormFieldSelector}))`;
+  const conditionValueSelector = getElementSelector('condition-value', { instance });
+  const externalConditionValueSelector = `:is(${conditionValueSelector}):not(:is(${conditionSelector}) :is(${conditionValueSelector}))`;
 
-  const internalConditionFormFields = queryAllElements('condition-value', { scope: conditionElement });
-  const externalConditionFormFields = document.querySelectorAll<HTMLElement>(externalConditionValueSelector);
+  const internalConditionValueFormFields = queryAllElements('condition-value', { scope: conditionElement });
+  const externalConditionValueFormFields = document.querySelectorAll<HTMLElement>(externalConditionValueSelector);
 
-  const allConditionFormFields = new Map<FormFieldType, FormField>();
+  const allConditionValueFormFields = new Map<FormFieldType, FormField>();
 
-  for (const internalConditionFormField of internalConditionFormFields) {
-    if (!isFormField(internalConditionFormField)) continue;
+  for (const internalConditionValueFormField of internalConditionValueFormFields) {
+    if (!isFormField(internalConditionValueFormField)) continue;
 
-    const type = internalConditionFormField.type as FormFieldType;
-    if (allConditionFormFields.has(type)) continue;
+    const type = internalConditionValueFormField.type as FormFieldType;
+    if (allConditionValueFormFields.has(type)) continue;
 
-    allConditionFormFields.set(type, internalConditionFormField);
+    allConditionValueFormFields.set(type, internalConditionValueFormField);
   }
 
-  for (const externalConditionFormField of externalConditionFormFields) {
-    if (!isFormField(externalConditionFormField)) continue;
+  for (const externalConditionValueFormField of externalConditionValueFormFields) {
+    if (!isFormField(externalConditionValueFormField)) continue;
 
-    const type = externalConditionFormField.type as FormFieldType;
-    if (allConditionFormFields.has(type)) continue;
+    const type = externalConditionValueFormField.type as FormFieldType;
+    if (allConditionValueFormFields.has(type)) continue;
 
-    const clone = cloneNode(externalConditionFormField);
-    allConditionFormFields.set(type, clone);
+    const clone = cloneNode(externalConditionValueFormField);
+    allConditionValueFormFields.set(type, clone);
   }
 
   let activeFormFieldType: FormFieldType | undefined;
@@ -358,7 +358,7 @@ const initConditionValueField = (
 
     list.readingFilters = true;
 
-    const activeFormField = allConditionFormFields.get(activeFormFieldType)!;
+    const activeFormField = allConditionValueFormFields.get(activeFormFieldType)!;
 
     const value = getConditionValue(activeFormField);
     const fuzzyThreshold = getAttribute(activeFormField, 'fuzzy');
@@ -372,11 +372,14 @@ const initConditionValueField = (
     list.readingFilters = false;
   };
 
-  const changeCleanups = [...allConditionFormFields].map(([, formField]) => {
+  const changeCleanups = [...allConditionValueFormFields].map(([, formField]) => {
     const event = getAttribute(formField, 'filteron', { filterInvalid: true });
-    const target = event === 'submit' ? formField.form : formField;
+    const debouncing = getAttribute(formField, 'debounce');
 
-    return addListener(target, event, changeHandler);
+    const target = event === 'submit' ? formField.form : formField;
+    const handler = debouncing ? debounce(changeHandler, debouncing) : changeHandler;
+
+    return addListener(target, event, handler);
   });
 
   const formFieldsHandler = ([fieldKey, op, allFieldsData]: [
@@ -394,9 +397,9 @@ const initConditionValueField = (
 
     const previouslyActiveFormFieldType = activeFormFieldType;
 
-    activeFormFieldType = allowedFormFields.find((type) => allConditionFormFields.has(type));
+    activeFormFieldType = allowedFormFields.find((type) => allConditionValueFormFields.has(type));
 
-    for (const [type, formField] of allConditionFormFields) {
+    for (const [type, formField] of allConditionValueFormFields) {
       if (type === activeFormFieldType) {
         conditionValueFieldAnchor.after(formField);
       } else {
@@ -405,7 +408,7 @@ const initConditionValueField = (
     }
 
     if (activeFormFieldType && previouslyActiveFormFieldType !== activeFormFieldType) {
-      const activeFormField = allConditionFormFields.get(activeFormFieldType)!;
+      const activeFormField = allConditionValueFormFields.get(activeFormFieldType)!;
 
       if (isHTMLSelectElement(activeFormField)) {
         activeFormField.selectedIndex = 0;
@@ -418,10 +421,10 @@ const initConditionValueField = (
   };
 
   const optionsHandler = ([fieldKey, allFieldsData]: [FiltersCondition['fieldKey'], AllFieldsData]) => {
-    const selectElements = [...allConditionFormFields.values()].filter(isHTMLSelectElement);
+    const selectElements = [...allConditionValueFormFields.values()].filter(isHTMLSelectElement);
     if (!selectElements.length) return;
 
-    const activeSelect = activeFormFieldType ? allConditionFormFields.get(activeFormFieldType) : undefined;
+    const activeSelect = activeFormFieldType ? allConditionValueFormFields.get(activeFormFieldType) : undefined;
 
     const fieldData = fieldKey ? allFieldsData[fieldKey] : undefined;
     const rawValues = fieldData?.rawValues || new Set<string>();
@@ -472,7 +475,7 @@ const initConditionValueField = (
     (value) => {
       if (list.readingFilters) return;
 
-      for (const formField of allConditionFormFields.values()) {
+      for (const formField of allConditionValueFormFields.values()) {
         setFormFieldValue(formField, value, CUSTOM_VALUE_ATTRIBUTE);
       }
     }
