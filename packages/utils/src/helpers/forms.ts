@@ -114,7 +114,7 @@ export const setFormFieldValue = (
         break;
       }
 
-      const groupCheckboxes = getCheckboxGroup(formField.name, formField.form);
+      const groupCheckboxes = getCheckboxGroup(formField.name, formField.form, customValueAttribute);
       if (!groupCheckboxes?.length) break;
 
       for (const checkbox of groupCheckboxes) {
