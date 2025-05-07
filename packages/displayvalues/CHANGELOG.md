@@ -1,5 +1,12 @@
 # @finsweet/attributes-displayvalues
 
+## 2.0.4
+
+### Patch Changes
+
+- Updated dependencies [deef758]
+  - @finsweet/attributes-utils@0.0.4
+
 ## 2.0.3
 
 ### Patch Changes

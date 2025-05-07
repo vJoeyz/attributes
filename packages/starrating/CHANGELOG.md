@@ -1,5 +1,12 @@
 # @finsweet/attributes-starrating
 
+## 1.0.6
+
+### Patch Changes
+
+- Updated dependencies [deef758]
+  - @finsweet/attributes-utils@0.0.4
+
 ## 1.0.5
 
 ### Patch Changes

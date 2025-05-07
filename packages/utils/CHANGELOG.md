@@ -1,5 +1,11 @@
 # @finsweet/attributes-utils
 
+## 0.0.4
+
+### Patch Changes
+
+- deef758: chore: rename `finsweetAttributes.solutions` -> `modules`
+
 ## 0.0.3
 
 ### Patch Changes
