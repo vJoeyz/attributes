@@ -1,5 +1,12 @@
 # @finsweet/attributes-docs
 
+## 2.0.9
+
+### Patch Changes
+
+- Updated dependencies [deef758]
+  - @finsweet/attributes-utils@0.0.4
+
 ## 2.0.8
 
 ### Patch Changes
