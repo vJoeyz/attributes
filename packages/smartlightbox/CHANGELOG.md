@@ -1,5 +1,12 @@
 # @finsweet/attributes-smartlightbox
 
+## 1.7.5
+
+### Patch Changes
+
+- Updated dependencies [01973d8]
+  - @finsweet/attributes-utils@0.0.5
+
 ## 1.7.4
 
 ### Patch Changes

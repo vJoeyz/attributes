@@ -1,5 +1,11 @@
 # @finsweet/attributes-utils
 
+## 0.0.5
+
+### Patch Changes
+
+- 01973d8: fix: missing customValueAttribute param
+
 ## 0.0.4
 
 ### Patch Changes
