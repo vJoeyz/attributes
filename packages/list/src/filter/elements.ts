@@ -1,4 +1,10 @@
-import { addListener, type FormField, getFormFieldWrapper, getRadioGroupInputs } from '@finsweet/attributes-utils';
+import {
+  addListener,
+  type FormField,
+  getFormFieldWrapper,
+  getRadioGroupInputs,
+  isFormField,
+} from '@finsweet/attributes-utils';
 import { effect } from '@vue/reactivity';
 
 import type { List } from '../components';
@@ -24,25 +30,39 @@ export const handleFilterElements = (list: List) => {
 
 /**
  * Handles submit events for filters form.
+ * Handles the active class for form fields.
  * @param form
  * @returns A cleanup function.
  */
 export const handleFiltersForm = (form: HTMLFormElement) => {
   const allowSubmit = hasAttributeValue(form, 'allowsubmit', 'true');
 
-  return addListener(form, 'submit', (e) => {
+  const submitCleanup = addListener(form, 'submit', (e) => {
     if (!allowSubmit) {
       e.preventDefault();
       e.stopPropagation();
     }
   });
+
+  const changeCleanup = addListener(form, 'change', (e) => {
+    const { target } = e;
+
+    if (!isFormField(target)) return;
+
+    setActiveClass(target);
+  });
+
+  return () => {
+    submitCleanup();
+    changeCleanup();
+  };
 };
 
 /**
  * Sets the active class to a form field.
  * @param formField
  */
-export const setActiveClass = (formField: FormField) => {
+const setActiveClass = (formField: FormField) => {
   const activeClass = getAttribute(formField, 'activeclass');
 
   switch (formField.type) {

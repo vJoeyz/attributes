@@ -8,7 +8,6 @@ import {
 
 import type { List } from '../../components/List';
 import { CUSTOM_VALUE_ATTRIBUTE, getAttribute, getSettingSelector } from '../../utils/selectors';
-import { setActiveClass } from '../elements';
 import type { FiltersCondition, FiltersGroup } from '../types';
 
 /**
@@ -110,8 +109,6 @@ export const getStandardFiltersGroup = (list: List, form: HTMLFormElement, group
     if (!fieldKey) continue;
 
     const data = getConditionData(formField, fieldKey, interacted);
-
-    setActiveClass(formField);
 
     if (!group.conditions.some((c) => c.fieldKey === fieldKey && c.op === data.op)) {
       group.conditions.push(data);

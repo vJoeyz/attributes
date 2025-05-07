@@ -3,7 +3,7 @@ import { watch } from '@vue/reactivity';
 
 import type { List } from '../../components/List';
 import { getAttribute, getElementSelector } from '../../utils/selectors';
-import { handleFiltersForm, setActiveClass } from '../elements';
+import { handleFiltersForm } from '../elements';
 import { getConditionData, getStandardFiltersGroup, setConditionsData } from './conditions';
 import { initFacets } from './facets';
 
@@ -101,8 +101,6 @@ const handleFormFields = (list: List, form: HTMLFormElement, groupIndex: number,
     if (!fieldKey) return;
 
     const condition = getConditionData(target, fieldKey, true);
-
-    setActiveClass(target);
 
     const update = () => {
       const conditions = list.filters.value.groups[groupIndex]?.conditions || [];
