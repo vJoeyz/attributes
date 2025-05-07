@@ -36,7 +36,7 @@ export type FinsweetAttributes = {
   /**
    * Contains access to each Attribute solution.
    */
-  solutions: {
+  modules: {
     [key in FinsweetAttributeKey]?: FinsweetAttributeControls;
   };
 

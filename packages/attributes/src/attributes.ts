@@ -24,20 +24,20 @@ const init = () => {
   // Init Attributes object
   window.finsweetAttributes = window.FinsweetAttributes = {
     scripts,
-    solutions: {},
+    modules: {},
     process: new Set<FinsweetAttributeKey>(),
 
     load: initAttribute,
 
     push(...args) {
       for (const [key, callback] of args) {
-        this.solutions[key]?.loading?.then(callback);
+        this.modules[key]?.loading?.then(callback);
       }
     },
 
     destroy() {
-      for (const solution in this.solutions) {
-        this.solutions[solution as keyof typeof this.solutions]?.destroy?.();
+      for (const solution in this.modules) {
+        this.modules[solution as keyof typeof this.modules]?.destroy?.();
       }
     },
   };
@@ -77,7 +77,7 @@ const initAttribute = async (attribute: FinsweetAttributeKey) => {
   window.finsweetAttributes.process.add(attribute);
 
   // Init controls
-  const controls = (window.finsweetAttributes.solutions[attribute] ||= {});
+  const controls = (window.finsweetAttributes.modules[attribute] ||= {});
 
   controls.loading = new Promise((resolve) => {
     controls.resolve = (value) => {
