@@ -45,25 +45,6 @@ importers:
         specifier: ^8.32.0
         version: 8.32.0(eslint@9.26.0)(typescript@5.8.3)
 
-  docs:
-    dependencies:
-      '@finsweet/attributes-utils':
-        specifier: workspace:*
-        version: link:../packages/utils
-      '@floating-ui/dom':
-        specifier: ^1.7.0
-        version: 1.7.0
-      just-debounce:
-        specifier: ^1.1.0
-        version: 1.1.0
-    devDependencies:
-      cross-env:
-        specifier: ^7.0.3
-        version: 7.0.3
-      esbuild:
-        specifier: ^0.25.4
-        version: 0.25.4
-
   packages/accordion:
     dependencies:
       '@finsweet/attributes-utils':
@@ -215,6 +196,25 @@ importers:
       '@finsweet/attributes-utils':
         specifier: workspace:*
         version: link:../utils
+
+  packages/docs:
+    dependencies:
+      '@finsweet/attributes-utils':
+        specifier: workspace:*
+        version: link:../utils
+      '@floating-ui/dom':
+        specifier: ^1.7.0
+        version: 1.7.0
+      just-debounce:
+        specifier: ^1.1.0
+        version: 1.1.0
+    devDependencies:
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      esbuild:
+        specifier: ^0.25.4
+        version: 0.25.4
 
   packages/favcustom:
     dependencies:
