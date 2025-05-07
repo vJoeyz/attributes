@@ -1,5 +1,12 @@
 # @finsweet/attributes-selectcustom
 
+## 1.7.7
+
+### Patch Changes
+
+- Updated dependencies [01973d8]
+  - @finsweet/attributes-utils@0.0.5
+
 ## 1.7.6
 
 ### Patch Changes

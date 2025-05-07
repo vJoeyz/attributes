@@ -1,5 +1,13 @@
 # @finsweet/attributes-list
 
+## 1.2.9
+
+### Patch Changes
+
+- c685c7b: fix: active class removal
+- Updated dependencies [01973d8]
+  - @finsweet/attributes-utils@0.0.5
+
 ## 1.2.8
 
 ### Patch Changes
