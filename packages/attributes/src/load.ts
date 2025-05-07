@@ -2,10 +2,10 @@ import { type FinsweetAttributeKey } from '@finsweet/attributes-utils';
 
 /**
  * Dynamically loads an attribute package.
- * @param solution
+ * @param key
  */
-export const loadAttribute = async (solution: FinsweetAttributeKey) => {
-  switch (solution) {
+export const loadAttribute = async (key: FinsweetAttributeKey) => {
+  switch (key) {
     case 'accordion': {
       return import('@finsweet/attributes-accordion');
     }
@@ -115,7 +115,7 @@ export const loadAttribute = async (solution: FinsweetAttributeKey) => {
     }
 
     default: {
-      throw `Finsweet Attribute "${solution}" is not supported.`;
+      throw `Finsweet Attribute "${key}" is not supported.`;
     }
   }
 };
