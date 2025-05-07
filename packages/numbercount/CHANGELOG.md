@@ -1,5 +1,12 @@
 # @finsweet/attributes-numbercount
 
+## 1.2.4
+
+### Patch Changes
+
+- Updated dependencies [d21cbca]
+  - @finsweet/attributes-utils@0.0.3
+
 ## 1.2.3
 
 ### Patch Changes
