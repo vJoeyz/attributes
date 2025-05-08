@@ -1,15 +1,9 @@
 import {
   CMS_CSS_CLASSES,
-  type CollectionEmptyElement,
-  type CollectionItemElement,
-  type CollectionListElement,
-  type CollectionListWrapperElement,
   fetchPageDocument,
   getObjectEntries,
+  isHTMLAnchorElement,
   isNumber,
-  type PageCountElement,
-  type PaginationButtonElement,
-  type PaginationWrapperElement,
   restartWebflow,
   type WebflowModule,
 } from '@finsweet/attributes-utils';
@@ -24,7 +18,7 @@ import { getAttribute, getInstance, hasAttributeValue, queryAllElements, queryEl
 import { listInstancesStore } from '../utils/store';
 import { ListItem } from './ListItem';
 
-type HookKey = 'filter' | 'sort' | 'pagination' | 'beforeRender' | 'render' | 'afterRender';
+type HookKey = 'start' | 'filter' | 'sort' | 'pagination' | 'beforeRender' | 'render' | 'afterRender';
 type HookCallback = (items: ListItem[]) => ListItem[] | Promise<ListItem[]> | void | Promise<void>;
 type Hooks = {
   [key in HookKey]: {
@@ -44,7 +38,13 @@ export class List {
    * Contains all lifecycle hooks with their callbacks and last result.
    */
   public readonly hooks: Hooks = {
+    start: {
+      callbacks: [],
+      result: shallowRef([]),
+    },
+
     filter: {
+      previous: 'start',
       callbacks: [],
       result: shallowRef([]),
     },
@@ -103,52 +103,54 @@ export class List {
   /**
    * The `Collection List` element.
    */
-  public readonly listElement: CollectionListElement | null;
+  public readonly listElement: HTMLElement | null;
 
   /**
    * The `Pagination` wrapper element.
    */
-  public readonly paginationWrapperElement?: PaginationWrapperElement | null;
+  public readonly paginationWrapperElement?: HTMLElement | null;
 
   /**
    * The `Page Count` element.
    */
-  public readonly paginationCountElement?: PageCountElement | null;
+  public readonly paginationCountElement?: HTMLElement | null;
 
   /**
    * All the `Previous` buttons defined by the user or native Webflow CMS.
    * TODO: the way we're assigning to this shallowRef property may not trigger reactivity
    */
-  public readonly allPaginationPreviousElements = shallowRef<Set<PaginationButtonElement>>(new Set());
+  public readonly allPaginationPreviousElements = shallowRef<Set<HTMLElement>>(new Set());
 
   /**
    * The native Webflow CMS `Previous` button.
    */
   public readonly paginationPreviousCMSElement = computed(() =>
-    [...this.allPaginationPreviousElements.value].find((paginationPreviousElement: PaginationButtonElement) =>
-      paginationPreviousElement.classList.contains(CMS_CSS_CLASSES['paginationPrevious'])
-    )
+    [...this.allPaginationPreviousElements.value]
+      .filter(isHTMLAnchorElement)
+      .find((paginationPreviousElement) =>
+        paginationPreviousElement.classList.contains(CMS_CSS_CLASSES['paginationPrevious'])
+      )
   );
 
   /**
    * The `Next` buttons defined by the user or native Webflow CMS.
    * TODO: the way we're assigning to this shallowRef property may not trigger reactivity
    */
-  public readonly allPaginationNextElements = shallowRef<Set<PaginationButtonElement>>(new Set());
+  public readonly allPaginationNextElements = shallowRef<Set<HTMLElement>>(new Set());
 
   /**
    * The native Webflow CMS `Next` button.
    */
   public readonly paginationNextCMSElement = computed(() =>
-    [...this.allPaginationNextElements.value].find((paginationNextElement: PaginationButtonElement) =>
-      paginationNextElement.classList.contains(CMS_CSS_CLASSES['paginationNext'])
-    )
+    [...this.allPaginationNextElements.value]
+      .filter(isHTMLAnchorElement)
+      .find((paginationNextElement) => paginationNextElement.classList.contains(CMS_CSS_CLASSES['paginationNext']))
   );
 
   /**
    * The `Empty State` element.
    */
-  public readonly emptyElement = ref<CollectionEmptyElement | null | undefined>();
+  public readonly emptyElement = ref<HTMLElement | null | undefined>();
 
   /**
    * An initial element to display when there are no filters applied.
@@ -328,11 +330,21 @@ export class List {
    */
   public settingFilters?: boolean;
 
+  /**
+   * `@vue/reactivity`: [watch](https://vuejs.org/api/reactivity-core.html#watch)
+   */
+  public watch = watch;
+
+  /**
+   * `@vue/reactivity`: [watch](https://vuejs.org/api/reactivity-core.html#watcheffect)
+   */
+  public effect = effect;
+
   constructor(
     /**
      * The `Collection List Wrapper` element.
      */
-    public readonly wrapperElement: CollectionListWrapperElement,
+    public readonly wrapperElement: HTMLElement,
 
     /**
      * The index of the list in the page.
@@ -356,7 +368,7 @@ export class List {
     this.paginationCountElement = getCollectionElements(wrapperElement, 'page-count');
 
     this.emptyElement.value =
-      getCollectionElements(wrapperElement, 'empty') || queryElement<CollectionEmptyElement>('empty', { instance });
+      getCollectionElements(wrapperElement, 'empty') || queryElement<HTMLElement>('empty', { instance });
     this.initialElement = queryElement('initial', { instance });
     this.loaderElement = queryElement('loader', { instance });
     this.itemsCountElement = queryElement('items-count', { instance });
@@ -738,22 +750,22 @@ export class List {
    * @param itemElement The Collection Item element.
    * @returns The created {@link ListItem} instance.
    */
-  createItem = (itemElement: CollectionItemElement) => new ListItem(itemElement, this);
+  createItem = (itemElement: HTMLElement) => new ListItem(itemElement, this);
 
   /**
    * Scrolls to the specified anchor based on the action provided.
-   * @param action
+   * @param key
    */
-  scrollToAnchor(action?: HookKey) {
+  scrollToAnchor(key?: HookKey) {
     const { scrollAnchorFilterElement, scrollAnchorSortElement, scrollAnchorPaginationElement, scrollAnchorElement } =
       this;
 
     const anchor =
-      (action === 'filter'
+      (key === 'filter'
         ? scrollAnchorFilterElement
-        : action === 'sort'
+        : key === 'sort'
           ? scrollAnchorSortElement
-          : action === 'pagination'
+          : key === 'pagination'
             ? scrollAnchorPaginationElement
             : scrollAnchorElement) || scrollAnchorElement;
 

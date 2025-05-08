@@ -305,7 +305,7 @@ const handlePaginationWrapper = (list: List) => {
  * @returns A cleanup function to remove the effect.
  */
 const handlePaginationButtons = (list: List) => {
-  const setAttributes = (element: HTMLAnchorElement, shouldDisplay: boolean) => {
+  const setAttributes = (element: HTMLElement, shouldDisplay: boolean) => {
     const disabledClass = getAttribute(element, 'paginationdisabledclass');
 
     element.style.display = '';
@@ -321,7 +321,9 @@ const handlePaginationButtons = (list: List) => {
 
       setAttributes(element, shouldDisplay);
 
-      element.href = `?${list.paginationSearchParam}=${list.currentPage.value - 1}`;
+      if (isHTMLAnchorElement(element)) {
+        element.href = `?${list.paginationSearchParam}=${list.currentPage.value - 1}`;
+      }
     });
 
     list.allPaginationNextElements.value.forEach((element) => {
@@ -329,7 +331,9 @@ const handlePaginationButtons = (list: List) => {
 
       setAttributes(element, shouldDisplay);
 
-      element.href = `?${list.paginationSearchParam}=${list.currentPage.value + 1}`;
+      if (isHTMLAnchorElement(element)) {
+        element.href = `?${list.paginationSearchParam}=${list.currentPage.value + 1}`;
+      }
     });
   });
 

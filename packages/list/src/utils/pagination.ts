@@ -1,12 +1,10 @@
-import { type PaginationButtonElement } from '@finsweet/attributes-utils';
-
 /**
  * Extracts the {@link URLSearchParams} from a list's Pagination Button.
  * @param paginationButton A {@link PaginationButtonElement}.
  *
  * @returns The search params as {@link Object.entries}, if the button is valid.
  */
-export const getPaginationSearchEntries = (paginationButton: PaginationButtonElement) => {
+export const getPaginationSearchEntries = (paginationButton: HTMLAnchorElement) => {
   const { href } = paginationButton;
 
   const { searchParams } = new URL(href);
