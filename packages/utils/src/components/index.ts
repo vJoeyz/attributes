@@ -1,2 +1,2 @@
-export * from './CopyJSONButton';
 export * from './Interaction';
+export * from './Renderer';

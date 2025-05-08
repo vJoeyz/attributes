@@ -1,7 +1,5 @@
 export const ACCORDION_ATTRIBUTE = 'accordion';
 
-export const ANIMATION_ATTRIBUTE = 'animation';
-
 export const AUTO_VIDEO_ATTRIBUTE = 'autovideo';
 
 export const CODE_HIGHLIGHT_ATTRIBUTE = 'codehighlight';
@@ -37,8 +35,6 @@ export const LIST_ATTRIBUTE = 'list';
 export const QUERY_PARAM_ATTRIBUTE = 'queryparam';
 
 export const RANGE_SLIDER_ATTRIBUTE = 'rangeslider';
-
-export const RICH_TEXT_ATTRIBUTE = 'richtext';
 
 export const SCROLL_DISABLE_ATTRIBUTE = 'scrolldisable';
 

@@ -9,7 +9,7 @@ import { getAttribute, queryAllElements } from './utils/selectors';
  */
 export const init: FinsweetAttributeInit = async () => {
   await waitWebflowReady();
-  await waitAttributeLoaded('richtext');
+  await waitAttributeLoaded('inject');
 
   const referenceElements = queryAllElements('code');
 
