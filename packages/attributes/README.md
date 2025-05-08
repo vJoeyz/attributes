@@ -30,6 +30,8 @@ window.FinsweetAttributes.push([
 ]);
 ```
 
+The result object will contain the API of the loaded attribute solution. Check the `README.md` file of each attribute solution for more information on the API.
+
 ### The `FinsweetAttributes` object
 
 #### Properties
