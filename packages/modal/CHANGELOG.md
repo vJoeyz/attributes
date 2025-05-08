@@ -1,5 +1,11 @@
 # @finsweet/attributes-modal
 
+## 1.1.9
+
+### Patch Changes
+
+- 134af05: fix: add missing focus-trap
+
 ## 1.1.8
 
 ### Patch Changes

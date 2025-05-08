@@ -1,5 +1,16 @@
 # @finsweet/attributes-list
 
+## 1.3.0
+
+### Minor Changes
+
+- 8c7ab62: feat: support debouncing in dynamic mode
+
+### Patch Changes
+
+- 102879c: chore: trim field attributes
+- f5b70e5: chore: remove console logs in the wild
+
 ## 1.2.9
 
 ### Patch Changes
