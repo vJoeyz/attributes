@@ -46,21 +46,21 @@ const handleFormSubmit = (e: Event) => {
  * @param interacted Indicates if the user interacted with the select element.
  */
 const getSortingParams = (value: string, interacted = false): Sorting => {
-  let field: string;
+  let fieldKey: string;
   let direction: SortingDirection;
 
   if (value.endsWith('-asc')) {
     direction = 'asc';
-    field = value.slice(0, -4);
+    fieldKey = value.slice(0, -4);
   } else if (value.endsWith('-desc')) {
     direction = 'desc';
-    field = value.slice(0, -5);
+    fieldKey = value.slice(0, -5);
   } else {
     direction = 'asc';
-    field = value;
+    fieldKey = value;
   }
 
-  field = normalizePropKey(field);
+  fieldKey = normalizePropKey(fieldKey);
 
-  return { field, direction, interacted };
+  return { fieldKey, direction, interacted };
 };

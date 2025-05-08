@@ -24,8 +24,8 @@ export const initButtons = (buttons: HTMLElement[], list: List) => {
 
   const cleanups = buttons
     .flatMap((button) => {
-      const field = getAttribute(button, 'field');
-      if (!field) return;
+      const fieldKey = getAttribute(button, 'field');
+      if (!fieldKey) return;
 
       const reverse = hasAttributeValue(button, 'reverse', 'true');
       const ascClass = getAttribute(button, 'ascclass');
@@ -70,7 +70,7 @@ export const initButtons = (buttons: HTMLElement[], list: List) => {
         currentDirection.value = getNextDirection(currentDirection.value, reverse);
 
         list.sorting.value = {
-          field,
+          fieldKey,
           direction: currentDirection.value,
           interacted: true,
         };

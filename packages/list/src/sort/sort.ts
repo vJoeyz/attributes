@@ -9,13 +9,13 @@ import type { Sorting } from './types';
  * @param direction The direction to sort.
  * @param sortKey The key of the field to use as sorting reference.
  */
-export const sortListItems = (items: ListItem[], { field, direction }: Sorting): ListItem[] | undefined => {
-  const validField = !!direction && !!field && items.some(({ fields }) => field in fields);
+export const sortListItems = (items: ListItem[], { fieldKey, direction }: Sorting): ListItem[] | undefined => {
+  const validField = !!direction && !!fieldKey && items.some(({ fields }) => fieldKey in fields);
   if (!validField) return;
 
   const sorted = [...items].sort((firstItem, secondItem) => {
-    const firstItemProp = firstItem.fields[field];
-    const secondItemProp = secondItem.fields[field];
+    const firstItemProp = firstItem.fields[fieldKey];
+    const secondItemProp = secondItem.fields[fieldKey];
 
     if (!firstItemProp) return 1;
     if (!secondItemProp) return -1;

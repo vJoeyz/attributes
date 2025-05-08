@@ -1,5 +1,5 @@
 export type Sorting = {
-  field?: string;
+  fieldKey?: string;
   direction?: SortingDirection;
   interacted?: boolean;
 };

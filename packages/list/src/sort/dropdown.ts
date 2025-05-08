@@ -22,7 +22,7 @@ import type { SortingDirection } from './types';
 
 type DropdownOption = {
   element: HTMLAnchorElement;
-  field?: string;
+  fieldKey?: string;
   direction?: SortingDirection;
   cleanup: () => void;
 };
@@ -75,7 +75,7 @@ export const initDropdown = (dropdown: DropdownElement, list: List) => {
     activeOption.value = optionData;
 
     list.sorting.value = {
-      field: optionData.field,
+      fieldKey: optionData.fieldKey,
       direction: optionData.direction,
       interacted: true,
     };
@@ -105,24 +105,24 @@ const initDropdownOptions = (dropdownList: DropdownList, activeOption: Ref<Dropd
 
     const rawField = getAttribute(element, 'field');
 
-    let field: string | undefined;
+    let fieldKey: string | undefined;
     let direction: SortingDirection | undefined;
 
     if (rawField) {
       if (rawField.endsWith('-asc')) {
         direction = 'asc';
-        field = rawField.slice(0, -4);
+        fieldKey = rawField.slice(0, -4);
       } else if (rawField.endsWith('-desc')) {
         direction = 'desc';
-        field = rawField.slice(0, -5);
+        fieldKey = rawField.slice(0, -5);
       } else {
         direction = 'asc';
-        field = rawField;
+        fieldKey = rawField;
       }
     }
 
-    if (field) {
-      field = normalizePropKey(field);
+    if (fieldKey) {
+      fieldKey = normalizePropKey(fieldKey);
     }
 
     // Handle active state
@@ -140,7 +140,7 @@ const initDropdownOptions = (dropdownList: DropdownList, activeOption: Ref<Dropd
 
     dropdownOptions.set(element, {
       element,
-      field,
+      fieldKey,
       direction,
       cleanup: () => runner.effect.stop(),
     });
