@@ -11,7 +11,7 @@ Please follow the documentation at [finsweet.com/attributes](https://www.finswee
 To learn how to access the API, please check the general [API Reference](../attributes/README.md#api-reference) documentation:
 
 ```javascript
-window.FinsweetAttributes = window.FinsweetAttributes || [];
+window.FinsweetAttributes ||= [];
 window.FinsweetAttributes.push([
   'inject',
   (componentsData) => {
@@ -44,7 +44,7 @@ type ComponentData = ComponentTargetData & {
 If the `fs-inject-render="false"` attribute is set, the component will not be rendered automatically. You can render it programmatically by accessing it via the `ComponentData` object.
 
 ```javascript
-window.FinsweetAttributes = window.FinsweetAttributes || [];
+window.FinsweetAttributes ||= [];
 window.FinsweetAttributes.push([
   'inject',
   (componentsData) => {

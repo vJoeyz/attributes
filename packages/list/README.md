@@ -11,7 +11,7 @@ Please follow the documentation at [finsweet.com/attributes](https://www.finswee
 To learn how to access the API, please check the general [API Reference](../attributes/README.md#api-reference) documentation:
 
 ```javascript
-window.FinsweetAttributes = window.FinsweetAttributes || [];
+window.FinsweetAttributes ||= [];
 window.FinsweetAttributes.push([
   'list',
   (listInstances) => {

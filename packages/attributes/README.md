@@ -21,7 +21,7 @@ Attributes will inject a global `window.FinsweetAttributes` object into your pro
 To ensure that the library is loaded before you try to access the `window.FinsweetAttributes` object, you can use the following instantiation code:
 
 ```javascript
-window.FinsweetAttributes = window.FinsweetAttributes || [];
+window.FinsweetAttributes ||= [];
 window.FinsweetAttributes.push([
   'ATTRIBUTE_KEY', // 'list', 'copyclip', 'modal', etc.
   (result) => {
