@@ -1,5 +1,5 @@
 import { addListener, cloneNode } from '@finsweet/attributes-utils';
-import { shallowRef, watch } from '@vue/reactivity';
+import { shallowRef } from '@vue/reactivity';
 
 import type { List } from '../../components/List';
 import { getElementSelector, queryElement } from '../../utils/selectors';
@@ -20,8 +20,6 @@ export const initDynamicFilters = (list: List, form: HTMLFormElement) => {
 
   const conditionGroupsWrapper = conditionGroupElement.parentElement;
   if (!conditionGroupsWrapper) return;
-
-  watch(list.filters, (f) => console.log(f), { deep: true });
 
   const conditionGroupTemplate = cloneNode(conditionGroupElement);
   const conditionGroups = shallowRef<ConditionGroup[]>([]);

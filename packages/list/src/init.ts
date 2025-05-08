@@ -27,8 +27,6 @@ export const init: FinsweetAttributeInit = async () => {
 
   const cleanups = lists.map(initList);
 
-  console.log(lists);
-
   return {
     result: lists,
     destroy() {
