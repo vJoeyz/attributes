@@ -1,3 +1,27 @@
 # `copyclip` Attribute
 
-Users can set any element to copy a string value to the clipboard when clicking on it. The script can be set by adding attributes to individual elements or by setting global attributes to the `<script>` tag that will affect all elements.
+Copy content to the clipboard with a single click in Webflow.
+
+## Getting Started
+
+Please follow the documentation at [finsweet.com/attributes](https://www.finsweet.com/attributes) to learn how to use Attributes in your Webflow projects.
+
+## Accessing the API
+
+To learn how to access the API, please check the general [API Reference](../attributes/README.md#api-reference) documentation:
+
+```javascript
+window.FinsweetAttributes = window.FinsweetAttributes || [];
+window.FinsweetAttributes.push([
+  'copyclip',
+  (clipboardInstances) => {
+    // Your code goes here.
+  },
+]);
+```
+
+The `result` object contains the [ClipboardJS](https://clipboardjs.com/) instances that are currently active on the page.
+
+## License
+
+[Apache 2.0](../../LICENSE.md)

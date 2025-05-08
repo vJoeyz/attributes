@@ -38,16 +38,16 @@ The result object will contain the API of the loaded attribute solution. Check t
 
 | Property  | Type     | Description                                                                                                                    |
 | --------- | -------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `process` | `Set`    | Contains the currently active attribute solutions.                                                                             |
-| `modules` | `Object` | Contains the controls for the active attribute solutions ([FinsweetAttributeControls](#the-finsweetattributecontrols-object)). |
+| `process` | `Set`    | Contains the currently active Attribute solutions.                                                                             |
+| `modules` | `Object` | Contains the controls for the active Attribute solutions ([FinsweetAttributeControls](#the-finsweetattributecontrols-object)). |
 
 #### Methods
 
 | Method                  | Description                                        | Arguments                                                                           |
 | ----------------------- | -------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `push([key, callback])` | Run a callback after an Attribute has loaded.      | `key (string)`: The attribute key.<br>`callback (function)`: The callback function. |
-| `load(key)`             | Dynamically load an attribute solution.            | `key (string)`: The attribute key.                                                  |
-| `destroy()`             | Destroys the instance and all attribute solutions. |                                                                                     |
+| `push([key, callback])` | Run a callback after an Attribute has loaded.      | `key (string)`: The Attribute key.<br>`callback (function)`: The callback function. |
+| `load(key)`             | Dynamically load an Attribute solution.            | `key (string)`: The Attribute key.                                                  |
+| `destroy()`             | Destroys the instance and all Attribute solutions. |                                                                                     |
 
 ### The `FinsweetAttributeControls` object
 
