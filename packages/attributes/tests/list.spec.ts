@@ -2,6 +2,7 @@ import { type List } from '@finsweet/attributes-list';
 import { CMS_CSS_SELECTORS } from '@finsweet/attributes-list/dom';
 import { getElementSelector, getInstanceSelector, getSettingSelector } from '@finsweet/attributes-list/selectors';
 import { expect, type Page, test } from '@playwright/test';
+
 import { parseOperatorValue } from '../../list/src/filter/dynamic/utils.js';
 import { SETTINGS } from '../../list/src/utils/constants.js';
 
