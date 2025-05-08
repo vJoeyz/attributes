@@ -17,6 +17,7 @@
     }
   },
   "dependencies": {
-    "@finsweet/attributes-utils": "workspace:*"
+    "@finsweet/attributes-utils": "workspace:*",
+    "focus-trap": "^7.6.4"
   }
 }

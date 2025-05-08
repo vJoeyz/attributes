@@ -1,4 +1,5 @@
 import { addListener, ARIA_EXPANDED_KEY } from '@finsweet/attributes-utils';
+import { createFocusTrap, type FocusTrap } from 'focus-trap';
 
 import { ANCHOR_TEXT } from '../utils/constants';
 import { getSettingSelector } from '../utils/selectors';
@@ -40,6 +41,7 @@ export const handleModal = (
   // State
   let isAnimating = false;
   let isOpen: boolean;
+  let focusTrap: FocusTrap | undefined;
 
   // Open buttons
   const openCleanups = openTriggers.map((openTrigger) => {
@@ -71,6 +73,13 @@ export const handleModal = (
 
       isAnimating = false;
       isOpen = true;
+
+      // Set focus trap
+      focusTrap ||= createFocusTrap(modalElement, {
+        returnFocusOnDeactivate: true,
+      });
+
+      focusTrap.activate();
 
       // Set aria-expanded to true
       [...openTriggers, ...closeTriggers].forEach((trigger) => trigger.setAttribute(ARIA_EXPANDED_KEY, 'true'));
@@ -109,6 +118,9 @@ export const handleModal = (
 
     isAnimating = false;
     isOpen = false;
+
+    // Deactivate focus trap
+    focusTrap?.deactivate();
 
     // Set aria-expanded to false
     [...openTriggers, ...closeTriggers].forEach((trigger) => trigger.setAttribute(ARIA_EXPANDED_KEY, 'false'));
