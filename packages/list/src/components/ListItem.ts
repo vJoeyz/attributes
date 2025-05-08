@@ -132,7 +132,7 @@ export class ListItem {
     const fieldElements = [...this.element.querySelectorAll<HTMLElement>(fieldSelector)];
 
     for (const element of fieldElements) {
-      const fieldKey = getAttribute(element, 'field');
+      const fieldKey = getAttribute(element, 'field')?.trim();
       if (!fieldKey) continue;
 
       const rawValue = element.textContent;

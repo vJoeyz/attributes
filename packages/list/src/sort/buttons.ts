@@ -24,7 +24,7 @@ export const initButtons = (buttons: HTMLElement[], list: List) => {
 
   const cleanups = buttons
     .flatMap((button) => {
-      const fieldKey = getAttribute(button, 'field');
+      const fieldKey = getAttribute(button, 'field')?.trim();
       if (!fieldKey) return;
 
       const reverse = hasAttributeValue(button, 'reverse', 'true');

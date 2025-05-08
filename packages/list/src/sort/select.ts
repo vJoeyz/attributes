@@ -1,4 +1,4 @@
-import { addListener, normalizePropKey } from '@finsweet/attributes-utils';
+import { addListener } from '@finsweet/attributes-utils';
 
 import type { List } from '../components/List';
 import type { Sorting, SortingDirection } from './types';
@@ -59,8 +59,6 @@ const getSortingParams = (value: string, interacted = false): Sorting => {
     direction = 'asc';
     fieldKey = value;
   }
-
-  fieldKey = normalizePropKey(fieldKey);
 
   return { fieldKey, direction, interacted };
 };

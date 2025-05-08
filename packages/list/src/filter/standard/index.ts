@@ -97,7 +97,7 @@ const handleFormFields = (list: List, form: HTMLFormElement, groupIndex: number,
 
     if (!isFormField(target)) return;
 
-    const fieldKey = getAttribute(target, 'field');
+    const fieldKey = getAttribute(target, 'field')?.trim();
     if (!fieldKey) return;
 
     const condition = getConditionData(target, fieldKey, true);
@@ -158,7 +158,7 @@ const handleClearButtons = (list: List, groupIndex: number, debounces: Map<strin
     const clearElement = target?.closest(clearElementSelector);
     if (!clearElement) return;
 
-    const fieldKey = getAttribute(clearElement, 'field');
+    const fieldKey = getAttribute(clearElement, 'field')?.trim();
 
     const conditions = filters.value.groups[groupIndex]?.conditions || [];
     const conditionsToClear = fieldKey ? conditions.filter((condition) => condition.fieldKey === fieldKey) : conditions;

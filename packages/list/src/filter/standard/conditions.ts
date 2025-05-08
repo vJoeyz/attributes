@@ -105,7 +105,7 @@ export const getStandardFiltersGroup = (list: List, form: HTMLFormElement, group
     const { type } = formField;
     if (type === 'submit') continue;
 
-    const fieldKey = getAttribute(formField, 'field');
+    const fieldKey = getAttribute(formField, 'field')?.trim();
     if (!fieldKey) continue;
 
     const data = getConditionData(formField, fieldKey, interacted);

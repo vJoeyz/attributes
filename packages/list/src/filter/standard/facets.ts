@@ -50,7 +50,7 @@ export const initFacets = (list: List, form: HTMLFormElement, groupIndex: number
  * @param groupIndex
  */
 const createInputFacetsHandler = (list: List, formField: HTMLInputElement, groupIndex: number) => {
-  const fieldKey = getAttribute(formField, 'field');
+  const fieldKey = getAttribute(formField, 'field')?.trim();
   if (!fieldKey) return;
 
   const facetCountElement = queryElement('facet-count', { scope: formField.parentElement });
@@ -101,7 +101,7 @@ const createInputFacetsHandler = (list: List, formField: HTMLInputElement, group
  * @param groupIndex
  */
 const createSelectOptionsFacetsHandler = (list: List, formField: HTMLSelectElement, groupIndex: number) => {
-  const fieldKey = getAttribute(formField, 'field');
+  const fieldKey = getAttribute(formField, 'field')?.trim();
   if (!fieldKey) return;
 
   const op = getConditionOperator(formField);

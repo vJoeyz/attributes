@@ -12,7 +12,6 @@ import {
   type DropdownList,
   type DropdownToggle,
   isElement,
-  normalizePropKey,
 } from '@finsweet/attributes-utils';
 import { effect, type Ref, ref } from '@vue/reactivity';
 
@@ -103,7 +102,7 @@ const initDropdownOptions = (dropdownList: DropdownList, activeOption: Ref<Dropd
   for (const element of options) {
     element.setAttribute(ARIA_ROLE_KEY, ARIA_ROLE_VALUES.option);
 
-    const rawField = getAttribute(element, 'field');
+    const rawField = getAttribute(element, 'field')?.trim();
 
     let fieldKey: string | undefined;
     let direction: SortingDirection | undefined;
@@ -119,10 +118,6 @@ const initDropdownOptions = (dropdownList: DropdownList, activeOption: Ref<Dropd
         direction = 'asc';
         fieldKey = rawField;
       }
-    }
-
-    if (fieldKey) {
-      fieldKey = normalizePropKey(fieldKey);
     }
 
     // Handle active state
