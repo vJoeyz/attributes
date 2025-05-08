@@ -1,67 +1,64 @@
-# Finsweet Attributes
+<a target="_blank" href="https://finsweet.com/attributes">
+  <picture>
+    <img src="https://cdn.prod.website-files.com/648b0184fc925cdf643d8b74/681bae7059f00e0e5d4e5c97_banner-attributes.png" alt="Attributes by Finsweet - Free powerful features for your site, no confusing code" />
+  </picture>
+</a>
 
-Core package for all Finsweet Attributes.
+[![npm](https://img.shields.io/npm/v/@finsweet/attributes.svg)](https://www.npmjs.com/package/@finsweet/attributes) [![Hits](https://img.shields.io/jsdelivr/npm/hm/@finsweet/attributes)](https://www.npmjs.com/package/@finsweet/attributes) [![License](https://img.shields.io/npm/l/@finsweet/attributes.svg)](LICENSE.md)
 
-## Getting started
+## What is Attributes?
 
-### 1. CDN Import
+Attributes is an open source JavaScript library of solutions for adding filters, sort, load & search options, CMS tabs & sliders —and more— to Webflow using simple HTML attributes.
 
-Import the core package in your project:
+## Getting Started
 
-```html
-<!-- [Attributes by Finsweet] Core -->
-<script async type="module" src="https://cdn.jsdelivr.net/npm/@finsweet/attributes"></script>
+Please follow the documentation at [finsweet.com/attributes](https://www.finsweet.com/attributes) to learn how to use Attributes in your Webflow projects.
+
+## API Reference
+
+Attributes will inject a global `window.FinsweetAttributes` object into your project that contains some methods to interact with the library.
+
+To ensure that the library is loaded before you try to access the `window.FinsweetAttributes` object, you can use the following instantiation code:
+
+```javascript
+window.FinsweetAttributes = window.FinsweetAttributes || [];
+window.FinsweetAttributes.push([
+  'ATTRIBUTE_KEY', // 'list', 'copyclip', 'modal', etc.
+  (result) => {
+    // Your code goes here.
+  },
+]);
 ```
 
-_Important:_ It's only required to import it once, no matter how many Attribute solutions are added.
+### The `FinsweetAttributes` object
 
-### 2. Define the solutions
+#### Properties
 
-Define the Attribute solutions that should be loaded on each page by adding the following inside the `<head>` tag:
+| Property  | Type     | Description                                                                                                                    |
+| --------- | -------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `process` | `Set`    | Contains the currently active attribute solutions.                                                                             |
+| `modules` | `Object` | Contains the controls for the active attribute solutions ([FinsweetAttributeControls](#the-finsweetattributecontrols-object)). |
 
-```html
-<script
-  async
-  type="module"
-  src="https://cdn.jsdelivr.net/npm/@finsweet/attributes@2/attributes.js"
-  fs-SOLUTION_KEY
-></script>
-```
+#### Methods
 
-Replace `SOLUTION_KEY` with the key of the solution you want to load. You can load as many solutions as you want.
+| Method                  | Description                                        | Arguments                                                                           |
+| ----------------------- | -------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `push([key, callback])` | Run a callback after an Attribute has loaded.      | `key (string)`: The attribute key.<br>`callback (function)`: The callback function. |
+| `load(key)`             | Dynamically load an attribute solution.            | `key (string)`: The attribute key.                                                  |
+| `destroy()`             | Destroys the instance and all attribute solutions. |                                                                                     |
 
-Example:
+### The `FinsweetAttributeControls` object
 
-```html
-<script
-  async
-  type="module"
-  src="https://cdn.jsdelivr.net/npm/@finsweet/attributes@2/attributes.js"
-  fs-rangeslider
-  fs-date
-  fs-socialshare
-  fs-consent
-></script>
-```
+#### Properties
 
-### 3. Optional: Define the global settings
+| Property  | Type      | Description                                                                |
+| --------- | --------- | -------------------------------------------------------------------------- |
+| `version` | `string`  | The version of the Attribute.                                              |
+| `loading` | `Promise` | A promise that resolves once the Attribute has loaded and returns its API. |
 
-Attributes reads the settings from the HTML Attributes that are added to the elements on the page. But some solutions also allow passing a set of global settings.
+#### Methods
 
-To do so, add the settings to the module elements **with solution prefixes included**.
-
-Example:
-
-```html
-<script
-  async
-  type="module"
-  src="https://cdn.jsdelivr.net/npm/@finsweet/attributes@2/attributes.js"
-  fs-rangeslider
-  fs-date
-  fs-socialshare
-  fs-consent
-  fs-consent-mode="opt-in"
-  fs-consent-source="/"
-></script>
-```
+| Method      | Description                                                                                            | Arguments |
+| ----------- | ------------------------------------------------------------------------------------------------------ | --------- |
+| `restart()` | Restarts the Attribute. In practice, this means that the Attribute will be destroyed and loaded again. |           |
+| `destroy()` | Destroys the Attribute.                                                                                |           |
