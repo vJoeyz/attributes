@@ -1,5 +1,11 @@
 # @finsweet/attributes-utils
 
+## 0.0.6
+
+### Patch Changes
+
+- 378d74d: fix: unify public API under FinsweetAttributes and remove finsweetAttributes
+
 ## 0.0.5
 
 ### Patch Changes

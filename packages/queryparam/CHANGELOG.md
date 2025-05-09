@@ -1,5 +1,13 @@
 # @finsweet/attributes-queryparam
 
+## 1.2.7
+
+### Patch Changes
+
+- 378d74d: fix: unify public API under FinsweetAttributes and remove finsweetAttributes
+- Updated dependencies [378d74d]
+  - @finsweet/attributes-utils@0.0.6
+
 ## 1.2.6
 
 ### Patch Changes
