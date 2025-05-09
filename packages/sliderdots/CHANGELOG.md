@@ -1,5 +1,13 @@
 # @finsweet/attributes-sliderdots
 
+## 1.8.6
+
+### Patch Changes
+
+- 378d74d: fix: unify public API under FinsweetAttributes and remove finsweetAttributes
+- Updated dependencies [378d74d]
+  - @finsweet/attributes-utils@0.0.6
+
 ## 1.8.5
 
 ### Patch Changes

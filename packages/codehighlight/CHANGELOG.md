@@ -1,5 +1,12 @@
 # @finsweet/attributes-codehighlight
 
+## 2.0.6
+
+### Patch Changes
+
+- Updated dependencies [378d74d]
+  - @finsweet/attributes-utils@0.0.6
+
 ## 2.0.5
 
 ### Patch Changes
