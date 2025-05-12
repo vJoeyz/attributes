@@ -1,5 +1,11 @@
 # @finsweet/attributes-inject
 
+## 2.2.0
+
+### Minor Changes
+
+- 31f4870: feat: `fs-inject-element="element"` as an alias for `fs-inject-element="component"`
+
 ## 2.1.6
 
 ### Patch Changes
