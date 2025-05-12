@@ -1,5 +1,12 @@
 # @finsweet/attributes
 
+## 2.3.4
+
+### Patch Changes
+
+- Updated dependencies [31f4870]
+  - @finsweet/attributes-inject@2.2.0
+
 ## 2.3.3
 
 ### Patch Changes
