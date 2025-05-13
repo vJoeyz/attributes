@@ -1,5 +1,11 @@
 # @finsweet/attributes-inject
 
+## 2.3.0
+
+### Minor Changes
+
+- 4c20f82: feat: support v1 richtext syntax OOO
+
 ## 2.2.0
 
 ### Minor Changes
