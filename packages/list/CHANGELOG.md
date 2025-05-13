@@ -1,5 +1,15 @@
 # @finsweet/attributes-list
 
+## 1.4.0
+
+### Minor Changes
+
+- 4805858: feat: beautify query params
+
+### Patch Changes
+
+- 4805858: fix: respect `fs-list-allowsubmit` for sorting forms
+
 ## 1.3.1
 
 ### Patch Changes
