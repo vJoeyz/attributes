@@ -1,5 +1,13 @@
 # @finsweet/attributes-list
 
+## 1.4.2
+
+### Patch Changes
+
+- 6246fbb: fix: combine + pagination
+- 2eac30b: fix: prevent race conditions in facet counts
+- d2af879: fix: filtering items with nested properties
+
 ## 1.4.1
 
 ### Patch Changes
