@@ -74,7 +74,7 @@ export const handlePaginationNextButtons = (list: List) => {
  */
 export const handleElements = (list: List) => {
   const runner = effect(() => {
-    const allItemsDisplayed = list.itemsPerPage.value === list.items.value.length;
+    const allItemsDisplayed = list.itemsPerPage.value >= list.items.value.length;
 
     list.allPaginationNextElements.value.forEach((element) => {
       element.style.display = allItemsDisplayed ? 'none' : '';
