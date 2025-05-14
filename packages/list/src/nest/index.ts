@@ -1,5 +1,5 @@
 import { cloneNode, extractCommaSeparatedValues, fetchPageDocument } from '@finsweet/attributes-utils';
-import { effect } from '@vue/reactivity';
+import { effect, triggerRef } from '@vue/reactivity';
 
 import { List, ListItem } from '../components';
 import { getAllCollectionListWrappers, getCollectionElements } from '../utils/dom';
@@ -20,17 +20,26 @@ export const initListNest = (list: List) => {
   const handledItems = new Set<ListItem>();
 
   const runner = effect(() => {
-    for (const item of list.items.value) {
-      if (handledItems.has(item)) continue;
+    let hasChanges = false;
 
-      handledItems.add(item);
+    Promise.all(
+      list.items.value.map(async (item) => {
+        if (handledItems.has(item)) return;
 
-      const nestTargets = queryAllElements('nest-target', { scope: item.element });
+        handledItems.add(item);
 
-      for (const target of nestTargets) {
-        handleNestTarget(list, item, target);
+        const nestTargets = queryAllElements('nest-target', { scope: item.element });
+        if (!nestTargets.length) return;
+
+        await Promise.all(nestTargets.map(async (target) => handleNestTarget(list, item, target)));
+
+        hasChanges = true;
+      })
+    ).then(() => {
+      if (hasChanges) {
+        triggerRef(list.items);
       }
-    }
+    });
   });
 
   return () => {
@@ -65,6 +74,8 @@ const handleNestTarget = (list: List, item: ListItem, target: HTMLElement) => {
       handleExternalNesting(list, item, target, instance).then(resolve);
     }
   });
+
+  return item.nesting;
 };
 
 /**
@@ -126,8 +137,8 @@ const handleManualNesting = async (
     }
   }
 
-  item.collectFields();
   target.append(sourceWrapper);
+  item.collectFields();
 };
 
 /**
@@ -182,6 +193,6 @@ const handleExternalNesting = async (list: List, item: ListItem, target: HTMLEle
     })
   );
 
-  item.collectFields();
   target.append(sourceWrapper);
+  item.collectFields();
 };
