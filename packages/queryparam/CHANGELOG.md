@@ -1,5 +1,12 @@
 # @finsweet/attributes-queryparam
 
+## 1.2.8
+
+### Patch Changes
+
+- Updated dependencies [2af0bad]
+  - @finsweet/attributes-utils@0.1.0
+
 ## 1.2.7
 
 ### Patch Changes

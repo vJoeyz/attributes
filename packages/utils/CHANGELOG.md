@@ -1,5 +1,11 @@
 # @finsweet/attributes-utils
 
+## 0.1.0
+
+### Minor Changes
+
+- 2af0bad: feat: `removequery`
+
 ## 0.0.6
 
 ### Patch Changes
