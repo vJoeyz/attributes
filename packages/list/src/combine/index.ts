@@ -25,7 +25,7 @@ export const initListCombine = (targetList: List, rawSourceInstances: string) =>
 
       const elements = sourceList.items.value.map((item) => targetList.createItem(item.element));
 
-      sourceList.items.value.length = 0;
+      sourceList.items.value = [];
       targetList.items.value = [...targetList.items.value, ...elements];
     });
 
