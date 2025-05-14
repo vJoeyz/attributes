@@ -1,5 +1,11 @@
 # @finsweet/attributes-list
 
+## 1.4.3
+
+### Patch Changes
+
+- 621ed61: fix: hide pagination next when itemsPerPage > items.length
+
 ## 1.4.2
 
 ### Patch Changes
