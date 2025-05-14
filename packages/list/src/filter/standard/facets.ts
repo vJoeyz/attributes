@@ -63,30 +63,37 @@ const createInputFacetsHandler = (list: List, formField: HTMLInputElement, group
   const value = getAttribute(formField, 'value') || formField.value || '';
   const emptyClassName = getAttribute(addClassOnEmptyTarget, 'emptyfacetclass');
 
+  let filterPromise: Promise<ListItem[]> | undefined;
+
   const handler = debounce(
-    ({ filters = list.filters.value, items = list.items.value }: { filters?: Filters; items?: ListItem[] }) => {
-      triggerFacetFilter({
+    async ({ filters = list.filters.value, items = list.items.value }: { filters?: Filters; items?: ListItem[] }) => {
+      await filterPromise;
+
+      filterPromise = triggerFacetFilter({
         filters,
         items,
         fieldKey,
         op,
         groupIndex,
         value,
-      })?.then((filteredItems) => {
-        const hasResults = filteredItems.length > 0;
-
-        if (facetCountElement) {
-          facetCountElement.textContent = `${filteredItems.length}`;
-        }
-
-        if (hideOnEmptyETarget) {
-          hideOnEmptyETarget.style.display = hasResults ? '' : 'none';
-        }
-
-        if (addClassOnEmptyTarget) {
-          addClassOnEmptyTarget.classList.toggle(emptyClassName, !hasResults);
-        }
       });
+
+      const filteredItems = await filterPromise;
+      if (!filteredItems) return;
+
+      const hasResults = filteredItems.length > 0;
+
+      if (facetCountElement) {
+        facetCountElement.textContent = `${filteredItems.length}`;
+      }
+
+      if (hideOnEmptyETarget) {
+        hideOnEmptyETarget.style.display = hasResults ? '' : 'none';
+      }
+
+      if (addClassOnEmptyTarget) {
+        addClassOnEmptyTarget.classList.toggle(emptyClassName, !hasResults);
+      }
     },
     0
   );
@@ -116,20 +123,28 @@ const createSelectOptionsFacetsHandler = (list: List, formField: HTMLSelectEleme
 
   if (!options.length) return;
 
-  const handler = debounce(
-    ({ filters = list.filters.value, items = list.items.value }: { filters?: Filters; items?: ListItem[] }) => {
-      for (const option of options) {
-        const { value } = option;
-        if (!value) continue;
+  let filterPromise: Promise<void[]> | undefined;
 
-        triggerFacetFilter({
-          filters,
-          items,
-          fieldKey,
-          op,
-          groupIndex,
-          value,
-        })?.then((filteredItems) => {
+  const handler = debounce(
+    async ({ filters = list.filters.value, items = list.items.value }: { filters?: Filters; items?: ListItem[] }) => {
+      await filterPromise;
+
+      filterPromise = Promise.all(
+        [...options].map(async (option) => {
+          const { value } = option;
+          if (!value) return;
+
+          const filteredItems = await triggerFacetFilter({
+            filters,
+            items,
+            fieldKey,
+            op,
+            groupIndex,
+            value,
+          });
+
+          if (!filteredItems) return;
+
           const disabled = !filteredItems.length;
 
           if (displayFacetCounts) {
@@ -141,8 +156,8 @@ const createSelectOptionsFacetsHandler = (list: List, formField: HTMLSelectEleme
             option.style.display = disabled ? 'none' : '';
             option.disabled = disabled;
           }
-        });
-      }
+        })
+      );
     },
     0
   );
