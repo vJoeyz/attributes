@@ -149,7 +149,7 @@ export class ListItem {
 
       const listSelector = getCMSElementSelector('list');
       const parentList = element.closest(listSelector);
-      const isInsideNestedList = this.list.listElement && parentList && parentList !== this.list.listElement; // TODO: support custom lists and nested lists via `fs-list-element="nest-target"`
+      const isInsideNestedList = this.list.listElement && parentList && parentList !== this.list.listElement;
 
       if (isInsideNestedList) {
         this.fields[fieldKey] ||= { type, rawValue: [], value: [] };
