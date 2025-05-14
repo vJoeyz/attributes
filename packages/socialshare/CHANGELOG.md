@@ -1,5 +1,11 @@
 # @finsweet/attributes-socialshare
 
+## 1.3.9
+
+### Patch Changes
+
+- 3a3a41f: fix: linkedin share URL
+
 ## 1.3.8
 
 ### Patch Changes
