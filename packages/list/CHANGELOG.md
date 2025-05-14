@@ -1,5 +1,11 @@
 # @finsweet/attributes-list
 
+## 1.4.4
+
+### Patch Changes
+
+- 2f45dd5: fix: hide next buttons correclty when items are filtered
+
 ## 1.4.3
 
 ### Patch Changes
