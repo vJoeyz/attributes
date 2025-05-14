@@ -74,7 +74,7 @@ export const handlePaginationNextButtons = (list: List) => {
  */
 export const handleElements = (list: List) => {
   const runner = effect(() => {
-    const allItemsDisplayed = list.itemsPerPage.value >= list.items.value.length;
+    const allItemsDisplayed = list.itemsPerPage.value >= list.hooks.filter.result.value.length;
 
     list.allPaginationNextElements.value.forEach((element) => {
       element.style.display = allItemsDisplayed ? 'none' : '';
@@ -83,7 +83,7 @@ export const handleElements = (list: List) => {
     });
 
     if (list.paginationCountElement) {
-      const totalPages = Math.ceil(list.items.value.length / list.initialItemsPerPage);
+      const totalPages = Math.ceil(list.hooks.filter.result.value.length / list.initialItemsPerPage);
       const currentPage = Math.ceil(list.itemsPerPage.value / list.initialItemsPerPage);
 
       list.paginationCountElement.innerText = `${currentPage} / ${totalPages}`;
