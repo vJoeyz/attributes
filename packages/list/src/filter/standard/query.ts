@@ -88,13 +88,14 @@ export const setListFiltersQuery = async (list: List) => {
 
   list.filters.value.groups.forEach((group, index) => {
     group.conditions.forEach(({ fieldKey, op, value, interacted }) => {
-      if (!value || !interacted) return;
-
       const key = [multipleGroups ? index : undefined, fieldKey, op].filter(isNotEmpty).join('_');
+      const isArray = Array.isArray(value);
+
+      if (!interacted || !value || (isArray && !value.length)) return;
 
       let valueToSet = null;
 
-      if (Array.isArray(value)) {
+      if (isArray) {
         try {
           valueToSet = JSON.stringify(value);
         } catch {
