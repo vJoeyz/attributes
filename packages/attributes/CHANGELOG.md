@@ -1,5 +1,15 @@
 # @finsweet/attributes
 
+## 2.4.6
+
+### Patch Changes
+
+- Updated dependencies [3b9fe56]
+  - @finsweet/attributes-list@1.4.6
+  - @finsweet/attributes-accordion@2.0.7
+  - @finsweet/attributes-socialshare@1.3.9
+  - @finsweet/attributes-videohls@1.0.10
+
 ## 2.4.5
 
 ### Patch Changes

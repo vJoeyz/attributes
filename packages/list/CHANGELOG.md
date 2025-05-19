@@ -1,5 +1,11 @@
 # @finsweet/attributes-list
 
+## 1.4.6
+
+### Patch Changes
+
+- 3b9fe56: fix: don't set empty arrays in query params
+
 ## 1.4.5
 
 ### Patch Changes
