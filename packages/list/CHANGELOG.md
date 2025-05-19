@@ -1,5 +1,12 @@
 # @finsweet/attributes-list
 
+## 1.4.5
+
+### Patch Changes
+
+- 81e9e3e: fix: only JSON.stringify array values for query params
+- 124839b: fix: query params filters reactivity
+
 ## 1.4.4
 
 ### Patch Changes
