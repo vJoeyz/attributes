@@ -1,5 +1,11 @@
 # @finsweet/attributes-list
 
+## 1.4.7
+
+### Patch Changes
+
+- 978384a: fix: support `fs-list-element="facet-count"` for elements that are rendered after initializing filters
+
 ## 1.4.6
 
 ### Patch Changes
