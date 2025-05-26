@@ -1,5 +1,11 @@
 # @finsweet/attributes-rangeslider
 
+## 1.9.0
+
+### Minor Changes
+
+- 3fe2798: feat: `fs-rangeslider-lazy`
+
 ## 1.8.7
 
 ### Patch Changes
