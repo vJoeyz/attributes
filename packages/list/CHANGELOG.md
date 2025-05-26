@@ -1,5 +1,11 @@
 # @finsweet/attributes-list
 
+## 1.5.0
+
+### Minor Changes
+
+- bc17316: feat: `fs-list-showtag`
+
 ## 1.4.7
 
 ### Patch Changes
