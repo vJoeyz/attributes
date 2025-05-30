@@ -1,5 +1,11 @@
 # @finsweet/attributes-inject
 
+## 2.4.0
+
+### Minor Changes
+
+- 21ad38a: feat: import CSS for same-site-other-page components to support Webflow's new per page CSS splitting
+
 ## 2.3.1
 
 ### Patch Changes
