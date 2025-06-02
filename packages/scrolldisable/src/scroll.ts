@@ -30,7 +30,10 @@ export const disableScrolling = (target: Element): void => {
   storedScrollY = window.scrollY;
   scrollingDisabled = true;
 
-  disableBodyScroll(target, { reserveScrollBarGap });
+  disableBodyScroll(target, {
+    reserveScrollBarGap,
+    allowTouchMove: (el) => el.getAttribute('fs-rangeslider-element') !== null,
+  });
 
   body.style.setProperty('top', `${storedScrollY * -1}px`);
 };
