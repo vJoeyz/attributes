@@ -59,9 +59,10 @@ const initAccordion = (
   let cancel: (() => void) | undefined;
 
   // Force the content to be closed if the accordion is not visible.
-  if (!isVisible(accordion)) {
-    cancel = closeContent(content);
-  }
+  // FIXME: This is a workaround for the issue where the content is not opened properly when the accordion is not visible.
+  // if (!isVisible(accordion)) {
+  //   cancel = closeContent(content);
+  // }
 
   setAccordionA11y(trigger, content, isOpen);
   setActiveClass({
